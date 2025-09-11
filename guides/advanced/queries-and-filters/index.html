@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-09-10T16:41:42.626Z">
+    <meta name="date" content="2025-09-11T15:55:03.067Z">
     <title>Queries and Filters | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -157,8 +157,8 @@
       <div class="panel">
         <h2>Queries, Filters and Predicates</h2>
 <h3>Building a Query</h3>
-<p>The IQuery interface is used to express both simple and extremely very complex structures.</p>
-<p>A query must declare the target entity type. This is needed so the query can be routed to the correct backing api.</p>
+<p>The IQuery interface is used to express both simple and complex queries.</p>
+<p>The first step in creating a Query is to declare the target entity type. This is needed so the query can be routed to the correct api.</p>
 <table>
 <thead>
 <tr>
@@ -176,42 +176,49 @@
 <td>ArcGIS Portal Group <br> <code>/sharing/rest/community/groups/search</code></td>
 </tr>
 <tr>
-<td><code>user</code></td>
+<td><code>portalUser</code></td>
 <td>ArcGIS Portal User <br> <code>/sharing/rest/portal/self/users</code></td>
 </tr>
-</tbody>
-</table>
-<p><img src="/hub.js/img/query-filter.png" alt="Query Model"></p>
-<p>These entities are not currently implemented</p>
-<table>
-<thead>
 <tr>
-<th>Entity Type</th>
-<th>Description and backing API end-point</th>
+<td><code>communityUser</code></td>
+<td>ArcGIS Portal User <br> <code>/sharing/rest/portal/self/users</code></td>
 </tr>
-</thead>
-<tbody>
 <tr>
 <td><code>groupMember</code></td>
 <td>ArcGIS Portal Group Users <br> <code>/sharing/rest/community/groups/{id}/userlist</code></td>
 </tr>
 <tr>
-<td><code>event</code></td>
-<td>ArcGIS Hub Event</td>
+<td><code>organization</code></td>
+<td>ArcGIS Portal <br> <code>/sharing/rest/portals/{id}</code></td>
 </tr>
 <tr>
-<td><code>post</code></td>
-<td>ArcGIS Hub Discussion Posts</td>
+<td><code>event</code></td>
+<td>ArcGIS Hub Event <br> Events API</td>
+</tr>
+<tr>
+<td><code>eventAttendee</code></td>
+<td>ArcGIS Hub Event <br> Events API</td>
+</tr>
+<tr>
+<td><code>discussionPost</code></td>
+<td>ArcGIS Hub Discussion Posts <br> Discussions API</td>
+</tr>
+<tr>
+<td><code>channel</code></td>
+<td>ArcGIS Hub Discussion Channel <br> Discussions API</td>
 </tr>
 </tbody>
 </table>
+<p><img src="/hub.js/img/query-filter.png" alt="Query Model"></p>
 <h2>Query, Filters, Predicates</h2>
 <p>A Query contains 1 or more Filters, which contain 1 or more Predicates.</p>
 <p>When the query structure is serialized into an API request the following logic is applied:</p>
 <p>Within a Query...</p>
 <ul>
+<li>all predicates are expanded into <code>IMatchOptions</code> objects</li>
 <li>all Filters are <code>AND</code>ed together</li>
 <li>all Predicates within a Filter use the <code>filer.operation</code> to control how they are connected</li>
+<li>all filters and predicates are converted into the native query syntax of the backing API</li>
 </ul>
 <pre><code class="json">{
   <span class="hljs-attr">"targetEntity"</span>: <span class="hljs-string">"item"</span>,
@@ -269,8 +276,8 @@
 }
 </code></pre>
 <p>In this example we see that a property on an <code>IPredicate</code> can be a string, or an <code>IMatchOptions</code></p>
-<h3>Using MatchOptions</h3>
-<p>As noted above, most predicate properties will work with a <code>IMatchOptions</code> structure, which allows more specificity with how the query is serialized for the backing API.</p>
+<h3>Query Expansion and MatchOptions</h3>
+<p>As noted above, most predicate properties will work with a <code>IMatchOptions</code> structure, which allows more specificity with how the query is serialized for the backing API. Prior to serialization, predicates are &quot;expanded&quot; into their match options form, which enables deterministic combining of the filters and predicates. Note: not all predicates support Match Options. See the Predicate Properties table below for details.</p>
 <pre><code class="json">{
   <span class="hljs-attr">"targetEntity"</span>: <span class="hljs-string">"item"</span>,
   <span class="hljs-attr">"filters"</span>: [
@@ -301,6 +308,9 @@
 </ul>
 </li>
 </ul>
+<p>...and is serialized into the <code>q</code> parameter of the Item search api as:</p>
+<pre><code><span class="hljs-attribute">type</span>=<span class="hljs-string">"Feature Service"</span> <span class="hljs-keyword">AND</span> ((<span class="hljs-attribute">tag</span>=<span class="hljs-string">"authoritative"</span>) <span class="hljs-keyword">AND</span> (<span class="hljs-attribute">tag</span>=<span class="hljs-string">"water"</span> <span class="hljs-keyword">OR</span> <span class="hljs-attribute">tag</span>=<span class="hljs-string">"lake"</span>) <span class="hljs-keyword">AND</span> (<span class="hljs-attribute">-tag</span>=<span class="hljs-string">"rivers"</span>))
+</code></pre>
 <p>We can combine predicates via the <code>.operation</code> to construct more complex queries</p>
 <pre><code class="json">{
   <span class="hljs-attr">"targetEntity"</span>: <span class="hljs-string">"item"</span>,
@@ -345,8 +355,16 @@
 </ul>
 </li>
 </ul>
+<p>...and is serialized into the <code>q</code> parameter of the Item search api as:</p>
+<pre><code>(<span class="hljs-name">type=</span><span class="hljs-string">"Feature Service"</span> AND ((<span class="hljs-name">tag=</span><span class="hljs-string">"authoritative"</span>) AND (<span class="hljs-name">tag=</span><span class="hljs-string">"water"</span> OR tag=<span class="hljs-string">"lake"</span>) AND (<span class="hljs-name">-tag=</span><span class="hljs-string">"rivers"</span>)))
+OR
+(<span class="hljs-name">type=</span><span class="hljs-string">"Web Map"</span> AND ((<span class="hljs-name">tag=</span><span class="hljs-string">"authoritative"</span>) AND (<span class="hljs-name">tag=</span><span class="hljs-string">"wildfire"</span> OR tag=<span class="hljs-string">"fire"</span>)) AND (<span class="hljs-name">owner=</span><span class="hljs-string">"jsmith"</span>))
+</code></pre>
+<h2>Query Execution and <code>hubSearch</code></h2>
+<p>Within Hub, all searches are executed via <a href="../api/common/HubSearch"><code>hubSearch</code></a> which takes an <a href="../api/common/IQuery"><code>IQuery</code></a> and <a href="../api/common/IHubSearchOptions"><code>IHubSearchOptions</code></a> .</p>
+<p>Hub Search uses a provider pattern to execute the search. Based on the target entity of the <code>IQuery</code>, the actual search is delegated to internal, entity specific search functions. These functions handle transforming the <code>IQuery</code> into the API specific request, as well as transforming the API response into an <code>IHubSearchResponse&lt;IHubSearchResult&gt;</code>. Providers will only use predicates they support and will ignore all others.</p>
 <h2>Predicate Properties</h2>
-<p>Although the <code>IPredicate</code> structure allows for any key, value combinations, the following table lists the properties and their allowed types, for queries being serialized to the ArcGIS Portal API.</p>
+<p>Although the <code>IPredicate</code> structure allows for any key, value combinations, the following table lists the properties and their allowed types, for queries being serialized to the ArcGIS Portal API. The <a href="https://developers.arcgis.com/rest/users-groups-and-items/search-reference/">Portal API search reference</a> describes the properties supportes for Items and Groups.</p>
 <table>
 <thead>
 <tr>

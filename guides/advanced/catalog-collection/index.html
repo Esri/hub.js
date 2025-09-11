@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-09-10T16:41:42.626Z">
+    <meta name="date" content="2025-09-11T15:55:03.067Z">
     <title>Catalogs and Collections | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -156,18 +156,16 @@
     <div class="column-18">
       <div class="panel">
         <h2>Catalogs and Collections</h2>
-<p>A Catalog defines a set of platform entities (items/users/groups/events etc) which can be searched. Catalogs can have futher subsets called Collections.</p>
-<p>When executing queries, additional filters can be applied at the Catalog or Collection level.</p>
-<p>While a Catalog can reference any set of platform entities, any individual Collection can only reference a single platform entity type (i.e. items vs groups)</p>
-<p>Hub Sites utilize a Catalog to define what content is available on a site search. Catalogs are also used for Hub Projects and Hub Initiatives.</p>
-<p>Any hierarchy of content between Sites, Initiatives and Projects must be manually maintained, and will not be automatic. This is typically done by organizing content by Groups, and then adding Project Catalog groups to their parent Initiative Catalog, and then up to the Site Catalog.</p>
-<p>Catalogs associated with Hub Sites, Hub Initiatives and Hub Projects will all be stored in the <code>.catalog</code> property of the item's data.json. If other applications want to leverage the Catalog system, we recommend storing the information in this same location.</p>
-<p>The Catalog structure is expected to change over time so it's important to either fetch the Site/Project/Initiative via the cooresponding Class instances, or use the <code>upgradeCatalogSchema(..)</code> function to ensure you are working with the latest structure before executing searches.</p>
+<p>A Catalog is a JSON structure that defines which ArcGIS platform entities (such as items, users, groups, events, etc.) can be searched and displayed. Catalogs can be further divided into Collections, which are subsets focused on a single entity type (for example, only items or only groups).</p>
+<p>Hub Sites use Catalogs to control what content appears in site searches and displays. Hub Premium entities—Events, Projects, and Initiatives—can also have their own Catalogs to specify associated content.</p>
+<p>Content hierarchy (such as linking Projects to Initiatives and Sites) is not managed automatically; it must be organized manually, typically by grouping related content and referencing those groups in parent Catalogs.</p>
+<p>For Hub Entities, the Catalog is stored in the <code>.catalog</code> property of the item's <code>data.json</code>. Other applications should follow this convention for consistency.</p>
+<p>Because the Catalog structure may evolve, always fetch the latest version using the <a href="../api/common/fetchHubEntity"><code>fetchHubEntity(type, id, context)</code></a> function or upgrade it with <a href="../api/common/upgradeCatalogSchema"><code>upgradeCatalogSchema(..)</code></a> before performing searches.</p>
 <h2>Interfaces</h2>
 <p><img src="/hub.js/img/catalog-collection.png" alt="Catalog Model"></p>
 <h2>Defining a Catalog</h2>
-<p>Catalogs and Collections are defined using json structure, specified in typescript via the <code>IHubCatalog</code> and <code>IHubCollection</code> interfaces.</p>
-<p>The Catalog defines a set of &quot;scopes&quot; for each resource type to be included in the Catalog. Each scope is an <a href="../api/common/IQuery"><code>IQuery</code></a> object.</p>
+<p>Catalogs and Collections are defined using json, specified in typescript via the <a href="../api/common/IHubCatalog"><code>IHubCatalog</code></a> and <a href="../api/commonIHubCollection"><code>IHubCollection</code></a> interfaces.</p>
+<p>The Catalog defines a set of &quot;scopes&quot; for each target entity in the Catalog. While each scope is defined as an <a href="../api/common/IQuery"><code>IQuery</code></a> object, in practice, the Hub UI limits the predicates in scopes to <code>groups</code>. In the future this may expand.</p>
 <pre><code class="js"><span class="hljs-comment">// Example Catalog setting the scope for "item" searches to content</span>
 <span class="hljs-comment">// in a specific group OR owned by a specific user</span>
 <span class="hljs-keyword">const</span> seventhStreetProjectCatalog: IHubCatalog = {
@@ -186,13 +184,6 @@
             },
           ],
         },
-        {
-          <span class="hljs-attr">predicates</span>: [
-            {
-              <span class="hljs-attr">owner</span>: <span class="hljs-string">"data_mart"</span>,
-            },
-          ],
-        },
       ],
     },
   },
@@ -200,12 +191,12 @@
 };
 </code></pre>
 <h2>Collections in Catalogs</h2>
-<p>A Collection is a subset of the Catalog, constrained to a single platform entity, specified by the <code>targetEntity</code> property. The <code>.scope</code> of a Collection is an <a href="../api/common/IQuery"><code>IQuery</code></a> object which adds additional critera, creating the &quot;subset&quot;.</p>
+<p>A Collection is a subset of the Catalog, constrained to a target entity, specified by the <code>targetEntity</code> property. The <code>.scope</code> of a Collection is an <a href="../api/common/IQuery"><code>IQuery</code></a> object which adds additional critera, creating the &quot;subset&quot;.</p>
 <pre><code class="js"><span class="hljs-comment">// This example adds a collection, which adds additional constraints on top of</span>
 <span class="hljs-comment">// the catalog itself.</span>
 <span class="hljs-comment">//</span>
 <span class="hljs-comment">// Searching the Web Maps collection will limit the search to items in the</span>
-<span class="hljs-comment">// ("c4059b70af8d4773910a812f7d712dc8" group OR owned by data_mart) AND</span>
+<span class="hljs-comment">// "c4059b70af8d4773910a812f7d712dc8" group AND</span>
 <span class="hljs-comment">// which have type:"Web Map" AND NOT type: "Web Mapping Application"</span>
 <span class="hljs-keyword">const</span> seventhStreetProjectCatalog: IHubCatalog = {
   <span class="hljs-attr">title</span>: <span class="hljs-string">"Seventh Street Project"</span>,
@@ -219,13 +210,6 @@
           <span class="hljs-attr">predicates</span>: [
             {
               <span class="hljs-attr">group</span>: [<span class="hljs-string">"c4059b70af8d4773910a812f7d712dc8"</span>],
-            },
-          ],
-        },
-        {
-          <span class="hljs-attr">predicates</span>: [
-            {
-              <span class="hljs-attr">owner</span>: <span class="hljs-string">"data_mart"</span>,
             },
           ],
         },
@@ -274,7 +258,7 @@
 </code></pre>
 <p>In the example above, no authentication information or server information has been provided, so the system assumes the backing server is ArcGIS Online. It will look up the Site item based on the url, and from that, load the Catalog. If an item id is passed in, it will simply fetch the item, and load the Catalog. In either case, schema upgrades are automatically applied, ensuring that the system is always operating with the latest version of the catalog structure.</p>
 <h3>Catalog Search &quot;Scopes&quot;</h3>
-<p>Although the Catalog specification supports many different entity searches (item, group, user, event etc ), and individual Catalog instance may not support all the entities. Attempting to search for an entity that does not have a scope defined, will result in an exception.</p>
+<p>Although the Catalog specification supports many different target entities (item, group, user, event etc ), any individual Catalog instance may not support all the target entities. Attempting to search for an entity that does not have a scope defined, will result in an exception.</p>
 <p>To determine what scopes are available, user the <code>.availableScopes</code> property to get an array of them.</p>
 <h3>Search Options</h3>
 <p>All the search functions take an <code>IHubSearchOptions</code> as the second parameter, and this is used to specify paging, sorting, aggregations and includes. Please see the <a href=""><code>IHubSearchOptions</code> documentation</a> for more information.</p>
