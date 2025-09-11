@@ -37,9 +37,15 @@ export const buildUiSchema = (
           options: {
             type: "Control",
             control: "hub-composite-input-map-settings",
-            visibleSettings: ["displaySettings"],
+            visibleSettings: ["displaySettings", "mapControlSettings"],
             showPreview: false,
           },
+        },
+      ],
+      rules: [
+        {
+          effect: UiSchemaRuleEffects.SHOW,
+          conditions: [options.type === "Feature Service"],
         },
       ],
     });
