@@ -2,7 +2,8 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { fetchOrg } from "../../org/fetch-org";
 import { failSafe } from "../../utils/fail-safe";
-import { getPortalSettings } from "@esri/arcgis-rest-portal";
+import { getPortalSettings, IPortal } from "@esri/arcgis-rest-portal";
+import { getWithDefault } from "../../objects/get-with-default";
 
 /**
  * @private
@@ -19,7 +20,6 @@ export const buildUiSchema = async (
   options: any,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  let associatedOrgName;
   let noticeMessage = `{{${i18nScope}.notice.message:translate}}`;
   // default notice action - "Go to organization settings"
   const orgNoticeActions = [
@@ -33,12 +33,17 @@ export const buildUiSchema = async (
 
   // we have to make this xhr to fetch the portal settings to determine if
   // the banner is enabled as it's only exposed in appSettings/ember
-  const portalSettings = await _getPortalSettings(context);
-  const bannerString = portalSettings.informationalBanner?.enabled
+  const portalSettings = (await _getPortalSettings(context)) as IPortal;
+  const hasBanner = getWithDefault(
+    portalSettings,
+    "informationalBanner.enabled",
+    false
+  ) as boolean;
+  const bannerString = hasBanner
     ? `{{${i18nScope}.fields.infoBanner.helperText:translate}}`
     : `{{${i18nScope}.fields.infoBanner.helperTextWhenDisabled:translate}}`;
   const configureBannerString = `{{${i18nScope}.fields.infoBanner.goToBannerConfig:translate}}`;
-  const showInfoBannerLink = `<calcite-link href=${context.portalUrl}/home/organization.html?tab=security#settings target=\"_blank\" icon-end=\"launch\">${configureBannerString}</calcite-link>`;
+  const showInfoBannerLink = `<calcite-link href=${context.portalUrl}/home/organization.html?tab=security#settings target="_blank" icon-end="launch">${configureBannerString}</calcite-link>`;
 
   /**
    * If there is a community org relationship, or we are in a community
@@ -46,19 +51,29 @@ export const buildUiSchema = async (
    * links out to the corresponding relationship org ("Go to community
    * organization" or "Go to staff organization")
    */
-  if (context.communityOrgId || context.enterpriseOrgId) {
+  /** Since there can be misconfigurations in orgs, we can't just trust
+   * that having communityOrgId or enterpriseOrgId means the orgs are
+   * correctly configured - so we need to do some deep checks in the
+   * context.trustedOrgs array to verify the relationships are  present
+   * and valid before we show the extra action link.
+   */
+  // Get either the community or enterprise org id (only one will be defined)
+  const orgId = context.enterpriseOrgId || context.communityOrgId;
+  // then we get the associated org info from the trustedOrgs array
+  const associatedOrg = context.trustedOrgs.find(
+    (org) => org.to.orgId === orgId
+  );
+
+  // If we have both, then we have a valid relationship and can show the actions
+  if (orgId && associatedOrg) {
+    // We want to always show the associated org name in the notice, if there is one
+    const associatedOrgName = associatedOrg.to.name;
     const actionLabelKey = context.enterpriseOrgId
       ? "goToStaffOrg"
       : "goToCommunityOrg";
     // get the org url we will include in the notice action
     const orgUrl = await _getCommunityOrEnterpriseAGOUrl(context);
-    // We want to always show the associated org name in the notice, if there is one
-    // So we get either the community or enterprise org id
-    const orgId = context.enterpriseOrgId || context.communityOrgId;
-    // then we get the associated org name from trusted orgs.
-    associatedOrgName = context.trustedOrgs.find(
-      (org) => org.to.orgId === orgId
-    ).to.name;
+
     // update the notice message with the associated org name
     noticeMessage = context.enterpriseOrgId
       ? `{{${i18nScope}.notice.staffMessage:translate}}: ${associatedOrgName}`
@@ -72,6 +87,17 @@ export const buildUiSchema = async (
         target: "_blank",
       });
     }
+  }
+  // Likely misconfiguration if we have an orgId but no associatedOrg from the trustedOrgs array
+  if (orgId && !associatedOrg) {
+    let targetOrg = "Community";
+    if (context.enterpriseOrgId) {
+      targetOrg = "Staff";
+    }
+
+    console.warn(
+      `Links to the ${targetOrg} Org could not be displayed. There appears to be a misconfiguration in the trusted org relationships for this organization. Please contact Esri Customer Service for assistance.`
+    );
   }
   return {
     type: "Layout",
