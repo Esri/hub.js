@@ -3,6 +3,7 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   checkPermission,
   cloneObject,
+  // IArcGISContext,
   IHubItemEntity,
   IPermissionPolicy,
   IUserHubSettings,
@@ -10,7 +11,8 @@ import {
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as GetPolicyModule from "../../src/permissions/HubPermissionPolicies";
-import * as IsPermissionModule from "../../src/permissions/types/Permission";
+import * as IsPermissionModule from "../../src/permissions/isPermission";
+// import * as CheckPermissionModule from "../../src/permissions/checkPermission";
 // In order to have stable tests over time, we define some policies just
 // for the purposes of testing. We then spy on getPermissionPolicy
 // and use these test-only structures instead of current businessrules
@@ -109,7 +111,7 @@ const TestPermissionPolicies: IPermissionPolicy[] = [
   //   permission: "hub:project:workspace:metrics",
   //   dependencies: ["hub:project:edit"],
   // },
-];
+] as IPermissionPolicy[];
 
 /**
  * FAKE IMPLEMENTATION SO WE DON'T TIE TESTS TO REAL PERMISSIONS
@@ -125,7 +127,7 @@ function getPermissionPolicy(permission: Permission): IPermissionPolicy {
 function isPermission(permission: Permission): boolean {
   const permissions = TestPermissionPolicies.map((p) => p.permission);
   // Add one to flex a missing policy condition
-  permissions.push("hub:missing:policy");
+  permissions.push("hub:missing:policy" as Permission);
   return permissions.includes(permission);
 }
 
@@ -273,7 +275,10 @@ describe("checkPermission:", () => {
     expect(chk.checks.length).toBe(0);
   });
   it("fails for missing policy", () => {
-    const chk = checkPermission("hub:missing:policy", basicCtxMgr.context);
+    const chk = checkPermission(
+      "hub:missing:policy" as Permission,
+      basicCtxMgr.context
+    );
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("no-policy-exists");
     expect(chk.checks.length).toBe(0);
@@ -297,19 +302,19 @@ describe("checkPermission:", () => {
 
   it("gating returns true if no conditions are specified", () => {
     const chk = checkPermission(
-      "hub:gating:subscriptions:released",
+      "hub:gating:subscriptions:released" as Permission,
       basicCtxMgr.context
     );
     expect(chk.access).toBe(true);
     const chk2 = checkPermission(
-      "hub:feature:subscriptions",
+      "hub:feature:subscriptions" as Permission,
       basicCtxMgr.context
     );
     expect(chk2.access).toBe(true);
   });
   it("user can opt out ungated feature", () => {
     const chk = checkPermission(
-      "hub:feature:subscriptions",
+      "hub:feature:subscriptions" as Permission,
       gatingOptOutCtxMgr.context
     );
     expect(chk.access).toBe(false);
@@ -466,14 +471,14 @@ describe("checkPermission:", () => {
     });
     it("permission dependencies respect flags", () => {
       const chk = checkPermission(
-        "hub:project:workspace:hierarchy2",
+        "hub:project:workspace:hierarchy2" as Permission,
         premiumCtxMgr.context
       );
       expect(chk.access).toBe(true);
     });
     it("flags for dependencies do not override child conditions", () => {
       const chk = checkPermission(
-        "hub:project:workspace:hierarchy",
+        "hub:project:workspace:hierarchy" as Permission,
         premiumCtxMgr.context
       );
 
@@ -521,3 +526,45 @@ describe("checkPermission:", () => {
     });
   });
 });
+
+// fdescribe("checkParents:", () => {
+//   it("no check if parents not in policy", () => {
+//     const ctx = {
+//       isAlphaOrg: true,
+//     } as unknown as IArcGISContext;
+//     const policy = {
+//       licenses: ["hub-premium"],
+//     } as unknown as IPermissionPolicy;
+
+//     const chks = CheckPermissionModule.checkParents(policy, ctx);
+//     expect(chks.length).toBe(0);
+//   });
+//   it("no check if parents is empty", () => {
+//     const ctx = {
+//       isAlphaOrg: true,
+//     } as unknown as IArcGISContext;
+//     const policy = {
+//       licenses: ["hub-premium"],
+//       dependencies: [],
+//     } as unknown as IPermissionPolicy;
+
+//     const chks = CheckPermissionModule.checkParents(policy, ctx);
+//     expect(chks.length).toBe(0);
+//   });
+//   it("delegates to checkPermission for parent entries", () => {
+//     const ctx = {
+//       isAlphaOrg: true,
+//     } as unknown as IArcGISContext;
+//     const policy = {
+//       dependencies: ["hub:project"],
+//     } as unknown as IPermissionPolicy;
+
+//     const spy = spyOn(CheckPermissionModule, "checkPermission").and.returnValue(
+//       { checks: [{}] }
+//     );
+
+//     const chks = CheckPermissionModule.checkParents(policy, ctx);
+//     expect(spy).toHaveBeenCalled();
+//     expect(chks.length).toBe(1);
+//   });
+// });

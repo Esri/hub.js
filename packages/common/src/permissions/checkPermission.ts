@@ -2,7 +2,8 @@ import type { IArcGISContext } from "../types/IArcGISContext";
 import { getProp, getWithDefault } from "../objects";
 import { checkLicense } from "./_internal/checkLicense";
 import { getPermissionPolicy } from "./HubPermissionPolicies";
-import { Permission, isPermission } from "./types/Permission";
+import { Permission } from "./types/Permission";
+import { isPermission } from "./isPermission";
 import { getPolicyResponseCode } from "./_internal/getPolicyResponseCode";
 import { checkAuthentication } from "./_internal/checkAuthentication";
 import { checkOwner } from "./_internal/checkOwner";
@@ -11,7 +12,6 @@ import { checkDelete } from "./_internal/checkDelete";
 import { checkPrivileges } from "./_internal/checkPrivileges";
 import { checkEntityPolicy } from "./_internal/checkEntityPolicy";
 import { checkAssertions } from "./_internal/checkAssertions";
-import { checkParents } from "./_internal/checkParents";
 import { checkEnvironment } from "./_internal/checkEnvironment";
 import { checkAvailability } from "./_internal/checkAvailability";
 import { checkServiceStatus } from "./_internal/checkServiceStatus";
@@ -22,15 +22,41 @@ import { IPolicyCheck } from "./types/IPolicyCheck";
 import { IEntityPermissionPolicy } from "./types/IEntityPermissionPolicy";
 import { IUserHubSettings } from "../utils/IUserHubSettings";
 import { Logger } from "../utils";
+import { IPermissionPolicy } from "./types/IPermissionPolicy";
+
+/**
+ * @internal
+ * Check the parent policies for the given policy
+ * @param policy
+ * @param context
+ * @param entity
+ * @returns
+ */
+export function checkParents(
+  policy: IPermissionPolicy,
+  context: IArcGISContext,
+  entity?: Record<string, unknown>
+): IPolicyCheck[] {
+  let checks = [] as IPolicyCheck[];
+  if (policy.dependencies?.length) {
+    // map over the parents array of permissions and check each one
+    checks = policy.dependencies.reduce((acc, parent) => {
+      const result = checkPermission(parent, context, entity);
+      acc = [...acc, ...result.checks];
+      return acc;
+    }, [] as IPolicyCheck[]);
+  }
+  return checks;
+}
 
 /**
  * Type to allow either an entity or and entity and label to be
  * passed into `checkPermission`
  */
 export type EntityOrOptions =
-  | Record<string, any>
+  | Record<string, unknown>
   | {
-      entity?: Record<string, any>;
+      entity?: Record<string, unknown>;
       label: string;
     };
 

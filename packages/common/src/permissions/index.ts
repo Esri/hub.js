@@ -1,4 +1,5 @@
 export * from "./HubPermissionPolicies";
-export * from "./checkPermission";
+export { checkPermission, EntityOrOptions } from "./checkPermission";
 export * from "./utils";
 export * from "./types";
+export * from "./isPermission";
