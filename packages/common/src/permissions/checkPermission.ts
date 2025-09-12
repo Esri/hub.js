@@ -32,7 +32,7 @@ import { IPermissionPolicy } from "./types/IPermissionPolicy";
  * @param entity
  * @returns
  */
-export function checkParents(
+function checkParents(
   policy: IPermissionPolicy,
   context: IArcGISContext,
   entity?: Record<string, any>
