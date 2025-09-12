@@ -24,7 +24,6 @@ import {
 } from "../utils";
 import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 import { convertPortalAggregations } from "./portalSearchUtils";
-import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
 import {
   enrichContentSearchResult,
@@ -65,21 +64,6 @@ export function portalSearchItemsAsItems(
 }
 
 /**
- * Expand the predicates in a query without applying
- * the well-known type expansions
- * @param query
- * @returns
- */
-export function expandPredicates(query: IQuery): IQuery {
-  const clonedQuery = cloneObject(query);
-  clonedQuery.filters = clonedQuery.filters.map((filter) => {
-    filter.predicates = filter.predicates.map(expandPredicate);
-    return filter;
-  });
-  return clonedQuery;
-}
-
-/**
  * Common preprocessing for search options and the query
  * @param options
  * @param query
@@ -109,7 +93,7 @@ function processSearchParams(options: IHubSearchOptions, query: IQuery) {
   ];
   // copy the props over
   props.forEach((prop) => {
-    if (options.hasOwnProperty(prop)) {
+    if (Object.prototype.hasOwnProperty.call(options, prop)) {
       so[prop as keyof ISearchOptions] = options[prop];
     }
   });

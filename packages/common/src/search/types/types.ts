@@ -1,8 +1,6 @@
 import { HubEntity, HubEntityType } from "../../core";
 import { IHubRequestOptions } from "../../hub-types";
 import { EntityType, IHubCatalog, IQuery } from "./IHubCatalog";
-import { IHubSearchResponse } from "./IHubSearchResponse";
-import { IHubSearchResult } from "./IHubSearchResult";
 
 /**
  * Sort Option to be displayed in a UI
@@ -141,25 +139,6 @@ export interface IContainsResponse {
    */
   reason?: string;
 }
-
-/**
- * Response from a search operation on a Catalog
- */
-export interface ICatalogSearchResponse {
-  catalogTitle: string;
-  collectionResults: ISearchResponseHash;
-  scopeResults?: ISearchResponseHash;
-}
-
-/**
- * Response from a Catalog search operation where the responses for different collections
- * or entities are grouped into a single object.
- */
-
-export type ISearchResponseHash = Record<
-  string,
-  IHubSearchResponse<IHubSearchResult>
->;
 
 /**
  * Type wrapper for a kilobyte

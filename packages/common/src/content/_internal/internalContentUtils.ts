@@ -41,13 +41,12 @@ import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource"
 import { getItemHomeUrl, getPortalUrl } from "../../urls";
 import { getEnvironmentFromPortalUrl } from "../../utils";
 import { HubEnvironment } from "../../permissions";
-import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-portal-hostname";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
-import { isSiteType } from "../compose";
+import { isSiteType } from "../isSiteType";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -452,7 +451,7 @@ export const getItemSpatialReference = (item: IItem): ISpatialReference => {
   }
   // otherwise it _should_ be a string (if coming form the REST API)
   // but we force it in case it was set to a number somewhere outside of TS
-  const spatialReferenceString = spatialReference + "";
+  const spatialReferenceString = (spatialReference as string) + "";
   const wkid = parseInt(spatialReferenceString, 10);
   return isNaN(wkid)
     ? // It looks like the portal api returns the name of a WKT, but we'd

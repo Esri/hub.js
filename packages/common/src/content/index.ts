@@ -13,3 +13,4 @@ export * from "./slugs";
 export * from "./types";
 export * from "./hostedServiceUtils";
 export * from "./fetchItemJobRecords";
+export * from "./isSiteType";

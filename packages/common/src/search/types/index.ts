@@ -5,3 +5,5 @@ export * from "./IHubSearchResponse";
 export * from "./types";
 export * from "./IHubCatalog";
 export * from "./IGroupsByMembership";
+export * from "./IHubSearchResponseHash";
+export * from "./ICatalogSearchResponse";
