@@ -3,7 +3,6 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   checkPermission,
   cloneObject,
-  // IArcGISContext,
   IHubItemEntity,
   IPermissionPolicy,
   IUserHubSettings,
@@ -12,7 +11,6 @@ import {
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as GetPolicyModule from "../../src/permissions/HubPermissionPolicies";
 import * as IsPermissionModule from "../../src/permissions/isPermission";
-// import * as CheckPermissionModule from "../../src/permissions/checkPermission";
 // In order to have stable tests over time, we define some policies just
 // for the purposes of testing. We then spy on getPermissionPolicy
 // and use these test-only structures instead of current businessrules
