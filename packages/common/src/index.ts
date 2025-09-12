@@ -65,6 +65,7 @@ export * from "./core/hubHistory";
 export * from "./core/deepCatalogContains";
 export * from "./core/parseContainmentPath";
 export * from "./core/catalogContains";
+export * from "./core/schemas/internal/fetchCategoriesUiSchemaElement";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
