@@ -44,7 +44,7 @@ function upgradeCatalogSchema(catalog: any): IHubCatalog {
 
 ## Where Migrations Are Applied
 
-- **Entities:** Most entities call their migration functions in their `computeProps` method, which is part of the `fetch` process.
+- **Entities:** Most entities call their migration functions in their `computeProps` function, which is part of the `fetch` process.
 - **Sub-Graphs:** Any sub-object (e.g., catalog, settings) that may have its own schema versioning is migrated independently.
 - **Special Cases:** Some entities (like `IHubSite`) may have a different release schedule and handle migrations slightly differently, but the principle remains the same.
 
