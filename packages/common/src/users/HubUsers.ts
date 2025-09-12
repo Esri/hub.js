@@ -107,7 +107,9 @@ export async function enrichUserSearchResult(
     );
   }
   result.links.self = getUserHomeUrl(result.id, requestOptions);
-  result.links.siteRelative = `/people/${result.id}`;
+  result.links.siteRelative = requestOptions.isPortal
+    ? getUserHomeUrl(result.id, requestOptions)
+    : `/people/${result.id}`;
 
   return result;
 }
