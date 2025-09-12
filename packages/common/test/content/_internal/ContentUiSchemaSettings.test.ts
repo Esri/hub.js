@@ -38,6 +38,8 @@ describe("buildUiSchema: content settings", () => {
                 control: "hub-composite-input-map-settings",
                 visibleSettings: ["displaySettings"],
                 showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
               },
             },
           ],
@@ -146,6 +148,8 @@ describe("buildUiSchema: content settings", () => {
                 control: "hub-composite-input-map-settings",
                 visibleSettings: ["displaySettings"],
                 showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
               },
             },
           ],
@@ -187,6 +191,8 @@ describe("buildUiSchema: content settings", () => {
                 control: "hub-composite-input-map-settings",
                 visibleSettings: ["displaySettings"],
                 showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
               },
             },
           ],
@@ -307,6 +313,8 @@ describe("buildUiSchema: content settings", () => {
                 control: "hub-composite-input-map-settings",
                 visibleSettings: ["displaySettings"],
                 showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
               },
             },
           ],

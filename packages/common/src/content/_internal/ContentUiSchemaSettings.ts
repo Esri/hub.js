@@ -9,6 +9,7 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { checkPermission } from "../../permissions/checkPermission";
 import { getDownloadsSection } from "./getDownloadsSection";
 import { shouldShowDownloadsConfiguration } from "./shouldShowDownloadsConfiguration";
+import { getItemHomeUrl } from "../../urls";
 
 /**
  * @private
@@ -46,6 +47,7 @@ export const buildUiSchema = async (
           control: "hub-composite-input-map-settings",
           visibleSettings: ["displaySettings"],
           showPreview: false,
+          itemHomeUrl: getItemHomeUrl(options.id, _context.hubRequestOptions),
         },
       },
     ],
