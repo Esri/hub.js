@@ -1,5 +1,5 @@
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
-import { IFollowCardEditorOptions } from "../EditorOptions";
+import { FollowCardEditorOptions } from "../EditorOptions";
 import { IUiSchema, UiSchemaRuleEffects } from "../../types";
 import {
   WellKnownCatalog,
@@ -29,7 +29,7 @@ function getCatalogs(user: IUser): IHubCatalog[] {
 
 export const buildUiSchema = (
   i18nScope: string,
-  config: IFollowCardEditorOptions,
+  config: FollowCardEditorOptions,
   context: IArcGISContext
 ): IUiSchema => {
   return {
@@ -139,6 +139,6 @@ const HIDE_FOR_NO_ENTITY_ID = {
   effect: UiSchemaRuleEffects.HIDE,
   condition: {
     scope: "/properties/entityId",
-    schema: { const: [] as any },
+    schema: { const: [] as string[] },
   },
 };

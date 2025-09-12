@@ -69,6 +69,13 @@ export const validEventGalleryCardEditorTypes = [
 export type EventGalleryCardEditorType =
   (typeof validEventGalleryCardEditorTypes)[number];
 
+/** Defines the possible editor type values for an embed card. These
+ * correspond to the supported/defined uiSchema configurations. This should
+ * have its own signature in the getEditorConfig function.
+ */
+export const validEmbedCardEditorTypes = ["hub:card:embed"] as const;
+export type EmbedCardEditorType = (typeof validEmbedCardEditorTypes)[number];
+
 export const validDiscussionSettingsEditorTypes = [
   "hub:discussion:settings:discussions",
   "hub:site:settings:discussions",
@@ -88,6 +95,7 @@ export const validCardEditorTypes = [
   ...validStatCardEditorTypes,
   ...validFollowCardEditorTypes,
   ...validEventGalleryCardEditorTypes,
+  ...validEmbedCardEditorTypes,
 ] as const;
 
 /**

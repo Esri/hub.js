@@ -4,14 +4,16 @@ import {
   StatCardEditorType,
   FollowCardEditorType,
   EventGalleryCardEditorType,
+  EmbedCardEditorType,
 } from "./types";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import {
   EditorOptions,
   EntityEditorOptions,
-  IStatCardEditorOptions,
-  IFollowCardEditorOptions,
-  IEventGalleryCardEditorOptions,
+  StatCardEditorOptions,
+  FollowCardEditorOptions,
+  EventGalleryCardEditorOptions,
+  EmbedCardEditorOptions,
 } from "./internal/EditorOptions";
 import { getEditorSchemas } from "./internal/getEditorSchemas";
 import { EditorType } from "./types";
@@ -20,7 +22,7 @@ import { EditorType } from "./types";
  * NOTE: We use the concept of function overloading to write getEditorConfig.
  * In doing so, we create multiple signatures for the function.
  * When the function is called, its types will need to agree with one of the signatures.
- * This prevents a function call from having an EntityEditorType type, and IStatCardEditorOptions options, for example.
+ * This prevents a function call from having an EntityEditorType type, and StatCardEditorOptions options, for example.
  */
 
 /**
@@ -45,7 +47,7 @@ export async function getEditorConfig(
 export async function getEditorConfig(
   i18nScope: string,
   type: StatCardEditorType,
-  options: IStatCardEditorOptions,
+  options: StatCardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig>;
 
@@ -53,7 +55,7 @@ export async function getEditorConfig(
 export async function getEditorConfig(
   i18nScope: string,
   type: FollowCardEditorType,
-  options: IFollowCardEditorOptions,
+  options: FollowCardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig>;
 
@@ -61,7 +63,15 @@ export async function getEditorConfig(
 export async function getEditorConfig(
   i18nScope: string,
   type: EventGalleryCardEditorType,
-  options: IEventGalleryCardEditorOptions,
+  options: EventGalleryCardEditorOptions,
+  context: IArcGISContext
+): Promise<IEditorConfig>;
+
+// Embed gallery card editor overload
+export async function getEditorConfig(
+  i18nScope: string,
+  type: EmbedCardEditorType,
+  options: EmbedCardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig>;
 

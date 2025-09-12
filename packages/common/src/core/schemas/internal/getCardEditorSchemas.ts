@@ -8,9 +8,10 @@ import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import {
   CardEditorOptions,
-  IEventGalleryCardEditorOptions,
-  IFollowCardEditorOptions,
-  IStatCardEditorOptions,
+  EmbedCardEditorOptions,
+  EventGalleryCardEditorOptions,
+  FollowCardEditorOptions,
+  StatCardEditorOptions,
 } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import type { IArcGISContext } from "../../../types/IArcGISContext";
@@ -47,11 +48,13 @@ export async function getCardEditorSchemas(
   let defaults;
 
   switch (cardType) {
-    case "stat":
+    case "stat": {
       // get correct module
       schemaPromise = import("./metrics/MetricSchema");
       uiSchemaPromise = {
-        "hub:card:stat": () => import("./metrics/StatCardUiSchema"),
+        "hub:card:stat": (): Promise<
+          typeof import("./metrics/StatCardUiSchema")
+        > => import("./metrics/StatCardUiSchema"),
       }[type as StatCardEditorType];
 
       // Allow imports to run in parallel
@@ -61,7 +64,7 @@ export async function getCardEditorSchemas(
           schema = cloneObject(MetricSchema);
           uiSchema = await uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options as IStatCardEditorOptions,
+            options as StatCardEditorOptions,
             context
           );
 
@@ -78,11 +81,14 @@ export async function getCardEditorSchemas(
       );
 
       break;
-    case "follow":
+    }
+    case "follow": {
       // get correct module
       schemaPromise = import("./follow/FollowSchema");
       uiSchemaPromise = {
-        "hub:card:follow": () => import("./follow/FollowCardUiSchema"),
+        "hub:card:follow": (): Promise<
+          typeof import("./follow/FollowCardUiSchema")
+        > => import("./follow/FollowCardUiSchema"),
       }[type as FollowCardEditorType];
 
       // Allow imports to run in parallel
@@ -92,13 +98,30 @@ export async function getCardEditorSchemas(
           schema = cloneObject(FollowSchema);
           uiSchema = uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options as IFollowCardEditorOptions,
+            options as FollowCardEditorOptions,
             context
           );
         }
       );
       break;
-    case "eventGallery":
+    }
+    case "embed": {
+      schemaPromise = import("./embed/EmbedSchema");
+      uiSchemaPromise = import("./embed/EmbedUiSchema");
+      const [{ EmbedCardSchema }, { buildUiSchema }] = await Promise.all([
+        schemaPromise,
+        uiSchemaPromise,
+      ]);
+      schema = cloneObject(EmbedCardSchema);
+      uiSchema = buildUiSchema(
+        i18nScope,
+        options as EmbedCardEditorOptions,
+        context
+      );
+      defaults = { embeds: [] };
+      break;
+    }
+    case "eventGallery": {
       schemaPromise = import("./events/EventGalleryCardSchema");
       uiSchemaPromise = import("./events/EventGalleryCardUiSchema");
       const [{ EventGalleryCardSchema }, { buildUiSchema }] = await Promise.all(
@@ -107,13 +130,14 @@ export async function getCardEditorSchemas(
       schema = cloneObject(EventGalleryCardSchema);
       uiSchema = await buildUiSchema(
         i18nScope,
-        options as IEventGalleryCardEditorOptions,
+        options as EventGalleryCardEditorOptions,
         context
       );
       break;
+    }
   }
   // filter out properties not used in uiSchema
   schema = filterSchemaToUiSchema(schema, uiSchema);
 
-  return Promise.resolve({ schema, uiSchema });
+  return Promise.resolve({ schema, uiSchema, defaults });
 }

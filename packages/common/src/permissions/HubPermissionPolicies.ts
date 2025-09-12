@@ -171,6 +171,13 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     licenses: ["hub-basic", "hub-premium"],
   },
   {
+    // TODO: remove this permission once the embed card is released
+    permission: "hub:card:embed",
+    environments: ["devext", "qaext"],
+    availability: ["alpha"],
+    licenses: ["hub-basic", "hub-premium"],
+  },
+  {
     // When enabled, the manage links will take the user the org home site
     permission: "hub:feature:workspace:user",
     // depends on hub:feature:workspace so users can opt out
