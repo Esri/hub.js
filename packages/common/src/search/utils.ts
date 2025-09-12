@@ -22,10 +22,8 @@ import {
   LegacySearchCategory,
 } from "./_internal/commonHelpers/isLegacySearchCategory";
 import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
-import {
-  applyWellKnownItemPredicates,
-  expandPredicates,
-} from "./_internal/portalSearchItems";
+import { applyWellKnownItemPredicates } from "./_internal/portalSearchItems";
+import { expandPredicates } from "./_internal/expandPredicates";
 
 /**
  * @private
