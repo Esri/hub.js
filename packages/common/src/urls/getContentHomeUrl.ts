@@ -1,6 +1,6 @@
-import { IPortal } from "@esri/arcgis-rest-portal/dist/esm/util/get-portal";
+import { IPortal } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../hub-types";
-import { IRequestOptions } from "@esri/arcgis-rest-request/dist/esm/utils/IRequestOptions";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "./get-portal-url";
 
 /**
