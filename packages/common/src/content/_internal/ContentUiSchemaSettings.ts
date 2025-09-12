@@ -9,12 +9,21 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { checkPermission } from "../../permissions/checkPermission";
 import { getDownloadsSection } from "./getDownloadsSection";
 import { shouldShowDownloadsConfiguration } from "./shouldShowDownloadsConfiguration";
+import { getItemHomeUrl } from "../../urls";
 
 /**
  * @private
  * constructs the complete settings uiSchema for Hub Editable Content.
  * This defines how the schema properties should be
  * rendered in the content settings editing experience
+ */
+/* eslint-disable @typescript-eslint/require-await */
+/*
+ * We are disabling the require-await rule to maintain the same pattern used
+ * across other uiSchema builders. Calling code expects a promise, and
+ * decorating the function as async automatically wraps the return value
+ * in a resolved promise. If an await is added in the future, then this
+ * disabling rule and comment can be removed.
  */
 export const buildUiSchema = async (
   i18nScope: string,
@@ -25,6 +34,32 @@ export const buildUiSchema = async (
     type: "Layout",
     elements: [],
   };
+  // map display settings for feature layer content
+  uiSchema.elements.push({
+    type: "Section",
+    labelKey: `${i18nScope}.sections.mapSettings.label`,
+    elements: [
+      {
+        type: "Control",
+        scope: "/properties/view/properties/mapSettings",
+        options: {
+          type: "Control",
+          control: "hub-composite-input-map-settings",
+          visibleSettings: ["displaySettings"],
+          showPreview: false,
+          itemHomeUrl: getItemHomeUrl(options.id, _context.hubRequestOptions),
+        },
+      },
+    ],
+    rules: [
+      {
+        effect: UiSchemaRuleEffects.SHOW,
+        conditions: [options.type === "Feature Service"],
+      },
+    ],
+  });
+
+  // schedule settings
   if (
     checkPermission(
       "hub:content:workspace:settings:schedule",
