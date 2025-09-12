@@ -1,3 +1,10 @@
+## @esri/hub-common [20.4.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.5...@esri/hub-common@20.4.6) (2025-09-12)
+
+
+### Bug Fixes
+
+* make siteRelative link for users conditional based on environment ([#1998](https://github.com/Esri/hub.js/issues/1998)) ([f97af5f](https://github.com/Esri/hub.js/commit/f97af5f08fc973bf41c9d62adfe35ebb9a5a3c0f))
+
 ## @esri/hub-common [20.4.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.4...@esri/hub-common@20.4.5) (2025-09-10)
 
 
