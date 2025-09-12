@@ -44,7 +44,7 @@ export const buildUiSchema = async (
         options: {
           type: "Control",
           control: "hub-composite-input-map-settings",
-          visibleSettings: ["displaySettings", "mapControlSettings"],
+          visibleSettings: ["displaySettings"],
           showPreview: false,
         },
       },
