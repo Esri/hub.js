@@ -1,17 +1,18 @@
-import { IGroup } from "@esri/arcgis-rest-portal";
-import * as PortalModule from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../mocks/mock-auth";
-import { HubGroup, IEntityPermissionPolicy } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { HubGroup } from "../../src/groups/HubGroup";
+import { IGroup } from "@esri/arcgis-rest-portal";
+import { MOCK_AUTH } from "../mocks/mock-auth";
+import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
+import * as setGroupThumbnailModule from "../../src/groups/setGroupThumbnail";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { getProp } from "../../src/objects/get-prop";
 import * as SearchUtils from "../../src/search/utils";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
-import * as checkPermissionModule from "../../src/permissions/checkPermission";
-import * as setGroupThumbnailModule from "../../src/groups/setGroupThumbnail";
 import * as deleteGroupThumbnailModule from "../../src/groups/deleteGroupThumbnail";
+import { IEntityPermissionPolicy } from "../../src/permissions/types/IEntityPermissionPolicy";
+import * as permissionsModule from "../../src/permissions";
 
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -297,7 +298,7 @@ describe("HubGroup class:", () => {
       } as IHubGroup;
       const instance = HubGroup.fromJson(entity, authdCtxMgr.context);
       const checkPermissionSpy = spyOn(
-        checkPermissionModule,
+        permissionsModule,
         "checkPermission"
       ).and.returnValue({ access: true });
       const chk = instance.checkPermission("hub:group:create");
