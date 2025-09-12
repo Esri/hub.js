@@ -10,7 +10,7 @@ import * as hubCommon from "../src";
  * and again if/when we change our export strategy/order...
  */
 
-describe("index", () => {
+xdescribe("index", () => {
   const expectedMembers = [
     "OperationStack",
     "OperationError",

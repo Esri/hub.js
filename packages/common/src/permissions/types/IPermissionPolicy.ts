@@ -136,7 +136,7 @@ export type HubEnvironment =
 export interface IPolicyAssertion {
   property: string;
   type: AssertionType;
-  value: unknown;
+  value: any;
 
   /** A condition dictates if an assertion should be evaluated. If any condition evaluates to false,
    * the assertion should be ignored. If the conditions evaluate to true, or if there are no conditions,

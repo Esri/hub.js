@@ -35,7 +35,7 @@ import { IPermissionPolicy } from "./types/IPermissionPolicy";
 export function checkParents(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: Record<string, unknown>
+  entity?: Record<string, any>
 ): IPolicyCheck[] {
   let checks = [] as IPolicyCheck[];
   if (policy.dependencies?.length) {
@@ -54,9 +54,9 @@ export function checkParents(
  * passed into `checkPermission`
  */
 export type EntityOrOptions =
-  | Record<string, unknown>
+  | Record<string, any>
   | {
-      entity?: Record<string, unknown>;
+      entity?: Record<string, any>;
       label: string;
     };
 
