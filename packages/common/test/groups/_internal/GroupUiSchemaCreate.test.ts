@@ -463,8 +463,8 @@ describe("GroupUiSchemaCreate", () => {
   });
 
   describe("buildDefaults", () => {
-    it("returns the defaults to create a group when platform:portal:user:addExternalMember is false", () => {
-      const defaults = buildDefaults(
+    it("returns the defaults to create a group when platform:portal:user:addExternalMember is false", async () => {
+      const defaults = await buildDefaults(
         "some.scope",
         { isSharedUpdate: true } as IHubGroup,
         MOCK_CONTEXT
@@ -484,8 +484,8 @@ describe("GroupUiSchemaCreate", () => {
       });
     });
 
-    it("returns the defaults to create a group when platform:portal:user:addExternalMember is true", () => {
-      const defaults = buildDefaults(
+    it("returns the defaults to create a group when platform:portal:user:addExternalMember is true", async () => {
+      const defaults = await buildDefaults(
         "some.scope",
         { isSharedUpdate: true } as IHubGroup,
         getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
