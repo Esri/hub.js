@@ -1,4 +1,4 @@
-import { SitePermissions } from "../SiteBusinessRules";
+import { SitePermissions } from "../SitePermissions";
 
 /**
  * legacy site capabilities
@@ -9,8 +9,9 @@ export type LegacyCapability = "hideFollow" | "disableDiscussions";
  * representation of legacy site capabilities as
  * feature flags
  */
-export interface ILegacyCapabilityFeatureFlags
-  extends Partial<Record<LegacyCapability, boolean>> {}
+export type ILegacyCapabilityFeatureFlags = Partial<
+  Record<LegacyCapability, boolean>
+>;
 
 /**
  * capability to feature map entry that provides a

@@ -38,7 +38,7 @@ describe("transformChannelToEntity", () => {
       username: "user123",
     };
     const entityPermissionPolicy: IEntityPermissionPolicy = {
-      permission: "hub:channel:participation:manage",
+      permission: "hub:channel:manage",
       collaborationType: "org-admin",
       collaborationId: "orgId123",
       id: "31c",
