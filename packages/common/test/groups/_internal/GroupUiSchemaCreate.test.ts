@@ -7,7 +7,7 @@ import {
   MOCK_CONTEXT,
   getMockContextWithPrivilenges,
 } from "../../mocks/mock-auth";
-import * as permissionsModule from "../../../src/permissions";
+import * as checkPermissionsModule from "../../../src/permissions/checkPermission";
 
 describe("GroupUiSchemaCreate", () => {
   describe("buildUiSchema: create group", () => {
@@ -435,7 +435,7 @@ describe("GroupUiSchemaCreate", () => {
       });
     });
     it("renders the Open data capability tooltip when group access is not public", async () => {
-      spyOn(permissionsModule, "checkPermission").and.returnValue({
+      spyOn(checkPermissionsModule, "checkPermission").and.returnValue({
         access: true,
       });
       const uiSchema = await buildUiSchema(
@@ -448,7 +448,7 @@ describe("GroupUiSchemaCreate", () => {
       expect(isOpenDataTooltip).toEqual(`some.scope.fields.isOpenData.tooltip`);
     });
     it("renders the Open data capability tooltip when user does not have the permission to do so", async () => {
-      spyOn(permissionsModule, "checkPermission").and.returnValue({
+      spyOn(checkPermissionsModule, "checkPermission").and.returnValue({
         access: false,
       });
       const uiSchema = await buildUiSchema(

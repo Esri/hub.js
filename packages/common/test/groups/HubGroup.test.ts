@@ -1,20 +1,22 @@
-import { IGroup } from "@esri/arcgis-rest-portal";
-import * as PortalModule from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../mocks/mock-auth";
-import { HubGroup, IEntityPermissionPolicy } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { HubGroup } from "../../src/groups/HubGroup";
+import { IGroup } from "@esri/arcgis-rest-portal";
+import { MOCK_AUTH } from "../mocks/mock-auth";
+import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
+import * as setGroupThumbnailModule from "../../src/groups/setGroupThumbnail";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { getProp } from "../../src/objects/get-prop";
 import * as SearchUtils from "../../src/search/utils";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as deleteGroupThumbnailModule from "../../src/groups/deleteGroupThumbnail";
+import { IEntityPermissionPolicy } from "../../src/permissions/types/IEntityPermissionPolicy";
+import * as permissionsModule from "../../src/permissions";
 
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -103,7 +105,7 @@ describe("HubGroup class:", () => {
 
     it("handle load missing groups", async () => {
       const fetchSpy = spyOn(HubGroupsModule, "fetchHubGroup").and.callFake(
-        (id: string) => {
+        (_id: string) => {
           const err = new Error(
             "COM_0003: Group does not exist or is inaccessible."
           );
@@ -114,13 +116,13 @@ describe("HubGroup class:", () => {
         await HubGroup.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect((ex as any).message).toBe("Group not found.");
+        expect((ex as Error).message).toBe("Group not found.");
       }
     });
 
     it("handle load errors", async () => {
       const fetchSpy = spyOn(HubGroupsModule, "fetchHubGroup").and.callFake(
-        (id: string) => {
+        (_id: string) => {
           const err = new Error("ZOMG!");
           return Promise.reject(err);
         }
@@ -129,7 +131,7 @@ describe("HubGroup class:", () => {
         await HubGroup.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect((ex as any).message).toBe("ZOMG!");
+        expect((ex as Error).message).toBe("ZOMG!");
       }
     });
   });
@@ -236,13 +238,13 @@ describe("HubGroup class:", () => {
       try {
         await chk.delete();
       } catch (e) {
-        expect((e as any).message).toEqual("HubGroup is already destroyed.");
+        expect((e as Error).message).toEqual("HubGroup is already destroyed.");
       }
 
       try {
         await chk.save();
       } catch (e) {
-        expect((e as any).message).toEqual("HubGroup is already destroyed.");
+        expect((e as Error).message).toEqual("HubGroup is already destroyed.");
       }
     });
   });
@@ -296,7 +298,7 @@ describe("HubGroup class:", () => {
       } as IHubGroup;
       const instance = HubGroup.fromJson(entity, authdCtxMgr.context);
       const checkPermissionSpy = spyOn(
-        require("../../src/permissions"),
+        permissionsModule,
         "checkPermission"
       ).and.returnValue({ access: true });
       const chk = instance.checkPermission("hub:group:create");
@@ -399,7 +401,7 @@ describe("HubGroup class:", () => {
           "getGroupThumbnailUrl"
         );
         const setGroupThumbnailSpy = spyOn(
-          require("../../src/groups/setGroupThumbnail"),
+          setGroupThumbnailModule,
           "setGroupThumbnail"
         ).and.returnValue(Promise.resolve({}));
         // make changes to the editor
@@ -434,7 +436,7 @@ describe("HubGroup class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         const deleteGroupThumbnailSpy = spyOn(
-          require("../../src/groups/deleteGroupThumbnail"),
+          deleteGroupThumbnailModule,
           "deleteGroupThumbnail"
         ).and.returnValue(Promise.resolve({}));
         // make changes to the editor
