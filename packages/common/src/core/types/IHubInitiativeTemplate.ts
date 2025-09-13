@@ -1,5 +1,10 @@
 import { IHubItemEntity } from "./IHubItemEntity";
-import { IWithLayout, IWithSlug, IWithCatalog } from "../traits";
+import {
+  IWithLayout,
+  IWithSlug,
+  IWithCatalog,
+  IWithViewSettings,
+} from "../traits";
 import { IHubItemEntityEditor } from "./IHubItemEntity";
 
 /** Defines the properties of a Hub Initiative Template object */
@@ -7,7 +12,8 @@ export interface IHubInitiativeTemplate
   extends IHubItemEntity,
     IWithSlug,
     IWithCatalog,
-    IWithLayout {
+    IWithLayout,
+    IWithViewSettings {
   previewUrl: string;
   recommendedTemplates: string[];
   siteSolutionId: string;
@@ -18,4 +24,4 @@ export interface IHubInitiativeTemplate
  * that it can be consumed by the entity editor.
  */
 export type IHubInitiativeTemplateEditor =
-  IHubItemEntityEditor<IHubInitiativeTemplate> & {};
+  IHubItemEntityEditor<IHubInitiativeTemplate>;
