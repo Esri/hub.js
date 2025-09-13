@@ -135,6 +135,11 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
           enum: ["organization", "collaborators", "anyone"],
           default: "organization",
         },
+        associationRequestDiscoverability: {
+          type: "string",
+          enum: ["unlisted", "org", "community", "public"],
+          default: "public",
+        },
       },
     },
     _catalogSetup: ENTITY_CATALOG_SETUP_SCHEMA,
