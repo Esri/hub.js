@@ -5,7 +5,7 @@ import {
 } from "../../core/schemas/types";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import { checkPermission } from "../../permissions";
+import { checkPermission } from "../../permissions/checkPermission";
 import { getWellKnownGroup } from "../getWellKnownGroup";
 import { IHubGroup } from "../../core";
 import { getProp } from "../../objects";
@@ -16,12 +16,12 @@ import { getProp } from "../../objects";
  * group. This defines how the schema properties should be
  * rendered in the view group creation experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: Partial<IHubGroup>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -481,7 +481,7 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };
 
 /**
@@ -494,13 +494,13 @@ export const buildUiSchema = async (
  * @param context
  * @returns
  */
-export const buildDefaults = async (
-  i18nScope: string,
+export const buildDefaults = (
+  _i18nScope: string,
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IConfigurationValues> => {
-  return {
+  return Promise.resolve({
     ...getWellKnownGroup("hubGroup", context),
     ...options,
-  };
+  });
 };

@@ -105,9 +105,9 @@ export class ArcGISContext implements IArcGISContext {
 
   private _featureFlags: IFeatureFlags = {};
 
-  private _trustedOrgIds: string[];
+  private _trustedOrgIds: string[] = [];
 
-  private _trustedOrgs: IHubTrustedOrgsResponse[];
+  private _trustedOrgs: IHubTrustedOrgsResponse[] = [];
 
   private _userResourceTokens: IUserResourceToken[] = [];
 
@@ -744,7 +744,7 @@ export class ArcGISContext implements IArcGISContext {
     // iterate the props in the features object
     Object.keys(getWithDefault(settings, "features", {})).forEach((key) => {
       const val = getProp(settings, `features.${key}`) as boolean;
-      this._featureFlags[`hub:feature:${key}`] = val;
+      this._featureFlags[`hub:feature:${key}` as Permission] = val;
     });
   }
 }

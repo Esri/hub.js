@@ -7,10 +7,11 @@ import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
 import * as deleteItemThumbnailModule from "../../src/items/deleteItemThumbnail";
 import * as uploadImageResourceModule from "../../src/items/uploadImageResource";
 import { IEntityPermissionPolicy } from "../../src/permissions";
-import { CANNOT_DISCUSS, IHubItemEntity } from "../../src";
 import * as DISCUSSIONS from "../../src/discussions";
 import * as shareItemToGroupsModule from "../../src/items/share-item-to-groups";
 import * as unshareItemFromGroupsModule from "../../src/items/unshare-item-from-groups";
+import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
+import * as permissionsModule from "../../src/permissions";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -18,7 +19,7 @@ class TestHarness extends HubItemEntity<any> {
   constructor(entity: any, context: any) {
     super(entity, context);
   }
-  update(changes: Partial<any>): void {
+  update(_changes: Partial<any>): void {
     throw new Error("Method not implemented.");
   }
   save(): Promise<void> {
@@ -212,7 +213,7 @@ describe("HubItemEntity Class: ", () => {
         );
         await instance.delete();
         try {
-          const chk = instance.toJson();
+          instance.toJson();
         } catch (err) {
           const error = err as { name?: string; message?: string };
           expect(error.message === "Entity is already destroyed.");
@@ -342,7 +343,7 @@ describe("HubItemEntity Class: ", () => {
       expect(updateGroupSpy).toHaveBeenCalledWith({
         group: {
           id: "followers00c",
-          typeKeywords: [CANNOT_DISCUSS],
+          typeKeywords: [DISCUSSIONS.CANNOT_DISCUSS],
         },
         authentication: authdCtxMgr.context.session,
       });
@@ -681,7 +682,6 @@ describe("HubItemEntity Class: ", () => {
       await instance.setFeaturedImage("fake-file");
       fail("should have thrown error");
     } catch (err) {
-      const error = err as { name?: string; message?: string };
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       expect(setImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
@@ -740,7 +740,7 @@ describe("HubItemEntity Class: ", () => {
       } as IHubItemEntity;
       const instance = new TestHarness(entity, authdCtxMgr.context);
       const checkPermissionSpy = spyOn(
-        require("../../src/permissions"),
+        permissionsModule,
         "checkPermission"
       ).and.returnValue({ access: true });
       const chk = instance.checkPermission("hub:project:create");
@@ -760,7 +760,7 @@ describe("HubItemEntity Class: ", () => {
           id: "00c",
           owner: "deke",
           isDiscussable: false,
-          typeKeywords: [CANNOT_DISCUSS],
+          typeKeywords: [DISCUSSIONS.CANNOT_DISCUSS],
         },
         authdCtxMgr.context
       );
@@ -786,7 +786,7 @@ describe("HubItemEntity Class: ", () => {
       instance.updateIsDiscussable(false);
       expect(updateSpy).toHaveBeenCalledTimes(1);
       expect(updateSpy).toHaveBeenCalledWith({
-        typeKeywords: [CANNOT_DISCUSS],
+        typeKeywords: [DISCUSSIONS.CANNOT_DISCUSS],
         isDiscussable: false,
       });
     });

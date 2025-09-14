@@ -90,6 +90,8 @@ export interface IPermissionPolicy {
   flagValue?: boolean;
 }
 
+export type FeatureFlag = "settings" | "details";
+
 /**
  * Hash of permission:boolean, which is used in two contexts.
  * First, it is used to control access to "features" are enabled for a particular entity
@@ -101,7 +103,8 @@ export interface IPermissionPolicy {
  * privilege and services checks are run, and if those pass, access is granted.
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IFeatureFlags extends Record<Permission, boolean> {}
+export interface IFeatureFlags
+  extends Partial<Record<Permission | FeatureFlag, boolean>> {}
 
 /**
  * Hash of service status overrides parsed from query params. This is

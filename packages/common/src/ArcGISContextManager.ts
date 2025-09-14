@@ -20,7 +20,7 @@ import { Logger } from "./utils/logger";
 import { HubServiceStatus, SystemStatus } from "./core";
 import { cloneObject, maybeAdd } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
-import { IFeatureFlags, IServiceFlags } from "./permissions";
+import { IFeatureFlags, IServiceFlags, Permission } from "./permissions";
 import { IHubTrustedOrgsResponse } from "./hub-types";
 import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
@@ -352,7 +352,7 @@ export class ArcGISContextManager {
     // update the feature flags
     Object.keys(getWithDefault(settings, "features", {})).forEach((key) => {
       const value = getProp(settings, `features.${key}`) as boolean;
-      this._featureFlags[`hub:feature:${key}`] = value;
+      this._featureFlags[`hub:feature:${key}` as Permission] = value;
     });
 
     this._context = new ArcGISContext(this.contextOpts);
@@ -511,7 +511,7 @@ export class ArcGISContextManager {
           this._userHubSettings,
           `features.${key}`
         ) as boolean;
-        this._featureFlags[`hub:feature:${key}`] = val;
+        this._featureFlags[`hub:feature:${key}` as Permission] = val;
       });
     }
 

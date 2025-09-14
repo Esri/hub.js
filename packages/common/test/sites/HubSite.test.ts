@@ -893,7 +893,7 @@ describe("HubSite Class:", () => {
                 collaborationId: "old-group",
               },
               {
-                permission: "hub:site:project:create",
+                permission: "hub:site:create",
                 collaborationType: "group",
                 collaborationId: "3ef",
               },
@@ -918,7 +918,7 @@ describe("HubSite Class:", () => {
         expect(assistantPerms[1].collaborationId).toBe("group2");
         // Should preserve other permissions
         const projectPerms = result.permissions.filter(
-          (p: any) => p.permission === "hub:site:project:create"
+          (p: any) => p.permission === "hub:site:create"
         );
         expect(projectPerms.length).toBe(1);
         expect(saveSpy).toHaveBeenCalledTimes(1);
