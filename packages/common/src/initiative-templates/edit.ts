@@ -17,6 +17,7 @@ import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../hub-types";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { IHubItemEntity } from "../core";
+import { setProp } from "../objects/set-prop";
 
 /**
  * @private
@@ -106,11 +107,6 @@ export async function updateInitiativeTemplate(
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(initiativeTemplate, model);
-  // the showMap prop is recently added (2025-09) to the default initiative
-  // template, so we need to ensure it is set to true for existing ones that
-  // may not have it
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  modelToUpdate.data.view.showMap = true;
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into an initiative template and return that
@@ -118,6 +114,10 @@ export async function updateInitiativeTemplate(
     updatedModel,
     initiativeTemplate
   );
+  // the showMap prop is recently added (2025-09) to the default initiative
+  // template, so we need to ensure it is set to true for existing ones that
+  // may not have it
+  setProp("view.showMap", true, initiativeTemplate);
   initiativeTemplate = computeProps(
     model,
     updatedInitiativeTemplate,
