@@ -10,7 +10,7 @@ import * as transformAclPermissionToEntityPermissionPolicyModule from "../../../
 describe("buildDefaultChannel", () => {
   it("should build a partial IHubChannel object for the given orgId", () => {
     const entityPermissionPolicy: IEntityPermissionPolicy = {
-      permission: "hub:channel:participation:manage",
+      permission: "hub:channel:manage",
       collaborationType: "org-admin",
       collaborationId: "orgId1",
       id: "1aa",

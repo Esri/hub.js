@@ -744,7 +744,7 @@ export class ArcGISContext implements IArcGISContext {
     // iterate the props in the features object
     Object.keys(getWithDefault(settings, "features", {})).forEach((key) => {
       const val = getProp(settings, `features.${key}`) as boolean;
-      this._featureFlags[`hub:feature:${key}`] = val;
+      this._featureFlags[`hub:feature:${key}` as Permission] = val;
     });
   }
 }

@@ -1,4 +1,4 @@
-import { IPermissionPolicy } from "../../../src";
+import { IPermissionPolicy, Permission } from "../../../src";
 import { IArcGISContext } from "../../../src";
 import { checkEntityFeature } from "../../../src/permissions/_internal/checkEntityFeature";
 
@@ -19,7 +19,7 @@ describe("checkEntityFeatures:", () => {
       isAlphaOrg: true,
     } as unknown as IArcGISContext;
     const policy = {
-      permission: "hub:events",
+      permission: "hub:events" as Permission,
       isEntityConfigurable: false,
       licenses: ["hub-premium"],
     } as IPermissionPolicy;
