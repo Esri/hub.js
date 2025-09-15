@@ -11,6 +11,7 @@ import { IArcGISContext } from "../../types";
 import { camelize, cloneObject, createId } from "../../util";
 import { setMetricAndDisplay } from "../schemas/internal/metrics/setMetricAndDisplay";
 import { IHubItemEntity, IHubItemEntityEditor, IHubLocation } from "../types";
+import { getTemplate } from "./getTemplate";
 
 /**
  * Convert editor values back into an IHubItemEntity,
@@ -152,10 +153,10 @@ export const hubItemEntityFromEditor = async (
   }
 
   // f. handle layout setups in sites and pages
-  if (_layoutSetup && _layoutSetup?.type) {
-    entity.layout = _layoutSetup;
+  if (_layoutSetup && _layoutSetup?.layout) {
+    entity.layout = await getTemplate(_layoutSetup.layout as string);
   } else {
-    entity.layout = "blank";
+    entity.layout = await getTemplate("blank");
   }
 
   return {

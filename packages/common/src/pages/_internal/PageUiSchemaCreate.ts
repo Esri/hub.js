@@ -14,6 +14,7 @@ export const buildUiSchema = async (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   options: Partial<IHubPage>
   // context: IArcGISContext
+  // eslint-disable-next-line @typescript-eslint/require-await
 ): Promise<IUiSchema> => {
   return {
     type: "Layout",
@@ -45,7 +46,7 @@ export const buildUiSchema = async (
           ],
         },
       },
-      ...getLayoutSetupUiSchemaElement(),
+      ...getLayoutSetupUiSchemaElement(i18nScope),
     ],
   };
 };

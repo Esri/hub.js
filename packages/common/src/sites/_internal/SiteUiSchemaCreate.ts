@@ -17,6 +17,7 @@ export const buildUiSchema = async (
   i18nScope: string,
   options: Partial<IHubSite>,
   context: IArcGISContext
+  // eslint-disable-next-line @typescript-eslint/require-await
 ): Promise<IUiSchema> => {
   // NOTE: if this is not defined on the site then
   // the component will use the authenticated user's org
@@ -70,7 +71,7 @@ export const buildUiSchema = async (
         },
       },
       ...buildCatalogSetupUiSchemaElement(i18nScope, context),
-      ...getLayoutSetupUiSchemaElement(),
+      ...getLayoutSetupUiSchemaElement(i18nScope),
     ],
   };
 };

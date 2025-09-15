@@ -9,21 +9,26 @@ import { IUiSchemaElement } from "../types";
  * @param i18nScope intl - scope for translations
  * @param context contextual - portal & auth information
  */
-export function getLayoutSetupUiSchemaElement(): IUiSchemaElement[] {
-  //TODO: uncomment when adding translations
-  // i18nScope: string,
+export function getLayoutSetupUiSchemaElement(
+  i18nScope: string
+): IUiSchemaElement[] {
+  const siteOrPageString = i18nScope.includes("site")
+    ? "{{shared.fields._layoutSetup.type.siteLayout:translate}}"
+    : "{{shared.fields._layoutSetup.type.pageLayout:translate}}";
   return [
     {
-      label: "Page Layout",
+      label: siteOrPageString,
       scope: "/properties/_layoutSetup/properties/layout",
       type: "Control",
       options: {
         control: "hub-field-input-tile-select",
-        labels: ["Blank", "Simple"],
+        labels: [
+          "{{shared.fields._layoutSetup.type.blank.label:translate}}",
+          "{{shared.fields._layoutSetup.type.simple.label:translate}}",
+        ],
         descriptions: [
-          // TODO: translate these
-          "Quick start with blank layout",
-          "Include a few example rows and cards",
+          "{{shared.fields._layoutSetup.type.blank.description:translate}}",
+          "{{shared.fields._layoutSetup.type.simple.description:translate}}",
         ],
         icons: ["rectangle", "group-layout-elements"],
         layout: "horizontal",
