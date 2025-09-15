@@ -1,4 +1,4 @@
-import { ChannelPermissions } from "../../../src/channels/_internal/ChannelBusinessRules";
+import { ChannelPermissions } from "../../../src/channels/_internal/ChannelPermissions";
 
 describe("ChannelBusinessRules", () => {
   describe("ChannelPermissions", () => {

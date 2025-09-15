@@ -3,28 +3,28 @@ import { processEntityFeatures } from "../../../src/permissions/_internal/proces
 
 describe("processEntityFeatures:", () => {
   it("merged entity values with defaults", () => {
-    const defaults = {
+    const defaults: IFeatureFlags = {
       "hub:project:events": true,
-      "hub:project:metrics": false,
-    } as IFeatureFlags;
-    const entity = {} as IFeatureFlags;
+      "hub:project:view": false,
+    };
+    const entity: IFeatureFlags = {};
     const chk = processEntityFeatures(entity, defaults);
     expect(chk["hub:project:events"]).toBe(true);
-    expect(chk["hub:project:metrics"]).toBe(false);
+    expect(chk["hub:project:view"]).toBe(false);
   });
   it("removes values not in defaults", () => {
-    const defaults = {
+    const defaults: IFeatureFlags = {
       "hub:project:events": true,
-      "hub:project:metrics": false,
-    } as IFeatureFlags;
-    const entity = {
+      "hub:project:view": false,
+    };
+    const entity: IFeatureFlags = {
       "hub:project:events": false,
-      "hub:project:metrics": true,
-      "hub:project:overview": false,
-    } as IFeatureFlags;
+      "hub:project:view": true,
+      "hub:project:associations": false,
+    };
     const chk = processEntityFeatures(entity, defaults);
     expect(chk["hub:project:events"]).toBe(false);
-    expect(chk["hub:project:metrics"]).toBe(true);
-    expect(chk["hub:project:overview"]).not.toBeDefined();
+    expect(chk["hub:project:view"]).toBe(true);
+    expect(chk["hub:project:associations"]).not.toBeDefined();
   });
 });

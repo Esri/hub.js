@@ -48,13 +48,14 @@ describe("HubUsers Module:", () => {
   describe("fetchHubUser", () => {
     it("should fetch a user", async () => {
       const spy = spyOn(
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         require("@esri/arcgis-rest-portal"),
         "getUser"
       ).and.callFake(() => {
         return Promise.resolve(TEST_USER);
       });
       const ro = {} as IHubRequestOptions;
-      const username = TEST_USER.username!;
+      const username = TEST_USER.username;
       await fetchHubUser(username, {
         requestOptions: ro,
       } as unknown as IArcGISContext);
@@ -109,6 +110,18 @@ describe("HubUsers Module:", () => {
       expect(chk.links.siteRelative).toEqual(`/people/${USR.username}`);
       expect(chk.links.thumbnail).toEqual(
         `${hubRo.portal}/community/users/${USR.username}/info/${USR.thumbnail}?token=fake-token`
+      );
+    });
+
+    it("sets siteRelative to user home url when isPortal is true", async () => {
+      const ro = {
+        portal: "https://some-server.com/gis/sharing/rest",
+        authentication: MOCK_AUTH,
+        isPortal: true,
+      };
+      const chk = await enrichUserSearchResult(cloneObject(TEST_USER), [], ro);
+      expect(chk.links.siteRelative).toEqual(
+        `https://some-server.com/gis/home/user.html?user=${TEST_USER.username}`
       );
     });
 
