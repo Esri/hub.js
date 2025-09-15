@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="date" content="2025-09-15T18:03:04.942Z">
+    <title>Entity Lifecycle | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="/hub.js/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions-v2/">Discussions v2</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+              <li><a href="/hub.js/guides/functional/versioning/">Versioning</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/access-control/">Access Control</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/entity-lifecycle/" class="is-active">Entity Lifecycle</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/schema-versioning/">Schema Versioning</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/permissions/">Permissions</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/metrics/">Metrics</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>Entity Lifecycle: Fetching and Hydration</h2>
+<p>This guide explains the process of fetching and hydrating an entity in hub.js, using the <strong>Project</strong> entity as an example. The same series of steps applies to any entity, regardless of its backing store (e.g., Portal, Events, Discussion APIs).</p>
+<h2>Overview</h2>
+<p>When you request an entity (such as a Project), hub.js performs a series of steps to transform raw data from the backing store into a fully hydrated, type-safe entity object. This ensures that all properties are mapped, computed, and migrated as needed for runtime use.</p>
+<h2>Step-by-Step Process</h2>
+<p>This process should be encapsulated within the <code>fetch{Entity}</code> function. This guide is intended for developers who are creating and maintaining the entity functions themselves. Consumers of Hub.js should never need to know any of these details.</p>
+<h3>1. Fetch from Backing Store</h3>
+<p>Fetching can be done by either the entity's unique <code>id</code> or its human-friendly <code>slug</code>. Supporting both lookup methods is important for flexibility in APIs and user-facing URLs.</p>
+<p>Once the raw model object is retrived, we then start the process of converting it into the Entity.</p>
+<h3>2. Property Mapping</h3>
+<p>The raw model is transformed into an entity object using the <code>PropertyMapper</code> and a property map (see <a href="../api/common/getBasePropertyMap"><code>getBasePropertyMap</code></a>. This step copies properties from the raw model structure (e.g., <code>item.title</code>, <code>data.view</code>) to the entity (<code>name</code>, <code>view</code>, etc.), handling deep mappings and read-only properties.</p>
+<pre><code class="typescript"><span class="hljs-keyword">const</span> mapper = <span class="hljs-keyword">new</span> PropertyMapper(getBasePropertyMap());
+<span class="hljs-keyword">const</span> entity = mapper.storeToEntity(model, {});
+</code></pre>
+<p>Each entity should define it's own property map. Item backed entities can leverage <a href="../api/common/getBasePropertyMap"><code>getBasePropertyMap</code></a> to ensure consistentcy, but they will also need to add additional properties unique to the entity.</p>
+<p>It's important to note that the <code>PropertyMapper</code> is bi-directional, and is also used when converting the Entity back into the raw model, prior to being sent to the backing store.</p>
+<h3>3. Computed Properties</h3>
+<p>After the simple property mapping, additional properties are set using the <code>computeProps</code> function. This includes:</p>
+<ul>
+<li>Generating URLs (e.g., <code>thumbnailUrl</code>)</li>
+<li>Migrating schemas (e.g., <code>catalog</code> via <code>upgradeCatalogSchema</code>)</li>
+<li>Setting up features and computing links</li>
+<li>Applying any additional logic</li>
+</ul>
+<p>Both the raw model, and the entity are passed into this function, allowing the function to have acces to all the relevant information.</p>
+<pre><code class="typescript"><span class="hljs-keyword">const</span> hydratedProject = computeProps(model, entity, requestOptions);
+</code></pre>
+<p>Each entity should implement it's own <code>computeProps</code> function, stored in the <code>/_internal</code> folder, and it should not be exported from Hub.js.</p>
+<h3>4. Result: Fully Hydrated Entity</h3>
+<p>The result is a fully hydrated entity object, ready for use in the application:
+hydratedProject as IHubProject</p>
+<h2>Updating an Entity</h2>
+<p>Entities are generally handled as simple objects (vs class instances) and thus can be manipulated as needed. Once the application decides to persist the entity, it should call the related <code>update{Entity}</code> function, which should follow a specific process to ensure data integrity and business rules are enforced:</p>
+<ol>
+<li><strong>Ensure Unique Slug:</strong> Before persisting, the function checks that the entity's <code>slug</code> is unique to prevent conflicts in URLs and lookups.</li>
+<li><strong>Apply Business Logic:</strong> Any required business rules or validations are applied to the entity. This may include permission checks, field validations, or custom logic specific to the Entity.</li>
+<li><strong>Fetch Latest Model:</strong> The current version of the entity is fetched from the backing store to ensure updates are applied to the most recent data.</li>
+<li><strong>Apply Local Changes:</strong> The local changes are merged into the fetched model using the <code>PropertyMapper</code>'s <code>entityToStore</code> method. This ensures only the intended properties are updated and the model remains consistent.</li>
+</ol>
+<pre><code class="typescript"><span class="hljs-keyword">const</span> updatedModel = mapper.entityToStore(localEntity, fetchedModel);
+</code></pre>
+<ol start="5">
+<li><strong>Persist to Backing Store:</strong> The updated model is sent to the backing store (e.g., Portal API) to save the changes.</li>
+<li><strong>Hydrate and Return Entity:</strong> Once the backing store confirms the update, the returned model is converted back into a fully hydrated entity using the same mapping and compute steps as initial loading.</li>
+</ol>
+<p>This flow ensures that updates are atomic, business rules are enforced, and the returned entity reflects the latest persisted state.</p>
+<h2>Applicability to Other Entities</h2>
+<p>This lifecycle applies to all hub.js entities (Sites, Initiatives, Teams, etc.), regardless of their backing store. The property map and compute phase are tailored for each entity type, but the overall flow remains consistent:</p>
+<ol>
+<li>Fetch raw model from store</li>
+<li>Map properties to entity via PropertyMapper</li>
+<li>Implement a <code>computeProps</code> function to set additional properties and apply migration</li>
+<li>Return hydrated entity</li>
+</ol>
+<h2>References</h2>
+<ul>
+<li><a href="../../../common/src/core/_internal/PropertyMapper.ts"><code>PropertyMapper</code></a></li>
+<li><a href="../../../common/src/core/_internal/getBasePropertyMap.ts"><code>getBasePropertyMap</code></a></li>
+<li><a href="../../../common/src/projects/_internal/computeProps.ts"><code>computeProps</code></a></li>
+</ul>
+<h2>For more on schema migration, see <a href="./schema-versioning.md">Schema Versioning</a>.</h2>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    
+    <script src="hub.js/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

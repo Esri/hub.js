@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-09-12T18:45:54.242Z">
+    <meta name="date" content="2025-09-15T18:03:04.942Z">
     <title>Object Schema Versioning | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -118,6 +118,8 @@
             
               <li><a href="/hub.js/guides/advanced/access-control/">Access Control</a></li>
             
+              <li><a href="/hub.js/guides/advanced/entity-lifecycle/">Entity Lifecycle</a></li>
+            
               <li><a href="/hub.js/guides/advanced/schema-versioning/" class="is-active">Schema Versioning</a></li>
             
               <li><a href="/hub.js/guides/advanced/permissions/">Permissions</a></li>
@@ -184,7 +186,7 @@
 </code></pre>
 <h2>Where Migrations Are Applied</h2>
 <ul>
-<li><strong>Entities:</strong> Most entities call their migration functions in their <code>computeProps</code> method, which is part of the <code>fetch</code> process.</li>
+<li><strong>Entities:</strong> Most entities call their migration functions in their <code>computeProps</code> function, which is part of the <code>fetch</code> process.</li>
 <li><strong>Sub-Graphs:</strong> Any sub-object (e.g., catalog, settings) that may have its own schema versioning is migrated independently.</li>
 <li><strong>Special Cases:</strong> Some entities (like <code>IHubSite</code>) may have a different release schedule and handle migrations slightly differently, but the principle remains the same.</li>
 </ul>
