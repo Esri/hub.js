@@ -1,6 +1,7 @@
 import { IHubTemplate } from "../types";
 import { IHubEntityLinks } from "../types/IHubEntityBase";
 import { IHubLocation } from "../types/IHubLocation";
+import { IArcGISContext } from "../../types";
 
 /**
  * Returns a template layout by name.
@@ -8,7 +9,13 @@ import { IHubLocation } from "../types/IHubLocation";
  * Future templates can be added or loaded via dynamic import.
  * @param name - The template name (e.g., "simple", "blank")
  */
-export function getTemplate(name: string): Promise<IHubTemplate> {
+export function getTemplate(
+  name: string,
+  context: IArcGISContext
+): Promise<IHubTemplate> {
+  const cdnUrl = context.portal.cdnUrl as string;
+  const heroImageUrl = `${cdnUrl}/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/southatlantic_coastline.jpg`;
+
   const baseTemplateProps = {
     id: "template-id",
     name: "template-name",
@@ -63,8 +70,7 @@ export function getTemplate(name: string): Promise<IHubTemplate> {
             transparency: 50,
             position: { x: "center", y: "center" },
             color: "#000000",
-            image:
-              "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/southatlantic_coastline.jpg",
+            image: heroImageUrl,
           },
           color: "#ffffff",
           rowLayout: "box",

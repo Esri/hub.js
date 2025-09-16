@@ -32,7 +32,7 @@ describe("hubItemEntityFromEditor layout setup", () => {
       orgUrlKey: "TestOrg",
     });
     const result = await hubItemEntityFromEditor(editor, context);
-    expect(getTemplateSpy).toHaveBeenCalledWith("custom");
+    expect(getTemplateSpy).toHaveBeenCalledWith("custom", context);
     expect(result.entity.layout).toBe("custom-layout");
   });
 
@@ -43,7 +43,7 @@ describe("hubItemEntityFromEditor layout setup", () => {
       orgUrlKey: "TestOrg",
     });
     const result = await hubItemEntityFromEditor(editor, context);
-    expect(getTemplateSpy).toHaveBeenCalledWith("blank");
+    expect(getTemplateSpy).toHaveBeenCalledWith("blank", context);
     expect(result.entity.layout).toBe("blank-layout");
   });
 
@@ -53,7 +53,7 @@ describe("hubItemEntityFromEditor layout setup", () => {
       orgUrlKey: "TestOrg",
     });
     const result = await hubItemEntityFromEditor(editor, context);
-    expect(getTemplateSpy).toHaveBeenCalledWith("blank");
+    expect(getTemplateSpy).toHaveBeenCalledWith("blank", context);
     expect(result.entity.layout).toBe("blank-layout");
   });
 });

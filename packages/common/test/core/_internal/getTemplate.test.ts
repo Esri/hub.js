@@ -1,8 +1,18 @@
 import { getTemplate } from "../../../src/core/_internal/getTemplate";
+import { IArcGISContext } from "../../../src/types";
 
 describe("getTemplate util", () => {
+  let context: IArcGISContext;
+
+  beforeEach(() => {
+    context = {
+      portal: { urlKey: "testorg" },
+      userRequestOptions: {},
+    } as any;
+  });
+
   it("returns the simple template", async () => {
-    const template = await getTemplate("simple");
+    const template = await getTemplate("simple", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBeGreaterThan(0);
     expect(template.header).toBeDefined();
@@ -11,7 +21,7 @@ describe("getTemplate util", () => {
   });
 
   it("returns the blank template", async () => {
-    const template = await getTemplate("blank");
+    const template = await getTemplate("blank", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();
@@ -20,7 +30,7 @@ describe("getTemplate util", () => {
   });
 
   it("returns blank for unknown template name", async () => {
-    const template = await getTemplate("unknown");
+    const template = await getTemplate("unknown", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();
@@ -28,7 +38,7 @@ describe("getTemplate util", () => {
   });
 
   it("returns the simple template with correct values", async () => {
-    const template = await getTemplate("simple");
+    const template = await getTemplate("simple", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBeGreaterThan(0);
     expect(template.header).toBeDefined();
@@ -55,7 +65,7 @@ describe("getTemplate util", () => {
   });
 
   it("returns the blank template with correct values", async () => {
-    const template = await getTemplate("blank");
+    const template = await getTemplate("blank", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();
@@ -64,7 +74,7 @@ describe("getTemplate util", () => {
   });
 
   it("returns blank for unknown template name with correct values", async () => {
-    const template = await getTemplate("unknown");
+    const template = await getTemplate("unknown", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();

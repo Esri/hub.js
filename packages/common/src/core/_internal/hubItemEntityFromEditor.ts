@@ -154,9 +154,9 @@ export const hubItemEntityFromEditor = async (
 
   // f. handle layout setups in sites and pages
   if (_layoutSetup && _layoutSetup.layout) {
-    entity.layout = await getTemplate(_layoutSetup.layout as string);
+    entity.layout = await getTemplate(_layoutSetup.layout as string, context);
   } else {
-    entity.layout = await getTemplate("blank");
+    entity.layout = await getTemplate("blank", context);
   }
 
   return {
