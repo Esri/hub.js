@@ -1,9 +1,8 @@
 import { buildUiSchema } from "../../../src/pages/_internal/PageUiSchemaCreate";
-import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: site create", () => {
   it("returns the full site create uiSchema", async () => {
-    const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
+    const uiSchema = await buildUiSchema("some.scope", {} as any);
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
