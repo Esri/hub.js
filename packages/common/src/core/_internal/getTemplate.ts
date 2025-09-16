@@ -2,6 +2,7 @@ import { IHubTemplate } from "../types";
 import { IHubEntityLinks } from "../types/IHubEntityBase";
 import { IHubLocation } from "../types/IHubLocation";
 import { IArcGISContext } from "../../types";
+import { getCdnAssetUrl } from "../../urls/get-cdn-asset-url";
 
 /**
  * Returns a template layout by name.
@@ -13,8 +14,9 @@ export function getTemplate(
   name: string,
   context: IArcGISContext
 ): Promise<IHubTemplate> {
-  const cdnUrl = context.portal.cdnUrl as string;
-  const heroImageUrl = `${cdnUrl}/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/southatlantic_coastline.jpg`;
+  const assetPath =
+    "/ember-arcgis-opendata-components/assets/images/placeholders/southatlantic_coastline.jpg";
+  const heroImageUrl = getCdnAssetUrl(assetPath, context.userRequestOptions);
 
   const baseTemplateProps = {
     id: "template-id",
