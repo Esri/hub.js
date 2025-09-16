@@ -3,6 +3,7 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import {
   cloneObject,
   enrichContentSearchResult,
+  enrichImageSearchResult,
   IHubLocation,
   IHubRequestOptions,
 } from "../../src";
@@ -89,6 +90,7 @@ describe("content module:", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     spyOn(console, "warn").and.callFake(() => {});
   });
   describe("enrichments:", () => {
@@ -151,6 +153,7 @@ describe("content module:", () => {
       );
       expect(chk.links.siteRelative).toEqual(`/maps/${ITM.id}`);
       expect(chk.links.thumbnail).toEqual(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
       );
       expect(chk.location).toEqual(LOCATION);
@@ -179,6 +182,21 @@ describe("content module:", () => {
       expect(item).toEqual(FEATURE_SERVICE_ITEM);
       expect(enrichments).toEqual(["server"]);
       expect(ro).toBe(hubRo);
+    });
+
+    it("adds image data url as thumbnail if none present", async () => {
+      const itm = cloneObject(FEATURE_SERVICE_ITEM);
+      itm.thumbnail = null;
+      const chk = await enrichImageSearchResult(itm, [], hubRo);
+      expect(chk.links.thumbnail).toBe(
+        `${hubRo.portal}/content/items/${itm.id}/data`
+      );
+    });
+
+    it("uses existing thumbnail link if one is present", async () => {
+      const itm = cloneObject(FEATURE_SERVICE_ITEM);
+      const chk = await enrichImageSearchResult(itm, [], hubRo);
+      expect(chk.links.thumbnail).toBe(`thumbnail/ago_downloaded.png`);
     });
   });
 });
