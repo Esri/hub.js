@@ -196,7 +196,9 @@ describe("content module:", () => {
     it("uses existing thumbnail link if one is present", async () => {
       const itm = cloneObject(FEATURE_SERVICE_ITEM);
       const chk = await enrichImageSearchResult(itm, [], hubRo);
-      expect(chk.links.thumbnail).toBe(`thumbnail/ago_downloaded.png`);
+      expect(chk.links.thumbnail).toEqual(
+        "https://some-server.com/gis/sharing/rest/content/items/bbc0882d4713479c87bedcd6b3c41d1a/info/thumbnail/ago_downloaded.png"
+      );
     });
   });
 });
