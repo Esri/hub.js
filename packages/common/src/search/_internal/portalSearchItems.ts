@@ -26,7 +26,10 @@ import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
-import { enrichContentSearchResult } from "../../content/search";
+import {
+  enrichContentSearchResult,
+  enrichImageSearchResult,
+} from "../../content/search";
 import { cloneObject } from "../../util";
 import { getFamilyTypes } from "../../content/get-family";
 
@@ -240,6 +243,10 @@ export async function itemToSearchResult(
       if (item.typeKeywords.includes("hubSite")) {
         fn = enrichSiteSearchResult;
       }
+      break;
+    case "Image":
+      // same as content but includes fallback for thumbnail
+      fn = enrichImageSearchResult;
       break;
   }
   return fn(item, includes, requestOptions);
