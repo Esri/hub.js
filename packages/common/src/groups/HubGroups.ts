@@ -142,12 +142,14 @@ export async function createHubGroup(
   );
 
   // create or update entity settings
-  const entitySetting = await createOrUpdateEntitySettings(
-    { ...hubGroup, id: entity.id },
-    context.hubRequestOptions
-  );
-  entity.entitySettingsId = entitySetting.id;
-  entity.discussionSettings = entitySetting.settings.discussions;
+  if (!context.isPortal) {
+    const entitySetting = await createOrUpdateEntitySettings(
+      { ...hubGroup, id: entity.id },
+      context.hubRequestOptions
+    );
+    entity.entitySettingsId = entitySetting.id;
+    entity.discussionSettings = entitySetting.settings.discussions;
+  }
 
   return entity;
 }
@@ -208,12 +210,14 @@ export async function updateHubGroup(
   await updateGroup(opts);
 
   // create or update entity settings
-  const entitySetting = await createOrUpdateEntitySettings(
-    hubGroup,
-    context.hubRequestOptions
-  );
-  hubGroup.entitySettingsId = entitySetting.id;
-  hubGroup.discussionSettings = entitySetting.settings.discussions;
+  if (!context.isPortal) {
+    const entitySetting = await createOrUpdateEntitySettings(
+      hubGroup,
+      context.hubRequestOptions
+    );
+    hubGroup.entitySettingsId = entitySetting.id;
+    hubGroup.discussionSettings = entitySetting.settings.discussions;
+  }
 
   return hubGroup;
 }
