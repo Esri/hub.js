@@ -188,7 +188,7 @@ describe("HubGroups Module:", () => {
         group.protected = false;
         return Promise.resolve(group);
       });
-      checkPermissionSpy.and.returnValue(true);
+      checkPermissionSpy.and.returnValue({ access: true });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -228,7 +228,7 @@ describe("HubGroups Module:", () => {
         group.protected = false;
         return Promise.resolve(group);
       });
-      checkPermissionSpy.and.returnValue(true);
+      checkPermissionSpy.and.returnValue({ access: true });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: false },
         { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -268,7 +268,7 @@ describe("HubGroups Module:", () => {
         group.protected = false;
         return Promise.resolve(group);
       });
-      checkPermissionSpy.and.returnValue(true);
+      checkPermissionSpy.and.returnValue({ access: true });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -302,7 +302,7 @@ describe("HubGroups Module:", () => {
         group.protected = false;
         return Promise.resolve(group);
       });
-      checkPermissionSpy.and.returnValue(false);
+      checkPermissionSpy.and.returnValue({ access: false });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         {
@@ -322,7 +322,7 @@ describe("HubGroups Module:", () => {
       const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
         Promise.resolve(TEST_GROUP)
       );
-      checkPermissionSpy.and.returnValue(true);
+      checkPermissionSpy.and.returnValue({ access: true });
       const chk = await HubGroupsModule.fetchHubGroup(GUID, {
         hubRequestOptions: {
           authentication: MOCK_AUTH,
@@ -337,7 +337,7 @@ describe("HubGroups Module:", () => {
       const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
         Promise.resolve(TEST_GROUP)
       );
-      checkPermissionSpy.and.returnValue(false);
+      checkPermissionSpy.and.returnValue({ access: false });
       const chk = await HubGroupsModule.fetchHubGroup(GUID, {
         hubRequestOptions: {
           authentication: MOCK_AUTH,
@@ -362,7 +362,7 @@ describe("HubGroups Module:", () => {
         PortalModule,
         "updateGroup"
       ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
-      checkPermissionSpy.and.returnValue(true);
+      checkPermissionSpy.and.returnValue({ access: true });
       const chk = await HubGroupsModule.updateHubGroup(
         TEST_HUB_GROUP as IHubGroup,
         { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -379,7 +379,7 @@ describe("HubGroups Module:", () => {
         Promise.resolve({ id: "abc", settings: { discussions: {} } })
       );
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
-      checkPermissionSpy.and.returnValue(true);
+      checkPermissionSpy.and.returnValue({ access: true });
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "anyone" } as IHubGroup,
         { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -404,7 +404,7 @@ describe("HubGroups Module:", () => {
         Promise.resolve({ id: "abc", settings: { discussions: {} } })
       );
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
-      checkPermissionSpy.and.returnValue(true);
+      checkPermissionSpy.and.returnValue({ access: true });
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "organization" } as IHubGroup,
         { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -423,7 +423,7 @@ describe("HubGroups Module:", () => {
         Promise.resolve({ id: "abc", settings: { discussions: {} } })
       );
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
-      checkPermissionSpy.and.returnValue(true);
+      checkPermissionSpy.and.returnValue({ access: true });
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "collaborators" } as IHubGroup,
         { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -439,7 +439,7 @@ describe("HubGroups Module:", () => {
         PortalModule,
         "updateGroup"
       ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
-      checkPermissionSpy.and.returnValue(false);
+      checkPermissionSpy.and.returnValue({ access: false });
       const chk = await HubGroupsModule.updateHubGroup(
         TEST_HUB_GROUP as IHubGroup,
         {

@@ -59,7 +59,7 @@ describe("fetchHubContent", () => {
         ...DISCUSSION_SETTINGS,
       })
     );
-    checkPermissionSpy.and.returnValue(true);
+    checkPermissionSpy.and.returnValue({ access: true });
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
@@ -107,7 +107,7 @@ describe("fetchHubContent", () => {
         ...DISCUSSION_SETTINGS,
       })
     );
-    checkPermissionSpy.and.returnValue(true);
+    checkPermissionSpy.and.returnValue({ access: true });
 
     const requestOptions = { authentication: MOCK_AUTH } as IHubRequestOptions;
     const context = {
@@ -149,7 +149,7 @@ describe("fetchHubContent", () => {
         ...DISCUSSION_SETTINGS,
       })
     );
-    checkPermissionSpy.and.returnValue(true);
+    checkPermissionSpy.and.returnValue({ access: true });
 
     const requestOptions = {
       portal: MOCK_AUTH.portal,
@@ -210,7 +210,7 @@ describe("fetchHubContent", () => {
         ...DISCUSSION_SETTINGS,
       })
     );
-    checkPermissionSpy.and.returnValue(true);
+    checkPermissionSpy.and.returnValue({ access: true });
 
     const chk = await fetchHubContent("ae3", {
       hubRequestOptions: {
@@ -247,7 +247,7 @@ describe("fetchHubContent", () => {
     fetchSettingsSpy.and.returnValue(
       Promise.reject(new Error("Failed to fetch settings"))
     );
-    checkPermissionSpy.and.returnValue(true);
+    checkPermissionSpy.and.returnValue({ access: true });
 
     const chk = await fetchHubContent("ae3", {
       hubRequestOptions: {
@@ -281,7 +281,7 @@ describe("fetchHubContent", () => {
         })
       )
     );
-    checkPermissionSpy.and.returnValue(false);
+    checkPermissionSpy.and.returnValue({ access: false });
 
     const chk = await fetchHubContent("ae3", {
       hubRequestOptions: {

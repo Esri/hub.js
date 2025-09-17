@@ -60,19 +60,23 @@ export const convertItemToContent = async (
   context: IArcGISContext,
   enrichments?: IHubEditableContentEnrichments
 ): Promise<IHubEditableContent> => {
-  const model = await fetchModelFromItem(item, context.hubRequestOptions);
-  if (checkPermission("hub:content:workspace:settings:discussions", context)) {
-    model.entitySettings = await fetchSettingV2({
-      id: item.id,
-      ...context.hubRequestOptions,
-    }).catch(
-      () =>
-        ({
-          id: null,
-          ...getDefaultEntitySettings("content"),
-        } as IEntitySetting)
-    );
-  }
+  const [model, entitySettings] = await Promise.all([
+    fetchModelFromItem(item, context.hubRequestOptions),
+    checkPermission("hub:content:workspace:settings:discussions", context)
+      .access
+      ? fetchSettingV2({
+          id: item.id,
+          ...context.hubRequestOptions,
+        }).catch(
+          () =>
+            ({
+              id: null,
+              ...getDefaultEntitySettings("content"),
+            } as IEntitySetting)
+        )
+      : null,
+  ]);
+  model.entitySettings = entitySettings;
   const content: Partial<IHubEditableContent> = modelToHubEditableContent(
     model,
     context.hubRequestOptions,

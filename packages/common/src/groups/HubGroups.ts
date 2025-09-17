@@ -148,7 +148,7 @@ export async function createHubGroup(
   );
 
   // create or update entity settings
-  if (checkPermission("hub:group:settings:discussions", context)) {
+  if (checkPermission("hub:group:settings:discussions", context).access) {
     const entitySetting = await createOrUpdateEntitySettings(
       { ...hubGroup, id: entity.id },
       context.hubRequestOptions
@@ -172,7 +172,7 @@ export async function fetchHubGroup(
 ): Promise<IHubGroup> {
   const group = await getGroup(identifier, context.hubRequestOptions);
   let entitySettings;
-  if (checkPermission("hub:group:settings:discussions", context)) {
+  if (checkPermission("hub:group:settings:discussions", context).access) {
     entitySettings = await fetchSettingV2({
       id: group.id,
       ...context.hubRequestOptions,
@@ -230,7 +230,7 @@ export async function updateHubGroup(
   await updateGroup(opts);
 
   // create or update entity settings
-  if (checkPermission("hub:group:settings:discussions", context)) {
+  if (checkPermission("hub:group:settings:discussions", context).access) {
     const entitySetting = await createOrUpdateEntitySettings(
       hubGroup,
       context.hubRequestOptions
