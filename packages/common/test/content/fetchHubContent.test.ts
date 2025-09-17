@@ -257,4 +257,38 @@ describe("fetchHubContent", () => {
 
     expect(chk.type).toBe("Hub Site Application");
   });
+
+  it("does not call fetchSettings if permissions invalid", async () => {
+    fetchContentSpy.and.returnValue(
+      Promise.resolve({
+        item: {
+          id: "ae3",
+          type: "Web Mapping Application",
+          typeKeywords: ["hubSite"],
+        },
+      })
+    );
+    fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
+    fetchModelFromItemSpy.and.returnValue(
+      Promise.resolve(
+        Promise.resolve({
+          item: {
+            id: "ae3",
+            type: "Hub Site Application",
+            typeKeywords: ["hubSite"],
+          },
+          data: { values: {} },
+        })
+      )
+    );
+    checkPermissionSpy.and.returnValue(false);
+
+    const chk = await fetchHubContent("ae3", {
+      hubRequestOptions: {
+        authentication: MOCK_AUTH,
+      },
+    } as any as IArcGISContext);
+
+    expect(chk.type).toBe("Hub Site Application");
+  });
 });

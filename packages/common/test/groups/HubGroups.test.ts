@@ -65,9 +65,16 @@ const TEST_HUB_GROUP = {
 };
 
 describe("HubGroups Module:", () => {
+  let checkPermissionSpy: jasmine.Spy;
+
+  beforeEach(() => {
+    checkPermissionSpy = spyOn(checkPermissionModule, "checkPermission");
+  });
+
   describe("enrichments:", () => {
     let enrichmentSpy: jasmine.Spy;
     let hubRo: IHubRequestOptions;
+
     beforeEach(() => {
       enrichmentSpy = spyOn(
         FetchEnrichments,
@@ -181,7 +188,7 @@ describe("HubGroups Module:", () => {
         group.protected = false;
         return Promise.resolve(group);
       });
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(true);
+      checkPermissionSpy.and.returnValue(true);
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -221,7 +228,7 @@ describe("HubGroups Module:", () => {
         group.protected = false;
         return Promise.resolve(group);
       });
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(true);
+      checkPermissionSpy.and.returnValue(true);
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: false },
         { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -261,7 +268,7 @@ describe("HubGroups Module:", () => {
         group.protected = false;
         return Promise.resolve(group);
       });
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(true);
+      checkPermissionSpy.and.returnValue(true);
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -295,7 +302,7 @@ describe("HubGroups Module:", () => {
         group.protected = false;
         return Promise.resolve(group);
       });
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(false);
+      checkPermissionSpy.and.returnValue(false);
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         {
@@ -315,7 +322,22 @@ describe("HubGroups Module:", () => {
       const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
         Promise.resolve(TEST_GROUP)
       );
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(true);
+      checkPermissionSpy.and.returnValue(true);
+      const chk = await HubGroupsModule.fetchHubGroup(GUID, {
+        hubRequestOptions: {
+          authentication: MOCK_AUTH,
+        },
+      } as any as IArcGISContext);
+      expect(chk.name).toBe("dev followers Content");
+      expect(chk.description).toBe("dev followers Content summary");
+      expect(chk.orgId).toBe(TEST_GROUP.orgId);
+      expect(portalGetGroupSpy).toHaveBeenCalledTimes(1);
+    });
+    it("does not fetch settings if permissions invalid", async () => {
+      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
+        Promise.resolve(TEST_GROUP)
+      );
+      checkPermissionSpy.and.returnValue(false);
       const chk = await HubGroupsModule.fetchHubGroup(GUID, {
         hubRequestOptions: {
           authentication: MOCK_AUTH,
@@ -340,7 +362,7 @@ describe("HubGroups Module:", () => {
         PortalModule,
         "updateGroup"
       ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(true);
+      checkPermissionSpy.and.returnValue(true);
       const chk = await HubGroupsModule.updateHubGroup(
         TEST_HUB_GROUP as IHubGroup,
         { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -357,7 +379,7 @@ describe("HubGroups Module:", () => {
         Promise.resolve({ id: "abc", settings: { discussions: {} } })
       );
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(true);
+      checkPermissionSpy.and.returnValue(true);
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "anyone" } as IHubGroup,
         { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -382,7 +404,7 @@ describe("HubGroups Module:", () => {
         Promise.resolve({ id: "abc", settings: { discussions: {} } })
       );
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(true);
+      checkPermissionSpy.and.returnValue(true);
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "organization" } as IHubGroup,
         { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -401,7 +423,7 @@ describe("HubGroups Module:", () => {
         Promise.resolve({ id: "abc", settings: { discussions: {} } })
       );
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(true);
+      checkPermissionSpy.and.returnValue(true);
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "collaborators" } as IHubGroup,
         { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
@@ -412,12 +434,12 @@ describe("HubGroups Module:", () => {
         portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
       ).toBe("collaboration");
     });
-    it("does not fetch discussion settings in enterprise", async () => {
+    it("does not set discussion settings if permissions invalid", async () => {
       const portalUpdateGroupSpy = spyOn(
         PortalModule,
         "updateGroup"
       ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue(false);
+      checkPermissionSpy.and.returnValue(false);
       const chk = await HubGroupsModule.updateHubGroup(
         TEST_HUB_GROUP as IHubGroup,
         {
