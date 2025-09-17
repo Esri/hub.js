@@ -10,10 +10,11 @@ import { setProp } from "../objects/set-prop";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import { fetchSettingV2 } from "../discussions/api/settings/settings";
 import { getDefaultEntitySettings } from "../discussions/api/settings/getDefaultEntitySettings";
-import { IHubRequestOptions } from "../hub-types";
+import { IModel } from "../hub-types";
 import { fetchModelFromItem } from "../models";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IEntitySetting } from "../discussions/api/types";
+import { checkPermission, IArcGISContext } from "..";
 
 /**
  * fetch a content entity by identifier
@@ -23,21 +24,21 @@ import { IEntitySetting } from "../discussions/api/types";
  */
 export const fetchHubContent = async (
   identifier: string,
-  requestOptions: IHubRequestOptions,
+  context: IArcGISContext,
   enrichments?: EditableContentEnrichment[]
 ): Promise<IHubEditableContent> => {
   // NOTE: b/c we have to support slugs, we use fetchContent() to get the item
   // by telling it to not fetch any enrichments. We then can fetch enrichments
   // as needed after we have the item
   const options = {
-    ...requestOptions,
+    ...context.hubRequestOptions,
     enrichments: [],
   } as IFetchContentOptions;
   const { item } = await fetchContent(identifier, options);
 
   const editableContentEnrichments = await fetchEditableContentEnrichments(
     item,
-    requestOptions,
+    context.hubRequestOptions,
     enrichments
   );
 
@@ -47,7 +48,7 @@ export const fetchHubContent = async (
   const type = normalizeItemType(item);
   setProp("type", type, item);
 
-  return convertItemToContent(item, requestOptions, editableContentEnrichments);
+  return convertItemToContent(item, context, editableContentEnrichments);
 };
 
 /**
@@ -56,23 +57,28 @@ export const fetchHubContent = async (
  */
 export const convertItemToContent = async (
   item: IItem,
-  requestOptions: IHubRequestOptions,
+  context: IArcGISContext,
   enrichments?: IHubEditableContentEnrichments
 ): Promise<IHubEditableContent> => {
-  const [model, entitySettings] = await Promise.all([
-    fetchModelFromItem(item, requestOptions),
-    fetchSettingV2({ id: item.id, ...requestOptions }).catch(
-      () =>
-        ({
-          id: null,
-          ...getDefaultEntitySettings("content"),
-        } as IEntitySetting)
-    ),
-  ]);
+  const promises: [Promise<IModel>, Promise<IEntitySetting>?] = [
+    fetchModelFromItem(item, context.hubRequestOptions),
+  ];
+  if (checkPermission("hub:content:workspace:settings:discussions", context)) {
+    promises.push(
+      fetchSettingV2({ id: item.id, ...context.hubRequestOptions }).catch(
+        () =>
+          ({
+            id: null,
+            ...getDefaultEntitySettings("content"),
+          } as IEntitySetting)
+      )
+    );
+  }
+  const [model, entitySettings] = await Promise.all(promises);
   model.entitySettings = entitySettings;
   const content: Partial<IHubEditableContent> = modelToHubEditableContent(
     model,
-    requestOptions,
+    context.hubRequestOptions,
     enrichments
   );
 
