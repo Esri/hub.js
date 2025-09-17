@@ -7,8 +7,8 @@ import { getBboxQueryParam } from "./getBboxQueryParam";
 
 export interface IOgcAggregationQueryParams {
   aggregations: string;
-  filter?: string;
   bbox?: string;
+  filter?: string;
   q?: string;
   token?: string;
 }
