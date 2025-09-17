@@ -48,13 +48,13 @@ export async function fetchHubEntity(
       result = await fetchPage(identifier, context.hubRequestOptions);
       break;
     case "content":
-      result = await fetchHubContent(identifier, context.hubRequestOptions);
+      result = await fetchHubContent(identifier, context);
       break;
     case "template":
       result = await fetchTemplate(identifier, context.requestOptions);
       break;
     case "group":
-      result = await fetchHubGroup(identifier, context.hubRequestOptions);
+      result = await fetchHubGroup(identifier, context);
       break;
     case "event":
       result = await fetchEvent(identifier, context.hubRequestOptions);

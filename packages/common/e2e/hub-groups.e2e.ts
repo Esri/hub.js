@@ -27,10 +27,7 @@ describe("Hub Groups", () => {
       expect(newGroup).toBeDefined();
       expect(newGroup.summary).toBe("New group summary");
       expect(newGroup.membershipAccess).toBe("organization");
-      const fetchedGroup = await fetchHubGroup(
-        newGroup.id,
-        ctxMgr.context.hubRequestOptions
-      );
+      const fetchedGroup = await fetchHubGroup(newGroup.id, ctxMgr.context);
       // verify can* flags
       expect(fetchedGroup.canDelete).toBe(true);
       expect(fetchedGroup.canEdit).toBe(true);
@@ -45,10 +42,10 @@ describe("Hub Groups", () => {
       expect(updatedGroup.membershipAccess).toBe("anyone");
       await deleteHubGroup(newGroup.id, ctxMgr.context.userRequestOptions);
       try {
-        await fetchHubGroup(newGroup.id, ctxMgr.context.hubRequestOptions);
+        await fetchHubGroup(newGroup.id, ctxMgr.context);
         fail("should have thrown error");
       } catch (e) {
-        expect((e ).message).toBe(
+        expect(e.message).toBe(
           "COM_0003: Group does not exist or is inaccessible."
         );
       }
@@ -115,7 +112,7 @@ describe("HubGroup Class", () => {
       try {
         await HubGroup.fetch(id, ctxMgr.context);
       } catch (e) {
-        expect((e ).message).toBe("Group not found.");
+        expect(e.message).toBe("Group not found.");
       }
     });
   });
