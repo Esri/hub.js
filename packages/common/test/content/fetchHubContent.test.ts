@@ -64,7 +64,9 @@ describe("fetchHubContent", () => {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
     } as IHubRequestOptions;
-    const context = { requestOptions } as any as IArcGISContext;
+    const context = {
+      hubRequestOptions: requestOptions,
+    } as any as IArcGISContext;
 
     const chk = await fetchHubContent(HOSTED_FEATURE_SERVICE_GUID, context);
     const extendedProps = chk.extendedProps as IServiceExtendedProps;
@@ -108,7 +110,9 @@ describe("fetchHubContent", () => {
     checkPermissionSpy.and.returnValue(true);
 
     const requestOptions = { authentication: MOCK_AUTH } as IHubRequestOptions;
-    const context = { requestOptions } as any as IArcGISContext;
+    const context = {
+      hubRequestOptions: requestOptions,
+    } as any as IArcGISContext;
     const chk = await fetchHubContent(PDF_GUID, context);
     expect(chk.id).toBe(PDF_GUID);
     expect(chk.owner).toBe(PDF_ITEM.owner);
@@ -151,7 +155,9 @@ describe("fetchHubContent", () => {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
     } as IHubRequestOptions;
-    const context = { requestOptions } as any as IArcGISContext;
+    const context = {
+      hubRequestOptions: requestOptions,
+    } as any as IArcGISContext;
 
     const chk = await fetchHubContent(HOSTED_FEATURE_SERVICE_GUID, context, [
       "metadata",

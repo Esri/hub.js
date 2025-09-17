@@ -10,11 +10,11 @@ import { setProp } from "../objects/set-prop";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import { fetchSettingV2 } from "../discussions/api/settings/settings";
 import { getDefaultEntitySettings } from "../discussions/api/settings/getDefaultEntitySettings";
-import { IModel } from "../hub-types";
 import { fetchModelFromItem } from "../models";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IEntitySetting } from "../discussions/api/types";
-import { checkPermission, IArcGISContext } from "..";
+import { checkPermission } from "../permissions/checkPermission";
+import { IArcGISContext } from "../types/IArcGISContext";
 
 /**
  * fetch a content entity by identifier
@@ -60,22 +60,19 @@ export const convertItemToContent = async (
   context: IArcGISContext,
   enrichments?: IHubEditableContentEnrichments
 ): Promise<IHubEditableContent> => {
-  const promises: [Promise<IModel>, Promise<IEntitySetting>?] = [
-    fetchModelFromItem(item, context.hubRequestOptions),
-  ];
+  const model = await fetchModelFromItem(item, context.hubRequestOptions);
   if (checkPermission("hub:content:workspace:settings:discussions", context)) {
-    promises.push(
-      fetchSettingV2({ id: item.id, ...context.hubRequestOptions }).catch(
-        () =>
-          ({
-            id: null,
-            ...getDefaultEntitySettings("content"),
-          } as IEntitySetting)
-      )
+    model.entitySettings = await fetchSettingV2({
+      id: item.id,
+      ...context.hubRequestOptions,
+    }).catch(
+      () =>
+        ({
+          id: null,
+          ...getDefaultEntitySettings("content"),
+        } as IEntitySetting)
     );
   }
-  const [model, entitySettings] = await Promise.all(promises);
-  model.entitySettings = entitySettings;
   const content: Partial<IHubEditableContent> = modelToHubEditableContent(
     model,
     context.hubRequestOptions,

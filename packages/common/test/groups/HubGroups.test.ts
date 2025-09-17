@@ -412,7 +412,7 @@ describe("HubGroups Module:", () => {
         portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
       ).toBe("collaboration");
     });
-    it("does not set discussion settings in enterprise", async () => {
+    it("does not fetch discussion settings in enterprise", async () => {
       const portalUpdateGroupSpy = spyOn(
         PortalModule,
         "updateGroup"
