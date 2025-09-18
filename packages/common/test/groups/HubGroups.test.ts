@@ -185,7 +185,7 @@ describe("HubGroups Module:", () => {
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         {
           userRequestOptions: { authentication: MOCK_AUTH },
-          isPortal: true,
+          isPortal: false,
         } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
@@ -227,7 +227,7 @@ describe("HubGroups Module:", () => {
         { name: TEST_GROUP.title, protected: false },
         {
           userRequestOptions: { authentication: MOCK_AUTH },
-          isPortal: true,
+          isPortal: false,
         } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
@@ -269,7 +269,7 @@ describe("HubGroups Module:", () => {
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         {
           userRequestOptions: { authentication: MOCK_AUTH },
-          isPortal: true,
+          isPortal: false,
         } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
@@ -305,7 +305,7 @@ describe("HubGroups Module:", () => {
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         {
           userRequestOptions: { authentication: MOCK_AUTH },
-          isPortal: false,
+          isPortal: true,
         } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
@@ -323,7 +323,7 @@ describe("HubGroups Module:", () => {
       );
       const chk = await HubGroupsModule.fetchHubGroup(GUID, {
         authentication: MOCK_AUTH,
-        isPortal: true,
+        isPortal: false,
       });
       expect(chk.name).toBe("dev followers Content");
       expect(chk.description).toBe("dev followers Content summary");
@@ -336,7 +336,7 @@ describe("HubGroups Module:", () => {
       );
       const chk = await HubGroupsModule.fetchHubGroup(GUID, {
         authentication: MOCK_AUTH,
-        isPortal: false,
+        isPortal: true,
       });
       expect(chk.name).toBe("dev followers Content");
       expect(chk.description).toBe("dev followers Content summary");
@@ -361,7 +361,7 @@ describe("HubGroups Module:", () => {
         TEST_HUB_GROUP as IHubGroup,
         {
           requestOptions: { authentication: MOCK_AUTH },
-          isPortal: true,
+          isPortal: false,
         } as IArcGISContext
       );
       expect(chk.name).toBe("A new hub group");
@@ -380,7 +380,7 @@ describe("HubGroups Module:", () => {
         { ...TEST_HUB_GROUP, membershipAccess: "anyone" } as IHubGroup,
         {
           requestOptions: { authentication: MOCK_AUTH },
-          isPortal: true,
+          isPortal: false,
         } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("anyone");
@@ -407,7 +407,7 @@ describe("HubGroups Module:", () => {
         { ...TEST_HUB_GROUP, membershipAccess: "organization" } as IHubGroup,
         {
           requestOptions: { authentication: MOCK_AUTH },
-          isPortal: true,
+          isPortal: false,
         } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("organization");
@@ -428,7 +428,7 @@ describe("HubGroups Module:", () => {
         { ...TEST_HUB_GROUP, membershipAccess: "collaborators" } as IHubGroup,
         {
           requestOptions: { authentication: MOCK_AUTH },
-          isPortal: true,
+          isPortal: false,
         } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("collaborators");
@@ -446,7 +446,7 @@ describe("HubGroups Module:", () => {
         TEST_HUB_GROUP as IHubGroup,
         {
           requestOptions: { authentication: MOCK_AUTH },
-          isPortal: false,
+          isPortal: true,
         } as IArcGISContext
       );
       expect(chk.name).toBe("A new hub group");

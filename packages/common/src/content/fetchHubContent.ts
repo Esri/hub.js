@@ -61,7 +61,7 @@ export const convertItemToContent = async (
 ): Promise<IHubEditableContent> => {
   const [model, entitySettings] = await Promise.all([
     fetchModelFromItem(item, requestOptions),
-    requestOptions.isPortal
+    !requestOptions.isPortal
       ? fetchSettingV2({
           id: item.id,
           ...requestOptions,

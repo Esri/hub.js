@@ -147,7 +147,7 @@ export async function createHubGroup(
   );
 
   // create or update entity settings
-  if (context.isPortal) {
+  if (!context.isPortal) {
     const entitySetting = await createOrUpdateEntitySettings(
       { ...hubGroup, id: entity.id },
       context.hubRequestOptions
@@ -171,7 +171,7 @@ export async function fetchHubGroup(
 ): Promise<IHubGroup> {
   const group = await getGroup(identifier, requestOptions);
   let entitySettings;
-  if (requestOptions.isPortal) {
+  if (!requestOptions.isPortal) {
     entitySettings = await fetchSettingV2({
       id: group.id,
       ...requestOptions,
@@ -229,7 +229,7 @@ export async function updateHubGroup(
   await updateGroup(opts);
 
   // create or update entity settings
-  if (context.isPortal) {
+  if (!context.isPortal) {
     const entitySetting = await createOrUpdateEntitySettings(
       hubGroup,
       context.hubRequestOptions

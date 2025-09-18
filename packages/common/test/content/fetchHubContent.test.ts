@@ -55,7 +55,7 @@ describe("fetchHubContent", () => {
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
-      isPortal: true,
+      isPortal: false,
     } as IHubRequestOptions;
 
     const chk = await fetchHubContent(
@@ -103,7 +103,7 @@ describe("fetchHubContent", () => {
 
     const requestOptions = {
       authentication: MOCK_AUTH,
-      isPortal: true,
+      isPortal: false,
     } as IHubRequestOptions;
     const chk = await fetchHubContent(PDF_GUID, requestOptions);
     expect(chk.id).toBe(PDF_GUID);
@@ -145,7 +145,7 @@ describe("fetchHubContent", () => {
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
-      isPortal: true,
+      isPortal: false,
     } as IHubRequestOptions;
 
     const chk = await fetchHubContent(
@@ -204,7 +204,7 @@ describe("fetchHubContent", () => {
 
     const chk = await fetchHubContent("ae3", {
       authentication: MOCK_AUTH,
-      isPortal: true,
+      isPortal: false,
     });
 
     expect(chk.type).toBe("Hub Site Application");
@@ -239,7 +239,7 @@ describe("fetchHubContent", () => {
 
     const chk = await fetchHubContent("ae3", {
       authentication: MOCK_AUTH,
-      isPortal: true,
+      isPortal: false,
     });
 
     expect(chk.type).toBe("Hub Site Application");
@@ -271,7 +271,7 @@ describe("fetchHubContent", () => {
 
     const chk = await fetchHubContent("ae3", {
       authentication: MOCK_AUTH,
-      isPortal: false,
+      isPortal: true,
     });
 
     expect(chk.type).toBe("Hub Site Application");
