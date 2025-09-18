@@ -1,3 +1,10 @@
+## @esri/hub-common [20.4.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.6...@esri/hub-common@20.4.7) (2025-09-18)
+
+
+### Bug Fixes
+
+* page slug urls use bare slug ([#2009](https://github.com/Esri/hub.js/issues/2009)) ([fbbfcf6](https://github.com/Esri/hub.js/commit/fbbfcf674f060007fb64211248dd9ae151537932))
+
 ## @esri/hub-common [20.4.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.5...@esri/hub-common@20.4.6) (2025-09-12)
 
 
