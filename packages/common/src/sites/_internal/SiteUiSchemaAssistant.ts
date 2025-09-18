@@ -42,9 +42,10 @@ export const buildUiSchema = async (
               itemType: "assistant",
               orgName: context.portal.name,
               accessOptions: {
-                canSetAccessToPublic: true,
-                canSetAccessToOrg: true,
-                canSetAccessToPrivate: true,
+                canSetAccessToPublic: options.access === "public",
+                canSetAccessToOrg:
+                  options.access === "org" || options.access === "public",
+                canSetAccessToPrivate: true, // always allow private access
               },
             },
           },
