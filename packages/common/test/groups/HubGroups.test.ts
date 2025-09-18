@@ -67,6 +67,7 @@ describe("HubGroups Module:", () => {
   describe("enrichments:", () => {
     let enrichmentSpy: jasmine.Spy;
     let hubRo: IHubRequestOptions;
+
     beforeEach(() => {
       enrichmentSpy = spyOn(
         FetchEnrichments,
@@ -182,7 +183,10 @@ describe("HubGroups Module:", () => {
       });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
-        { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        {
+          userRequestOptions: { authentication: MOCK_AUTH },
+          isPortal: false,
+        } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
       expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
@@ -221,7 +225,10 @@ describe("HubGroups Module:", () => {
       });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: false },
-        { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        {
+          userRequestOptions: { authentication: MOCK_AUTH },
+          isPortal: false,
+        } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
       expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
@@ -260,7 +267,10 @@ describe("HubGroups Module:", () => {
       });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
-        { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        {
+          userRequestOptions: { authentication: MOCK_AUTH },
+          isPortal: false,
+        } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
       expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
@@ -268,6 +278,41 @@ describe("HubGroups Module:", () => {
       expect(portalCreateGroupSpy).toHaveBeenCalledTimes(1);
       expect(portalProtectGroupSpy).toHaveBeenCalledTimes(1);
       expect(chk.protected).toBe(false);
+    });
+
+    it("does not set discussion settings if in enterprise", async () => {
+      const getUniqueGroupTitleSpy = spyOn(
+        GetUniqueGroupTitleModule,
+        "getUniqueGroupTitle"
+      ).and.returnValue(Promise.resolve(TEST_GROUP.title));
+      const portalProtectGroupSpy = spyOn(
+        PortalModule,
+        "protectGroup"
+      ).and.returnValue(Promise.resolve({ success: true }));
+      const portalCreateGroupSpy = spyOn(
+        PortalModule,
+        "createGroup"
+      ).and.callFake((group: IGroup) => {
+        group.id = TEST_GROUP.id;
+        group.description = TEST_GROUP.description;
+        group.group.userMembership = {
+          memberType: TEST_GROUP.userMembership?.memberType,
+        };
+        group.protected = false;
+        return Promise.resolve(group);
+      });
+      const chk = await HubGroupsModule.createHubGroup(
+        { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
+        {
+          userRequestOptions: { authentication: MOCK_AUTH },
+          isPortal: true,
+        } as IArcGISContext
+      );
+      expect(chk.name).toBe("dev followers Content");
+      expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
+      expect(portalCreateGroupSpy).toHaveBeenCalledTimes(1);
+      expect(portalProtectGroupSpy).toHaveBeenCalledTimes(1);
+      expect(chk.protected).toBe(true);
     });
   });
 
@@ -278,6 +323,20 @@ describe("HubGroups Module:", () => {
       );
       const chk = await HubGroupsModule.fetchHubGroup(GUID, {
         authentication: MOCK_AUTH,
+        isPortal: false,
+      });
+      expect(chk.name).toBe("dev followers Content");
+      expect(chk.description).toBe("dev followers Content summary");
+      expect(chk.orgId).toBe(TEST_GROUP.orgId);
+      expect(portalGetGroupSpy).toHaveBeenCalledTimes(1);
+    });
+    it("does not fetch settings if permissions invalid", async () => {
+      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
+        Promise.resolve(TEST_GROUP)
+      );
+      const chk = await HubGroupsModule.fetchHubGroup(GUID, {
+        authentication: MOCK_AUTH,
+        isPortal: true,
       });
       expect(chk.name).toBe("dev followers Content");
       expect(chk.description).toBe("dev followers Content summary");
@@ -300,7 +359,10 @@ describe("HubGroups Module:", () => {
       ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
       const chk = await HubGroupsModule.updateHubGroup(
         TEST_HUB_GROUP as IHubGroup,
-        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        {
+          requestOptions: { authentication: MOCK_AUTH },
+          isPortal: false,
+        } as IArcGISContext
       );
       expect(chk.name).toBe("A new hub group");
       expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
@@ -316,7 +378,10 @@ describe("HubGroups Module:", () => {
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "anyone" } as IHubGroup,
-        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        {
+          requestOptions: { authentication: MOCK_AUTH },
+          isPortal: false,
+        } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("anyone");
       // If membershipAccess is "anyone", we will set
@@ -340,7 +405,10 @@ describe("HubGroups Module:", () => {
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "organization" } as IHubGroup,
-        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        {
+          requestOptions: { authentication: MOCK_AUTH },
+          isPortal: false,
+        } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("organization");
       expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
@@ -358,13 +426,31 @@ describe("HubGroups Module:", () => {
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "collaborators" } as IHubGroup,
-        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        {
+          requestOptions: { authentication: MOCK_AUTH },
+          isPortal: false,
+        } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("collaborators");
       expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
       expect(
         portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
       ).toBe("collaboration");
+    });
+    it("does not set discussion settings if permissions invalid", async () => {
+      const portalUpdateGroupSpy = spyOn(
+        PortalModule,
+        "updateGroup"
+      ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
+      const chk = await HubGroupsModule.updateHubGroup(
+        TEST_HUB_GROUP as IHubGroup,
+        {
+          requestOptions: { authentication: MOCK_AUTH },
+          isPortal: true,
+        } as IArcGISContext
+      );
+      expect(chk.name).toBe("A new hub group");
+      expect(portalUpdateGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
 
