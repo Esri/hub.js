@@ -1,3 +1,10 @@
+# @esri/hub-common [20.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.7...@esri/hub-common@20.5.0) (2025-09-18)
+
+
+### Features
+
+* **hub-common:** add / populate IHubSite.isCatalogV1Enabled while fetching ([#2004](https://github.com/Esri/hub.js/issues/2004)) ([c0cd402](https://github.com/Esri/hub.js/commit/c0cd4026859fab7a4008c62ba25abc5d389aa7c3))
+
 ## @esri/hub-common [20.4.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.6...@esri/hub-common@20.4.7) (2025-09-18)
 
 

@@ -51,6 +51,9 @@ export function computeProps(
   // Perform schema upgrades on the new catalog structure
   site.catalog = upgradeCatalogSchema(site.catalog);
 
+  // Determine if the site is still using the legacy v1 catalog
+  site.isCatalogV1Enabled = !!model.data.catalog;
+
   // cast b/c this takes a partial but returns a full site
   return site as IHubSite;
 }

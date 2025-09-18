@@ -132,6 +132,12 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     licenses: ["hub-premium"],
     dependencies: ["hub:site:workspace:catalog", "hub:event"],
   },
+  // Temporary permission to support catalog upgrade process
+  {
+    permission: "hub:site:workspace:catalog:upgrade",
+    dependencies: ["hub:site:workspace:catalog"],
+    availability: ["flag"],
+  },
   {
     permission: "hub:site:workspace:pages",
     dependencies: ["hub:site:workspace", "hub:site:edit"],

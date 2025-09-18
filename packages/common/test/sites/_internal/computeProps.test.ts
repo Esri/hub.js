@@ -104,4 +104,38 @@ describe("sites: computeProps:", () => {
     expect(computeLinksSpy).toHaveBeenCalledTimes(1);
     expect(chk.links).toEqual({ self: "some-link" });
   });
+  it("sets isCatalogV1Enabled to true when legacy catalog is present", () => {
+    const model: IModel = {
+      item: {
+        id: "9001",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+      },
+      data: {
+        catalog: {
+          groups: ["1", "2"],
+        },
+      },
+    } as unknown as IModel;
+    const init: Partial<IHubSite> = { id: "9001" };
+    const chk = computeProps(model, init, requestOptions);
+    expect(chk.isCatalogV1Enabled).toBe(true);
+  });
+  it("sets isCatalogV1Enabled to false when legacy catalog is absent", () => {
+    const model: IModel = {
+      item: {
+        id: "9001",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+      },
+      data: {
+        catalogV2: {
+          collections: [],
+        },
+      },
+    } as unknown as IModel;
+    const init: Partial<IHubSite> = { id: "9001" };
+    const chk = computeProps(model, init, requestOptions);
+    expect(chk.isCatalogV1Enabled).toBe(false);
+  });
 });
