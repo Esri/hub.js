@@ -28,7 +28,6 @@ import { computeLinks } from "./_internal/computeLinks";
 import { getUniqueGroupTitle } from "./_internal/getUniqueGroupTitle";
 import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
 import { IArcGISContext } from "../types";
-import { checkPermission } from "../permissions/checkPermission";
 
 /**
  * Enrich a generic search result
@@ -148,7 +147,7 @@ export async function createHubGroup(
   );
 
   // create or update entity settings
-  if (checkPermission("hub:group:settings:discussions", context).access) {
+  if (context.isPortal) {
     const entitySetting = await createOrUpdateEntitySettings(
       { ...hubGroup, id: entity.id },
       context.hubRequestOptions
@@ -168,14 +167,14 @@ export async function createHubGroup(
  */
 export async function fetchHubGroup(
   identifier: string,
-  context: IArcGISContext
+  requestOptions: IHubRequestOptions
 ): Promise<IHubGroup> {
-  const group = await getGroup(identifier, context.hubRequestOptions);
+  const group = await getGroup(identifier, requestOptions);
   let entitySettings;
-  if (checkPermission("hub:group:settings:discussions", context).access) {
+  if (requestOptions.isPortal) {
     entitySettings = await fetchSettingV2({
       id: group.id,
-      ...context.hubRequestOptions,
+      ...requestOptions,
     }).catch(
       () =>
         ({
@@ -192,7 +191,7 @@ export async function fetchHubGroup(
   const hubGroup = convertGroupToHubGroup(
     group,
     entitySettings,
-    context.hubRequestOptions
+    requestOptions
   );
   return hubGroup;
 }
@@ -230,7 +229,7 @@ export async function updateHubGroup(
   await updateGroup(opts);
 
   // create or update entity settings
-  if (checkPermission("hub:group:settings:discussions", context).access) {
+  if (context.isPortal) {
     const entitySetting = await createOrUpdateEntitySettings(
       hubGroup,
       context.hubRequestOptions

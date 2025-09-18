@@ -122,7 +122,7 @@ export class HubGroup
     context: IArcGISContext
   ): Promise<HubGroup> {
     try {
-      const group = await fetchHubGroup(identifier, context);
+      const group = await fetchHubGroup(identifier, context.hubRequestOptions);
       // create an instance of HubGroup from the group
       return HubGroup.fromJson(group, context);
     } catch (ex) {

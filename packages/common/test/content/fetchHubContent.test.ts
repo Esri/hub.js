@@ -10,21 +10,15 @@ import {
 } from "./fixtures";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { fetchHubContent } from "../../src/content/fetchHubContent";
-import {
-  IArcGISContext,
-  IHubRequestOptions,
-  IServiceExtendedProps,
-} from "../../src";
+import { IHubRequestOptions, IServiceExtendedProps } from "../../src";
 import * as modelsModule from "../../src/models";
 import * as fetchSettingsModule from "../../src/discussions/api/settings/settings";
-import * as checkPermissionModule from "../../src/permissions/checkPermission";
 
 describe("fetchHubContent", () => {
   let fetchContentSpy: jasmine.Spy;
   let fetchEditableContentEnrichmentsSpy: jasmine.Spy;
   let fetchModelFromItemSpy: jasmine.Spy;
   let fetchSettingsSpy: jasmine.Spy;
-  let checkPermissionSpy: jasmine.Spy;
 
   beforeEach(() => {
     fetchContentSpy = spyOn(fetchContentModule, "fetchContent");
@@ -34,7 +28,6 @@ describe("fetchHubContent", () => {
     );
     fetchModelFromItemSpy = spyOn(modelsModule, "fetchModelFromItem");
     fetchSettingsSpy = spyOn(fetchSettingsModule, "fetchSettingV2");
-    checkPermissionSpy = spyOn(checkPermissionModule, "checkPermission");
   });
 
   it("gets feature service content", async () => {
@@ -59,16 +52,16 @@ describe("fetchHubContent", () => {
         ...DISCUSSION_SETTINGS,
       })
     );
-    checkPermissionSpy.and.returnValue({ access: true });
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
+      isPortal: true,
     } as IHubRequestOptions;
-    const context = {
-      hubRequestOptions: requestOptions,
-    } as any as IArcGISContext;
 
-    const chk = await fetchHubContent(HOSTED_FEATURE_SERVICE_GUID, context);
+    const chk = await fetchHubContent(
+      HOSTED_FEATURE_SERVICE_GUID,
+      requestOptions
+    );
     const extendedProps = chk.extendedProps as IServiceExtendedProps;
     expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
@@ -107,13 +100,12 @@ describe("fetchHubContent", () => {
         ...DISCUSSION_SETTINGS,
       })
     );
-    checkPermissionSpy.and.returnValue({ access: true });
 
-    const requestOptions = { authentication: MOCK_AUTH } as IHubRequestOptions;
-    const context = {
-      hubRequestOptions: requestOptions,
-    } as any as IArcGISContext;
-    const chk = await fetchHubContent(PDF_GUID, context);
+    const requestOptions = {
+      authentication: MOCK_AUTH,
+      isPortal: true,
+    } as IHubRequestOptions;
+    const chk = await fetchHubContent(PDF_GUID, requestOptions);
     expect(chk.id).toBe(PDF_GUID);
     expect(chk.owner).toBe(PDF_ITEM.owner);
 
@@ -149,19 +141,18 @@ describe("fetchHubContent", () => {
         ...DISCUSSION_SETTINGS,
       })
     );
-    checkPermissionSpy.and.returnValue({ access: true });
 
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
+      isPortal: true,
     } as IHubRequestOptions;
-    const context = {
-      hubRequestOptions: requestOptions,
-    } as any as IArcGISContext;
 
-    const chk = await fetchHubContent(HOSTED_FEATURE_SERVICE_GUID, context, [
-      "metadata",
-    ]);
+    const chk = await fetchHubContent(
+      HOSTED_FEATURE_SERVICE_GUID,
+      requestOptions,
+      ["metadata"]
+    );
     expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
     // NOTE: These are undefined since we didn't explicitly ask for the server to be fetched
@@ -210,13 +201,11 @@ describe("fetchHubContent", () => {
         ...DISCUSSION_SETTINGS,
       })
     );
-    checkPermissionSpy.and.returnValue({ access: true });
 
     const chk = await fetchHubContent("ae3", {
-      hubRequestOptions: {
-        authentication: MOCK_AUTH,
-      },
-    } as any as IArcGISContext);
+      authentication: MOCK_AUTH,
+      isPortal: true,
+    });
 
     expect(chk.type).toBe("Hub Site Application");
   });
@@ -247,13 +236,11 @@ describe("fetchHubContent", () => {
     fetchSettingsSpy.and.returnValue(
       Promise.reject(new Error("Failed to fetch settings"))
     );
-    checkPermissionSpy.and.returnValue({ access: true });
 
     const chk = await fetchHubContent("ae3", {
-      hubRequestOptions: {
-        authentication: MOCK_AUTH,
-      },
-    } as any as IArcGISContext);
+      authentication: MOCK_AUTH,
+      isPortal: true,
+    });
 
     expect(chk.type).toBe("Hub Site Application");
   });
@@ -281,13 +268,11 @@ describe("fetchHubContent", () => {
         })
       )
     );
-    checkPermissionSpy.and.returnValue({ access: false });
 
     const chk = await fetchHubContent("ae3", {
-      hubRequestOptions: {
-        authentication: MOCK_AUTH,
-      },
-    } as any as IArcGISContext);
+      authentication: MOCK_AUTH,
+      isPortal: false,
+    });
 
     expect(chk.type).toBe("Hub Site Application");
   });

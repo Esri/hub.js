@@ -91,7 +91,7 @@ describe("fetchHubEntity:", () => {
       Promise.resolve({})
     );
     await fetchHubEntity("content", "123", ctx);
-    expect(spy).toHaveBeenCalledWith("123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", ctx.hubRequestOptions);
   });
   it("fetches template", async () => {
     const ctx = {
@@ -121,7 +121,7 @@ describe("fetchHubEntity:", () => {
       Promise.resolve({})
     );
     await fetchHubEntity("group", "123", ctx);
-    expect(spy).toHaveBeenCalledWith("123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", ctx.hubRequestOptions);
   });
   it("fetches initiative template", async () => {
     const ctx = {
