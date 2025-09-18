@@ -1,3 +1,10 @@
+## @esri/hub-common [20.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.0...@esri/hub-common@20.5.1) (2025-09-18)
+
+
+### Bug Fixes
+
+* **hub-common:** events don't set discussions settings on portal ([#2006](https://github.com/Esri/hub.js/issues/2006)) ([35e930f](https://github.com/Esri/hub.js/commit/35e930f033b98f90c45b5bb83cf03f9532d4189c))
+
 # @esri/hub-common [20.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.7...@esri/hub-common@20.5.0) (2025-09-18)
 
 
