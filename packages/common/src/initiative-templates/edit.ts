@@ -117,7 +117,9 @@ export async function updateInitiativeTemplate(
   // the showMap prop is recently added (2025-09) to the default initiative
   // template, so we need to ensure it is set to true for existing ones that
   // may not have it
-  setProp("view.showMap", true, initiativeTemplate);
+  if (initiativeTemplate.view?.showMap === undefined) {
+    setProp("view.showMap", true, initiativeTemplate);
+  }
   initiativeTemplate = computeProps(
     model,
     updatedInitiativeTemplate,
