@@ -66,6 +66,7 @@ const map: string[] = [
   "Map Service",
   "Scene Service",
   "Scene Layer",
+  "3DTiles Service",
   "Vector Tile Service",
   "Web Map Service",
   "Web Map Tile Service",
@@ -79,7 +80,6 @@ const map: string[] = [
 const other: string[] = [
   "360 VR Experience",
   "3DTiles Package",
-  "3DTiles Service",
   "API Key",
   "Activity",
   "Addin Package",
