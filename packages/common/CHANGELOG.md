@@ -1,3 +1,10 @@
+# @esri/hub-common [20.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.1...@esri/hub-common@20.6.0) (2025-09-19)
+
+
+### Features
+
+* **hub-common:** added q and bbox to IOgcAggregationQueryParams ([#2008](https://github.com/Esri/hub.js/issues/2008)) ([b3cde7b](https://github.com/Esri/hub.js/commit/b3cde7bc9fd31753fa123ff803484d84b545b2b6))
+
 ## @esri/hub-common [20.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.0...@esri/hub-common@20.5.1) (2025-09-18)
 
 
