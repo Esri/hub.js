@@ -100,6 +100,11 @@ export interface IHubSite
    * True when the site is the "Umbrella" site for an environment (i.e. hub.arcgis.com)
    */
   isUmbrella: boolean;
+
+  /**
+   * True if the site is still using the legacy v1 catalog
+   */
+  isCatalogV1Enabled?: boolean;
 }
 
 export type IHubSiteEditor = IHubItemEntityEditor<IHubSite> & {
