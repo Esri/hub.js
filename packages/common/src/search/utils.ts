@@ -6,9 +6,7 @@
 import { IUser } from "@esri/arcgis-rest-request";
 import { IGroup, SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
-import { IHubSite } from "../core";
 import { cloneObject } from "../util";
-import { IHubSearchResult } from "./types";
 import { IPredicate, IQuery } from "./types/IHubCatalog";
 import {
   IMatchOptions,
@@ -24,6 +22,8 @@ import {
 import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
 import { applyWellKnownItemPredicates } from "./_internal/portalSearchItems";
 import { expandPredicates } from "./_internal/expandPredicates";
+import { IHubSite } from "../core/types/IHubSite";
+import { IHubSearchResult } from "./types/IHubSearchResult";
 
 /**
  * @private

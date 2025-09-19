@@ -3,7 +3,7 @@ import {
   DynamicValues,
   IDynamicItemQueryDefinition,
 } from "../../core/types/DynamicValues";
-import { setProp } from "../../objects";
+import { setProp } from "../../objects/set-prop";
 import { getProp } from "../../objects/get-prop";
 import { IQuery } from "../../search/types/IHubCatalog";
 import { IHubSearchOptions } from "../../search/types/IHubSearchOptions";

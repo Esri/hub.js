@@ -4,7 +4,7 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { IHubInitiative } from "../../core";
+import { IHubInitiative } from "../../core/types/IHubInitiative";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 

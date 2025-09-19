@@ -1,5 +1,4 @@
-import { PolicyResponse } from "../types";
-
+import { PolicyResponse } from "../types/PolicyResponse";
 interface IPolicyLookup {
   response: PolicyResponse;
   code: string;

@@ -1,8 +1,8 @@
-import { failSafe } from "../utils";
+import { failSafe } from "../utils/fail-safe";
 import {
   unprotectGroup,
   removeGroup,
-  IUserGroupOptions
+  IUserGroupOptions,
 } from "@esri/arcgis-rest-portal";
 
 /**

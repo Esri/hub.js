@@ -5,24 +5,24 @@ import {
   IPredicateExplanation,
 } from "../explainQueryResult";
 import { cloneObject } from "../../util";
-import { IMatchOptions } from "../types";
 import { IGroup, getItemGroups } from "@esri/arcgis-rest-portal";
 import { getWithDefault } from "../../objects/get-with-default";
 import { getProp } from "../../objects/get-prop";
+import { IMatchOptions } from "../types/types";
 
-export async function explainDatePredicate(
-  predicate: Record<string, IMatchOptions>,
-  result: GenericResult,
-  requestOptions: IRequestOptions
+export function explainDatePredicate(
+  _predicate: Record<string, IMatchOptions>,
+  _result: GenericResult,
+  _requestOptions: IRequestOptions
 ): Promise<IPredicateExplanation> {
   // get the value from the predicate
   throw new Error("Not implemented");
 }
 
-export async function explainPropPredicate(
-  predicate: Record<string, IMatchOptions>,
-  result: GenericResult,
-  requestOptions: IRequestOptions
+export function explainPropPredicate(
+  _predicate: Record<string, IMatchOptions>,
+  _result: GenericResult,
+  _requestOptions: IRequestOptions
 ): Promise<IPredicateExplanation> {
   // get the value from the predicate
   throw new Error("Not implemented");

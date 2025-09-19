@@ -1,7 +1,7 @@
 import { IHubRequestOptions } from "../hub-types";
-import { stripProtocol } from "../urls";
-import { isGuid } from "../utils";
-import { lookupDomain } from "./domains";
+import { stripProtocol } from "../urls/strip-protocol";
+import { isGuid } from "../utils/is-guid";
+import { lookupDomain } from "./domains/lookup-domain";
 import { getSiteById } from "./get-site-by-id";
 
 /**

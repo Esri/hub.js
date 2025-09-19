@@ -4,7 +4,7 @@ import type {
   ILayerDefinition,
 } from "@esri/arcgis-rest-feature-service";
 import { ItemType } from "../../hub-types";
-import { Logger } from "../../utils";
+import { Logger } from "../../utils/logger";
 import {
   isNoCorsRequestRequired,
   sendNoCorsRequest,

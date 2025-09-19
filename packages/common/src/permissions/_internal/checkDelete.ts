@@ -1,6 +1,8 @@
+import { getWithDefault } from "../../objects/get-with-default";
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { getWithDefault } from "../../objects";
-import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
+import { IPermissionPolicy } from "../types/IPermissionPolicy";
+import { IPolicyCheck } from "../types/IPolicyCheck";
+import { PolicyResponse } from "../types/PolicyResponse";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
 /**
@@ -18,7 +20,7 @@ export function checkDelete(
 ): IPolicyCheck[] {
   const checks = [] as IPolicyCheck[];
 
-  if (policy.hasOwnProperty("entityDelete")) {
+  if (Object.prototype.hasOwnProperty.call(policy, "entityDelete")) {
     let response: PolicyResponse = "granted";
     if (!entity) {
       // fail b/c no entity
@@ -31,10 +33,12 @@ export function checkDelete(
       }
     }
 
+    const canDelete = getWithDefault(entity, "canDelete", false) as boolean;
+
     // create the check
     const check: IPolicyCheck = {
       name: "entity delete required",
-      value: `entity.canDelete: ${getWithDefault(entity, "canDelete", false)}`,
+      value: `entity.canDelete: ${canDelete.toString()}`,
       code: getPolicyResponseCode(response),
       response,
     };

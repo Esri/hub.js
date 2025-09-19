@@ -1,14 +1,10 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { Catalog } from "./Catalog";
-import {
-  ICatalogSearchResponse,
-  IHubCatalog,
-  IPagingOptions,
-  IQuery,
-  ISortOptions,
-} from "./types";
 import { unique } from "../util";
 import { mapBy } from "../utils/map-by";
+import { ICatalogSearchResponse } from "./types/ICatalogSearchResponse";
+import { IHubCatalog, IQuery } from "./types/IHubCatalog";
+import { IPagingOptions, ISortOptions } from "./types/IHubSearchOptions";
 
 /**
  * Given an array of catalog json objects, execute a search on all the collections

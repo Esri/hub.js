@@ -1,5 +1,6 @@
-import { HubEntity, HubEntityType } from "../../core";
-import { getProp } from "../../objects";
+import { HubEntity } from "../../core/types/HubEntity";
+import { HubEntityType } from "../../core/types/HubEntityType";
+import { getProp } from "../../objects/get-prop";
 
 /**
  * given a hub entity, this util maps over its typeKeywords,

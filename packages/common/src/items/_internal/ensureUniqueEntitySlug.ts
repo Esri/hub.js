@@ -1,4 +1,4 @@
-import { IHubItemEntity } from "../../core";
+import { IHubItemEntity } from "../../core/types/IHubItemEntity";
 import { IHubRequestOptions } from "../../hub-types";
 import { getUniqueSlug, setSlugKeyword } from "../slugs";
 import { truncateSlug } from "./slugs";

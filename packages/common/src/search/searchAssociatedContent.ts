@@ -7,11 +7,9 @@ import HubError from "../HubError";
 import { getOgcCollectionUrl } from "./_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
 import { ISearchOgcItemsOptions } from "./_internal/hubSearchItemsHelpers/interfaces";
 import { searchOgcItems } from "./_internal/hubSearchItemsHelpers/searchOgcItems";
-import {
-  IHubSearchResponse,
-  IHubSearchResult,
-  ISearchAssociatedContentOptions,
-} from "./types";
+import { IHubSearchResponse } from "./types/IHubSearchResponse";
+import { IHubSearchResult } from "./types/IHubSearchResult";
+import { ISearchAssociatedContentOptions } from "./types/types";
 
 /**
  * Searches for content that is associated with a given entity.

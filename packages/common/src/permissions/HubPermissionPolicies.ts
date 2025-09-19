@@ -4,8 +4,6 @@ import { SitesPermissionPolicies } from "../sites/_internal/SiteBusinessRules";
 import { DiscussionPermissionPolicies } from "../discussions/_internal/DiscussionBusinessRules";
 import { ChannelPermissionPolicies } from "../channels/_internal/ChannelBusinessRules";
 import { ContentPermissionPolicies } from "../content/_internal/ContentBusinessRules";
-
-import { IPermissionPolicy, Permission } from "./types";
 import { GroupPermissionPolicies } from "../groups/_internal/GroupBusinessRules";
 import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
@@ -13,6 +11,8 @@ import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_i
 import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusinessRules";
 import { EventPermissionPolicies } from "../events/_internal/EventBusinessRules";
 import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
+import { IPermissionPolicy } from "./types/IPermissionPolicy";
+import { Permission } from "./types/Permission";
 
 // Examples of possible Permission Policies
 // const DiscussionPermissionPolicies: IPermissionPolicy[] = [

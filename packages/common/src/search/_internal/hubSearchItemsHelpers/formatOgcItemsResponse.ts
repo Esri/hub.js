@@ -4,7 +4,7 @@ import { getNextOgcCallback } from "./getNextOgcCallback";
 import { IOgcItemsResponse, ISearchOgcItemsOptions } from "./interfaces";
 import { ogcItemToSearchResult } from "./ogcItemToSearchResult";
 import { ogcItemToDiscussionPostResult } from "./ogcItemToDiscussionPostResult";
-import { IHubSearchResult } from "../../types";
+import { IHubSearchResult } from "../../types/IHubSearchResult";
 
 export async function formatOgcItemsResponse(
   response: IOgcItemsResponse,

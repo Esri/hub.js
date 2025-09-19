@@ -1,5 +1,5 @@
 import HubError from "../HubError";
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 import { cloneObject } from "../util";
 
 import { getApi } from "./_internal/commonHelpers/getApi";

@@ -1,7 +1,8 @@
 import { IUser, joinGroup, leaveGroup } from "@esri/arcgis-rest-portal";
-import { HubEntityType, fetchHubEntity } from "../core";
 import { IWithFollowers } from "../core/traits/IWithFollowers";
 import type { IArcGISContext } from "../types/IArcGISContext";
+import { fetchHubEntity } from "../core/fetchHubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
 
 /**
  * Get the entity's followers group id

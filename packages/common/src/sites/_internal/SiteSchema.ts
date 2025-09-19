@@ -1,11 +1,11 @@
-import { IAsyncConfigurationSchema } from "../../core";
+import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import {
+  ENTERPRISE_SITE_ENTITY_NAME_SCHEMA,
+  SITE_ENTITY_NAME_SCHEMA,
   ENTITY_IS_DISCUSSABLE_SCHEMA,
   PRIVACY_CONFIG_SCHEMA,
-  SITE_ENTITY_NAME_SCHEMA,
-  ENTERPRISE_SITE_ENTITY_NAME_SCHEMA,
-} from "../../core/schemas/shared";
-import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
+} from "../../core/schemas/shared/subschemas";
+import { IAsyncConfigurationSchema } from "../../core/schemas/types";
 import { checkPermission } from "../../permissions/checkPermission";
 import { IArcGISContext } from "../../types/IArcGISContext";
 

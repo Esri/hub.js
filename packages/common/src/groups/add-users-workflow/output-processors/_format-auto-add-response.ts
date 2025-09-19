@@ -1,7 +1,7 @@
 import { IAddGroupUsersResult } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { getProp } from "../../../objects/get-prop";
-import { includes } from "../../../utils";
+import { includes } from "../../../utils/includes";
 import { IAddMemberContext } from "../interfaces";
 
 /**
@@ -34,7 +34,7 @@ export function _formatAutoAddResponse(
       context.autoAddResult.errors = errors;
 
       // Move unadded users to invite list;
-      const unaddedUsers = context.usersToAutoAdd.filter(user =>
+      const unaddedUsers = context.usersToAutoAdd.filter((user) =>
         includes(rawResponse.notAdded, user.username)
       );
       context.usersToInvite = context.usersToInvite.concat(unaddedUsers);

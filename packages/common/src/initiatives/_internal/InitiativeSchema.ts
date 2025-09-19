@@ -1,5 +1,4 @@
 import { MetricSchema } from "../../core/schemas/internal/metrics/MetricSchema";
-import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import { HubEntityStatus } from "../../hub-types";
 import {
@@ -8,6 +7,7 @@ import {
   IF_STATIC_THEN_URL_FORMAT,
   VALUE_TYPE_MAPPING,
 } from "../../core/schemas/internal/metrics/definitions";
+import { IConfigurationSchema } from "../../core/schemas/types";
 
 export type InitiativeEditorType = (typeof InitiativeEditorTypes)[number];
 export const InitiativeEditorTypes = [

@@ -2,7 +2,6 @@ import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { getFamily } from "../content/get-family";
 import { fetchSiteModel } from "./fetchSiteModel";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { handleDomainChanges } from "./_internal";
 import type {
   IRequestOptions,
   IUserRequestOptions,
@@ -20,14 +19,10 @@ import { stripProtocol } from "../urls/strip-protocol";
 import { getHubApiUrl } from "../api";
 import { getOrgDefaultTheme } from "./themes";
 import { cloneObject, unique } from "../util";
-import { createModel, fetchModelFromItem, updateModel } from "../models";
 import { addSiteDomains } from "./domains/addSiteDomains";
 import { IHubRequestOptions, IModel } from "../hub-types";
 import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
-import { mapBy } from "../utils";
-import { getProp, setProp } from "../objects";
-import { setDiscussableKeyword } from "../discussions";
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 import {
   catalogToLegacy,
@@ -36,6 +31,14 @@ import {
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
 import { handleSubdomainChange } from "./_internal/subdomains";
+import { setDiscussableKeyword } from "../discussions/utils";
+import { createModel } from "../models/createModel";
+import { fetchModelFromItem } from "../models/fetchModelFromItem";
+import { updateModel } from "../models/updateModel";
+import { getProp } from "../objects/get-prop";
+import { setProp } from "../objects/set-prop";
+import { mapBy } from "../utils/map-by";
+import { handleDomainChanges } from "./_internal/handleDomainChanges";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 

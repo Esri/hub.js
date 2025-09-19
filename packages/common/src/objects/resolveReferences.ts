@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // This function works on any object, so we need to use any here
-import { _isDate, _isFunction, _isObject, _isRegExp } from ".";
 import { cloneObject } from "../util";
+import { _isObject, _isDate, _isRegExp, _isFunction } from "./_deep-map-values";
 import { getProp } from "./get-prop";
 
 /**

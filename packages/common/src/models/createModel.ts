@@ -1,5 +1,5 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
-import { createItem } from "../rest/portal";
+import { createItem } from "../rest/portal/wrappers";
 import { bboxToString } from "../extent";
 import { IModel } from "../hub-types";
 import { cloneObject } from "../util";

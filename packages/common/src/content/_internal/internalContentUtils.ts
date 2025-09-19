@@ -9,18 +9,12 @@
  * move them to index.ts only when they are needed by a consumer.
  */
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-service";
-import type { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { getPortalUrl, IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
 import type {
   IExtent,
   ILayerDefinition,
   ISpatialReference,
 } from "@esri/arcgis-rest-feature-service";
-import {
-  IGeometryInstance,
-  IHubContent,
-  IHubLocation,
-  PublisherSource,
-} from "../../core/types";
 import {
   IHubGeography,
   GeographyProvenance,
@@ -36,17 +30,20 @@ import {
   isBBox,
 } from "../../extent";
 import { getFamily } from "../get-family";
-import { getProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
 import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource";
-import { getItemHomeUrl, getPortalUrl } from "../../urls";
-import { getEnvironmentFromPortalUrl } from "../../utils";
-import { HubEnvironment } from "../../permissions";
+import { getEnvironmentFromPortalUrl } from "../../utils/getEnvironmentFromPortalUrl";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { isSiteType } from "../isSiteType";
+import { HubEnvironment } from "../../permissions/types/IPermissionPolicy";
+import { IHubContent, PublisherSource } from "../../core/types/IHubContent";
+import { IHubLocation } from "../../core/types/IHubLocation";
+import { IGeometryInstance } from "../../core/types/IGeometryInstance";
+import { getItemHomeUrl } from "../../urls/get-item-home-url";
 
 /**
  * Hashmap of Hub environment and application url surfix

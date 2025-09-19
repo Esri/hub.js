@@ -4,7 +4,7 @@ import {
   IItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { failSafe } from "../utils";
+import { failSafe } from "../utils/fail-safe";
 
 /**
  * Given an item, and a list of resource name/prop pairs,

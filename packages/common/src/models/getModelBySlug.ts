@@ -1,7 +1,7 @@
 import { getItemData } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getItemBySlug } from "../items";
 import { IModel } from "../hub-types";
+import { getItemBySlug } from "../items/slugs";
 
 /**
  * Get a model by it's slug

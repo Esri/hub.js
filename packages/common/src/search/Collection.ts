@@ -1,14 +1,10 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
-import {
-  EntityType,
-  IHubCollection,
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "./types";
 import { hubSearch } from "./hubSearch";
 import { cloneObject } from "../util";
+import { IHubCollection, IQuery, EntityType } from "./types/IHubCatalog";
+import { IHubSearchOptions } from "./types/IHubSearchOptions";
+import { IHubSearchResponse } from "./types/IHubSearchResponse";
+import { IHubSearchResult } from "./types/IHubSearchResult";
 /**
  * Collection Class
  *

@@ -1,8 +1,8 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IFilter, IPredicate, IQuery } from "./types";
 import { cloneObject } from "../util";
 import { explainFilter } from "./_internal/explainFilter";
 import { expandPortalQuery } from "./utils";
+import { IQuery, IFilter, IPredicate } from "./types/IHubCatalog";
 
 /**
  * Explanation of why a result matched a query

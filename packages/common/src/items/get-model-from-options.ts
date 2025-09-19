@@ -1,5 +1,5 @@
-import { failSafe } from "../utils";
-import { getModel } from "../models";
+import { failSafe } from "../utils/fail-safe";
+import { getModel } from "../models/getModel";
 import { IModel } from "../hub-types";
 
 /**

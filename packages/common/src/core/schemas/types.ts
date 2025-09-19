@@ -15,9 +15,9 @@ import {
 } from "./internal/EditorOptions";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EventEditorTypes } from "../../events/_internal/EventSchemaCreate";
-import { HubActionLink } from "../types";
 import { UserEditorTypes } from "../../users/_internal/UserSchema";
 import { ChannelEditorTypes } from "../../channels/_internal/ChannelSchema";
+import { HubActionLink } from "../types/ActionLinks";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;

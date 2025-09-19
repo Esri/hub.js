@@ -1,14 +1,10 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
-import { HubEntity } from "../core";
 import { getWithDefault } from "../objects/get-with-default";
 import { searchCatalogs } from "./searchCatalogs";
-import {
-  ICatalogSearchResponse,
-  IHubCatalog,
-  IPagingOptions,
-  IQuery,
-  ISortOptions,
-} from "./types";
+import { HubEntity } from "../core/types/HubEntity";
+import { ICatalogSearchResponse } from "./types/ICatalogSearchResponse";
+import { IQuery, IHubCatalog } from "./types/IHubCatalog";
+import { IPagingOptions, ISortOptions } from "./types/IHubSearchOptions";
 
 /**
  * Given an entity, execute a search on all the catalogs, and their associated with the entity

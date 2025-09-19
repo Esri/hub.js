@@ -3,8 +3,11 @@ import { fetchOrg } from "../../org/fetch-org";
 import { getEnrichmentErrors } from "../../items/_enrichments";
 import OperationStack from "../../OperationStack";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../hub-types";
-import { getPortalBaseFromOrgUrl } from "../../urls";
-import { createOperationPipeline, IPipeable } from "../../utils";
+import { getPortalBaseFromOrgUrl } from "../../urls/getPortalBaseFromOrgUrl";
+import {
+  IPipeable,
+  createOperationPipeline,
+} from "../../utils/create-operation-pipeline";
 
 /**
  * Possible additional properties available through enrichments

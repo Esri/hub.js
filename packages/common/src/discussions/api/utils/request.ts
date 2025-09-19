@@ -1,4 +1,4 @@
-import { buildUrl } from "../../../urls";
+import { buildUrl } from "../../../urls/build-url";
 import { RemoteServerError as _RemoteServerError } from "../../../request";
 import { IDiscussionsRequestOptions, SearchPostsFormat } from "../types";
 

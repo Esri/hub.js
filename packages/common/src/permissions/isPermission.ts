@@ -1,5 +1,5 @@
-import { Permission } from "..";
 import { ValidPermissions } from "./_internal/constants";
+import { Permission } from "./types/Permission";
 
 /**
  * Validate a Permission

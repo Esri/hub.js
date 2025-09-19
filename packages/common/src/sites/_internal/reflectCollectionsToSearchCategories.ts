@@ -1,9 +1,9 @@
-import { WellKnownCollection } from "../../search";
 import { IHubCollection } from "../../search/types/IHubCatalog";
 import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { SearchCategories } from "./types";
 import { getCatalogFromSiteModel } from "../get-catalog-from-site-model";
+import { WellKnownCollection } from "../../search/wellKnownCatalog";
 
 /**
  * Reflects changes from a site model's collections to the `site.data.values.searchCategories`

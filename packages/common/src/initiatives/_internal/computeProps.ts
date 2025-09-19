@@ -1,15 +1,13 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { getItemThumbnailUrl } from "../../resources";
-
 import { IModel } from "../../hub-types";
-
-import { IHubInitiative } from "../../core";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
+import { IHubInitiative } from "../../core/types/IHubInitiative";
+import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped

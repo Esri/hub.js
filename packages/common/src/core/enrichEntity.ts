@@ -1,11 +1,12 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { HubEntity } from "./types";
 import { IHubRequestOptions } from "../hub-types";
-import { mapBy } from "../utils";
-import { getProp, setProp } from "../objects";
 import { getGroup } from "@esri/arcgis-rest-portal";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { unique } from "../util";
+import { getProp } from "../objects/get-prop";
+import { setProp } from "../objects/set-prop";
+import { mapBy } from "../utils/map-by";
+import { HubEntity } from "./types/HubEntity";
 
 type EntityEnrichment = keyof IEntityEnrichments;
 interface IEntityEnrichments {

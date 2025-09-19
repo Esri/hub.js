@@ -1,7 +1,6 @@
 import { IHubUserRequestOptions } from "../hub-types";
 import { mergeObjects } from "../objects/merge-objects";
 import { objectToJsonBlob } from "../resources/object-to-json-blob";
-import { IVersionMetadata } from "./types";
 import { getPrefix } from "./_internal/getPrefix";
 import {
   VERSION_RESOURCE_NAME,
@@ -9,6 +8,7 @@ import {
 } from "./_internal/constants";
 import { getVersion } from "./getVersion";
 import { updateItemResource } from "@esri/arcgis-rest-portal";
+import { IVersionMetadata } from "./types/IVersionMetadata";
 
 /**
  * Updates the specified version's metadata

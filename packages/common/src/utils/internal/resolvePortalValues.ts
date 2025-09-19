@@ -4,7 +4,7 @@ import {
   DynamicValues,
   IDynamicPortalSelfDefinition,
 } from "../../core/types/DynamicValues";
-import { setProp } from "../../objects";
+import { setProp } from "../../objects/set-prop";
 import { getProp } from "../../objects/get-prop";
 import { memoize } from "../memoize";
 

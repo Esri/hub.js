@@ -1,8 +1,10 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { addItemResource, updateItemResource } from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
-import { objectToJsonBlob, stringToBlob, doesResourceExist } from ".";
-import { getPortalApiUrl } from "../urls";
+import { getPortalApiUrl } from "../urls/get-portal-api-url";
+import { doesResourceExist } from "./doesResourceExist";
+import { objectToJsonBlob } from "./object-to-json-blob";
+import { stringToBlob } from "./string-to-blob";
 
 /**
  * Given an item, and owner, Search for if the resource exists

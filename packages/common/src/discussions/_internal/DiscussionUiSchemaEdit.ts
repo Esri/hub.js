@@ -4,8 +4,8 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { IHubDiscussion } from "../../core/types";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { IHubDiscussion } from "../../core/types/IHubDiscussion";
 
 /**
  * @private

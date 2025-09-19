@@ -1,7 +1,8 @@
 import type { IItem, IUser, IGroup } from "@esri/arcgis-rest-portal";
-import { isUpdateGroup, includes } from "../utils";
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 import { hasBasePriv } from "./has-base-priv";
+import { includes } from "../utils/includes";
+import { isUpdateGroup } from "../utils/is-update-group";
 
 /**
  * Checks if user has access to edit an item in Hub

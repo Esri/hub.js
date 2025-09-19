@@ -1,9 +1,9 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem, getItem } from "@esri/arcgis-rest-portal";
-import { addContextToSlug } from "../content";
 import { findItemsBySlug } from "./slugs";
 import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
 import { parseIdentifier } from "./_internal/slugs";
+import { addContextToSlug } from "../content/slugs";
 
 export interface IFetchItemOptions extends IRequestOptions {
   /**

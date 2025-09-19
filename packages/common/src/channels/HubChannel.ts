@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../types";
+import { IArcGISContext } from "../types/IArcGISContext";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { IEditorConfig } from "../core/schemas/types";

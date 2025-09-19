@@ -7,16 +7,15 @@ import {
 import { BBox, IHubRequestOptions } from "../hub-types";
 import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";
-import { IHubContentEnrichments, IHubContent } from "../core";
 
 import { getStructuredLicense } from "../items/get-structured-license";
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { getItemApiUrl } from "../urls/get-item-api-url";
 import { getItemDataUrl } from "../urls/get-item-data-url";
 import { camelize, isNil } from "../util";
-import { includes } from "../utils";
+import { includes } from "../utils/includes";
 import {
   DatePrecision,
   IMetadataPaths,
@@ -35,6 +34,8 @@ import {
 } from "./_internal/internalContentUtils";
 import { getFamily } from "./get-family";
 import { isSiteType } from "./isSiteType";
+import { IHubContentEnrichments } from "../core/types/IHubContentEnrichments";
+import { IHubContent } from "../core/types/IHubContent";
 
 /**
  * The extent returned by the Hub API

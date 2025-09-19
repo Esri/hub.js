@@ -1,12 +1,10 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubEventEditor, IHubEvent } from "../core/types/IHubEvent";
-import { IWithEditorBehavior } from "../core/behaviors";
 import { SettableAccessLevel } from "../core/types/types";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { fetchEvent } from "./fetch";
 import { buildDefaultEventEntity } from "./defaults";
-import { IEntityEditorContext } from "../core/types";
 import { IEditorConfig } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { cloneObject } from "../util";
@@ -18,7 +16,9 @@ import { updateEvent } from "./api/events";
 import { EventAccess } from "./api/orval/api/orval-events";
 import { getEventGroups } from "./getEventGroups";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
-import { setProp } from "../objects";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import { setProp } from "../objects/set-prop";
 
 /**
  * Defines the properties of a Hub Event object

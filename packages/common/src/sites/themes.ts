@@ -1,7 +1,8 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { IHubSiteTheme } from "../core";
-import { getProp, removeEmptyProps } from "../objects";
 import { cloneObject, extend } from "../util";
+import { IHubSiteTheme } from "../core/types/IHubSiteTheme";
+import { getProp } from "../objects/get-prop";
+import { removeEmptyProps } from "../objects/remove-empty-props";
 
 /**
  * Default Site Theme

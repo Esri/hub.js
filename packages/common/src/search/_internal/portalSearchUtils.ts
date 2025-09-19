@@ -1,5 +1,5 @@
 import { ISearchResult } from "@esri/arcgis-rest-portal";
-import { IHubAggregation } from "../types";
+import { IHubAggregation } from "../types/IHubAggregation";
 
 /**
  * @private

@@ -4,7 +4,7 @@ import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
-import { IHubProject } from "../../core/types";
+import { IHubProject } from "../../core/types/IHubProject";
 
 /**
  * @private

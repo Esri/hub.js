@@ -1,6 +1,6 @@
 import type { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { IInitiativeModel } from "../hub-types";
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 import { findBy } from "../util";
 import { hasBasePriv } from "./has-base-priv";
 

@@ -1,19 +1,20 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { fetchItemEnrichments } from "../items/_enrichments";
-import { getProp } from "../objects";
-import { getItemThumbnailUrl } from "../resources";
-import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../hub-types";
-import { getItemDataUrl, getItemHomeUrl } from "../urls";
-import { unique } from "../util";
-import { mapBy } from "../utils";
+import { getItemDataUrl } from "../urls";
 import { getFamily } from "./get-family";
 import {
   deriveLocationFromItem,
   getHubRelativeUrl,
 } from "./_internal/internalContentUtils";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { getProp } from "../objects/get-prop";
+import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { getItemHomeUrl } from "../urls/get-item-home-url";
+import { unique } from "../util";
+import { mapBy } from "../utils/map-by";
 
 /**
  * Enrich a generic search result

@@ -1,6 +1,6 @@
 import { IUiSchema } from "../../core/schemas/types";
-import { IArcGISContext } from "../../types";
-import { IHubChannel } from "../../core/types";
+import { IHubChannel } from "../../core/types/IHubChannel";
+import { IArcGISContext } from "../../types/IArcGISContext";
 import { buildUiSchema as buildUiSchemaCreate } from "./ChannelUiSchemaCreate";
 
 /**

@@ -1,7 +1,7 @@
 import {
   COLLABORATION_TYPES,
   IEntityPermissionPolicy,
-} from "../../permissions/types";
+} from "../../permissions/types/IEntityPermissionPolicy";
 import { ChannelNonePermission } from "./ChannelBusinessRules";
 import { IHubRoleConfigValue } from "./transformEntityPermissionPoliciesToFormValues";
 

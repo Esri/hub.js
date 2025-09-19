@@ -1,12 +1,5 @@
 import { DEFAULT_DISCUSSION } from "./defaults";
-import { IWithSharingBehavior, IWithStoreBehavior } from "../core/behaviors";
 import type { IArcGISContext } from "../types/IArcGISContext";
-import {
-  IEntityEditorContext,
-  IHubDiscussion,
-  IHubDiscussionEditor,
-  IHubLocation,
-} from "../core/types";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { fetchDiscussion } from "./fetch";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
@@ -17,6 +10,14 @@ import { DiscussionEditorType } from "./_internal/DiscussionSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { truncateSlug } from "../items/_internal/slugs";
+import { IWithSharingBehavior } from "../core/behaviors/IWithSharingBehavior";
+import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import {
+  IHubDiscussion,
+  IHubDiscussionEditor,
+} from "../core/types/IHubDiscussion";
+import { IHubLocation } from "../core/types/IHubLocation";
 
 /**
  * Hub Discussion Class

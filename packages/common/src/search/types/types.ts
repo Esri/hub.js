@@ -1,4 +1,5 @@
-import { HubEntity, HubEntityType } from "../../core";
+import { HubEntity } from "../../core/types/HubEntity";
+import { HubEntityType } from "../../core/types/HubEntityType";
 import { IHubRequestOptions } from "../../hub-types";
 import { EntityType, IHubCatalog, IQuery } from "./IHubCatalog";
 

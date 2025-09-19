@@ -1,5 +1,5 @@
 import { cloneObject } from "../../util";
-import { generateRandomString } from "../../utils";
+import { generateRandomString } from "../../utils/generate-random-string";
 
 /**
  * Ensure that a subdomain is not greater than 63 characters in length

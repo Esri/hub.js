@@ -1,11 +1,5 @@
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../types";
-import {
   ISearchGroupUsersOptions,
   IUser,
   getUser,
@@ -15,9 +9,15 @@ import { expandPredicate } from "./expandPredicate";
 import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../hub-types";
-import { enrichUserSearchResult } from "../../users";
-import { failSafe } from "../../utils";
-import { getProp, pickProps, setProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
+import { pickProps } from "../../objects/pickProps";
+import { setProp } from "../../objects/set-prop";
+import { enrichUserSearchResult } from "../../users/HubUsers";
+import { failSafe } from "../../utils/fail-safe";
+import { IQuery } from "../types/IHubCatalog";
+import { IHubSearchOptions } from "../types/IHubSearchOptions";
+import { IHubSearchResponse } from "../types/IHubSearchResponse";
+import { IHubSearchResult } from "../types/IHubSearchResult";
 
 /**
  * Search for members of a group.
@@ -102,7 +102,7 @@ export async function portalSearchGroupMembers(
   ];
   // copy the props over
   props.forEach((prop) => {
-    if (options.hasOwnProperty(prop)) {
+    if (Object.prototype.hasOwnProperty.call(options, prop)) {
       so[prop as keyof ISearchGroupUsersOptions] = options[prop];
     }
   });
@@ -213,7 +213,10 @@ async function memberToSearchResult(
   // and we'd rather have the default user with keys present than a structure
   // with missing keys
   Object.keys(user).forEach((key) => {
-    if (fetchedUser.hasOwnProperty(key) && fetchedUser[key] !== "") {
+    if (
+      Object.prototype.hasOwnProperty.call(fetchedUser, key) &&
+      fetchedUser[key] !== ""
+    ) {
       setProp(key, fetchedUser[key], user);
     }
   });

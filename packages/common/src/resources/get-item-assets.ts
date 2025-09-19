@@ -1,6 +1,6 @@
 import { IHubRequestOptions, ITemplateAsset } from "../hub-types";
 import type { IItem } from "@esri/arcgis-rest-portal";
-import { getPortalApiUrl } from "../urls";
+import { getPortalApiUrl } from "../urls/get-portal-api-url";
 import { getItemThumbnailUrl } from "./get-item-thumbnail-url";
 import { getItemResources } from "@esri/arcgis-rest-portal";
 

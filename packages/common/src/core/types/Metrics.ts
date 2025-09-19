@@ -2,7 +2,8 @@ import { IQuery } from "../../search/types/IHubCatalog";
 import type { IField } from "@esri/arcgis-rest-feature-service";
 import type { FieldType } from "@esri/arcgis-rest-request";
 import { IReference } from "./IReference";
-import { IGeometryInstance, ServiceAggregation } from "../../core/types";
+import { ServiceAggregation } from "./DynamicValues";
+import { IGeometryInstance } from "./IGeometryInstance";
 
 /**
  * Defines the information required from a Metric

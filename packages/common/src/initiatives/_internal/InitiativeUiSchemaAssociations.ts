@@ -1,7 +1,7 @@
 import { checkPermission } from "../../permissions/checkPermission";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
-import { IHubInitiative } from "../../core/types";
+import { IHubInitiative } from "../../core/types/IHubInitiative";
 
 /**
  * @private
@@ -9,12 +9,12 @@ import { IHubInitiative } from "../../core/types";
  * This defines how the schema properties should be rendered
  * in the initiative creation experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
-  options: Partial<IHubInitiative>,
+  _options: Partial<IHubInitiative>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -71,5 +71,5 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };

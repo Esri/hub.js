@@ -1,4 +1,4 @@
-import { IVersionMetadata } from "../types";
+import { IVersionMetadata } from "../types/IVersionMetadata";
 
 /**
  * Returns an IVersionMetadata from the resource search result item

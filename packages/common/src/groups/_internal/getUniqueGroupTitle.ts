@@ -1,6 +1,6 @@
-import { IQuery } from "../../search/types";
 import { hubSearch } from "../../search/hubSearch";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { IQuery } from "../../search/types/IHubCatalog";
 
 /**
  * @private
@@ -37,7 +37,7 @@ export async function getUniqueGroupTitle(
       }
     })
     .catch((err) => {
-      throw Error(`Error in getUniqueGroupTitle: ${err}`);
+      throw Error(`Error in getUniqueGroupTitle: ${(err as Error).message}`);
     });
 }
 
@@ -60,6 +60,10 @@ async function doesGroupExist(
     const { results } = await hubSearch(query, { requestOptions });
     return results.length > 0;
   } catch (error) {
-    throw Error(`Error in getUniqueGroupTitle > doesGroupExist: ${error}`);
+    throw Error(
+      `Error in getUniqueGroupTitle > doesGroupExist: ${
+        (error as Error).message
+      }`
+    );
   }
 }

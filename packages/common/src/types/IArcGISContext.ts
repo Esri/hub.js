@@ -5,15 +5,7 @@ import {
 import type { IPortal, IPortalSettings } from "@esri/arcgis-rest-portal";
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { HubServiceStatus, HubEntity } from "../core";
 import type { IHubHistory, IHubHistoryEntry } from "../core/hubHistory";
-import type {
-  HubLicense,
-  HubEnvironment,
-  IFeatureFlags,
-  Permission,
-  IPermissionAccessResponse,
-} from "../permissions";
 import type {
   IHubRequestOptions,
   IHubTrustedOrgsResponse,
@@ -21,6 +13,15 @@ import type {
 } from "../hub-types";
 import type { IUserResourceToken } from "./IUserResourceToken";
 import type { IUserHubSettings } from "../utils/IUserHubSettings";
+import { HubEntity } from "../core/types/HubEntity";
+import { HubServiceStatus } from "../core/types/ISystemStatus";
+import { HubLicense } from "../permissions/types/HubLicense";
+import { IPermissionAccessResponse } from "../permissions/types/IPermissionAccessResponse";
+import {
+  HubEnvironment,
+  IFeatureFlags,
+} from "../permissions/types/IPermissionPolicy";
+import { Permission } from "../permissions/types/Permission";
 
 /**
  * Defines the properties of the ArcGISContext.

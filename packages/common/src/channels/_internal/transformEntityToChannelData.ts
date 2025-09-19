@@ -11,7 +11,7 @@ import {
   COLLABORATION_TYPES,
   CollaborationType,
   IEntityPermissionPolicy,
-} from "../../permissions/types";
+} from "../../permissions/types/IEntityPermissionPolicy";
 import { CHANNEL_PERMISSIONS, ChannelPermission } from "./ChannelBusinessRules";
 
 const PERMISSION_TO_ROLE_MAP: Partial<Record<ChannelPermission, Role>> = {

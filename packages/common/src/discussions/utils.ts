@@ -1,7 +1,6 @@
 import type { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IGroupUsersResult, getGroupUsers } from "@esri/arcgis-rest-portal";
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubContent, IHubItemEntity } from "../core";
 import { CANNOT_DISCUSS } from "./constants";
 import {
   AclCategory,
@@ -9,8 +8,11 @@ import {
   IChannel,
   SharingAccess,
 } from "./api/types";
-import { IFilter, IHubSearchResult, IQuery } from "../search";
 import { unique } from "../util";
+import { IHubContent } from "../core/types/IHubContent";
+import { IHubItemEntity } from "../core/types/IHubItemEntity";
+import { IQuery, IFilter } from "../search/types/IHubCatalog";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity

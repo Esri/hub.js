@@ -3,14 +3,6 @@ import {
   ENTERPRISE_PAGE_ITEM_TYPE,
   HUB_PAGE_ITEM_TYPE,
 } from "./defaults";
-import {
-  IHubPage,
-  IWithStoreBehavior,
-  IWithSharingBehavior,
-  IHubPageEditor,
-  IEntityEditorContext,
-} from "../core";
-
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
@@ -24,7 +16,11 @@ import { cloneObject } from "../util";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
-import { setProp } from "../objects";
+import { IWithSharingBehavior } from "../core/behaviors/IWithSharingBehavior";
+import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import { IHubPage, IHubPageEditor } from "../core/types/IHubPage";
+import { setProp } from "../objects/set-prop";
 
 /*
   TODO:

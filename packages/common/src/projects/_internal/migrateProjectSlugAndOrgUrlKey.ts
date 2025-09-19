@@ -1,4 +1,4 @@
-import { IHubProject } from "../../core";
+import { IHubProject } from "../../core/types/IHubProject";
 import { migrateSlugAndOrgUrlKey } from "../../core/_internal/sharedMigrations";
 import { cloneObject } from "../../util";
 

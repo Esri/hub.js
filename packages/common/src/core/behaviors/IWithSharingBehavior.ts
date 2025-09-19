@@ -1,5 +1,5 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
-import { AccessLevel } from "../types";
+import { AccessLevel } from "../types/types";
 
 /**
  * Sharing behavior for Item-Backed Entities

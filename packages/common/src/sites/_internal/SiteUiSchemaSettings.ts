@@ -1,7 +1,7 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { IHubSite } from "../../core";
 import { IUiSchema } from "../../core/schemas/types";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { IHubSite } from "../../core/types/IHubSite";
 
 /**
  * @private
@@ -9,7 +9,7 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
  * This defines how the schema properties should
  * be rendered in the site editing experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: EntityEditorOptions,
   context: IArcGISContext
@@ -72,5 +72,5 @@ export const buildUiSchema = async (
     });
   }
 
-  return result;
+  return Promise.resolve(result);
 };

@@ -17,10 +17,8 @@ import type { IArcGISContext } from "./types/IArcGISContext";
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 import { Logger } from "./utils/logger";
-import { HubServiceStatus, SystemStatus } from "./core";
 import { cloneObject, maybeAdd } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
-import { IFeatureFlags, IServiceFlags, Permission } from "./permissions";
 import { IHubTrustedOrgsResponse } from "./hub-types";
 import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
@@ -28,12 +26,19 @@ import { failSafe } from "./utils/fail-safe";
 import { updateUserHubSettings } from "./utils/hubUserAppResources";
 import { IUserHubSettings } from "./utils/IUserHubSettings";
 import { fetchAndMigrateUserHubSettings } from "./utils/internal/fetchAndMigrateUserHubSettings";
-import { getProp, getWithDefault } from "./objects";
 import { fetchOrgLimits, IOrgLimit, OrgLimitType } from "./org/fetchOrgLimits";
 import type { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
 import type { IUserResourceConfig } from "./types/IUserResourceConfig";
 import type { IUserResourceToken } from "./types/IUserResourceToken";
-import { isEnterprisePortalUrl } from "./urls";
+import { HubServiceStatus, SystemStatus } from "./core/types/ISystemStatus";
+import {
+  IFeatureFlags,
+  IServiceFlags,
+} from "./permissions/types/IPermissionPolicy";
+import { getProp } from "./objects/get-prop";
+import { getWithDefault } from "./objects/get-with-default";
+import { Permission } from "./permissions/types/Permission";
+import { isEnterprisePortalUrl } from "./urls/isEnterprisePortalUrl";
 
 /**
  * Properties that we can always serialize/deserialize regardless of authentication status

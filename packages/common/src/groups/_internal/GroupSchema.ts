@@ -1,12 +1,12 @@
-import { IConfigurationSchema } from "../../core";
 import {
-  DISCUSSION_SETTINGS_SCHEMA,
-  ENTITY_IMAGE_SCHEMA,
-  ENTITY_IS_DISCUSSABLE_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
+  ENTITY_IMAGE_SCHEMA,
+  ENTITY_IS_DISCUSSABLE_SCHEMA,
+  DISCUSSION_SETTINGS_SCHEMA,
   ENTITY_TAGS_SCHEMA,
-} from "../../core/schemas/shared";
+} from "../../core/schemas/shared/subschemas";
+import { IConfigurationSchema } from "../../core/schemas/types";
 
 export type GroupEditorType = (typeof GroupEditorTypes)[number];
 export const GroupEditorTypes = [

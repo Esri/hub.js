@@ -7,11 +7,11 @@ import { TemplateEditorType } from "./_internal/TemplateSchema";
 import { DEFAULT_TEMPLATE } from "./defaults";
 import { createTemplate, deleteTemplate, updateTemplate } from "./edit";
 import { fetchTemplate } from "./fetch";
-import { IEntityEditorContext } from "../core/types";
 import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
-import { setProp } from "../objects";
+import { setProp } from "../objects/set-prop";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 
 /**
  * Hub Template Class - this class encapsulates the standard

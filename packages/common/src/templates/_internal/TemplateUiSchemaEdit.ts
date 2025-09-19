@@ -4,7 +4,8 @@ import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { HubEntity, IHubTemplate } from "../../core";
+import { HubEntity } from "../../core/types/HubEntity";
+import { IHubTemplate } from "../../core/types/IHubTemplate";
 
 /**
  * @private

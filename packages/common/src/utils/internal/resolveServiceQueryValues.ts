@@ -5,7 +5,7 @@ import {
   DynamicValues,
   IDynamicServiceQueryDefinition,
 } from "../../core/types/DynamicValues";
-import { setProp } from "../../objects";
+import { setProp } from "../../objects/set-prop";
 import { getProp } from "../../objects/get-prop";
 
 /**
@@ -32,8 +32,8 @@ export const resolveServiceQueryValues = async (
   };
   // Execute the query
   const response = await queryFeatures({
-    url: valueDef.options.url as string,
-    where: valueDef.options.where as string,
+    url: valueDef.options.url,
+    where: valueDef.options.where,
     f: "json",
     outStatistics: [statsDef],
     authentication: context.requestOptions.authentication,

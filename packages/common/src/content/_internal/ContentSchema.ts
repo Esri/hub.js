@@ -1,5 +1,5 @@
-import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
+import { IConfigurationSchema } from "../../core/schemas/types";
 
 export type ContentEditorType = (typeof ContentEditorTypes)[number];
 export const ContentEditorTypes = [

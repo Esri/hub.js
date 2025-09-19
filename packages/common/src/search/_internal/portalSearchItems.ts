@@ -3,20 +3,9 @@ import { IItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 
 import { enrichPageSearchResult } from "../../pages/HubPages";
-import { enrichProjectSearchResult } from "../../projects";
-import { enrichSiteSearchResult } from "../../sites";
 import { enrichInitiativeSearchResult } from "../../initiatives/HubInitiatives";
 import { enrichTemplateSearchResult } from "../../templates/fetch";
 import { HubFamilies, HubFamily, IHubRequestOptions } from "../../hub-types";
-
-import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IMatchOptions,
-  IPredicate,
-  IQuery,
-} from "../types";
 import {
   addDefaultItemSearchPredicates,
   getKilobyteSizeOfQuery,
@@ -31,6 +20,13 @@ import {
 } from "../../content/search";
 import { cloneObject } from "../../util";
 import { getFamilyTypes } from "../../content/get-family";
+import { enrichProjectSearchResult } from "../../projects/fetch";
+import { enrichSiteSearchResult } from "../../sites/HubSites";
+import { IQuery, IPredicate } from "../types/IHubCatalog";
+import { IHubSearchOptions } from "../types/IHubSearchOptions";
+import { IHubSearchResponse } from "../types/IHubSearchResponse";
+import { IHubSearchResult } from "../types/IHubSearchResult";
+import { IMatchOptions } from "../types/types";
 
 /**
  * @internal

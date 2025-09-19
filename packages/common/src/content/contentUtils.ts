@@ -4,10 +4,6 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IModel } from "../hub-types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
-import { includes, wait } from "../utils";
-import { IHubContent, IHubEditableContent } from "../core";
-import { getProp } from "../objects";
-import { getServiceTypeFromUrl } from "../urls";
 import {
   getHubRelativeUrl,
   isPageType,
@@ -30,8 +26,14 @@ import {
   IGetLayerOptions,
 } from "@esri/arcgis-rest-feature-service";
 import { isService } from "../resources/is-service";
-import { getItemIdentifier } from "../items";
+import { getItemIdentifier } from "../items/getItemIdentifier";
 import { SLUG_ORG_SEPARATOR_URI } from "../items/_internal/slugConverters";
+import { IHubContent } from "../core/types/IHubContent";
+import { IHubEditableContent } from "../core/types/IHubEditableContent";
+import { getProp } from "../objects/get-prop";
+import { getServiceTypeFromUrl } from "../urls/feature-service-urls";
+import { includes } from "../utils/includes";
+import { wait } from "../utils/wait";
 
 // TODO: remove this at next breaking version
 /**

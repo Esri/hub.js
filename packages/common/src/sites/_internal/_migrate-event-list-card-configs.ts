@@ -1,4 +1,4 @@
-import { setProp } from "../../objects";
+import { setProp } from "../../objects/set-prop";
 import { IModel, IDraft } from "../../hub-types";
 import { cloneObject } from "../../util";
 

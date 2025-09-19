@@ -1,4 +1,4 @@
-import { IHubPage } from "../core";
+import { IHubPage } from "../core/types/IHubPage";
 import { IModel } from "../hub-types";
 
 export const HUB_PAGE_ITEM_TYPE = "Hub Page";

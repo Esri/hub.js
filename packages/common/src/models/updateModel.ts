@@ -1,10 +1,10 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem, IUpdateItemOptions } from "@esri/arcgis-rest-portal";
-import { updateItem } from "../rest/portal";
 import { bboxToString } from "../extent";
 import { IModel } from "../hub-types";
 import { cloneObject } from "../util";
 import { getModel } from "./getModel";
+import { updateItem } from "../rest/portal/wrappers";
 
 /**
  * Update an IModel. Generic function that will be used across all

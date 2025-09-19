@@ -2,12 +2,13 @@ import { shareItemWithGroup } from "@esri/arcgis-rest-portal";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { getTypeFromEntity } from "../core/getTypeFromEntity";
 import { fetchHubEntity } from "../core/fetchHubEntity";
-import { HubEntity, HubEntityType } from "../core/types";
 import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { setAssociationKeyword } from "./internal/setAssociationKeyword";
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 import { updateHubEntity } from "../core/updateHubEntity";
+import { HubEntity } from "../core/types/HubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
 
 /**
  * When an entity sends an "outgoing" association request

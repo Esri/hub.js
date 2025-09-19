@@ -1,10 +1,8 @@
+import { getProp } from "../../objects/get-prop";
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { getProp } from "../../objects";
-import {
-  IPolicyCheck,
-  PolicyResponse,
-  IEntityPermissionPolicy,
-} from "../types";
+import { IEntityPermissionPolicy } from "../types/IEntityPermissionPolicy";
+import { IPolicyCheck } from "../types/IPolicyCheck";
+import { PolicyResponse } from "../types/PolicyResponse";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 import { IGroup, IUser } from "@esri/arcgis-rest-portal";
 

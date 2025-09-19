@@ -1,19 +1,17 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
-
 import { getFamily } from "../content/get-family";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
-import { IHubInitiativeTemplate } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getItemBySlug } from "../items/slugs";
-
-import { fetchModelFromItem } from "../models";
-import { IHubSearchResult } from "../search";
 import { IHubRequestOptions, IModel } from "../hub-types";
-import { isGuid } from "../utils";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeLinks } from "./_internal/computeLinks";
+import { IHubInitiativeTemplate } from "../core/types/IHubInitiativeTemplate";
+import { fetchModelFromItem } from "../models/fetchModelFromItem";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { isGuid } from "../utils/is-guid";
 
 export async function fetchInitiativeTemplate(
   identifier: string,

@@ -1,5 +1,5 @@
 import { IQuery } from "../../search/types/IHubCatalog";
-import { IConfigurationSchema } from "../schemas";
+import { IConfigurationSchema } from "../schemas/types";
 import { IReference } from "./IReference";
 
 /**

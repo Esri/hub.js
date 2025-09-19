@@ -1,10 +1,8 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
-import { getProp, setProp } from "../objects";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../hub-types";
 import { unique } from "../util";
-import { mapBy } from "../utils";
 import {
   getGroup,
   removeGroup,
@@ -17,17 +15,18 @@ import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
-import {
-  fetchSettingV2,
-  getDefaultEntitySettings,
-  IEntitySetting,
-  setDiscussableKeyword,
-} from "../discussions";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { computeLinks } from "./_internal/computeLinks";
 import { getUniqueGroupTitle } from "./_internal/getUniqueGroupTitle";
 import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
-import { IArcGISContext } from "../types";
+import { mapBy } from "../utils/map-by";
+import { fetchSettingV2 } from "../discussions/api/settings/settings";
+import { setDiscussableKeyword } from "../discussions/utils";
+import { getProp } from "../objects/get-prop";
+import { setProp } from "../objects/set-prop";
+import { IArcGISContext } from "../types/IArcGISContext";
+import { getDefaultEntitySettings } from "../discussions/api/settings/getDefaultEntitySettings";
+import { IEntitySetting } from "../discussions/api/types";
 
 /**
  * Enrich a generic search result

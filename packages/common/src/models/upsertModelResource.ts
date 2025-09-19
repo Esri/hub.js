@@ -1,5 +1,5 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
-import { upsertResource } from "../resources";
+import { upsertResource } from "../resources/upsertResource";
 import { IModel } from "../hub-types";
 
 /**

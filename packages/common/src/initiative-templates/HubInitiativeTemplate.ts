@@ -1,14 +1,4 @@
 import { HubItemEntity } from "../core/HubItemEntity";
-import {
-  IHubInitiativeTemplate,
-  IWithCatalogBehavior,
-  IWithCardBehavior,
-  IConvertToCardModelOpts,
-  IHubCardViewModel,
-  IEntityEditorContext,
-  IHubInitiativeTemplateEditor,
-  HubEntity,
-} from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
@@ -27,7 +17,19 @@ import { enrichEntity } from "../core/enrichEntity";
 import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
-import { setProp } from "../objects";
+import { setProp } from "../objects/set-prop";
+import { IWithCardBehavior } from "../core/behaviors/IWithCardBehavior";
+import { IWithCatalogBehavior } from "../core/behaviors/IWithCatalogBehavior";
+import { HubEntity } from "../core/types/HubEntity";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import {
+  IConvertToCardModelOpts,
+  IHubCardViewModel,
+} from "../core/types/IHubCardViewModel";
+import {
+  IHubInitiativeTemplate,
+  IHubInitiativeTemplateEditor,
+} from "../core/types/IHubInitiativeTemplate";
 
 /**
  * Hub Initiative Template Class
