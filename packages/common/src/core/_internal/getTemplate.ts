@@ -35,7 +35,7 @@ export function getTemplate(
     itemControl: "admin",
     owner: "",
     url: "",
-    schemaVersion: 1,
+    schemaVersion: 2.1,
     tags: [] as string[],
     canEdit: true,
     canDelete: true,
@@ -57,7 +57,7 @@ export function getTemplate(
     thumbnail: undefined as string | undefined,
   };
 
-  const simple: IHubTemplate = {
+  const simpleSiteOrPageLayout: IHubTemplate = {
     ...baseTemplateProps,
     sections: [
       {
@@ -255,7 +255,7 @@ export function getTemplate(
     },
   };
 
-  const blank: IHubTemplate = {
+  const blankPageOrSiteLayout: IHubTemplate = {
     ...baseTemplateProps,
     sections: [],
     header: undefined,
@@ -264,10 +264,10 @@ export function getTemplate(
 
   switch (name) {
     case "simple":
-      return Promise.resolve(simple);
+      return Promise.resolve(simpleSiteOrPageLayout);
     case "blank":
-      return Promise.resolve(blank);
+      return Promise.resolve(blankPageOrSiteLayout);
     default:
-      return Promise.resolve(blank);
+      return Promise.resolve(blankPageOrSiteLayout);
   }
 }

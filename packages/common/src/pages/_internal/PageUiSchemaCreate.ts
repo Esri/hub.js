@@ -1,4 +1,5 @@
 import { IUiSchema } from "../../core/schemas/types";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubPage } from "../../core/types";
 import { getLayoutSetupUiSchemaElement } from "../../core/schemas/internal/getLayoutSetupUiSchemaElement";
 
@@ -10,8 +11,8 @@ import { getLayoutSetupUiSchemaElement } from "../../core/schemas/internal/getLa
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  options: Partial<IHubPage>
+  _options: Partial<IHubPage>,
+  _context: IArcGISContext
   // eslint-disable-next-line @typescript-eslint/require-await
 ): Promise<IUiSchema> => {
   return {
