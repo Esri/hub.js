@@ -67,18 +67,18 @@ describe("buildUiSchema: site create", () => {
         },
         ...mockCatalogSetupElements,
         {
-          label: "{{shared.fields._layoutSetup.type.pageLayout:translate}}",
+          label: "{{site.fields._layoutSetup.type.layout:translate}}",
           scope: "/properties/_layoutSetup/properties/layout",
           type: "Control",
           options: {
             control: "hub-field-input-tile-select",
             labels: [
-              "{{shared.fields._layoutSetup.type.blank.label:translate}}",
-              "{{shared.fields._layoutSetup.type.simple.label:translate}}",
+              "{{site.fields._layoutSetup.type.blank.label:translate}}",
+              "{{site.fields._layoutSetup.type.simple.label:translate}}",
             ],
             descriptions: [
-              "{{shared.fields._layoutSetup.type.blank.description:translate}}",
-              "{{shared.fields._layoutSetup.type.simple.description:translate}}",
+              "{{site.fields._layoutSetup.type.blank.description:translate}}",
+              "{{site.fields._layoutSetup.type.simple.description:translate}}",
             ],
             icons: ["rectangle", "group-layout-elements"],
             layout: "horizontal",

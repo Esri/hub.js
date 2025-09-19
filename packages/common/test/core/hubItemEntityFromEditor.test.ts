@@ -25,21 +25,21 @@ describe("hubItemEntityFromEditor layout setup", () => {
     } as IHubItemEntityEditor<IHubItemEntity>;
   }
 
-  it("sets layout from _layoutSetup.layout when present", async () => {
-    getTemplateSpy.and.returnValue(Promise.resolve("custom-layout"));
+  it("uses specified simple layout when provided", async () => {
+    getTemplateSpy.and.returnValue(Promise.resolve("simple-layout"));
     const editor = makeEditor({
-      _layoutSetup: { layout: "custom" },
+      _layoutSetup: { layout: "simple" },
       orgUrlKey: "TestOrg",
     });
     const result = await hubItemEntityFromEditor(editor, context);
-    expect(getTemplateSpy).toHaveBeenCalledWith("custom", context);
-    expect(result.entity.layout).toBe("custom-layout");
+    expect(getTemplateSpy).toHaveBeenCalledWith("simple", context);
+    expect(result.entity.layout).toBe("simple-layout");
   });
 
-  it("sets layout to blank when _layoutSetup.layout is missing", async () => {
+  it("uses specified blank layout when provided", async () => {
     getTemplateSpy.and.returnValue(Promise.resolve("blank-layout"));
     const editor = makeEditor({
-      _layoutSetup: {},
+      _layoutSetup: { layout: "blank" },
       orgUrlKey: "TestOrg",
     });
     const result = await hubItemEntityFromEditor(editor, context);
@@ -47,7 +47,7 @@ describe("hubItemEntityFromEditor layout setup", () => {
     expect(result.entity.layout).toBe("blank-layout");
   });
 
-  it("sets layout to blank when _layoutSetup is undefined", async () => {
+  it("defaults to blank when _layoutSetup is undefined", async () => {
     getTemplateSpy.and.returnValue(Promise.resolve("blank-layout"));
     const editor = makeEditor({
       orgUrlKey: "TestOrg",

@@ -4,7 +4,7 @@ describe("getLayoutSetupUiSchemaElement", () => {
   it("returns site layout label when i18nScope includes 'site'", () => {
     const result = getLayoutSetupUiSchemaElement("site-create");
     expect(result[0].label).toBe(
-      "{{shared.fields._layoutSetup.type.siteLayout:translate}}",
+      "{{site.fields._layoutSetup.type.layout:translate}}",
       "should use site layout label"
     );
   });
@@ -12,7 +12,7 @@ describe("getLayoutSetupUiSchemaElement", () => {
   it("returns page layout label when i18nScope does not include 'site'", () => {
     const result = getLayoutSetupUiSchemaElement("page-create");
     expect(result[0].label).toBe(
-      "{{shared.fields._layoutSetup.type.pageLayout:translate}}",
+      "{{page.fields._layoutSetup.type.layout:translate}}",
       "should use page layout label"
     );
   });
