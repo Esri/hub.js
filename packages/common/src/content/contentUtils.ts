@@ -31,7 +31,6 @@ import {
 } from "@esri/arcgis-rest-feature-service";
 import { isService } from "../resources/is-service";
 import { getItemIdentifier } from "../items";
-import { SLUG_ORG_SEPARATOR_URI } from "../items/_internal/slugConverters";
 
 // TODO: remove this at next breaking version
 /**
@@ -150,7 +149,8 @@ export function getContentIdentifier(
 
     // if not, use the slug if configured (per brolly, without org prefix; and per AT without the id suffix) and if not, the id
     const pageIdentifier = getItemIdentifier(content.item);
-    return pageIdentifier.split(SLUG_ORG_SEPARATOR_URI).pop();
+    const orgKey = getProp(site, "domainInfo.orgKey") as string;
+    return removeContextFromSlug(pageIdentifier, orgKey);
   }
 
   // If a slug is present, always return it
