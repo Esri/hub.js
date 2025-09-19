@@ -16,6 +16,9 @@ export const DEFAULT_INITIATIVE_TEMPLATE: Partial<IHubInitiativeTemplate> = {
   schemaVersion: 1, // TODO: what version is default right now?
   features: InitiativeTemplateDefaultFeatures,
   values: {},
+  view: {
+    showMap: true,
+  },
 };
 
 export const DEFAULT_INITIATIVE_TEMPLATE_MODEL: IModel = {
@@ -35,5 +38,8 @@ export const DEFAULT_INITIATIVE_TEMPLATE_MODEL: IModel = {
   data: {
     recommendedTemplates: [],
     siteSolutionId: "",
+    view: {
+      showMap: true,
+    },
   },
 } as unknown as IModel;
