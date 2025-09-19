@@ -1,3 +1,31 @@
+# @esri/hub-common [20.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.1...@esri/hub-common@20.6.0) (2025-09-19)
+
+
+### Features
+
+* **hub-common:** added q and bbox to IOgcAggregationQueryParams ([#2008](https://github.com/Esri/hub.js/issues/2008)) ([b3cde7b](https://github.com/Esri/hub.js/commit/b3cde7bc9fd31753fa123ff803484d84b545b2b6))
+
+## @esri/hub-common [20.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.0...@esri/hub-common@20.5.1) (2025-09-18)
+
+
+### Bug Fixes
+
+* **hub-common:** events don't set discussions settings on portal ([#2006](https://github.com/Esri/hub.js/issues/2006)) ([35e930f](https://github.com/Esri/hub.js/commit/35e930f033b98f90c45b5bb83cf03f9532d4189c))
+
+# @esri/hub-common [20.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.7...@esri/hub-common@20.5.0) (2025-09-18)
+
+
+### Features
+
+* **hub-common:** add / populate IHubSite.isCatalogV1Enabled while fetching ([#2004](https://github.com/Esri/hub.js/issues/2004)) ([c0cd402](https://github.com/Esri/hub.js/commit/c0cd4026859fab7a4008c62ba25abc5d389aa7c3))
+
+## @esri/hub-common [20.4.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.6...@esri/hub-common@20.4.7) (2025-09-18)
+
+
+### Bug Fixes
+
+* page slug urls use bare slug ([#2009](https://github.com/Esri/hub.js/issues/2009)) ([fbbfcf6](https://github.com/Esri/hub.js/commit/fbbfcf674f060007fb64211248dd9ae151537932))
+
 ## @esri/hub-common [20.4.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.5...@esri/hub-common@20.4.6) (2025-09-12)
 
 
