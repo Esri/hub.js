@@ -1,5 +1,5 @@
+import { expandPredicates } from "./_internal/expandPredicates";
 import { IQuery } from "./types/IHubCatalog";
-import { expandPredicates } from "./_internal/portalSearchItems";
 
 /**
  * Helper function that locates group predicates and "negates" them

@@ -760,7 +760,6 @@ xdescribe("index", () => {
     "ISchedulerNotificationSpec",
     "ISchedulerSubscription",
     "INotify",
-    "EntityOrOptions",
   ];
   const exportedMembers = Object.keys(hubCommon);
 
