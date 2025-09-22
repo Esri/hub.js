@@ -1,3 +1,10 @@
+## @esri/hub-common [20.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.0...@esri/hub-common@20.6.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* image entities in search will display image as default thumbnail ([#2005](https://github.com/Esri/hub.js/issues/2005)) ([5352efa](https://github.com/Esri/hub.js/commit/5352efad2ceb9244e37ebf584436ec8c6e278599))
+
 # @esri/hub-common [20.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.1...@esri/hub-common@20.6.0) (2025-09-19)
 
 
