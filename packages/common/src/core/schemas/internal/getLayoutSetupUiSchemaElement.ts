@@ -7,7 +7,6 @@ import { IUiSchemaElement } from "../types";
  * various creation flows.
  *
  * @param i18nScope intl - scope for translations
- * @param context contextual - portal & auth information
  */
 export function getLayoutSetupUiSchemaElement(
   i18nScope: string

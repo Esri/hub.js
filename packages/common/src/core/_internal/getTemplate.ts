@@ -213,7 +213,7 @@ export function getTemplate(
     },
   };
 
-  const blankPageOrSiteLayout: IHubLayout = {
+  const blankSiteOrPageLayout: IHubLayout = {
     sections: [],
     header: undefined,
     footer: undefined,
@@ -223,8 +223,8 @@ export function getTemplate(
     case "simpleSiteOrPageLayout":
       return Promise.resolve(simpleSiteOrPageLayout);
     case "blankSiteOrPageLayout":
-      return Promise.resolve(blankPageOrSiteLayout);
+      return Promise.resolve(blankSiteOrPageLayout);
     default:
-      return Promise.resolve(blankPageOrSiteLayout);
+      return Promise.resolve(blankSiteOrPageLayout);
   }
 }

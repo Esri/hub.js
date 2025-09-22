@@ -28,7 +28,7 @@ describe("getTemplate util", () => {
   });
 
   it("returns blank for unknown template name", async () => {
-    const template = await getTemplate("blankSiteOrPageLayout", context);
+    const template = await getTemplate("someUnknownTemplateName", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();
@@ -70,7 +70,7 @@ describe("getTemplate util", () => {
   });
 
   it("returns blank for unknown template name with correct values", async () => {
-    const template = await getTemplate("blankSiteOrPageLayout", context);
+    const template = await getTemplate("anotherUnknownTemplateName", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();
