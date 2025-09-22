@@ -1,3 +1,5 @@
+import { AccessLevel } from "../core";
+
 /**
  * Interface representing a Hub Assistant.
  * This interface defines the structure of an assistant in the hub, including its properties and workflows.
@@ -11,7 +13,7 @@ export interface IHubAssistant {
    * Access level for the assistant.
    * This can be public, org, or private.
    */
-  access?: string;
+  access?: AccessLevel;
   /**
    * Assistant access groups when not public.
    */
