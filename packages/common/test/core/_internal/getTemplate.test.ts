@@ -17,7 +17,6 @@ describe("getTemplate util", () => {
     expect(template.sections.length).toBeGreaterThan(0);
     expect(template.header).toBeDefined();
     expect(template.footer).toBeDefined();
-    expect(template.name).toBe("template-name");
   });
 
   it("returns the blank template", async () => {
@@ -26,7 +25,6 @@ describe("getTemplate util", () => {
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();
     expect(template.footer).toBeUndefined();
-    expect(template.name).toBe("template-name");
   });
 
   it("returns blank for unknown template name", async () => {
@@ -43,7 +41,6 @@ describe("getTemplate util", () => {
     expect(template.sections.length).toBeGreaterThan(0);
     expect(template.header).toBeDefined();
     expect(template.footer).toBeDefined();
-    expect(template.name).toBe("template-name");
 
     // Check first section structure
     const section = template.sections[0];
@@ -70,7 +67,6 @@ describe("getTemplate util", () => {
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();
     expect(template.footer).toBeUndefined();
-    expect(template.name).toBe("template-name");
   });
 
   it("returns blank for unknown template name with correct values", async () => {
@@ -79,6 +75,5 @@ describe("getTemplate util", () => {
     expect(template.sections.length).toBe(0);
     expect(template.header).toBeUndefined();
     expect(template.footer).toBeUndefined();
-    expect(template.name).toBe("template-name");
   });
 });

@@ -1,8 +1,6 @@
-import { IHubTemplate } from "../types";
-import { IHubEntityLinks } from "../types/IHubEntityBase";
-import { IHubLocation } from "../types/IHubLocation";
 import { IArcGISContext } from "../../types";
 import { getCdnAssetUrl } from "../../urls/get-cdn-asset-url";
+import { IHubLayout } from "../types";
 
 /**
  * Returns a template layout by name.
@@ -13,52 +11,12 @@ import { getCdnAssetUrl } from "../../urls/get-cdn-asset-url";
 export function getTemplate(
   name: string,
   context: IArcGISContext
-): Promise<IHubTemplate> {
+): Promise<IHubLayout> {
   const assetPath =
     "/ember-arcgis-opendata-components/assets/images/placeholders/southatlantic_coastline.jpg";
   const heroImageUrl = getCdnAssetUrl(assetPath, context.userRequestOptions);
 
-  const baseTemplateProps = {
-    id: "template-id",
-    name: "template-name",
-    summary: "",
-    createdDate: new Date(),
-    createdDateSource: "",
-    updatedDate: new Date(),
-    updatedDateSource: "",
-    type: "Hub Template",
-    source: "",
-    links: undefined as IHubEntityLinks | undefined,
-    previewUrl: "",
-    isDeployed: false,
-    deployedType: "",
-    itemControl: "admin",
-    owner: "",
-    url: "",
-    schemaVersion: 2.1,
-    tags: [] as string[],
-    canEdit: true,
-    canDelete: true,
-    orgUrlKey: "",
-    slug: "",
-    typeKeywords: [] as string[],
-    view: undefined as unknown,
-    location: undefined as IHubLocation | undefined,
-    orgId: undefined as string | undefined,
-    protected: false,
-    canRecycle: false,
-    boundary: undefined as unknown,
-    categories: [] as string[],
-    culture: "",
-    description: "",
-    extent: undefined as number[][] | undefined,
-    size: undefined as number | undefined,
-    thumbnailUrl: undefined as string | undefined,
-    thumbnail: undefined as string | undefined,
-  };
-
-  const simpleSiteOrPageLayout: IHubTemplate = {
-    ...baseTemplateProps,
+  const simpleSiteOrPageLayout: IHubLayout = {
     sections: [
       {
         containment: "fixed",
@@ -255,8 +213,7 @@ export function getTemplate(
     },
   };
 
-  const blankPageOrSiteLayout: IHubTemplate = {
-    ...baseTemplateProps,
+  const blankPageOrSiteLayout: IHubLayout = {
     sections: [],
     header: undefined,
     footer: undefined,
