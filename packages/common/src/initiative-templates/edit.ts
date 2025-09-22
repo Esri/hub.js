@@ -17,6 +17,7 @@ import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../hub-types";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { IHubItemEntity } from "../core";
+import { setProp } from "../objects/set-prop";
 
 /**
  * @private
@@ -113,6 +114,12 @@ export async function updateInitiativeTemplate(
     updatedModel,
     initiativeTemplate
   );
+  // the showMap prop is recently added (2025-09) to the default initiative
+  // template, so we need to ensure it is set to true for existing ones that
+  // may not have it
+  if (initiativeTemplate.view?.showMap === undefined) {
+    setProp("view.showMap", true, initiativeTemplate);
+  }
   initiativeTemplate = computeProps(
     model,
     updatedInitiativeTemplate,

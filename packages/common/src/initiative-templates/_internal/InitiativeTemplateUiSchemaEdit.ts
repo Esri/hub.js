@@ -6,6 +6,8 @@ import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 import { HubEntity, IHubInitiativeTemplate } from "../../core";
+import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
+import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 
 /**
  * @private
@@ -141,6 +143,31 @@ export const buildUiSchema = async (
                 context,
               })),
             ],
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.location.label`,
+        elements: [
+          {
+            scope: "/properties/location",
+            type: "Control",
+            options: {
+              control: "hub-field-input-location-picker",
+              extent: await getLocationExtent(
+                options.location,
+                context.hubRequestOptions
+              ),
+              options: await getLocationOptions(
+                options.id,
+                options.type,
+                options.location,
+                context.portal.name,
+                context.hubRequestOptions
+              ),
+              noticeTitleElementAriaLevel: 3,
+            },
           },
         ],
       },
