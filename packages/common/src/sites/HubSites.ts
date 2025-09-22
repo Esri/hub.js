@@ -36,7 +36,6 @@ import {
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
 import { handleSubdomainChange } from "./_internal/subdomains";
-import { updateHubAssistantAccessLevel } from "../assistants/updateAssistantAccess";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -402,10 +401,6 @@ export async function updateSite(
     modelToUpdate,
     currentModel
   );
-
-  // Update the hub assistant's access level based on the site's access level if needed
-  // Cannot have a sites access level be private while the hub assistant level is org or public
-  modelToUpdate = updateHubAssistantAccessLevel(modelToUpdate, site.access);
 
   // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(

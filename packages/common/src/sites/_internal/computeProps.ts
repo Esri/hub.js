@@ -9,6 +9,8 @@ import { IHubSite } from "../../core/types/IHubSite";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { computeLinks } from "./computeLinks";
 import { getCatalogFromSiteModel } from "../get-catalog-from-site-model";
+import { getProp } from "../../objects";
+import { compareAccess } from "../../access";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -50,6 +52,12 @@ export function computeProps(
 
   // Perform schema upgrades on the new catalog structure
   site.catalog = upgradeCatalogSchema(site.catalog);
+
+  // Update the hub assistant's access level based on the site's access level if needed
+  // Cannot have a sites access level be private while the hub assistant level is org or public
+  if (getProp(site, "assistant.access")) {
+    site.assistant.access = compareAccess(site.assistant.access, site.access);
+  }
 
   // cast b/c this takes a partial but returns a full site
   return site as IHubSite;
