@@ -17,7 +17,12 @@ import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
-import { fetchSettingV2, setDiscussableKeyword } from "../discussions";
+import {
+  fetchSettingV2,
+  getDefaultEntitySettings,
+  IEntitySetting,
+  setDiscussableKeyword,
+} from "../discussions";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { computeLinks } from "./_internal/computeLinks";
 import { getUniqueGroupTitle } from "./_internal/getUniqueGroupTitle";
@@ -142,12 +147,14 @@ export async function createHubGroup(
   );
 
   // create or update entity settings
-  const entitySetting = await createOrUpdateEntitySettings(
-    { ...hubGroup, id: entity.id },
-    context.hubRequestOptions
-  );
-  entity.entitySettingsId = entitySetting.id;
-  entity.discussionSettings = entitySetting.settings.discussions;
+  if (!context.isPortal) {
+    const entitySetting = await createOrUpdateEntitySettings(
+      { ...hubGroup, id: entity.id },
+      context.hubRequestOptions
+    );
+    entity.entitySettingsId = entitySetting.id;
+    entity.discussionSettings = entitySetting.settings.discussions;
+  }
 
   return entity;
 }
@@ -163,10 +170,24 @@ export async function fetchHubGroup(
   requestOptions: IHubRequestOptions
 ): Promise<IHubGroup> {
   const group = await getGroup(identifier, requestOptions);
-  const entitySettings = await fetchSettingV2({
-    id: group.id,
-    ...requestOptions,
-  }).catch((): null => null);
+  let entitySettings;
+  if (!requestOptions.isPortal) {
+    entitySettings = await fetchSettingV2({
+      id: group.id,
+      ...requestOptions,
+    }).catch(
+      () =>
+        ({
+          id: null,
+          ...getDefaultEntitySettings("group"),
+        } as IEntitySetting)
+    );
+  } else {
+    entitySettings = {
+      id: null,
+      ...getDefaultEntitySettings("group"),
+    } as IEntitySetting;
+  }
   const hubGroup = convertGroupToHubGroup(
     group,
     entitySettings,
@@ -208,12 +229,14 @@ export async function updateHubGroup(
   await updateGroup(opts);
 
   // create or update entity settings
-  const entitySetting = await createOrUpdateEntitySettings(
-    hubGroup,
-    context.hubRequestOptions
-  );
-  hubGroup.entitySettingsId = entitySetting.id;
-  hubGroup.discussionSettings = entitySetting.settings.discussions;
+  if (!context.isPortal) {
+    const entitySetting = await createOrUpdateEntitySettings(
+      hubGroup,
+      context.hubRequestOptions
+    );
+    hubGroup.entitySettingsId = entitySetting.id;
+    hubGroup.discussionSettings = entitySetting.settings.discussions;
+  }
 
   return hubGroup;
 }

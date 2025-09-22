@@ -34,6 +34,7 @@ export const SystemPermissions = [
   /** remove once sites support all catalog configuration features */
   "hub:feature:catalogs:edit:advanced",
   "hub:feature:catalogs:edit:appearance",
+  "hub:feature:gallery-card:enterprise",
   "hub:feature:inline-workspace",
   "hub:feature:pagescatalog",
   "hub:license:hub-premium",

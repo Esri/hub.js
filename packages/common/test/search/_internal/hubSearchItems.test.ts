@@ -625,9 +625,7 @@ describe("hubSearchItems Module |", () => {
         const options: IHubSearchOptions = {
           aggFields: ["type", "tags", "categories"],
           requestOptions: {
-            authentication: {
-              token: "abc",
-            } as any,
+            authentication: { token: "abc" } as any,
           },
         };
         const opendataQuery = cloneObject(baseQuery);
@@ -641,6 +639,51 @@ describe("hubSearchItems Module |", () => {
           )}&filter=${encodeURIComponent(
             "((type=typeA)) AND ((openData=true))"
           )}&token=abc`
+        );
+      });
+
+      it("handles aggregations, filter, q, and token", () => {
+        const options: IHubSearchOptions = {
+          aggFields: ["type", "tags", "categories"],
+          requestOptions: {
+            authentication: { token: "abc" } as any,
+          },
+        };
+        const termQuery: IQuery = cloneObject(baseQuery);
+        termQuery.filters.push({ predicates: [{ term: "dragonball" }] });
+
+        const result = getOgcAggregationQueryParams(termQuery, options);
+        const queryString = getQueryString(result);
+        expect(queryString).toEqual(
+          `?aggregations=${encodeURIComponent(
+            "terms(fields=(type,tags,categories))"
+          )}&filter=${encodeURIComponent(
+            "((type=typeA))"
+          )}&q=dragonball&token=abc`
+        );
+      });
+
+      it("handles aggregations, bbox, filter, q, and token", () => {
+        const options: IHubSearchOptions = {
+          aggFields: ["type", "tags", "categories"],
+          requestOptions: {
+            authentication: { token: "abc" } as any,
+          },
+        };
+        const bboxQuery: IQuery = cloneObject(baseQuery);
+        bboxQuery.filters.push({
+          operation: "AND",
+          predicates: [{ term: "dragonball" }, { bbox: "1,2,3,4" }],
+        });
+
+        const result = getOgcAggregationQueryParams(bboxQuery, options);
+        const queryString = getQueryString(result);
+        expect(queryString).toEqual(
+          `?aggregations=${encodeURIComponent(
+            "terms(fields=(type,tags,categories))"
+          )}&bbox=${encodeURIComponent("1,2,3,4")}&filter=${encodeURIComponent(
+            "((type=typeA))"
+          )}&q=dragonball&token=abc`
         );
       });
     });

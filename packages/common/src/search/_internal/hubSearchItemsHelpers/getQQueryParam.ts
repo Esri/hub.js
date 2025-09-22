@@ -6,7 +6,7 @@ import { getTopLevelPredicate } from "../commonHelpers/getTopLevelPredicate";
 // in the 'filter' string. Once that bug is resolved, rip this
 // logic out and let predicates with 'term' to be processed normally
 
-export function getQQueryParam(query: IQuery) {
+export function getQQueryParam(query: IQuery): string {
   const qPredicate = getTopLevelPredicate("term", query.filters);
   return qPredicate?.term;
 }
