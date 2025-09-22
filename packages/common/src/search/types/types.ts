@@ -23,6 +23,7 @@ export interface ISortOption {
  */
 export type SortOption =
   | "relevance"
+  | "numviews"
   | "title"
   | "created"
   | "modified"
