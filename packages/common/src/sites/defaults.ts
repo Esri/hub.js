@@ -66,7 +66,7 @@ export const DEFAULT_SITE_MODEL: IModel = {
     },
   },
   data: {
-    catalog: { schemaVersion: 0 },
+    catalogV2: { schemaVersion: 0 },
     layout: {},
   },
 } as unknown as IModel;

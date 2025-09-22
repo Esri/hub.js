@@ -24,10 +24,7 @@ import { IHubRequestOptions, IModel } from "../hub-types";
 import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
-import {
-  catalogToLegacy,
-  convertCatalogToLegacyFormat,
-} from "./_internal/convertCatalogToLegacyFormat";
+import { convertCatalogToLegacyFormat } from "./_internal/convertCatalogToLegacyFormat";
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
 import { handleSubdomainChange } from "./_internal/subdomains";
@@ -126,9 +123,7 @@ const DEFAULT_SITE_MODEL: IModel = {
     url: "",
   } as IItem,
   data: {
-    catalog: {
-      groups: [],
-    },
+    catalogV2: { schemaVersion: 0 },
     feeds: {},
     values: {
       title: "",
@@ -281,15 +276,12 @@ export async function createSite(
   );
   let model = mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
 
-  // At this point `data.catalog` may have become a full IHubCatalog object due to an in-memory
-  // migration. However, we can't persist an IHubCatalog in `data.catalog` without breaking
-  // the application, since most of the app relies on the old catalog structure. As such,
-  // we convert any changes made to the catalog scope into the old format and merge the changes
-  // with the existing structure on the most current model.
-  // TODO: Remove once the application is plumbed to work off an IHubCatalog
-  if (getProp(model, "data.catalog.scopes")) {
-    model.data.catalog = catalogToLegacy(model.data.catalog);
-  }
+  // Remove default collections and set the v2 catalog
+  const catalogV2 = cloneObject(site.catalog);
+  catalogV2.collections = [];
+  model.data.catalogV2 = catalogV2;
+  // TODO: Remove once all sites are fully on catalogV2
+  model.data.useCatalogV2 = true;
 
   // create the backing item
   model = await createModel(
@@ -313,7 +305,7 @@ export async function createSite(
   );
 
   // convert the model into a IHubSite and return
-  return mapper.storeToEntity(updatedModel, {}) as IHubSite;
+  return convertModelToSite(updatedModel, requestOptions);
 }
 
 /**
@@ -376,20 +368,30 @@ export async function updateSite(
     await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
   }
 
-  // Persist the new catalog to new property until the app is fully migrated
+  // Persist the v2 catalog
   modelToUpdate.data.catalogV2 = site.catalog;
-  // Because some old (but critical) application code still uses `data.values.searchCategories`
-  // as the source of truth for collection display configuration, we port all display changes
-  // in `data.catalog.collections` to the search category format.
-  // TODO: Remove once the app no longer relies on `data.values.searchCategories`
-  modelToUpdate = reflectCollectionsToSearchCategories(modelToUpdate);
-  // At this point `data.catalog` has become a full IHubCatalog object due to an in-memory
-  // migration. However, we can't persist an IHubCatalog in `data.catalog` without breaking
-  // the application, since most of the app relies on the old catalog structure. As such,
-  // we convert any changes made to the catalog scope into the old format and merge the changes
-  // with the existing structure on the most current model.
-  // TODO: Remove once the application is plumbed to work off an IHubCatalog
-  modelToUpdate = convertCatalogToLegacyFormat(modelToUpdate, currentModel);
+
+  // Perform backwards compatibility steps if the site is still using the v1 catalog
+  if (site.isCatalogV1Enabled) {
+    // Because some old (but critical) application code still uses `data.values.searchCategories`
+    // as the source of truth for collection display configuration, we port all display changes
+    // in `data.catalog.collections` to the search category format.
+    // TODO: Remove once the app no longer relies on `data.values.searchCategories`
+    modelToUpdate = reflectCollectionsToSearchCategories(modelToUpdate);
+    // We can't persist an IHubCatalog in `data.catalog` without breaking
+    // the application, since most of the app relies on the old catalog structure. As such,
+    // we convert any changes made to the catalog scope into the old format and merge the changes
+    // with the existing structure on the most current model.
+    // TODO: Remove once the application is fully migrated to always use IHubCatalog
+    modelToUpdate = convertCatalogToLegacyFormat(modelToUpdate, currentModel);
+  } else {
+    // ensure the old catalog is removed if the site is not using v1
+    delete modelToUpdate.data.catalog;
+    delete (modelToUpdate.data.values as Record<string, unknown>)
+      .searchCategories;
+    // set the temporary property to indicate the site is fully upgraded to catalogV2
+    modelToUpdate.data.useCatalogV2 = true;
+  }
   /**
    * Site capabilities are currently saved as an array on the
    * site.data.values.capabilities. We want to migragte these
