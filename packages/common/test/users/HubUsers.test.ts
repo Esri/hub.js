@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-portal";
+import * as restPortal from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/users/_internal/enrichments";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IHubRequestOptions } from "../../src/hub-types";
@@ -6,7 +6,7 @@ import { enrichUserSearchResult, fetchHubUser } from "../../src/users/HubUsers";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import { cloneObject } from "../../src/util";
 
-const TEST_USER: IUser & Record<string, any> = {
+const TEST_USER: restPortal.IUser & Record<string, any> = {
   username: "juliana_p",
   fullName: "Juliana Mascasa",
 
@@ -39,16 +39,12 @@ const TEST_USER: IUser & Record<string, any> = {
   modified: 1654549320000,
   provider: "arcgis",
   groups: [],
-} as unknown as IUser;
+} as unknown as restPortal.IUser;
 
 describe("HubUsers Module:", () => {
   describe("fetchHubUser", () => {
     it("should fetch a user", async () => {
-      const spy = spyOn(
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        require("@esri/arcgis-rest-portal"),
-        "getUser"
-      ).and.callFake(() => {
+      const spy = spyOn(restPortal, "getUser").and.callFake(() => {
         return Promise.resolve(TEST_USER);
       });
       const ro = {} as IHubRequestOptions;
