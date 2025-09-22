@@ -61,13 +61,18 @@ export const convertItemToContent = async (
 ): Promise<IHubEditableContent> => {
   const [model, entitySettings] = await Promise.all([
     fetchModelFromItem(item, requestOptions),
-    fetchSettingV2({ id: item.id, ...requestOptions }).catch(
-      () =>
-        ({
-          id: null,
-          ...getDefaultEntitySettings("content"),
-        } as IEntitySetting)
-    ),
+    !requestOptions.isPortal
+      ? fetchSettingV2({
+          id: item.id,
+          ...requestOptions,
+        }).catch(
+          () =>
+            ({
+              id: null,
+              ...getDefaultEntitySettings("content"),
+            } as IEntitySetting)
+        )
+      : null,
   ]);
   model.entitySettings = entitySettings;
   const content: Partial<IHubEditableContent> = modelToHubEditableContent(

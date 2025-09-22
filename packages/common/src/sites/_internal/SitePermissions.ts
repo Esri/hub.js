@@ -24,6 +24,7 @@ export const SitePermissions = [
   "hub:site:workspace:catalog",
   "hub:site:workspace:catalog:content",
   "hub:site:workspace:catalog:events",
+  "hub:site:workspace:catalog:upgrade",
   "hub:site:workspace:metrics",
   "hub:site:workspace:followers",
   "hub:site:workspace:followers:member",
