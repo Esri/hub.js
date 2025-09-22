@@ -138,4 +138,46 @@ describe("sites: computeProps:", () => {
     const chk = computeProps(model, init, requestOptions);
     expect(chk.isCatalogV1Enabled).toBe(false);
   });
+  it("downgrades assistant access when more permissive than site", () => {
+    const model: IModel = {
+      item: {
+        id: "abc",
+        type: "Hub Site Application",
+        access: "private",
+        created: Date.now(),
+        modified: Date.now(),
+      } as any,
+      data: {},
+    } as unknown as IModel;
+
+    const init: Partial<IHubSite> = {
+      id: "abc",
+      access: "org",
+      assistant: { access: "public" } as any,
+    };
+
+    const chk = computeProps(model, init, requestOptions);
+    expect(chk.assistant.access).toBe("private");
+  });
+  it("does not downgrade assistant access when it is less permissive than site", () => {
+    const model: IModel = {
+      item: {
+        id: "xyz",
+        type: "Hub Site Application",
+        access: "public",
+        created: Date.now(),
+        modified: Date.now(),
+      } as any,
+      data: {},
+    } as unknown as IModel;
+
+    const init: Partial<IHubSite> = {
+      id: "xyz",
+      access: "public",
+      assistant: { access: "org" } as any,
+    };
+
+    const chk = computeProps(model, init, requestOptions);
+    expect(chk.assistant.access).toBe("org");
+  });
 });
