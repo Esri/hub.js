@@ -106,10 +106,6 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:discussion:workspace:catalog:events",
-    dependencies: [
-      "hub:discussion:workspace:catalog",
-      "hub:event",
-      "hub:feature:catalogs:edit:advanced",
-    ],
+    dependencies: ["hub:discussion:workspace:catalog", "hub:event"],
   },
 ];
