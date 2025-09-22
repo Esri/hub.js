@@ -1,16 +1,15 @@
 import { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
 import { IItem } from "@esri/arcgis-rest-portal";
+import * as documentItem from "../mocks/items/document.json";
+import * as mapServiceItem from "../mocks/items/map-service.json";
+import { cloneObject } from "../../src/util";
 import {
-  cloneObject,
   composeContent,
   getPortalUrls,
   getProxyUrl,
-  IHubGeography,
-  IHubRequestOptions,
-  PublisherSource,
-} from "../../src";
-import * as documentItem from "../mocks/items/document.json";
-import * as mapServiceItem from "../mocks/items/map-service.json";
+} from "../../src/content/compose";
+import { IHubGeography, IHubRequestOptions } from "../../src/hub-types";
+import { PublisherSource } from "../../src/core/types/IHubContent";
 
 const featureServiceItem = {
   id: "3ae",

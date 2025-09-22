@@ -1,4 +1,4 @@
-import { resolveReferences } from "../../src";
+import { resolveReferences } from "../../src/objects/resolveReferences";
 
 describe("resolveReferences:", () => {
   it("returns object without changes if no $use", () => {

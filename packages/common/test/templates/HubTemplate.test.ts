@@ -79,7 +79,7 @@ describe("HubTemplate Class", () => {
           await HubTemplate.fetch("00c", authdCtxMgr.context);
         } catch (ex) {
           expect(fetchSpy).toHaveBeenCalledTimes(1);
-          expect(ex.message).toBe("Template 00c not found.");
+          expect((ex as Error).message).toBe("Template 00c not found.");
         }
       });
       it("catches other errors", async () => {
@@ -91,7 +91,7 @@ describe("HubTemplate Class", () => {
           await HubTemplate.fetch("00c", authdCtxMgr.context);
         } catch (ex) {
           expect(fetchSpy).toHaveBeenCalledTimes(1);
-          expect(ex.message).toBe("error");
+          expect((ex as Error).message).toBe("error");
         }
       });
     });
@@ -322,12 +322,12 @@ describe("HubTemplate Class", () => {
       try {
         await chk.delete();
       } catch (e) {
-        expect(e.message).toEqual(destroyedError);
+        expect((e as Error).message).toEqual(destroyedError);
       }
       try {
         await chk.save();
       } catch (e) {
-        expect(e.message).toEqual(destroyedError);
+        expect((e as Error).message).toEqual(destroyedError);
       }
     });
   });

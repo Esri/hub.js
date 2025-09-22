@@ -1,5 +1,5 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import { getItemIdentifier } from "../../src";
+import { getItemIdentifier } from "../../src/items/getItemIdentifier";
 
 describe("getItemIdentifier:", () => {
   const item = {

@@ -10,10 +10,9 @@ import * as shareEventWithGroupsModule from "../../src/events/_internal/shareEve
 import * as unshareEventWithGroupsModule from "../../src/events/_internal/unshareEventWithGroups";
 import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import * as eventsModule from "../../src/events/api/events";
-import { IArcGISContext } from "../../src";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
-/* @ts-ignore no-unnecessary-qualifier */
 describe("HubEvent Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {

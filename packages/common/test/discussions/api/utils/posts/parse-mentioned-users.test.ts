@@ -1,5 +1,5 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { parseMentionedUsers } from "../../../../../src/discussions/api//utils/posts";
+import { parseMentionedUsers } from "../../../../../src/discussions/api//utils/posts/parse-mentioned-users";
 import {
   CANNOT_DISCUSS,
   MENTION_ATTRIBUTE,

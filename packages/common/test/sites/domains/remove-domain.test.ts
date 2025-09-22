@@ -1,7 +1,7 @@
-import { IHubRequestOptions } from "../../../src";
-import { removeDomain } from "../../../src/sites/domains";
 import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
+import { removeDomain } from "../../../src/sites/domains/remove-domain";
+import { IHubRequestOptions } from "../../../src/hub-types";
 
 describe("removeDomain", function () {
   const domainId = "146663";

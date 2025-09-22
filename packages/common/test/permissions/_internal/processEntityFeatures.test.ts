@@ -1,5 +1,5 @@
-import { IFeatureFlags } from "../../../src";
 import { processEntityFeatures } from "../../../src/permissions/_internal/processEntityFeatures";
+import { IFeatureFlags } from "../../../src/permissions/types/IPermissionPolicy";
 
 describe("processEntityFeatures:", () => {
   it("merged entity values with defaults", () => {

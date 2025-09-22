@@ -1,4 +1,4 @@
-import { titleize } from "../../src";
+import { titleize } from "../../src/utils/titleize";
 
 describe("titleize", function () {
   it("capitalizes every word in a sentence", function () {

@@ -1,40 +1,40 @@
-import { replaceItemId } from "../../src";
+import { replaceItemId } from "../../src/items/replace-item-id";
 
-describe("replaceItemId", function() {
-  it("replaces an item id", function() {
+describe("replaceItemId", function () {
+  it("replaces an item id", function () {
     const itemId = "12345";
 
     const itemModel = {
       item: {
-        id: itemId
+        id: itemId,
       },
       data: {
-        ownid: itemId
-      }
+        ownid: itemId,
+      },
     };
 
     const replaced = replaceItemId(itemModel, itemId);
 
     expect(replaced).toEqual({
       item: {
-        id: "{{appid}}"
+        id: "{{appid}}",
       },
       data: {
-        ownid: "{{appid}}"
-      }
+        ownid: "{{appid}}",
+      },
     });
   });
 
-  it("can override default replacement", function() {
+  it("can override default replacement", function () {
     const itemId = "12345";
 
     const itemModel = {
       item: {
-        id: itemId
+        id: itemId,
       },
       data: {
-        ownid: itemId
-      }
+        ownid: itemId,
+      },
     };
 
     const overridenVal = "overridden-val";
@@ -42,11 +42,11 @@ describe("replaceItemId", function() {
 
     expect(replaced).toEqual({
       item: {
-        id: overridenVal
+        id: overridenVal,
       },
       data: {
-        ownid: overridenVal
-      }
+        ownid: overridenVal,
+      },
     });
   });
 });

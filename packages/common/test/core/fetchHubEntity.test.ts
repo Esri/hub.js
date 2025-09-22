@@ -1,19 +1,19 @@
-import type { IArcGISContext, HubEntityType } from "../../src";
 import { fetchHubEntity } from "../../src/core/fetchHubEntity";
-import * as fetchProjectsModule from "../../src/projects/fetch";
-import * as sitesModule from "../../src/sites/HubSites";
-import * as fetchOrganizationModule from "../../src/org/fetch";
-import * as fetchChannelsModule from "../../src/channels/fetch";
-import * as initiativesModule from "../../src/initiatives/HubInitiatives";
-import * as fetchDiscussionsModule from "../../src/discussions/fetch";
-import * as fetchContentModule from "../../src/content/fetchHubContent";
-import * as fetchTemplatesModule from "../../src/templates/fetch";
-import * as pagesModule from "../../src/pages/HubPages";
-import * as groupsModule from "../../src/groups/HubGroups";
-import * as fetchInitiativeTemplateModule from "../../src/initiative-templates/fetch";
-import * as fetchEventsModule from "../../src/events/fetch";
-import * as fetchHubUserModule from "../../src/users";
-import * as userModule from "../../src/users/HubUsers";
+import { HubEntityType } from "../../src/core/types/HubEntityType";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import * as fetchProjectModule from "../../src/projects/fetch";
+import * as hubSitesModule from "../../src/sites/HubSites";
+import * as orgFetchModule from "../../src/org/fetch";
+import * as channelsFetchModule from "../../src/channels/fetch";
+import * as hubInitiativesModule from "../../src/initiatives/HubInitiatives";
+import * as discussionsFetchModule from "../../src/discussions/fetch";
+import * as hubContentFetchModule from "../../src/content/fetchHubContent";
+import * as templatesModule from "../../src/templates/fetch";
+import * as hubPagesModule from "../../src/pages/HubPages";
+import * as hubGroupsModule from "../../src/groups/HubGroups";
+import * as initiativeTemplatesFetchModule from "../../src/initiative-templates/fetch";
+import * as eventsFetchModule from "../../src/events/fetch";
+import * as hubUsersModule from "../../src/users/HubUsers";
 
 describe("fetchHubEntity:", () => {
   it("returns undefined for non-hub types", async () => {
@@ -25,7 +25,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(fetchProjectsModule, "fetchProject").and.returnValue(
+    const spy = spyOn(fetchProjectModule, "fetchProject").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("project", "123", ctx);
@@ -35,7 +35,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(sitesModule, "fetchSite").and.returnValue(
+    const spy = spyOn(hubSitesModule, "fetchSite").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("site", "123", ctx);
@@ -45,10 +45,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(
-      fetchOrganizationModule,
-      "fetchOrganization"
-    ).and.returnValue(Promise.resolve({}));
+    const spy = spyOn(orgFetchModule, "fetchOrganization").and.returnValue(
+      Promise.resolve({})
+    );
     await fetchHubEntity("organization", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -56,7 +55,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(fetchChannelsModule, "fetchHubChannel").and.returnValue(
+    const spy = spyOn(channelsFetchModule, "fetchHubChannel").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("channel", "123", ctx);
@@ -66,7 +65,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(initiativesModule, "fetchInitiative").and.returnValue(
+    const spy = spyOn(hubInitiativesModule, "fetchInitiative").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("initiative", "123", ctx);
@@ -77,7 +76,7 @@ describe("fetchHubEntity:", () => {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
-      fetchDiscussionsModule,
+      discussionsFetchModule,
       "fetchDiscussion"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("discussion", "123", ctx);
@@ -87,7 +86,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(fetchContentModule, "fetchHubContent").and.returnValue(
+    const spy = spyOn(hubContentFetchModule, "fetchHubContent").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("content", "123", ctx);
@@ -97,7 +96,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(fetchTemplatesModule, "fetchTemplate").and.returnValue(
+    const spy = spyOn(templatesModule, "fetchTemplate").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("template", "123", ctx);
@@ -107,7 +106,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(pagesModule, "fetchPage").and.returnValue(
+    const spy = spyOn(hubPagesModule, "fetchPage").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("page", "123", ctx);
@@ -117,7 +116,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(groupsModule, "fetchHubGroup").and.returnValue(
+    const spy = spyOn(hubGroupsModule, "fetchHubGroup").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("group", "123", ctx);
@@ -128,7 +127,7 @@ describe("fetchHubEntity:", () => {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
-      fetchInitiativeTemplateModule,
+      initiativeTemplatesFetchModule,
       "fetchInitiativeTemplate"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("initiativeTemplate", "123", ctx);
@@ -138,7 +137,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(fetchEventsModule, "fetchEvent").and.returnValue(
+    const spy = spyOn(eventsFetchModule, "fetchEvent").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("event", "123", ctx);
@@ -148,7 +147,7 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(fetchHubUserModule, "fetchHubUser").and.returnValue(
+    const spy = spyOn(hubUsersModule, "fetchHubUser").and.returnValue(
       Promise.resolve({})
     );
     await fetchHubEntity("user", "123", ctx);
@@ -160,7 +159,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       currentUser: {},
     } as IArcGISContext;
-    const spy = spyOn(userModule, "convertUserToHubUser").and.returnValue({});
+    const spy = spyOn(hubUsersModule, "convertUserToHubUser").and.returnValue(
+      {}
+    );
     await fetchHubEntity("user", "self", ctx);
     expect(spy).toHaveBeenCalledWith(ctx.currentUser);
   });

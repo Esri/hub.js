@@ -1,6 +1,7 @@
+import { IHubProject } from "../src/core/types/IHubProject";
+import { HubProject } from "../src/projects/HubProject";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { HubProject, IHubProject } from "../src";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
@@ -236,7 +237,7 @@ describe("HubProject Class", () => {
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
 
     // create a project
-    const orgUrlKey = ctxMgr.context.portal.urlKey;
+    const orgUrlKey = ctxMgr.context.portal.urlKey as string;
     const treesProject = await HubProject.create(
       {
         name: "Trees Project",

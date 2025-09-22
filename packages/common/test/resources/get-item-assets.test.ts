@@ -1,9 +1,10 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions, getItemAssets } from "../../src";
-import { cloneObject } from "../../src";
 import { mockUserSession } from "../test-helpers/fake-user-session";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { cloneObject } from "../../src/util";
+import { getItemAssets } from "../../src/resources/get-item-assets";
 
-describe("getItemAssets", function() {
+describe("getItemAssets", function () {
   const item: portalModule.IItem = {
     id: "abcitemid",
     thumbnail: "thumbnail.png",
@@ -14,7 +15,7 @@ describe("getItemAssets", function() {
     numViews: 1,
     size: 1,
     title: "title",
-    type: "CSV"
+    type: "CSV",
   };
 
   const ro: IHubRequestOptions = {
@@ -24,12 +25,12 @@ describe("getItemAssets", function() {
       id: "",
       name: "",
       isPortal: true,
-      portalHostname: "portal-hostname"
+      portalHostname: "portal-hostname",
     },
-    authentication: mockUserSession
+    authentication: mockUserSession,
   };
 
-  it("gets the assets", async function() {
+  it("gets the assets", async function () {
     const itemResourcesSpy = spyOn(
       portalModule,
       "getItemResources"
@@ -38,8 +39,8 @@ describe("getItemAssets", function() {
         resources: [
           { resource: "foo" },
           { resource: "bar" },
-          { resource: "baz" }
-        ]
+          { resource: "baz" },
+        ],
       })
     );
 
@@ -56,34 +57,30 @@ describe("getItemAssets", function() {
       [
         {
           name: "thumbnail.png",
-          url:
-            "https://portal-hostname/sharing/rest/content/items/abcitemid/info/thumbnail.png",
-          type: "thumbnail"
+          url: "https://portal-hostname/sharing/rest/content/items/abcitemid/info/thumbnail.png",
+          type: "thumbnail",
         },
         {
           name: "foo",
           type: "resource",
-          url:
-            "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/foo"
+          url: "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/foo",
         },
         {
           name: "bar",
           type: "resource",
-          url:
-            "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/bar"
+          url: "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/bar",
         },
         {
           name: "baz",
           type: "resource",
-          url:
-            "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/baz"
-        }
+          url: "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/baz",
+        },
       ],
       "correctly generates asset records"
     );
   });
 
-  it("ignores thumbnail when absent", async function() {
+  it("ignores thumbnail when absent", async function () {
     const itemResourcesSpy = spyOn(
       portalModule,
       "getItemResources"
@@ -92,8 +89,8 @@ describe("getItemAssets", function() {
         resources: [
           { resource: "foo" },
           { resource: "bar" },
-          { resource: "baz" }
-        ]
+          { resource: "baz" },
+        ],
       })
     );
 
@@ -112,21 +109,18 @@ describe("getItemAssets", function() {
         {
           name: "foo",
           type: "resource",
-          url:
-            "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/foo"
+          url: "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/foo",
         },
         {
           name: "bar",
           type: "resource",
-          url:
-            "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/bar"
+          url: "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/bar",
         },
         {
           name: "baz",
           type: "resource",
-          url:
-            "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/baz"
-        }
+          url: "https://portal-hostname/sharing/rest/content/items/abcitemid/resources/baz",
+        },
       ],
       "No thumbnail asset is included"
     );

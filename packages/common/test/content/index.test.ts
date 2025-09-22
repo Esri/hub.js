@@ -1,14 +1,10 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-
-import {
-  cloneObject,
-  enrichContentSearchResult,
-  enrichImageSearchResult,
-  IHubLocation,
-  IHubRequestOptions,
-} from "../../src";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 import * as FetchEnrichments from "../../src/items/_enrichments";
+import { IHubLocation } from "../../src/core/types/IHubLocation";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { enrichContentSearchResult, enrichImageSearchResult } from "../../src/content/search";
+import { cloneObject } from "../../src/util";
 
 const LOCATION: IHubLocation = {
   type: "custom",
@@ -153,8 +149,9 @@ describe("content module:", () => {
       );
       expect(chk.links.siteRelative).toEqual(`/maps/${ITM.id}`);
       expect(chk.links.thumbnail).toEqual(
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+        `${hubRo.portal}/content/items/${ITM.id}/info/${
+          ITM.thumbnail as string
+        }`
       );
       expect(chk.location).toEqual(LOCATION);
     });

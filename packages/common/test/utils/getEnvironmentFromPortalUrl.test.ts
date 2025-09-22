@@ -1,4 +1,4 @@
-import { getEnvironmentFromPortalUrl } from "../../src";
+import { getEnvironmentFromPortalUrl } from "../../src/utils/getEnvironmentFromPortalUrl";
 
 describe("getEnvironmentFromPortalUrl:", () => {
   it('should return "prod" for portalUrl containing "arcgis.com"', () => {

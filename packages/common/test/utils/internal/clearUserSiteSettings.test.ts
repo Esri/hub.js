@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import { ArcGISContext } from "../../../src";
+import { ArcGISContext } from "../../../src/ArcGISContext";
 
 import * as resourceModule from "../../../src/utils/internal/userAppResources";
 import {

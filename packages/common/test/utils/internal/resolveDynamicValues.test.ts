@@ -1,11 +1,10 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  DynamicValueDefinition,
-} from "../../../src";
 import { resolveDynamicValues } from "../../../src/utils/internal/resolveDynamicValues";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
+import * as resolveDynamicValueModule from "../../../src/utils/internal/resolveDynamicValue";
 
 describe("resolveDynamicValues:", () => {
   let context: IArcGISContext;
@@ -34,9 +33,9 @@ describe("resolveDynamicValues:", () => {
     context = authdCtxMgr.context;
   });
 
-  it("delegates to resolveDynamicValue", () => {
+  it("delegates to resolveDynamicValue", async () => {
     const fnSpy = spyOn(
-      require("../../../src/utils/internal/resolveDynamicValue"),
+      resolveDynamicValueModule,
       "resolveDynamicValue"
     ).and.callFake(() => Promise.resolve({}));
     const def: DynamicValueDefinition = {
@@ -44,7 +43,7 @@ describe("resolveDynamicValues:", () => {
       value: 12,
       outPath: "cost",
     };
-    const result = resolveDynamicValues([def], context);
+    await resolveDynamicValues([def], context);
     expect(fnSpy).toHaveBeenCalled();
     const chkDef = fnSpy.calls.mostRecent().args[0];
     expect(chkDef).toEqual(def);

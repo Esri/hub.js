@@ -1,11 +1,11 @@
+import { IHubGroup } from "../src/core/types/IHubGroup";
+import { HubGroup } from "../src/groups/HubGroup";
 import {
   createHubGroup,
   deleteHubGroup,
   fetchHubGroup,
   updateHubGroup,
-  HubGroup,
-} from "../src";
-import { IHubGroup } from "../src/core/types/IHubGroup";
+} from "../src/groups/HubGroups";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 

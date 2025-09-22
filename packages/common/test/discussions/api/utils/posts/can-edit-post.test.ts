@@ -9,7 +9,7 @@ import { CANNOT_DISCUSS } from "../../../../../src/discussions/constants";
 import {
   canEditPost,
   canModifyPost,
-} from "../../../../../src/discussions/api//utils/posts";
+} from "../../../../../src/discussions/api/utils/posts/can-edit-post";
 
 describe("canModifyPost", () => {
   describe("Legacy Permissions", () => {

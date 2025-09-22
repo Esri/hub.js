@@ -1,9 +1,8 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubItemEntity } from "../../../../src";
+import { IHubItemEntity } from "../../../../src/core/types/IHubItemEntity";
 import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
 import { HubEntityType } from "../../../../src/core/types/HubEntityType";
-import * as urlUtils from "../../../../src/urls";
-import { UiSchemaRuleEffects } from "../../../../src/core/schemas/types";
+import * as getCdnAssetUrlModule from "../../../../src/urls/get-cdn-asset-url";
 
 describe("getThumbnailUiSchemaElement:", () => {
   it("returns schema when the entity has a thumbnail", () => {
@@ -81,7 +80,7 @@ describe("getThumbnailUiSchemaElement:", () => {
     const requestOptions = {} as IRequestOptions;
     const uiSchema = getThumbnailUiSchemaElement(
       "scope",
-      entity.thumbnail as string,
+      entity.thumbnail,
       entity.thumbnailUrl as unknown as string,
       entity.type as HubEntityType,
       requestOptions
@@ -91,9 +90,10 @@ describe("getThumbnailUiSchemaElement:", () => {
 
   it("sets default thumbnail when available", () => {
     const defaultImageUrl = "www.example.com/assets/discussion";
-    const getCdnAssetUrlSpy = spyOn(urlUtils, "getCdnAssetUrl").and.returnValue(
-      defaultImageUrl
-    );
+    const getCdnAssetUrlSpy = spyOn(
+      getCdnAssetUrlModule,
+      "getCdnAssetUrl"
+    ).and.returnValue(defaultImageUrl);
     const entity: IHubItemEntity = {
       thumbnail: "thumbnail/my-thumbnail.png",
       itemControl: "",

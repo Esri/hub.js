@@ -3,7 +3,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { mergeObjects } from "../../../src/objects/merge-objects";
-import { IHubUser } from "../../../src/core/types";
+import { IHubUser } from "../../../src/core/types/IHubUser";
 import * as requestModule from "@esri/arcgis-rest-request";
 
 const initContextManager = async (opts = {}) => {
@@ -94,7 +94,7 @@ describe("HubUser computeProps:", () => {
         });
       });
 
-      computePropsModule.getPortalSignInSettings(authdCtxMgr.context);
+      await computePropsModule.getPortalSignInSettings(authdCtxMgr.context);
       expect(requestSpy).toHaveBeenCalledTimes(1);
       expect(requestSpy.calls.argsFor(0)[0]).toEqual(
         "https://www.custom-base-url.com/sharing/rest/portals/self/signinSettings"

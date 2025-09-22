@@ -1,4 +1,4 @@
-import { IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
 import { _purgeNonGuidsFromCatalog } from "../../../src/sites/_internal/_purge-non-guids-from-catalog";
 
 describe("_purgeNonGuidsFromCatalog", () => {

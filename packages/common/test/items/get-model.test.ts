@@ -1,10 +1,12 @@
-import { getModel } from "../../src";
 import * as fetchMock from "fetch-mock";
+import { getModel } from "../../src/models/getModel";
 
-describe("getModel", function() {
-  afterEach(fetchMock.restore);
+describe("getModel", function () {
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
-  it("fetches item and data", async function() {
+  it("fetches item and data", async function () {
     fetchMock
       .get("end:items/some-id?f=json", { id: "some-id" })
       .get("end:items/some-id/data?f=json", { prop: "im-a-prop" });

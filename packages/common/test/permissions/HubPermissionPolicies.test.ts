@@ -1,9 +1,9 @@
 import {
   getPermissionPolicy,
   HubPermissionsPolicies,
-  isPermission,
-  Permission,
-} from "../../src";
+} from "../../src/permissions/HubPermissionPolicies";
+import { isPermission } from "../../src/permissions/isPermission";
+import { Permission } from "../../src/permissions/types/Permission";
 
 describe("HubPermissionPolicies:", () => {
   it("returns true for valid permission policy", () => {

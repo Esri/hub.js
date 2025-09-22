@@ -2,7 +2,7 @@ import {
   EventAccess,
   EventAssociationEntityType,
   EventSortOrder,
-} from "../../../../src/events/api";
+} from "../../../../src/events/api/orval/api/orval-events";
 import {
   toEnum,
   toEnums,

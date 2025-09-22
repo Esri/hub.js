@@ -4,7 +4,7 @@ import {
   getExportLayerTypeKeyword,
   getSpatialRefTypeKeyword,
   serializeSpatialReference,
-} from "../../src";
+} from "../../src/downloads/build-existing-exports-portal-query";
 
 describe("buildExistingExportsPortalQuery", () => {
   it("builds query with no options", () => {

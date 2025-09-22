@@ -1,17 +1,16 @@
-import {
-  HubEntityStatus,
-  IHubProject,
-  IHubRequestOptions,
-  cloneObject,
-  enrichProjectSearchResult,
-  fetchProject,
-} from "../../src";
 import { GUID, PROJECT_DATA, PROJECT_ITEM, PROJECT_LOCATION } from "./fixtures";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
 import * as FetchEnrichments from "../../src/items/_enrichments";
+import {
+  enrichProjectSearchResult,
+  fetchProject,
+} from "../../src/projects/fetch";
+import { IHubProject } from "../../src/core/types/IHubProject";
+import { HubEntityStatus, IHubRequestOptions } from "../../src/hub-types";
+import { cloneObject } from "../../src/util";
 
 describe("project fetch module:", () => {
   describe("fetchProject:", () => {
@@ -147,7 +146,9 @@ describe("project fetch module:", () => {
       );
       expect(chk.links?.siteRelative).toEqual(`/projects/${ITM.id}`);
       expect(chk.links?.thumbnail).toEqual(
-        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+        `${hubRo.portal}/content/items/${ITM.id}/info/${
+          ITM.thumbnail as string
+        }`
       );
       expect(chk.links?.workspaceRelative).toEqual(
         `/workspace/projects/${ITM.id}`

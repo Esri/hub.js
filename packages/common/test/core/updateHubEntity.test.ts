@@ -1,9 +1,3 @@
-import {
-  IArcGISContext,
-  HubEntityType,
-  HubEntity,
-  updateHubEntity,
-} from "../../src";
 import * as editProjectsModule from "../../src/projects/edit";
 import * as sitesModule from "../../src/sites/HubSites";
 import * as initiativesModule from "../../src/initiatives/HubInitiatives";
@@ -14,6 +8,10 @@ import * as pagesModule from "../../src/pages/HubPages";
 import * as editInitiativeTemplateModule from "../../src/initiative-templates/edit";
 import * as groupsModule from "../../src/groups/HubGroups";
 import * as editEventsModule from "../../src/events/edit";
+import { HubEntityType } from "../../src/core/types/HubEntityType";
+import { HubEntity } from "../../src/core/types/HubEntity";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { updateHubEntity } from "../../src/core/updateHubEntity";
 
 describe("updateHubEntity:", () => {
   it("returns undefined for non-hub types", async () => {

@@ -1,11 +1,6 @@
 import {
-  IHubInitiativeTemplate,
-  IHubRequestOptions,
-  enrichInitiativeTemplateSearchResult,
-  cloneObject,
-} from "../../src";
-import {
   convertItemToInitiativeTemplate,
+  enrichInitiativeTemplateSearchResult,
   fetchInitiativeTemplate,
 } from "../../src/initiative-templates/fetch";
 import {
@@ -18,6 +13,9 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
 import * as FetchEnrichments from "../../src/items/_enrichments";
+import { IHubInitiativeTemplate } from "../../src/core/types/IHubInitiativeTemplate";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { cloneObject } from "../../src/util";
 
 describe("initiative template fetch module:", () => {
   describe("fetchInitiativeTemplate:", () => {
@@ -113,8 +111,8 @@ describe("initiative template fetch module:", () => {
         portal: "https://some-server.com/gis/sharing/rest",
       };
     });
-    it("converts item to search result", async () => {
-      const chk = await enrichInitiativeTemplateSearchResult(
+    it("converts item to search result", () => {
+      const chk = enrichInitiativeTemplateSearchResult(
         cloneObject(INITIATIVE_TEMPLATE_ITEM),
         [],
         hubRo
@@ -147,22 +145,24 @@ describe("initiative template fetch module:", () => {
         `/initiatives/templates/${ITM.id}/about`
       );
       expect(chk.links?.thumbnail).toEqual(
-        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+        `${hubRo.portal}/content/items/${ITM.id}/info/${
+          ITM.thumbnail as string
+        }`
       );
       expect(chk.links?.workspaceRelative).toEqual(
         `/workspace/initiativeTemplates/${ITM.id}`
       );
     });
-    it("uses description if snippet is undefined", async () => {
+    it("uses description if snippet is undefined", () => {
       const itm = cloneObject(INITIATIVE_TEMPLATE_ITEM);
       itm.snippet = undefined;
-      const chk = await enrichInitiativeTemplateSearchResult(itm, [], hubRo);
+      const chk = enrichInitiativeTemplateSearchResult(itm, [], hubRo);
       expect(chk.summary).toEqual(itm.description);
     });
-    it("uses slug in site-relative link if defined", async () => {
+    it("uses slug in site-relative link if defined", () => {
       const itm = cloneObject(INITIATIVE_TEMPLATE_ITEM);
       itm.properties = { slug: "myorg|my-slug" };
-      const chk = await enrichInitiativeTemplateSearchResult(itm, [], hubRo);
+      const chk = enrichInitiativeTemplateSearchResult(itm, [], hubRo);
       expect(chk.links?.siteRelative).toEqual(
         "/initiatives/templates/myorg::my-slug/about"
       );

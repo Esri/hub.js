@@ -2,9 +2,9 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
 import * as adminModule from "@esri/arcgis-rest-feature-service";
 import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
-import * as modelUtils from "../../src/models";
+import * as createModelUtils from "../../src/models/createModel";
+import * as updateModelUtils from "../../src/models/updateModel";
 import { IModel } from "../../src/hub-types";
-import { IGeometryInstance, IHubEditableContent } from "../../src/core/types";
 import {
   createContent,
   deleteContent,
@@ -13,6 +13,8 @@ import {
 import { cloneObject } from "../../src/util";
 import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
 import * as createOrUpdateEntitySettingsUtils from "../../src/core/_internal/createOrUpdateEntitySettings";
+import { IGeometryInstance } from "../../src/core/types/IGeometryInstance";
+import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const myMockAuth = {
@@ -40,7 +42,7 @@ describe("content editing:", () => {
   let createOrUpdateEntitySettingsSpy: jasmine.Spy;
   describe("create content:", () => {
     it("converts to a model and creates the item", async () => {
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -95,7 +97,7 @@ describe("content editing:", () => {
         })
       );
       getServiceSpy = spyOn(featureLayerModule, "getService");
-      updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
+      updateModelSpy = spyOn(updateModelUtils, "updateModel").and.callFake(
         (m: IModel) => {
           return Promise.resolve(m);
         }

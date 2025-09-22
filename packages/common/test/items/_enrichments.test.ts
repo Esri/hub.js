@@ -1,11 +1,12 @@
 import * as fetchMock from "fetch-mock";
 import type { IItem } from "@esri/arcgis-rest-portal";
-import { cloneObject, IEnrichmentErrorInfo } from "../../src";
 import { fetchItemEnrichments } from "../../src/items/_enrichments";
 import * as featureServiceItem from "../mocks/items/feature-service-item.json";
 import * as datasetWithMetadata from "../mocks/datasets/feature-layer-with-metadata.json";
 import * as servicesDirectory from "../../src/items/is-services-directory-disabled";
 import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
+import { IEnrichmentErrorInfo } from "../../src/hub-types";
+import { cloneObject } from "../../src/util";
 
 describe("_enrichments", () => {
   describe("fetchItemEnrichments", () => {

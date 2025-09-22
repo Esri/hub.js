@@ -1,34 +1,34 @@
-import { deleteProp } from "../../src";
+import { deleteProp } from "../../src/items/delete-prop";
 
-describe("deleteProp", function() {
-  it("deletes a property", function() {
+describe("deleteProp", function () {
+  it("deletes a property", function () {
     const obj = {
       foo: {
         bar: {
-          baz: "boop"
-        }
-      }
+          baz: "boop",
+        },
+      },
     };
     deleteProp(obj, "foo.bar.baz");
     expect(obj.foo.bar.baz).toBeUndefined();
   });
 
-  it("deals with non-existant paths", function() {
+  it("deals with non-existant paths", function () {
     const obj = {
       foo: {
-        bar: "baz"
-      }
+        bar: "baz",
+      },
     };
     deleteProp(obj, "foo.bar.bleep.bloop");
     expect(obj).toEqual(obj, "object not changed when path didnt exist");
   });
 
-  it("deals with incorrect inputs", function() {
-    const obj = ("haha" as unknown) as Record<string, any>;
+  it("deals with incorrect inputs", function () {
+    const obj = "haha" as unknown as Record<string, any>;
     deleteProp(obj, "");
     expect(obj).toEqual(obj, "object not changed when wrong arg type");
 
-    const lookupStr = (123 as unknown) as string;
+    const lookupStr = 123 as unknown as string;
     deleteProp({}, lookupStr);
     expect(obj).toEqual(obj, "object not changed when wrong arg type");
   });

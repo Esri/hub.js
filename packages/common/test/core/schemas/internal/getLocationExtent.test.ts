@@ -1,12 +1,11 @@
-import { IHubProject, IHubRequestOptions } from "../../../../src";
-import { IHubLocation } from "../../../../src/core/types";
 import { getLocationExtent } from "../../../../src/core/schemas/internal/getLocationExtent";
+import { IHubProject } from "../../../../src/core/types/IHubProject";
 import * as ExtentModule from "../../../../src/extent";
+import { IHubRequestOptions } from "../../../../src/hub-types";
 
 describe("getLocationExtent", () => {
-  let orgExtentSpy: jasmine.Spy;
   beforeEach(() => {
-    orgExtentSpy = spyOn(ExtentModule, "orgExtent").and.returnValue(
+    spyOn(ExtentModule, "orgExtent").and.returnValue(
       Promise.resolve({
         xmin: -180,
         ymin: -90,
@@ -28,7 +27,7 @@ describe("getLocationExtent", () => {
       },
     } as unknown as IHubProject;
     const chk = await getLocationExtent(
-      entity.location as IHubLocation,
+      entity.location,
       {} as IHubRequestOptions
     );
     expect(chk).toEqual({
@@ -46,7 +45,7 @@ describe("getLocationExtent", () => {
       location: {},
     } as unknown as IHubProject;
     const chk = await getLocationExtent(
-      entity.location as IHubLocation,
+      entity.location,
       {} as IHubRequestOptions
     );
     expect(chk).toEqual({
@@ -62,7 +61,7 @@ describe("getLocationExtent", () => {
   it("return org extent if location undefined", async () => {
     const entity: IHubProject = {} as unknown as IHubProject;
     const chk = await getLocationExtent(
-      entity.location as IHubLocation,
+      entity.location,
       {} as IHubRequestOptions
     );
     expect(chk).toEqual({

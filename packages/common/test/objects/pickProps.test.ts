@@ -1,4 +1,4 @@
-import { pickProps } from "../../src";
+import { pickProps } from "../../src/objects/pickProps";
 
 describe("pickProps:", () => {
   it("returns object if passed no props", () => {

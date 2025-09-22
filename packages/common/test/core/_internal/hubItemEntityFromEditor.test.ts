@@ -1,14 +1,19 @@
 import { hubItemEntityFromEditor } from "../../../src/core/_internal/hubItemEntityFromEditor";
 import { Catalog } from "../../../src/search/Catalog";
 import * as slugsModule from "../../../src/items/_internal/slugs";
-import * as resourcesModule from "../../../src/resources";
 import * as initCatalogModule from "../../../src/search/initCatalogOnEntityCreate";
-import * as metricsModule from "../../../src/metrics";
 import * as setMetricAndDisplayModule from "../../../src/core/schemas/internal/metrics/setMetricAndDisplay";
-import { IArcGISContext } from "../../../src/types";
-import { IHubItemEntityEditor, IHubItemEntity } from "../../../src/core/types";
 import { createMockContext } from "../../mocks/mock-auth";
-import { IHubCatalog } from "../../../src";
+import {
+  IHubItemEntity,
+  IHubItemEntityEditor,
+} from "../../../src/core/types/IHubItemEntity";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import * as doesResourceExistModule from "../../../src/resources/doesResourceExist";
+import * as upsertResourceModule from "../../../src/resources/upsertResource";
+import * as removeResourceModule from "../../../src/resources/removeResource";
+import * as metricsModule from "../../../src/metrics/editorToMetric";
+import { IHubCatalog } from "../../../src/search/types/IHubCatalog";
 
 describe("hubItemEntityFromEditor", () => {
   let context: IArcGISContext;
@@ -58,13 +63,15 @@ describe("hubItemEntityFromEditor", () => {
   });
 
   it("handles featured image upload and removal", async () => {
-    spyOn(resourcesModule, "upsertResource").and.returnValue(
+    spyOn(upsertResourceModule, "upsertResource").and.returnValue(
       Promise.resolve("url")
     );
-    spyOn(resourcesModule, "doesResourceExist").and.returnValue(
+    spyOn(doesResourceExistModule, "doesResourceExist").and.returnValue(
       Promise.resolve(true)
     );
-    spyOn(resourcesModule, "removeResource").and.returnValue(Promise.resolve());
+    spyOn(removeResourceModule, "removeResource").and.returnValue(
+      Promise.resolve()
+    );
 
     // With blob
     let result = await hubItemEntityFromEditor(
@@ -147,13 +154,15 @@ describe("hubItemEntityFromEditor", () => {
   });
 
   it("removes ephemeral props from editor", async () => {
-    spyOn(resourcesModule, "upsertResource").and.returnValue(
+    spyOn(upsertResourceModule, "upsertResource").and.returnValue(
       Promise.resolve("mock-url")
     );
-    spyOn(resourcesModule, "doesResourceExist").and.returnValue(
+    spyOn(doesResourceExistModule, "doesResourceExist").and.returnValue(
       Promise.resolve(false)
     );
-    spyOn(resourcesModule, "removeResource").and.returnValue(Promise.resolve());
+    spyOn(removeResourceModule, "removeResource").and.returnValue(
+      Promise.resolve()
+    );
     spyOn(initCatalogModule, "initCatalogOnEntityCreate").and.returnValue(
       Promise.resolve({})
     );

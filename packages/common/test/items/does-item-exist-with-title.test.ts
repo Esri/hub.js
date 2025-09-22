@@ -1,6 +1,6 @@
-import { doesItemExistWithTitle } from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
+import { doesItemExistWithTitle } from "../../src/items/does-item-exist-with-title";
 
 describe("doesItemExistWithTitle", () => {
   const options = {
@@ -10,10 +10,6 @@ describe("doesItemExistWithTitle", () => {
   const authMgr = {} as IAuthenticationManager;
 
   it("should resolve true when item with same name exists", async () => {
-    const opts = {
-      q: `title:"exists"`,
-      authentication: authMgr,
-    };
     const spy = spyOn(portalModule, "searchItems").and.returnValue(
       Promise.resolve({
         results: [{}],
@@ -33,10 +29,6 @@ describe("doesItemExistWithTitle", () => {
   });
 
   it("should resolve false when item with same name DOES NOT exist", async () => {
-    const opts = {
-      q: `title:"not-exists"`,
-      authentication: authMgr,
-    };
     const spy = spyOn(portalModule, "searchItems").and.returnValue(
       Promise.resolve({
         results: [], // empty

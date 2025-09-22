@@ -1,13 +1,10 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import {
-  cloneObject,
-  enrichUserSearchResult,
-  fetchHubUser,
-  IArcGISContext,
-  IHubRequestOptions,
-} from "../../src";
 import * as FetchEnrichments from "../../src/users/_internal/enrichments";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { enrichUserSearchResult, fetchHubUser } from "../../src/users/HubUsers";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { cloneObject } from "../../src/util";
 
 const TEST_USER: IUser & Record<string, any> = {
   username: "juliana_p",

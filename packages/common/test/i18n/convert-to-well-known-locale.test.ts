@@ -1,23 +1,23 @@
-import { convertToWellKnownLocale } from "../../src";
+import { convertToWellKnownLocale } from "../../src/i18n/convert-to-well-known-locale";
 
-describe("convertToWellKnownLocale", function() {
-  it("leaves the locale alone if supported", function() {
+describe("convertToWellKnownLocale", function () {
+  it("leaves the locale alone if supported", function () {
     const supportedLocale = "da";
     expect(convertToWellKnownLocale(supportedLocale)).toBe(supportedLocale);
   });
 
-  it("returns locale root if supported", function() {
+  it("returns locale root if supported", function () {
     const root = "da";
     const localeWithSupportedRoot = `${root}-foobar`;
     expect(convertToWellKnownLocale(localeWithSupportedRoot)).toBe(root);
   });
 
-  it('falls back to "en"', function() {
+  it('falls back to "en"', function () {
     const unsupportedLocale = "foo-bar";
     expect(convertToWellKnownLocale(unsupportedLocale)).toBe("en");
   });
 
-  it('defaults to "en" if no locale specified', function() {
+  it('defaults to "en" if no locale specified', function () {
     expect(convertToWellKnownLocale()).toBe("en");
   });
 });

@@ -1,7 +1,7 @@
-import { IHubRequestOptions } from "../../../src";
-import { removeDomainsBySiteId } from "../../../src/sites/domains";
 import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
+import { removeDomainsBySiteId } from "../../../src/sites/domains/remove-domains-by-site-id";
+import { IHubRequestOptions } from "../../../src/hub-types";
 
 describe("removeDomainsBySiteId", function () {
   const domainSiteId = "foobarbaz1234";

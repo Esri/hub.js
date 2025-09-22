@@ -1,7 +1,7 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { IHubEditableContent } from "../../src/core/types";
+import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { HubContent } from "../../src/content/HubContent";
 import * as editModule from "../../src/content/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";

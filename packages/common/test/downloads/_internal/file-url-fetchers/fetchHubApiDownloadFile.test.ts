@@ -1,13 +1,13 @@
+import { IHubEditableContent } from "../../../../src/core/types/IHubEditableContent";
+import { fetchHubApiDownloadFile } from "../../../../src/downloads/_internal/file-url-fetchers/fetchHubApiDownloadFile";
+import * as fetchMock from "fetch-mock";
 import {
   ArcgisHubDownloadError,
   ArcgisHubDownloadFileTooLargeError,
   DownloadOperationStatus,
-  IArcGISContext,
-  IHubEditableContent,
   ServiceDownloadFormat,
-} from "../../../../src";
-import { fetchHubApiDownloadFile } from "../../../../src/downloads/_internal/file-url-fetchers/fetchHubApiDownloadFile";
-import * as fetchMock from "fetch-mock";
+} from "../../../../src/downloads/types";
+import { IArcGISContext } from "../../../../src/types/IArcGISContext";
 
 describe("fetchHubApiDownloadFile", () => {
   afterEach(() => fetchMock.restore());

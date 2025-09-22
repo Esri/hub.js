@@ -1,5 +1,5 @@
-import { isDomainForLegacySite } from "../../../src/sites/domains";
-import { IDomainEntry } from "../../../src";
+import { IDomainEntry } from "../../../src/hub-types";
+import { isDomainForLegacySite } from "../../../src/sites/domains/is-domain-for-legacy-site";
 
 describe("isDomainForLegacySite", function () {
   it("identifies legacy domain entries", function () {

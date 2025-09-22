@@ -1,13 +1,15 @@
 import type { IExtent } from "@esri/arcgis-rest-feature-service";
 import * as fetchMock from "fetch-mock";
-import { validateUrl } from "../../src";
+import { validateUrl } from "../../src/resources/validate-url";
 
 describe("validateUrl", () => {
   const response = { ok: true };
   beforeEach(() => {
     fetchMock.mock("*", { status: 200, body: response });
   });
-  afterEach(fetchMock.restore);
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   it("rejects if invalid url", async () => {
     const result = await validateUrl("test");

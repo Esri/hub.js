@@ -1,6 +1,7 @@
+import { hubSearch } from "../src/search/hubSearch";
+import { IQuery } from "../src/search/types/IHubCatalog";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { IQuery, hubSearch } from "../src/search";
 
 describe("Hub Org search", () => {
   let factory: Artifactory;

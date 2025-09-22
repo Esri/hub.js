@@ -1,7 +1,8 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPredicate } from "../../../src";
 import { explainPredicate } from "../../../src/search/_internal/explainPredicate";
-import { GenericResult } from "../../../src";
+import { IPredicate } from "../../../src/search/types/IHubCatalog";
+import { GenericResult } from "../../../src/search/explainQueryResult";
+import * as explainHelpersModule from "../../../src/search/_internal/explainHelpers";
 
 // Explain Predicate just delegates to more specific functions
 // so we'll just verify that it does that, not that the specific
@@ -9,7 +10,7 @@ import { GenericResult } from "../../../src";
 describe("explainPredicate:", () => {
   it("matchOptionsPredicate", async () => {
     const fn = spyOn(
-      require("../../../src/search/_internal/explainHelpers"),
+      explainHelpersModule,
       "explainMatchOptionPredicate"
     ).and.returnValue(Promise.resolve({ included: true }));
     const predicate: IPredicate = {
@@ -25,7 +26,7 @@ describe("explainPredicate:", () => {
   });
   it("DatePredicate", async () => {
     const fn = spyOn(
-      require("../../../src/search/_internal/explainHelpers"),
+      explainHelpersModule,
       "explainDatePredicate"
     ).and.returnValue(Promise.resolve({ included: true }));
     const predicate: IPredicate = {
@@ -43,7 +44,7 @@ describe("explainPredicate:", () => {
   });
   it("PropPredicate", async () => {
     const fn = spyOn(
-      require("../../../src/search/_internal/explainHelpers"),
+      explainHelpersModule,
       "explainPropPredicate"
     ).and.returnValue(Promise.resolve({ included: true }));
     const predicate: IPredicate = {

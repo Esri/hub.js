@@ -1,8 +1,9 @@
 import { IAddGroupUsersResult } from "@esri/arcgis-rest-portal";
-import { cloneObject, IAddMemberContext } from "../../../../src";
 import * as formatResponseModule from "../../../../src/groups/add-users-workflow/output-processors/_format-auto-add-response";
 import * as autoAddModule from "../../../../src/groups/autoAddUsers";
 import { _processAutoAdd } from "../../../../src/groups/add-users-workflow/output-processors/_process-auto-add";
+import { IAddMemberContext } from "../../../../src/groups/add-users-workflow/interfaces";
+import { cloneObject } from "../../../../src/util";
 
 describe("_process_auto_add", () => {
   it("Delegates properly to autoAddUsers and _formatAutoAddResponse", async () => {

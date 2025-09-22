@@ -1,6 +1,4 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { IHubProject, IResolvedMetric, getProp, mergeObjects } from "../../src";
-import { Catalog } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -11,6 +9,11 @@ import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
+import { mergeObjects } from "../../src/objects/merge-objects";
+import { IHubProject } from "../../src/core/types/IHubProject";
+import { Catalog } from "../../src/search/Catalog";
+import { IResolvedMetric } from "../../src/core/types/Metrics";
+import { getProp } from "../../src/objects/get-prop";
 
 const initContextManager = async (opts = {}) => {
   const defaults = {

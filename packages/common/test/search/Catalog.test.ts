@@ -1,20 +1,22 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { cloneObject, getProp, IArcGISContext } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import {
-  IFilter,
-  IHubCatalog,
-  IHubCollection,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../../src/search";
-import { Catalog } from "../../src";
 import * as FetchEntityCatalogModule from "../../src/search/fetchEntityCatalog";
 import * as HubSearchModule from "../../src/search/hubSearch";
 import * as CatalogContainsModule from "../../src/core/catalogContains";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { CORNERS, DROP_SHADOWS } from "../../src/core/schemas/shared/enums";
+import {
+  IFilter,
+  IHubCatalog,
+  IHubCollection,
+  IQuery,
+} from "../../src/search/types/IHubCatalog";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { Catalog } from "../../src/search/Catalog";
+import { cloneObject } from "../../src/util";
+import { getProp } from "../../src/objects/get-prop";
+import { IHubSearchResponse } from "../../src/search/types/IHubSearchResponse";
+import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
 
 const catalogJson: IHubCatalog = {
   title: "Demo Catalog",

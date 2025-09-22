@@ -1,4 +1,6 @@
-import { HubEntity, IArcGISContext, IHubSearchResult } from "../../src";
+import { HubEntity } from "../../src/core/types/HubEntity";
+import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 import {
   getCardModelUrlFromResult,
   getCardModelUrlFromEntity,

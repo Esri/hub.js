@@ -1,4 +1,4 @@
-import * as domainModule from "../../src/sites/domains";
+import * as lookupDomainModule from "../../src/sites/domains/lookup-domain";
 import * as getSiteModule from "../../src/sites/get-site-by-id";
 import { fetchSiteModel } from "../../src/sites/fetchSiteModel";
 import { IHubRequestOptions, IModel } from "../../src/hub-types";
@@ -18,7 +18,7 @@ describe("fetchSiteModel", () => {
   let lookupDomainSpy: jasmine.Spy;
   let getSiteSpy: jasmine.Spy;
   beforeEach(() => {
-    lookupDomainSpy = spyOn(domainModule, "lookupDomain").and.returnValue(
+    lookupDomainSpy = spyOn(lookupDomainModule, "lookupDomain").and.returnValue(
       Promise.resolve(domainRecord)
     );
 

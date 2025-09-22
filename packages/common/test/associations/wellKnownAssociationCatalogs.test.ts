@@ -7,7 +7,9 @@ import * as getPendingEntitiesQueryModule from "../../src/associations/getPendin
 import * as getRequestingEntitiesQueryModule from "../../src/associations/getRequestingEntitiesQuery";
 import * as getAvailableToRequestEntitiesQueryModule from "../../src/associations/getAvailableToRequestEntitiesQuery";
 import * as wellKnownCatalogModule from "../../src/search/wellKnownCatalog";
-import { ArcGISContext, HubEntity, IHubCollection } from "../../src";
+import { HubEntity } from "../../src/core/types/HubEntity";
+import { ArcGISContext } from "../../src/ArcGISContext";
+import { IHubCollection } from "../../src/search/types/IHubCatalog";
 
 describe("getWellKnownAssociationsCatalog", () => {
   let getAssociatedEntitiesQuerySpy: jasmine.Spy;

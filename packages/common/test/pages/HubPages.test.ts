@@ -1,23 +1,22 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as modelUtils from "../../src/models";
+import * as getModelUtils from "../../src/models/getModel";
+import * as createModelUtils from "../../src/models/createModel";
+import * as updateModelUtils from "../../src/models/updateModel";
 import * as slugUtils from "../../src/items/slugs";
-import {
-  cloneObject,
-  enrichPageSearchResult,
-  IHubRequestOptions,
-  IModel,
-} from "../../src";
 import {
   createPage,
   fetchPage,
   deletePage,
   updatePage,
+  enrichPageSearchResult,
 } from "../../src/pages/HubPages";
 import { IHubPage } from "../../src/core/types/IHubPage";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import * as fetchModule from "../../src/items/fetch";
+import { cloneObject } from "../../src/util";
+import { IHubRequestOptions, IModel } from "../../src/hub-types";
 
 const GUID = "f995804e9e0e42cc84187258de0b710d";
 const PAGE_ITEM: IItem = {
@@ -90,7 +89,7 @@ describe("HubPages Module", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -123,7 +122,7 @@ describe("HubPages Module", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -161,14 +160,15 @@ describe("HubPages Module", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
         Promise.resolve(PAGE_MODEL)
       );
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => {
-          return Promise.resolve(m);
-        }
-      );
+      const updateModelSpy = spyOn(
+        updateModelUtils,
+        "updateModel"
+      ).and.callFake((m: IModel) => {
+        return Promise.resolve(m);
+      });
       const page: IHubPage = {
         itemControl: "edit",
         id: GUID,
@@ -317,7 +317,9 @@ describe("HubPages Module", () => {
       );
       expect(chk.links.siteRelative).toEqual(`/pages/${ITM.id}`);
       expect(chk.links.thumbnail).toEqual(
-        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+        `${hubRo.portal}/content/items/${ITM.id}/info/${
+          ITM.thumbnail as string
+        }`
       );
     });
     it("uses snippet if defined", async () => {

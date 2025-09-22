@@ -1,5 +1,4 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPredicate } from "../../../src";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { GenericResult } from "../../../src/search/explainQueryResult";
 import {
@@ -10,6 +9,7 @@ import {
   explainMatchOptionPredicate,
   explainPropPredicate,
 } from "../../../src/search/_internal/explainHelpers";
+import { IPredicate } from "../../../src/search/types/IHubCatalog";
 
 const ITEM_GROUPS_RESPONSE = {
   admin: [

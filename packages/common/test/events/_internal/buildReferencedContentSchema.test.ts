@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../src";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { buildReferencedContentSchema } from "../../../src/events/_internal/buildReferencedContentSchema";
 import * as wellKnownCatalogModule from "../../../src/search/wellKnownCatalog";
 

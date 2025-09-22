@@ -4,9 +4,9 @@ import {
   IDiscussionsUser,
   Role,
 } from "../../../../../src/discussions/api/types";
-import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
-import { canReadChannelV2 } from "../../../../../src/discussions/api//utils/channels";
-import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
+import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
+import { canReadChannelV2 } from "../../../../../src/discussions/api/utils/channels/can-read-channel-v2";
+import * as portalPrivModule from "../../../../../src/discussions/api/utils/portal-privilege";
 
 describe("canReadChannelV2", () => {
   let canReadChannelSpy: jasmine.Spy;

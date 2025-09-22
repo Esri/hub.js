@@ -5,9 +5,9 @@ import {
   IChannel,
   Role,
 } from "../../../src/discussions/api/types";
-import { IHubChannel } from "../../../src/core/types";
+import { IHubChannel } from "../../../src/core/types/IHubChannel";
 import { transformChannelToEntity } from "../../../src/channels/_internal/transformChannelToEntity";
-import { IEntityPermissionPolicy } from "../../../src/permissions/types";
+import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityPermissionPolicy";
 import * as transformAclPermissionToEntityPermissionPolicyModule from "../../../src/channels/_internal/transformAclPermissionToEntityPermissionPolicy";
 import * as canEditChannelV2Module from "../../../src/discussions/api/utils/channels/can-edit-channel-v2";
 import * as canDeleteChannelV2Module from "../../../src/discussions/api/utils/channels/can-delete-channel-v2";

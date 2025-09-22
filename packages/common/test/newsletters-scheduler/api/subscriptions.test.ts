@@ -1,14 +1,14 @@
-import {
-  ISchedulerSubscription,
-  SchedulerCadence,
-  SchedulerSystemNotificationSpecNames,
-  INotifyParams,
-  notify,
-  SubscriptionEntityType,
-  SchedulerSubscriptionAction,
-} from "../../../src/newsletters-scheduler";
 import * as authenticateRequestModule from "../../../src/newsletters-scheduler/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/newsletters-scheduler/api/orval/api/orval-newsletters-scheduler";
+import {
+  INotifyParams,
+  ISchedulerSubscription,
+  SchedulerCadence,
+  SchedulerSubscriptionAction,
+  SchedulerSystemNotificationSpecNames,
+  SubscriptionEntityType,
+} from "../../../src/newsletters-scheduler/api/types";
+import { notify } from "../../../src/newsletters-scheduler/api/subscriptions";
 
 describe("Subscriptions", () => {
   const token = "aaa";

@@ -4,8 +4,8 @@ import {
   Role,
 } from "../../../src/discussions/api/types";
 import { buildDefaultChannel } from "../../../src/channels/_internal/buildDefaultChannel";
-import { IEntityPermissionPolicy } from "../../../src/permissions/types";
 import * as transformAclPermissionToEntityPermissionPolicyModule from "../../../src/channels/_internal/transformAclPermissionToEntityPermissionPolicy";
+import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityPermissionPolicy";
 
 describe("buildDefaultChannel", () => {
   it("should build a partial IHubChannel object for the given orgId", () => {

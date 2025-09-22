@@ -1,6 +1,6 @@
-import { IModel } from "../../src";
+import { IModel } from "../../src/hub-types";
 
-const projectmodel: IModel = {
+export const projectmodel: IModel = {
   item: {
     id: "3ef",
     title: "My Project",

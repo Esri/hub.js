@@ -1,21 +1,25 @@
-import {
-  ICreateSubscriptionParams,
-  ISubscription,
-  createSubscription,
-  NewsletterCadence,
-  DeliveryMethod,
-  SystemNotificationSpecNames,
-  subscribe,
-  getSubscriptions,
-  ISubscribeParams,
-  IGetSubscriptionParams,
-  getSubscription,
-  IGetSubscriptionsParams,
-  IUpdateSubscriptionParams,
-  updateSubscription,
-} from "../../../src/newsletters/api";
 import * as authenticateRequestModule from "../../../src/newsletters/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/newsletters/api/orval/api/orval-newsletters";
+import {
+  DeliveryMethod,
+  ISubscription,
+  SystemNotificationSpecNames,
+} from "../../../src/newsletters/api/orval/api/orval-newsletters";
+import {
+  ICreateSubscriptionParams,
+  IGetSubscriptionParams,
+  IGetSubscriptionsParams,
+  ISubscribeParams,
+  IUpdateSubscriptionParams,
+  NewsletterCadence,
+} from "../../../src/newsletters/api/types";
+import {
+  createSubscription,
+  getSubscription,
+  getSubscriptions,
+  subscribe,
+  updateSubscription,
+} from "../../../src/newsletters/api/subscriptions";
 
 describe("Subscriptions", () => {
   const token = "aaa";

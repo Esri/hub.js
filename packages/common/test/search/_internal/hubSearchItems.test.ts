@@ -1,16 +1,4 @@
 import {
-  cloneObject,
-  IFilter,
-  IHubLocation,
-  IHubRequestOptions,
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IPredicate,
-  IQuery,
-} from "../../../src";
-
-import {
   formatPredicate,
   formatFilterBlock,
   getFilterQueryParam,
@@ -44,6 +32,17 @@ import { hubSearchItems } from "../../../src/search/_internal/hubSearchItems";
 import { ogcApiRequest } from "../../../src/search/_internal/hubSearchItemsHelpers/ogcApiRequest";
 import { getOgcCollectionUrl } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
 import { getSortByQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getSortByQueryParam";
+import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
+import {
+  IFilter,
+  IPredicate,
+  IQuery,
+} from "../../../src/search/types/IHubCatalog";
+import { cloneObject } from "../../../src/util";
+import { IHubSearchResult } from "../../../src/search/types/IHubSearchResult";
+import { IHubLocation } from "../../../src/core/types/IHubLocation";
+import { IHubRequestOptions } from "../../../src/hub-types";
+import { IHubSearchResponse } from "../../../src/search/types/IHubSearchResponse";
 
 describe("hubSearchItems Module |", () => {
   describe("Request Transformation Helpers |", () => {

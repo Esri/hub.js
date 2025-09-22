@@ -1,7 +1,8 @@
-import type { IArcGISContext, HubEntity } from "../../src";
 import { setEntityAccess } from "../../src/core/setEntityAccess";
+import { HubEntity } from "../../src/core/types/HubEntity";
 import * as updateEventModule from "../../src/events/api/events";
 import * as portalModule from "@esri/arcgis-rest-portal";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("setEntityAccess", () => {
   let entity: HubEntity;

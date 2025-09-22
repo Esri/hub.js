@@ -2,10 +2,11 @@ import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/initiative-templates/_internal/computeProps";
-import { IHubInitiativeTemplate, IModel } from "../../../src";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { InitiativeTemplateDefaultFeatures } from "../../../src/initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import * as computeLinksModule from "../../../src/initiative-templates/_internal/computeLinks";
+import { IModel } from "../../../src/hub-types";
+import { IHubInitiativeTemplate } from "../../../src/core/types/IHubInitiativeTemplate";
 describe("initiative templates: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let model: IModel;

@@ -1,8 +1,9 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { IArcGISContext, IEntityPermissionPolicy } from "../../../src";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { checkEntityPolicy } from "../../../src/permissions/_internal/checkEntityPolicy";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityPermissionPolicy";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("checkEntityPolicy:", () => {
   let authdCtxMgr: ArcGISContextManager;

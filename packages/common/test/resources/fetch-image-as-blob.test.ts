@@ -1,5 +1,5 @@
-import { fetchImageAsBlob } from "../../src";
 import * as fetchMock from "fetch-mock";
+import { fetchImageAsBlob } from "../../src/resources/fetch-image-as-blob";
 
 describe("fetchImageAsBlob", function () {
   // These tests create a blob

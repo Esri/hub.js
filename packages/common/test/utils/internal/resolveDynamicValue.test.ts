@@ -1,11 +1,12 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  DynamicValueDefinition,
-} from "../../../src";
 import { resolveDynamicValue } from "../../../src/utils/internal/resolveDynamicValue";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
+import * as resolveItemQueryValuesModule from "../../../src/utils/internal/resolveItemQueryValues";
+import * as resolvePortalValuesModule from "../../../src/utils/internal/resolvePortalValues";
+import * as resolveServiceQueryValuesModule from "../../../src/utils/internal/resolveServiceQueryValues";
 
 describe("resolveDynamicValue:", () => {
   let context: IArcGISContext;
@@ -37,15 +38,15 @@ describe("resolveDynamicValue:", () => {
     context = authdCtxMgr.context;
 
     itemQrySpy = spyOn(
-      require("../../../src/utils/internal/resolveItemQueryValues"),
+      resolveItemQueryValuesModule,
       "resolveItemQueryValues"
     ).and.callFake(() => Promise.resolve({ item: "spy" }));
     portalSpy = spyOn(
-      require("../../../src/utils/internal/resolvePortalValues"),
+      resolvePortalValuesModule,
       "resolvePortalValues"
     ).and.callFake(() => Promise.resolve({ portal: "spy" }));
     serviceSpy = spyOn(
-      require("../../../src/utils/internal/resolveServiceQueryValues"),
+      resolveServiceQueryValuesModule,
       "resolveServiceQueryValues"
     ).and.callFake(() => Promise.resolve({ service: "spy" }));
   });

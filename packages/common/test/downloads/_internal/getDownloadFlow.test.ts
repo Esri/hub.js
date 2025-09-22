@@ -1,5 +1,5 @@
+import { IHubEditableContent } from "../../../src/core/types/IHubEditableContent";
 import { getDownloadFlow } from "../../../src/downloads/_internal/getDownloadFlow";
-import { IHubEditableContent } from "../../../src/core";
 
 describe("getDownloadFlow", () => {
   it("should return null if the entity cannot be downloaded", () => {

@@ -1,7 +1,7 @@
 import * as upgradeSchemaModule from "../../src/sites/upgrade-site-schema";
-import * as modelModule from "../../src/models";
+import * as getModelModule from "../../src/models/getModel";
 import { IHubRequestOptions, IModel } from "../../src/hub-types";
-import { getSiteById } from "../../src/sites";
+import { getSiteById } from "../../src/sites/get-site-by-id";
 
 describe("getDataForSiteItem", () => {
   it("gets the model and applies schema upgrades", async () => {
@@ -9,7 +9,7 @@ describe("getDataForSiteItem", () => {
       verify: true,
     } as unknown as IModel;
 
-    const getModelSpy = spyOn(modelModule, "getModel").and.returnValue(
+    const getModelSpy = spyOn(getModelModule, "getModel").and.returnValue(
       Promise.resolve(model)
     );
     const schemaSpy = spyOn(

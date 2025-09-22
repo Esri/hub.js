@@ -3,9 +3,10 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubPage } from "../../src/pages/HubPage";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubPagesModule from "../../src/pages/HubPages";
-import { IHubPage, getProp } from "../../src";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import { IHubPage } from "../../src/core/types/IHubPage";
+import { getProp } from "../../src/objects/get-prop";
 
 describe("HubPage Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

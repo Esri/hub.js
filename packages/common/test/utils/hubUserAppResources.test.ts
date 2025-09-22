@@ -1,17 +1,16 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import {
-  IUserSiteSettings,
-  ArcGISContext,
-  IUserHubSettings,
-  updateUserSiteSettings,
-  updateUserHubSettings,
-  fetchUserHubSettings,
-  fetchUserSiteSettings,
-} from "../../src";
-
 import * as resourceModule from "../../src/utils/internal/userAppResources";
 import { USER_SITE_SETTINGS_KEY } from "../../src/utils/internal/clearUserSiteSettings";
 import { USER_HUB_SETTINGS_KEY } from "../../src/utils/internal/clearUserHubSettings";
+import { ArcGISContext } from "../../src/ArcGISContext";
+import { IUserSiteSettings } from "../../src/utils/IUserSiteSettings";
+import {
+  fetchUserHubSettings,
+  fetchUserSiteSettings,
+  updateUserHubSettings,
+  updateUserSiteSettings,
+} from "../../src/utils/hubUserAppResources";
+import { IUserHubSettings } from "../../src/utils/IUserHubSettings";
 
 describe("hubUserAppResources:", () => {
   describe("updateUserSiteSettings:", () => {

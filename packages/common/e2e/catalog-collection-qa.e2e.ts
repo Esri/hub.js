@@ -1,5 +1,6 @@
-import { Catalog, IHubCatalog, IHubCollection } from "../src/search";
+import { Catalog } from "../src/search/Catalog";
 import { Collection } from "../src/search/Collection";
+import { IHubCatalog, IHubCollection } from "../src/search/types/IHubCatalog";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
@@ -66,12 +67,12 @@ describe("catalog and collection e2e:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const instance = Catalog.fromJson(catalog, ctxMgr.context);
 
-      const result = await instance.searchItems("dashboard");
+      await instance.searchItems("dashboard");
 
-      const result2 = await instance.searchGroups("cephalopod");
+      await instance.searchGroups("cephalopod");
 
       const col = instance.getCollection("sites");
-      const result3 = await col.search("bug");
+      await col.search("bug");
     });
     it("defaults to prod / anon", async () => {
       const instance = await Catalog.init("https://opendata.dc.gov");
@@ -85,7 +86,7 @@ describe("catalog and collection e2e:", () => {
         "https://rqawinbi01pt.ags.esri.com/gis/apps/sites/#/harness",
         ctxMgr.context
       );
-      const response = await instance.searchItems("colorado");
+      await instance.searchItems("colorado");
     });
     describe("Catalog.contains:", () => {
       it("located item by id", async () => {
@@ -161,7 +162,7 @@ describe("catalog and collection e2e:", () => {
         },
       };
       const instance = Collection.fromJson(colDef, ctxMgr.context);
-      const result3 = await instance.search({
+      await instance.search({
         targetEntity: "item",
         filters: [
           {

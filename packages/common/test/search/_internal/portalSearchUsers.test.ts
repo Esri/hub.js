@@ -1,13 +1,15 @@
-import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
 import {
   searchPortalUsers,
   searchCommunityUsers,
   searchPortalUsersLegacy,
 } from "../../../src/search/_internal/portalSearchUsers";
 import * as Portal from "@esri/arcgis-rest-portal";
-import * as users from "../../../src/users";
+import * as hubUsersModule from "../../../src/users/HubUsers";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as SimpleResponse from "../../mocks/user-search/simple-response.json";
+import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
+import { IQuery } from "../../../src/search/types/IHubCatalog";
+import { cloneObject } from "../../../src/util";
 
 describe("searchPortalUsersLegacy module:", () => {
   describe("searchPortalUsersLegacy:", () => {
@@ -69,7 +71,7 @@ describe("searchPortalUsersLegacy module:", () => {
       });
       // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
       const enrichUserSearchResultSpy = spyOn(
-        users,
+        hubUsersModule,
         "enrichUserSearchResult"
       ).and.callFake(() => Promise.resolve({}));
       const qry: IQuery = {
@@ -166,7 +168,7 @@ describe("searchPortalUsersLegacy module:", () => {
       });
       // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
       const enrichUserSearchResultSpy = spyOn(
-        users,
+        hubUsersModule,
         "enrichUserSearchResult"
       ).and.callFake(() => Promise.resolve({}));
       const qry: IQuery = {
@@ -266,7 +268,7 @@ describe("searchPortalUsersLegacy module:", () => {
       });
       // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
       const enrichUserSearchResultSpy = spyOn(
-        users,
+        hubUsersModule,
         "enrichUserSearchResult"
       ).and.callFake(() => Promise.resolve({}));
       const qry: IQuery = {

@@ -12,7 +12,7 @@ import * as SearchUtils from "../../src/search/utils";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as deleteGroupThumbnailModule from "../../src/groups/deleteGroupThumbnail";
 import { IEntityPermissionPolicy } from "../../src/permissions/types/IEntityPermissionPolicy";
-import * as permissionsModule from "../../src/permissions";
+import * as checkPermissionModule from "../../src/permissions/checkPermission";
 
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -298,7 +298,7 @@ describe("HubGroup class:", () => {
       } as IHubGroup;
       const instance = HubGroup.fromJson(entity, authdCtxMgr.context);
       const checkPermissionSpy = spyOn(
-        permissionsModule,
+        checkPermissionModule,
         "checkPermission"
       ).and.returnValue({ access: true });
       const chk = instance.checkPermission("hub:group:create");

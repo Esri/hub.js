@@ -1,18 +1,16 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { computeLinks } from "../../../src/templates/_internal/computeLinks";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { IHubEntityLinks } from "../../../src/core/types";
-import { setProp } from "../../../src/objects";
+import { setProp } from "../../../src/objects/set-prop";
 import { initContextManager } from "../fixtures";
 import * as getItemThumbnailUrlModule from "../../../src/resources/get-item-thumbnail-url";
-import * as urlsModule from "../../../src/urls";
+import * as getItemHomeUrlModule from "../../../src/urls/get-item-home-url";
+import { IHubEntityLinks } from "../../../src/core/types/IHubEntityBase";
 
 describe("templates: computeLinks", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
   let item: IItem;
-  let getItemHomeUrlSpy: jasmine.Spy;
-  let getItemThumbnailUrlSpy: jasmine.Spy;
 
   beforeEach(async () => {
     item = {
@@ -22,13 +20,12 @@ describe("templates: computeLinks", () => {
     authdCtxMgr = await initContextManager();
     unauthdCtxMgr = await ArcGISContextManager.create();
 
-    getItemHomeUrlSpy = spyOn(urlsModule, "getItemHomeUrl").and.returnValue(
+    spyOn(getItemHomeUrlModule, "getItemHomeUrl").and.returnValue(
       "/some-item-home-url"
     );
-    getItemThumbnailUrlSpy = spyOn(
-      getItemThumbnailUrlModule,
-      "getItemThumbnailUrl"
-    ).and.returnValue("/some-thumbnail-url");
+    spyOn(getItemThumbnailUrlModule, "getItemThumbnailUrl").and.returnValue(
+      "/some-thumbnail-url"
+    );
   });
 
   it("generates a links hash using the template's slug", () => {

@@ -1,5 +1,5 @@
-import { IVersionMetadata } from "../../src/versioning/types";
 import { versionMetadataFromResource } from "../../src/versioning/_internal/versionMetadataFromResource";
+import { IVersionMetadata } from "../../src/versioning/types/IVersionMetadata";
 
 describe("versionMetadataFromResource", () => {
   const baseResource = {

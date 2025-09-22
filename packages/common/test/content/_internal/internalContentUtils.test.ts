@@ -10,7 +10,7 @@ import * as isSiteTypeModule from "../../../src/content/isSiteType";
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { cloneObject } from "../../../src/util";
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
-import { IHubLocation } from "../../../src";
+import { IHubLocation } from "../../../src/core/types/IHubLocation";
 
 describe("getContentEditUrl", () => {
   let requestOptions: IHubRequestOptions;

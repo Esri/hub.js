@@ -1,21 +1,19 @@
+import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
+import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
 import {
   ICreateRegistrationParams,
   IDeleteRegistrationParams,
   IGetRegistrationParams,
   IGetRegistrationsParams,
   IUpdateRegistrationParams,
+} from "../../../src/events/api/types";
+import {
   createRegistration,
   deleteRegistration,
   getRegistration,
   getRegistrations,
   updateRegistration,
-  IRegistration,
-  RegistrationRole,
-  RegistrationStatus,
-  EventAttendanceType,
-} from "../../../src/events/api";
-import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
-import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
+} from "../../../src/events/api/registrations";
 
 describe("Registrations", () => {
   const token = "aaa";
@@ -32,7 +30,7 @@ describe("Registrations", () => {
     it("should create a registration", async () => {
       const mockRegistration = {
         burrito: "supreme",
-      } as unknown as IRegistration;
+      } as unknown as orvalModule.IRegistration;
       const createRegistrationSpy = spyOn(
         orvalModule,
         "createRegistration"
@@ -42,8 +40,8 @@ describe("Registrations", () => {
         token,
         data: {
           eventId: "111",
-          role: RegistrationRole.ATTENDEE,
-          type: EventAttendanceType.IN_PERSON,
+          role: orvalModule.RegistrationRole.ATTENDEE,
+          type: orvalModule.EventAttendanceType.IN_PERSON,
         },
       };
 
@@ -62,7 +60,7 @@ describe("Registrations", () => {
     it("should get a registration", async () => {
       const mockRegistration = {
         burrito: "supreme",
-      } as unknown as IRegistration;
+      } as unknown as orvalModule.IRegistration;
       const getRegistrationSpy = spyOn(
         orvalModule,
         "getRegistration"
@@ -87,7 +85,7 @@ describe("Registrations", () => {
     it("should get all registrations", async () => {
       const mockRegistration = {
         burrito: "supreme",
-      } as unknown as IRegistration;
+      } as unknown as orvalModule.IRegistration;
       const pagedResponse = {
         total: 1,
         nextStart: 2,
@@ -119,7 +117,7 @@ describe("Registrations", () => {
     it("should update an event", async () => {
       const mockRegistration = {
         burrito: "supreme",
-      } as unknown as IRegistration;
+      } as unknown as orvalModule.IRegistration;
       const updateRegistrationSpy = spyOn(
         orvalModule,
         "updateRegistration"
@@ -128,9 +126,9 @@ describe("Registrations", () => {
       const options: IUpdateRegistrationParams = {
         registrationId: "111",
         data: {
-          role: RegistrationRole.ORGANIZER,
-          status: RegistrationStatus.DECLINED,
-          type: EventAttendanceType.VIRTUAL,
+          role: orvalModule.RegistrationRole.ORGANIZER,
+          status: orvalModule.RegistrationStatus.DECLINED,
+          type: orvalModule.EventAttendanceType.VIRTUAL,
         },
       };
 
@@ -150,7 +148,7 @@ describe("Registrations", () => {
     it("should delete an event", async () => {
       const mockRegistration = {
         burrito: "supreme",
-      } as unknown as IRegistration;
+      } as unknown as orvalModule.IRegistration;
       const deleteRegistrationSpy = spyOn(
         orvalModule,
         "deleteRegistration"

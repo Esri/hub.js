@@ -1,14 +1,14 @@
-import { deepStringReplace } from "../../src";
+import { deepStringReplace } from "../../src/objects/deep-string-replace";
 
-describe("deepStringReplace", function() {
-  it("works with a string", function() {
+describe("deepStringReplace", function () {
+  it("works with a string", function () {
     const before = {
       foo: {
-        bar: "replace"
+        bar: "replace",
       },
       baz: [{ value: "replace" }, { value: "replace" }, { value: "replace" }],
       beep: "replace",
-      number: 123
+      number: 123,
     };
 
     const after = deepStringReplace(before, "replace", "replaced");
@@ -16,28 +16,28 @@ describe("deepStringReplace", function() {
     expect(after).toEqual(
       {
         foo: {
-          bar: "replaced"
+          bar: "replaced",
         },
         baz: [
           { value: "replaced" },
           { value: "replaced" },
-          { value: "replaced" }
+          { value: "replaced" },
         ],
         beep: "replaced",
-        number: 123
+        number: 123,
       },
       "replaced deep strings"
     );
   });
 
-  it("works with a regex", function() {
+  it("works with a regex", function () {
     const before = {
       foo: {
-        bar: "replace"
+        bar: "replace",
       },
       baz: [{ value: "replace" }, { value: "replace" }, { value: "replace" }],
       beep: "replace",
-      number: 123
+      number: 123,
     };
 
     const after = deepStringReplace(before, /replace/, "replaced");
@@ -45,15 +45,15 @@ describe("deepStringReplace", function() {
     expect(after).toEqual(
       {
         foo: {
-          bar: "replaced"
+          bar: "replaced",
         },
         baz: [
           { value: "replaced" },
           { value: "replaced" },
-          { value: "replaced" }
+          { value: "replaced" },
         ],
         beep: "replaced",
-        number: 123
+        number: 123,
       },
       "replaced deep strings"
     );

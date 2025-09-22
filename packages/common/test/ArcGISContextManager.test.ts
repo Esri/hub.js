@@ -5,16 +5,6 @@ import {
   ENTERPRISE_SITES_SERVICE_STATUS,
   HUB_SERVICE_STATUS,
 } from "../src/ArcGISContextManager";
-import {
-  ArcGISContext,
-  cloneObject,
-  HubServiceStatus,
-  IFeatureFlags,
-  IHubRequestOptionsPortalSelf,
-  IPermissionAccessResponse,
-  IServiceFlags,
-  IUserHubSettings,
-} from "../src";
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as requestModule from "@esri/arcgis-rest-request";
@@ -28,6 +18,16 @@ import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import ExceptionFactory from "./mocks/ExceptionFactory";
 import { TOMORROW } from "./test-helpers/tomorrow";
+import { cloneObject } from "../src/util";
+import {
+  IFeatureFlags,
+  IServiceFlags,
+} from "../src/permissions/types/IPermissionPolicy";
+import { IHubRequestOptionsPortalSelf } from "../src/hub-types";
+import { IPermissionAccessResponse } from "../src/permissions/types/IPermissionAccessResponse";
+import { HubServiceStatus } from "../src/core/types/ISystemStatus";
+import { IUserHubSettings } from "../src/utils/IUserHubSettings";
+import { ArcGISContext } from "../src/ArcGISContext";
 
 const onlineUserResponse = {
   username: "jvader",

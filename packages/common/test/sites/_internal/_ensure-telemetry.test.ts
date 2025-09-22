@@ -1,12 +1,9 @@
-import {
-  _ensureTelemetry,
-  IModel,
-  cloneObject,
-  IDraft,
-  mergeObjects,
-  setProp,
-  buildDraft,
-} from "../../../src";
+import { IDraft, IModel } from "../../../src/hub-types";
+import { mergeObjects } from "../../../src/objects/merge-objects";
+import { setProp } from "../../../src/objects/set-prop";
+import { _ensureTelemetry } from "../../../src/sites/_internal/_ensure-telemetry";
+import { buildDraft } from "../../../src/sites/drafts/build-draft";
+import { cloneObject } from "../../../src/util";
 import {
   draftModelOneThree,
   oneThreeSiteDraftIncludeList,
@@ -159,7 +156,12 @@ describe("_ensure-telemetry", () => {
     );
 
     expect(draftAppliedSite.item.properties.schemaVersion).toEqual(1.4);
-    expect(draftAppliedSite.data.values.hasOwnProperty("gacode")).toBeFalsy();
+    expect(
+      Object.prototype.hasOwnProperty.call(
+        draftAppliedSite.data.values,
+        "gacode"
+      )
+    ).toBeFalsy();
     expect(draftAppliedSite.data.values.telemetry).toEqual({
       consentNotice: {
         isTheme: true,

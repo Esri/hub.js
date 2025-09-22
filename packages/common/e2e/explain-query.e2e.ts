@@ -1,5 +1,7 @@
-import { IQuery, cloneObject, explainQueryResult } from "../src";
-import { hubSearch } from "../src/search";
+import { explainQueryResult } from "../src/search/explainQueryResult";
+import { hubSearch } from "../src/search/hubSearch";
+import { IQuery } from "../src/search/types/IHubCatalog";
+import { cloneObject } from "../src/util";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
@@ -30,11 +32,7 @@ describe("Explain Query", () => {
     const result = {
       id: "92ca9c12ee604b958303a52f3e0bbb6b",
     };
-    const explanation = await explainQueryResult(
-      result,
-      query,
-      ctxMgr.context.requestOptions
-    );
+    await explainQueryResult(result, query, ctxMgr.context.requestOptions);
   });
   it("item in two groups: catalog exclude one", async () => {
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
@@ -61,11 +59,7 @@ describe("Explain Query", () => {
     const result = {
       id: "92ca9c12ee604b958303a52f3e0bbb6b",
     };
-    const explanation = await explainQueryResult(
-      result,
-      query,
-      ctxMgr.context.requestOptions
-    );
+    await explainQueryResult(result, query, ctxMgr.context.requestOptions);
     // debugger;
   });
   it("two filters: item in two groups", async () => {
@@ -111,11 +105,7 @@ describe("Explain Query", () => {
 
     expect(result.id).toBe("92ca9c12ee604b958303a52f3e0bbb6b");
     // now get the explanation
-    const explanation = await explainQueryResult(
-      result,
-      query,
-      ctxMgr.context.requestOptions
-    );
+    await explainQueryResult(result, query, ctxMgr.context.requestOptions);
     // debugger;
   });
 });

@@ -1,5 +1,5 @@
 import { setItemThumbnail } from "../../src/items/setItemThumbnail";
-import * as portalModule from "../../src/rest/portal";
+import * as portalModule from "../../src/rest/portal/wrappers";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
 describe("setItemThumbnail:", () => {

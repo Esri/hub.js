@@ -1,9 +1,4 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  DynamicValueDefinition,
-} from "../../../src";
 import { resolveItemQueryValues } from "../../../src/utils/internal/resolveItemQueryValues";
 import * as ResolveDynamicValueModule from "../../../src/utils/internal/resolveDynamicValue";
 
@@ -11,6 +6,9 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as portal from "@esri/arcgis-rest-portal";
 
 import { clearMemoizedCache } from "../../../src/utils/memoize";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
 
 describe("resolveItemQueryValues:", () => {
   let context: IArcGISContext;
@@ -39,7 +37,7 @@ describe("resolveItemQueryValues:", () => {
     context = authdCtxMgr.context;
   });
   it("runs memoized portal query", async () => {
-    const fnSpy = spyOn(portal, "searchItems").and.callFake(() =>
+    spyOn(portal, "searchItems").and.callFake(() =>
       Promise.resolve({
         results: [
           { id: "00c", views: 10 },
@@ -75,7 +73,7 @@ describe("resolveItemQueryValues:", () => {
     clearMemoizedCache("portalSearchItemsAsItems");
   });
   it("handles no query", async () => {
-    const fnSpy = spyOn(portal, "searchItems").and.callFake(() =>
+    spyOn(portal, "searchItems").and.callFake(() =>
       Promise.resolve({
         results: [
           { id: "00c", views: 10 },

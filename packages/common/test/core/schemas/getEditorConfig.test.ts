@@ -1,5 +1,5 @@
-import { getEditorConfig } from "../../../src/core/schemas";
-import type { IArcGISContext } from "../../../src";
+import { getEditorConfig } from "../../../src/core/schemas/getEditorConfig";
+import type { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOptions";
 import * as GetEntitySchemasModule from "../../../src/core/schemas/internal/getEditorSchemas";
 import * as SiteSchemaModule from "../../../src/sites/_internal/SiteSchema";

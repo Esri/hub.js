@@ -1,15 +1,12 @@
 import type { IItem, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContext,
-  HubEntityStatus,
-  IHubCatalog,
-  IHubInitiative,
-  IHubLocation,
-  IHubSearchResult,
-  IModel,
-} from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
+import { IHubLocation } from "../../src/core/types/IHubLocation";
+import { HubEntityStatus, IModel } from "../../src/hub-types";
+import { IHubCatalog } from "../../src/search/types/IHubCatalog";
+import { IHubInitiative } from "../../src/core/types/IHubInitiative";
+import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
+import { ArcGISContext } from "../../src/ArcGISContext";
 
 export const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 

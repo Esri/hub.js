@@ -1,5 +1,5 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { canCreateReactionV2 } from "../../../../../src/discussions/api//utils/reactions";
+import { canCreateReactionV2 } from "../../../../../src/discussions/api//utils/reactions/can-create-reaction-v2";
 import {
   PostReaction,
   IChannel,

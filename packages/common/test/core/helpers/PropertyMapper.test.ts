@@ -1,11 +1,12 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
-import { CANNOT_DISCUSS, IModel } from "../../../src";
 import {
   IPropertyMap,
   mapEntityToStore,
   mapStoreToEntity,
   PropertyMapper,
 } from "../../../src/core/_internal/PropertyMapper";
+import { IModel } from "../../../src/hub-types";
+import { CANNOT_DISCUSS } from "../../../src/discussions/constants";
 
 describe("PropertyMapper:", () => {
   describe("mapObjectToModel:", () => {

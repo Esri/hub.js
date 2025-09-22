@@ -1,5 +1,4 @@
 import { IUser } from "@esri/arcgis-rest-request";
-import { ArcGISContext, EntityType } from "../../src";
 import {
   getWellKnownCatalog,
   getWellknownCollection,
@@ -10,6 +9,8 @@ import {
   getWellKnownCatalogs,
 } from "../../src/search/wellKnownCatalog";
 import { mockUser } from "../test-helpers/fake-user";
+import { ArcGISContext } from "../../src/ArcGISContext";
+import { EntityType } from "../../src/search/types/IHubCatalog";
 
 describe("WellKnownCatalog", () => {
   let options: IGetWellKnownCatalogOptions;

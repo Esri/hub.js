@@ -1,11 +1,11 @@
-import { getWithDefault } from "../../src";
+import { getWithDefault } from "../../src/objects/get-with-default";
 
-describe("getWithDefault", function() {
-  it("returns default correctly", function() {
+describe("getWithDefault", function () {
+  it("returns default correctly", function () {
     const obj: { [key: string]: any } = {
       foo: "bar",
       baz: 0,
-      beep: null
+      beep: null,
     };
     const defaultVal = "DEFAULT";
 

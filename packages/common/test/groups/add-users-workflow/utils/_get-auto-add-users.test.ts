@@ -1,31 +1,31 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import { cloneObject } from "../../../../src";
 import { _getAutoAddUsers } from "../../../../src/groups/add-users-workflow/utils/_get-auto-add-users";
+import { cloneObject } from "../../../../src/util";
 
 describe("_get_auto_add_users", () => {
   const baseRequestingUser: IUser = {
     username: "Doc Ock",
     orgId: "sinister-six",
     cOrgId: "avengers",
-    privileges: []
+    privileges: [],
   };
   const users: IUser[] = [
     {
       username: "Vulture",
-      orgId: "sinister-six"
+      orgId: "sinister-six",
     },
     {
       username: "Mysterio",
-      orgId: "sinister-six"
+      orgId: "sinister-six",
     },
     {
       username: "Spider-Man",
-      orgId: "avengers"
+      orgId: "avengers",
     },
     {
       username: "J. Jonah Jameson",
-      orgId: "daily-bugle"
-    }
+      orgId: "daily-bugle",
+    },
   ];
 
   it("If user doesn't have portal:admin:assignToGroups, returns empty array", () => {
@@ -44,16 +44,16 @@ describe("_get_auto_add_users", () => {
     const expected = [
       {
         username: "Vulture",
-        orgId: "sinister-six"
+        orgId: "sinister-six",
       },
       {
         username: "Mysterio",
-        orgId: "sinister-six"
+        orgId: "sinister-six",
       },
       {
         username: "Spider-Man",
-        orgId: "avengers"
-      }
+        orgId: "avengers",
+      },
     ];
 
     expect(actual).toEqual(expected);

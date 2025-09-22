@@ -1,8 +1,8 @@
-import {
-  normalizeSolutionTemplateItem,
-  itemPropsNotInTemplates,
-} from "../../src";
 import type { IItem } from "@esri/arcgis-rest-portal";
+import {
+  itemPropsNotInTemplates,
+  normalizeSolutionTemplateItem,
+} from "../../src/items/normalize-solution-template-item";
 
 describe("normalizeSolutionTemplateItem", function () {
   it("removes the right attributes and templatizes extent", function () {

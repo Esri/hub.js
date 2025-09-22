@@ -1,6 +1,6 @@
+import { IHubRequestOptions } from "../../../src/hub-types";
+import { isDomainUsedElsewhere } from "../../../src/sites/domains/is-domain-used-elsewhere";
 import * as lookupDomainModule from "../../../src/sites/domains/lookup-domain";
-import { isDomainUsedElsewhere } from "../../../src";
-import { IHubRequestOptions } from "../../../src";
 
 describe("isDomainUsedElsewhere", function () {
   it("resolves to true when domain entry exists for other site", async function () {

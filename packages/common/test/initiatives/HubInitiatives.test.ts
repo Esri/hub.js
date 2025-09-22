@@ -2,7 +2,9 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as modelUtils from "../../src/models";
+import * as createModelUtils from "../../src/models/createModel";
+import * as getModelUtils from "../../src/models/getModel";
+import * as updateModelUtils from "../../src/models/updateModel";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
@@ -209,7 +211,7 @@ describe("HubInitiatives:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = utilModule.cloneObject(m);
           newModel.item.id = GUID;
@@ -242,7 +244,7 @@ describe("HubInitiatives:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = utilModule.cloneObject(m);
           newModel.item.id = GUID;
@@ -287,14 +289,15 @@ describe("HubInitiatives:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
         Promise.resolve(INITIATIVE_MODEL)
       );
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => {
-          return Promise.resolve(m);
-        }
-      );
+      const updateModelSpy = spyOn(
+        updateModelUtils,
+        "updateModel"
+      ).and.callFake((m: IModel) => {
+        return Promise.resolve(m);
+      });
       const prj: IHubInitiative = {
         itemControl: "edit",
         id: GUID,
@@ -389,7 +392,9 @@ describe("HubInitiatives:", () => {
       );
       expect(chk.links?.siteRelative).toEqual(`/initiatives/${ITM.id}`);
       expect(chk.links?.thumbnail).toEqual(
-        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+        `${hubRo.portal}/content/items/${ITM.id}/info/${
+          ITM.thumbnail as string
+        }`
       );
     });
     it("uses snippet if defined", async () => {

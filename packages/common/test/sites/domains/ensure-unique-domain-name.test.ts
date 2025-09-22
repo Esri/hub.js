@@ -1,6 +1,6 @@
-import { ensureUniqueDomainName } from "../../../src";
 import * as fetchMock from "fetch-mock";
 import { MOCK_HUB_REQOPTS, MOCK_PORTAL_REQOPTS } from "../test-helpers.test";
+import { ensureUniqueDomainName } from "../../../src/sites/domains/ensure-unique-domain-name";
 
 describe("ensureUniqueDomainName", () => {
   it("ensureUniqueDomainName for AGO", async function () {

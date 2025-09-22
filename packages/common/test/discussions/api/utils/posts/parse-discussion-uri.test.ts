@@ -1,5 +1,5 @@
 import { IDiscussionParams } from "../../../../../src/discussions/api//types";
-import { parseDiscussionURI } from "../../../../../src/discussions/api//utils/posts";
+import { parseDiscussionURI } from "../../../../../src/discussions/api/utils/posts/parse-discussion-uri";
 import { MENTION_ATTRIBUTE } from "../../../../../src/discussions/constants";
 
 describe("parseDiscussionURI", () => {

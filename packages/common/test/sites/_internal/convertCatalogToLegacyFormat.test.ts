@@ -4,7 +4,7 @@ import {
   catalogToLegacy,
 } from "../../../src/sites/_internal/convertCatalogToLegacyFormat";
 import { IModel } from "../../../src/hub-types";
-import { IHubCatalog } from "../../../src";
+import { IHubCatalog } from "../../../src/search/types/IHubCatalog";
 
 describe("utils:", () => {
   describe("catalogToLegacy:", () => {

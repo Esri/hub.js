@@ -1,6 +1,6 @@
-import { IHubRequestOptions } from "../../../src";
-import { domainExists } from "../../../src/sites/domains";
 import * as fetchMock from "fetch-mock";
+import { IHubRequestOptions } from "../../../src/hub-types";
+import { domainExists } from "../../../src/sites/domains/domain-exists";
 
 describe("domainExists", function () {
   const domainId = "146663";
