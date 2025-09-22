@@ -77,7 +77,6 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
         examplePrompts: {
           type: "array",
           items: { type: "string" },
-          default: "Find parks in my area",
         },
         workflows: {
           type: "array",
