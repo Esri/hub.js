@@ -28,6 +28,30 @@ describe("buildUiSchema: content settings", () => {
       elements: [
         {
           type: "Section",
+          labelKey: `some.scope.sections.mapSettings.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["displaySettings"],
+                showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
+              },
+            },
+          ],
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [true],
+            },
+          ],
+        },
+        {
+          type: "Section",
           labelKey: "some.scope.sections.downloads.label",
           options: {},
           elements: [
@@ -111,7 +135,32 @@ describe("buildUiSchema: content settings", () => {
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
     expect(uiSchema).toEqual({
       type: "Layout",
-      elements: [],
+      elements: [
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.mapSettings.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["displaySettings"],
+                showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
+              },
+            },
+          ],
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [false],
+            },
+          ],
+        },
+      ],
     });
   });
   it("includes enabled schedule fields for public entities", async () => {
@@ -130,6 +179,30 @@ describe("buildUiSchema: content settings", () => {
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.mapSettings.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["displaySettings"],
+                showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
+              },
+            },
+          ],
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [false],
+            },
+          ],
+        },
         {
           type: "Section",
           labelKey: `some.scope.sections.schedule.label`,
@@ -228,6 +301,30 @@ describe("buildUiSchema: content settings", () => {
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.mapSettings.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["displaySettings"],
+                showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
+              },
+            },
+          ],
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [false],
+            },
+          ],
+        },
         {
           type: "Section",
           labelKey: `some.scope.sections.schedule.label`,

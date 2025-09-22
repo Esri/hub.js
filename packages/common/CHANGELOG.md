@@ -1,3 +1,10 @@
+# @esri/hub-common [20.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.7.0...@esri/hub-common@20.8.0) (2025-09-22)
+
+
+### Features
+
+* **hub-common:** add support for setting the layer style type on feature service content ([#1997](https://github.com/Esri/hub.js/issues/1997)) ([1953719](https://github.com/Esri/hub.js/commit/1953719190d04f099f679f7ea59240b2398b7a1a))
+
 # @esri/hub-common [20.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.1...@esri/hub-common@20.7.0) (2025-09-22)
 
 
