@@ -1,3 +1,10 @@
+# @esri/hub-common [20.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.1...@esri/hub-common@20.7.0) (2025-09-22)
+
+
+### Features
+
+* **hub-common:** expose new helpers, sort fields, searchable predicates and permissions for the gallery card ([#1952](https://github.com/Esri/hub.js/issues/1952)) ([8833568](https://github.com/Esri/hub.js/commit/88335682e872b3e1678f287a02238e75c88464e4))
+
 ## @esri/hub-common [20.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.0...@esri/hub-common@20.6.1) (2025-09-22)
 
 
