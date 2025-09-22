@@ -259,6 +259,11 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["qaext"],
     availability: ["alpha"],
   },
+  // Whether the enterprise version of the gallery card should be used
+  {
+    permission: "hub:feature:gallery-card:enterprise",
+    environments: ["enterprise", "enterprise-k8s"],
+  },
   // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using hub-premium
   {

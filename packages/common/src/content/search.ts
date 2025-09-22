@@ -5,7 +5,7 @@ import { getItemThumbnailUrl } from "../resources";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../hub-types";
-import { getItemHomeUrl } from "../urls";
+import { getItemDataUrl, getItemHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import { getFamily } from "./get-family";
@@ -95,5 +95,28 @@ export async function enrichContentSearchResult(
     result.id
   );
 
+  return result;
+}
+
+/**
+ * Enrich a search result for an Image item
+ * @param item
+ * @param include
+ * @param requestOptions
+ * @returns
+ */
+export async function enrichImageSearchResult(
+  item: IItem,
+  include: string[],
+  requestOptions: IHubRequestOptions
+): Promise<IHubSearchResult> {
+  // use all of the same enrichments as content
+  const result = await enrichContentSearchResult(item, include, requestOptions);
+
+  // but if we're missing a thumbnail, use the data url as a fallback for search results
+  const dataUrl = getItemDataUrl(item, requestOptions);
+  if (!result.links.thumbnail) {
+    result.links.thumbnail = dataUrl;
+  }
   return result;
 }

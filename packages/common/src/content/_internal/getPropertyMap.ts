@@ -30,6 +30,14 @@ export function getPropertyMap(): IPropertyMap[] {
     storeKey: "item.size",
   });
 
+  // override basePropertyMap for content-specific properties
+  const viewPropIndex = map.findIndex((m) => m.entityKey === "view");
+  if (viewPropIndex > -1) {
+    map[viewPropIndex].storeKey = "item.properties.view";
+  } else {
+    map.push({ entityKey: "view", storeKey: "item.properties.view" });
+  }
+
   // features is intentionally left out
 
   // TODO: look into composeContent() for what we can add here

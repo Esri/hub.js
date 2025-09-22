@@ -223,6 +223,9 @@ describe("content: ", () => {
       const page = {
         id: "page_id",
         type: "Hub Page",
+        item: {
+          id: "page_id",
+        },
       } as IHubContent;
 
       const result = getContentIdentifier(page);
@@ -232,6 +235,9 @@ describe("content: ", () => {
       const page = {
         id: "page_id",
         type: "Site Page",
+        item: {
+          id: "page_id",
+        },
       } as IHubContent;
 
       const result = getContentIdentifier(page);
@@ -241,16 +247,38 @@ describe("content: ", () => {
       const page = {
         id: "page_id",
         type: "Site Page",
+        item: {
+          id: "page_id",
+        },
       } as IHubContent;
       const site: any = { data: { values: {} } };
 
       const result = getContentIdentifier(page, site);
       expect(result).toBe("page_id");
     });
+    it("returns slug when content is a page, the site has no pages but the page has a slug configured", () => {
+      const page = {
+        id: "page_id",
+        type: "Site Page",
+        item: {
+          id: "page_id",
+          properties: {
+            slug: "orgkey|page_slug",
+          },
+        },
+      } as IHubContent;
+      const site: any = { data: { values: {} } };
+
+      const result = getContentIdentifier(page, site);
+      expect(result).toBe("page_slug");
+    });
     it("returns content id when content is a page but is not one of the site's pages", () => {
       const page = {
         id: "page_id",
         type: "Site Page",
+        item: {
+          id: "page_id",
+        },
       } as IHubContent;
       const site: any = {
         data: {

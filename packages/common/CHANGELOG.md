@@ -1,3 +1,52 @@
+# @esri/hub-common [20.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.7.0...@esri/hub-common@20.8.0) (2025-09-22)
+
+
+### Features
+
+* **hub-common:** add support for setting the layer style type on feature service content ([#1997](https://github.com/Esri/hub.js/issues/1997)) ([1953719](https://github.com/Esri/hub.js/commit/1953719190d04f099f679f7ea59240b2398b7a1a))
+
+# @esri/hub-common [20.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.1...@esri/hub-common@20.7.0) (2025-09-22)
+
+
+### Features
+
+* **hub-common:** expose new helpers, sort fields, searchable predicates and permissions for the gallery card ([#1952](https://github.com/Esri/hub.js/issues/1952)) ([8833568](https://github.com/Esri/hub.js/commit/88335682e872b3e1678f287a02238e75c88464e4))
+
+## @esri/hub-common [20.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.0...@esri/hub-common@20.6.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* image entities in search will display image as default thumbnail ([#2005](https://github.com/Esri/hub.js/issues/2005)) ([5352efa](https://github.com/Esri/hub.js/commit/5352efad2ceb9244e37ebf584436ec8c6e278599))
+
+# @esri/hub-common [20.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.1...@esri/hub-common@20.6.0) (2025-09-19)
+
+
+### Features
+
+* **hub-common:** added q and bbox to IOgcAggregationQueryParams ([#2008](https://github.com/Esri/hub.js/issues/2008)) ([b3cde7b](https://github.com/Esri/hub.js/commit/b3cde7bc9fd31753fa123ff803484d84b545b2b6))
+
+## @esri/hub-common [20.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.0...@esri/hub-common@20.5.1) (2025-09-18)
+
+
+### Bug Fixes
+
+* **hub-common:** events don't set discussions settings on portal ([#2006](https://github.com/Esri/hub.js/issues/2006)) ([35e930f](https://github.com/Esri/hub.js/commit/35e930f033b98f90c45b5bb83cf03f9532d4189c))
+
+# @esri/hub-common [20.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.7...@esri/hub-common@20.5.0) (2025-09-18)
+
+
+### Features
+
+* **hub-common:** add / populate IHubSite.isCatalogV1Enabled while fetching ([#2004](https://github.com/Esri/hub.js/issues/2004)) ([c0cd402](https://github.com/Esri/hub.js/commit/c0cd4026859fab7a4008c62ba25abc5d389aa7c3))
+
+## @esri/hub-common [20.4.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.6...@esri/hub-common@20.4.7) (2025-09-18)
+
+
+### Bug Fixes
+
+* page slug urls use bare slug ([#2009](https://github.com/Esri/hub.js/issues/2009)) ([fbbfcf6](https://github.com/Esri/hub.js/commit/fbbfcf674f060007fb64211248dd9ae151537932))
+
 ## @esri/hub-common [20.4.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.5...@esri/hub-common@20.4.6) (2025-09-12)
 
 

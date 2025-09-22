@@ -55,6 +55,7 @@ describe("fetchHubContent", () => {
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
+      isPortal: false,
     } as IHubRequestOptions;
 
     const chk = await fetchHubContent(
@@ -100,7 +101,10 @@ describe("fetchHubContent", () => {
       })
     );
 
-    const requestOptions = { authentication: MOCK_AUTH } as IHubRequestOptions;
+    const requestOptions = {
+      authentication: MOCK_AUTH,
+      isPortal: false,
+    } as IHubRequestOptions;
     const chk = await fetchHubContent(PDF_GUID, requestOptions);
     expect(chk.id).toBe(PDF_GUID);
     expect(chk.owner).toBe(PDF_ITEM.owner);
@@ -141,6 +145,7 @@ describe("fetchHubContent", () => {
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
+      isPortal: false,
     } as IHubRequestOptions;
 
     const chk = await fetchHubContent(
@@ -199,6 +204,7 @@ describe("fetchHubContent", () => {
 
     const chk = await fetchHubContent("ae3", {
       authentication: MOCK_AUTH,
+      isPortal: false,
     });
 
     expect(chk.type).toBe("Hub Site Application");
@@ -233,6 +239,39 @@ describe("fetchHubContent", () => {
 
     const chk = await fetchHubContent("ae3", {
       authentication: MOCK_AUTH,
+      isPortal: false,
+    });
+
+    expect(chk.type).toBe("Hub Site Application");
+  });
+
+  it("does not call fetchSettings if permissions invalid", async () => {
+    fetchContentSpy.and.returnValue(
+      Promise.resolve({
+        item: {
+          id: "ae3",
+          type: "Web Mapping Application",
+          typeKeywords: ["hubSite"],
+        },
+      })
+    );
+    fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
+    fetchModelFromItemSpy.and.returnValue(
+      Promise.resolve(
+        Promise.resolve({
+          item: {
+            id: "ae3",
+            type: "Hub Site Application",
+            typeKeywords: ["hubSite"],
+          },
+          data: { values: {} },
+        })
+      )
+    );
+
+    const chk = await fetchHubContent("ae3", {
+      authentication: MOCK_AUTH,
+      isPortal: true,
     });
 
     expect(chk.type).toBe("Hub Site Application");
