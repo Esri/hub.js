@@ -194,5 +194,63 @@ describe("initiative template edit module:", () => {
         "dcdev|dcdev-wat-blarg-1"
       );
     });
+    it("sets showMap to true when view.showMap is undefined", async () => {
+      spyOn(slugUtils, "getUniqueSlug").and.returnValue(
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
+      );
+      spyOn(modelUtils, "getModel").and.returnValue(
+        Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
+      );
+      const it: IHubInitiativeTemplate = {
+        itemControl: "edit",
+        id: GUID,
+        name: "No Map",
+        description: "No map in view",
+        type: "Hub Initiative Template",
+        schemaVersion: 1,
+        location: { type: "none" },
+        typeKeywords: ["Hub Initiative Template"],
+        orgUrlKey: "dcdev",
+      } as IHubInitiativeTemplate;
+      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
+        (m: IModel) => Promise.resolve(m)
+      );
+      console.log("chk.view:", it);
+      const chk = await updateInitiativeTemplate(it, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.view.showMap).toBe(true);
+      expect(updateModelSpy.calls.count()).toBe(1);
+    });
+
+    it("does not overwrite showMap when view.showMap is defined", async () => {
+      spyOn(slugUtils, "getUniqueSlug").and.returnValue(
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
+      );
+      spyOn(modelUtils, "getModel").and.returnValue(
+        Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
+      );
+      const it: IHubInitiativeTemplate = {
+        itemControl: "edit",
+        id: GUID,
+        name: "With Map",
+        description: "Map in view",
+        type: "Hub Initiative Template",
+        schemaVersion: 1,
+        location: { type: "none" },
+        typeKeywords: ["Hub Initiative Template"],
+        orgUrlKey: "dcdev",
+        view: { showMap: false },
+      } as IHubInitiativeTemplate;
+      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
+        (m: IModel) => Promise.resolve(m)
+      );
+      const chk = await updateInitiativeTemplate(it, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.view).toBeDefined();
+      expect(chk.view.showMap).toBe(false);
+      expect(updateModelSpy.calls.count()).toBe(1);
+    });
   });
 });

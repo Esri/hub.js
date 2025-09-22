@@ -111,6 +111,9 @@ export const INITIATIVE_TEMPLATE_HUB_SEARCH_RESULT: IHubSearchResult = {
 export const INITIATIVE_TEMPLATE_DATA = {
   recommendedTemplates: ["c456"],
   siteSolutionId: "c123",
+  view: {
+    showMap: true,
+  },
 };
 
 export const INITIATIVE_TEMPLATE_MODEL = {

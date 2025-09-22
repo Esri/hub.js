@@ -1,3 +1,10 @@
+## @esri/hub-common [20.8.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.0...@esri/hub-common@20.8.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* 13240 add location to initiative template ([#1995](https://github.com/Esri/hub.js/issues/1995)) ([72d9c79](https://github.com/Esri/hub.js/commit/72d9c79679e61c02e67b486636388878d3bcc776))
+
 # @esri/hub-common [20.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.7.0...@esri/hub-common@20.8.0) (2025-09-22)
 
 
