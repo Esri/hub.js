@@ -18,6 +18,8 @@ export type IFetchCategoriesUiSchemaElementOptions =
 interface IBaseOptions {
   source: "org" | "query";
   currentValues?: string[];
+  elementScope?: string
+  i18nScope?: string;
   context: IArcGISContext;
 }
 
@@ -83,10 +85,12 @@ export async function fetchCategoriesUiSchemaElement(
     ...unrecognizedFullItems,
   ];
 
+  const i18nScope = opts.i18nScope || "shared.fields.categories";
+
   const fieldOptions: Record<string, unknown> = {
     control: "hub-field-input-combobox",
     allowCustomValues: false,
-    placeholder: "{{shared.fields.categories.placeholder:translate}}",
+    placeholder: `{{${i18nScope}.placeholder:translate}}`,
     selectionDisplay: "fit",
     selectionMode: "multiple",
   };
@@ -95,12 +99,12 @@ export async function fetchCategoriesUiSchemaElement(
   fieldOptions.groups = [
     !!unrecognizedItems.length && {
       label:
-        "{{shared.fields.categories.unrecognizedCategoriesGroup.label:translate}}",
+        `{{${i18nScope}.unrecognizedCategoriesGroup.label:translate}}`,
       items: unrecognizedItems,
     },
     !!recognizedItems.length && {
       label:
-        "{{shared.fields.categories.recognizedCategoriesGroup.label:translate}}",
+        `{{${i18nScope}.recognizedCategoriesGroup.label:translate}}`,
       items: recognizedItems,
     },
   ].filter(Boolean);
@@ -109,8 +113,8 @@ export async function fetchCategoriesUiSchemaElement(
     !recognizedItems.length && !unrecognizedItems.length;
   return [
     {
-      labelKey: `shared.fields.categories.label`,
-      scope: "/properties/categories",
+      labelKey: `${i18nScope}.label`,
+      scope: opts.elementScope || "/properties/categories",
       type: "Control",
       options: fieldOptions,
       rules: [
@@ -133,12 +137,12 @@ export async function fetchCategoriesUiSchemaElement(
             scale: "m",
           },
           message:
-            "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
+            `{{${i18nScope}.noCategoriesNotice.body:translate}}`,
           autoShow: true,
           actions: [
             {
               label:
-                "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+                `{{${i18nScope}.noCategoriesNotice.link:translate}}`,
               href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
               target: "_blank",
             },
