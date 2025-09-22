@@ -220,9 +220,9 @@ export function getTemplate(
   };
 
   switch (name) {
-    case "simple":
+    case "simpleSiteOrPageLayout":
       return Promise.resolve(simpleSiteOrPageLayout);
-    case "blank":
+    case "blankSiteOrPageLayout":
       return Promise.resolve(blankPageOrSiteLayout);
     default:
       return Promise.resolve(blankPageOrSiteLayout);
