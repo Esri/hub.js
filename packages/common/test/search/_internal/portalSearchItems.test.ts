@@ -7,10 +7,13 @@ import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-t
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
   applyWellKnownItemPredicates,
+  itemToSearchResult,
   portalSearchItems,
   portalSearchItemsAsItems,
   WellKnownItemPredicates,
 } from "../../../src/search/_internal/portalSearchItems";
+import { IItem } from "@esri/arcgis-rest-portal";
+import * as searchModule from "../../../../common/src/content/search";
 
 describe("portalSearchItems Module:", () => {
   describe("portalSearchItems:", () => {
@@ -552,6 +555,19 @@ describe("portalSearchItems Module:", () => {
           ...getFamilyTypes("site"),
           "Hub Initiative",
         ]);
+      });
+    });
+
+    describe("itemToSearchResult:", () => {
+      it("maps item properties to search result", async () => {
+        const item = { type: "Image" } as IItem;
+        const enrichImageSearchResultSpy = spyOn(
+          searchModule,
+          "enrichImageSearchResult"
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+        ).and.callFake(() => {});
+        await itemToSearchResult(item, [], { portal: "https://my-portal" });
+        expect(enrichImageSearchResultSpy).toHaveBeenCalled();
       });
     });
   });
