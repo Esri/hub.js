@@ -14,7 +14,7 @@ import {
   deleteInitiativeTemplate,
 } from "./edit";
 import { enrichEntity } from "../core/enrichEntity";
-import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
+import { InitiativeTemplateEditorType } from "./_internal/initiativeTemplateEditorTypes";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 import { setProp } from "../objects/set-prop";

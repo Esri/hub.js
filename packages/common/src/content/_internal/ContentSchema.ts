@@ -1,14 +1,6 @@
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import { IConfigurationSchema } from "../../core/schemas/types";
 
-export type ContentEditorType = (typeof ContentEditorTypes)[number];
-export const ContentEditorTypes = [
-  "hub:content:edit",
-  "hub:content:settings",
-  "hub:content:settings:discussions",
-  "hub:content:settings:discussions:compact",
-] as const;
-
 /**
  * defines the JSON schema for a Hub Content's editable fields
  */

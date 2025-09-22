@@ -3,7 +3,8 @@ import { setProp } from "../../objects/set-prop";
 import { cloneObject } from "../../util";
 import { IPredicate } from "../types/IHubCatalog";
 import { IRelativeDate } from "../types/types";
-import { relativeDateToDateRange, valueToMatchOptions } from "../utils";
+import { valueToMatchOptions } from "../valueToMatchOptions";
+import { relativeDateToDateRange } from "../relativeDateToDateRange";
 
 /**
  * @internal

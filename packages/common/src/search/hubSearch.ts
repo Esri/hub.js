@@ -1,7 +1,6 @@
 import HubError from "../HubError";
 import { getProp } from "../objects/get-prop";
 import { cloneObject } from "../util";
-
 import { getApi } from "./_internal/commonHelpers/getApi";
 import { portalSearchGroupMembers } from "./_internal/portalSearchGroupMembers";
 import { portalSearchItems } from "./_internal/portalSearchItems";

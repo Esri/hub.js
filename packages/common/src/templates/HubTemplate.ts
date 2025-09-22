@@ -3,7 +3,7 @@ import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEditorConfig } from "../core/schemas/types";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
-import { TemplateEditorType } from "./_internal/TemplateSchema";
+import { TemplateEditorType } from "./_internal/templateEditorTypes";
 import { DEFAULT_TEMPLATE } from "./defaults";
 import { createTemplate, deleteTemplate, updateTemplate } from "./edit";
 import { fetchTemplate } from "./fetch";

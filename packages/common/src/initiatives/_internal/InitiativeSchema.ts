@@ -9,16 +9,6 @@ import {
 } from "../../core/schemas/internal/metrics/definitions";
 import { IConfigurationSchema } from "../../core/schemas/types";
 
-export type InitiativeEditorType = (typeof InitiativeEditorTypes)[number];
-export const InitiativeEditorTypes = [
-  "hub:initiative:edit",
-  "hub:initiative:create",
-  "hub:initiative:create2",
-  "hub:initiative:metrics",
-  "hub:initiative:associations",
-  "hub:initiative:settings",
-] as const;
-
 /**
  * defines the JSON schema for a Hub Initiative's editable fields
  */

@@ -12,7 +12,7 @@ import {
 import { Catalog } from "../search/Catalog";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { InitiativeEditorType } from "./_internal/InitiativeSchema";
+import { InitiativeEditorType } from "./_internal/initiativeEditorTypes";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";

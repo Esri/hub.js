@@ -11,7 +11,7 @@ import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 
 import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
 
-import { PageEditorType } from "./_internal/PageSchema";
+import { PageEditorType } from "./_internal/pageEditorTypes";
 import { cloneObject } from "../util";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";

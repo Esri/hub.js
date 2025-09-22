@@ -6,13 +6,6 @@ import {
 import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
 import { TIME_VALIDATIONS_WHEN_NOT_ALL_DAY } from "./validations";
 
-export type EventEditorType = (typeof EventEditorTypes)[number];
-export const EventEditorTypes = [
-  "hub:event:create",
-  "hub:event:edit",
-  "hub:event:registrants",
-] as const;
-
 /**
  * @private
  * Builds a schema for creating a new Event that enforces a startDate relative to the user's locale

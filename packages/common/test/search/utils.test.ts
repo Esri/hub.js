@@ -1,8 +1,6 @@
 import { IGroup, IUser, SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 import {
   getUserThumbnailUrl,
-  valueToMatchOptions,
-  relativeDateToDateRange,
   getGroupThumbnailUrl,
   migrateToCollectionKey,
   getResultSiteRelativeLink,
@@ -15,6 +13,8 @@ import { IRelativeDate } from "../../src/search/types/types";
 import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
 import { IHubSite } from "../../src/core/types/IHubSite";
 import { IQuery } from "../../src/search/types/IHubCatalog";
+import { valueToMatchOptions } from "../../src/search/valueToMatchOptions";
+import { relativeDateToDateRange } from "../../src/search/relativeDateToDateRange";
 
 describe("Search Utils:", () => {
   describe("expansions:", () => {

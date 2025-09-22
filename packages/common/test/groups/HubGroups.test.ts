@@ -7,7 +7,7 @@ import * as GetUniqueGroupTitleModule from "../../src/groups/_internal/getUnique
 import * as createOrUpdateEntitySettingsModule from "../../src/core/_internal/createOrUpdateEntitySettings";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
 import { IHubRequestOptions } from "../../src/hub-types";
-import { enrichGroupSearchResult } from "../../src/groups/HubGroups";
+import { enrichGroupSearchResult } from "../../src/groups/enrichGroupSearchResult";
 import { cloneObject } from "../../src/util";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 

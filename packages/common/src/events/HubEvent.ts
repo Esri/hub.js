@@ -8,7 +8,7 @@ import { buildDefaultEventEntity } from "./defaults";
 import { IEditorConfig } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { cloneObject } from "../util";
-import { EventEditorType } from "./_internal/EventSchemaCreate";
+import { EventEditorType } from "./_internal/eventEditorTypes";
 import { shareEventWithGroups } from "./_internal/shareEventWithGroups";
 import { unshareEventWithGroups } from "./_internal/unshareEventWithGroups";
 import HubError from "../HubError";

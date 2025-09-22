@@ -1,19 +1,18 @@
 import * as Portal from "@esri/arcgis-rest-portal";
 import { getFamilyTypes } from "../../../src/content/get-family";
-
 import * as SimpleResponse from "../../mocks/portal-search/simple-response.json";
 import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-types.json";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
-  applyWellKnownItemPredicates,
   itemToSearchResult,
   portalSearchItems,
   portalSearchItemsAsItems,
-  WellKnownItemPredicates,
 } from "../../../src/search/_internal/portalSearchItems";
+import { applyWellKnownItemPredicates } from "../../../src/search/_internal/applyWellKnownItemPredicates";
 import { IQuery } from "../../../src/search/types/IHubCatalog";
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 import { cloneObject } from "../../../src/util";
+import { WellKnownItemPredicates } from "../../../src/search/_internal/constants";
 import * as searchModule from "../../../src/content/search";
 
 describe("portalSearchItems Module:", () => {

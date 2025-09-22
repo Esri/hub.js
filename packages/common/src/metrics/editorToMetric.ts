@@ -10,7 +10,7 @@ import {
   IMetricEditorValues,
   MetricVisibility,
 } from "../core/types/Metrics";
-import { ServiceAggregation } from "../core/types/DynamicValues";
+import { ServiceAggregation } from "../core/types/ServiceAggregation";
 
 /**
  * Transforms the IConfigurationValues into an object with IMetric and IMetricDisplayConfig to be saved on an entity or rendered in the ui.

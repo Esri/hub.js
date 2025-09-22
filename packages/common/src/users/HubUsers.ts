@@ -24,7 +24,7 @@ export const convertUserToHubUser = (user: IUser): IHubUser => {
   // A private user will not have a description prop at all
   // thus we set it to undefined to differentiate from a empty description which would be null
   // eslint-disable-next-line no-prototype-builtins
-  const description = user.hasOwnProperty("description")
+  const description = Object.prototype.hasOwnProperty.call(user, "description")
     ? user.description
     : undefined;
   return {

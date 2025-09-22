@@ -1,13 +1,6 @@
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import { IConfigurationSchema } from "../../core/schemas/types";
 
-export type InitiativeTemplateEditorType =
-  (typeof InitiativeTemplateEditorTypes)[number];
-
-export const InitiativeTemplateEditorTypes = [
-  "hub:initiativeTemplate:edit",
-] as const;
-
 export const InitiativeTemplateSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
   properties: {

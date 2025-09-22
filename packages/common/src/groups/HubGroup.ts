@@ -17,7 +17,7 @@ import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { setGroupThumbnail } from "./setGroupThumbnail";
 import { getGroupThumbnailUrl } from "../search/utils";
 import { deleteGroupThumbnail } from "./deleteGroupThumbnail";
-import { GroupEditorType } from "./_internal/GroupSchema";
+import { GroupEditorType } from "./_internal/groupEditorTypes";
 import { enrichEntity } from "../core/enrichEntity";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { checkPermission } from "../permissions/checkPermission";

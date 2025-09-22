@@ -23,7 +23,7 @@ export function cloneObject<T>(obj: T): T {
       return obj;
     }
     for (const i in obj) {
-      if (obj.hasOwnProperty(i)) {
+      if (Object.prototype.hasOwnProperty.call(obj, i)) {
         const value = obj[i];
         if (value != null && typeof value === "object") {
           if (value instanceof Date) {
@@ -114,7 +114,7 @@ export function compose(...fns: any[]): any {
  * the rigor of a full UUID - i.e. node id's, process ids etc.
  * @param prefix String to prefix the random number with so the result is a valid javascript property
  */
-export function createId(prefix: string = "i"): string {
+export function createId(prefix = "i"): string {
   // prepend some char so it's always a valid dotable property name
   // get a random number, convert to base 36 representation, then grab chars 2-8
   return `${prefix}${Math.random().toString(36).substr(2, 8)}`;
@@ -232,7 +232,7 @@ export function maybeAdd(key: string, val: any, target: any): any {
 export function maybePush(val: any, target: any[]): any[] {
   if (val !== null && val !== undefined) {
     // create a clone because mutation makes us sad...
-    target = cloneObject(target) as any[];
+    target = cloneObject(target);
     target.push(val);
   }
   return target;
@@ -249,17 +249,19 @@ export function camelize(value: string): string {
   // lower case the whole thing to start...
   value = value.toLowerCase();
   // strip out any/all special chars...
+  // eslint-disable-next-line no-useless-escape
   value = value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, " ");
   // Hoisted from EmberJS (MIT License)
   // https://github.com/emberjs/ember.js/blob/v2.0.1/packages/ember-runtime/lib/system/string.js#L23-L27
+  // eslint-disable-next-line no-useless-escape
   const STRING_CAMELIZE_REGEXP_1 = /(\-|\_|\.|\s)+(.)?/g;
   const STRING_CAMELIZE_REGEXP_2 = /(^|\/)([A-Z])/g;
 
   return value
-    .replace(STRING_CAMELIZE_REGEXP_1, function (match, separator, chr) {
+    .replace(STRING_CAMELIZE_REGEXP_1, function (_match, _separator, chr) {
       return chr ? chr.toUpperCase() : "";
     })
-    .replace(STRING_CAMELIZE_REGEXP_2, function (match, separator, chr) {
+    .replace(STRING_CAMELIZE_REGEXP_2, function (match) {
       return match.toLowerCase();
     });
 }
@@ -339,7 +341,7 @@ export function filterBy<T>(arr: T[], prop: string, val: unknown): T[] {
 export function extend(
   target: { [index: string]: any },
   source: { [index: string]: any },
-  deep: boolean = true
+  deep = true
 ): { [index: string]: any } {
   const extended: { [index: string]: any } = cloneObject(target);
   return Object.keys(source).reduce((obj, prop) => {

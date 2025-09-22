@@ -18,7 +18,7 @@ export function deepSet(
   const lastIdx = parts.length - 1;
   parts.forEach((p, idx) => {
     // eslint-disable-next-line no-prototype-builtins
-    if (!worker.hasOwnProperty(p) || worker[p] == null) {
+    if (!Object.prototype.hasOwnProperty.call(worker, p) || worker[p] == null) {
       if (idx === lastIdx) {
         worker[p] = value;
       } else {

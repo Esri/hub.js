@@ -22,7 +22,7 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { isDiscussable } from "../discussions/utils";
-import { SiteEditorType } from "./_internal/SiteSchema";
+import { SiteEditorType } from "./_internal/siteEditorTypes";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 import { getWithDefault } from "../objects/get-with-default";
 import { IModel } from "../hub-types";

@@ -6,7 +6,7 @@ import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { cloneObject } from "../util";
-import { DiscussionEditorType } from "./_internal/DiscussionSchema";
+import { DiscussionEditorType } from "./_internal/discussionEditorTypes";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { truncateSlug } from "../items/_internal/slugs";

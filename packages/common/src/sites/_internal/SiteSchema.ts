@@ -9,16 +9,6 @@ import { IAsyncConfigurationSchema } from "../../core/schemas/types";
 import { checkPermission } from "../../permissions/checkPermission";
 import { IArcGISContext } from "../../types/IArcGISContext";
 
-export type SiteEditorType = (typeof SiteEditorTypes)[number];
-export const SiteEditorTypes = [
-  "hub:site:edit",
-  "hub:site:create",
-  "hub:site:followers",
-  "hub:site:settings",
-  "hub:site:assistant",
-  "hub:site:settings:discussions",
-] as const;
-
 /**
  * defines the JSON schema for a Hub Site's editable fields
  */

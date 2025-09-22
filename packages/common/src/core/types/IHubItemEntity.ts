@@ -1,7 +1,6 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../hub-types";
 import { AccessLevel, MembershipAccess } from "./types";
-
 import { IHubLocation } from "./IHubLocation";
 import { IWithFollowers } from "../traits/IWithFollowers";
 import { IWithAssociations } from "../traits/IWithAssociations";

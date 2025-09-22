@@ -9,7 +9,7 @@ import { ISearchOgcItemsOptions } from "./_internal/hubSearchItemsHelpers/interf
 import { searchOgcItems } from "./_internal/hubSearchItemsHelpers/searchOgcItems";
 import { IHubSearchResponse } from "./types/IHubSearchResponse";
 import { IHubSearchResult } from "./types/IHubSearchResult";
-import { ISearchAssociatedContentOptions } from "./types/types";
+import { ISearchAssociatedContentOptions } from "./types/ISearchAssociatedContentOptions";
 
 /**
  * Searches for content that is associated with a given entity.

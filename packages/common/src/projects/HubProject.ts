@@ -20,7 +20,7 @@ import {
 import { projectToCardModel } from "./view";
 import { cloneObject } from "../util";
 import { createProject, updateProject } from "./edit";
-import { ProjectEditorType } from "./_internal/ProjectSchema";
+import { ProjectEditorType } from "./_internal/projectEditorTypes";
 import { enrichEntity } from "../core/enrichEntity";
 import { setProp } from "../objects/set-prop";
 import { getWithDefault } from "../objects/get-with-default";

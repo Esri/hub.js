@@ -4,7 +4,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
-import * as resolveDynamicValueModule from "../../../src/utils/internal/resolveDynamicValue";
+import * as resolveDynamicValuesModule from "../../../src/utils/internal/resolveDynamicValues";
 
 describe("resolveDynamicValues:", () => {
   let context: IArcGISContext;
@@ -35,7 +35,7 @@ describe("resolveDynamicValues:", () => {
 
   it("delegates to resolveDynamicValue", async () => {
     const fnSpy = spyOn(
-      resolveDynamicValueModule,
+      resolveDynamicValuesModule._INTERNAL_FNS,
       "resolveDynamicValue"
     ).and.callFake(() => Promise.resolve({}));
     const def: DynamicValueDefinition = {
