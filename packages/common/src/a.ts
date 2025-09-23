@@ -1,7 +1,7 @@
 import { b } from "./b";
 
-export function a(): void {
+export const a = (): void => {
   if (Date.now() === 0) {
     b();
   }
-}
+};
