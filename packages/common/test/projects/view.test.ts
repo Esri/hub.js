@@ -122,7 +122,7 @@ describe("project view module:", () => {
           },
           {
             i18nKey: "tags",
-            value: PROJECT_HUB_SEARCH_RESULT.tags?.join(", ") as string,
+            value: PROJECT_HUB_SEARCH_RESULT.tags?.join(", "),
           },
           { i18nKey: "categories", value: "category1, category2" },
           {
