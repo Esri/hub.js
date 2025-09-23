@@ -24,6 +24,4 @@ export * from "./cacheBustUrl";
 export * from "./get-cdn-asset-url";
 export * from "./isEnterprisePortalUrl";
 export * from "./feature-service-urls";
-// For some reason, if this is exported here, random tests
-// start failing. Resolved by moving to the root index
-// export * from "./getCardModelUrl";
+export * from "./getCardModelUrl";
