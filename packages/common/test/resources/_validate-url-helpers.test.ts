@@ -4,7 +4,6 @@ import type {
   ILayerDefinition,
 } from "@esri/arcgis-rest-feature-service";
 import * as fetchMock from "fetch-mock";
-import { ItemType } from "../../src";
 import {
   shouldHaveDataUrl,
   getFileName,
@@ -20,6 +19,7 @@ import {
   pingFeatureService,
 } from "../../src/resources/_internal/_validate-url-helpers";
 import { isService } from "../../src/resources/is-service";
+import { ItemType } from "../../src/hub-types";
 
 describe("_validate-url-helpers", () => {
   it("shouldHaveDataUrl", () => {
@@ -227,7 +227,9 @@ describe("_validate-url-helpers", () => {
     beforeEach(() => {
       fetchMock.mock("*", { status: 200, body: response });
     });
-    afterEach(fetchMock.restore);
+    afterEach(() => {
+      fetchMock.restore();
+    });
 
     it("pingUrl", async () => {
       const result = await pingUrl("https://notrealurl.com/test.csv");

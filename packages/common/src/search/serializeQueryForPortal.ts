@@ -1,14 +1,9 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
-import {
-  IDateRange,
-  IFilter,
-  IMatchOptions,
-  IPredicate,
-  IQuery,
-} from "./types";
 import { getTopLevelPredicate } from "./_internal/commonHelpers/getTopLevelPredicate";
 import { expandPredicate } from "./_internal/expandPredicate";
+import { IQuery, IFilter, IPredicate } from "./types/IHubCatalog";
+import { IDateRange, IMatchOptions } from "./types/types";
 
 /**
  * Serialize IQuery into ISearchOptions for ArcGIS Portal

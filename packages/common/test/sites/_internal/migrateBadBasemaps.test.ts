@@ -1,4 +1,4 @@
-import { IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
 import { migrateBadBasemap } from "../../../src/sites/_internal/migrateBadBasemap";
 
 describe("migrate bad basemaps:", () => {

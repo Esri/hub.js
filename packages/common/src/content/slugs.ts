@@ -1,4 +1,4 @@
-import { isGuid } from "../utils";
+import { isGuid } from "../utils/is-guid";
 
 //////////////////////
 // Slug Helpers

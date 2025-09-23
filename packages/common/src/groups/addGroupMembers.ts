@@ -1,9 +1,12 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { failSafe } from "../utils";
+import { failSafe } from "../utils/fail-safe";
 import { autoAddUsers } from "./autoAddUsers";
 import { inviteUsers } from "./inviteUsers";
-import { IAddGroupMembersResult, IAddOrInviteMemberResponse } from "./types";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  IAddGroupMembersResult,
+  IAddOrInviteMemberResponse,
+} from "./types/types";
 
 /**
  * Add or invite N users to a single group.

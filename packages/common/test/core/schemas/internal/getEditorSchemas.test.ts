@@ -7,14 +7,14 @@ import {
   validCardEditorTypes,
 } from "../../../../src/core/schemas/types";
 
-import { ProjectEditorTypes } from "../../../../src/projects/_internal/ProjectSchema";
+import { ProjectEditorTypes } from "../../../../src/projects/_internal/projectEditorTypes";
 import * as ProjectBuildEditUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaEdit";
 import * as ProjectBuildCreateUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaCreate";
 import * as ProjectBuildCreateUiSchema2 from "../../../../src/projects/_internal/ProjectUiSchemaCreate2";
 import * as ProjectBuildMetricUiSchema from "../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
 import * as ProjectBuildSettingsUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaSettings";
 
-import { InitiativeEditorTypes } from "../../../../src/initiatives/_internal/InitiativeSchema";
+import { InitiativeEditorTypes } from "../../../../src/initiatives/_internal/initiativeEditorTypes";
 import * as InitiativeBuildEditUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaEdit";
 import * as InitiativeBuildCreateUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaCreate";
 import * as InitiativeBuildCreateUiSchema2 from "../../../../src/initiatives/_internal/InitiativeUiSchemaCreate2";
@@ -22,36 +22,36 @@ import * as InitiativeBuildMetricUiSchema from "../../../../src/core/schemas/int
 import * as InitiativeBuildAssociationsUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaAssociations";
 import * as InitiativeBuildSettingsUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaSettings";
 
-import { SiteEditorTypes } from "../../../../src/sites/_internal/SiteSchema";
+import { SiteEditorTypes } from "../../../../src/sites/_internal/siteEditorTypes";
 import * as SiteBuildEditUiSchema from "../../../../src/sites/_internal/SiteUiSchemaEdit";
 import * as SiteBuildCreateUiSchema from "../../../../src/sites/_internal/SiteUiSchemaCreate";
 import * as SiteBuildFollowersUiSchema from "../../../../src/sites/_internal/SiteUiSchemaFollowers";
 import * as SiteBuildTelemetryUiSchema from "../../../../src/sites/_internal/SiteUiSchemaSettings";
 import * as SiteBuildAssistantUiSchema from "../../../../src/sites/_internal/SiteUiSchemaAssistant";
 
-import { DiscussionEditorTypes } from "../../../../src/discussions/_internal/DiscussionSchema";
+import { DiscussionEditorTypes } from "../../../../src/discussions/_internal/discussionEditorTypes";
 import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaEdit";
 import * as DiscussionBuildCreateUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaCreate";
 import * as DiscussionBuildSettingsUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaSettings";
 import * as EntityBuildDiscussionSettingsUiSchema from "../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
 import * as EntityUiSchemaDiscussionsSettingsCompact from "../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact";
 
-import { ChannelEditorTypes } from "../../../../src/channels/_internal/ChannelSchema";
+import { ChannelEditorTypes } from "../../../../src/channels/_internal/channelEditorTypes";
 import * as ChannelBuildEditUiSchema from "../../../../src/channels/_internal/ChannelUiSchemaEdit";
 import * as ChannelBuildCreateUiSchema from "../../../../src/channels/_internal/ChannelUiSchemaCreate";
 
-import { ContentEditorTypes } from "../../../../src/content/_internal/ContentSchema";
+import { ContentEditorTypes } from "../../../../src/content/_internal/contentEditorTypes";
 import * as ContentBuildEditUiSchema from "../../../../src/content/_internal/ContentUiSchemaEdit";
 import * as ContentBuildSettingsUiSchema from "../../../../src/content/_internal/ContentUiSchemaSettings";
 
-import { PageEditorTypes } from "../../../../src/pages/_internal/PageSchema";
+import { PageEditorTypes } from "../../../../src/pages/_internal/pageEditorTypes";
 import * as PageBuildEditUiSchema from "../../../../src/pages/_internal/PageUiSchemaEdit";
 import * as PageBuildCreateUiSchema from "../../../../src/pages/_internal/PageUiSchemaCreate";
 
-import { TemplateEditorTypes } from "../../../../src/templates/_internal/TemplateSchema";
+import { TemplateEditorTypes } from "../../../../src/templates/_internal/templateEditorTypes";
 import * as TemplateBuildEditUiSchema from "../../../../src/templates/_internal/TemplateUiSchemaEdit";
 
-import { GroupEditorTypes } from "../../../../src/groups/_internal/GroupSchema";
+import { GroupEditorTypes } from "../../../../src/groups/_internal/groupEditorTypes";
 import * as GroupBuildEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaEdit";
 import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaSettings";
 import * as GroupBuildCreateFollowersUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateFollowers";
@@ -60,15 +60,15 @@ import * as GroupBuildCreateViewUiSchema from "../../../../src/groups/_internal/
 import * as GroupBuildCreateEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateEdit";
 import * as GroupBuildCreateUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreate";
 
-import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
+import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/initiativeTemplateEditorTypes";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 
-import { EventEditorTypes } from "../../../../src/events/_internal/EventSchemaCreate";
+import { EventEditorTypes } from "../../../../src/events/_internal/eventEditorTypes";
 import * as EventBuildCreateUiSchema from "../../../../src/events/_internal/EventUiSchemaCreate";
 import * as EventBuildEditUiSchema from "../../../../src/events/_internal/EventUiSchemaEdit";
 import * as EventAttendeesSettingsUiSchema from "../../../../src/events/_internal/EventUiSchemaAttendeesSettings";
 
-import { UserEditorTypes } from "../../../../src/users/_internal/UserSchema";
+import { UserEditorTypes } from "../../../../src/users/_internal/userEditorTypes";
 import * as UserBuildUiSchemaSettings from "../../../../src/users/_internal/UserUiSchemaSettings";
 
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";

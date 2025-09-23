@@ -1,5 +1,5 @@
-import { HubEntityType } from "../core";
-import { IQuery } from "../search";
+import { HubEntityType } from "../core/types/HubEntityType";
+import { IQuery } from "../search/types/IHubCatalog";
 
 /**
  * associations are hierarchical in nature e.g.

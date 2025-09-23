@@ -1,6 +1,6 @@
-import { getUniqueItemTitle } from "../../src";
 import * as doesItemExistWithTitleModule from "../../src/items/does-item-exist-with-title";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
+import { getUniqueItemTitle } from "../../src/items/get-unique-item-title";
 
 describe("getUniqueItemTitle", () => {
   const opts = {

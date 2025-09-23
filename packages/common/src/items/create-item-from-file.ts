@@ -2,13 +2,14 @@ import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   addItemPart,
   cancelItemUpload,
+  commitItemUpload,
   ICreateItemResponse,
 } from "@esri/arcgis-rest-portal";
 import type { IItemAdd } from "@esri/arcgis-rest-portal";
-import { commitItemUpload, createItem } from "../rest/portal";
 import { isBBox, bboxToString } from "../extent";
-import { batch } from "../utils";
 import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
+import { createItem } from "../rest/portal/wrappers";
+import { batch } from "../utils/batch";
 
 /**
  * Creates an item in online from a local file/item.

@@ -1,20 +1,18 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as itemsModule from "../../src/items";
-import * as resourcesModule from "../../src/resources";
-import * as restPortal from "../../src/rest/portal";
+import * as getItemBySlugModule from "../../src/items/slugs";
+import * as upsertResourceModule from "../../src/resources/upsertResource";
+import * as restPortal from "../../src/rest/portal/wrappers";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import {
-  createModel,
-  fetchModelFromItem,
-  getModelBySlug,
-  IHubLocation,
-  IModel,
-  updateModel,
-  upsertModelResources,
-  fetchModelResources,
-  EntityResourceMap,
-} from "../../src";
+import { IHubLocation } from "../../src/core/types/IHubLocation";
+import { getModelBySlug } from "../../src/models/getModelBySlug";
+import { createModel } from "../../src/models/createModel";
+import { IModel } from "../../src/hub-types";
+import { updateModel } from "../../src/models/updateModel";
+import { fetchModelFromItem } from "../../src/models/fetchModelFromItem";
+import { upsertModelResources } from "../../src/models/upsertModelResource";
+import { fetchModelResources } from "../../src/models/fetchModelResource";
+import { EntityResourceMap } from "../../src/core/types/types";
 
 const LOCATION: IHubLocation = {
   type: "custom",
@@ -24,7 +22,7 @@ describe("model utils:", () => {
   describe("getModelBySlug:", () => {
     it("getModelBySlug returns item and data", async () => {
       const getItemBySlugSpy = spyOn(
-        itemsModule,
+        getItemBySlugModule,
         "getItemBySlug"
       ).and.returnValue(Promise.resolve({ id: "3ef", owner: "vader" }));
 
@@ -43,7 +41,7 @@ describe("model utils:", () => {
     });
     it("returns null if not found", async () => {
       const getItemBySlugSpy = spyOn(
-        itemsModule,
+        getItemBySlugModule,
         "getItemBySlug"
       ).and.returnValue(Promise.resolve(null));
 
@@ -364,7 +362,7 @@ describe("model utils:", () => {
   describe("upsertModelResources", () => {
     it("upserts model resources", async () => {
       const upsertResourceSpy = spyOn(
-        resourcesModule,
+        upsertResourceModule,
         "upsertResource"
       ).and.returnValue(Promise.resolve("https://fake.com/123"));
 

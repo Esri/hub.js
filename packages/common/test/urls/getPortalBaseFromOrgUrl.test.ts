@@ -1,4 +1,5 @@
-import { getPortalBaseFromOrgUrl } from "../../src";
+import { getPortalBaseFromOrgUrl } from "../../src/urls/getPortalBaseFromOrgUrl";
+
 describe("getPortalBaseUrlFromOrgUrl:", () => {
   it("returns original url if not matched", () => {
     const chk = getPortalBaseFromOrgUrl("https://myserver.com");

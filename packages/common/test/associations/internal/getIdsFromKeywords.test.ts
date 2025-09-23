@@ -1,4 +1,4 @@
-import { HubEntity } from "../../../src";
+import { HubEntity } from "../../../src/core/types/HubEntity";
 import { getIdsFromKeywords } from "../../../src/associations/internal/getIdsFromKeywords";
 
 describe("getIdsFromKeywords", () => {

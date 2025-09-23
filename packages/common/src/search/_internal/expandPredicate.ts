@@ -1,7 +1,10 @@
-import { getProp, setProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
+import { setProp } from "../../objects/set-prop";
 import { cloneObject } from "../../util";
-import { IPredicate, IRelativeDate } from "../types";
-import { relativeDateToDateRange, valueToMatchOptions } from "../utils";
+import { IPredicate } from "../types/IHubCatalog";
+import { IRelativeDate } from "../types/types";
+import { valueToMatchOptions } from "../valueToMatchOptions";
+import { relativeDateToDateRange } from "../relativeDateToDateRange";
 
 /**
  * @internal

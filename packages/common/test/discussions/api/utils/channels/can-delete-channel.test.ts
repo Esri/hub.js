@@ -3,7 +3,7 @@ import {
   IDiscussionsUser,
   SharingAccess,
 } from "../../../../../src/discussions/api//types";
-import { canDeleteChannel } from "../../../../../src/discussions/api//utils/channels";
+import { canDeleteChannel } from "../../../../../src/discussions/api//utils/channels/can-delete-channel";
 import * as isAuthorizedToModifyChannelByLegacyPermissionsModule from "../../../../../src/discussions/api//utils/channels/is-authorized-to-modify-channel-by-legacy-permissions";
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
 

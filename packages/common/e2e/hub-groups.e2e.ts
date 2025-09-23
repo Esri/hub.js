@@ -1,11 +1,11 @@
+import { IHubGroup } from "../src/core/types/IHubGroup";
+import { HubGroup } from "../src/groups/HubGroup";
 import {
   createHubGroup,
   deleteHubGroup,
   fetchHubGroup,
   updateHubGroup,
-  HubGroup,
-} from "../src";
-import { IHubGroup } from "../src/core/types/IHubGroup";
+} from "../src/groups/HubGroups";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
@@ -45,7 +45,7 @@ describe("Hub Groups", () => {
       expect(updatedGroup.membershipAccess).toBe("anyone");
       await deleteHubGroup(newGroup.id, ctxMgr.context.userRequestOptions);
       try {
-        await fetchHubGroup(newGroup.id, ctxMgr.context);
+        await fetchHubGroup(newGroup.id, ctxMgr.context.hubRequestOptions);
         fail("should have thrown error");
       } catch (e) {
         expect((e as Error).message).toBe(

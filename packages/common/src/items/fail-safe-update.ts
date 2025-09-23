@@ -1,9 +1,9 @@
 import { IModel } from "../hub-types";
 import type { IUpdateItemOptions } from "@esri/arcgis-rest-portal";
 import { serializeModel } from "../models/serializeModel";
-import { failSafe } from "../utils";
+import { failSafe } from "../utils/fail-safe";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
-import { updateItem } from "../rest/portal";
+import { updateItem } from "../rest/portal/wrappers";
 
 /**
  * Update a model's item, wrapped in a failSafe so this will not blow up if

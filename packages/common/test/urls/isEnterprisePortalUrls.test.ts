@@ -1,4 +1,4 @@
-import { isEnterprisePortalUrl } from "../../src";
+import { isEnterprisePortalUrl } from "../../src/urls/isEnterprisePortalUrl";
 
 describe("isEnterprisePortalUrl", () => {
   it("returns true for a typical enterprise portal URL", () => {

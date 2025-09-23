@@ -1,5 +1,5 @@
 import { getEntityThumbnailUrl } from "../../src/core/getEntityThumbnailUrl";
-import { HubEntity } from "../../src/core/types";
+import { HubEntity } from "../../src/core/types/HubEntity";
 
 describe("getEntityThumbnailUrl", () => {
   it("should return the thumbnail URL from the links property", () => {

@@ -1,4 +1,5 @@
-import { buildDraft, IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
+import { buildDraft } from "../../../src/sites/drafts/build-draft";
 
 describe("buildDraft", () => {
   it("builds a draft", async () => {

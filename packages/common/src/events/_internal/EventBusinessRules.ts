@@ -1,4 +1,4 @@
-import { IPermissionPolicy } from "../../permissions";
+import { IPermissionPolicy } from "../../permissions/types/IPermissionPolicy";
 
 /**
  * @private

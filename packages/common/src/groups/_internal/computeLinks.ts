@@ -1,11 +1,11 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { IHubEntityLinks } from "../../core/types";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getGroupHomeUrl } from "../../urls/getGroupHomeUrl";
 import { getGroupThumbnailUrl } from "../../search/utils";
 import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
+import { IHubEntityLinks } from "../../core/types/IHubEntityBase";
 
 /**
  * Compute the links that get appended to a Hub Group

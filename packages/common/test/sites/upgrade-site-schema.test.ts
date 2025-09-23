@@ -1,4 +1,3 @@
-import { upgradeSiteSchema } from "../../src";
 import * as _applySiteSchemaModule from "../../src/sites/_internal/_apply-site-schema";
 import * as _enforceLowercaseDomainsModule from "../../src/sites/_internal/_enforce-lowercase-domains";
 import * as _ensureCatalogModule from "../../src/sites/_internal/_ensure-catalog";
@@ -13,10 +12,10 @@ import * as migrateBadBasemapModule from "../../src/sites/_internal/migrateBadBa
 import * as ensureBaseTelemetry from "../../src/sites/_internal/ensureBaseTelemetry";
 import * as _migrateToV2CatalogModule from "../../src/sites/_internal/_migrate-to-v2-catalog";
 import * as ensureLowercaseOrgUrlKeySlugAndKeywordModule from "../../src/sites/_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
-
-import { IModel } from "../../src";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
+import { IModel } from "../../src/hub-types";
+import { upgradeSiteSchema } from "../../src/sites/upgrade-site-schema";
 
 describe("upgradeSiteSchema", () => {
   let applySpy: jasmine.Spy;

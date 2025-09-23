@@ -44,6 +44,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+      
+      - name: Check for circular dependencies
+        run: npm run madge:circular
 
       - name: Build
         run: npm run build

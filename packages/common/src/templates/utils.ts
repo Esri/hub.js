@@ -1,5 +1,5 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
-import { dasherize } from "../utils";
+import { dasherize } from "../utils/dasherize";
 import { capitalize } from "../util";
 
 /**

@@ -1,5 +1,6 @@
-import { IHubRequestOptions, getOrgExtentAsBBox } from "../../src";
 import * as getOrgExtent from "../../src/extent";
+import { getOrgExtentAsBBox } from "../../src/extent";
+import { IHubRequestOptions } from "../../src/hub-types";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("getOrgExtentAsBBox", function () {

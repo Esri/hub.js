@@ -1,6 +1,6 @@
-import { unshareItemFromGroups } from "../../src/items";
 import * as portal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../test-helpers/fake-user-session";
+import { unshareItemFromGroups } from "../../src/items/unshare-item-from-groups";
 
 describe("unshareItemFromGroups", function () {
   it("delegates to arcgis-rest-js with owner", async function () {

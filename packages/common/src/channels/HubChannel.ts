@@ -1,11 +1,11 @@
-import { IArcGISContext } from "../types";
+import { IArcGISContext } from "../types/IArcGISContext";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { IEditorConfig } from "../core/schemas/types";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { IHubChannel, IHubChannelEditor } from "../core/types/IHubChannel";
 import { cloneObject } from "../util";
-import { ChannelEditorType } from "./_internal/ChannelSchema";
+import { ChannelEditorType } from "./_internal/channelEditorTypes";
 import { buildDefaultChannel } from "./_internal/buildDefaultChannel";
 import {
   IConvertToCardModelOpts,

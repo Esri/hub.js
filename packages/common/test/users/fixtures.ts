@@ -1,7 +1,8 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { ArcGISContext, IHubSearchResult } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
+import { ArcGISContext } from "../../src/ArcGISContext";
+import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
 
 const USER: IUser = {
   username: "mock_user",

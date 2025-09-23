@@ -6,9 +6,9 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import { VERSION_RESOURCE_NAME } from "../../src/versioning/_internal/constants";
 import * as objectToJsonBlobModule from "../../src/resources/object-to-json-blob";
 import * as utilModule from "../../src/util";
-import { IVersion } from "../../src";
 import { IItemResourceOptions } from "@esri/arcgis-rest-portal";
 import * as ResourceResponse from "../mocks/versioning/resource.json";
+import { IVersion } from "../../src/versioning/types/IVersion";
 
 describe("updateVersion", () => {
   let portal: string;

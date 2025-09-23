@@ -1,8 +1,8 @@
-import { IArcGISContext } from "../../src";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { canUseHubDownloadApi } from "../../src/downloads/canUseHubDownloadApi";
 import * as canUseCreateReplicaModule from "../../src/downloads/canUseCreateReplica";
 import * as canUseHubDownloadSystemModule from "../../src/downloads/canUseHubDownloadSystem";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("canUseHubDownloadApi", () => {
   it("should return false if download API status is not available", () => {

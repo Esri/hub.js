@@ -1,4 +1,4 @@
-import { getWithDefault } from "../../../../objects";
+import { getWithDefault } from "../../../../objects/get-with-default";
 import { cloneObject } from "../../../../util";
 import { IHubItemEntity } from "../../../types/IHubItemEntity";
 import { IMetric, IMetricDisplayConfig } from "../../../types/Metrics";

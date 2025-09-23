@@ -1,8 +1,9 @@
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
-import { getPortalUrl, IHubRequestOptions } from "../../src";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { getPortalUrl } from "../../src/urls/get-portal-url";
 
-describe("getPortalUrl", function() {
+describe("getPortalUrl", function () {
   const portalApiUrl = "https://www.arcgis.com/sharing/rest";
   let portalSelf: arcgisRestPortal.IPortal;
   beforeEach(() => {
@@ -12,21 +13,23 @@ describe("getPortalUrl", function() {
       name: "Portal Name",
       portalHostname: "portal-hostname.com",
       urlKey: "www",
-      customBaseUrl: "custom-base-url.com"
+      customBaseUrl: "custom-base-url.com",
     };
   });
   describe("when passed a portal", () => {
-    it("uses portalHostname when isPortal", function() {
+    it("uses portalHostname when isPortal", function () {
       portalSelf.isPortal = true;
       expect(getPortalUrl(portalSelf)).toEqual(
-        `https://${portalSelf.portalHostname}`
+        `https://${portalSelf.portalHostname as string}`
       );
     });
 
-    it("constructs url when NOT isPortal", function() {
+    it("constructs url when NOT isPortal", function () {
       portalSelf.isPortal = false;
       expect(getPortalUrl(portalSelf)).toEqual(
-        `https://${portalSelf.urlKey}.${portalSelf.customBaseUrl}`
+        `https://${portalSelf.urlKey as string}.${
+          portalSelf.customBaseUrl as string
+        }`
       );
     });
   });
@@ -44,7 +47,7 @@ describe("getPortalUrl", function() {
     let requestOptions: IRequestOptions;
     beforeEach(() => {
       requestOptions = {
-        portal: portalApiUrl
+        portal: portalApiUrl,
       };
     });
     it("prefers to build URL from portal self", () => {
@@ -53,7 +56,7 @@ describe("getPortalUrl", function() {
         isPortal: true,
         portalSelf,
         hubApiUrl: "hub-api-url,com",
-        authentication: null
+        authentication: null,
       };
       const result = getPortalUrl(hubRequestOptions);
       expect(result).toBe("https://portal-hostname.com");

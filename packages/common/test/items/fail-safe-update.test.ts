@@ -1,7 +1,8 @@
-import { failSafeUpdate, IModel } from "../../src";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 
-import * as portal from "../../src/rest/portal";
+import * as portal from "../../src/rest/portal/wrappers";
+import { failSafeUpdate } from "../../src/items/fail-safe-update";
+import { IModel } from "../../src/hub-types";
 
 describe("failSafeUpdate", function () {
   const model: IModel = {
@@ -44,7 +45,6 @@ describe("failSafeUpdate", function () {
         authentication: mockUserSession,
       });
     } catch (_) {
-      const error = _ as { message?: string };
       fail(Error("failSafeUpdate rejected"));
     }
 

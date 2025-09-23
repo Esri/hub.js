@@ -1,4 +1,4 @@
-import { HubEntityType } from "./types";
+import { HubEntityType } from "./types/HubEntityType";
 
 /**
  * return the item type(s) associated with a provided

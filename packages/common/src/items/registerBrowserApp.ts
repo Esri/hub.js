@@ -1,5 +1,5 @@
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
-import { getPortalApiUrl } from "../urls";
+import { getPortalApiUrl } from "../urls/get-portal-api-url";
 
 /**
  * @private

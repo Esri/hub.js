@@ -1,6 +1,6 @@
-import * as commonModule from "../../src";
 import { registerSiteAsApplication } from "../../src/sites/registerSiteAsApplication";
 import * as regiserBrowserAppModule from "../../src/items/registerBrowserApp";
+import { IHubRequestOptions, IModel } from "../../src/hub-types";
 
 describe("registerSiteAsApplication", () => {
   it("registers the site", async () => {
@@ -18,12 +18,9 @@ describe("registerSiteAsApplication", () => {
           defaultHostname: "default-hostname",
         },
       },
-    } as unknown as commonModule.IModel;
+    } as unknown as IModel;
 
-    await registerSiteAsApplication(
-      model,
-      {} as commonModule.IHubRequestOptions
-    );
+    await registerSiteAsApplication(model, {} as IHubRequestOptions);
 
     expect(registerSpy).toHaveBeenCalledTimes(1);
     const redirectUris = registerSpy.calls.argsFor(0)[1];
@@ -57,12 +54,9 @@ describe("registerSiteAsApplication", () => {
           customHostname: "custom-hostname",
         },
       },
-    } as unknown as commonModule.IModel;
+    } as unknown as IModel;
 
-    await registerSiteAsApplication(
-      model,
-      {} as commonModule.IHubRequestOptions
-    );
+    await registerSiteAsApplication(model, {} as IHubRequestOptions);
 
     expect(registerSpy).toHaveBeenCalledTimes(1);
     const redirectUris = registerSpy.calls.argsFor(0)[1];
@@ -96,11 +90,11 @@ describe("registerSiteAsApplication", () => {
           customHostname: "custom-hostname",
         },
       },
-    } as unknown as commonModule.IModel;
+    } as unknown as IModel;
 
     await registerSiteAsApplication(model, {
       isPortal: true,
-    } as commonModule.IHubRequestOptions);
+    } as IHubRequestOptions);
 
     expect(registerSpy).not.toHaveBeenCalled();
   });

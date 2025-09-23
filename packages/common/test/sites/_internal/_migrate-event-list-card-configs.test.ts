@@ -1,5 +1,7 @@
-import { IModel, cloneObject, IDraft, setProp } from "../../../src";
+import { IDraft, IModel } from "../../../src/hub-types";
+import { setProp } from "../../../src/objects/set-prop";
 import { _migrateEventListCardConfigs } from "../../../src/sites/_internal/_migrate-event-list-card-configs";
+import { cloneObject } from "../../../src/util";
 import { draftModelOneThree } from "../../fixtures/historical-site-draft-schemas/1-3";
 
 const siteModel = {

@@ -1,6 +1,6 @@
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { canUseHubDownloadSystem } from "../../src/downloads/canUseHubDownloadSystem";
-import * as urlsModule from "../../src/urls";
+import * as urlsModule from "../../src/urls/feature-service-urls";
 
 describe("canUseHubDownloadSystem", () => {
   it("should return false if entity is not a map or feature service", () => {

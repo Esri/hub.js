@@ -1,5 +1,5 @@
-import { getModel } from "../models";
 import { IHubRequestOptions } from "../hub-types";
+import { getModel } from "../models/getModel";
 import { upgradeSiteSchema } from "./upgrade-site-schema";
 
 /**

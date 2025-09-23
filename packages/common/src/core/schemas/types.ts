@@ -1,23 +1,22 @@
 import { JSONSchema } from "json-schema-typed";
-
-import { ProjectEditorTypes } from "../../projects/_internal/ProjectSchema";
-import { InitiativeEditorTypes } from "../../initiatives/_internal/InitiativeSchema";
-import { SiteEditorTypes } from "../../sites/_internal/SiteSchema";
-import { DiscussionEditorTypes } from "../../discussions/_internal/DiscussionSchema";
-import { PageEditorTypes } from "../../pages/_internal/PageSchema";
-import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
-import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
-import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
-import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
+import { ProjectEditorTypes } from "../../projects/_internal/projectEditorTypes";
+import { InitiativeEditorTypes } from "../../initiatives/_internal/initiativeEditorTypes";
+import { SiteEditorTypes } from "../../sites/_internal/siteEditorTypes";
+import { DiscussionEditorTypes } from "../../discussions/_internal/discussionEditorTypes";
+import { PageEditorTypes } from "../../pages/_internal/pageEditorTypes";
+import { ContentEditorTypes } from "../../content/_internal/contentEditorTypes";
+import { TemplateEditorTypes } from "../../templates/_internal/templateEditorTypes";
+import { GroupEditorTypes } from "../../groups/_internal/groupEditorTypes";
+import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/initiativeTemplateEditorTypes";
 import {
   CardEditorOptions,
   EntityEditorOptions,
 } from "./internal/EditorOptions";
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { EventEditorTypes } from "../../events/_internal/EventSchemaCreate";
-import { HubActionLink } from "../types";
-import { UserEditorTypes } from "../../users/_internal/UserSchema";
-import { ChannelEditorTypes } from "../../channels/_internal/ChannelSchema";
+import { EventEditorTypes } from "../../events/_internal/eventEditorTypes";
+import { UserEditorTypes } from "../../users/_internal/userEditorTypes";
+import { ChannelEditorTypes } from "../../channels/_internal/channelEditorTypes";
+import { HubActionLink } from "../types/ActionLinks";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;

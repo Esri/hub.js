@@ -1,12 +1,12 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { getItemHomeUrl } from "../../urls";
-import { IHubEntityLinks } from "../../core/types";
-import { getItemIdentifier } from "../../items";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
 import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
+import { getItemIdentifier } from "../../items/getItemIdentifier";
+import { getItemHomeUrl } from "../../urls/get-item-home-url";
+import { IHubEntityLinks } from "../types/IHubEntityBase";
 
 /**
  * Compute the links that get appended to a Hub Initiative

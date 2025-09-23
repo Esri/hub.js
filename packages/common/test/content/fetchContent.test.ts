@@ -1,17 +1,16 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
-import {
-  IHubRequestOptions,
-  fetchContent,
-  IFetchContentOptions,
-  IItemEnrichments,
-  cloneObject,
-  IPolygonProperties,
-} from "../../src";
 import * as _enrichmentsModule from "../../src/items/_enrichments";
 import * as _fetchModule from "../../src/content/_fetch";
 import * as documentItem from "../mocks/items/document.json";
 import * as multiLayerFeatureServiceItem from "../mocks/items/multi-layer-feature-service.json";
+import { IHubRequestOptions, IPolygonProperties } from "../../src/hub-types";
+import {
+  fetchContent,
+  IFetchContentOptions,
+} from "../../src/content/fetchContent";
+import { cloneObject } from "../../src/util";
+import { IItemEnrichments } from "../../src/core/types/IItemEnrichments";
 
 // mock the item enrichments that would be returned for a multi-layer service
 const getMultiLayerItemEnrichments = () => {
@@ -305,7 +304,7 @@ describe("fetchContent", () => {
           "layers",
         ]);
         expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
-        const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0] as any;
+        const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0];
         expect(queryFeaturesArg.url).toEqual(result.url);
         expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
         expect(queryFeaturesArg.where).toBe(definitionExpression);
@@ -411,7 +410,7 @@ describe("fetchContent", () => {
           "layers",
         ]);
         expect(getLayerSpy).toHaveBeenCalledTimes(1);
-        const getLayerArg = getLayerSpy.calls.argsFor(0)[0] as any;
+        const getLayerArg = getLayerSpy.calls.argsFor(0)[0];
         expect(getLayerArg).toEqual({
           ...requestOpts,
           layerId,
@@ -640,7 +639,7 @@ describe("fetchContent", () => {
             options
           );
           expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
-          const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0] as any;
+          const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0];
           expect(queryFeaturesArg.url).toEqual(result.url);
           expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
           expect(queryFeaturesArg.where).toBeUndefined();

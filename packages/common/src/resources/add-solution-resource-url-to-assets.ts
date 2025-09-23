@@ -3,7 +3,7 @@ import {
   IHubRequestOptions,
   ITemplateAsset,
 } from "../hub-types";
-import { getPortalApiUrl } from "../urls";
+import { getPortalApiUrl } from "../urls/get-portal-api-url";
 
 /**
  * Add a url property to the entries in the assets hash

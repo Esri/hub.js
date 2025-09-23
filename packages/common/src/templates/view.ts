@@ -1,5 +1,5 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
-import { IHubSearchResult } from "../search/types";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { getFamily } from "../content/get-family";
 import { IHubTemplate } from "../core/types/IHubTemplate";
 import { getShortenedCategories } from "../content/_internal/internalContentUtils";

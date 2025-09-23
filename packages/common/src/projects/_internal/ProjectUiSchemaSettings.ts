@@ -1,6 +1,6 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
-import { IHubProject } from "../../core/types";
+import { IHubProject } from "../../core/types/IHubProject";
 
 /**
  * @private
@@ -8,12 +8,12 @@ import { IHubProject } from "../../core/types";
  * This defines how the schema should be rendered
  * in the project settings pane
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
-  options: Partial<IHubProject>,
-  context: IArcGISContext
+  _options: Partial<IHubProject>,
+  _context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -36,5 +36,5 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };

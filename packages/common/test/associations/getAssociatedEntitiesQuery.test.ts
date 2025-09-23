@@ -1,7 +1,7 @@
-import { IArcGISContext } from "../../src";
 import { getAssociatedEntitiesQuery } from "../../src/associations/getAssociatedEntitiesQuery";
 import { MOCK_PARENT_ENTITY } from "./fixtures";
 import * as AssociationsModule from "../../src/associations/internal/getIncludesAndReferencesQuery";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("getAssociatedEntitiesQuery:", () => {
   it("delegates to getIncludesAndReferencesQuery", async () => {

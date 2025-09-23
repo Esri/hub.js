@@ -1,6 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { getItemThumbnailUrl } from "../../resources";
+import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
 import { IModel } from "../../hub-types";
 
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";

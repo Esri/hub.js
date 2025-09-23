@@ -1,7 +1,7 @@
 import * as restPortal from "@esri/arcgis-rest-portal";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { fetchOrg } from "../../src";
+import { fetchOrg } from "../../src/org/fetch-org";
 
 describe("fetchOrg", () => {
   let getPortalStub: any;

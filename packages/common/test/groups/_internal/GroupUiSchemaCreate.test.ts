@@ -1,4 +1,3 @@
-import { IHubGroup, UiSchemaRuleEffects } from "../../../src";
 import {
   buildUiSchema,
   buildDefaults,
@@ -8,6 +7,8 @@ import {
   getMockContextWithPrivilenges,
 } from "../../mocks/mock-auth";
 import * as checkPermissionsModule from "../../../src/permissions/checkPermission";
+import { IHubGroup } from "../../../src/core/types/IHubGroup";
+import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 
 describe("GroupUiSchemaCreate", () => {
   describe("buildUiSchema: create group", () => {

@@ -1,4 +1,4 @@
-import { stringToBlob } from "../../src/resources";
+import { stringToBlob } from "../../src/resources/string-to-blob";
 
 describe("stringToBlob", () => {
   it("returns a blob given a string", () => {

@@ -8,14 +8,13 @@ import {
   deleteEvent as deleteEventApi,
   updateEvent as updateEventApi,
 } from "./api/events";
+import { buildEventAssociations } from "./_internal/buildEventAssociations";
+import { createRegistration, deleteRegistration } from "./api/registrations";
 import {
-  createRegistration,
-  deleteRegistration,
+  RegistrationRole,
   EventAttendanceType,
   IRegistration,
-  RegistrationRole,
-} from "./api";
-import { buildEventAssociations } from "./_internal/buildEventAssociations";
+} from "./api/types";
 
 export interface IHubCreateEventRegistration {
   eventId: string;

@@ -1,4 +1,4 @@
-import { IWithSlug } from "../traits";
+import { IWithSlug } from "../traits/IWithSlug";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /** Defines the properties of a Hub Template entity */
@@ -12,4 +12,5 @@ export interface IHubTemplate extends IHubItemEntity, IWithSlug {
  * This type redefines the IHubTemplate interface in such a way
  * that it can be consumed by the entity editor.
  */
-export type IHubTemplateEditor = IHubItemEntityEditor<IHubTemplate> & {};
+export type IHubTemplateEditor = IHubItemEntityEditor<IHubTemplate> &
+  Record<string, unknown>;

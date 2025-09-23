@@ -1,14 +1,3 @@
-import {
-  IHubSite,
-  IWithPermissionBehavior,
-  IWithCatalogBehavior,
-  IWithStoreBehavior,
-  IWithSharingBehavior,
-  IWithVersioningBehavior,
-  IHubSiteEditor,
-  SettableAccessLevel,
-} from "../core";
-
 import { Catalog } from "../search/Catalog";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
@@ -26,32 +15,37 @@ import {
   updateSite,
 } from "./HubSites";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
-import { IContainsResponse, IDeepCatalogInfo, IHubCatalog } from "../search";
 import { deepContains } from "../core/_internal/deepContains";
-
-import {
-  createVersion,
-  deleteVersion,
-  getVersion,
-  ICreateVersionOptions,
-  IVersion,
-  IVersionMetadata,
-  searchVersions,
-  updateVersion,
-  updateVersionMetadata,
-} from "../versioning";
 
 import { cloneObject } from "../util";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { isDiscussable } from "../discussions/utils";
-import { SiteEditorType } from "./_internal/SiteSchema";
+import { SiteEditorType } from "./_internal/siteEditorTypes";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 import { getWithDefault } from "../objects/get-with-default";
 import { IModel } from "../hub-types";
 import { setProp } from "../objects/set-prop";
 import { IEntityPermissionPolicy } from "../permissions/types/IEntityPermissionPolicy";
+import { IVersionMetadata } from "../versioning/types/IVersionMetadata";
+import { IVersion } from "../versioning/types/IVersion";
+import { ICreateVersionOptions } from "../versioning/types/ICreateVersionOptions";
+import { updateVersion } from "../versioning/updateVersion";
+import { createVersion } from "../versioning/createVersion";
+import { getVersion } from "../versioning/getVersion";
+import { searchVersions } from "../versioning/searchVersions";
+import { updateVersionMetadata } from "../versioning/updateVersionMetadata";
+import { deleteVersion } from "../versioning/deleteVersion";
+import { IHubSite, IHubSiteEditor } from "../core/types/IHubSite";
+import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
+import { IWithPermissionBehavior } from "../core/behaviors/IWithPermissionBehavior";
+import { IWithCatalogBehavior } from "../core/behaviors/IWithCatalogBehavior";
+import { IWithSharingBehavior } from "../core/behaviors/IWithSharingBehavior";
+import { IWithVersioningBehavior } from "../core/behaviors/IWithVersioningBehavior";
+import { IContainsResponse, IDeepCatalogInfo } from "../search/types/types";
+import { SettableAccessLevel } from "../core/types/types";
+import { IHubCatalog } from "../search/types/IHubCatalog";
 
 /**
  * Hub Site Class

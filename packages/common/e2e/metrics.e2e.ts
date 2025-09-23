@@ -1,11 +1,9 @@
-import {
-  HubInitiative,
-  HubProject,
-  aggregateMetrics,
-  findBy,
-  getEntityMetrics,
-  resolveMetric,
-} from "../src";
+import { HubInitiative } from "../src/initiatives/HubInitiative";
+import { aggregateMetrics } from "../src/metrics/aggregateMetrics";
+import { getEntityMetrics } from "../src/metrics/getEntityMetrics";
+import { resolveMetric } from "../src/metrics/resolveMetric";
+import { HubProject } from "../src/projects/HubProject";
+import { findBy } from "../src/util";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import {
@@ -47,14 +45,14 @@ describe("metrics development harness:", () => {
           });
         }
       } finally {
-        for (const items of created) {
-          const initiative = items.initiative.toJson();
-          // console.info(`Initiative: ${initiative.id} Group: ${items.group.id}`);
-          items.projects.forEach((project) => {
-            // console.log(`Project: ${project.id}`);
-          });
-          // await cleanupItems(items, ctxMgr.context);
-        }
+        // for (const items of created) {
+        //   const initiative = items.initiative.toJson();
+        //   // console.info(`Initiative: ${initiative.id} Group: ${items.group.id}`);
+        //   items.projects.forEach((project) => {
+        //     // console.log(`Project: ${project.id}`);
+        //   });
+        //   // await cleanupItems(items, ctxMgr.context);
+        // }
       }
     });
   });

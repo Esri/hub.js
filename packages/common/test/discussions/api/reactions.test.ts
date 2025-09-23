@@ -1,10 +1,10 @@
+import * as discussionsApiRequestModule from "../../../src/discussions/api/discussions-api-request";
 import {
   createReaction,
   createReactionV2,
   removeReaction,
   removeReactionV2,
-} from "../../../src/discussions/api/reactions";
-import * as discussionsApiRequestModule from "../../../src/discussions/api/discussions-api-request";
+} from "../../../src/discussions/api/reactions/reactions";
 import {
   IDiscussionsRequestOptions,
   PostReaction,

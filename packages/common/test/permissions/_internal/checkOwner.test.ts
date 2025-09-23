@@ -1,6 +1,7 @@
-import { HubEntity, IArcGISContext } from "../../../src";
-import { IPermissionPolicy } from "../../../src/permissions/types";
+import { HubEntity } from "../../../src/core/types/HubEntity";
 import { checkOwner } from "../../../src/permissions/_internal/checkOwner";
+import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("checkOwner:", () => {
   it("returns entity-required if not passed entity", () => {

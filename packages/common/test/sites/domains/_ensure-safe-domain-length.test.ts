@@ -1,9 +1,11 @@
-import * as utilsModule from "../../../src/utils";
-import { _ensureSafeDomainLength } from "../../../src";
+import { _ensureSafeDomainLength } from "../../../src/sites/domains/_ensure-safe-domain-length";
+import * as generateRandomStringModule from "../../../src/utils/generate-random-string";
 
 describe("_ensureSafeDomainLength", () => {
   it("shortens domain and appends random hash if necessary", async () => {
-    spyOn(utilsModule, "generateRandomString").and.returnValue("abcde");
+    spyOn(generateRandomStringModule, "generateRandomString").and.returnValue(
+      "abcde"
+    );
 
     expect(_ensureSafeDomainLength("short-domain")).toBe(
       "short-domain",
@@ -22,7 +24,9 @@ describe("_ensureSafeDomainLength", () => {
   });
 
   it("takes into account url key", async () => {
-    spyOn(utilsModule, "generateRandomString").and.returnValue("abcde");
+    spyOn(generateRandomStringModule, "generateRandomString").and.returnValue(
+      "abcde"
+    );
 
     const domainWith58Chars =
       "0123456789012345678901234567890123456789012345678901234567";

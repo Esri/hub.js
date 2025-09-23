@@ -1,21 +1,19 @@
+import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
+import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
 import {
   ICreateEventParams,
   IDeleteEventParams,
   IGetEventParams,
+  ISearchEventsParams,
   IUpdateEventParams,
+} from "../../../src/events/api/types";
+import {
   createEvent,
   deleteEvent,
   getEvent,
   searchEvents,
   updateEvent,
-  IEvent,
-  EventAttendanceType,
-  EventAccess,
-  EventLocationType,
-  ISearchEventsParams,
-} from "../../../src/events/api";
-import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
-import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
+} from "../../../src/events/api/events";
 
 describe("Events", () => {
   const token = "aaa";
@@ -30,18 +28,18 @@ describe("Events", () => {
 
   describe("createEvent", () => {
     it("should create an event", async () => {
-      const mockEvent = { burrito: "supreme" } as unknown as IEvent;
+      const mockEvent = { burrito: "supreme" } as unknown as orvalModule.IEvent;
       const createEventSpy = spyOn(orvalModule, "createEvent").and.callFake(
         async () => mockEvent
       );
 
       const options: ICreateEventParams = {
         data: {
-          access: EventAccess.ORG,
+          access: orvalModule.EventAccess.ORG,
           allDay: false,
           attendanceType: [
-            EventAttendanceType.IN_PERSON,
-            EventAttendanceType.VIRTUAL,
+            orvalModule.EventAttendanceType.IN_PERSON,
+            orvalModule.EventAttendanceType.VIRTUAL,
           ],
           description: "a description",
           editGroups: ["111"],
@@ -63,7 +61,7 @@ describe("Events", () => {
             stName: "Taco",
             stType: "Blvd",
             subRegion: "District of Somewhere Else",
-            type: EventLocationType.custom,
+            type: orvalModule.EventLocationType.custom,
           },
           notifyAttendees: true,
           onlineMeeting: {
@@ -93,7 +91,7 @@ describe("Events", () => {
 
   describe("getEvent", () => {
     it("should get an event", async () => {
-      const mockEvent = { burrito: "supreme" } as unknown as IEvent;
+      const mockEvent = { burrito: "supreme" } as unknown as orvalModule.IEvent;
       const getEventSpy = spyOn(orvalModule, "getEvent").and.callFake(
         async () => mockEvent
       );
@@ -115,7 +113,7 @@ describe("Events", () => {
 
   describe("searchEvents", () => {
     it("should search events", async () => {
-      const mockEvent = { burrito: "supreme" } as unknown as IEvent;
+      const mockEvent = { burrito: "supreme" } as unknown as orvalModule.IEvent;
       const pagedResponse = {
         total: 1,
         nextStart: 2,
@@ -144,7 +142,7 @@ describe("Events", () => {
 
   describe("updateEvent", () => {
     it("should update an event", async () => {
-      const mockEvent = { burrito: "supreme" } as unknown as IEvent;
+      const mockEvent = { burrito: "supreme" } as unknown as orvalModule.IEvent;
       const updateEventSpy = spyOn(orvalModule, "updateEvent").and.callFake(
         async () => mockEvent
       );
@@ -168,7 +166,7 @@ describe("Events", () => {
 
   describe("deleteEvent", () => {
     it("should delete an event", async () => {
-      const mockEvent = { burrito: "supreme" } as unknown as IEvent;
+      const mockEvent = { burrito: "supreme" } as unknown as orvalModule.IEvent;
       const deleteEventSpy = spyOn(orvalModule, "deleteEvent").and.callFake(
         async () => mockEvent
       );

@@ -1,5 +1,5 @@
 import { IOgcItem } from "./interfaces";
-import { IHubSearchResult } from "../../types";
+import { IHubSearchResult } from "../../types/IHubSearchResult";
 
 /**
  * This method is responsible for converting an OGC item whose properties
@@ -9,10 +9,10 @@ import { IHubSearchResult } from "../../types";
  * @param ogcItem
  * @returns IHubSearchResult
  */
-export async function ogcItemToDiscussionPostResult(
+export function ogcItemToDiscussionPostResult(
   ogcItem: IOgcItem
 ): Promise<IHubSearchResult> {
-  return {
+  return Promise.resolve({
     // Base IHubSearchResult properties
     id: ogcItem.id,
     name: ogcItem.properties.title,
@@ -30,5 +30,5 @@ export async function ogcItemToDiscussionPostResult(
     rawResult: ogcItem,
     access: null,
     family: null,
-  } as IHubSearchResult;
+  } as IHubSearchResult);
 }

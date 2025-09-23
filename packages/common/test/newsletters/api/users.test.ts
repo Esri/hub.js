@@ -4,13 +4,15 @@ import {
   IGetUserParams,
   IUpdateUserParams,
   IUser,
+} from "../../../src/newsletters/api/types";
+import * as authenticateRequestModule from "../../../src/newsletters/api/utils/authenticate-request";
+import * as orvalModule from "../../../src/newsletters/api/orval/api/orval-newsletters";
+import {
   createUser,
   deleteUser,
   getUser,
   updateUser,
-} from "../../../src/newsletters/api";
-import * as authenticateRequestModule from "../../../src/newsletters/api/utils/authenticate-request";
-import * as orvalModule from "../../../src/newsletters/api/orval/api/orval-newsletters";
+} from "../../../src/newsletters/api/users";
 
 describe("Users", () => {
   const token = "aaa";

@@ -1,8 +1,8 @@
 import { explainFilter } from "../../../src/search/_internal/explainFilter";
-import { IFilter } from "../../../src";
-import { GenericResult } from "../../../src/search/explainQueryResult";
+import { GenericResult } from "../../../src/search/types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as ExplainPredicateModule from "../../../src/search/_internal/explainPredicate";
+import { IFilter } from "../../../src/search/types/IHubCatalog";
 
 describe("explainFilter", () => {
   const requestOptions: IRequestOptions = {};

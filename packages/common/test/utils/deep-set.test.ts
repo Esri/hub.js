@@ -1,4 +1,4 @@
-import { deepSet } from "../../src";
+import { deepSet } from "../../src/objects/deep-set";
 
 describe("deepSet", function () {
   it("sets deep properties", function () {

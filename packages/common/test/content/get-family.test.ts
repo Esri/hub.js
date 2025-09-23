@@ -1,4 +1,4 @@
-import { getFamily, getFamilyTypes } from "../../src";
+import { getFamily, getFamilyTypes } from "../../src/content/get-family";
 
 describe("getFamily", () => {
   beforeAll(() => {

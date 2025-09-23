@@ -1,31 +1,29 @@
-import {
-  ArcGISContextManager,
-  EntityEditor,
-  HubContent,
-  HubDiscussion,
-  HubGroup,
-  HubInitiative,
-  HubInitiativeTemplate,
-  HubPage,
-  HubProject,
-  HubSite,
-  HubEvent,
-  HubTemplate,
-  IHubDiscussion,
-  IHubEditableContent,
-  IHubInitiative,
-  IHubInitiativeTemplate,
-  IHubPage,
-  IHubProject,
-  IHubSite,
-  IHubEvent,
-  IHubTemplate,
-  IHubChannel,
-  getProp,
-  IHubUser,
-} from "../../src";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubChannel } from "../../src/channels/HubChannel";
+import { HubContent } from "../../src/content/HubContent";
+import { EntityEditor } from "../../src/core/EntityEditor";
+import { IHubChannel } from "../../src/core/types/IHubChannel";
+import { IHubDiscussion } from "../../src/core/types/IHubDiscussion";
+import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
+import { IHubEvent } from "../../src/core/types/IHubEvent";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
+import { IHubInitiative } from "../../src/core/types/IHubInitiative";
+import { IHubInitiativeTemplate } from "../../src/core/types/IHubInitiativeTemplate";
+import { IHubPage } from "../../src/core/types/IHubPage";
+import { IHubProject } from "../../src/core/types/IHubProject";
+import { IHubSite } from "../../src/core/types/IHubSite";
+import { IHubTemplate } from "../../src/core/types/IHubTemplate";
+import { IHubUser } from "../../src/core/types/IHubUser";
+import { HubDiscussion } from "../../src/discussions/HubDiscussion";
+import { HubEvent } from "../../src/events/HubEvent";
+import { HubGroup } from "../../src/groups/HubGroup";
+import { HubInitiativeTemplate } from "../../src/initiative-templates/HubInitiativeTemplate";
+import { HubInitiative } from "../../src/initiatives/HubInitiative";
+import { getProp } from "../../src/objects/get-prop";
+import { HubPage } from "../../src/pages/HubPage";
+import { HubProject } from "../../src/projects/HubProject";
+import { HubSite } from "../../src/sites/HubSite";
+import { HubTemplate } from "../../src/templates/HubTemplate";
 import { HubUser } from "../../src/users/HubUser";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";

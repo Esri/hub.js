@@ -1,4 +1,5 @@
-import { IMetricFeature, aggregateMetrics } from "../../src";
+import { IMetricFeature } from "../../src/core/types/Metrics";
+import { aggregateMetrics } from "../../src/metrics/aggregateMetrics";
 
 describe("aggregateMetrics:", () => {
   const metrics: IMetricFeature[] = [

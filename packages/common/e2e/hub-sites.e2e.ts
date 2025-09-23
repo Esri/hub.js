@@ -1,4 +1,7 @@
-import { HubSite, IHubSite, lookupDomain, removeDomainsBySiteId } from "../src";
+import { IHubSite } from "../src/core/types/IHubSite";
+import { lookupDomain } from "../src/sites/domains/lookup-domain";
+import { removeDomainsBySiteId } from "../src/sites/domains/remove-domains-by-site-id";
+import { HubSite } from "../src/sites/HubSite";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
@@ -115,10 +118,3 @@ describe("Hub Sites", () => {
     });
   });
 });
-
-// Quick and dirty fetch image fn
-function fetchImage(url: string): Promise<Blob> {
-  return fetch(url).then((response) => {
-    return response.blob();
-  });
-}

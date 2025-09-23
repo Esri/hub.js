@@ -1,7 +1,9 @@
-import { ArcGISContextManager, HubEntity, getProp } from "../../src";
 import { enrichEntity } from "../../src/core/enrichEntity";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { HubEntity } from "../../src/core/types/HubEntity";
+import { getProp } from "../../src/objects/get-prop";
 
 describe("enrichEntity", () => {
   let authdCtxMgr: ArcGISContextManager;

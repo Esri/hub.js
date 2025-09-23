@@ -1,24 +1,26 @@
-import { HubEntity, IArcGISContext, searchEntityCatalogs } from "../../src";
+import { HubEntity } from "../../src/core/types/HubEntity";
+import { searchEntityCatalogs } from "../../src/search/searchEntityCatalogs";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import * as searchCatalogsModule from "../../src/search/searchCatalogs";
 
 describe("searchEntityCatalogs:", () => {
   it("delegates to searchCatalogs", async () => {
-    const spy = spyOn(
-      require("../../src/search/searchCatalogs"),
-      "searchCatalogs"
-    ).and.callFake(() => {
-      return Promise.resolve([
-        {
-          catalogTitle: "test",
-          collectionResults: {
-            test: {
-              hasNext: false,
-              results: [],
-              total: 99,
+    const spy = spyOn(searchCatalogsModule, "searchCatalogs").and.callFake(
+      () => {
+        return Promise.resolve([
+          {
+            catalogTitle: "test",
+            collectionResults: {
+              test: {
+                hasNext: false,
+                results: [],
+                total: 99,
+              },
             },
           },
-        },
-      ]);
-    });
+        ]);
+      }
+    );
     const entity = { catalogs: [] } as unknown as HubEntity;
     const ctx = {} as unknown as IArcGISContext;
     const result = await searchEntityCatalogs(entity, "water", {}, ctx);

@@ -1,7 +1,7 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { addItemResource } from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
-import { getPortalApiUrl } from "../urls";
+import { getPortalApiUrl } from "../urls/get-portal-api-url";
 
 /**
  * Given an item, and owner, add a image resource to the item and returns its url

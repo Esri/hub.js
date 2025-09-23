@@ -1,6 +1,6 @@
-import { getUniqueDomainName } from "../../../src/sites/domains";
+import { IHubRequestOptions } from "../../../src/hub-types";
 import * as domainExistsModule from "../../../src/sites/domains/domain-exists";
-import { IHubRequestOptions } from "../../../src";
+import { getUniqueDomainName } from "../../../src/sites/domains/get-unique-domain-name";
 
 describe("getUniqueDomainName", function () {
   it("generates a unique name", async function () {

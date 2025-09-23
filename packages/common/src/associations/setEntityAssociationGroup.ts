@@ -1,8 +1,9 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
-import { IHubGroup, getTypeFromEntity } from "../core";
 import { HubEntity } from "../core/types/HubEntity";
 import { updateHubEntity } from "../core/updateHubEntity";
-import { setProp } from "../objects";
+import { setProp } from "../objects/set-prop";
+import { IHubGroup } from "../core/types/IHubGroup";
+import { getTypeFromEntity } from "../core/getTypeFromEntity";
 
 /**
  * Utility to create a relationship between an entity and a group, setting the group as

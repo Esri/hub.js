@@ -1,6 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-import { EntityType, IHubSearchOptions, IQuery } from "../../src/search/types";
 import { hubSearch } from "../../src/search/hubSearch";
+import { EntityType, IQuery } from "../../src/search/types/IHubCatalog";
+import { IHubSearchOptions } from "../../src/search/types/IHubSearchOptions";
+import * as portalSearchItemsModule from "../../src/search/_internal/portalSearchItems";
+import * as portalSearchGroupsModule from "../../src/search/_internal/portalSearchGroups";
+import * as hubSearchItemsModule from "../../src/search/_internal/hubSearchItems";
+import * as hubSearchChannelsModule from "../../src/search/_internal/hubSearchChannels";
 
 describe("hubSearch Module:", () => {
   describe("hubSearch:", () => {
@@ -100,7 +104,7 @@ describe("hubSearch Module:", () => {
         // we are only interested in verifying that the fn was called with specific args
         // so all the responses are fake
         portalSearchItemsSpy = spyOn(
-          require("../../src/search/_internal/portalSearchItems"),
+          portalSearchItemsModule,
           "portalSearchItems"
         ).and.callFake(() => {
           return Promise.resolve({
@@ -110,7 +114,7 @@ describe("hubSearch Module:", () => {
           });
         });
         portalSearchGroupsSpy = spyOn(
-          require("../../src/search/_internal/portalSearchGroups"),
+          portalSearchGroupsModule,
           "portalSearchGroups"
         ).and.callFake(() => {
           return Promise.resolve({
@@ -120,7 +124,7 @@ describe("hubSearch Module:", () => {
           });
         });
         hubSearchItemsSpy = spyOn(
-          require("../../src/search/_internal/hubSearchItems"),
+          hubSearchItemsModule,
           "hubSearchItems"
         ).and.callFake(() => {
           return Promise.resolve({
@@ -130,7 +134,7 @@ describe("hubSearch Module:", () => {
           });
         });
         hubSearchChannelsSpy = spyOn(
-          require("../../src/search/_internal/hubSearchChannels"),
+          hubSearchChannelsModule,
           "hubSearchChannels"
         ).and.callFake(() => {
           return Promise.resolve({

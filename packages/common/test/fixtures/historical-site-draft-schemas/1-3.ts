@@ -1,4 +1,4 @@
-import { IDraft } from "../../../src";
+import { IDraft } from "../../../src/hub-types";
 
 export const oneThreeSiteDraftIncludeList = [
   "item.title",

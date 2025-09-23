@@ -1,9 +1,9 @@
+import { IWithPermissions } from "../../src/core/traits/IWithPermissions";
+import { IEntityPermissionPolicy } from "../../src/permissions/types/IEntityPermissionPolicy";
 import {
   addPermissionPolicy,
-  IEntityPermissionPolicy,
-  IWithPermissions,
   removePermissionPolicy,
-} from "../../src";
+} from "../../src/permissions/utils";
 
 describe("permssion utils:", () => {
   describe("addPermissionPolicy", () => {

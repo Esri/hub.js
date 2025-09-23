@@ -4,7 +4,7 @@ import {
   followEntity,
   unfollowEntity,
 } from "../../src/items/follow";
-import * as CoreModule from "../../src/core";
+import * as fetchHubEntityModule from "../../src/core/fetchHubEntity";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { IWithFollowers } from "../../src/core/traits/IWithFollowers";
@@ -25,9 +25,10 @@ describe("follow", function () {
     };
     sampleEntityId = "3ef";
 
-    fetchHubEntitySpy = spyOn(CoreModule, "fetchHubEntity").and.returnValue(
-      Promise.resolve({ followersGroupId: "12345" })
-    );
+    fetchHubEntitySpy = spyOn(
+      fetchHubEntityModule,
+      "fetchHubEntity"
+    ).and.returnValue(Promise.resolve({ followersGroupId: "12345" }));
   });
 
   afterEach(() => {

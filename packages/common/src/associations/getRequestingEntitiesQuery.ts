@@ -1,11 +1,12 @@
 import { getTypeFromEntity } from "../core/getTypeFromEntity";
-import { IQuery } from "../search/types";
-import { HubEntity, HubEntityType } from "../core/types";
 import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { getReferencesDoesNotIncludeQuery } from "./internal/getReferencesDoesNotIncludeQuery";
 import { getIncludesDoesNotReferenceQuery } from "./internal/getIncludesDoesNotReferenceQuery";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
 import type { IArcGISContext } from "../types/IArcGISContext";
+import { HubEntity } from "../core/types/HubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
+import { IQuery } from "../search/types/IHubCatalog";
 
 /**
  * Requesting entities represent "incoming" requests that are

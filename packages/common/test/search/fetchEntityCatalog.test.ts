@@ -1,5 +1,4 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager, IArcGISContext } from "../../src";
 import { fetchEntityCatalog } from "../../src/search/fetchEntityCatalog";
 import * as SiteModule from "../../src/sites/HubSites";
 import * as PortalModule from "@esri/arcgis-rest-portal";
@@ -8,6 +7,8 @@ import * as FetchEntityModule from "../../src/core/fetchHubEntity";
 import * as FetchEventModule from "../../src/events/fetch";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 
 describe("fetchEntityCatalog:", () => {
   let context: IArcGISContext;

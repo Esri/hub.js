@@ -1,6 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { getItemThumbnailUrl } from "../../resources";
+import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
 import { IHubRequestOptions, IModel } from "../../hub-types";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import {
@@ -20,7 +20,7 @@ import {
   ServiceCapabilities,
 } from "../hostedServiceUtils";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
-import { getProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
 import { IHubEditableContentEnrichments } from "../../items/_enrichments";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { isService } from "../../resources/is-service";

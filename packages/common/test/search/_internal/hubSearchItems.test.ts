@@ -1,16 +1,4 @@
 import {
-  cloneObject,
-  IFilter,
-  IHubLocation,
-  IHubRequestOptions,
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IPredicate,
-  IQuery,
-} from "../../../src";
-
-import {
   formatPredicate,
   formatFilterBlock,
   getFilterQueryParam,
@@ -28,7 +16,6 @@ import {
 } from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
 import * as ogcItemToSearchResultModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToSearchResult";
 import * as ogcItemToDiscussionPostModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToDiscussionPostResult";
-import { formatOgcItemsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcItemsResponse";
 import { formatOgcAggregationsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcAggregationsResponse";
 import * as searchOgcItemsModule from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
 import * as portalSearchItemsModule from "../../../src/search/_internal/portalSearchItems";
@@ -39,11 +26,21 @@ import {
   ogcItemsResponseWithNext,
 } from "./mocks/ogcItemsResponse";
 import { ogcAggregationsResponse } from "./mocks/ogcAggregationsResponse";
-import * as getNextOgcCallbackModule from "../../../src/search/_internal/hubSearchItemsHelpers/getNextOgcCallback";
 import { hubSearchItems } from "../../../src/search/_internal/hubSearchItems";
 import { ogcApiRequest } from "../../../src/search/_internal/hubSearchItemsHelpers/ogcApiRequest";
 import { getOgcCollectionUrl } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
 import { getSortByQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getSortByQueryParam";
+import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
+import {
+  IFilter,
+  IPredicate,
+  IQuery,
+} from "../../../src/search/types/IHubCatalog";
+import { cloneObject } from "../../../src/util";
+import { IHubSearchResult } from "../../../src/search/types/IHubSearchResult";
+import { IHubLocation } from "../../../src/core/types/IHubLocation";
+import { IHubRequestOptions } from "../../../src/hub-types";
+import { IHubSearchResponse } from "../../../src/search/types/IHubSearchResponse";
 
 describe("hubSearchItems Module |", () => {
   describe("Request Transformation Helpers |", () => {
@@ -988,7 +985,6 @@ describe("hubSearchItems Module |", () => {
     });
 
     describe("getNextOgcCallback", () => {
-      const { getNextOgcCallback } = getNextOgcCallbackModule;
       const url = "https://my-hub.com/api/search/v1/collections/all/items";
       const query: IQuery = {
         targetEntity: "item",
@@ -1002,16 +998,12 @@ describe("hubSearchItems Module |", () => {
         next: async () => null,
       };
 
-      let searchOgcItemsSpy: jasmine.Spy;
-      beforeEach(() => {
-        searchOgcItemsSpy = spyOn(
-          searchOgcItemsModule,
+      it("returns an empty callback when no next link is present", async () => {
+        const searchOgcItemsSpy = spyOn(
+          searchOgcItemsModule._INTERNAL_FNS,
           "searchOgcItems"
         ).and.returnValue(Promise.resolve(nextResponse));
-      });
-
-      it("returns an empty callback when no next link is present", async () => {
-        const callback = getNextOgcCallback(
+        const callback = searchOgcItemsModule.getNextOgcCallback(
           ogcItemsResponse,
           url,
           query,
@@ -1026,7 +1018,11 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("returns a callback with modified options when next link is present", async () => {
-        const callback = getNextOgcCallback(
+        const searchOgcItemsSpy = spyOn(
+          searchOgcItemsModule._INTERNAL_FNS,
+          "searchOgcItems"
+        ).and.returnValue(Promise.resolve(nextResponse));
+        const callback = searchOgcItemsModule.getNextOgcCallback(
           ogcItemsResponseWithNext,
           url,
           query,
@@ -1059,24 +1055,26 @@ describe("hubSearchItems Module |", () => {
       };
 
       it("correctly handles when no next link is present", async () => {
-        const formattedResponse = await formatOgcItemsResponse(
-          ogcItemsResponse,
-          url,
-          query,
-          requestOptions
-        );
+        const formattedResponse =
+          await searchOgcItemsModule.formatOgcItemsResponse(
+            ogcItemsResponse,
+            url,
+            query,
+            requestOptions
+          );
         expect(formattedResponse).toBeDefined();
         expect(formattedResponse.total).toBe(2);
         expect(formattedResponse.hasNext).toBe(false);
       });
 
       it("correctly handles when the next link is present", async () => {
-        const formattedResponse = await formatOgcItemsResponse(
-          ogcItemsResponseWithNext,
-          url,
-          query,
-          requestOptions
-        );
+        const formattedResponse =
+          await searchOgcItemsModule.formatOgcItemsResponse(
+            ogcItemsResponseWithNext,
+            url,
+            query,
+            requestOptions
+          );
 
         expect(formattedResponse).toBeDefined();
         expect(formattedResponse.total).toEqual(2);
@@ -1084,12 +1082,13 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("correctly handles discussion posts", async () => {
-        const formattedResponse = await formatOgcItemsResponse(
-          ogcDiscussionPostResponseWithNext,
-          url,
-          { targetEntity: "discussionPost", filters: [] },
-          requestOptions
-        );
+        const formattedResponse =
+          await searchOgcItemsModule.formatOgcItemsResponse(
+            ogcDiscussionPostResponseWithNext,
+            url,
+            { targetEntity: "discussionPost", filters: [] },
+            requestOptions
+          );
 
         expect(formattedResponse).toBeDefined();
         expect(formattedResponse.total).toEqual(2);

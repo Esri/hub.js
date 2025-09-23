@@ -1,11 +1,9 @@
 import { HubEntityHero } from "../../hub-types";
-import {
-  IHubTimeline,
-  IMetricDisplayConfig,
-  HubActionLink,
-  IHubMapSettings,
-  IHubEmbed,
-} from "../types";
+import { HubActionLink } from "../types/ActionLinks";
+import { IHubEmbed } from "../types/Embeds";
+import { IHubMapSettings } from "../types/IHubMapSettings";
+import { IHubTimeline } from "../types/IHubTimeline";
+import { IMetricDisplayConfig } from "../types/Metrics";
 
 /**
  * Properties to be exclusively displayed on an entity's

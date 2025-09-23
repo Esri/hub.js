@@ -1,4 +1,4 @@
-import { IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
 import { _migrateTelemetryConfig } from "../../../src/sites/_internal/_migrate-telemetry-config";
 
 describe("_migrateTelemetryConfig", () => {

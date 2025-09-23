@@ -1,14 +1,12 @@
-import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../types";
 import HubError from "../../HubError";
-import { searchChannelsV2 } from "../../discussions/api/channels";
 import { processChannelFilters } from "./hubDiscussionsHelpers/processChannelFilters";
 import { processChannelOptions } from "./hubDiscussionsHelpers/processChannelOptions";
 import { channelResultsToSearchResults } from "./hubDiscussionsHelpers/channelResultsToSearchResults";
+import { searchChannelsV2 } from "../../discussions/api/channels/channels";
+import { IQuery } from "../types/IHubCatalog";
+import { IHubSearchOptions } from "../types/IHubSearchOptions";
+import { IHubSearchResponse } from "../types/IHubSearchResponse";
+import { IHubSearchResult } from "../types/IHubSearchResult";
 
 /**
  * @private

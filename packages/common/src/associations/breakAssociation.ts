@@ -1,13 +1,14 @@
 import { unshareItemWithGroup } from "@esri/arcgis-rest-portal";
 import type { IArcGISContext } from "../types/IArcGISContext";
-import { getProp } from "../objects";
-import { fetchHubEntity } from "../core";
-import { HubEntity, HubEntityType } from "../core/types";
+import { getProp } from "../objects/get-prop";
 import { getTypeFromEntity } from "../core/getTypeFromEntity";
 import { updateHubEntity } from "../core/updateHubEntity";
 import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { removeAssociationKeyword } from "./internal/removeAssociationKeyword";
+import { HubEntity } from "../core/types/HubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
+import { fetchHubEntity } from "../core/fetchHubEntity";
 
 /**
  * When an entity decides it wants to "disconnect" itself

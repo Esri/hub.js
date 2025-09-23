@@ -1,4 +1,4 @@
-import { HubEntity } from "../../src/core/types";
+import { HubEntity } from "../../src/core/types/HubEntity";
 
 export const MOCK_INITIAL_PARENT_ENTITY = {
   id: "parent-00a",

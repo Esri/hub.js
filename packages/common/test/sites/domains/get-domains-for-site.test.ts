@@ -1,6 +1,6 @@
 import * as fetchMock from "fetch-mock";
-import { getDomainsForSite } from "../../../src/sites/domains";
-import { IHubRequestOptions, IDomainEntry } from "../../../src";
+import { getDomainsForSite } from "../../../src/sites/domains/get-domains-for-site";
+import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
 
 describe("getDomainsForSite", function () {
   const domains = [{ some: "domain" }] as unknown as IDomainEntry[];

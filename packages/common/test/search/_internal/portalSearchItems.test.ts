@@ -1,19 +1,19 @@
 import * as Portal from "@esri/arcgis-rest-portal";
-import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
 import { getFamilyTypes } from "../../../src/content/get-family";
-
 import * as SimpleResponse from "../../mocks/portal-search/simple-response.json";
 import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-types.json";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
-  applyWellKnownItemPredicates,
   itemToSearchResult,
   portalSearchItems,
   portalSearchItemsAsItems,
-  WellKnownItemPredicates,
 } from "../../../src/search/_internal/portalSearchItems";
-import { IItem } from "@esri/arcgis-rest-portal";
-import * as searchModule from "../../../../common/src/content/search";
+import { applyWellKnownItemPredicates } from "../../../src/search/_internal/applyWellKnownItemPredicates";
+import { IQuery } from "../../../src/search/types/IHubCatalog";
+import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
+import { cloneObject } from "../../../src/util";
+import { WellKnownItemPredicates } from "../../../src/search/_internal/constants";
+import * as searchModule from "../../../src/content/search";
 
 describe("portalSearchItems Module:", () => {
   describe("portalSearchItems:", () => {
@@ -560,7 +560,7 @@ describe("portalSearchItems Module:", () => {
 
     describe("itemToSearchResult:", () => {
       it("maps item properties to search result", async () => {
-        const item = { type: "Image" } as IItem;
+        const item = { type: "Image" } as Portal.IItem;
         const enrichImageSearchResultSpy = spyOn(
           searchModule,
           "enrichImageSearchResult"

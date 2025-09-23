@@ -10,3 +10,4 @@ export * from "./shared";
  * dependency issues
  */
 export * from "./internal/getTagItems";
+export * from "./internal/fetchCategoriesUiSchemaElement";

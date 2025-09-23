@@ -1,4 +1,4 @@
-import { EntityType } from "../types";
+import { EntityType } from "../types/IHubCatalog";
 
 /**
  * @private

@@ -1,17 +1,15 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import {
-  cloneObject,
-  enrichGroupSearchResult,
-  IArcGISContext,
-  IHubRequestOptions,
-} from "../../src";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as FetchEnrichments from "../../src/groups/_internal/enrichments";
 import * as GetUniqueGroupTitleModule from "../../src/groups/_internal/getUniqueGroupTitle";
 import * as createOrUpdateEntitySettingsModule from "../../src/core/_internal/createOrUpdateEntitySettings";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { enrichGroupSearchResult } from "../../src/groups/enrichGroupSearchResult";
+import { cloneObject } from "../../src/util";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const TEST_GROUP: IGroup = {

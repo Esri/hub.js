@@ -1,4 +1,4 @@
-import { getPortalApiUrl } from "../urls";
+import { getPortalApiUrl } from "../urls/get-portal-api-url";
 import {
   IHubRequestOptions,
   ITemplateAsset,

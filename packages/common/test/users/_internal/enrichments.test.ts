@@ -1,13 +1,13 @@
 import * as Portal from "@esri/arcgis-rest-portal";
 import * as FetchOrgModule from "../../../src/org/fetch-org";
-import {
-  cloneObject,
-  IEnrichmentErrorInfo,
-  IHubRequestOptions,
-} from "../../../src";
 import { fetchUserEnrichments } from "../../../src/users/_internal/enrichments";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as SimpleResponse from "../../mocks/portal/simple-response.json";
+import { cloneObject } from "../../../src/util";
+import {
+  IEnrichmentErrorInfo,
+  IHubRequestOptions,
+} from "../../../src/hub-types";
 
 describe("user enrichments:", () => {
   it("org enrichment", async () => {

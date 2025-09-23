@@ -1,7 +1,7 @@
 import * as Slugs from "../../../src/items/slugs";
 import * as InternalSlugs from "../../../src/items/_internal/slugs";
 import { ensureUniqueEntitySlug } from "../../../src/items/_internal/ensureUniqueEntitySlug";
-import { IHubItemEntity } from "../../../src/core";
+import { IHubItemEntity } from "../../../src/core/types/IHubItemEntity";
 import { IHubRequestOptions } from "../../../src/hub-types";
 
 describe("ensureUniqueEntitySlug:", () => {

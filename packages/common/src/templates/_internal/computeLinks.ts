@@ -1,7 +1,7 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubEntityLinks } from "../../core/types";
 import { computeItemLinks } from "../../core/_internal/computeItemLinks";
+import { IHubEntityLinks } from "../../core/types/IHubEntityBase";
 
 /**
  * Compute the links that get appended to a Hub Template
@@ -21,7 +21,7 @@ export function computeLinks(
   const isDeployed = item.typeKeywords?.includes("Deployed");
   const { self, siteRelative, workspaceRelative } = links;
   // templates have an advanced edit link
-  const advancedEditRelative = `${(siteRelative as string)
+  const advancedEditRelative = `${siteRelative
     .split("/")
     .slice(0, -1)
     .join("/")}/edit/advanced`;

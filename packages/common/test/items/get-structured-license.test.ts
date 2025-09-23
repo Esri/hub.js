@@ -1,4 +1,7 @@
-import { getStructuredLicense, STANDARD_LICENSES } from "../../src";
+import {
+  getStructuredLicense,
+  STANDARD_LICENSES,
+} from "../../src/items/get-structured-license";
 
 describe("getStructuredLicense", function () {
   describe("standard licenses", function () {

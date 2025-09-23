@@ -1,10 +1,11 @@
 import { IGroup, IItem, IUser } from "@esri/arcgis-rest-portal";
-import { AccessLevel, IHubEntityBase, IHubLocation } from "../../core";
 import { HubFamily, IHubGeography } from "../../hub-types";
 import { IOgcItem } from "../_internal/hubSearchItemsHelpers/interfaces";
 import { IChannel } from "../../discussions/api/types";
-import { IRegistration } from "../../events/api";
-import { IEvent } from "../../events/api/orval/api/orval-events";
+import { IEvent, IRegistration } from "../../events/api/orval/api/orval-events";
+import { IHubLocation } from "../../core/types/IHubLocation";
+import { AccessLevel } from "../../core/types/types";
+import { IHubEntityBase } from "../../core/types/IHubEntityBase";
 
 /**
  * Standardized light-weight search result structure, applicable to all

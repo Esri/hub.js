@@ -1,7 +1,7 @@
-import { shareItemToGroups } from "../../src/items";
 import * as portal from "@esri/arcgis-rest-portal";
 import * as pollModule from "../../src/utils/poll";
 import { mockUserSession } from "../test-helpers/fake-user-session";
+import { shareItemToGroups } from "../../src/items/share-item-to-groups";
 
 describe("shareItemToGroups", function () {
   it("should share to groups", async function () {

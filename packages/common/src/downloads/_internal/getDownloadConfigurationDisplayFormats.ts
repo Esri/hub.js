@@ -1,4 +1,3 @@
-import { isHostedFeatureServiceMainEntity } from "../../content";
 import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource";
 import {
   IDownloadFormatConfiguration,
@@ -14,6 +13,7 @@ import {
   getAdditionalResourceIndex,
   isAdditionalResourceConfiguration,
 } from "./additional-resources/utils";
+import { isHostedFeatureServiceMainEntity } from "../../content/hostedServiceUtils";
 
 /**
  * @private

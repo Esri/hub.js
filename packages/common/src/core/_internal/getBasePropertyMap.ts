@@ -1,4 +1,4 @@
-import { EntityResourceMap } from "../types";
+import { EntityResourceMap } from "../types/types";
 import { IPropertyMap } from "./PropertyMapper";
 
 /**

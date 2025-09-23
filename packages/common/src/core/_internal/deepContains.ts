@@ -1,5 +1,4 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { EntityType, IContainsResponse, IDeepCatalogInfo } from "../../search";
 import { getEntityTypeFromType } from "../../search/_internal/getEntityTypeFromType";
 import { Catalog } from "../../search/Catalog";
 import { asyncForEach } from "../../utils/asyncForEach";
@@ -9,6 +8,8 @@ import {
   parseContainmentPath,
 } from "../parseContainmentPath";
 import { getEntityTypeFromHubEntityType } from "../getEntityTypeFromHubEntityType";
+import { EntityType } from "../../search/types/IHubCatalog";
+import { IDeepCatalogInfo, IContainsResponse } from "../../search/types/types";
 
 /**
  * Convert a path string into an array of `IDeepCatalogInfo` objects.

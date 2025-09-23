@@ -1,8 +1,8 @@
-import { IArcGISContext } from "../../src";
 import { getPendingEntitiesQuery } from "../../src/associations/getPendingEntitiesQuery";
 import { MOCK_CHILD_ENTITY, MOCK_PARENT_ENTITY } from "./fixtures";
 import * as getIncludesDoesNotReferenceQueryModule from "../../src/associations/internal/getIncludesDoesNotReferenceQuery";
 import * as getReferencesDoesNotIncludeQueryModule from "../../src/associations/internal/getReferencesDoesNotIncludeQuery";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("getPendingEntitiesQuery:", () => {
   it("delegates to getIncludesDoesNotReferenceQuery for parents", async () => {

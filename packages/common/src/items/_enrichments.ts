@@ -11,16 +11,20 @@ import {
   getService,
   parseServiceUrl,
 } from "@esri/arcgis-rest-feature-service";
-import { IItemEnrichments, IServerEnrichments } from "../core";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../hub-types";
-import { IPipeable, createOperationPipeline } from "../utils";
 import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
 import { getItemMetadata } from "@esri/arcgis-rest-portal";
 import { getItemOrgId } from "../content/_internal/internalContentUtils";
-import { fetchOrg } from "../org";
 import { isServicesDirectoryDisabled } from "./is-services-directory-disabled";
 import { IHubSchedule } from "../core/types/IHubSchedule";
+import { IItemEnrichments } from "../core/types/IItemEnrichments";
+import { IServerEnrichments } from "../core/types/IServerEnrichments";
+import { fetchOrg } from "../org/fetch-org";
+import {
+  IPipeable,
+  createOperationPipeline,
+} from "../utils/create-operation-pipeline";
 
 /**
  * An object containing the item and fetched enrichments

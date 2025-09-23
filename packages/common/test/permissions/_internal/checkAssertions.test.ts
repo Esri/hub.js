@@ -1,6 +1,8 @@
-import { IArcGISContext, IPermissionPolicy, IPolicyCheck } from "../../../src";
 import * as AssertionModule from "../../../src/permissions/_internal/checkAssertion";
 import { checkAssertions } from "../../../src/permissions/_internal/checkAssertions";
+import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
+import { IPolicyCheck } from "../../../src/permissions/types/IPolicyCheck";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("checkAssertions:", () => {
   it("returns empty checks if no assertions present", () => {

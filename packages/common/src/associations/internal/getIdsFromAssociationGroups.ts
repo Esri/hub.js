@@ -1,5 +1,5 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { HubEntityType } from "../../core";
+import { HubEntityType } from "../../core/types/HubEntityType";
 
 /**
  * given an array of groups, this util maps over them,

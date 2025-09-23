@@ -1,4 +1,5 @@
-import { IFeatureFlags, IEntityPermissionPolicy } from "../../permissions";
+import { IEntityPermissionPolicy } from "../../permissions/types/IEntityPermissionPolicy";
+import { IFeatureFlags } from "../../permissions/types/IPermissionPolicy";
 
 /**
  * Adds permissions property to an entity

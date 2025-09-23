@@ -1,7 +1,8 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager, IHubProject } from "../../../../src";
 import { MOCK_AUTH } from "../../../mocks/mock-auth";
 import { getAuthedImageUrl } from "../../../../src/core/_internal/getAuthedImageUrl";
+import { ArcGISContextManager } from "../../../../src/ArcGISContextManager";
+import { IHubProject } from "../../../../src/core/types/IHubProject";
 
 describe("getAuthedImageUrl:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -36,7 +37,7 @@ describe("getAuthedImageUrl:", () => {
     } as unknown as IHubProject;
 
     const url = getAuthedImageUrl(
-      entity.view?.featuredImageUrl as string,
+      entity.view?.featuredImageUrl,
       authdCtxMgr.context.requestOptions
     );
     expect(url?.includes("token=fake-token")).toBeTruthy();
@@ -50,14 +51,14 @@ describe("getAuthedImageUrl:", () => {
       },
     } as unknown as IHubProject;
 
-    const url = getAuthedImageUrl(entity.view?.featuredImageUrl as string, {});
+    const url = getAuthedImageUrl(entity.view?.featuredImageUrl, {});
     expect(url?.includes("token=fake-token")).toBeFalsy();
     expect(url?.includes("v=")).toBeTruthy();
   });
   it("returns undefined if a featured image url is not defined on the entity", () => {
     const entity = {} as IHubProject;
     const url = getAuthedImageUrl(
-      entity.view?.featuredImageUrl as string,
+      entity.view?.featuredImageUrl,
       authdCtxMgr.context.requestOptions
     );
 

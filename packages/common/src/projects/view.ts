@@ -1,5 +1,5 @@
-import { getFamily } from "../content";
-import { IHubProject } from "../core";
+import { getFamily } from "../content/get-family";
+import { IHubProject } from "../core/types/IHubProject";
 import { getShortenedCategories } from "../content/_internal/internalContentUtils";
 import {
   getCardModelUrlFromEntity,

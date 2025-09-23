@@ -1,6 +1,6 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
-import { IModel } from "../../../../src";
 import { migrateLegacyCapabilitiesToFeatures } from "../../../../src/sites/_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
+import { IModel } from "../../../../src/hub-types";
 
 describe("migrateLegacyCapabilitiesToFeatures", () => {
   it("adds legacy capabilities to old sites without any features", () => {

@@ -5,7 +5,7 @@ import {
   IPost,
   Role,
 } from "../../../../../src/discussions/api//types";
-import { canDeletePostV2 } from "../../../../../src/discussions/api//utils/posts";
+import { canDeletePostV2 } from "../../../../../src/discussions/api//utils/posts/can-delete-post-v2";
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
 

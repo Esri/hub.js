@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../src";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { getS123ShareUrl } from "../../../src/surveys/utils/get-s123-share-url";
 
 describe("getS123ShareUrl", () => {

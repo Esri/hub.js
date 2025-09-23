@@ -1,7 +1,7 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubEntityLinks } from "../../core/types";
 import { computeItemLinks } from "../../core/_internal/computeItemLinks";
+import { IHubEntityLinks } from "../../core/types/IHubEntityBase";
 
 /**
  * Compute the links that get appended to a Hub Site

@@ -13,30 +13,31 @@ import { unshareItemFromGroups } from "../items/unshare-item-from-groups";
 import { shareItemToGroups } from "../items/share-item-to-groups";
 import { deleteItemThumbnail } from "../items/deleteItemThumbnail";
 import { setItemThumbnail } from "../items/setItemThumbnail";
-import {
-  addPermissionPolicy,
-  checkPermission,
-  IPermissionAccessResponse,
-  IEntityPermissionPolicy,
-  Permission,
-  removePermissionPolicy,
-} from "../permissions";
-import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
-import {
-  IWithSharingBehavior,
-  IWithStoreBehavior,
-  IWithFeaturedImageBehavior,
-  IWithPermissionBehavior,
-} from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
 import { IHubItemEntity } from "./types/IHubItemEntity";
 import { SettableAccessLevel } from "./types/types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
-import { setDiscussableKeyword } from "../discussions";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
+import { setDiscussableKeyword } from "../discussions/utils";
+import { checkPermission } from "../permissions/checkPermission";
+import { IEntityPermissionPolicy } from "../permissions/types/IEntityPermissionPolicy";
+import { IPermissionAccessResponse } from "../permissions/types/IPermissionAccessResponse";
+import { Permission } from "../permissions/types/Permission";
+import {
+  addPermissionPolicy,
+  removePermissionPolicy,
+} from "../permissions/utils";
+import {
+  IThumbnailOptions,
+  getItemThumbnailUrl,
+} from "../resources/get-item-thumbnail-url";
+import { IWithFeaturedImageBehavior } from "./behaviors/IWithFeaturedImageBehavior";
+import { IWithPermissionBehavior } from "./behaviors/IWithPermissionBehavior";
+import { IWithSharingBehavior } from "./behaviors/IWithSharingBehavior";
+import { IWithStoreBehavior } from "./behaviors/IWithStoreBehavior";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 

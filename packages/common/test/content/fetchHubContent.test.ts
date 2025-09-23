@@ -10,9 +10,10 @@ import {
 } from "./fixtures";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { fetchHubContent } from "../../src/content/fetchHubContent";
-import { IHubRequestOptions, IServiceExtendedProps } from "../../src";
-import * as modelsModule from "../../src/models";
+import * as fetchModelFromItemModule from "../../src/models/fetchModelFromItem";
 import * as fetchSettingsModule from "../../src/discussions/api/settings/settings";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { IServiceExtendedProps } from "../../src/core/types/IHubEditableContent";
 
 describe("fetchHubContent", () => {
   let fetchContentSpy: jasmine.Spy;
@@ -26,7 +27,10 @@ describe("fetchHubContent", () => {
       fetchEditableContentEnrichmentsModule,
       "fetchEditableContentEnrichments"
     );
-    fetchModelFromItemSpy = spyOn(modelsModule, "fetchModelFromItem");
+    fetchModelFromItemSpy = spyOn(
+      fetchModelFromItemModule,
+      "fetchModelFromItem"
+    );
     fetchSettingsSpy = spyOn(fetchSettingsModule, "fetchSettingV2");
   });
 

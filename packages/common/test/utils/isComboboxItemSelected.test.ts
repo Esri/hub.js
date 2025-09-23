@@ -38,14 +38,14 @@ describe("isComboboxItemSelected:", () => {
     expect(isComboboxItemSelected(nodes[0], selected, "single")).toBe(true);
     expect(isComboboxItemSelected(nodes[1], selected, "single")).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[1].children![0], selected, "single")
+      isComboboxItemSelected(nodes[1].children[0], selected, "single")
     ).toBe(false);
     expect(isComboboxItemSelected(nodes[2], selected, "single")).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[2].children![0], selected, "single")
+      isComboboxItemSelected(nodes[2].children[0], selected, "single")
     ).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[2].children![1], selected, "single")
+      isComboboxItemSelected(nodes[2].children[1], selected, "single")
     ).toBe(false);
   });
 
@@ -54,14 +54,14 @@ describe("isComboboxItemSelected:", () => {
     expect(isComboboxItemSelected(nodes[0], selected, "ancestors")).toBe(false);
     expect(isComboboxItemSelected(nodes[1], selected, "ancestors")).toBe(true);
     expect(
-      isComboboxItemSelected(nodes[1].children![0], selected, "ancestors")
+      isComboboxItemSelected(nodes[1].children[0], selected, "ancestors")
     ).toBe(true);
     expect(isComboboxItemSelected(nodes[2], selected, "ancestors")).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[2].children![0], selected, "ancestors")
+      isComboboxItemSelected(nodes[2].children[0], selected, "ancestors")
     ).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[2].children![1], selected, "ancestors")
+      isComboboxItemSelected(nodes[2].children[1], selected, "ancestors")
     ).toBe(false);
   });
 
@@ -70,14 +70,14 @@ describe("isComboboxItemSelected:", () => {
     expect(isComboboxItemSelected(nodes[0], selected, "ancestors")).toBe(false);
     expect(isComboboxItemSelected(nodes[1], selected, "ancestors")).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[1].children![0], selected, "ancestors")
+      isComboboxItemSelected(nodes[1].children[0], selected, "ancestors")
     ).toBe(false);
     expect(isComboboxItemSelected(nodes[2], selected, "ancestors")).toBe(true);
     expect(
-      isComboboxItemSelected(nodes[2].children![0], selected, "ancestors")
+      isComboboxItemSelected(nodes[2].children[0], selected, "ancestors")
     ).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[2].children![1], selected, "ancestors")
+      isComboboxItemSelected(nodes[2].children[1], selected, "ancestors")
     ).toBe(true);
   });
 
@@ -86,14 +86,14 @@ describe("isComboboxItemSelected:", () => {
     expect(isComboboxItemSelected(nodes[0], selected, "multiple")).toBe(false);
     expect(isComboboxItemSelected(nodes[1], selected, "multiple")).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[1].children![0], selected, "multiple")
+      isComboboxItemSelected(nodes[1].children[0], selected, "multiple")
     ).toBe(true);
     expect(isComboboxItemSelected(nodes[2], selected, "multiple")).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[2].children![0], selected, "multiple")
+      isComboboxItemSelected(nodes[2].children[0], selected, "multiple")
     ).toBe(false);
     expect(
-      isComboboxItemSelected(nodes[2].children![1], selected, "multiple")
+      isComboboxItemSelected(nodes[2].children[1], selected, "multiple")
     ).toBe(false);
   });
 });

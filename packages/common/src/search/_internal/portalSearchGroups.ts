@@ -1,19 +1,16 @@
 import { ISearchOptions, searchGroups } from "@esri/arcgis-rest-portal";
 import type { IGroup } from "@esri/arcgis-rest-portal";
-
-import { enrichGroupSearchResult } from "../../groups/HubGroups";
+import { enrichGroupSearchResult } from "../../groups/enrichGroupSearchResult";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../hub-types";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
-import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../types";
 import { getKilobyteSizeOfQuery } from "../utils";
 import { expandPredicate } from "./expandPredicate";
 import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
+import { IQuery } from "../types/IHubCatalog";
+import { IHubSearchOptions } from "../types/IHubSearchOptions";
+import { IHubSearchResponse } from "../types/IHubSearchResponse";
+import { IHubSearchResult } from "../types/IHubSearchResult";
 
 /**
  * @private
@@ -53,7 +50,7 @@ export async function portalSearchGroups(
   ];
   // copy the props over
   props.forEach((prop) => {
-    if (options.hasOwnProperty(prop)) {
+    if (Object.prototype.hasOwnProperty.call(options, prop)) {
       so[prop as keyof ISearchOptions] = options[prop];
     }
   });

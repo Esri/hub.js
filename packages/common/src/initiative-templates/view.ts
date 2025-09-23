@@ -11,7 +11,7 @@ import {
   ResultToCardModelFn,
   EntityToCardModelFn,
 } from "../core/types/IHubCardViewModel";
-import { getFamily } from "../content";
+import { getFamily } from "../content/get-family";
 import { getShortenedCategories } from "../content/_internal/internalContentUtils";
 
 /**

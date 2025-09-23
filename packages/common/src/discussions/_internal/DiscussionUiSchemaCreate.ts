@@ -1,18 +1,18 @@
-import { IUiSchema } from "../../core";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { IUiSchema } from "../../core/schemas/types";
 /**
  * @private
  * constructs the complete create uiSchema for Hub Discussions.
  * This defines how the schema properties should be
  * rendered in the discussion creation experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
-  options: EntityEditorOptions,
-  context: IArcGISContext
+  _options: EntityEditorOptions,
+  _context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -61,5 +61,5 @@ export const buildUiSchema = async (
         },
       },
     ],
-  };
+  });
 };

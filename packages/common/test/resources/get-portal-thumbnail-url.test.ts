@@ -1,5 +1,5 @@
-import { getOrgThumbnailUrl } from "../../src";
 import { IPortal } from "@esri/arcgis-rest-portal";
+import { getOrgThumbnailUrl } from "../../src/resources/get-org-thumbnail-url";
 
 describe("getPortalThumbnailUrl:", () => {
   const token = "FAKE_TOKEN";

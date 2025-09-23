@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "./hub-types";
-import { getPortalApiUrl } from "./urls";
+import { getPortalApiUrl } from "./urls/get-portal-api-url";
 import { _getHubUrlFromPortalHostname } from "./urls/_get-hub-url-from-portal-hostname";
 /**
  * ```js

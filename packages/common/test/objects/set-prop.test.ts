@@ -1,4 +1,4 @@
-import { setProp } from "../../src";
+import { setProp } from "../../src/objects/set-prop";
 
 describe("setProp", () => {
   it("works with a string path", () => {

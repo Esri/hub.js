@@ -1,16 +1,11 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  DynamicValueDefinition,
-} from "../../../src";
-import { resolveItemQueryValues } from "../../../src/utils/internal/resolveItemQueryValues";
-import * as ResolveDynamicValueModule from "../../../src/utils/internal/resolveDynamicValue";
-
+import * as ResolveDynamicValuesModule from "../../../src/utils/internal/resolveDynamicValues";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as portal from "@esri/arcgis-rest-portal";
-
 import { clearMemoizedCache } from "../../../src/utils/memoize";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
 
 describe("resolveItemQueryValues:", () => {
   let context: IArcGISContext;
@@ -39,7 +34,7 @@ describe("resolveItemQueryValues:", () => {
     context = authdCtxMgr.context;
   });
   it("runs memoized portal query", async () => {
-    const fnSpy = spyOn(portal, "searchItems").and.callFake(() =>
+    spyOn(portal, "searchItems").and.callFake(() =>
       Promise.resolve({
         results: [
           { id: "00c", views: 10 },
@@ -70,12 +65,15 @@ describe("resolveItemQueryValues:", () => {
       sourcePath: "views",
       aggregation: "sum",
     };
-    const result = await resolveItemQueryValues(def, context);
+    const result = await ResolveDynamicValuesModule.resolveItemQueryValues(
+      def,
+      context
+    );
     expect(result.views).toEqual(53);
     clearMemoizedCache("portalSearchItemsAsItems");
   });
   it("handles no query", async () => {
-    const fnSpy = spyOn(portal, "searchItems").and.callFake(() =>
+    spyOn(portal, "searchItems").and.callFake(() =>
       Promise.resolve({
         results: [
           { id: "00c", views: 10 },
@@ -106,7 +104,10 @@ describe("resolveItemQueryValues:", () => {
       sourcePath: "views",
       aggregation: "sum",
     };
-    const result = await resolveItemQueryValues(def, context);
+    const result = await ResolveDynamicValuesModule.resolveItemQueryValues(
+      def,
+      context
+    );
     expect(result.views).toEqual(53);
     clearMemoizedCache("portalSearchItemsAsItems");
   });
@@ -138,7 +139,7 @@ describe("resolveItemQueryValues:", () => {
     );
 
     const recurseSpy = spyOn(
-      ResolveDynamicValueModule,
+      ResolveDynamicValuesModule._INTERNAL_FNS,
       "resolveDynamicValue"
     ).and.callFake(() => Promise.resolve({ views: 19 }));
 
@@ -157,7 +158,10 @@ describe("resolveItemQueryValues:", () => {
       sourcePath: "views",
       aggregation: "sum",
     };
-    const result = await resolveItemQueryValues(def, context);
+    const result = await ResolveDynamicValuesModule.resolveItemQueryValues(
+      def,
+      context
+    );
     expect(result.views).toEqual(49);
     expect(recurseSpy).toHaveBeenCalled();
     expect(fnSpy).toHaveBeenCalled();

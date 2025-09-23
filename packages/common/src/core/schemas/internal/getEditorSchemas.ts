@@ -11,25 +11,25 @@ import {
   IEntityEditorModuleType,
 } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
-import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
-import { ProjectEditorType } from "../../../projects/_internal/ProjectSchema";
-import { InitiativeEditorType } from "../../../initiatives/_internal/InitiativeSchema";
-import { DiscussionEditorType } from "../../../discussions/_internal/DiscussionSchema";
-import { ChannelEditorType } from "../../../channels/_internal/ChannelSchema";
-import { PageEditorType } from "../../../pages/_internal/PageSchema";
-import { ContentEditorType } from "../../../content/_internal/ContentSchema";
-import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
-import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
+import { SiteEditorType } from "../../../sites/_internal/siteEditorTypes";
+import { ProjectEditorType } from "../../../projects/_internal/projectEditorTypes";
+import { InitiativeEditorType } from "../../../initiatives/_internal/initiativeEditorTypes";
+import { DiscussionEditorType } from "../../../discussions/_internal/discussionEditorTypes";
+import { ChannelEditorType } from "../../../channels/_internal/channelEditorTypes";
+import { PageEditorType } from "../../../pages/_internal/pageEditorTypes";
+import { ContentEditorType } from "../../../content/_internal/contentEditorTypes";
+import { TemplateEditorType } from "../../../templates/_internal/templateEditorTypes";
+import { GroupEditorType } from "../../../groups/_internal/groupEditorTypes";
 import {
   CardEditorOptions,
   EditorOptions,
   EntityEditorOptions,
 } from "./EditorOptions";
 import type { IArcGISContext } from "../../../types/IArcGISContext";
-import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
+import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/initiativeTemplateEditorTypes";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
-import { EventEditorType } from "../../../events/_internal/EventSchemaCreate";
-import { UserEditorType } from "../../../users/_internal/UserSchema";
+import { EventEditorType } from "../../../events/_internal/eventEditorTypes";
+import { UserEditorType } from "../../../users/_internal/userEditorTypes";
 import { addDynamicSlugValidation } from "./addDynamicSlugValidation";
 
 /**

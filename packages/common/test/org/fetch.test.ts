@@ -1,10 +1,8 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import {
-  cloneObject,
-  fetchOrganization,
-  portalToSearchResult,
-} from "../../src";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { fetchOrganization, portalToSearchResult } from "../../src/org/fetch";
+import { cloneObject } from "../../src/util";
+import * as fetchOrgModule from "../../src/org/fetch-org";
 
 describe("HubOrganizations", () => {
   describe("convert to searchResult", () => {
@@ -44,10 +42,9 @@ describe("HubOrganizations", () => {
           token: "FAKETOKEN",
         },
       } as unknown as IRequestOptions;
-      const spy = spyOn(
-        require("../../src/org/fetch-org"),
-        "fetchOrg"
-      ).and.returnValue(Promise.resolve(cloneObject(PORTAL)));
+      const spy = spyOn(fetchOrgModule, "fetchOrg").and.returnValue(
+        Promise.resolve(cloneObject(PORTAL))
+      );
       const org = await fetchOrganization("123", ro);
       expect(org.portal).toEqual(PORTAL);
       expect(spy).toHaveBeenCalledWith("123", ro);
@@ -64,7 +61,9 @@ describe("HubOrganizations", () => {
       expect(org.updatedDate).toEqual(new Date(PORTAL.modified));
       expect(org.updatedDateSource).toBe("portal");
       expect(org.thumbnail).toBe(PORTAL.thumbnail);
-      expect(org.url).toBe(`https://${PORTAL.urlKey}.${PORTAL.customBaseUrl}`);
+      expect(org.url).toBe(
+        `https://${PORTAL.urlKey as string}.${PORTAL.customBaseUrl as string}`
+      );
       expect(org.thumbnailUrl).toBe(
         "https://qa-pre-a-hub.mapsqa.arcgis.com/sharing/rest/portals/Xj56SBi2udA78cC9/resources/thumbnail1707251441205.png"
       );
@@ -80,12 +79,11 @@ describe("HubOrganizations", () => {
       const portal = cloneObject(PORTAL);
       delete portal.urlKey;
 
-      const spy = spyOn(
-        require("../../src/org/fetch-org"),
-        "fetchOrg"
-      ).and.returnValue(Promise.resolve(portal));
+      spyOn(fetchOrgModule, "fetchOrg").and.returnValue(
+        Promise.resolve(portal)
+      );
       const org = await fetchOrganization("123", ro);
-      expect(org.url).toBe(`https://${PORTAL.portalHostname}`);
+      expect(org.url).toBe(`https://${PORTAL.portalHostname as string}`);
     });
   });
 });

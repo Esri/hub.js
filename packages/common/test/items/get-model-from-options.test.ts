@@ -1,5 +1,5 @@
-import * as getModelModule from "../../src/models";
-import { getModelFromOptions } from "../../src";
+import { getModelFromOptions } from "../../src/items/get-model-from-options";
+import * as getModelModule from "../../src/models/getModel";
 
 describe("getModelFromOptions", function () {
   const itemIdFromOptions = "item-id-from-options";

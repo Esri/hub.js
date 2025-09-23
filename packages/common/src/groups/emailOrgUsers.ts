@@ -5,7 +5,7 @@ import {
   createOrgNotification,
 } from "@esri/arcgis-rest-portal";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IEmail } from "./types";
+import { IEmail } from "./types/types";
 
 /**
  * Attempts to email members of the requesting user's organization.

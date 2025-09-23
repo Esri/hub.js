@@ -3,7 +3,7 @@ import HubError from "../../src/HubError";
 import * as getOgcCollectionUrlModule from "../../src/search/_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
 import * as searchOgcItemsModule from "../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
 import { searchAssociatedContent } from "../../src/search/searchAssociatedContent";
-import { ISearchAssociatedContentOptions } from "../../src/search/types/types";
+import { ISearchAssociatedContentOptions } from "../../src/search/types/ISearchAssociatedContentOptions";
 
 describe("searchAssociatedContent", () => {
   let mockGetOgcCollectionUrl: jasmine.Spy;

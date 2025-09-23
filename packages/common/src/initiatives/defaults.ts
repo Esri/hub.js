@@ -1,4 +1,4 @@
-import { IHubInitiative } from "../core/types";
+import { IHubInitiative } from "../core/types/IHubInitiative";
 import { HubEntityHero, HubEntityStatus, IModel } from "../hub-types";
 import { InitiativeDefaultFeatures } from "./_internal/InitiativeBusinessRules";
 

@@ -1,6 +1,6 @@
-import { getUniqueDomainNamePortal } from "../../../src";
-import { IHubRequestOptions } from "../../../src";
+import { IHubRequestOptions } from "../../../src/hub-types";
 import * as domainExistsModule from "../../../src/sites/domains/domain-exists-portal";
+import { getUniqueDomainNamePortal } from "../../../src/sites/domains/get-unique-domain-name-portal";
 
 describe("getUniqueDomainNamePortal", function () {
   it("generates a unique name on portal", async function () {

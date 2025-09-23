@@ -1,5 +1,8 @@
+import { IWithLayout } from "../traits/IWithLayout";
+import { IWithPermissions } from "../traits/IWithPermissions";
+import { IWithSlug } from "../traits/IWithSlug";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
-import { IWithLayout, IWithPermissions, IWithSlug } from "../traits";
+
 /**
  * DRAFT: Under development and more properties will likely be added
  * @internal
@@ -10,4 +13,5 @@ export interface IHubPage
     IWithPermissions,
     IWithSlug {}
 
-export type IHubPageEditor = IHubItemEntityEditor<IHubPage> & {};
+export type IHubPageEditor = IHubItemEntityEditor<IHubPage> &
+  Record<string, unknown>;

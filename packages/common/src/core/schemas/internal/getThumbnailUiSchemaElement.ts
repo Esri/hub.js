@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getCdnAssetUrl } from "../../../urls";
+import { getCdnAssetUrl } from "../../../urls/get-cdn-asset-url";
 import { HubEntityType } from "../../types/HubEntityType";
 import { IUiSchemaElement } from "../types";
 

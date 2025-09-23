@@ -1,4 +1,5 @@
-import { _getAuthHeader, IHubRequestOptions } from "../../../src";
+import { IHubRequestOptions } from "../../../src/hub-types";
+import { _getAuthHeader } from "../../../src/sites/domains/_get-auth-header";
 
 describe("_getAuthHeader", function () {
   it("gets the auth header", function () {

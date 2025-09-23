@@ -1,5 +1,5 @@
-import { PolicyResponse } from "../../../src";
 import { getPolicyResponseCode } from "../../../src/permissions/_internal/getPolicyResponseCode";
+import { PolicyResponse } from "../../../src/permissions/types/PolicyResponse";
 
 describe("getPolicyResponseCode:", () => {
   it("returns PC000 if no entry", () => {

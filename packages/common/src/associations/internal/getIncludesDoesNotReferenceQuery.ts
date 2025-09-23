@@ -1,8 +1,6 @@
 import { getItemGroups } from "@esri/arcgis-rest-portal";
-import { HubEntity, HubEntityType } from "../../core/types";
 import { getTypesFromEntityType } from "../../core/getTypesFromEntityType";
 import { getProp } from "../../objects/get-prop";
-import { IQuery } from "../../search/types";
 import { combineQueries } from "../../search/combineQueries";
 import { getTypeWithoutKeywordQuery } from "./getTypeWithoutKeywordQuery";
 import type { IArcGISContext } from "../../types/IArcGISContext";
@@ -10,6 +8,9 @@ import { getTypeByIdsQuery } from "./getTypeByIdsQuery";
 import { getTypeFromEntity } from "../../core/getTypeFromEntity";
 import { getIdsFromKeywords } from "./getIdsFromKeywords";
 import { getIdsFromAssociationGroups } from "./getIdsFromAssociationGroups";
+import { HubEntity } from "../../core/types/HubEntity";
+import { HubEntityType } from "../../core/types/HubEntityType";
+import { IQuery } from "../../search/types/IHubCatalog";
 
 /**
  * builds a query that will return entities that are

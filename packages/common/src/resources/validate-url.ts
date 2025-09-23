@@ -1,5 +1,5 @@
 import { ItemType } from "../hub-types";
-import { Logger } from "../utils";
+import { Logger } from "../utils/logger";
 import {
   isUrl,
   isFeatureService,

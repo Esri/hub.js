@@ -1,4 +1,4 @@
-import { objectToJsonBlob } from "../../src/resources";
+import { objectToJsonBlob } from "../../src/resources/object-to-json-blob";
 
 describe("objectToJsonBlob", () => {
   it("returns a blob given a string", () => {

@@ -1,4 +1,4 @@
-import { IHubAssociationRules } from "../../associations";
+import { IHubAssociationRules } from "../../associations/types";
 
 /** properties for entities with associations */
 export interface IWithAssociations {

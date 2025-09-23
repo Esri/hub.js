@@ -1,5 +1,5 @@
 import { ArcGISContextManager } from "./ArcGISContextManager";
-import { IArcGISContext } from "./types";
+import { IArcGISContext } from "./types/IArcGISContext";
 import { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
 
 /**

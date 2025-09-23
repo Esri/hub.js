@@ -1,12 +1,10 @@
 import { IHubChannel } from "../../core/types/IHubChannel";
-import {
-  canEditChannelV2,
-  canDeleteChannelV2,
-} from "../../discussions/api/utils/channels";
 import { IChannel } from "../../discussions/api/types";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { transformAclPermissionToEntityPermissionPolicy } from "./transformAclPermissionToEntityPermissionPolicy";
 import { getChannelAccess } from "../../discussions/utils";
+import { canEditChannelV2 } from "../../discussions/api/utils/channels/can-edit-channel-v2";
+import { canDeleteChannelV2 } from "../../discussions/api/utils/channels/can-delete-channel-v2";
 
 /**
  * @private

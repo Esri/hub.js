@@ -1,4 +1,5 @@
-import { IHubGroup, IUiSchema, UiSchemaRuleEffects } from "../../core";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IHubGroup } from "../../core/types/IHubGroup";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 
 /**
@@ -7,16 +8,16 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
  * This defines how the schema properties should be
  * rendered in the group settings experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: Partial<IHubGroup>,
-  context: IArcGISContext
+  _context: IArcGISContext
 ): Promise<IUiSchema> => {
   // We want to use isSharedUpdate and leavingDisallowed as rules conditions
   // referencing them from the schema properties requires them to be actual elements
   // in the uiSchema. Instead the entity is passed in as options and we can get them directly from the entity.
   const { isSharedUpdate, leavingDisallowed } = options;
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -92,5 +93,5 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };

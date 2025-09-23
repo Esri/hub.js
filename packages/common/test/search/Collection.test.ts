@@ -1,17 +1,14 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
-import {
-  cloneObject,
-  IArcGISContext,
-  IHubCollection,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { Collection } from "../../src/search/Collection";
 import * as HubSearchModule from "../../src/search/hubSearch";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { IHubCollection, IQuery } from "../../src/search/types/IHubCatalog";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { cloneObject } from "../../src/util";
+import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
+import { IHubSearchResponse } from "../../src/search/types/IHubSearchResponse";
 
 const envCollection: IHubCollection = {
   key: "environment",
@@ -75,12 +72,10 @@ describe("Collection Class:", () => {
       const instance = Collection.fromJson(envCollection, context);
       expect(instance.label).toEqual(envCollection.label);
       expect(instance.key).toEqual(envCollection.key);
-      expect(instance.include).toEqual(envCollection.include as string[]);
+      expect(instance.include).toEqual(envCollection.include);
       expect(instance.scope).toEqual(envCollection.scope);
-      expect(instance.sortField).toEqual(envCollection.sortField as string);
-      expect(instance.sortDirection).toEqual(
-        envCollection.sortDirection as "asc" | "desc"
-      );
+      expect(instance.sortField).toEqual(envCollection.sortField);
+      expect(instance.sortDirection).toEqual(envCollection.sortDirection);
       expect(instance.targetEntity).toEqual(envCollection.targetEntity);
       expect(instance.toJson()).toEqual(envCollection);
     });
@@ -104,7 +99,7 @@ describe("Collection Class:", () => {
       expect(res).toEqual({
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.calls.argsFor(0);
       expect(query.targetEntity).toBe("item");
       expect(query.filters.length).toBe(2);
       expect(query.filters[0].predicates[0].term).toBe("water");
@@ -135,7 +130,7 @@ describe("Collection Class:", () => {
       expect(res).toEqual({
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.calls.argsFor(0);
       expect(query).not.toBe(qry); // ensure we don't mutate the original
       expect(query.targetEntity).toBe("item");
       expect(query.filters.length).toBe(2);

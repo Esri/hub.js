@@ -1,6 +1,6 @@
 import { bBoxToExtent, orgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../hub-types";
-import { IHubLocation } from "../../types";
+import { IHubLocation } from "../../types/IHubLocation";
 
 /**
  * Get the extent from the entity's location, if it has one.

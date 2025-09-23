@@ -1,7 +1,7 @@
-import { IQuery } from "../../src";
-import { IUser } from "../../src/events/api";
 import { getUserGroupsFromQuery } from "../../src/search/getUserGroupsFromQuery";
 import * as GetUserGroupsByMembershipModule from "../../src/search/getUserGroupsByMembership";
+import { IUser } from "../../src/events/api/types";
+import { IQuery } from "../../src/search/types/IHubCatalog";
 
 describe("getUserGroupsFromQuery:", () => {
   it("returns all user groups by membership if query lacks group predicate", () => {

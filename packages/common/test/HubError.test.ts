@@ -1,4 +1,5 @@
-import { OperationStack, HubError } from "../src";
+import HubError from "../src/HubError";
+import OperationStack from "../src/OperationStack";
 
 describe("HubError: ", () => {
   it("has defaults", () => {

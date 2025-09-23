@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../src/types/IArcGISContext";
-import { HubChannel } from "../../src/channels";
+import { HubChannel } from "../../src/channels/HubChannel";
 import {
   IHubChannel,
   IHubChannelEditor,
@@ -142,9 +142,6 @@ describe("HubChannel", () => {
         editModule,
         "updateHubChannel"
       ).and.returnValue(Promise.resolve(updatedChannel));
-      const data: Partial<IHubChannel> = {
-        name: "edited",
-      };
       const instance = new HubChannel(channel, context);
       await instance.save();
       expect(createHubChannelSpy).not.toHaveBeenCalled();
@@ -166,9 +163,6 @@ describe("HubChannel", () => {
         "createHubChannel"
       ).and.returnValue(Promise.resolve(createdChannel));
       const updateHubChannelSpy = spyOn(editModule, "updateHubChannel");
-      const data: Partial<IHubChannel> = {
-        name: "edited",
-      };
       const instance = new HubChannel(channel, context);
       await instance.save();
       expect(createHubChannelSpy).toHaveBeenCalledTimes(1);

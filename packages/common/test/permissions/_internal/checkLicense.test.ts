@@ -1,5 +1,6 @@
-import { IArcGISContext, IPermissionPolicy } from "../../../src";
 import { checkLicense } from "../../../src/permissions/_internal/checkLicense";
+import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("checkLicense:", () => {
   it("returns not-available if user has enterprise-sites but premium required", () => {

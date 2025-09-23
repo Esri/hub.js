@@ -1,5 +1,6 @@
-import { IArcGISContext, IPermissionPolicy } from "../../../src";
 import { checkAvailability } from "../../../src/permissions/_internal/checkAvailability";
+import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("checkAvailability: ", () => {
   const policyAlpha: IPermissionPolicy = {

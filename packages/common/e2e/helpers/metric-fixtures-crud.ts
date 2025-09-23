@@ -1,14 +1,12 @@
 import { createGroup, removeGroup } from "@esri/arcgis-rest-portal";
 import { IGroup, IGroupAdd } from "@esri/arcgis-rest-portal";
-import {
-  IArcGISContext,
-  HubInitiative,
-  IHubInitiative,
-  IHubCollection,
-  HubProject,
-  IHubProject,
-  IMetric,
-} from "../../src";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { HubInitiative } from "../../src/initiatives/HubInitiative";
+import { IHubInitiative } from "../../src/core/types/IHubInitiative";
+import { IMetric } from "../../src/core/types/Metrics";
+import { IHubCollection } from "../../src/search/types/IHubCatalog";
+import { HubProject } from "../../src/projects/HubProject";
+import { IHubProject } from "../../src/core/types/IHubProject";
 
 export async function createScopeGroup(
   config: { key: string; count: number },
@@ -30,7 +28,7 @@ export async function createScopeGroup(
 export async function createInitiative(
   config: { key: string; count: number; groupId: string },
   context: IArcGISContext,
-  skipMetrics: boolean = false
+  skipMetrics = false
 ): Promise<HubInitiative> {
   const init: Partial<IHubInitiative> = {
     name: `Test ${config.key} Initiative with ${config.count} Projects`,
@@ -129,13 +127,13 @@ export async function createProjects(
   config: { key: string; count: number; groupId: string },
   parentId: string,
   context: IArcGISContext,
-  skipMetrics: boolean = false
+  skipMetrics = false
 ): Promise<HubProject[]> {
   const projects: HubProject[] = [];
   for (let i = 0; i < config.count; i++) {
     // share every other project so we have some
     // that are associated but no approved
-    const shouldShare: boolean = !!(i % 2);
+    const shouldShare = !!(i % 2);
     const project = await createChildProject(
       config.key,
       i,
@@ -158,7 +156,7 @@ export async function createChildProject(
   groupId: string,
   context: IArcGISContext,
   shareToGroup: boolean,
-  skipMetrics: boolean = false
+  skipMetrics = false
 ): Promise<HubProject> {
   const project: Partial<IHubProject> = {
     name: `Test ${key} Project ${num}`,

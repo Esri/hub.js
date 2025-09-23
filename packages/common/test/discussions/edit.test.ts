@@ -1,6 +1,8 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as modelUtils from "../../src/models";
+import * as createModelUtils from "../../src/models/createModel";
+import * as getModelUtils from "../../src/models/getModel";
+import * as updateModelUtils from "../../src/models/updateModel";
 import * as slugUtils from "../../src/items/slugs";
 import { IModel } from "../../src/hub-types";
 import {
@@ -110,7 +112,7 @@ describe("discussions edit:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -146,7 +148,7 @@ describe("discussions edit:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -189,7 +191,7 @@ describe("discussions edit:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -248,14 +250,15 @@ describe("discussions edit:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
         Promise.resolve(DISCUSSION_MODEL)
       );
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => {
-          return Promise.resolve(m);
-        }
-      );
+      const updateModelSpy = spyOn(
+        updateModelUtils,
+        "updateModel"
+      ).and.callFake((m: IModel) => {
+        return Promise.resolve(m);
+      });
       const disc: IHubDiscussion = {
         itemControl: "edit",
         id: GUID,
@@ -307,14 +310,15 @@ describe("discussions edit:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
         Promise.resolve(DISCUSSION_MODEL)
       );
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => {
-          return Promise.resolve(m);
-        }
-      );
+      const updateModelSpy = spyOn(
+        updateModelUtils,
+        "updateModel"
+      ).and.callFake((m: IModel) => {
+        return Promise.resolve(m);
+      });
       spyOn(terraformer, "arcgisToGeoJSON").and.returnValue(
         geometryTransformed
       );
@@ -379,14 +383,15 @@ describe("discussions edit:", () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
           Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
-        const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+        const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
         );
-        const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-          (m: IModel) => {
-            return Promise.resolve(m);
-          }
-        );
+        const updateModelSpy = spyOn(
+          updateModelUtils,
+          "updateModel"
+        ).and.callFake((m: IModel) => {
+          return Promise.resolve(m);
+        });
         const arcgisToGeoJSONSpy = spyOn(
           terraformer,
           "arcgisToGeoJSON"
@@ -452,14 +457,15 @@ describe("discussions edit:", () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
           Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
-        const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+        const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
         );
-        const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-          (m: IModel) => {
-            return Promise.resolve(m);
-          }
-        );
+        const updateModelSpy = spyOn(
+          updateModelUtils,
+          "updateModel"
+        ).and.callFake((m: IModel) => {
+          return Promise.resolve(m);
+        });
         const arcgisToGeoJSONSpy = spyOn(
           terraformer,
           "arcgisToGeoJSON"
@@ -524,14 +530,15 @@ describe("discussions edit:", () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
           Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
-        const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+        const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
         );
-        const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-          (m: IModel) => {
-            return Promise.resolve(m);
-          }
-        );
+        const updateModelSpy = spyOn(
+          updateModelUtils,
+          "updateModel"
+        ).and.callFake((m: IModel) => {
+          return Promise.resolve(m);
+        });
         const arcgisToGeoJSONSpy = spyOn(
           terraformer,
           "arcgisToGeoJSON"

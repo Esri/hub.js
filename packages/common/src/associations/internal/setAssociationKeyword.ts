@@ -1,4 +1,4 @@
-import { HubEntityType } from "../../core/types";
+import { HubEntityType } from "../../core/types/HubEntityType";
 
 /**
  * when a child sends an "outgoing" request or accepts an

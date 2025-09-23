@@ -4,7 +4,8 @@ import {
   RegistrationRole,
   RegistrationStatus,
 } from "../../../events/api/types";
-import { IDateRange, IQuery } from "../../types";
+import { IQuery } from "../../types/IHubCatalog";
+import { IDateRange } from "../../types/types";
 import { getOptionalPredicateStringsByKey } from "./getOptionalPredicateStringsByKey";
 import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
 

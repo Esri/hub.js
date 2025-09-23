@@ -6,7 +6,7 @@ import {
   ILegacyCapabilityFeatureFlags,
   LegacyCapability,
 } from "./types";
-import { setProp } from "../../../objects";
+import { setProp } from "../../../objects/set-prop";
 
 /**
  * Site capabilities are currently saved as an array on the

@@ -1,9 +1,9 @@
 import {
   getHubEntityTypeFromPath,
   getPathForHubEntityType,
-  HubEntityType,
   parseContainmentPath,
-} from "../../src";
+} from "../../src/core/parseContainmentPath";
+import { HubEntityType } from "../../src/core/types/HubEntityType";
 
 describe("parseContainmentPath:", () => {
   it("path needs even number of parts", () => {

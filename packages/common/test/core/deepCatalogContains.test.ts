@@ -1,5 +1,7 @@
-import { deepCatalogContains, IArcGISContext, IHubCatalog } from "../../src";
 import * as DeepContainsModule from "../../src/core/_internal/deepContains";
+import { deepCatalogContains } from "../../src/core/deepCatalogContains";
+import { IHubCatalog } from "../../src/search/types/IHubCatalog";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("deepCatalogContains:", () => {
   it("fails containment if the path is invalid", async () => {
