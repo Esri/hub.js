@@ -32,6 +32,8 @@ module.exports = function (config) {
           /test-helpers*/,
           /orval-*/,
           /custom-client.ts/,
+          // files whose tests have been migrated to vitest
+          /src\/util\.ts$/,
         ],
         threshold: {
           global: {
