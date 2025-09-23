@@ -34,6 +34,7 @@ module.exports = function (config) {
           /custom-client.ts/,
           // files whose tests have been migrated to vitest
           /src\/util\.ts$/,
+          /src\/core\/_internal\/sharedWith\.ts$/,
         ],
         threshold: {
           global: {
