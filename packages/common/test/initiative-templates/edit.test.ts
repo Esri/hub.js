@@ -201,7 +201,7 @@ describe("initiative template edit module:", () => {
       spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      spyOn(modelUtils, "getModel").and.returnValue(
+      spyOn(getModelModule, "getModel").and.returnValue(
         Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
       );
       const it: IHubInitiativeTemplate = {
@@ -215,9 +215,10 @@ describe("initiative template edit module:", () => {
         typeKeywords: ["Hub Initiative Template"],
         orgUrlKey: "dcdev",
       } as IHubInitiativeTemplate;
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => Promise.resolve(m)
-      );
+      const updateModelSpy = spyOn(
+        updateModelModule,
+        "updateModel"
+      ).and.callFake((m: IModel) => Promise.resolve(m));
       console.log("chk.view:", it);
       const chk = await updateInitiativeTemplate(it, {
         authentication: MOCK_AUTH,
@@ -230,7 +231,7 @@ describe("initiative template edit module:", () => {
       spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      spyOn(modelUtils, "getModel").and.returnValue(
+      spyOn(getModelModule, "getModel").and.returnValue(
         Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
       );
       const it: IHubInitiativeTemplate = {
@@ -245,9 +246,10 @@ describe("initiative template edit module:", () => {
         orgUrlKey: "dcdev",
         view: { showMap: false },
       } as IHubInitiativeTemplate;
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => Promise.resolve(m)
-      );
+      const updateModelSpy = spyOn(
+        updateModelModule,
+        "updateModel"
+      ).and.callFake((m: IModel) => Promise.resolve(m));
       const chk = await updateInitiativeTemplate(it, {
         authentication: MOCK_AUTH,
       });
