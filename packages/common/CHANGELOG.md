@@ -1,3 +1,10 @@
+# @esri/hub-common [20.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.1...@esri/hub-common@20.9.0) (2025-09-23)
+
+
+### Features
+
+* **hub-common:** add schemas for consolidated embed layout card editor ([#1993](https://github.com/Esri/hub.js/issues/1993)) ([8abc7cf](https://github.com/Esri/hub.js/commit/8abc7cfc059cc3d57a1b70c7d1deb768c4c2dfd1))
+
 ## @esri/hub-common [20.8.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.0...@esri/hub-common@20.8.1) (2025-09-22)
 
 
