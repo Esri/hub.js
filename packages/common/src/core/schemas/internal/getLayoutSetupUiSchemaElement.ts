@@ -11,8 +11,7 @@ import { IUiSchemaElement } from "../types";
 export function getLayoutSetupUiSchemaElement(
   i18nScope: string
 ): IUiSchemaElement[] {
-  const itemTypeNameSpace = i18nScope.includes("page") ? "page" : "site";
-  const intlScopePrefix = `${itemTypeNameSpace}.fields._layoutSetup.type`;
+  const intlScopePrefix = `${i18nScope}.fields._layoutSetup.type`;
   const typeSpecificLayoutLabel = `{{${intlScopePrefix}.layout:translate}}`;
 
   const layoutTypes = ["blank", "simple"] as const;
