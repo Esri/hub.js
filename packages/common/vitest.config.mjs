@@ -11,7 +11,7 @@ export default defineConfig({
         // ultimately we want all the src files to be covered
         // "src/**/*.ts"
         // but for now we are just getting started converting to vitest
-        "src/util.ts",
+        "src/{api,util}.ts",
       ],
       // we have so many pre-existing istanbul ignore comments
       provider: "istanbul",
