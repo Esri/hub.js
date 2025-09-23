@@ -1,8 +1,6 @@
-import {
-  ICreateVersionOptions,
-  IVersion,
-  IVersionMetadata,
-} from "../../versioning";
+import { ICreateVersionOptions } from "../../versioning/types/ICreateVersionOptions";
+import { IVersion } from "../../versioning/types/IVersion";
+import { IVersionMetadata } from "../../versioning/types/IVersionMetadata";
 
 /**
  * Composable behavior that adds versioning to an entity

@@ -1,13 +1,10 @@
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 import { computeProps } from "../../../src/pages/_internal/computeProps";
-import {
-  cloneObject,
-  IHubPage,
-  IHubRequestOptions,
-  IModel,
-} from "../../../src";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { PageDefaultFeatures } from "../../../src/pages/_internal/PageBusinessRules";
+import { IHubRequestOptions, IModel } from "../../../src/hub-types";
+import { cloneObject } from "../../../src/util";
+import { IHubPage } from "../../../src/core/types/IHubPage";
 
 describe("Pages: computeProps:", () => {
   let requestOptions: IHubRequestOptions;

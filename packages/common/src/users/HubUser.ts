@@ -1,14 +1,15 @@
-import { IEntityEditorContext, IHubUser } from "../core/types";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
-import { UserEditorType } from "./_internal/UserSchema";
+import { UserEditorType } from "./_internal/userEditorTypes";
 import { DEFAULT_USER } from "./defaults";
 import { updateCommunityOrgSettings } from "../utils/internal/updateCommunityOrgSettings";
 import { updatePortalOrgSettings } from "../utils/internal/updatePortalOrgSettings";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import { IHubUser } from "../core/types/IHubUser";
 
 export class HubUser implements IWithEditorBehavior {
   protected context: IArcGISContext;

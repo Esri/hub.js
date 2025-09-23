@@ -3,7 +3,7 @@ import { getProp } from "../objects/get-prop";
 import { mergeObjects } from "../objects/merge-objects";
 import { objectToJsonBlob } from "../resources/object-to-json-blob";
 import { IModel } from "../hub-types";
-import { IVersion } from "./types";
+import { IVersion } from "./types/IVersion";
 import { getPrefix } from "./_internal/getPrefix";
 import { getVersionData } from "./_internal/getVersionData";
 import {

@@ -17,7 +17,8 @@ import {
   IHubTemplateEditor,
 } from "../../src/core/types/IHubTemplate";
 import * as slugUtils from "../../src/items/slugs";
-import * as modelUtils from "../../src/models";
+import * as getModelUtils from "../../src/models/getModel";
+import * as updateModelUtils from "../../src/models/updateModel";
 import * as portalModule from "@esri/arcgis-rest-portal";
 
 describe("templates: edit module", () => {
@@ -48,10 +49,10 @@ describe("templates: edit module", () => {
     let getModelSpy: any;
     let updateModelSpy: any;
     beforeEach(() => {
-      getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
         Promise.resolve(TEMPLATE_MODEL)
       );
-      updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
+      updateModelSpy = spyOn(updateModelUtils, "updateModel").and.callFake(
         (m: IModel) => Promise.resolve(m)
       );
     });

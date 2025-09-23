@@ -2,11 +2,12 @@
 // from the same path that's used in the fn under test
 import * as removeDomainModule from "../../../src/sites/domains/remove-domain";
 import * as lookupDomainModule from "../../../src/sites/domains/lookup-domain";
-import { getProp, removeDomainByHostname } from "../../../src";
 import {
   MOCK_HUB_REQOPTS,
   MOCK_ENTERPRISE_REQOPTS,
 } from "../../mocks/mock-auth";
+import { removeDomainByHostname } from "../../../src/sites/domains/removeDomainByHostname";
+import { getProp } from "../../../src/objects/get-prop";
 
 describe("removeDomainByHostname:", () => {
   let lookupSpy: jasmine.Spy;

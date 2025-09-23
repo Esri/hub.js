@@ -1,7 +1,6 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
-import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
@@ -13,10 +12,13 @@ import {
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
-import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../hub-types";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
-import { IHubItemEntity } from "../core";
+import { IHubItemEntity } from "../core/types/IHubItemEntity";
+import { setDiscussableKeyword } from "../discussions/utils";
+import { createModel } from "../models/createModel";
+import { getModel } from "../models/getModel";
+import { updateModel } from "../models/updateModel";
 import { setProp } from "../objects/set-prop";
 
 /**

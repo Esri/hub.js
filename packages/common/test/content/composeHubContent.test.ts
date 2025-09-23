@@ -6,13 +6,11 @@ import {
   PDF_ITEM,
 } from "./fixtures";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import {
-  composeHubContent,
-  IHubRequestOptions,
-  IServiceExtendedProps,
-} from "../../src";
 import { IHubEditableContentEnrichments } from "../../src/items/_enrichments";
 import { IItem } from "@esri/arcgis-rest-portal";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { composeHubContent } from "../../src/content/composeHubContent";
+import { IServiceExtendedProps } from "../../src/core/types/IHubEditableContent";
 
 describe("composeHubContent", () => {
   it("composes feature service content", () => {

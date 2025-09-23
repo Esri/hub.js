@@ -4,8 +4,9 @@ import * as canUseExportImageFlowModule from "../../src/downloads/_internal/canU
 import * as fetchExportImageDownloadFileModule from "../../src/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFile";
 import * as getDownloadFormatsModule from "../../src/downloads/getDownloadFormats";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
-import { IArcGISContext, ServiceDownloadFormat } from "../../src";
 import { fetchDownloadFile } from "../../src/downloads/fetchDownloadFile";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { ServiceDownloadFormat } from "../../src/downloads/types";
 
 describe("fetchDownloadFile", () => {
   let canUseHubDownloadApiSpy: jasmine.Spy;

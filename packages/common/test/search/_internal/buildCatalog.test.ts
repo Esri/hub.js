@@ -1,5 +1,5 @@
-import { IHubCollection } from "../../../src";
 import { buildCatalog } from "../../../src/search/_internal/buildCatalog";
+import { IHubCollection } from "../../../src/search/types/IHubCatalog";
 describe("buildCatalog:", () => {
   it("returns a valid hub catalog structure", () => {
     const catalog = buildCatalog(

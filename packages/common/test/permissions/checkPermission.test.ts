@@ -1,16 +1,14 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import {
-  checkPermission,
-  cloneObject,
-  IHubItemEntity,
-  IPermissionPolicy,
-  IUserHubSettings,
-  Permission,
-} from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as GetPolicyModule from "../../src/permissions/HubPermissionPolicies";
 import * as IsPermissionModule from "../../src/permissions/isPermission";
+import { IPermissionPolicy } from "../../src/permissions/types/IPermissionPolicy";
+import { Permission } from "../../src/permissions/types/Permission";
+import { IUserHubSettings } from "../../src/utils/IUserHubSettings";
+import { checkPermission } from "../../src/permissions/checkPermission";
+import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
+import { cloneObject } from "../../src/util";
 // In order to have stable tests over time, we define some policies just
 // for the purposes of testing. We then spy on getPermissionPolicy
 // and use these test-only structures instead of current businessrules

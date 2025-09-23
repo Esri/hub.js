@@ -6,20 +6,18 @@ import {
   searchCommunityUsers as _searchCommunityUsers,
 } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { enrichUserSearchResult } from "../../users";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../hub-types";
-import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../types";
 import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 import { expandPredicate } from "./expandPredicate";
 import { cloneObject } from "../../util";
 import { getKilobyteSizeOfQuery } from "../utils";
+import { enrichUserSearchResult } from "../../users/HubUsers";
+import { IQuery } from "../types/IHubCatalog";
+import { IHubSearchOptions } from "../types/IHubSearchOptions";
+import { IHubSearchResponse } from "../types/IHubSearchResponse";
+import { IHubSearchResult } from "../types/IHubSearchResult";
 
 function buildSearchOptions(
   query: IQuery,
@@ -58,7 +56,7 @@ function buildSearchOptions(
   ];
   // copy the props over
   props.forEach((prop) => {
-    if (options.hasOwnProperty(prop)) {
+    if (Object.prototype.hasOwnProperty.call(options, prop)) {
       so[prop as keyof ISearchOptions] = options[prop];
     }
   });

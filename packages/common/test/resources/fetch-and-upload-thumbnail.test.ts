@@ -1,7 +1,7 @@
+import { fetchAndUploadThumbnail } from "../../src/resources/fetch-and-upload-thumbnail";
 import * as fetchImageAsBlobModule from "../../src/resources/fetch-image-as-blob";
-import * as portalModule from "../../src/rest/portal";
+import * as portalModule from "../../src/rest/portal/wrappers";
 
-import { fetchAndUploadThumbnail } from "../../src";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("fetchAndUploadThumbnail", function () {

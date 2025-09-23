@@ -1,5 +1,6 @@
-import { getProp, getWithDefault } from "../../objects";
 import { IDraft, IModel } from "../../hub-types";
+import { getProp } from "../../objects/get-prop";
+import { getWithDefault } from "../../objects/get-with-default";
 
 /**
  * Early Hub sites were persisted as items of type "Web Mapping

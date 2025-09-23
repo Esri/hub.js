@@ -11,7 +11,7 @@ import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
 import { editorToContent } from "./edit";
-import { ContentEditorType } from "./_internal/ContentSchema";
+import { ContentEditorType } from "./_internal/contentEditorTypes";
 import { enrichEntity } from "../core/enrichEntity";
 import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
 import { getDownloadConfigurationDisplayFormats } from "../downloads/_internal/getDownloadConfigurationDisplayFormats";

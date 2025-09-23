@@ -12,3 +12,4 @@ export * from "./isOpenDataGroup";
 export * from "./autoAddUsers";
 export * from "./inviteUsers";
 export * from "./emailOrgUsers";
+export * from "./enrichGroupSearchResult";

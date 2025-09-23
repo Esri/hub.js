@@ -1,4 +1,3 @@
-import { capitalize } from "../util";
 export * from "./build-url";
 export * from "./get-hub-locale-asset-url";
 export * from "./get-portal-api-url";
@@ -24,29 +23,5 @@ export * from "./is-safe-redirect-url";
 export * from "./cacheBustUrl";
 export * from "./get-cdn-asset-url";
 export * from "./isEnterprisePortalUrl";
-// For some reason, if this is exported here, random tests
-// start failing. Resolved by moving to the root index
-// export * from "./getCardModelUrl";
-
-const MAP_OR_FEATURE_SERVER_URL_REGEX = /\/(map|feature)server/i;
-
-/**
- *
- * @param url
- * @returns true if the url is of a map or feature service
- */
-export const isMapOrFeatureServerUrl = (url: string) => {
-  return MAP_OR_FEATURE_SERVER_URL_REGEX.test(url);
-};
-
-/**
- * parses map or feature service type from URL
- * @param url map or feature service URL
- * @returns item type, either "Map Service" or "Feature Service"
- * or undefined for other types of URLs
- */
-export const getServiceTypeFromUrl = (url: string) => {
-  const match = MAP_OR_FEATURE_SERVER_URL_REGEX.exec(url);
-  const mapOrFeature = match && match[1];
-  return mapOrFeature && `${capitalize(mapOrFeature)} Service`;
-};
+export * from "./feature-service-urls";
+export * from "./getCardModelUrl";

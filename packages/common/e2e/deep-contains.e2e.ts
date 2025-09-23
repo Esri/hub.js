@@ -1,8 +1,9 @@
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import { deepContains } from "../src/core/_internal/deepContains";
-import { IDeepCatalogInfo, IHubCatalog } from "../src/search";
 import { getProp } from "../src/objects/get-prop";
+import { IDeepCatalogInfo } from "../src/search/types/types";
+import { IHubCatalog } from "../src/search/types/IHubCatalog";
 
 // Fixtures
 //
@@ -25,14 +26,14 @@ import { getProp } from "../src/objects/get-prop";
 //     - Common Web App: 63c765456d23439e8faf0e4172fc9b23
 
 describe("deepContains:", () => {
-  const siteItemId: string = "c84347eb5d0a4a7b84c334fe84a5bbfe";
-  const siteAppItemId: string = "7da7ea6055d34afd9125a2ccd63be5e1";
-  const projectItemId: string = "9c0ecf87bcc04a1d93dec04b54332458";
-  const projectAppItemId: string = "a88285b001574cf3bfc91c4da11391cf";
-  const initiativeItemId: string = "270b4696648e4e4a8767a1dc9753ae34";
-  const initiativeAppItemId: string = "c4597275ee874820bf578cdee3106e2f";
-  const commonAppItemId: string = "63c765456d23439e8faf0e4172fc9b23";
-  const notContainedItemId: string = "00000000000000000000000000000000";
+  const siteItemId = "c84347eb5d0a4a7b84c334fe84a5bbfe";
+  const siteAppItemId = "7da7ea6055d34afd9125a2ccd63be5e1";
+  const projectItemId = "9c0ecf87bcc04a1d93dec04b54332458";
+  const projectAppItemId = "a88285b001574cf3bfc91c4da11391cf";
+  const initiativeItemId = "270b4696648e4e4a8767a1dc9753ae34";
+  const initiativeAppItemId = "c4597275ee874820bf578cdee3106e2f";
+  const commonAppItemId = "63c765456d23439e8faf0e4172fc9b23";
+  const notContainedItemId = "00000000000000000000000000000000";
 
   let factory: Artifactory;
   const orgName = "hubBasic";

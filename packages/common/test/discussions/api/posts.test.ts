@@ -1,22 +1,4 @@
 import { Geometry } from "geojson";
-import {
-  createPost,
-  searchPosts,
-  fetchPost,
-  updatePost,
-  removePost,
-  createReply,
-  updatePostStatus,
-  exportPosts,
-  searchPostsV2,
-  exportPostsV2,
-  createPostV2,
-  createReplyV2,
-  fetchPostV2,
-  removePostV2,
-  updatePostV2,
-  updatePostStatusV2,
-} from "../../../src/discussions/api/posts";
 import * as discussionsApiRequestModule from "../../../src/discussions/api/discussions-api-request";
 import {
   AclCategory,
@@ -33,6 +15,24 @@ import {
   IPost,
   PostRelation,
 } from "../../../src/discussions/api/types";
+import {
+  createPost,
+  createPostV2,
+  createReply,
+  createReplyV2,
+  exportPosts,
+  exportPostsV2,
+  fetchPost,
+  fetchPostV2,
+  removePost,
+  removePostV2,
+  searchPosts,
+  searchPostsV2,
+  updatePost,
+  updatePostStatus,
+  updatePostStatusV2,
+  updatePostV2,
+} from "../../../src/discussions/api/posts/posts";
 
 describe("posts V1", () => {
   let requestSpy: any;

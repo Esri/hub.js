@@ -4,8 +4,7 @@ import { IHubUserRequestOptions } from "../../src/hub-types";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ResourceResponse from "../mocks/versioning/resource.json";
 import * as objectToJsonBlobModule from "../../src/resources/object-to-json-blob";
-
-import { IVersionMetadata } from "../../src";
+import { IVersionMetadata } from "../../src/versioning/types/IVersionMetadata";
 
 describe("updateVersionMetadata", () => {
   let portal: string;

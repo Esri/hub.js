@@ -1,4 +1,4 @@
-import { mergeObjects } from "../../objects";
+import { mergeObjects } from "../../objects/merge-objects";
 import { IDraft, IModel } from "../../hub-types";
 
 /**

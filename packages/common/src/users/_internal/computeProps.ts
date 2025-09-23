@@ -2,7 +2,7 @@ import { getPortalUrl, getSelf } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { IHubUser } from "../../core/types";
+import { IHubUser } from "../../core/types/IHubUser";
 import { failSafe } from "../../utils/fail-safe";
 
 /**

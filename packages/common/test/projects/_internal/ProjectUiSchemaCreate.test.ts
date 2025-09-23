@@ -1,10 +1,10 @@
 import { buildUiSchema } from "../../../src/projects/_internal/ProjectUiSchemaCreate";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import { UiSchemaRuleEffects } from "../../../src";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getSharableGroupsComboBoxItemsModule from "../../../src/core/schemas/internal/getSharableGroupsComboBoxItems";
 import * as checkPermissionModule from "../../../src/permissions/checkPermission";
+import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 
 describe("buildUiSchema: project create", () => {
   it("returns the full project create uiSchema", async () => {

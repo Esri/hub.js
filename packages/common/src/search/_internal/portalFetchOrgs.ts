@@ -1,14 +1,13 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { fetchOrg, portalToSearchResult } from "../../org";
-import { failSafe } from "../../utils";
 import { batch } from "../../utils/batch";
 import { getPredicateValues } from "../getPredicateValues";
-import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../types";
+import { portalToSearchResult } from "../../org/fetch";
+import { fetchOrg } from "../../org/fetch-org";
+import { failSafe } from "../../utils/fail-safe";
+import { IQuery } from "../types/IHubCatalog";
+import { IHubSearchOptions } from "../types/IHubSearchOptions";
+import { IHubSearchResponse } from "../types/IHubSearchResponse";
+import { IHubSearchResult } from "../types/IHubSearchResult";
 
 /**
  * Since the portal api does not actually have a search endpoint for orgs,

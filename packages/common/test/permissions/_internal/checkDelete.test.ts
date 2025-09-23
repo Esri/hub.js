@@ -1,6 +1,7 @@
-import { HubEntity, IArcGISContext } from "../../../src";
-import { IPermissionPolicy } from "../../../src/permissions/types";
+import { HubEntity } from "../../../src/core/types/HubEntity";
 import { checkDelete } from "../../../src/permissions/_internal/checkDelete";
+import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("checkDelete:", () => {
   it("returns entity-required if not passed entity", () => {

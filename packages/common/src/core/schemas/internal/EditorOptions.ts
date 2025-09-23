@@ -1,4 +1,4 @@
-import { HubEntity } from "../../types";
+import { HubEntity } from "../../types/HubEntity";
 
 /** Intersection type of all EditorOptions */
 export type EditorOptions = EntityEditorOptions | CardEditorOptions;

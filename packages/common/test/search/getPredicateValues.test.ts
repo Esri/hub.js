@@ -1,4 +1,5 @@
-import { IQuery, getPredicateValues } from "../../src";
+import { getPredicateValues } from "../../src/search/getPredicateValues";
+import { IQuery } from "../../src/search/types/IHubCatalog";
 
 const query: IQuery = {
   targetEntity: "item",

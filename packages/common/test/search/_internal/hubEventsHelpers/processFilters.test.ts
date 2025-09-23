@@ -3,7 +3,7 @@ import {
   EventAssociationEntityType,
   EventAttendanceType,
   EventStatus,
-} from "../../../../src/events/api";
+} from "../../../../src/events/api/orval/api/orval-events";
 import { processFilters } from "../../../../src/search/_internal/hubEventsHelpers/processFilters";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 
@@ -47,23 +47,6 @@ const readGroup1 = {
   capabilities: [],
   owner: "jhonvader",
   id: "group3",
-  protected: false,
-  tags: ["wat"],
-  created: 12345,
-  modified: 23421,
-  isInvitationOnly: false,
-  isFav: false,
-  isViewOnly: false,
-  autoJoin: true,
-  access: "public",
-} as arcgisRestPortal.IGroup;
-
-const readGroup2 = {
-  title: "This is another read group",
-  isOpenData: false,
-  capabilities: [],
-  owner: "jhonvader",
-  id: "group4",
   protected: false,
   tags: ["wat"],
   created: 12345,
@@ -815,11 +798,7 @@ describe("processFilters", () => {
   describe("modified", () => {
     it("should return undefined", () => {
       const result = processFilters([{ predicates: [] }]);
-      // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
-      // @ts-ignore
       expect(result.updatedAtBefore).toBeUndefined();
-      // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
-      // @ts-ignore
       expect(result.updatedAtBefore).toBeUndefined();
     });
     it("should return updatedAtBefore and updatedAtAfter and only use first occurrence of modified", () => {
@@ -845,11 +824,7 @@ describe("processFilters", () => {
           ],
         },
       ]);
-      // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
-      // @ts-ignore
       expect(result.updatedAtBefore).toEqual("2024-04-29T03:59:59.999Z");
-      // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
-      // @ts-ignore
       expect(result.updatedAtAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
   });

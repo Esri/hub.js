@@ -1,6 +1,6 @@
 import { IHubRequestOptions } from "../../hub-types";
-import { ICreateEventAssociation } from "../api";
 import { searchItems } from "@esri/arcgis-rest-portal";
+import { ICreateEventAssociation } from "../api/types";
 
 export async function buildEventAssociations(
   referencedContentIdsByType: Array<{ entityId: string; entityType: string }>,

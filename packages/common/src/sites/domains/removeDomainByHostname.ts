@@ -3,7 +3,7 @@ import { lookupDomain } from "./lookup-domain";
 import { removeDomain } from "./remove-domain";
 
 import { IHubRequestOptions } from "../../hub-types";
-import { getProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
 
 /**
  * Remove an entry from the domain service, based on a hostname
@@ -27,11 +27,13 @@ export async function removeDomainByHostname(
     // Could consider doing a check here to verify that current user
     // is member of the org owning the domain record, but api will
     // enforce this.
-    const id = getProp(domainEntry, "id");
+    const id = getProp(domainEntry, "id") as string;
     if (id) {
       await removeDomain(id, hubRequestOptions);
     }
   } catch (ex) {
-    throw new Error(`Error removing domain entry for ${hostname}: ${ex}`);
+    throw new Error(
+      `Error removing domain entry for ${hostname}: ${(ex as Error).message}`
+    );
   }
 }

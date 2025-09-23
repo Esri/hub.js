@@ -1,4 +1,7 @@
-import { IFeatureFlags, IPermissionPolicy } from "../../permissions/types";
+import {
+  IFeatureFlags,
+  IPermissionPolicy,
+} from "../../permissions/types/IPermissionPolicy";
 
 /**
  * Default features for a Site. These are the features that can be enabled / disabled by the entity owner

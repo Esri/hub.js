@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { ArcGISContext, IHubRequestOptions } from "../../src";
-import type { IArcGISContext } from "../../src";
+
+import { ArcGISContext } from "../../src/ArcGISContext";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 export const TOMORROW = (function () {
   const now = new Date();

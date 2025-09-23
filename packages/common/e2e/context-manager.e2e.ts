@@ -1,12 +1,9 @@
-import { ArcGISContextManager } from "../src";
+import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
-function delay(milliseconds: number) {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
-}
 describe("context-manager:", () => {
   let factory: Artifactory;
   beforeAll(() => {

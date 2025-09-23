@@ -1,8 +1,8 @@
-import { IArcGISContext } from "../../src";
 import { getRequestingEntitiesQuery } from "../../src/associations/getRequestingEntitiesQuery";
 import { MOCK_CHILD_ENTITY, MOCK_PARENT_ENTITY } from "./fixtures";
 import * as getIncludesDoesNotReferenceQueryModule from "../../src/associations/internal/getIncludesDoesNotReferenceQuery";
 import * as getReferencesDoesNotIncludeQueryModule from "../../src/associations/internal/getReferencesDoesNotIncludeQuery";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("getRequestingEntitiesQuery:", () => {
   it("delegates to getReferencesDoesNotIncludeQuery for parents", async () => {

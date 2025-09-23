@@ -1,6 +1,6 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
-import { IHubProject } from "../../core/types";
+import { IHubProject } from "../../core/types/IHubProject";
 import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/buildCatalogSetupUiSchemaElement";
 
 /**
@@ -9,12 +9,12 @@ import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/bu
  * This defines how the schema properties should be rendered
  * in the project creation experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   _options: Partial<IHubProject>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -46,5 +46,5 @@ export const buildUiSchema = async (
       },
       ...buildCatalogSetupUiSchemaElement(i18nScope, context),
     ],
-  };
+  });
 };

@@ -1,12 +1,12 @@
-import { getProps } from "../../src";
+import { getProps } from "../../src/objects/get-props";
 
-describe("getProps", function() {
-  it("gets multiple props", function() {
+describe("getProps", function () {
+  it("gets multiple props", function () {
     const obj = {
       foo: {
         bar: "baz",
-        boop: "beep"
-      }
+        boop: "beep",
+      },
     };
 
     const props = getProps(obj, ["foo.bar", "foo.boop", "foo.noexist"]);

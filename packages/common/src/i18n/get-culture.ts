@@ -1,5 +1,5 @@
 import { IHubRequestOptions } from "../hub-types";
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 
 /**
  * Return the culture from the Hub Request Options

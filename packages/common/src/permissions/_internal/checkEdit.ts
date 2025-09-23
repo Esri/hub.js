@@ -1,6 +1,8 @@
+import { getWithDefault } from "../../objects/get-with-default";
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { getWithDefault } from "../../objects";
-import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
+import { IPermissionPolicy } from "../types/IPermissionPolicy";
+import { IPolicyCheck } from "../types/IPolicyCheck";
+import { PolicyResponse } from "../types/PolicyResponse";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
 /**
@@ -18,7 +20,7 @@ export function checkEdit(
   const checks = [] as IPolicyCheck[];
 
   // Only return a check if the policy is defined
-  if (policy.hasOwnProperty("entityEdit")) {
+  if (Object.prototype.hasOwnProperty.call(policy, "entityEdit")) {
     let response: PolicyResponse = "granted";
     if (!entity) {
       // fail b/c no entity
@@ -30,11 +32,12 @@ export function checkEdit(
         response = "edit-access";
       }
     }
+    const canEdit = getWithDefault(entity, "canEdit", false) as boolean;
 
     // create the check
     const check: IPolicyCheck = {
       name: "entity edit required",
-      value: `entity.canEdit: ${getWithDefault(entity, "canEdit", false)}`,
+      value: `entity.canEdit: ${canEdit.toString()}`,
       code: getPolicyResponseCode(response),
       response,
     };

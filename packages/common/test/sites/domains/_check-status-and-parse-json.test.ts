@@ -1,4 +1,4 @@
-import { _checkStatusAndParseJson } from "../../../src/sites/domains";
+import { _checkStatusAndParseJson } from "../../../src/sites/domains/_check-status-and-parse-json";
 
 describe("_checkStatusAndParseJson", function () {
   it("resolves with JSON when success", async function () {

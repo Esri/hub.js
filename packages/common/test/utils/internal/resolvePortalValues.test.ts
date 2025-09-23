@@ -1,13 +1,11 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  DynamicValueDefinition,
-  clearMemoizedCache,
-} from "../../../src";
 import { resolvePortalValues } from "../../../src/utils/internal/resolvePortalValues";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as portal from "@esri/arcgis-rest-portal";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
+import { clearMemoizedCache } from "../../../src/utils/memoize";
 
 describe("resolvePortalValues:", () => {
   let context: IArcGISContext;

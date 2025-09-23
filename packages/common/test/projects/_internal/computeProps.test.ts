@@ -2,10 +2,12 @@ import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/projects/_internal/computeProps";
-import { IHubProject, IModel, cloneObject } from "../../../src";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "../../../src/projects/_internal/ProjectBusinessRules";
 import * as computeLinksModule from "../../../src/projects/_internal/computeLinks";
+import { IModel } from "../../../src/hub-types";
+import { IHubProject } from "../../../src/core/types/IHubProject";
+import { cloneObject } from "../../../src/util";
 
 describe("projects: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;

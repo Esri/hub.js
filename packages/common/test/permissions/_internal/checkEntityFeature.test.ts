@@ -1,6 +1,7 @@
-import { IPermissionPolicy, Permission } from "../../../src";
-import { IArcGISContext } from "../../../src";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { checkEntityFeature } from "../../../src/permissions/_internal/checkEntityFeature";
+import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
+import { Permission } from "../../../src/permissions/types/Permission";
 
 describe("checkEntityFeatures:", () => {
   it("no check if entity not passed", () => {

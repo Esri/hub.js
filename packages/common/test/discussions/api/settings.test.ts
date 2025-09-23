@@ -1,17 +1,6 @@
 import * as req from "../../../src/discussions/api/discussions-api-request";
 import { Geometry } from "geojson";
 import {
-  createSetting,
-  createSettingV2,
-  fetchSetting,
-  fetchSettingV2,
-  getDefaultEntitySettings,
-  removeSetting,
-  removeSettingV2,
-  updateSetting,
-  updateSettingV2,
-} from "../../../src/discussions/api/settings";
-import {
   EntitySettingType,
   ICreateSetting,
   ICreateSettingParams,
@@ -21,6 +10,17 @@ import {
   IUpdateSettingParams,
   IFetchSettingParams,
 } from "../../../src/discussions/api/types";
+import {
+  createSetting,
+  createSettingV2,
+  fetchSetting,
+  fetchSettingV2,
+  removeSetting,
+  removeSettingV2,
+  updateSetting,
+  updateSettingV2,
+} from "../../../src/discussions/api/settings/settings";
+import { getDefaultEntitySettings } from "../../../src/discussions/api/settings/getDefaultEntitySettings";
 
 describe("settings", () => {
   let requestSpy: any;
@@ -209,7 +209,9 @@ describe("settings", () => {
       try {
         getDefaultEntitySettings("site");
       } catch (e) {
-        expect(e.message).toBe("no default entity settings defined for site");
+        expect((e as Error).message).toBe(
+          "no default entity settings defined for site"
+        );
       }
     });
   });

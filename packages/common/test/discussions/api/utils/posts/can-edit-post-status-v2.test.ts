@@ -4,7 +4,7 @@ import {
   IDiscussionsUser,
   Role,
 } from "../../../../../src/discussions/api//types";
-import { canEditPostStatusV2 } from "../../../../../src/discussions/api//utils/posts";
+import { canEditPostStatusV2 } from "../../../../../src/discussions/api//utils/posts/can-edit-post-status-v2";
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
 

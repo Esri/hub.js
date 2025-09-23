@@ -1,4 +1,3 @@
-import { IHubSearchOptions, IHubSearchResult } from "../../types";
 import {
   channelToSearchResult,
   getChannelGroupIds,
@@ -7,6 +6,8 @@ import { IGroup, ISearchResult, searchGroups } from "@esri/arcgis-rest-portal";
 import { batch } from "../../../utils/batch";
 import { splitArrayByLength } from "../../../utils/_array";
 import { IChannel } from "../../../discussions/api/types";
+import { IHubSearchResult } from "../../types/IHubSearchResult";
+import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 
 /**
  * @private

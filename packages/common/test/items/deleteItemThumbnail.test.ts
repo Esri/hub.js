@@ -1,5 +1,5 @@
 import * as RequestModule from "@esri/arcgis-rest-request";
-import { deleteItemThumbnail } from "../../src";
+import { deleteItemThumbnail } from "../../src/items/deleteItemThumbnail";
 describe("deleteItemThumbnail:", () => {
   it("makes request to API", async () => {
     const spy = spyOn(RequestModule, "request").and.returnValue(

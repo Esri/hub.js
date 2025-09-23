@@ -4,9 +4,12 @@ import type { IPortalSettings, IUser } from "@esri/arcgis-rest-portal";
 import { IUserResourceToken } from "./IUserResourceToken";
 import { IUserResourceConfig } from "./IUserResourceConfig";
 import { HubServiceStatus } from "../core/types/ISystemStatus";
-import { IFeatureFlags, IServiceFlags } from "../permissions";
 import { IHubTrustedOrgsResponse } from "../hub-types";
 import { IUserHubSettings } from "../utils/IUserHubSettings";
+import {
+  IFeatureFlags,
+  IServiceFlags,
+} from "../permissions/types/IPermissionPolicy";
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`

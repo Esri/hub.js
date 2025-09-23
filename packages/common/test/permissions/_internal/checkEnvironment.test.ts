@@ -1,5 +1,6 @@
-import { IPermissionPolicy, IArcGISContext } from "../../../src";
 import { checkEnvironment } from "../../../src/permissions/_internal/checkEnvironment";
+import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("checkEnvironment: ", () => {
   it("should return a policy check with granted response when context environment matches gated environment", () => {

@@ -149,7 +149,8 @@
 		"y:push": "lerna run y:push",
 		"release:dry": "multi-semantic-release --sequential-init --dry-run --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages --debug",
 		"prerelease": "npm config set workspaces-update false",
-		"release": "multi-semantic-release --sequential-init --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages"
+		"release": "multi-semantic-release --sequential-init --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages",
+		"madge:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./packages/*/src"
 	},
 	"husky": {
 		"hooks": {

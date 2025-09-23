@@ -1,4 +1,4 @@
-import { IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
 import { _applySiteSchema } from "../../../src/sites/_internal/_apply-site-schema";
 
 describe("_applySiteSchema", () => {

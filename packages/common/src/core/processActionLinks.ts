@@ -1,11 +1,11 @@
-import { IQuery } from "../search/types";
 import { hubSearch } from "../search/hubSearch";
 import { IHubRequestOptions } from "../hub-types";
+import { IQuery } from "../search/types/IHubCatalog";
 import {
   HubActionLink,
   IHubContentActionLink,
   IHubExternalActionLink,
-} from "./types";
+} from "./types/ActionLinks";
 
 /**
  * Given an array of IHubActionLinks, the following util will

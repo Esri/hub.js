@@ -6,7 +6,7 @@ import {
   UiSchemaRuleEffects,
 } from "../../../src/core/schemas/types";
 import * as getWellKnownCatalogModule from "../../../src/search/wellKnownCatalog";
-import { IHubCatalog } from "../../../src/search/types";
+import { IHubCatalog } from "../../../src/search/types/IHubCatalog";
 import { CANNOT_DISCUSS } from "../../../src/discussions/constants";
 import { ChannelNonePermission } from "../../../src/channels/_internal/ChannelBusinessRules";
 import * as deriveUserRoleV2Module from "../../../src/discussions/api/utils/channels/derive-user-role-v2";

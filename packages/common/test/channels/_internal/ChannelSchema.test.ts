@@ -1,7 +1,5 @@
-import {
-  ChannelEditorTypes,
-  ChannelSchema,
-} from "../../../src/channels/_internal/ChannelSchema";
+import { ChannelEditorTypes } from "../../../src/channels/_internal/channelEditorTypes";
+import { ChannelSchema } from "../../../src/channels/_internal/ChannelSchema";
 
 describe("ChannelSchema", () => {
   describe("ChannelEditorTypes", () => {

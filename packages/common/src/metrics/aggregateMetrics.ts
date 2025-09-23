@@ -1,5 +1,5 @@
-import { IMetricFeature } from "../core";
 import { DynamicAggregation } from "../core/types/DynamicValues";
+import { IMetricFeature } from "../core/types/Metrics";
 
 /**
  * Given an array of metrics, aggregate them using the specified aggregation

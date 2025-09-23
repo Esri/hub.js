@@ -1,6 +1,4 @@
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
-import { IHubDiscussion, IHubItemEntity } from "../core/types";
-import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { removeSettingV2 } from "./api/settings/settings";
@@ -15,6 +13,11 @@ import { cloneObject } from "../util";
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
+import { IHubDiscussion } from "../core/types/IHubDiscussion";
+import { IHubItemEntity } from "../core/types/IHubItemEntity";
+import { createModel } from "../models/createModel";
+import { getModel } from "../models/getModel";
+import { updateModel } from "../models/updateModel";
 
 /**
  * @private

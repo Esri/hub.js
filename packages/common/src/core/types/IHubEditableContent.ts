@@ -1,8 +1,9 @@
 import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
-import { IWithPermissions, IWithSlug } from "../traits/index";
 import { IHubAdditionalResource } from "./IHubAdditionalResource";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 import { IHubSchedule } from "./IHubSchedule";
+import { IWithPermissions } from "../traits/IWithPermissions";
+import { IWithSlug } from "../traits/IWithSlug";
 
 /**
  * Defines the properties of an editable Hub Content object

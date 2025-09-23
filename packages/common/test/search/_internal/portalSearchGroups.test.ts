@@ -1,9 +1,11 @@
-import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
 import { portalSearchGroups } from "../../../src/search/_internal/portalSearchGroups";
 
 import * as Portal from "@esri/arcgis-rest-portal";
 import * as SimpleResponse from "../../mocks/portal-groups-search/simple-response.json";
 import { MOCK_ENTERPRISE_AUTH } from "../../mocks/mock-auth";
+import { cloneObject } from "../../../src/util";
+import { IQuery } from "../../../src/search/types/IHubCatalog";
+import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 
 describe("portalSearchGroups module:", () => {
   describe("portalSearchGroups", () => {

@@ -1,9 +1,9 @@
-import { IMetricFeature } from "../../src";
-
 // const exampleOutput: IMetricResult[] = {};
 //
 
-const exampleOutput: IMetricFeature[] = [
+import { IMetricFeature } from "../../src/core/types/Metrics";
+
+export const exampleOutput: IMetricFeature[] = [
   {
     attributes: {
       id: "de08aa6ad2f647109afa7df575065c08",
@@ -14,7 +14,7 @@ const exampleOutput: IMetricFeature[] = [
   },
 ];
 
-const largerOutput: IMetricFeature[] = [
+export const largerOutput: IMetricFeature[] = [
   {
     attributes: {
       id: "de08aa6ad2f647109afa7df575065c08",

@@ -1,6 +1,6 @@
-import { IHubRequestOptions } from "../../../src";
-import { isValidDomain } from "../../../src/sites/domains";
 import * as fetchMock from "fetch-mock";
+import { IHubRequestOptions } from "../../../src/hub-types";
+import { isValidDomain } from "../../../src/sites/domains/is-valid-domain";
 
 describe("isValidDomain", function () {
   it("success is true when domain valid", async function () {

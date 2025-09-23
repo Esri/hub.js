@@ -1,6 +1,7 @@
-import { getProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
 import { IDomainEntry, IHubRequestOptions, IModel } from "../../hub-types";
-import { addDomain, removeDomainByHostname } from "../domains";
+import { addDomain } from "../domains/add-domain";
+import { removeDomainByHostname } from "../domains/removeDomainByHostname";
 
 /**
  * Given two site models, determine the domain changes and apply them

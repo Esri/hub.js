@@ -1,24 +1,26 @@
-import { IArcGISContext, IHubCatalog, searchCatalogs } from "../../src";
+import { searchCatalogs } from "../../src/search/searchCatalogs";
+import { IHubCatalog } from "../../src/search/types/IHubCatalog";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { Catalog } from "../../src/search/Catalog";
 
 describe("searchCatalogs:", () => {
   it("calls searchCollections on all catalogs", async () => {
-    const spy = spyOn(
-      require("../../src/search/Catalog").Catalog.prototype,
-      "searchCollections"
-    ).and.callFake(() => {
-      return Promise.resolve({
-        col1: {
-          hasNext: false,
-          results: [],
-          total: 10,
-        },
-        col2: {
-          hasNext: false,
-          results: [],
-          total: 20,
-        },
-      });
-    });
+    const spy = spyOn(Catalog.prototype, "searchCollections").and.callFake(
+      () => {
+        return Promise.resolve({
+          col1: {
+            hasNext: false,
+            results: [],
+            total: 10,
+          },
+          col2: {
+            hasNext: false,
+            results: [],
+            total: 20,
+          },
+        });
+      }
+    );
     const catalogs: IHubCatalog[] = [
       { title: "catalog1", schemaVersion: 1 } as unknown as IHubCatalog,
       { title: "catalog2", schemaVersion: 1 } as unknown as IHubCatalog,
@@ -34,13 +36,13 @@ describe("searchCatalogs:", () => {
   });
   it("uses scope if no collection", async () => {
     const searchCollectionsSpy = spyOn(
-      require("../../src/search/Catalog").Catalog.prototype,
+      Catalog.prototype,
       "searchCollections"
     ).and.callFake(() => {
       return Promise.resolve({});
     });
     const searchScopesSpy = spyOn(
-      require("../../src/search/Catalog").Catalog.prototype,
+      Catalog.prototype,
       "searchScopes"
     ).and.callFake(() => {
       return Promise.resolve({

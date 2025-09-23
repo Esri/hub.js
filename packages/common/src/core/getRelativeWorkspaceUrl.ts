@@ -1,6 +1,6 @@
 import { getTypeFromEntity } from "./getTypeFromEntity";
 import { isValidEntityType } from "./isValidEntityType";
-import { HubEntity } from "./types";
+import { HubEntity } from "./types/HubEntity";
 
 /**
  * From within the context of a hub site, the following util

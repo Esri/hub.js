@@ -1,4 +1,9 @@
-import { EntityType, IFilter, IHubCatalog, IHubCollection } from "../types";
+import {
+  IFilter,
+  IHubCollection,
+  EntityType,
+  IHubCatalog,
+} from "../types/IHubCatalog";
 
 /**
  * Build an IHubCatalog definition JSON object based on a

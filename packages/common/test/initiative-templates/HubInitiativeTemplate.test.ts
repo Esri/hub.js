@@ -1,9 +1,4 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  Catalog,
-  IHubInitiativeTemplate,
-} from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as editModule from "../../src/initiative-templates/edit";
 import * as fetchModule from "../../src/initiative-templates/fetch";
@@ -12,6 +7,9 @@ import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { HubInitiativeTemplate } from "../../src/initiative-templates/HubInitiativeTemplate";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { IHubInitiativeTemplate } from "../../src/core/types/IHubInitiativeTemplate";
+import { Catalog } from "../../src/search/Catalog";
 
 describe("HubInitiativeTemplate Class: ", () => {
   let authdCtxMgr: ArcGISContextManager;

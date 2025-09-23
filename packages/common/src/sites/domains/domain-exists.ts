@@ -1,7 +1,7 @@
 import { _getDomainServiceUrl } from "./_get-domain-service-url";
 import { _getAuthHeader } from "./_get-auth-header";
 import { IHubRequestOptions } from "../../hub-types";
-import { stripProtocol } from "../../urls";
+import { stripProtocol } from "../../urls/strip-protocol";
 
 /**
  * Check if a domain entry exists. Different from lookupDomain

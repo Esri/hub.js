@@ -1,4 +1,7 @@
-import { IFeatureFlags, IPermissionPolicy } from "../../permissions";
+import {
+  IFeatureFlags,
+  IPermissionPolicy,
+} from "../../permissions/types/IPermissionPolicy";
 
 /**
  * Default features for a Content item. Intentionally empty to prevent overriding and adding features

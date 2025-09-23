@@ -1,6 +1,6 @@
 import { IModel } from "../hub-types";
 import { cloneObject } from "../util";
-import { deepStringReplace } from "../objects";
+import { deepStringReplace } from "../objects/deep-string-replace";
 
 /**
  * Replaces instances of item ids on an item model

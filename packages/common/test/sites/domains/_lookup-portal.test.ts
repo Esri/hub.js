@@ -1,6 +1,6 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { _lookupPortal } from "../../../src/sites/domains";
 import { IHubRequestOptions } from "../../../src/hub-types";
+import { _lookupPortal } from "../../../src/sites/domains/_lookup-portal";
 
 describe("_lookupPortal", function () {
   it("looks up a portal", async function () {

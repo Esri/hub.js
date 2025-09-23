@@ -6,7 +6,7 @@ import {
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getWellKnownGroup } from "../getWellKnownGroup";
-import { IHubGroup } from "../../core";
+import { IHubGroup } from "../../core/types/IHubGroup";
 
 /**
  * @private
@@ -14,13 +14,13 @@ import { IHubGroup } from "../../core";
  * group. This defines how the schema properties should be
  * rendered in the follower group creation experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: EntityEditorOptions,
-  context: IArcGISContext
+  _context: IArcGISContext
 ): Promise<IUiSchema> => {
   const entity = options as IHubGroup;
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -138,7 +138,7 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };
 
 /**
@@ -151,12 +151,12 @@ export const buildUiSchema = async (
  * @param context
  * @returns
  */
-export const buildDefaults = async (
-  i18nScope: string,
-  options: EntityEditorOptions,
+export const buildDefaults = (
+  _i18nScope: string,
+  _options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IConfigurationValues> => {
-  return {
+  return Promise.resolve({
     ...getWellKnownGroup("hubFollowersGroup", context),
-  };
+  });
 };

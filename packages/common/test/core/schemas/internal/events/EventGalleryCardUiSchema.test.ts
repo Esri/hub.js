@@ -1,15 +1,15 @@
-import {
-  cloneObject,
-  IArcGISContext,
-  IHubCatalog,
-  IUiSchemaComboboxItem,
-  IUiSchemaElement,
-  UiSchemaRuleEffects,
-} from "../../../../../src";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/events/EventGalleryCardUiSchema";
 import * as getTagItemsModule from "../../../../../src/core/schemas/internal/getTagItems";
 import * as fetchCategoriesUiSchemaElementModule from "../../../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
 import * as wellKnownCatalogModule from "../../../../../src/search/wellKnownCatalog";
+import { IArcGISContext } from "../../../../../src/types/IArcGISContext";
+import {
+  IUiSchemaComboboxItem,
+  IUiSchemaElement,
+  UiSchemaRuleEffects,
+} from "../../../../../src/core/schemas/types";
+import { cloneObject } from "../../../../../src/util";
+import { IHubCatalog } from "../../../../../src/search/types/IHubCatalog";
 
 describe("EventGalleryCardUiSchema", () => {
   describe("buildUiSchema", () => {

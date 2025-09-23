@@ -131,7 +131,7 @@ describe("template view module:", () => {
           },
           {
             i18nKey: "tags",
-            value: TEMPLATE_HUB_SEARCH_RESULT.tags?.join(", ") as string,
+            value: TEMPLATE_HUB_SEARCH_RESULT.tags?.join(", "),
           },
           { i18nKey: "categories", value: "category1, category2" },
           {

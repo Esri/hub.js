@@ -1,5 +1,7 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
+import { IPermissionPolicy } from "../types/IPermissionPolicy";
+import { IPolicyCheck } from "../types/IPolicyCheck";
+import { PolicyResponse } from "../types/PolicyResponse";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
 /**
@@ -17,7 +19,7 @@ export function checkAuthentication(
   const checks = [] as IPolicyCheck[];
 
   // Only return a check if the policy is defined
-  if (policy.hasOwnProperty("authenticated")) {
+  if (Object.prototype.hasOwnProperty.call(policy, "authenticated")) {
     let response: PolicyResponse = "granted";
 
     if (policy.authenticated && !context.isAuthenticated) {
@@ -27,7 +29,7 @@ export function checkAuthentication(
     // create the check
     const check: IPolicyCheck = {
       name: "authentication",
-      value: `required: ${policy.authenticated}`,
+      value: `required: ${(!!policy.authenticated).toString()}`,
       code: getPolicyResponseCode(response),
       response,
     };

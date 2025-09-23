@@ -1,8 +1,10 @@
-import { IHubSearchOptions, IQuery, cloneObject } from "../../../src";
 import { portalSearchGroupMembers } from "../../../src/search/_internal/portalSearchGroupMembers";
 import * as Portal from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import * as users from "../../../src/users";
+import * as hubUsersModule from "../../../src/users/HubUsers";
+import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
+import { IQuery } from "../../../src/search/types/IHubCatalog";
+import { cloneObject } from "../../../src/util";
 
 describe("portalSearchGroupMembers:", () => {
   describe("throws if not passed group:", () => {
@@ -75,7 +77,7 @@ describe("portalSearchGroupMembers:", () => {
       });
       // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
       const enrichUserSearchResultSpy = spyOn(
-        users,
+        hubUsersModule,
         "enrichUserSearchResult"
       ).and.callThrough();
       const opts: IHubSearchOptions = {
@@ -122,7 +124,7 @@ describe("portalSearchGroupMembers:", () => {
         return Promise.resolve(resp);
       });
       // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
-      spyOn(users, "enrichUserSearchResult").and.callThrough();
+      spyOn(hubUsersModule, "enrichUserSearchResult").and.callThrough();
       const opts: IHubSearchOptions = {
         num: 2,
         requestOptions: {
@@ -147,7 +149,7 @@ describe("portalSearchGroupMembers:", () => {
         return Promise.resolve(resp);
       });
       // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
-      spyOn(users, "enrichUserSearchResult").and.callThrough();
+      spyOn(hubUsersModule, "enrichUserSearchResult").and.callThrough();
       const opts: IHubSearchOptions = {
         num: 2,
         requestOptions: {
@@ -172,7 +174,7 @@ describe("portalSearchGroupMembers:", () => {
         return Promise.resolve(resp);
       });
       // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
-      spyOn(users, "enrichUserSearchResult").and.callThrough();
+      spyOn(hubUsersModule, "enrichUserSearchResult").and.callThrough();
       const opts: IHubSearchOptions = {
         num: 2,
         requestOptions: {
@@ -204,7 +206,7 @@ describe("portalSearchGroupMembers:", () => {
       });
       // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
       const enrichUserSearchResultSpy = spyOn(
-        users,
+        hubUsersModule,
         "enrichUserSearchResult"
       ).and.callThrough();
       const opts: IHubSearchOptions = {
@@ -314,106 +316,3 @@ const SparseGroupMembersResponse = {
     },
   ],
 };
-const MinimalUser: Portal.IUser = {
-  username: "e2e_pre_pub_admin",
-  udn: null,
-  id: "e9604305b2bf44b1bac01bc78e08d768",
-  fullName: "",
-  firstName: "",
-  lastName: "",
-  created: 1563455713000,
-  modified: 1676495017000,
-  provider: "arcgis",
-} as unknown as Portal.IUser;
-
-const FullUser: Portal.IUser = {
-  username: "e2e_pre_pub_admin",
-  udn: null,
-  id: "e9604305b2bf44b1bac01bc78e08d768",
-  fullName: "e2e_pre_pub_admin qa-pre-hub",
-  categories: [],
-  emailStatus: "verified",
-  emailStatusDate: 1685553302000,
-  firstName: "e2e_pre_pub_admin",
-  lastName: "qa-pre-hub",
-  preferredView: null,
-  description: null,
-  email: "dbouwman@esri.com",
-  userType: "arcgisonly",
-  idpUsername: null,
-  favGroupId: "21b609dac1784585a27ab55a99c09b37",
-  lastLogin: 1687895393000,
-  mfaEnabled: false,
-  storageUsage: 10192336326,
-  storageQuota: 2199023255552,
-  orgId: "T5cZDlfUaBpDnk6P",
-  role: "org_admin",
-  privileges: [
-    "premium:user:networkanalysis:servicearea",
-    "premium:user:networkanalysis:vehiclerouting",
-    "premium:user:places",
-    "premium:user:spatialanalysis",
-  ],
-  level: "2",
-  userLicenseTypeId: "creatorUT",
-  disabled: false,
-  tags: [],
-  culture: "",
-  cultureFormat: "",
-  region: "US",
-  units: null,
-  thumbnail: null,
-  access: "private",
-  created: 1563455713000,
-  modified: 1676495017000,
-  provider: "arcgis",
-  groups: [
-    {
-      id: "00d83db970ee4937b23d5bbf60c92b51",
-      title: "collaborative-events-toggle-1628047171191 Core Team",
-      isInvitationOnly: false,
-      owner: "qa_pre_hub_admin",
-      description:
-        "Adding members to the core team adds them to this group. These team members are also added to the initiative's content and followers groups so they can edit and manage initiative items in the content group as well as view and send email updates to followers. This group is an update group which means that your team members can update its content. Other members of your ArcGIS Online organization can see this group, but only your team can see what it includes and make changes.<br /><br />If you have additional questions about the core team group, please see Esri documentation or contact support.<br /><br /><strong>DO NOT DELETE THIS GROUP.</strong>",
-      snippet:
-        "Members of this group can create, edit, and manage the site, pages, and other content related to collaborative-events-toggle-harness-1.",
-      tags: [
-        "Hub Group",
-        "Hub Initiative Group",
-        "Hub Site Group",
-        "Hub Core Team Group",
-        "Hub Team Group",
-      ],
-      typeKeywords: [],
-      phone: null,
-      sortField: "modified",
-      sortOrder: "desc",
-      isViewOnly: false,
-      featuredItemsId: null,
-      thumbnail: null,
-      created: 1612556050000,
-      modified: 1628047181000,
-      access: "org",
-      capabilities: ["updateitemcontrol"],
-      isFav: false,
-      isReadOnly: false,
-      protected: true,
-      autoJoin: false,
-      notificationsEnabled: false,
-      provider: null,
-      providerGroupName: null,
-      leavingDisallowed: false,
-      hiddenMembers: false,
-      membershipAccess: "collaboration",
-      displaySettings: {
-        itemTypes: "",
-      },
-      properties: null,
-      userMembership: {
-        username: "e2e_pre_pub_admin",
-        memberType: "admin",
-        applications: 0,
-      },
-    },
-  ],
-} as unknown as Portal.IUser;

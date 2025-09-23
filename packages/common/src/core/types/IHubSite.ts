@@ -1,5 +1,5 @@
 import { IExtent } from "@esri/arcgis-rest-feature-service";
-import { IWithVersioningBehavior } from "../behaviors";
+import { IWithVersioningBehavior } from "../behaviors/IWithVersioningBehavior";
 
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 import { IWithSlug } from "../traits/IWithSlug";

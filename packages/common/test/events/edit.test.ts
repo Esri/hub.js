@@ -2,13 +2,14 @@ import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as defaultsModule from "../../src/events/defaults";
 import * as eventsModule from "../../src/events/api/events";
-import * as registrationModule from "../../src/events/api";
+import * as registrationModule from "../../src/events/api/registrations";
 import {
   EventAccess,
   EventAttendanceType,
   EventStatus,
   IEvent,
   IEventAssociation,
+  RegistrationRole,
 } from "../../src/events/api/types";
 import {
   createHubEvent,
@@ -24,7 +25,7 @@ import {
   HubEventCapacityType,
 } from "../../src/events/types";
 import * as buildEventAssociationsModule from "../../src/events/_internal/buildEventAssociations";
-import { IArcGISContext } from "../../src";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("HubEvents edit module", () => {
   const context = {
@@ -523,8 +524,8 @@ describe("HubEvents edit module", () => {
       });
       const data: IHubCreateEventRegistration = {
         eventId: "0o1",
-        role: registrationModule.RegistrationRole.ATTENDEE,
-        type: registrationModule.EventAttendanceType.IN_PERSON,
+        role: RegistrationRole.ATTENDEE,
+        type: EventAttendanceType.IN_PERSON,
       };
       await createHubEventRegistration(data, context.hubRequestOptions);
       expect(createRegistrationSpy).toHaveBeenCalledWith({

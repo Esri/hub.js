@@ -1,4 +1,4 @@
-import { convertUrlsToAnchorTags } from "../../src";
+import { convertUrlsToAnchorTags } from "../../src/urls/convert-urls-to-anchor-tags";
 
 describe("convertUrlsToAnchorTags", function () {
   it("converts the url in a string to hyperlink", function () {

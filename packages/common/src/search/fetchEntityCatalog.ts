@@ -1,16 +1,17 @@
 import { getItem } from "@esri/arcgis-rest-portal";
 import { fetchEvent } from "../events/fetch";
 import HubError from "../HubError";
-import { getProp } from "../objects";
 import { fetchSite } from "../sites/HubSites";
-import { stripProtocol } from "../urls";
-import { isGuid, isCuid } from "../utils";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { IHubCatalog } from "./types/IHubCatalog";
 import { lookupDomain } from "../sites/domains/lookup-domain";
 import { HubEntityType } from "../core/types/HubEntityType";
 import { getHubTypeFromItemType } from "../core/getHubTypeFromItemType";
 import { fetchHubEntity } from "../core/fetchHubEntity";
+import { getProp } from "../objects/get-prop";
+import { stripProtocol } from "../urls/strip-protocol";
+import { isCuid } from "../utils/is-cuid";
+import { isGuid } from "../utils/is-guid";
 
 /**
  * Fetch a Catalog for an entity.

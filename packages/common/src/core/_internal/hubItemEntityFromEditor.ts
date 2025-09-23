@@ -1,18 +1,16 @@
 import { Catalog } from "../../search/Catalog";
 import { truncateSlug } from "../../items/_internal/slugs";
-import { editorToMetric } from "../../metrics";
-import {
-  upsertResource,
-  doesResourceExist,
-  removeResource,
-} from "../../resources";
 import { initCatalogOnEntityCreate } from "../../search/initCatalogOnEntityCreate";
-import { IArcGISContext } from "../../types";
 import { camelize, cloneObject, createId } from "../../util";
 import { setMetricAndDisplay } from "../schemas/internal/metrics/setMetricAndDisplay";
-import { IHubItemEntity, IHubItemEntityEditor, IHubLocation } from "../types";
+import { editorToMetric } from "../../metrics/editorToMetric";
+import { doesResourceExist } from "../../resources/doesResourceExist";
+import { removeResource } from "../../resources/removeResource";
+import { upsertResource } from "../../resources/upsertResource";
+import { IArcGISContext } from "../../types/IArcGISContext";
+import { IHubItemEntityEditor, IHubItemEntity } from "../types/IHubItemEntity";
+import { IHubLocation } from "../types/IHubLocation";
 import { getTemplate } from "./getTemplate";
-
 /**
  * Convert editor values back into an IHubItemEntity,
  * performing any pre-save operations/XHRs/transforms.

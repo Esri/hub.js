@@ -16,14 +16,6 @@ import {
   addHistoryEntry,
   removeHistoryEntry,
 } from "./core/hubHistory";
-import { getProp, getWithDefault } from "./objects";
-import {
-  HubEnvironment,
-  HubLicense,
-  IFeatureFlags,
-  IPermissionAccessResponse,
-  Permission,
-} from "./permissions/types";
 import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./hub-types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 import { UserResourceApp } from "./hub-types";
@@ -36,6 +28,15 @@ import { HubEntity } from "./core/types/HubEntity";
 import { getOrgThumbnailUrl } from "./resources/get-org-thumbnail-url";
 import type { IArcGISContext } from "./types/IArcGISContext";
 import type { IArcGISContextOptions } from "./types/IArcGISContextOptions";
+import {
+  HubEnvironment,
+  IFeatureFlags,
+} from "./permissions/types/IPermissionPolicy";
+import { HubLicense } from "./permissions/types/HubLicense";
+import { getProp } from "./objects/get-prop";
+import { getWithDefault } from "./objects/get-with-default";
+import { Permission } from "./permissions/types/Permission";
+import { IPermissionAccessResponse } from "./permissions/types/IPermissionAccessResponse";
 
 export const ENTERPRISE_SITES_PATH = "/apps/sites";
 export const ENTERPRISE_HOME_SUBDOMAIN = "home";

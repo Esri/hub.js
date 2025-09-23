@@ -9,7 +9,7 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { checkPermission } from "../../permissions/checkPermission";
 import { getDownloadsSection } from "./getDownloadsSection";
 import { shouldShowDownloadsConfiguration } from "./shouldShowDownloadsConfiguration";
-import { getItemHomeUrl } from "../../urls";
+import { getItemHomeUrl } from "../../urls/get-item-home-url";
 
 /**
  * @private

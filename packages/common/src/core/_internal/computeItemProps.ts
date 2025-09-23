@@ -1,7 +1,7 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
-import { IHubItemEntity } from "../types";
 import { deriveLocationFromItem } from "../../content/_internal/internalContentUtils";
-import { isDiscussable } from "../../discussions";
+import { isDiscussable } from "../../discussions/utils";
+import { IHubItemEntity } from "../types/IHubItemEntity";
 
 /**
  * Base property mapping for item backed entity types

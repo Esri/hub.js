@@ -1,5 +1,5 @@
 import { IModel } from "../../hub-types";
-import { mergeObjects } from "../../objects";
+import { mergeObjects } from "../../objects/merge-objects";
 
 /**
  * Returns the version data (ie the part of the model that gets versioned) from the model

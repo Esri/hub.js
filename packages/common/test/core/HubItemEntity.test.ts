@@ -6,12 +6,13 @@ import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
 import * as deleteItemThumbnailModule from "../../src/items/deleteItemThumbnail";
 import * as uploadImageResourceModule from "../../src/items/uploadImageResource";
-import { IEntityPermissionPolicy } from "../../src/permissions";
-import * as DISCUSSIONS from "../../src/discussions";
 import * as shareItemToGroupsModule from "../../src/items/share-item-to-groups";
 import * as unshareItemFromGroupsModule from "../../src/items/unshare-item-from-groups";
 import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
-import * as permissionsModule from "../../src/permissions";
+import * as checkPermissionsModule from "../../src/permissions/checkPermission";
+import * as discussionsUtilsModule from "../../src/discussions/utils";
+import { IEntityPermissionPolicy } from "../../src/permissions/types/IEntityPermissionPolicy";
+import { CANNOT_DISCUSS } from "../../src/discussions/constants";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -328,7 +329,7 @@ describe("HubItemEntity Class: ", () => {
         });
       });
       const setDiscussableKeywordSpy = spyOn(
-        DISCUSSIONS,
+        discussionsUtilsModule,
         "setDiscussableKeyword"
       ).and.callThrough();
       const updateGroupSpy = spyOn(PortalModule, "updateGroup").and.callFake(
@@ -343,7 +344,7 @@ describe("HubItemEntity Class: ", () => {
       expect(updateGroupSpy).toHaveBeenCalledWith({
         group: {
           id: "followers00c",
-          typeKeywords: [DISCUSSIONS.CANNOT_DISCUSS],
+          typeKeywords: [CANNOT_DISCUSS],
         },
         authentication: authdCtxMgr.context.session,
       });
@@ -740,7 +741,7 @@ describe("HubItemEntity Class: ", () => {
       } as IHubItemEntity;
       const instance = new TestHarness(entity, authdCtxMgr.context);
       const checkPermissionSpy = spyOn(
-        permissionsModule,
+        checkPermissionsModule,
         "checkPermission"
       ).and.returnValue({ access: true });
       const chk = instance.checkPermission("hub:project:create");
@@ -760,7 +761,7 @@ describe("HubItemEntity Class: ", () => {
           id: "00c",
           owner: "deke",
           isDiscussable: false,
-          typeKeywords: [DISCUSSIONS.CANNOT_DISCUSS],
+          typeKeywords: [CANNOT_DISCUSS],
         },
         authdCtxMgr.context
       );
@@ -786,7 +787,7 @@ describe("HubItemEntity Class: ", () => {
       instance.updateIsDiscussable(false);
       expect(updateSpy).toHaveBeenCalledTimes(1);
       expect(updateSpy).toHaveBeenCalledWith({
-        typeKeywords: [DISCUSSIONS.CANNOT_DISCUSS],
+        typeKeywords: [CANNOT_DISCUSS],
         isDiscussable: false,
       });
     });

@@ -10,8 +10,8 @@ import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metri
 import * as followUiSchemaModule from "../../../../src/core/schemas/internal/follow/FollowCardUiSchema";
 import * as eventGalleryUiSchemaModule from "../../../../src/core/schemas/internal/events/EventGalleryCardUiSchema";
 import * as embedUiSchemaModule from "../../../../src/core/schemas/internal/embed/EmbedUiSchema";
-import { IArcGISContext } from "../../../../src";
 import { EventGalleryCardEditorOptions } from "../../../../src/core/schemas/internal/EditorOptions";
+import { IArcGISContext } from "../../../../src/types/IArcGISContext";
 import { EventGalleryCardSchema } from "../../../../src/core/schemas/internal/events/EventGalleryCardSchema";
 import { EmbedCardSchema } from "../../../../src/core/schemas/internal/embed/EmbedSchema";
 

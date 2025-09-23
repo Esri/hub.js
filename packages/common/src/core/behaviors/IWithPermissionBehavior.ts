@@ -1,8 +1,6 @@
-import {
-  IPermissionAccessResponse,
-  IEntityPermissionPolicy,
-  Permission,
-} from "../../permissions";
+import { IEntityPermissionPolicy } from "../../permissions/types/IEntityPermissionPolicy";
+import { IPermissionAccessResponse } from "../../permissions/types/IPermissionAccessResponse";
+import { Permission } from "../../permissions/types/Permission";
 
 /**
  * Composable behavior that adds permissions to an entity

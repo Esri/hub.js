@@ -1,5 +1,5 @@
 import { IItem, IPortal } from "@esri/arcgis-rest-portal";
-import { getItemDataUrl } from "../../src";
+import { getItemDataUrl } from "../../src/urls/get-item-data-url";
 
 describe("getItemDataUrl", () => {
   const portalHostname = "portal-hostname.com";
@@ -9,12 +9,12 @@ describe("getItemDataUrl", () => {
     name: "Portal Name",
     portalHostname,
     urlKey: "www",
-    customBaseUrl: "custom-base-url.com"
+    customBaseUrl: "custom-base-url.com",
   };
   let item: IItem;
   beforeEach(() => {
     item = {
-      id: "foo"
+      id: "foo",
     } as IItem;
   });
   const portalUrl = `https://${portalHostname}`;

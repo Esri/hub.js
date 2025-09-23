@@ -1,6 +1,6 @@
 import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
 import { checkServiceStatus } from "../../../src/permissions/_internal/checkServiceStatus";
-import { IArcGISContext } from "../../../src";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 describe("checkServiceStatus:", () => {
   it("returns not checks if policy does not specify services", () => {
     const policy: IPermissionPolicy = {

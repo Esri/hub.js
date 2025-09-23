@@ -8,7 +8,7 @@ import {
   ISerializedOperationStack,
 } from "../../src/hub-types";
 import OperationError from "../../src/OperationError";
-import { getProp } from "../../src";
+import { getProp } from "../../src/objects/get-prop";
 // Test Fakes
 interface IFakeItem {
   id: string;
@@ -70,7 +70,7 @@ const addOwnerThrowsOpError = (
   input: IPipeable<Partial<IFakeItem>>
 ): Promise<IPipeable<Partial<IFakeItem>>> => {
   input.data.owner = "steve";
-  const opId = input.stack.start("addOwnerThrowsOpError");
+  input.stack.start("addOwnerThrowsOpError");
 
   const msg = `Some upstream error \n Operation Stack: \n ${input.stack.toString()}`;
   const err = new OperationError("addOwnerThrowsOpError", msg);
@@ -83,7 +83,7 @@ const addOwnerThrows = (
   input: IPipeable<Partial<IFakeItem>>
 ): Promise<IPipeable<Partial<IFakeItem>>> => {
   input.data.owner = "steve";
-  const opId = input.stack.start("addOwnerThrows");
+  input.stack.start("addOwnerThrows");
   return Promise.reject("Some random error");
 };
 

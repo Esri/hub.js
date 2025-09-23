@@ -1,10 +1,10 @@
-import { IHubSearchResult } from "..";
-import { ResultToCardModelFn } from "../core";
 import {
   IBadgeConfig,
   IConvertToCardModelOpts,
   IHubCardViewModel,
+  ResultToCardModelFn,
 } from "../core/types/IHubCardViewModel";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { getCardModelUrlFromResult } from "../urls/getCardModelUrl";
 
 /**

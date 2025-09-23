@@ -1,6 +1,5 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
-import { IHubEditableContent } from "../../src";
 import {
   hasServiceCapability,
   isAGOFeatureServiceUrl,
@@ -9,6 +8,7 @@ import {
   ServiceCapabilities,
   toggleServiceCapability,
 } from "../../src/content/hostedServiceUtils";
+import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 
 describe("isHostedFeatureServiceMainItem", () => {
   it("returns true for hosted feature service main items", () => {

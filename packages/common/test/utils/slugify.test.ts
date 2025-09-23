@@ -1,4 +1,4 @@
-import { slugify } from "../../src";
+import { slugify } from "../../src/utils/slugify";
 
 describe("slugify", function () {
   it("makes characters lowercase", function () {

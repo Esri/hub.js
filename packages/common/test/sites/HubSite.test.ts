@@ -4,23 +4,25 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubSite } from "../../src/sites/HubSite";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubSitesModule from "../../src/sites/HubSites";
-import * as HubVersioningModule from "../../src/versioning";
+import * as getVersionModule from "../../src/versioning/getVersion";
+import * as createVersionModule from "../../src/versioning/createVersion";
+import * as updateVersionModule from "../../src/versioning/updateVersion";
+import * as searchVersionsModule from "../../src/versioning/searchVersions";
+import * as updateVersionMetadataModule from "../../src/versioning/updateVersionMetadata";
+import * as deleteVersionModule from "../../src/versioning/deleteVersion";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
-import {
-  IDeepCatalogInfo,
-  IHubCatalog,
-  IHubSite,
-  IHubSiteEditor,
-  IHubTrustedOrgsResponse,
-  IUserHubSettings,
-  IVersion,
-  IVersionMetadata,
-  getProp,
-} from "../../src";
 import { Catalog } from "../../src/search/Catalog";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as fetchMock from "fetch-mock";
+import { IUserHubSettings } from "../../src/utils/IUserHubSettings";
+import { IHubTrustedOrgsResponse } from "../../src/hub-types";
+import { IHubSite, IHubSiteEditor } from "../../src/core/types/IHubSite";
+import { IDeepCatalogInfo } from "../../src/search/types/types";
+import { IVersion } from "../../src/versioning/types/IVersion";
+import { IVersionMetadata } from "../../src/versioning/types/IVersionMetadata";
+import { getProp } from "../../src/objects/get-prop";
+import { IHubCatalog } from "../../src/search/types/IHubCatalog";
 
 describe("HubSite Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -465,7 +467,7 @@ describe("HubSite Class:", () => {
     });
     it("searches versions", async () => {
       const searchVersionsSpy = spyOn(
-        HubVersioningModule,
+        searchVersionsModule,
         "searchVersions"
       ).and.callFake(() => {
         return Promise.resolve([{}, {}]);
@@ -481,12 +483,11 @@ describe("HubSite Class:", () => {
       expect(result.length).toBe(2);
     });
     it("gets a version", async () => {
-      const getVersionSpy = spyOn(
-        HubVersioningModule,
-        "getVersion"
-      ).and.callFake(() => {
-        return Promise.resolve({});
-      });
+      const getVersionSpy = spyOn(getVersionModule, "getVersion").and.callFake(
+        () => {
+          return Promise.resolve({});
+        }
+      );
 
       await chk.getVersion("abc123");
 
@@ -499,7 +500,7 @@ describe("HubSite Class:", () => {
     });
     it("creates a version", async () => {
       const createVersionSpy = spyOn(
-        HubVersioningModule,
+        createVersionModule,
         "createVersion"
       ).and.callFake(() => {
         return Promise.resolve({});
@@ -517,7 +518,7 @@ describe("HubSite Class:", () => {
     });
     it("updates a version", async () => {
       const updateVersionSpy = spyOn(
-        HubVersioningModule,
+        updateVersionModule,
         "updateVersion"
       ).and.callFake(() => {
         return Promise.resolve({});
@@ -555,7 +556,7 @@ describe("HubSite Class:", () => {
 
     it("updates version metadata", async () => {
       const updateVersionMetadataSpy = spyOn(
-        HubVersioningModule,
+        updateVersionMetadataModule,
         "updateVersionMetadata"
       ).and.callFake(() => {
         return Promise.resolve({});
@@ -583,7 +584,7 @@ describe("HubSite Class:", () => {
 
     it("deletes a version", async () => {
       const deleteVersionSpy = spyOn(
-        HubVersioningModule,
+        deleteVersionModule,
         "deleteVersion"
       ).and.callFake(() => {
         return Promise.resolve({ success: true });

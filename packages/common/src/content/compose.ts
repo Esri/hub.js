@@ -7,16 +7,15 @@ import {
 import { BBox, IHubRequestOptions } from "../hub-types";
 import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";
-import { IHubContentEnrichments, IHubContent } from "../core";
 
 import { getStructuredLicense } from "../items/get-structured-license";
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { getItemApiUrl } from "../urls/get-item-api-url";
 import { getItemDataUrl } from "../urls/get-item-data-url";
 import { camelize, isNil } from "../util";
-import { includes } from "../utils";
+import { includes } from "../utils/includes";
 import {
   DatePrecision,
   IMetadataPaths,
@@ -34,6 +33,9 @@ import {
   getItemOrgId,
 } from "./_internal/internalContentUtils";
 import { getFamily } from "./get-family";
+import { isSiteType } from "./isSiteType";
+import { IHubContentEnrichments } from "../core/types/IHubContentEnrichments";
+import { IHubContent } from "../core/types/IHubContent";
 
 /**
  * The extent returned by the Hub API
@@ -413,21 +415,6 @@ export const getLayerIdFromUrl = (url: string) => {
 export const isFeatureService = (type: string) => {
   return type && type.toLowerCase() === "feature service";
 };
-
-/**
- * Determines whether, given a type and typekeywords, the input is
- * a site item type or not
- * @param type - the type value on the item
- * @param typeKeywords - the typeKeywords on the item
- */
-
-export function isSiteType(type: string, typeKeywords: string[] = []) {
-  return (
-    type === "Site Application" ||
-    type === "Hub Site Application" ||
-    (type === "Web Mapping Application" && typeKeywords.includes("hubSite"))
-  );
-}
 
 /**
  * ```js

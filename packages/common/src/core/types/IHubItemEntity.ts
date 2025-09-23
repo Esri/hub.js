@@ -1,7 +1,6 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../hub-types";
 import { AccessLevel, MembershipAccess } from "./types";
-
 import { IHubLocation } from "./IHubLocation";
 import { IWithFollowers } from "../traits/IWithFollowers";
 import { IWithAssociations } from "../traits/IWithAssociations";
@@ -10,7 +9,7 @@ import { IWithPermissions } from "../traits/IWithPermissions";
 import { IWithDiscussions } from "../traits/IWithDiscussions";
 import { IWithViewSettings } from "../traits/IWithViewSettings";
 import { IWithAssistant } from "../traits/IWithAssistant";
-import { ICatalogSetup } from "../../search/types";
+import { ICatalogSetup } from "../../search/types/types";
 
 /**
  * Properties exposed by Entities that are backed by Items

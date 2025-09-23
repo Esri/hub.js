@@ -3,7 +3,7 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { getTagItems } from "../..";
+import { getTagItems } from "../../core/schemas/internal/getTagItems";
 
 /**
  * @private

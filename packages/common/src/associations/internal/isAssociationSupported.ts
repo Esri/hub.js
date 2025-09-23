@@ -1,4 +1,4 @@
-import { HubEntityType } from "../../core/types";
+import { HubEntityType } from "../../core/types/HubEntityType";
 import { getAssociationHierarchy } from "./getAssociationHierarchy";
 
 /**

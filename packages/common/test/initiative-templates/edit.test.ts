@@ -1,16 +1,18 @@
-import {
-  IModel,
-  cloneObject,
-  deleteInitiativeTemplate,
-  createInitiativeTemplate,
-  IHubInitiativeTemplate,
-  updateInitiativeTemplate,
-} from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
-import * as modelUtils from "../../src/models";
+import * as createModelModule from "../../src/models/createModel";
+import * as updateModelModule from "../../src/models/updateModel";
+import * as getModelModule from "../../src/models/getModel";
 import { GUID, INITIATIVE_TEMPLATE_MODEL } from "./fixtures";
+import {
+  createInitiativeTemplate,
+  deleteInitiativeTemplate,
+  updateInitiativeTemplate,
+} from "../../src/initiative-templates/edit";
+import { cloneObject } from "../../src/util";
+import { IModel } from "../../src/hub-types";
+import { IHubInitiativeTemplate } from "../../src/core/types/IHubInitiativeTemplate";
 
 describe("initiative template edit module:", () => {
   describe("destroyInitiativeTemplate:", () => {
@@ -34,7 +36,7 @@ describe("initiative template edit module:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelModule, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -73,7 +75,7 @@ describe("initiative template edit module:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelModule, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -122,14 +124,15 @@ describe("initiative template edit module:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      const getModelSpy = spyOn(getModelModule, "getModel").and.returnValue(
         Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
       );
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => {
-          return Promise.resolve(m);
-        }
-      );
+      const updateModelSpy = spyOn(
+        updateModelModule,
+        "updateModel"
+      ).and.callFake((m: IModel) => {
+        return Promise.resolve(m);
+      });
 
       const it: IHubInitiativeTemplate = {
         itemControl: "edit",
@@ -198,7 +201,7 @@ describe("initiative template edit module:", () => {
       spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      spyOn(modelUtils, "getModel").and.returnValue(
+      spyOn(getModelModule, "getModel").and.returnValue(
         Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
       );
       const it: IHubInitiativeTemplate = {
@@ -212,9 +215,10 @@ describe("initiative template edit module:", () => {
         typeKeywords: ["Hub Initiative Template"],
         orgUrlKey: "dcdev",
       } as IHubInitiativeTemplate;
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => Promise.resolve(m)
-      );
+      const updateModelSpy = spyOn(
+        updateModelModule,
+        "updateModel"
+      ).and.callFake((m: IModel) => Promise.resolve(m));
       console.log("chk.view:", it);
       const chk = await updateInitiativeTemplate(it, {
         authentication: MOCK_AUTH,
@@ -227,7 +231,7 @@ describe("initiative template edit module:", () => {
       spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      spyOn(modelUtils, "getModel").and.returnValue(
+      spyOn(getModelModule, "getModel").and.returnValue(
         Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
       );
       const it: IHubInitiativeTemplate = {
@@ -242,9 +246,10 @@ describe("initiative template edit module:", () => {
         orgUrlKey: "dcdev",
         view: { showMap: false },
       } as IHubInitiativeTemplate;
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => Promise.resolve(m)
-      );
+      const updateModelSpy = spyOn(
+        updateModelModule,
+        "updateModel"
+      ).and.callFake((m: IModel) => Promise.resolve(m));
       const chk = await updateInitiativeTemplate(it, {
         authentication: MOCK_AUTH,
       });

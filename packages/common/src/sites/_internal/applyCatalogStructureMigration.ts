@@ -3,7 +3,7 @@ import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { getProp } from "../../objects/get-prop";
-import { IHubCatalog } from "../../search";
+import { IHubCatalog } from "../../search/types/IHubCatalog";
 
 /**
  * Add the default catalog structure to the Site model

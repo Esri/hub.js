@@ -4,7 +4,7 @@
  */
 
 import { JSONSchema } from "json-schema-typed";
-import { CATALOG_SETUP_TYPES } from "../../../search/types";
+import { CATALOG_SETUP_TYPES } from "../../../search/types/types";
 
 export const ENTITY_NAME_SCHEMA = {
   type: "string",

@@ -4,7 +4,7 @@ import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
-import { IHubInitiative } from "../../core/types";
+import { IHubInitiative } from "../../core/types/IHubInitiative";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 
 /**

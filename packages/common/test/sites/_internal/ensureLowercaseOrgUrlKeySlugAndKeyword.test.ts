@@ -1,6 +1,6 @@
 import { ensureLowercaseOrgUrlKeySlugAndKeyword } from "../../../src/sites/_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
 import { IModel } from "../../../src/hub-types";
-import { cloneObject } from "../../../src";
+import { cloneObject } from "../../../src/util";
 
 describe("ensureLowercaseOrgUrlKeySlugAndKeyword:", () => {
   it("should lowercase orgUrlKey", () => {

@@ -1,4 +1,5 @@
-import { HubEntity, HubEntityType } from "../core/types";
+import { HubEntity } from "../core/types/HubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
 import { getIdsFromKeywords } from "./internal/getIdsFromKeywords";
 
 /**

@@ -468,7 +468,7 @@ describe("HubUser Class:", () => {
         await chk.save();
         fail("should have thrown");
       } catch (err) {
-        expect(err.message).toEqual("HubUser is already destroyed.");
+        expect((err as Error).message).toEqual("HubUser is already destroyed.");
       }
     });
   });
@@ -491,7 +491,7 @@ describe("HubUser Class:", () => {
         await chk.delete();
         fail("should have thrown");
       } catch (err) {
-        expect(err.message).toEqual("HubUser is already destroyed.");
+        expect((err as Error).message).toEqual("HubUser is already destroyed.");
       }
     });
   });

@@ -1,8 +1,5 @@
-import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
-
-export const PageEditorTypes = ["hub:page:edit", "hub:page:create"] as const;
-export type PageEditorType = (typeof PageEditorTypes)[number];
+import { IConfigurationSchema } from "../../core/schemas/types";
 
 /**
  * defines the JSON schema for a Hub Site's editable fields

@@ -1,9 +1,6 @@
-import {
-  IDateRange,
-  IMatchOptions,
-  IPredicate,
-} from "../../../src/search/types";
 import { expandPredicate } from "../../../src/search/_internal/expandPredicate";
+import { IPredicate } from "../../../src/search/types/IHubCatalog";
+import { IDateRange, IMatchOptions } from "../../../src/search/types/types";
 
 describe("ipredicate-utils", () => {
   describe("expandPredicates;", () => {

@@ -1,17 +1,18 @@
-import {
-  HubEntityStatus,
-  IHubProject,
-  IModel,
-  cloneObject,
-  createProject,
-  deleteProject,
-  updateProject,
-} from "../../src";
 import { GUID, PROJECT_LOCATION, PROJECT_MODEL } from "./fixtures";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
-import * as modelUtils from "../../src/models";
+import * as createModelUtils from "../../src/models/createModel";
+import * as updateModelUtils from "../../src/models/updateModel";
+import * as getModelUtils from "../../src/models/getModel";
+import {
+  createProject,
+  deleteProject,
+  updateProject,
+} from "../../src/projects/edit";
+import { HubEntityStatus, IModel } from "../../src/hub-types";
+import { cloneObject } from "../../src/util";
+import { IHubProject } from "../../src/core/types/IHubProject";
 
 describe("project edit module:", () => {
   describe("destroyProject:", () => {
@@ -35,7 +36,7 @@ describe("project edit module:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -74,7 +75,7 @@ describe("project edit module:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
@@ -122,14 +123,15 @@ describe("project edit module:", () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
         Promise.resolve(PROJECT_MODEL)
       );
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => {
-          return Promise.resolve(m);
-        }
-      );
+      const updateModelSpy = spyOn(
+        updateModelUtils,
+        "updateModel"
+      ).and.callFake((m: IModel) => {
+        return Promise.resolve(m);
+      });
 
       const prj: IHubProject = {
         itemControl: "edit",

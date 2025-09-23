@@ -4,7 +4,7 @@ import {
   SharingAccess,
   IChannel,
 } from "../../../../../src/discussions/api/types";
-import { canReadFromChannel } from "../../../../../src/discussions/api/utils/channels";
+import { canReadFromChannel } from "../../../../../src/discussions/api/utils/channels/can-read-channel";
 
 const orgId1 = "3ef";
 const orgId2 = "4dc";

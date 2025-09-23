@@ -2,9 +2,9 @@ import type { IHubHistory, IHubHistoryEntry } from "../src/core/hubHistory";
 import type { HubEntityType } from "../src/core/types/HubEntityType";
 import { createId } from "../src/util";
 import { createMockContext, createMockAnonContext } from "./mocks/mock-auth";
-import { IUserHubSettings } from "../src";
 import * as PermissionsModule from "../src/permissions/checkPermission";
 import * as UserSettingsModule from "../src/utils/hubUserAppResources";
+import { IUserHubSettings } from "../src/utils/IUserHubSettings";
 
 describe("ArcGISContext:", () => {
   describe("history:", () => {
@@ -222,7 +222,7 @@ describe("ArcGISContext:", () => {
         await anonCtx.updateUserHubSettings({} as IUserHubSettings);
       } catch (ex) {
         // we expect this to throw
-        expect((ex ).message).toEqual(
+        expect((ex as Error).message).toEqual(
           "Cannot update user hub settings without an authenticated user"
         );
       }

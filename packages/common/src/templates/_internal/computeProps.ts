@@ -4,7 +4,7 @@ import { IModel } from "../../hub-types";
 import { TemplateDefaultFeatures } from "./TemplateBusinessRules";
 import { IHubTemplate } from "../../core/types/IHubTemplate";
 import { computeLinks } from "./computeLinks";
-import { getProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
 import { getDeployedTemplateType } from "../utils";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 

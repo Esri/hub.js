@@ -1,5 +1,4 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import { IHubSearchOptions } from "../../../../src";
 import { AccessLevel } from "../../../../src/core/types/types";
 import { eventAttendeeToSearchResult } from "../../../../src/search/_internal/hubEventsHelpers/eventAttendeeToSearchResult";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
@@ -9,6 +8,7 @@ import {
   RegistrationRole,
   RegistrationStatus,
 } from "../../../../src/events/api/types";
+import { IHubSearchOptions } from "../../../../src/search/types/IHubSearchOptions";
 
 describe("event search utils", () => {
   describe("eventAttendeeToSearchResult", () => {

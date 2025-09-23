@@ -1,4 +1,3 @@
-import { COLLABORATION_TYPES, IEntityPermissionPolicy } from "../../../src";
 import {
   CHANNEL_PERMISSIONS,
   ChannelNonePermission,
@@ -10,6 +9,10 @@ import {
   transformEntityPermissionPoliciesToGroupFormValues,
   transformEntityPermissionPoliciesToUserFormValues,
 } from "../../../src/channels/_internal/transformEntityPermissionPoliciesToFormValues";
+import {
+  COLLABORATION_TYPES,
+  IEntityPermissionPolicy,
+} from "../../../src/permissions/types/IEntityPermissionPolicy";
 
 describe("transformEntityPermissionPoliciesToFormValues", () => {
   describe("transformEntityPermissionPoliciesToPublicFormValues", () => {

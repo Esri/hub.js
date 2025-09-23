@@ -1,4 +1,4 @@
-import { IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
 import { _enforceLowercaseDomains } from "../../../src/sites/_internal/_enforce-lowercase-domains";
 
 describe("_enforceLowercaseDomains", () => {

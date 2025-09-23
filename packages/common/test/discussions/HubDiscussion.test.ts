@@ -7,7 +7,10 @@ import * as discussionsEditModule from "../../src/discussions/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as slugsModule from "../../src/items/_internal/slugs";
-import { IHubDiscussion, IHubDiscussionEditor } from "../../src/core/types";
+import {
+  IHubDiscussion,
+  IHubDiscussionEditor,
+} from "../../src/core/types/IHubDiscussion";
 
 describe("HubDiscussion Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

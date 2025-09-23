@@ -1,5 +1,6 @@
 import { cloneObject } from "../util";
-import { IEntityPermissionPolicy, Permission } from "./types";
+import { IEntityPermissionPolicy } from "./types/IEntityPermissionPolicy";
+import { Permission } from "./types/Permission";
 
 /**
  * Add a policy to an array of entity policies

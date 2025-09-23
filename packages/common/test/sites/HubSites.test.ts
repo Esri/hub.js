@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
@@ -8,15 +6,30 @@ import {
   MOCK_HUB_REQOPTS,
   MOCK_NOAUTH_HUB_REQOPTS,
 } from "../mocks/mock-auth";
-import {
-  cloneObject,
-  enrichSiteSearchResult,
-  fetchSite,
-  IHubCollection,
-  IHubRequestOptions,
-} from "../../src";
 import * as slugUtils from "../../src/items/slugs";
 import { SearchCategories } from "../../src/sites/_internal/types";
+import { IHubSite } from "../../src/core/types/IHubSite";
+import { IHubRequestOptions, IModel } from "../../src/hub-types";
+import * as fetchSiteModelModule from "../../src/sites/fetchSiteModel";
+import * as fetchModelFromItemModule from "../../src/models/fetchModelFromItem";
+import * as removeDomainsBySiteIdModule from "../../src/sites/domains/remove-domains-by-site-id";
+import * as handleDomainChangesModule from "../../src/sites/_internal/handleDomainChanges";
+import * as updateModelModule from "../../src/models/updateModel";
+import * as createModelModule from "../../src/models/createModel";
+import * as ensureUniqueDomainNameModule from "../../src/sites/domains/ensure-unique-domain-name";
+import * as ensureUniqueEntitySlugModule from "../../src/items/_internal/ensureUniqueEntitySlug";
+import * as addSiteDomainsModule from "../../src/sites/domains/addSiteDomains";
+import {
+  convertItemToSite,
+  createSite,
+  deleteSite,
+  enrichSiteSearchResult,
+  fetchSite,
+  updateSite,
+} from "../../src/sites/HubSites";
+import { cloneObject } from "../../src/util";
+import { setProp } from "../../src/objects/set-prop";
+import { IHubCollection } from "../../src/search/types/IHubCatalog";
 
 const GUID = "042584cf391c428e995e97eccdebb8f8";
 const SITE_ITEM: portalModule.IItem = {
@@ -50,9 +63,9 @@ const SITE_DATA = {
 const SITE_MODEL = {
   item: SITE_ITEM,
   data: SITE_DATA,
-} as commonModule.IModel;
+} as IModel;
 
-const SITE: commonModule.IHubSite = {
+const SITE: IHubSite = {
   itemControl: "edit",
   id: GUID,
   name: "Fake Site",
@@ -110,7 +123,7 @@ const SITE: commonModule.IHubSite = {
   permissions: [],
   canEdit: true,
   canDelete: false,
-} as unknown as commonModule.IHubSite;
+} as unknown as IHubSite;
 
 const SITE_ITEM_ENRICH: portalModule.IItem = {
   id: "ad5bace94384467b8712309ae8b68bfd",
@@ -183,7 +196,7 @@ describe("HubSites:", () => {
   describe("fetchSite:", () => {
     it("gets by id, if passed a guid", async () => {
       const fetchSpy = spyOn(
-        require("../../src/sites/fetchSiteModel"),
+        fetchSiteModelModule,
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
 
@@ -197,10 +210,9 @@ describe("HubSites:", () => {
     });
 
     it("applies catalog migration", async () => {
-      spyOn(
-        require("../../src/sites/fetchSiteModel"),
-        "fetchSiteModel"
-      ).and.returnValue(Promise.resolve(SITE_MODEL));
+      spyOn(fetchSiteModelModule, "fetchSiteModel").and.returnValue(
+        Promise.resolve(SITE_MODEL)
+      );
 
       const chk = await fetchSite(GUID, {
         authentication: MOCK_AUTH,
@@ -221,10 +233,9 @@ describe("HubSites:", () => {
       ];
       const borkedSite = cloneObject(SITE_MODEL);
       borkedSite.data.values.searchCategories = borkedSearchCategories;
-      spyOn(
-        require("../../src/sites/fetchSiteModel"),
-        "fetchSiteModel"
-      ).and.returnValue(Promise.resolve(borkedSite));
+      spyOn(fetchSiteModelModule, "fetchSiteModel").and.returnValue(
+        Promise.resolve(borkedSite)
+      );
 
       const chk = await fetchSite(GUID, {
         authentication: MOCK_AUTH,
@@ -239,7 +250,7 @@ describe("HubSites:", () => {
 
     it("gets by domain, without auth", async () => {
       const fetchSpy = spyOn(
-        require("../../src/sites/fetchSiteModel"),
+        fetchSiteModelModule,
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
 
@@ -259,25 +270,19 @@ describe("HubSites:", () => {
   describe("converItemToSite:", () => {
     it("fetches model and converts to site with auth", async () => {
       const fetchModelSpy = spyOn(
-        require("../../src/models"),
+        fetchModelFromItemModule,
         "fetchModelFromItem"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
-      const site = await commonModule.convertItemToSite(
-        SITE_ITEM,
-        MOCK_HUB_REQOPTS
-      );
+      const site = await convertItemToSite(SITE_ITEM, MOCK_HUB_REQOPTS);
       expect(fetchModelSpy.calls.count()).toBe(1);
       expect(site.name).toBe(SITE_ITEM.title);
     });
     it("fetches model and converts to site without auth", async () => {
       const fetchModelSpy = spyOn(
-        require("../../src/models"),
+        fetchModelFromItemModule,
         "fetchModelFromItem"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
-      const site = await commonModule.convertItemToSite(
-        SITE_ITEM,
-        MOCK_NOAUTH_HUB_REQOPTS
-      );
+      const site = await convertItemToSite(SITE_ITEM, MOCK_NOAUTH_HUB_REQOPTS);
       expect(fetchModelSpy.calls.count()).toBe(1);
       expect(site.name).toBe(SITE_ITEM.title);
     });
@@ -290,11 +295,11 @@ describe("HubSites:", () => {
       );
 
       const removeDomainSpy = spyOn(
-        require("../../src/sites/domains/remove-domains-by-site-id"),
+        removeDomainsBySiteIdModule,
         "removeDomainsBySiteId"
       ).and.returnValue(Promise.resolve());
 
-      const result = await commonModule.deleteSite("3ef", {
+      const result = await deleteSite("3ef", {
         authentication: MOCK_AUTH,
       });
       expect(result).toBeUndefined();
@@ -309,10 +314,7 @@ describe("HubSites:", () => {
         Promise.resolve({ success: true })
       );
 
-      const result = await commonModule.deleteSite(
-        "3ef",
-        MOCK_ENTERPRISE_REQOPTS
-      );
+      const result = await deleteSite("3ef", MOCK_ENTERPRISE_REQOPTS);
       expect(result).toBeUndefined();
       expect(removeSpy.calls.count()).toBe(1);
       expect(removeSpy.calls.argsFor(0)[0].authentication).toBe(
@@ -326,55 +328,49 @@ describe("HubSites:", () => {
     let fetchSiteModelSpy: jasmine.Spy;
 
     beforeEach(() => {
-      spyOn(
-        require("../../src/sites/_internal"),
-        "handleDomainChanges"
-      ).and.returnValue(Promise.resolve());
+      spyOn(handleDomainChangesModule, "handleDomainChanges").and.returnValue(
+        Promise.resolve()
+      );
 
-      updateModelSpy = spyOn(
-        require("../../src/models"),
-        "updateModel"
-      ).and.callFake((m: commonModule.IModel) => {
-        return Promise.resolve(m);
-      });
+      updateModelSpy = spyOn(updateModelModule, "updateModel").and.callFake(
+        (m: IModel) => {
+          return Promise.resolve(m);
+        }
+      );
 
       // We need to add some extra props to the site_model
       // which will be removed by updateSite
-      const SiteModelWithExtraProps = commonModule.cloneObject(SITE_MODEL);
-      commonModule.setProp(
+      const SiteModelWithExtraProps = cloneObject(SITE_MODEL);
+      setProp(
         "data.values.map.baseMapLayers",
         ["fake"],
         SiteModelWithExtraProps
       );
-      commonModule.setProp(
-        "data.values.map.title",
-        "fake",
-        SiteModelWithExtraProps
-      );
-      commonModule.setProp(
+      setProp("data.values.map.title", "fake", SiteModelWithExtraProps);
+      setProp(
         "data.telemetry",
         { fake: "data.telemetry" },
         SiteModelWithExtraProps
       );
-      commonModule.setProp(
+      setProp(
         "item.properties.telemetry",
         { fake: "props.telemetry" },
         SiteModelWithExtraProps
       );
       // emulate a site that has slug set
-      commonModule.setProp(
+      setProp(
         "item.properties.slug",
         "dcdev-wat-blarg",
         SiteModelWithExtraProps
       );
-      commonModule.setProp(
+      setProp(
         "item.typeKeywords",
         ["slug|dcdev-wat-blarg"],
         SiteModelWithExtraProps
       );
 
       fetchSiteModelSpy = spyOn(
-        require("../../src/sites/fetchSiteModel"),
+        fetchSiteModelModule,
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SiteModelWithExtraProps));
 
@@ -383,8 +379,8 @@ describe("HubSites:", () => {
       });
     });
     it("removes props", async () => {
-      const updatedSite = commonModule.cloneObject(SITE);
-      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+      const updatedSite = cloneObject(SITE);
+      const chk = await updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
       expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
@@ -409,19 +405,18 @@ describe("HubSites:", () => {
 
     beforeEach(() => {
       domainChangeSpy = spyOn(
-        require("../../src/sites/_internal"),
+        handleDomainChangesModule,
         "handleDomainChanges"
       ).and.returnValue(Promise.resolve());
 
-      updateModelSpy = spyOn(
-        require("../../src/models"),
-        "updateModel"
-      ).and.callFake((m: commonModule.IModel) => {
-        return Promise.resolve(m);
-      });
+      updateModelSpy = spyOn(updateModelModule, "updateModel").and.callFake(
+        (m: IModel) => {
+          return Promise.resolve(m);
+        }
+      );
 
       fetchSiteModelSpy = spyOn(
-        require("../../src/sites/fetchSiteModel"),
+        fetchSiteModelModule,
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
 
@@ -430,9 +425,9 @@ describe("HubSites:", () => {
       });
     });
     it("updates the backing model", async () => {
-      const updatedSite = commonModule.cloneObject(SITE);
+      const updatedSite = cloneObject(SITE);
       updatedSite.name = "Updated Name";
-      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+      const chk = await updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Updated Name");
@@ -449,10 +444,10 @@ describe("HubSites:", () => {
     });
 
     it("handles change to subdomain in enterprise", async () => {
-      const updatedSite = commonModule.cloneObject(SITE);
+      const updatedSite = cloneObject(SITE);
       updatedSite.subdomain = "updated-subdomain";
       const ro = { ...MOCK_HUB_REQOPTS, isPortal: true };
-      const chk = await commonModule.updateSite(updatedSite, ro);
+      const chk = await updateSite(updatedSite, ro);
 
       expect(chk.id).toBe(GUID);
       expect(chk.subdomain).toBe("updated-subdomain");
@@ -470,9 +465,9 @@ describe("HubSites:", () => {
 
     it("updates domain configurations", async () => {
       const updatedHostname = "my-cool-hostname.dev";
-      const updatedSite = commonModule.cloneObject(SITE);
+      const updatedSite = cloneObject(SITE);
       updatedSite.customHostname = updatedHostname;
-      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+      const chk = await updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
       expect(chk.customHostname).toBe(updatedHostname);
@@ -492,7 +487,7 @@ describe("HubSites:", () => {
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
     });
     it("reflects collection changes to searchCategories", async () => {
-      const updatedSite = commonModule.cloneObject(SITE);
+      const updatedSite = cloneObject(SITE);
       updatedSite.catalog.collections = [
         {
           label: "My Datasets",
@@ -508,7 +503,7 @@ describe("HubSites:", () => {
           },
         } as IHubCollection,
       ];
-      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+      const chk = await updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
@@ -524,7 +519,7 @@ describe("HubSites:", () => {
       ]);
     });
     it("converts catalog group changes to the old catalog format and stores the new catalog in data.catalogv2", async () => {
-      const updatedSite = commonModule.cloneObject(SITE);
+      const updatedSite = cloneObject(SITE);
       updatedSite.catalog.scopes.item.filters = [
         {
           predicates: [
@@ -543,8 +538,8 @@ describe("HubSites:", () => {
           ],
         },
       ];
-      const expectedCatalogV2 = commonModule.cloneObject(updatedSite.catalog);
-      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+      const expectedCatalogV2 = cloneObject(updatedSite.catalog);
+      const chk = await updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
       expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
@@ -562,47 +557,45 @@ describe("HubSites:", () => {
     let addDomainsSpy: jasmine.Spy;
     beforeEach(() => {
       uniqueDomainSpy = spyOn(
-        require("../../src/sites/domains/ensure-unique-domain-name"),
+        ensureUniqueDomainNameModule,
         "ensureUniqueDomainName"
       ).and.callFake((subdomain: string) => {
         return subdomain;
       });
-      createModelSpy = spyOn(
-        require("../../src/models"),
-        "createModel"
-      ).and.callFake((m: commonModule.IModel) => {
-        const newModel = commonModule.cloneObject(m);
-        newModel.item.id = GUID;
-        return Promise.resolve(newModel);
-      });
-      updateModelSpy = spyOn(
-        require("../../src/models"),
-        "updateModel"
-      ).and.callFake((m: commonModule.IModel) => {
-        const newModel = commonModule.cloneObject(m);
-        return Promise.resolve(newModel);
-      });
+      createModelSpy = spyOn(createModelModule, "createModel").and.callFake(
+        (m: IModel) => {
+          const newModel = cloneObject(m);
+          newModel.item.id = GUID;
+          return Promise.resolve(newModel);
+        }
+      );
+      updateModelSpy = spyOn(updateModelModule, "updateModel").and.callFake(
+        (m: IModel) => {
+          const newModel = cloneObject(m);
+          return Promise.resolve(newModel);
+        }
+      );
       ensureUniqueEntitySlugSpy = spyOn(
-        require("../../src/items/_internal/ensureUniqueEntitySlug"),
+        ensureUniqueEntitySlugModule,
         "ensureUniqueEntitySlug"
-      ).and.callFake((site: commonModule.IHubSite) => {
+      ).and.callFake((site: IHubSite) => {
         return Promise.resolve(site);
       });
     });
     describe("online: ", () => {
       beforeEach(() => {
         addDomainsSpy = spyOn(
-          require("../../src/sites/domains/addSiteDomains"),
+          addSiteDomainsModule,
           "addSiteDomains"
         ).and.returnValue(Promise.resolve([{ clientKey: "FAKE_CLIENT_KEY" }]));
       });
       it("works with a sparse IHubSite", async () => {
-        const sparseSite: Partial<commonModule.IHubSite> = {
+        const sparseSite: Partial<IHubSite> = {
           name: "my site",
           orgUrlKey: "DCdev", // this is intentionally overwritten by portalself.urlKey
         };
 
-        const chk = await commonModule.createSite(sparseSite, MOCK_HUB_REQOPTS);
+        const chk = await createSite(sparseSite, MOCK_HUB_REQOPTS);
 
         // sites don't have slugs
         expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
@@ -626,7 +619,7 @@ describe("HubSites:", () => {
         expect(chk.url).toBe("https://my-site-org.hubqa.arcgis.com");
       });
       it("works with a sparse IHubSite without orgUrlKey", async () => {
-        const sparseSite: Partial<commonModule.IHubSite> = {
+        const sparseSite: Partial<IHubSite> = {
           name: "my site",
         };
 
@@ -634,7 +627,7 @@ describe("HubSites:", () => {
         // mixed case is intentional
         hubRO.portalSelf.urlKey = "DCdev";
 
-        const chk = await commonModule.createSite(sparseSite, hubRO);
+        const chk = await createSite(sparseSite, hubRO);
 
         // sites don't have slugs
         expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
@@ -657,7 +650,7 @@ describe("HubSites:", () => {
         expect(chk.url).toBe("https://my-site-dcdev.hubqa.arcgis.com");
       });
       it("works with a full IHubSite", async () => {
-        const site: Partial<commonModule.IHubSite> = {
+        const site: Partial<IHubSite> = {
           name: "Special Site",
           slug: "CuStOm-Slug",
           subdomain: "custom-subdomain",
@@ -713,7 +706,7 @@ describe("HubSites:", () => {
           },
         };
 
-        const chk = await commonModule.createSite(site, MOCK_HUB_REQOPTS);
+        const chk = await createSite(site, MOCK_HUB_REQOPTS);
 
         // sites don't have slugs
         expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
@@ -736,15 +729,12 @@ describe("HubSites:", () => {
     });
     describe("portal:", () => {
       it("works in portal", async () => {
-        const sparseSite: Partial<commonModule.IHubSite> = {
+        const sparseSite: Partial<IHubSite> = {
           name: "my site",
           // orgUrlKey: "dcdev", this is undefined in Enterpris
         };
 
-        const chk = await commonModule.createSite(
-          sparseSite,
-          MOCK_ENTERPRISE_REQOPTS
-        );
+        const chk = await createSite(sparseSite, MOCK_ENTERPRISE_REQOPTS);
 
         // sites don't have slugs
         expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);

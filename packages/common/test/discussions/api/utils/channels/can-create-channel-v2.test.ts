@@ -5,8 +5,8 @@ import {
   IDiscussionsUser,
   Role,
 } from "../../../../../src/discussions/api//types";
-import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
-import { canCreateChannelV2 } from "../../../../../src/discussions/api//utils/channels";
+import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
+import { canCreateChannelV2 } from "../../../../../src/discussions/api/utils/channels/can-create-channel-v2";
 
 const orgId1 = "3ef";
 const groupId1 = "aaa";

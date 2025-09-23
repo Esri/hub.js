@@ -1,12 +1,12 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
-import { IArcGISContext } from "../../types";
-import { IHubChannel } from "../../core/types";
 import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
 import { CANNOT_DISCUSS } from "../../discussions/constants";
 import { ChannelNonePermission } from "./ChannelBusinessRules";
 import { Role } from "../../discussions/api/types";
 import { deriveUserRoleV2 } from "../../discussions/api/utils/channels/derive-user-role-v2";
 import { CHANNEL_ACTION_PRIVS } from "../../discussions/api/utils/channel-permission";
+import { IHubChannel } from "../../core/types/IHubChannel";
+import { IArcGISContext } from "../../types/IArcGISContext";
 
 /**
  * @private
@@ -14,12 +14,12 @@ import { CHANNEL_ACTION_PRIVS } from "../../discussions/api/utils/channel-permis
  * This defines how the schema properties should be
  * rendered in the channel editing experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: Partial<IHubChannel>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  const role = Boolean(options.id)
+  const role = options.id
     ? deriveUserRoleV2(options.channel, context.currentUser)
     : Role.OWNER;
   const facet = {
@@ -69,7 +69,7 @@ export const buildUiSchema = async (
       ],
     });
   }
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -356,5 +356,5 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };

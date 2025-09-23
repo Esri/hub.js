@@ -1,5 +1,5 @@
-import { IHubProject } from "../../../src";
 import * as sharedMigrations from "../../../src/core/_internal/sharedMigrations";
+import { IHubProject } from "../../../src/core/types/IHubProject";
 import { migrateProjectSlugAndOrgUrlKey } from "../../../src/projects/_internal/migrateProjectSlugAndOrgUrlKey";
 
 describe("migrateProjectSlugAndOrgUrlKey", () => {

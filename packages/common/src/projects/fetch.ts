@@ -2,16 +2,12 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
 
 import { getFamily } from "../content/get-family";
-import { IHubProject } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getItemBySlug } from "../items/slugs";
 
 import { fetchItemEnrichments } from "../items/_enrichments";
-import { fetchModelFromItem } from "../models";
-import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../hub-types";
-import { isGuid, mapBy } from "../utils";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { unique } from "../util";
@@ -19,6 +15,11 @@ import { getProp } from "../objects/get-prop";
 
 import { computeLinks } from "./_internal/computeLinks";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
+import { IHubProject } from "../core/types/IHubProject";
+import { fetchModelFromItem } from "../models/fetchModelFromItem";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { isGuid } from "../utils/is-guid";
+import { mapBy } from "../utils/map-by";
 
 /**
  * @private

@@ -1,5 +1,6 @@
 import { handleDomainChanges } from "../../../src/sites/_internal/handleDomainChanges";
-import * as domainModule from "../../../src/sites/domains";
+import * as addDomainModule from "../../../src/sites/domains/add-domain";
+import * as removeDomainByHostnameModule from "../../../src/sites/domains/removeDomainByHostname";
 import { MOCK_HUB_REQOPTS } from "../test-helpers.test";
 import { cloneObject } from "../../../src/util";
 import { IModel } from "../../../src/hub-types";
@@ -31,11 +32,11 @@ const updatedModel = {
 
 describe("handleDomainChanges", () => {
   it("adds and removed changed domains", async () => {
-    const addSpy = spyOn(domainModule, "addDomain").and.returnValue(
+    const addSpy = spyOn(addDomainModule, "addDomain").and.returnValue(
       Promise.resolve()
     );
     const removeSpy = spyOn(
-      domainModule,
+      removeDomainByHostnameModule,
       "removeDomainByHostname"
     ).and.returnValue(Promise.resolve());
     const c = cloneObject(currentModel);
@@ -48,11 +49,11 @@ describe("handleDomainChanges", () => {
   });
 
   it("does not attempt to update domains that have not changed", async () => {
-    const addSpy = spyOn(domainModule, "addDomain").and.returnValue(
+    const addSpy = spyOn(addDomainModule, "addDomain").and.returnValue(
       Promise.resolve()
     );
     const removeSpy = spyOn(
-      domainModule,
+      removeDomainByHostnameModule,
       "removeDomainByHostname"
     ).and.returnValue(Promise.resolve());
     const c = cloneObject(currentModel);
@@ -72,11 +73,11 @@ describe("handleDomainChanges", () => {
   });
 
   it("does not attempt to update domains that only have case changes", async () => {
-    const addSpy = spyOn(domainModule, "addDomain").and.returnValue(
+    const addSpy = spyOn(addDomainModule, "addDomain").and.returnValue(
       Promise.resolve()
     );
     const removeSpy = spyOn(
-      domainModule,
+      removeDomainByHostnameModule,
       "removeDomainByHostname"
     ).and.returnValue(Promise.resolve());
     const c = cloneObject(currentModel);

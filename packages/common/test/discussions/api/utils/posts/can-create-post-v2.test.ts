@@ -5,7 +5,7 @@ import {
   Role,
 } from "../../../../../src/discussions/api//types";
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
-import { canCreatePostV2 } from "../../../../../src/discussions/api//utils/posts";
+import { canCreatePostV2 } from "../../../../../src/discussions/api//utils/posts/can-create-post-v2";
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
 
 describe("canCreatePostV2", () => {

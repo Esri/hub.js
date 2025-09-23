@@ -5,7 +5,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../hub-types";
-import { IEmail } from "../types";
+import { IEmail } from "../types/types";
 
 export interface IConsolidatedResult {
   success: boolean;

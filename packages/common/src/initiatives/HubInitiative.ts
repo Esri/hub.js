@@ -12,7 +12,7 @@ import {
 import { Catalog } from "../search/Catalog";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { InitiativeEditorType } from "./_internal/InitiativeSchema";
+import { InitiativeEditorType } from "./_internal/initiativeEditorTypes";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
@@ -21,27 +21,28 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { initiativeToCardModel } from "./view";
-import {
-  IHubInitiative,
-  IWithCatalogBehavior,
-  IWithStoreBehavior,
-  IWithSharingBehavior,
-  IResolvedMetric,
-  IWithCardBehavior,
-  IWithEditorBehavior,
-  IHubInitiativeEditor,
-  IMetricDisplayConfig,
-  IHubGroup,
-} from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
-import { getProp, getWithDefault, setProp } from "../objects";
 import { metricToEditor } from "../metrics/metricToEditor";
 import { getGroup, updateGroup } from "@esri/arcgis-rest-portal";
 import { convertGroupToHubGroup } from "../groups/_internal/convertGroupToHubGroup";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { IWithCardBehavior } from "../core/behaviors/IWithCardBehavior";
+import { IWithCatalogBehavior } from "../core/behaviors/IWithCatalogBehavior";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
+import { IWithSharingBehavior } from "../core/behaviors/IWithSharingBehavior";
+import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
+import { IHubGroup } from "../core/types/IHubGroup";
+import {
+  IHubInitiative,
+  IHubInitiativeEditor,
+} from "../core/types/IHubInitiative";
+import { IResolvedMetric, IMetricDisplayConfig } from "../core/types/Metrics";
+import { getProp } from "../objects/get-prop";
+import { getWithDefault } from "../objects/get-with-default";
+import { setProp } from "../objects/set-prop";
 
 /**
  * Hub Initiative Class

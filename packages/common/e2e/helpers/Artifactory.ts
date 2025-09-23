@@ -6,7 +6,7 @@
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import { getProp } from "../../src/objects";
+import { getProp } from "../../src/objects/get-prop";
 import type { IArcGISContextManagerOptions } from "../../src/types/IArcGISContextManagerOptions";
 
 /**
@@ -17,7 +17,7 @@ export default class Artifactory {
   public orgs: any[];
   public agoBaseDomain: string;
 
-  constructor(config: any, env: string = "qaext") {
+  constructor(config: any, env = "qaext") {
     // qaext | prod
     // console.info(`Artifactory configured for qaext`);
     this.env = env;
@@ -74,10 +74,10 @@ export default class Artifactory {
     orgType: string,
     role: string
   ): Promise<ArcGISContextManager> {
-    const session = await this.getSession(orgType, role);
+    const session = this.getSession(orgType, role);
     const org = this.getOrg(orgType);
     const opts: IArcGISContextManagerOptions = {
-      portalUrl: org.orgUrl as unknown as string,
+      portalUrl: org.orgUrl as string,
       authentication: session,
     };
     return ArcGISContextManager.create(opts);
@@ -86,7 +86,7 @@ export default class Artifactory {
   async getAnonContextManager(orgType: string): Promise<ArcGISContextManager> {
     const org = this.getOrg(orgType);
     const opts: IArcGISContextManagerOptions = {
-      portalUrl: org.orgUrl as unknown as string,
+      portalUrl: org.orgUrl as string,
     };
     return ArcGISContextManager.create(opts);
   }

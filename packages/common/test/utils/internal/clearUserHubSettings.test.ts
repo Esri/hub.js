@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import { ArcGISContext } from "../../../src";
+import { ArcGISContext } from "../../../src/ArcGISContext";
 import {
   USER_HUB_SETTINGS_KEY,
   clearUserHubSettings,

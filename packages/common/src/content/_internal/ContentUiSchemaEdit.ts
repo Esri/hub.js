@@ -4,7 +4,7 @@ import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { IUiSchema } from "../../core/schemas/types";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { IHubEditableContent } from "../../core/types";
+import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 // import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 

@@ -1,16 +1,16 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  catalogContains,
-  cloneObject,
-  IArcGISContext,
-  IFilter,
-  IHubCatalog,
-  IPredicate,
-} from "../../src";
 
 import * as HubSearchModule from "../../src/search/hubSearch";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import {
+  IFilter,
+  IHubCatalog,
+  IPredicate,
+} from "../../src/search/types/IHubCatalog";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { catalogContains } from "../../src/core/catalogContains";
+import { cloneObject } from "../../src/util";
 
 const catalogJson: IHubCatalog = {
   title: "Demo Catalog",

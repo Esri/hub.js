@@ -1,4 +1,5 @@
-import { IModel, migrateWebMappingApplicationSites } from "../../../src";
+import { IModel } from "../../../src/hub-types";
+import { migrateWebMappingApplicationSites } from "../../../src/sites/_internal/migrateWebMappingApplicationSites";
 
 describe("migrateWebMappingApplicationSites", () => {
   it("artificially updates the type of old site items", () => {

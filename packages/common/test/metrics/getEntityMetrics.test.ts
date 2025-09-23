@@ -1,10 +1,8 @@
-import {
-  IHubProject,
-  IItemQueryMetricSource,
-  IQuery,
-  cloneObject,
-  getEntityMetrics,
-} from "../../src";
+import { IHubProject } from "../../src/core/types/IHubProject";
+import { IItemQueryMetricSource } from "../../src/core/types/Metrics";
+import { getEntityMetrics } from "../../src/metrics/getEntityMetrics";
+import { IQuery } from "../../src/search/types/IHubCatalog";
+import { cloneObject } from "../../src/util";
 
 const project: IHubProject = {
   id: "3ef",

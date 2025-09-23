@@ -1,11 +1,12 @@
 import { IQuery } from "../../../src/search/types/IHubCatalog";
-import { hubSearchChannels } from "../../../src/search/_internal";
-import { IHubSearchOptions, IHubSearchResult } from "../../../src/search/types";
-import * as channelsModule from "../../../src/discussions/api/channels";
+import * as channelsModule from "../../../src/discussions/api/channels/channels";
 import * as processChannelFiltersModule from "../../../src/search/_internal/hubDiscussionsHelpers/processChannelFilters";
 import * as processChannelOptionsModule from "../../../src/search/_internal/hubDiscussionsHelpers/processChannelOptions";
 import * as channelResultsToSearchResultsModule from "../../../src/search/_internal/hubDiscussionsHelpers/channelResultsToSearchResults";
 import { IChannel, IPagedResponse } from "../../../src/discussions/api/types";
+import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
+import { hubSearchChannels } from "../../../src/search/_internal/hubSearchChannels";
+import { IHubSearchResult } from "../../../src/search/types/IHubSearchResult";
 
 describe("hubSearchChannels", () => {
   const query: IQuery = {

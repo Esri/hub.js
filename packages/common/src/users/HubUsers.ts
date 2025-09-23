@@ -1,18 +1,18 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { getUser } from "@esri/arcgis-rest-portal";
 import { fetchUserEnrichments } from "./_internal/enrichments";
-import { SettableAccessLevel } from "../core/types";
 import { IHubUser } from "../core/types/IHubUser";
-import { getProp } from "../objects";
 import { getUserThumbnailUrl } from "../search/utils";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../hub-types";
-import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
-import { mapBy } from "../utils";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { computeProps } from "./_internal/computeProps";
+import { SettableAccessLevel } from "../core/types/types";
+import { getProp } from "../objects/get-prop";
+import { getUserHomeUrl } from "../urls/getUserHomeUrl";
+import { mapBy } from "../utils/map-by";
 
 /**
  * Converts a IUser object into an IHubUser.
@@ -24,7 +24,7 @@ export const convertUserToHubUser = (user: IUser): IHubUser => {
   // A private user will not have a description prop at all
   // thus we set it to undefined to differentiate from a empty description which would be null
   // eslint-disable-next-line no-prototype-builtins
-  const description = user.hasOwnProperty("description")
+  const description = Object.prototype.hasOwnProperty.call(user, "description")
     ? user.description
     : undefined;
   return {

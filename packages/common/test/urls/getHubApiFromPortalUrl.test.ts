@@ -1,4 +1,4 @@
-import { getHubApiFromPortalUrl } from "../../src";
+import { getHubApiFromPortalUrl } from "../../src/urls/getHubApiFromPortalUrl";
 
 describe("getHubApiFromPortalUrl:", () => {
   it("returns undefined if url is not recognized:", () => {

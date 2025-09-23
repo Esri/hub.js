@@ -4,7 +4,7 @@ import {
   IDiscussionsUser,
   SharingAccess,
 } from "../../../../../src/discussions/api//types";
-import { canCreateChannel } from "../../../../../src/discussions/api//utils/channels";
+import { canCreateChannel } from "../../../../../src/discussions/api//utils/channels/can-create-channel";
 import { CANNOT_DISCUSS } from "../../../../../src/discussions/constants";
 
 const orgId1 = "3ef";

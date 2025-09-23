@@ -1,4 +1,4 @@
-import { IHubSite } from "../core";
+import { IHubSite } from "../core/types/IHubSite";
 import { IModel } from "../hub-types";
 import { SiteDefaultFeatures } from "./_internal/SiteBusinessRules";
 

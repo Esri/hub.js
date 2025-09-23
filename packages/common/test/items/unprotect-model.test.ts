@@ -1,9 +1,10 @@
 import * as portal from "@esri/arcgis-rest-portal";
-import { unprotectModel, IModel } from "../../src";
 import { mockUserSession } from "../test-helpers/fake-user-session";
+import { unprotectModel } from "../../src/items/unprotect-model";
+import { IModel } from "../../src/hub-types";
 
-describe("unprotectModel", function() {
-  it("", async function() {
+describe("unprotectModel", function () {
+  it("", async function () {
     const unprotectItemSpy = spyOn(portal, "unprotectItem").and.returnValue(
       Promise.resolve({ success: true })
     );
@@ -19,13 +20,13 @@ describe("unprotectModel", function() {
         numViews: 3,
         size: 3,
         title: "title",
-        type: "Hub Site Application"
+        type: "Hub Site Application",
       },
-      data: { foo: "bar", baz: { boop: "beep" } }
+      data: { foo: "bar", baz: { boop: "beep" } },
     };
 
     const result = await unprotectModel(model, {
-      authentication: mockUserSession
+      authentication: mockUserSession,
     });
     expect(result.success).toBeTruthy("returned success");
     expect(unprotectItemSpy.calls.count()).toBe(
@@ -37,7 +38,7 @@ describe("unprotectModel", function() {
 
     model.item.protected = true;
     const result2 = await unprotectModel(model, {
-      authentication: mockUserSession
+      authentication: mockUserSession,
     });
     expect(result2.success).toBeTruthy("returned success");
     expect(unprotectItemSpy.calls.count()).toBe(

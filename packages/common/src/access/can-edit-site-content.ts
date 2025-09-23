@@ -1,6 +1,6 @@
 import type { IItem, IUser } from "@esri/arcgis-rest-portal";
-import { includes } from "../utils";
-import { getProp } from "../objects";
+import { includes } from "../utils/includes";
+import { getProp } from "../objects/get-prop";
 import { hasBasePriv } from "./has-base-priv";
 import { canEditItem } from "./can-edit-item";
 

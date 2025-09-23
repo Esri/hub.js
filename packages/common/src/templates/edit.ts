@@ -1,10 +1,8 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
-import { setDiscussableKeyword } from "../discussions";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IModel } from "../hub-types";
 import { cloneObject } from "../util";
-import { getModel, updateModel } from "../models";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import {
@@ -13,6 +11,9 @@ import {
   removeItem,
 } from "@esri/arcgis-rest-portal";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
+import { setDiscussableKeyword } from "../discussions/utils";
+import { getModel } from "../models/getModel";
+import { updateModel } from "../models/updateModel";
 
 /**
  * @private

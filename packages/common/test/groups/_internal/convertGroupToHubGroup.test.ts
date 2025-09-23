@@ -3,7 +3,10 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { convertGroupToHubGroup } from "../../../src/groups/_internal/convertGroupToHubGroup";
-import { EntitySettingType, IEntitySetting } from "../../../src";
+import {
+  EntitySettingType,
+  IEntitySetting,
+} from "../../../src/discussions/api/types";
 
 describe("groups: convertGroupToHubGroup:", () => {
   it("converts an IGroup to a HubGroup", async () => {

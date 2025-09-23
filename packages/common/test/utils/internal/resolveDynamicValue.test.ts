@@ -1,11 +1,12 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  DynamicValueDefinition,
-} from "../../../src";
-import { resolveDynamicValue } from "../../../src/utils/internal/resolveDynamicValue";
+// import { resolveDynamicValue } from "../../../src/utils/internal/resolveDynamicValue";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
+import * as resolveDynamicValuesModule from "../../../src/utils/internal/resolveDynamicValues";
+import * as resolvePortalValuesModule from "../../../src/utils/internal/resolvePortalValues";
+import * as resolveServiceQueryValuesModule from "../../../src/utils/internal/resolveServiceQueryValues";
 
 describe("resolveDynamicValue:", () => {
   let context: IArcGISContext;
@@ -37,15 +38,15 @@ describe("resolveDynamicValue:", () => {
     context = authdCtxMgr.context;
 
     itemQrySpy = spyOn(
-      require("../../../src/utils/internal/resolveItemQueryValues"),
+      resolveDynamicValuesModule._INTERNAL_FNS,
       "resolveItemQueryValues"
     ).and.callFake(() => Promise.resolve({ item: "spy" }));
     portalSpy = spyOn(
-      require("../../../src/utils/internal/resolvePortalValues"),
+      resolvePortalValuesModule,
       "resolvePortalValues"
     ).and.callFake(() => Promise.resolve({ portal: "spy" }));
     serviceSpy = spyOn(
-      require("../../../src/utils/internal/resolveServiceQueryValues"),
+      resolveServiceQueryValuesModule,
       "resolveServiceQueryValues"
     ).and.callFake(() => Promise.resolve({ service: "spy" }));
   });
@@ -56,7 +57,10 @@ describe("resolveDynamicValue:", () => {
       value: 12,
       outPath: "cost",
     };
-    const result = await resolveDynamicValue(def, context);
+    const result = await resolveDynamicValuesModule.resolveDynamicValue(
+      def,
+      context
+    );
     expect(result).toEqual({ cost: 12 });
     expect(itemQrySpy).not.toHaveBeenCalled();
     expect(portalSpy).not.toHaveBeenCalled();
@@ -78,7 +82,10 @@ describe("resolveDynamicValue:", () => {
       sourcePath: "views",
       aggregation: "count",
     };
-    const result = await resolveDynamicValue(def, context);
+    const result = await resolveDynamicValuesModule.resolveDynamicValue(
+      def,
+      context
+    );
     expect(result).toEqual({ item: "spy" });
     expect(itemQrySpy).toHaveBeenCalled();
     expect(portalSpy).not.toHaveBeenCalled();
@@ -96,7 +103,10 @@ describe("resolveDynamicValue:", () => {
       },
       aggregation: "count",
     };
-    const result = await resolveDynamicValue(def, context);
+    const result = await resolveDynamicValuesModule.resolveDynamicValue(
+      def,
+      context
+    );
     expect(result).toEqual({ service: "spy" });
     expect(itemQrySpy).not.toHaveBeenCalled();
     expect(portalSpy).not.toHaveBeenCalled();
@@ -108,7 +118,10 @@ describe("resolveDynamicValue:", () => {
       sourcePath: "orgKey",
       outPath: "urlKey",
     };
-    const result = await resolveDynamicValue(def, context);
+    const result = await resolveDynamicValuesModule.resolveDynamicValue(
+      def,
+      context
+    );
     expect(result).toEqual({ portal: "spy" });
     expect(itemQrySpy).not.toHaveBeenCalled();
     expect(portalSpy).toHaveBeenCalled();
@@ -121,7 +134,7 @@ describe("resolveDynamicValue:", () => {
       outPath: "urlKey",
     } as unknown as DynamicValueDefinition;
     try {
-      await resolveDynamicValue(def, context);
+      await resolveDynamicValuesModule.resolveDynamicValue(def, context);
     } catch (err) {
       expect(err).toEqual(
         new Error("Cannot resolve value - unexpected source.")

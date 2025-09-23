@@ -1,9 +1,7 @@
-import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../types";
+import { IQuery } from "../types/IHubCatalog";
+import { IHubSearchOptions } from "../types/IHubSearchOptions";
+import { IHubSearchResponse } from "../types/IHubSearchResponse";
+import { IHubSearchResult } from "../types/IHubSearchResult";
 import { expandPortalQuery } from "../utils";
 import { getOgcCollectionUrl } from "./hubSearchItemsHelpers/getOgcCollectionUrl";
 import { ISearchOgcItemsOptions } from "./hubSearchItemsHelpers/interfaces";

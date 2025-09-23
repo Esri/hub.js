@@ -1,5 +1,5 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { includes } from "../utils";
+import { includes } from "../utils/includes";
 
 /**
  * Checks for fundamental privilege required by all access checks

@@ -4,11 +4,11 @@ import {
   IHubChannelEditor,
 } from "../../../src/core/types/IHubChannel";
 import * as transformFormValuesToEntityPermissionPoliciesModule from "../../../src/channels/_internal/transformFormValuesToEntityPermissionPolicies";
-import { IEntityPermissionPolicy } from "../../../src/permissions/types";
 import {
   CHANNEL_PERMISSIONS,
   ChannelNonePermission,
 } from "../../../src/channels/_internal/ChannelBusinessRules";
+import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityPermissionPolicy";
 
 describe("transformEditorToEntity", () => {
   it("should transform an IHubChannelEditor to a partial IHubChannel", () => {

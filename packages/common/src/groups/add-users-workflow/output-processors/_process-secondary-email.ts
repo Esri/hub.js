@@ -1,9 +1,10 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { _canEmailUser } from "../../add-users-workflow/utils/_can-email-user";
 import { _isOrgAdmin } from "../../add-users-workflow/utils/_is-org-admin";
-import { getProp, getWithDefault } from "../../../objects";
 import { IAddMemberContext } from "../interfaces";
 import { emailOrgUsers } from "../../emailOrgUsers";
+import { getProp } from "../../../objects/get-prop";
+import { getWithDefault } from "../../../objects/get-with-default";
 
 /**
  * @private

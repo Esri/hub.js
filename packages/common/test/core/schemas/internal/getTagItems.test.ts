@@ -1,6 +1,7 @@
-import { IHubProject, IHubRequestOptions } from "../../../../src";
 import { getTagItems } from "../../../../src/core/schemas/internal/getTagItems";
 import * as SearchModule from "@esri/arcgis-rest-portal";
+import { IHubProject } from "../../../../src/core/types/IHubProject";
+import { IHubRequestOptions } from "../../../../src/hub-types";
 
 describe("getTagItems:", () => {
   it("aggregates tags:", async () => {
@@ -75,33 +76,3 @@ const SearchItemsResponse: SearchModule.ISearchResult<SearchModule.IItem> = {
     ],
   },
 };
-
-// TODO: Once we swap back to using hubSearch, we can use this response
-const HubSearchAggs = [
-  {
-    mode: "terms",
-    field: "tags",
-    values: [
-      {
-        value: "test-tag",
-        count: 976,
-      },
-      {
-        value: "hub survey",
-        count: 889,
-      },
-      {
-        value: "hub site",
-        count: 594,
-      },
-      {
-        value: "atag",
-        count: 491,
-      },
-      {
-        value: "dog house",
-        count: 381,
-      },
-    ],
-  },
-];
