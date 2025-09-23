@@ -8,6 +8,8 @@ import {
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import * as fetchMock from "fetch-mock";
 const REST_URL = "https://www.arcgis.com/sharing/rest";
+const isBrowser =
+  typeof window !== "undefined" && typeof window.document !== "undefined";
 
 describe("Initiative Utilities ::", () => {
   describe("addImageAsResource :: ", () => {
@@ -20,7 +22,7 @@ describe("Initiative Utilities ::", () => {
       fetchMock.restore();
     });
     it("should GET the image from the url and POST it to the item", (done) => {
-      if (typeof Blob === "undefined") {
+      if (!isBrowser) {
         // we are in node, so just skip this
         expect(true).toBeTruthy();
         done();
@@ -49,7 +51,7 @@ describe("Initiative Utilities ::", () => {
           `${REST_URL}/content/items/3ef/resources/fake-image.png`,
           MOCK_REQUEST_OPTIONS
         ).then((resp) => {
-          expect(resp as boolean).toBeTruthy();
+          expect(resp ).toBeTruthy();
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...
@@ -77,7 +79,7 @@ describe("Initiative Utilities ::", () => {
     });
 
     it("should make multiple calls to addImageAsResource", (done) => {
-      if (typeof Blob === "undefined") {
+      if (!isBrowser) {
         // we are in node, so just skip this
         expect(true).toBeTruthy();
         done();
@@ -137,7 +139,7 @@ describe("Initiative Utilities ::", () => {
     });
 
     it("should make multiple calls to addImageAsResource", (done) => {
-      if (typeof Blob === "undefined") {
+      if (!isBrowser) {
         // we are in node, so just skip this
         expect(true).toBeTruthy();
         done();
@@ -188,7 +190,7 @@ describe("Initiative Utilities ::", () => {
       }
     });
     it("should fail silently", (done) => {
-      if (typeof Blob === "undefined") {
+      if (!isBrowser) {
         // we are in node, so just skip this
         expect(true).toBeTruthy();
         done();
