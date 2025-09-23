@@ -3,6 +3,10 @@
     "include": [
         "src/**/*.ts",
         "types/**/*.ts",
-        // "test/**/*.ts"
-    ], 
+        "test/**/*.ts"
+    ],
+      "compilerOptions": {
+        // ...existing options...
+        "types": ["jest"]
+    }
 }
