@@ -267,7 +267,10 @@ describe("content: ", () => {
           },
         },
       } as IHubContent;
-      const site: any = { data: { values: {} } };
+      const site: any = {
+        domainInfo: { orgKey: "orgkey" },
+        data: { values: {} },
+      };
 
       const result = getContentIdentifier(page, site);
       expect(result).toBe("page_slug");
