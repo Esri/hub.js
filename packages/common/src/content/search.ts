@@ -2,7 +2,7 @@ import type { IItem } from "@esri/arcgis-rest-portal";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../hub-types";
-import { getItemDataUrl } from "../urls";
+import { getItemDataUrl } from "../urls/get-item-data-url";
 import { getFamily } from "./get-family";
 import {
   deriveLocationFromItem,
