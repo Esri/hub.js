@@ -43,6 +43,8 @@ export * from "./util";
 export * from "./utils";
 export * from "./versioning";
 export * from "./metrics";
+export * from "./a";
+export * from "./b";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
