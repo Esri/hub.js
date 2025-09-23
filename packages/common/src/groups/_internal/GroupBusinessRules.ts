@@ -38,6 +38,22 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:group:view",
     dependencies: ["hub:group"],
   },
+  {
+    // Group Admin's can message members of a group on the view members pane
+    permission: "hub:group:view:messaging",
+    dependencies: ["hub:group:view"],
+    authenticated: true,
+    environments: ["qaext"],
+    availability: ["alpha"],
+    services: ["portal"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-admin",
+        value: "entity:id",
+      },
+    ],
+  },
   // permission to update a group's metadata
   {
     permission: "hub:group:edit",
@@ -74,6 +90,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
       },
     ],
   },
+
   // permission to delete a group
   {
     permission: "hub:group:delete",
@@ -234,6 +251,22 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:group:workspace:members",
     dependencies: ["hub:group:workspace"],
+  },
+  {
+    // Group Admin's can message members of a group
+    permission: "hub:group:workspace:members:messaging",
+    dependencies: ["hub:group:workspace:members"],
+    authenticated: true,
+    environments: ["qaext"],
+    availability: ["alpha"],
+    services: ["portal"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-admin",
+        value: "entity:id",
+      },
+    ],
   },
   {
     permission: "hub:group:workspace:events",
