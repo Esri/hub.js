@@ -144,6 +144,8 @@
 		"test:node": "jasmine-ts --config=jasmine.node.json --project tsconfig.json",
 		"test:node1": "jasmine --config=jasmine.json ",
 		"test": "npm run test:node && npm run test:chrome",
+		"test:common": "npm run test -w @esri/hub-common",
+		"test:common:watch": "npm run test:watch -w @esri/hub-common",
 		"tsc:v": "lerna run tsc:v",
 		"y:publish": "lerna run y:publish",
 		"y:push": "lerna run y:push",

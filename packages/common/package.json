@@ -30,7 +30,10 @@
     "@types/adlib": "^3.0.1",
     "@types/geojson": "^7946.0.13",
     "@types/terraformer__arcgis": "^2.0.5",
-    "typescript": "^3.8.1"
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "jsdom": "^27.0.0",
+    "typescript": "^3.8.1",
+    "vitest": "^3.2.4"
   },
   "scripts": {
     "build": "npm run build:node && npm run build:esm",
@@ -40,6 +43,8 @@
     "dev:node": "npm run build:node -- -w",
     "format": "prettier --write ./{src,test}/**/*.ts",
     "format:check": "prettier --check ./{src,test}/**/*.ts",
+    "test": "vitest --config=vitest.config.mjs --run",
+    "test:watch": "vitest --config=vitest.config.mjs",
     "y:publish": "yalc publish",
     "y:push": "yalc push"
   },
