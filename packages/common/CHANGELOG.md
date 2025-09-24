@@ -1,3 +1,10 @@
+# @esri/hub-common [20.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.9.0...@esri/hub-common@20.10.0) (2025-09-24)
+
+
+### Features
+
+* add layout selection option during site and page creation ([#1996](https://github.com/Esri/hub.js/issues/1996)) ([7fed265](https://github.com/Esri/hub.js/commit/7fed26544b58e37154213c5cf4f3cef05aa7fbed))
+
 # @esri/hub-common [20.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.1...@esri/hub-common@20.9.0) (2025-09-23)
 
 
