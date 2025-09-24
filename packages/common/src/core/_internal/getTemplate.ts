@@ -161,14 +161,7 @@ export function getTemplate(
           fullWidth: false,
           title: "Your Site Name",
           headerType: "default",
-          menuLinks: [
-            {
-              id: "f24c588e37824b5db0c5e31e5b364403",
-              type: "Hub Page",
-              name: "yet another page",
-              external: false,
-            },
-          ],
+          menuLinks: [],
           schemaVersion: 3,
           showTitle: true,
           socialLinks: {
