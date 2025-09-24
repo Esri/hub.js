@@ -249,3 +249,14 @@ export const ENTITY_CATALOG_SETUP_SCHEMA: JSONSchema = {
     },
   ],
 };
+
+export const ENTITY_LAYOUT_SETUP_SCHEMA: JSONSchema = {
+  type: "object",
+  properties: {
+    layout: {
+      type: "string",
+      enum: ["blank", "simple"],
+      default: "blank",
+    },
+  },
+};

@@ -10,7 +10,7 @@ import { upsertResource } from "../../resources/upsertResource";
 import { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubItemEntityEditor, IHubItemEntity } from "../types/IHubItemEntity";
 import { IHubLocation } from "../types/IHubLocation";
-
+import { getTemplate } from "./getTemplate";
 /**
  * Convert editor values back into an IHubItemEntity,
  * performing any pre-save operations/XHRs/transforms.
@@ -32,6 +32,7 @@ export const hubItemEntityFromEditor = async (
   // editor for later use
   const _thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
   const _catalogSetup = editor._catalogSetup;
+  const _layoutSetup = editor._layoutSetup;
   const _metric = editor._metric;
   const _slug = editor._slug;
   const _featuredImage = editor.view?.featuredImage as {
@@ -43,6 +44,7 @@ export const hubItemEntityFromEditor = async (
   delete editor._groups;
   delete editor._thumbnail;
   delete editor.view?.featuredImage;
+  delete editor._layoutSetup;
   delete editor._metric;
   delete editor._catalogSetup;
   delete editor._slug;
@@ -146,6 +148,13 @@ export const hubItemEntityFromEditor = async (
     });
 
     entity = setMetricAndDisplay(entity, metric, displayConfig);
+  }
+
+  // f. handle layout setups in sites and pages
+  if (_layoutSetup?.layout === "simple") {
+    entity.layout = await getTemplate("simpleSiteOrPageLayout", context);
+  } else {
+    entity.layout = await getTemplate("blankSiteOrPageLayout", context);
   }
 
   return {

@@ -34,6 +34,24 @@ describe("buildUiSchema: site create", () => {
             ],
           },
         },
+        {
+          label: "{{some.scope.fields._layoutSetup.type.layout:translate}}",
+          scope: "/properties/_layoutSetup/properties/layout",
+          type: "Control",
+          options: {
+            control: "hub-field-input-tile-select",
+            labels: [
+              "{{some.scope.fields._layoutSetup.type.blank.label:translate}}",
+              "{{some.scope.fields._layoutSetup.type.simple.label:translate}}",
+            ],
+            descriptions: [
+              "{{some.scope.fields._layoutSetup.type.blank.description:translate}}",
+              "{{some.scope.fields._layoutSetup.type.simple.description:translate}}",
+            ],
+            icons: ["rectangle", "group-layout-elements"],
+            layout: "horizontal",
+          },
+        },
       ],
     });
   });

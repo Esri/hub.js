@@ -1,6 +1,7 @@
 import { IUiSchema } from "../../core/schemas/types";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubPage } from "../../core/types/IHubPage";
+import { getLayoutSetupUiSchemaElement } from "../../core/schemas/internal/getLayoutSetupUiSchemaElement";
 
 /**
  * @private
@@ -12,6 +13,7 @@ export const buildUiSchema = (
   i18nScope: string,
   _options: Partial<IHubPage>,
   _context: IArcGISContext
+  // eslint-disable-next-line @typescript-eslint/require-await
 ): Promise<IUiSchema> => {
   return Promise.resolve({
     type: "Layout",
@@ -43,6 +45,7 @@ export const buildUiSchema = (
           ],
         },
       },
+      ...getLayoutSetupUiSchemaElement(i18nScope),
     ],
   });
 };
