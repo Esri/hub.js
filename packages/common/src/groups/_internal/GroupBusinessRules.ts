@@ -9,6 +9,23 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:group",
     services: ["portal"],
   },
+  {
+    // Group Admin's can message members of a group
+    permission: "hub:group:messaging",
+    dependencies: ["hub:group"],
+    authenticated: true,
+    licenses: ["hub-premium"],
+    environments: ["qaext"],
+    availability: ["alpha"],
+    services: ["portal"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-admin",
+        value: "entity:id",
+      },
+    ],
+  },
   // general permission to create a group
   {
     permission: "hub:group:create",
@@ -43,9 +60,9 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:group:view:messaging",
     dependencies: ["hub:group:view"],
     authenticated: true,
+    licenses: ["hub-premium"],
     environments: ["qaext"],
     availability: ["alpha"],
-    services: ["portal"],
     assertions: [
       {
         property: "context:currentUser",
@@ -257,9 +274,9 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:group:workspace:members:messaging",
     dependencies: ["hub:group:workspace:members"],
     authenticated: true,
+    licenses: ["hub-premium"],
     environments: ["qaext"],
     availability: ["alpha"],
-    services: ["portal"],
     assertions: [
       {
         property: "context:currentUser",
