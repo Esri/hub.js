@@ -55,6 +55,9 @@ export function getFamily(type: string) {
     case "organization":
       family = "organization";
       break;
+    // case "post":
+    //   family = "discussion";
+    //   break;
     default:
       // by default derive from collection
       family = collectionToFamily(getCollection(type));
