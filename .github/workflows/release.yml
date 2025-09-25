@@ -37,11 +37,6 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
 
-      # npm ci was failing b/c package-lock.json was not in sync with package.json
-      # copied this from publish-pr-preview.yaml
-      - name: Setup npm v7
-        run: npm i -g npm@7 --registry=https://registry.npmjs.org
-
       - name: Install
         run: npm ci
 
