@@ -1,3 +1,10 @@
+# @esri/hub-common [20.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.10.0...@esri/hub-common@20.11.0) (2025-09-25)
+
+
+### Features
+
+* add group messaging permissions ([#2020](https://github.com/Esri/hub.js/issues/2020)) ([cfcfeb1](https://github.com/Esri/hub.js/commit/cfcfeb1d00c5f141b5a2cddf3b31f6a3909d58b7))
+
 # @esri/hub-common [20.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.9.0...@esri/hub-common@20.10.0) (2025-09-24)
 
 
