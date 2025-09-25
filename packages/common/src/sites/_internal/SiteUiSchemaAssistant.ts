@@ -174,7 +174,7 @@ export const buildUiSchema = async (
         },
         elements: [
           {
-            label: "Assistant Personality",
+            label: `{{${i18nScope}.assistant.fields.personality.label:translate}}`,
             scope: "/properties/assistant/properties/personality",
             type: "Control",
             options: {
