@@ -164,7 +164,7 @@ describe("buildUiSchema: site assistant", () => {
           },
           elements: [
             {
-              label: "Assistant Personality",
+              label: `{{some.scope.assistant.fields.personality.label:translate}}`,
               scope: "/properties/assistant/properties/personality",
               type: "Control",
               options: {
