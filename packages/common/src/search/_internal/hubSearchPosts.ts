@@ -8,6 +8,12 @@ import { postToSearchResult } from "./hubDiscussionsHelpers/postToSearchResult";
 import { processPostFilters } from "./hubDiscussionsHelpers/processPostFilters";
 import { processPostOptions } from "./hubDiscussionsHelpers/processPostOptions";
 
+/**
+ * Searches for posts based on the provided query and options.
+ * @param query The query object for the search
+ * @param options The search options including pagination and sorting
+ * @returns A promise that resolves to a search response containing search results
+ */
 export async function hubSearchPosts(
   query: IQuery,
   options: IHubSearchOptions

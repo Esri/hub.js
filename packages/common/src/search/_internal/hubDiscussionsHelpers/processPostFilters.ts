@@ -75,7 +75,7 @@ export function processPostFilters(filters: IFilter[]): Partial<ISearchPosts> {
       PostRelation
     );
   }
-  // TODO: do we need geometry, featureGeometry, groups?
+  // TODO: do we need location here?
 
   return processedFilters;
 }

@@ -11,15 +11,14 @@ import { IHubOrganization } from "./IHubOrganization";
 import { IHubChannel } from "./IHubChannel";
 
 export type HubEntity =
-  | IHubChannel
   | IHubDiscussion
   | IHubEvent
   | IHubGroup
   | IHubInitiative
   | IHubOrganization
   | IHubPage
-  // | IHubPost
   | IHubProject
   | IHubSite
   | IHubTemplate
-  | IHubUser;
+  | IHubUser
+  | IHubChannel;
