@@ -1,5 +1,4 @@
 import { MetricSchema } from "../../core/schemas/internal/metrics/MetricSchema";
-import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import { HubEntityStatus } from "../../hub-types";
 import {
@@ -8,16 +7,7 @@ import {
   IF_STATIC_THEN_URL_FORMAT,
   VALUE_TYPE_MAPPING,
 } from "../../core/schemas/internal/metrics/definitions";
-
-export type InitiativeEditorType = (typeof InitiativeEditorTypes)[number];
-export const InitiativeEditorTypes = [
-  "hub:initiative:edit",
-  "hub:initiative:create",
-  "hub:initiative:create2",
-  "hub:initiative:metrics",
-  "hub:initiative:associations",
-  "hub:initiative:settings",
-] as const;
+import { IConfigurationSchema } from "../../core/schemas/types";
 
 /**
  * defines the JSON schema for a Hub Initiative's editable fields

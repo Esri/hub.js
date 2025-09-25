@@ -8,6 +8,7 @@ import {
   ENTITY_FEATURED_CONTENT_SCHEMA,
   ENTITY_IMAGE_SCHEMA,
   ENTITY_IS_DISCUSSABLE_SCHEMA,
+  ENTITY_LAYOUT_SETUP_SCHEMA,
   ENTITY_LOCATION_SCHEMA,
   ENTITY_MAP_SCHEMA,
   ENTITY_NAME_SCHEMA,
@@ -141,5 +142,6 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
       },
     },
     _catalogSetup: ENTITY_CATALOG_SETUP_SCHEMA,
+    _layoutSetup: ENTITY_LAYOUT_SETUP_SCHEMA,
   },
 } as IAsyncConfigurationSchema;

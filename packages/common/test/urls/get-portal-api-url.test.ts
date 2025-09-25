@@ -1,13 +1,13 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { getPortalApiUrl } from "../../src";
+import { getPortalApiUrl } from "../../src/urls/get-portal-api-url";
 
-describe("getPortalApiUrl", function() {
-  it("returns the correct url", function() {
+describe("getPortalApiUrl", function () {
+  it("returns the correct url", function () {
     const portal: IPortal = {
       id: "portal-id",
       name: "Some Portal",
       isPortal: true,
-      portalHostname: "someportal.com"
+      portalHostname: "someportal.com",
     };
 
     const apiUrl = getPortalApiUrl(portal);

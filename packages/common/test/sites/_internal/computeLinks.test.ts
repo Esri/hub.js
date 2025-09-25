@@ -1,8 +1,8 @@
 import type { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { computeLinks } from "../../../src/sites/_internal/computeLinks";
-import { ArcGISContextManager } from "../../../src";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
+import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 
 describe("computeLinks", () => {
   let authdCtxMgr: ArcGISContextManager;

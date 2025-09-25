@@ -3,9 +3,9 @@ import type { IPortal, IPortalSettings } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import type { IUserResourceToken } from "./IUserResourceToken";
 import type { HubServiceStatus } from "../core/types/ISystemStatus";
-import type { IFeatureFlags } from "../permissions";
 import type { IHubTrustedOrgsResponse } from "../hub-types";
 import type { IUserHubSettings } from "../utils/IUserHubSettings";
+import { IFeatureFlags } from "../permissions/types/IPermissionPolicy";
 
 /**
  * Options for the ArcGISContext constructor

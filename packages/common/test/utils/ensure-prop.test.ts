@@ -1,7 +1,7 @@
-import { ensureProp } from "../../src";
+import { ensureProp } from "../../src/objects/ensure-prop";
 
-describe("ensureProp", function() {
-  it("sets deep properties", function() {
+describe("ensureProp", function () {
+  it("sets deep properties", function () {
     const foo: Record<string, any> = {};
     ensureProp(foo, "bar.baz");
 

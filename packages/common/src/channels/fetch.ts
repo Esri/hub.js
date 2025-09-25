@@ -1,7 +1,7 @@
 import { IHubChannel } from "../core/types/IHubChannel";
-import { ChannelRelation } from "../discussions";
 import { fetchChannelV2 } from "../discussions/api/channels/channels";
-import { IArcGISContext } from "../types";
+import { ChannelRelation } from "../discussions/api/types";
+import { IArcGISContext } from "../types/IArcGISContext";
 import { transformChannelToEntity } from "./_internal/transformChannelToEntity";
 
 /**

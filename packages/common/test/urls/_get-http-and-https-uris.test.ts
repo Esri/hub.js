@@ -1,10 +1,10 @@
-import { _getHttpAndHttpsUris } from "../../src";
+import { _getHttpAndHttpsUris } from "../../src/urls/_get-http-and-https-uris";
 
 describe("_getHttpAndHttpsUris", () => {
   it("returns the correct uris", () => {
     expect(_getHttpAndHttpsUris("https://foo.bar.com")).toEqual([
       "http://foo.bar.com",
-      "https://foo.bar.com"
+      "https://foo.bar.com",
     ]);
   });
 

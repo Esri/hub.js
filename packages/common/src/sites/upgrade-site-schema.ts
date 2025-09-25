@@ -1,5 +1,5 @@
 import { IModel } from "../hub-types";
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 import { SITE_SCHEMA_VERSION } from "./site-schema-version";
 import { _applySiteSchema } from "./_internal/_apply-site-schema";
 import { _enforceLowercaseDomains } from "./_internal/_enforce-lowercase-domains";

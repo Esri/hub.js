@@ -1,4 +1,4 @@
-import { IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
 import { _migrateFeedConfig } from "../../../src/sites/_internal/_migrate-feed-config";
 
 describe("_migrateFeedConfig", () => {

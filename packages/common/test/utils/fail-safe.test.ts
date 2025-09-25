@@ -1,7 +1,7 @@
-import { failSafe } from "../../src";
+import { failSafe } from "../../src/utils/fail-safe";
 
-describe("failSafe", function() {
-  it("doesnt fail", async function() {
+describe("failSafe", function () {
+  it("doesnt fail", async function () {
     const rejects = () => {
       return Promise.reject(Error("rejected"));
     };
@@ -17,7 +17,7 @@ describe("failSafe", function() {
     expect(res).toBe("my result", "resolved to mocked result");
   });
 
-  it("resolves with empty object by default", async function() {
+  it("resolves with empty object by default", async function () {
     const rejects = () => {
       return Promise.reject(Error("rejected"));
     };

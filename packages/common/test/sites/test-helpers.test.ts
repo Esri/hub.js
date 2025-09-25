@@ -1,5 +1,4 @@
-import { get } from "fetch-mock";
-import { IHubRequestOptions } from "../../src";
+import { IHubRequestOptions } from "../../src/hub-types";
 
 export function expectAllCalled(spys: jasmine.Spy[], expect: any) {
   expectAll(spys, "toHaveBeenCalled", true, expect);

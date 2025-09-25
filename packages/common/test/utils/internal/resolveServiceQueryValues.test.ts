@@ -1,12 +1,10 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  DynamicValueDefinition,
-} from "../../../src";
 import { resolveServiceQueryValues } from "../../../src/utils/internal/resolveServiceQueryValues";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as featureLayer from "@esri/arcgis-rest-feature-service";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
 
 describe("resolveServiceQueryValues:", () => {
   let context: IArcGISContext;

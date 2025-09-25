@@ -5,7 +5,7 @@ import {
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
 import { EntityEditorOptions } from "../../../../../src/core/schemas/internal/EditorOptions";
-import { IHubProject } from "../../../../../src/core/types";
+import { IHubProject } from "../../../../../src/core/types/IHubProject";
 
 describe("ProjectUiSchemaMetrics", () => {
   describe("buildUiSchema", () => {

@@ -1,6 +1,6 @@
 import * as getCatalogFromSiteModelModule from "../../../src/sites/get-catalog-from-site-model";
-import { IModel } from "../../../src";
 import { _migrateToV2Catalog } from "../../../src/sites/_internal/_migrate-to-v2-catalog";
+import { IModel } from "../../../src/hub-types";
 
 describe("_migrateToV2Catalog", () => {
   let getCatalogFromSiteModelSpy: jasmine.Spy;

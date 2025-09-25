@@ -1,4 +1,5 @@
-import { IHubGroup, UiSchemaRuleEffects } from "../../../src";
+import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import {
   buildUiSchema,
   buildDefaults,

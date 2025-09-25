@@ -26,6 +26,18 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["**/dist/**"],
+            "message": "Importing from a 'dist' directory is not allowed."
+          }
+        ]
+      }
+    ],
+    "@typescript-eslint/no-var-requires": "error",
   },
   overrides: [
     {

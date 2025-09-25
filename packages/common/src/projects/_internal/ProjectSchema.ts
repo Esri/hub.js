@@ -9,15 +9,6 @@ import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySche
 import { IConfigurationSchema } from "../../core/schemas/types";
 import { HubEntityStatus } from "../../hub-types";
 
-export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
-export const ProjectEditorTypes = [
-  "hub:project:create",
-  "hub:project:create2",
-  "hub:project:edit",
-  "hub:project:metrics",
-  "hub:project:settings",
-] as const;
-
 /**
  * Defines the JSON schema for a Hub Project's editable fields
  */

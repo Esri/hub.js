@@ -2,35 +2,6 @@ import type { IItem } from "@esri/arcgis-rest-portal";
 import type { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
 import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
 import {
-  DatasetResource,
-  datasetToContent,
-  datasetToItem,
-  getTypes,
-  normalizeItemType,
-  isFeatureService,
-  isSiteType,
-  getLayerIdFromUrl,
-  getItemLayerId,
-  getItemHubId,
-  getContentIdentifier,
-  isSlug,
-  addContextToSlug,
-  removeContextFromSlug,
-  itemToContent,
-  parseDatasetId,
-  parseItemCategories,
-  getFamily,
-  setContentType,
-  getContentTypeIcon,
-  getContentTypeLabel,
-  getProxyUrl,
-  IHubContent,
-  IHubRequestOptions,
-  PublisherSource,
-  IHubEditableContent,
-  getServiceStatus,
-} from "../../src";
-import {
   isProxiedCSV,
   setContentBoundary,
   parseISODateString,
@@ -51,8 +22,42 @@ import * as documentsJson from "../mocks/datasets/document.json";
 import * as featureLayerJson from "../mocks/datasets/feature-layer.json";
 import { MOCK_REQUEST_OPTIONS } from "../mocks/fake-session";
 import * as fetchMock from "fetch-mock";
-import { IHubServiceBackedContentStatus } from "../../src/content/types";
+import {
+  DatasetResource,
+  IHubServiceBackedContentStatus,
+} from "../../src/content/types";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
+import {
+  datasetToContent,
+  datasetToItem,
+  getContentIdentifier,
+  getContentTypeLabel,
+  getServiceStatus,
+  getTypes,
+  itemToContent,
+  setContentType,
+} from "../../src/content/contentUtils";
+import {
+  getContentTypeIcon,
+  getItemHubId,
+  getItemLayerId,
+  getLayerIdFromUrl,
+  getProxyUrl,
+  isFeatureService,
+  normalizeItemType,
+  parseItemCategories,
+} from "../../src/content/compose";
+import { IHubContent, PublisherSource } from "../../src/core/types/IHubContent";
+import {
+  addContextToSlug,
+  isSlug,
+  parseDatasetId,
+  removeContextFromSlug,
+} from "../../src/content/slugs";
+import { getFamily } from "../../src/content/get-family";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { isSiteType } from "../../src/content/isSiteType";
+import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 
 describe("content: ", () => {
   beforeAll(() => {

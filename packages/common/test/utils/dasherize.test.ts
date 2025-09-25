@@ -1,4 +1,4 @@
-import { dasherize } from "../../src";
+import { dasherize } from "../../src/utils/dasherize";
 
 describe("dasherize", () => {
   it("works", () => {

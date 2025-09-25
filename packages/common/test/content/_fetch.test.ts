@@ -1,6 +1,5 @@
 import * as fetchMock from "fetch-mock";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { DatasetResource, IHubRequestOptions } from "../../src";
 import {
   fetchHubEnrichmentsById,
   fetchHubEnrichmentsBySlug,
@@ -8,6 +7,8 @@ import {
 } from "../../src/content/_fetch";
 import * as documentItem from "../mocks/items/document.json";
 import * as featureServiceItem from "../mocks/items/feature-service-item.json";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { DatasetResource } from "../../src/content/types";
 
 describe("_fetch", () => {
   beforeAll(() => {
@@ -111,7 +112,6 @@ describe("_fetch", () => {
         const result = await fetchHubEnrichmentsById(id, requestOpts);
         // inspect the datasets request for the correct parameters
         const calls = fetchMock.calls();
-        const [url] = calls[0];
         expect(calls.length).toBe(1);
         expect(result).toEqual({
           errors: [{ type: "Other", message: "Not Found" }],

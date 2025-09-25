@@ -136,10 +136,7 @@ describe("metricToEditor", () => {
       metricId: "m123",
     };
 
-    const editor = metricToEditor(
-      metric as IMetric,
-      displayConfig as IMetricDisplayConfig
-    );
+    const editor = metricToEditor(metric as IMetric, displayConfig);
     expect(editor).toEqual({
       displayType: "stat-card",
       metricId: "m123",

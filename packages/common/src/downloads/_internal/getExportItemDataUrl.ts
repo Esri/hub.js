@@ -1,5 +1,5 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { getProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
 
 /**
  * @private
@@ -13,6 +13,9 @@ export function getExportItemDataUrl(
   context: IArcGISContext
 ): string {
   const baseUrl = `${context.portalUrl}/sharing/rest/content/items/${exportItemId}/data`;
-  const token = getProp(context, "hubRequestOptions.authentication.token");
+  const token = getProp(
+    context,
+    "hubRequestOptions.authentication.token"
+  ) as string;
   return token ? `${baseUrl}?token=${token}` : baseUrl;
 }

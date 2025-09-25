@@ -1,9 +1,9 @@
 import {
   unprotectItem,
   removeItem,
-  IUserItemOptions
+  IUserItemOptions,
 } from "@esri/arcgis-rest-portal";
-import { failSafe } from "../utils";
+import { failSafe } from "../utils/fail-safe";
 
 /**
  * Unprotect and Remove an Item

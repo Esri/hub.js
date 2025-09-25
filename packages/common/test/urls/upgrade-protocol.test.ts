@@ -1,4 +1,4 @@
-import { upgradeProtocol } from "../../src";
+import { upgradeProtocol } from "../../src/urls/upgrade-protocol";
 
 describe("upgradeProtocol", function () {
   it("adds the protocol when not present", function () {

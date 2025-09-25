@@ -5,7 +5,7 @@ import {
   IUpdateChannelV2,
   Role,
 } from "../../../../../src/discussions/api//types";
-import { canEditChannelV2 } from "../../../../../src/discussions/api//utils/channels";
+import { canEditChannelV2 } from "../../../../../src/discussions/api//utils/channels/can-edit-channel-v2";
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
 

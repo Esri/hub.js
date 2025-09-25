@@ -1,5 +1,5 @@
-import { isPermission } from "../../src";
 import { ValidPermissions } from "../../src/permissions/_internal/constants";
+import { isPermission } from "../../src/permissions/isPermission";
 
 describe("isPermission:", () => {
   ValidPermissions.forEach((permission) => {

@@ -1,7 +1,7 @@
-import { getProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
 import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
-import { isGuid } from "../../utils";
+import { isGuid } from "../../utils/is-guid";
 
 /**
  * Remove any non-guid entries from the data catalog groups array

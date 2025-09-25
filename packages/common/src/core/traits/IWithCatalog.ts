@@ -1,4 +1,4 @@
-import { IHubCatalog } from "../../search";
+import { IHubCatalog } from "../../search/types/IHubCatalog";
 
 /**
  * Expose a the content catalog on an entity

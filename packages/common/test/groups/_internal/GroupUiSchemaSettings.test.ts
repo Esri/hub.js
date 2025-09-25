@@ -1,4 +1,4 @@
-import { UiSchemaRuleEffects } from "../../../src";
+import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import { buildUiSchema } from "../../../src/groups/_internal/GroupUiSchemaSettings";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 

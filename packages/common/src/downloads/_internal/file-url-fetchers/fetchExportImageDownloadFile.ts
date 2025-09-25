@@ -8,11 +8,9 @@ import {
 } from "../../types";
 import HubError from "../../../HubError";
 import { getProp } from "../../../objects/get-prop";
-import {
-  IHubEditableContent,
-  ISpatialReferenceInstance,
-} from "../../../core/types";
 import { ExportImageFormat } from "../_types";
+import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
+import { ISpatialReferenceInstance } from "../../../core/types/ISpatialReferenceInstance";
 
 /**
  * Extent object with a spatial reference instance defined
@@ -112,7 +110,8 @@ function getBlobFilename(
   entity: IHubEditableContent,
   format: ExportImageFormat
 ): string {
-  const name = entity.name || getProp(entity, "extendedProps.server.name");
+  const name =
+    entity.name || (getProp(entity, "extendedProps.server.name") as string);
   const extension = format.includes(ServiceDownloadFormat.PNG)
     ? // NOTE: the png family of formats (png8, png24, etc.) share the same extension
       ServiceDownloadFormat.PNG

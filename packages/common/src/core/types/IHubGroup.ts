@@ -1,4 +1,5 @@
-import { IWithDiscussions, IWithPermissions } from "../traits";
+import { IWithPermissions } from "../traits/IWithPermissions";
+import { IWithDiscussions } from "../traits/IWithDiscussions";
 import { IHubEntityBase } from "./IHubEntityBase";
 import {
   GroupSortField,

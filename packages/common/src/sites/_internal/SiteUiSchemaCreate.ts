@@ -1,7 +1,8 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
-import { IHubSite } from "../../core/types";
 import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/buildCatalogSetupUiSchemaElement";
+import { getLayoutSetupUiSchemaElement } from "../../core/schemas/internal/getLayoutSetupUiSchemaElement";
+import { IHubSite } from "../../core/types/IHubSite";
 
 /**
  * @private
@@ -12,16 +13,17 @@ import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/bu
  * TODO: this was copied from projects and is just a placeholder
  * for now - it isn't being used anywhere in the application
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: Partial<IHubSite>,
   context: IArcGISContext
+  // eslint-disable-next-line @typescript-eslint/require-await
 ): Promise<IUiSchema> => {
   // NOTE: if this is not defined on the site then
   // the component will use the authenticated user's org
   // which may not be the same as the site's org
   const orgUrlKey = (options as IHubSite).orgUrlKey;
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -69,6 +71,7 @@ export const buildUiSchema = async (
         },
       },
       ...buildCatalogSetupUiSchemaElement(i18nScope, context),
+      ...getLayoutSetupUiSchemaElement(i18nScope),
     ],
-  };
+  });
 };

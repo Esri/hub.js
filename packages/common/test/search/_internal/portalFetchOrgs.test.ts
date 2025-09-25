@@ -1,8 +1,9 @@
 import { portalFetchOrgs } from "../../../src/search/_internal/portalFetchOrgs";
-import * as fetchOrgModule from "../../../src/org";
-import { IHubSearchOptions, IQuery } from "../../../src/search/types";
+import * as fetchOrgModule from "../../../src/org/fetch-org";
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { cloneObject } from "../../../src";
+import { IQuery } from "../../../src/search/types/IHubCatalog";
+import { cloneObject } from "../../../src/util";
+import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 
 describe("portalFetchOrgs:", () => {
   let fetchOrgSpy: jasmine.Spy;

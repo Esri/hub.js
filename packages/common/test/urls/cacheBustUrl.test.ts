@@ -1,4 +1,4 @@
-import { cacheBustUrl } from "../../src";
+import { cacheBustUrl } from "../../src/urls/cacheBustUrl";
 
 describe("cacheBustUrl:", () => {
   it("returns null if passed null", () => {

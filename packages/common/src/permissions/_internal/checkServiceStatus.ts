@@ -1,5 +1,5 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { PolicyResponse } from "../types";
+import { PolicyResponse } from "../types/PolicyResponse";
 import { IPermissionPolicy } from "../types/IPermissionPolicy";
 import { IPolicyCheck } from "../types/IPolicyCheck";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";

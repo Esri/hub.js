@@ -3,33 +3,31 @@ import { HubContent } from "../content/HubContent";
 import { HubDiscussion } from "../discussions/HubDiscussion";
 import { HubGroup } from "../groups/HubGroup";
 import { HubInitiative } from "../initiatives/HubInitiative";
-import { HubInitiativeTemplate } from "../initiative-templates";
 import { HubPage } from "../pages/HubPage";
 import { HubProject } from "../projects/HubProject";
 import { HubSite } from "../sites/HubSite";
-import { HubTemplate } from "../templates";
 import { IEditorConfig, EntityEditorType } from "./schemas/types";
-import { IWithEditorBehavior } from "./behaviors";
 import { getTypeFromEntity } from "./getTypeFromEntity";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityEditor, IEntityEditorContext } from "./types/HubEntityEditor";
 import { HubEvent } from "../events/HubEvent";
 import { HubUser } from "../users/HubUser";
-import {
-  IHubChannel,
-  IHubDiscussion,
-  IHubEditableContent,
-  IHubEvent,
-  IHubGroup,
-  IHubInitiative,
-  IHubInitiativeTemplate,
-  IHubPage,
-  IHubProject,
-  IHubSite,
-  IHubTemplate,
-  IHubUser,
-} from "./types";
 import { HubChannel } from "../channels/HubChannel";
+import { HubInitiativeTemplate } from "../initiative-templates/HubInitiativeTemplate";
+import { HubTemplate } from "../templates/HubTemplate";
+import { IWithEditorBehavior } from "./behaviors/IWithEditorBehavior";
+import { IHubChannel } from "./types/IHubChannel";
+import { IHubDiscussion } from "./types/IHubDiscussion";
+import { IHubEditableContent } from "./types/IHubEditableContent";
+import { IHubEvent } from "./types/IHubEvent";
+import { IHubGroup } from "./types/IHubGroup";
+import { IHubInitiative } from "./types/IHubInitiative";
+import { IHubInitiativeTemplate } from "./types/IHubInitiativeTemplate";
+import { IHubPage } from "./types/IHubPage";
+import { IHubProject } from "./types/IHubProject";
+import { IHubSite } from "./types/IHubSite";
+import { IHubTemplate } from "./types/IHubTemplate";
+import { IHubUser } from "./types/IHubUser";
 
 export class EntityEditor {
   instance: IWithEditorBehavior;

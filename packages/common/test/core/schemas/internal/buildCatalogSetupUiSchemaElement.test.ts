@@ -1,5 +1,5 @@
 import { buildCatalogSetupUiSchemaElement } from "../../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";
-import * as searchModule from "../../../../src/search";
+import * as wellKnownCatalogModule from "../../../../src/search/wellKnownCatalog";
 import * as checkPermissionModule from "../../../../src/permissions/checkPermission";
 import { IArcGISContext } from "../../../../src/types/IArcGISContext";
 
@@ -14,7 +14,7 @@ describe("buildCatalogSetupUiSchemaElement", () => {
 
   it("returns two elements with correct structure and calls getWellKnownCatalogs with expected args", () => {
     const getWellKnownCatalogsSpy = spyOn(
-      searchModule,
+      wellKnownCatalogModule,
       "getWellKnownCatalogs"
     ).and.returnValue(["mockCatalog"]);
     spyOn(checkPermissionModule, "checkPermission").and.returnValues(

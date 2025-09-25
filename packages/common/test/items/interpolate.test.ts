@@ -1,8 +1,8 @@
 import * as adlibModule from "adlib";
-import { interpolate } from "../../src";
+import { interpolate } from "../../src/items/interpolate";
 
-describe("interpolate", function() {
-  it("calls adlib", function() {
+describe("interpolate", function () {
+  it("calls adlib", function () {
     spyOn(adlibModule, "adlib");
 
     const args = [{ id: "template" }, { id: "settings" }, { id: "transforms" }];

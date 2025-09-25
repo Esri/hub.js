@@ -1,4 +1,5 @@
-import { IEntityPermissionPolicy, IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
+import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityPermissionPolicy";
 import { applyPermissionMigration } from "../../../src/sites/_internal/applyPermissionMigration";
 
 describe("applyPermissionMigration:", () => {

@@ -15,6 +15,13 @@ export * from "./getEntityGroups";
 export * from "./getEntityThumbnailUrl";
 export * from "./getHubTypeFromItemType";
 export * from "./getEntityTypeFromHubEntityType";
+export * from "./updateHubEntity";
+export * from "./EntityEditor";
+export * from "./hubHistory";
+export * from "./deepCatalogContains";
+export * from "./parseContainmentPath";
+export * from "./catalogContains";
+export * from "./catalogContains";
 
 // For sme reason, if these are exported here,
 // they are not actually exported in the final package.

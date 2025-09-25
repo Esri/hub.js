@@ -1,5 +1,6 @@
-import { Catalog, IHubCatalog } from "../src/search";
+import { Catalog } from "../src/search/Catalog";
 import { searchCatalogs } from "../src/search/searchCatalogs";
+import { IHubCatalog } from "../src/search/types/IHubCatalog";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
@@ -423,9 +424,9 @@ describe("catalog and collection e2e:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const instance = Catalog.fromJson(catalog, ctxMgr.context);
       // time this request
-      const start = new Date().getTime();
-      const results = await instance.searchCollections("water");
-      const end = new Date().getTime();
+      // const start = new Date().getTime();
+      await instance.searchCollections("water");
+      // const end = new Date().getTime();
 
       // console.log("time taken", end - start);
       // Object.keys(results).forEach((key) => {
@@ -441,13 +442,13 @@ describe("catalog and collection e2e:", () => {
         Catalog.fromJson(supportingUsersCatalog, ctxMgr.context),
         Catalog.fromJson(supportingGroupsCatalog, ctxMgr.context),
       ];
-      const start = new Date().getTime();
-      const results = await Promise.all(
+      // const start = new Date().getTime();
+      await Promise.all(
         catalogs.map(async (cat) => {
           return await cat.searchCollections("water");
         })
       );
-      const end = new Date().getTime();
+      // const end = new Date().getTime();
 
       // console.log("time taken", end - start);
       // debugger;

@@ -4,7 +4,7 @@
  */
 
 import { JSONSchema } from "json-schema-typed";
-import { CATALOG_SETUP_TYPES } from "../../../search/types";
+import { CATALOG_SETUP_TYPES } from "../../../search/types/types";
 
 export const ENTITY_NAME_SCHEMA = {
   type: "string",
@@ -248,4 +248,15 @@ export const ENTITY_CATALOG_SETUP_SCHEMA: JSONSchema = {
       },
     },
   ],
+};
+
+export const ENTITY_LAYOUT_SETUP_SCHEMA: JSONSchema = {
+  type: "object",
+  properties: {
+    layout: {
+      type: "string",
+      enum: ["blank", "simple"],
+      default: "blank",
+    },
+  },
 };

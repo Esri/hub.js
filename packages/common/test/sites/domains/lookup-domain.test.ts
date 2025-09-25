@@ -1,8 +1,8 @@
-import { IHubRequestOptions, IDomainEntry } from "../../../src";
-import { lookupDomain } from "../../../src/sites/domains";
 import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
 import * as _lookupPortalModule from "../../../src/sites/domains/_lookup-portal";
+import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
+import { lookupDomain } from "../../../src/sites/domains/lookup-domain";
 
 describe("lookupDomain", function () {
   const domainId = "146663";

@@ -1,13 +1,13 @@
 import { transformFormValuesToEntityPermissionPolicies } from "../../../src/channels/_internal/transformFormValuesToEntityPermissionPolicies";
-import {
-  COLLABORATION_TYPES,
-  IEntityPermissionPolicy,
-} from "../../../src/permissions/types";
 import { IHubRoleConfigValue } from "../../../src/channels/_internal/transformEntityPermissionPoliciesToFormValues";
 import {
   CHANNEL_PERMISSIONS,
   ChannelNonePermission,
 } from "../../../src/channels/_internal/ChannelBusinessRules";
+import {
+  COLLABORATION_TYPES,
+  IEntityPermissionPolicy,
+} from "../../../src/permissions/types/IEntityPermissionPolicy";
 
 describe("transformFormValuesToEntityPermissionPolicies", () => {
   it("should transform an array of IHubRoleConfig objects to an array of IEntityPermissionPolicy objects", () => {

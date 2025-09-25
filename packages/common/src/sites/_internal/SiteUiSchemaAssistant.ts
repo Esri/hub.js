@@ -1,5 +1,5 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { IHubSite } from "../../core";
+import { IHubSite } from "../../core/types/IHubSite";
 import { IUiSchema } from "../../core/schemas/types";
 
 /**

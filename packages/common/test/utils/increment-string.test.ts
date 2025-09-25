@@ -1,4 +1,4 @@
-import { incrementString } from "../../src";
+import { incrementString } from "../../src/utils/increment-string";
 
 describe("incrementString", () => {
   it("increments a string", async () => {

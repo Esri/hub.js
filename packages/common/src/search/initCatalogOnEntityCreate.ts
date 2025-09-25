@@ -2,7 +2,8 @@ import { IHubItemEntity } from "../core/types/IHubItemEntity";
 import { getWellKnownGroup } from "../groups/getWellKnownGroup";
 import { createHubGroup } from "../groups/HubGroups";
 import { IArcGISContext } from "../types/IArcGISContext";
-import { ICatalogSetup, IHubCatalog } from "./types";
+import { IHubCatalog } from "./types/IHubCatalog";
+import { ICatalogSetup } from "./types/types";
 import { CATALOG_SCHEMA_VERSION } from "./upgradeCatalogSchema";
 
 /**

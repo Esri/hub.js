@@ -1,13 +1,13 @@
-import { ensureUniqueString } from "../../src";
+import { ensureUniqueString } from "../../src/utils/ensure-unique-string";
 
-describe("ensureUniqueString", function() {
-  it("returns unmodified string when unique", function() {
+describe("ensureUniqueString", function () {
+  it("returns unmodified string when unique", function () {
     const entries = ["apple", "orange", "grape", "cherry"];
     const res = ensureUniqueString(entries, "pineapple");
     expect(res).toEqual("pineapple");
   });
 
-  it("adds appropriate number to string when not unique", function() {
+  it("adds appropriate number to string when not unique", function () {
     const res = ensureUniqueString(
       ["apple", "orange", "grape", "cherry"],
       "cherry"

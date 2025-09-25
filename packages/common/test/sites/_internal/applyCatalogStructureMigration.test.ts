@@ -1,6 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import { applyCatalogStructureMigration } from "../../../src/sites/_internal/applyCatalogStructureMigration";
-import { IModel } from "../../../src";
+import { IModel } from "../../../src/hub-types";
 
 describe("applyCatalogStructureMigration:", () => {
   it("adds a catalog based off the old structure", () => {

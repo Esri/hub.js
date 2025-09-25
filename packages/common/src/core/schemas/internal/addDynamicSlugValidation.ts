@@ -2,7 +2,7 @@ import { JSONSchema } from "json-schema-typed";
 import { getSlugMaxLength } from "../../../items/_internal/slugs";
 import { cloneObject } from "../../../util";
 import { HubEntity } from "../../types/HubEntity";
-import { IWithSlug } from "../../traits";
+import { IWithSlug } from "../../traits/IWithSlug";
 import { IConfigurationSchema } from "../types";
 import { EditorOptions } from "./EditorOptions";
 

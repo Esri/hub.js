@@ -1,5 +1,4 @@
 import { IHubUserRequestOptions } from "../hub-types";
-import { ICreateVersionOptions, IVersion } from "./types";
 import { getIncludeListFromItemType } from "./_internal/getIncludeListFromItemType";
 import { getVersionData } from "./_internal/getVersionData";
 import { getPrefix } from "./_internal/getPrefix";
@@ -13,6 +12,8 @@ import {
   VERSION_RESOURCE_PROPERTIES,
 } from "./_internal/constants";
 import { addItemResource } from "@esri/arcgis-rest-portal";
+import { ICreateVersionOptions } from "./types/ICreateVersionOptions";
+import { IVersion } from "./types/IVersion";
 
 /**
  * Creates and returns a new version of the entity

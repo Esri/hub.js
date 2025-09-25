@@ -1,5 +1,5 @@
-import { IArcGISContext } from "../../../src";
-import { IPermissionPolicy } from "../../../src/permissions/types";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
 import { checkPrivileges } from "../../../src/permissions/_internal/checkPrivileges";
 
 describe("checkPrivileges:", () => {

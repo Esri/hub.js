@@ -1,5 +1,5 @@
+import { updateItem } from "../rest/portal/wrappers";
 import { fetchImageAsBlob } from "./fetch-image-as-blob";
-import { updateItem } from "../rest/portal";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 /**

@@ -1,5 +1,5 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
-import { applyPropertiesToItems } from "../../src";
+import { applyPropertiesToItems } from "../../src/items/apply-properties-to-items";
 
 describe("applyPropertiesToItems", () => {
   it("applyPropertiesToItems", () => {

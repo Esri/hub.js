@@ -7,7 +7,7 @@ import {
 import {
   canEditPostStatus,
   canModifyPostStatus,
-} from "../../../../../src/discussions/api//utils/posts";
+} from "../../../../../src/discussions/api/utils/posts/can-edit-post-status";
 
 describe("canModifyPostStatus", () => {
   describe("With Legacy Permissions", () => {

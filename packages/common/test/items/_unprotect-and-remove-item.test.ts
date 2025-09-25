@@ -1,6 +1,6 @@
-import { _unprotectAndRemoveItem } from "../../src";
 import * as portal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../test-helpers/fake-user-session";
+import { _unprotectAndRemoveItem } from "../../src/items/_unprotect-and-remove-item";
 
 describe("_unprotectAndRemoveItem", function () {
   it("unprotects and removes a group", async function () {
@@ -32,7 +32,6 @@ describe("_unprotectAndRemoveItem", function () {
         authentication: mockUserSession,
       });
     } catch (_) {
-      const error = _ as { message?: string };
       fail(Error("function rejected"));
     }
 

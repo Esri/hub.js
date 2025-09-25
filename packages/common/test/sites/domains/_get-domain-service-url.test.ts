@@ -1,4 +1,4 @@
-import { _getDomainServiceUrl } from "../../../src/sites/domains";
+import { _getDomainServiceUrl } from "../../../src/sites/domains/_get-domain-service-url";
 
 describe("_getDomainServiceUrl", function () {
   it("gets the url", function () {

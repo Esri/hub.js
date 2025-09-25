@@ -3,7 +3,7 @@ import {
   IDiscussionsUser,
   IPost,
 } from "../../../../../src/discussions/api//types";
-import { canEditPostV2 } from "../../../../../src/discussions/api//utils/posts";
+import { canEditPostV2 } from "../../../../../src/discussions/api//utils/posts/can-edit-post-v2";
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
 
 describe("canEditPostV2", () => {

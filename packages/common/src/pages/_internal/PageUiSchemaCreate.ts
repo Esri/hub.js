@@ -1,6 +1,7 @@
 import { IUiSchema } from "../../core/schemas/types";
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { IHubPage } from "../../core/types";
+import { IHubPage } from "../../core/types/IHubPage";
+import { getLayoutSetupUiSchemaElement } from "../../core/schemas/internal/getLayoutSetupUiSchemaElement";
 
 /**
  * @private
@@ -8,12 +9,13 @@ import { IHubPage } from "../../core/types";
  * This defines how the schema properties should be
  * rendered in the page editing experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
-  options: Partial<IHubPage>,
-  context: IArcGISContext
+  _options: Partial<IHubPage>,
+  _context: IArcGISContext
+  // eslint-disable-next-line @typescript-eslint/require-await
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -43,6 +45,7 @@ export const buildUiSchema = async (
           ],
         },
       },
+      ...getLayoutSetupUiSchemaElement(i18nScope),
     ],
-  };
+  });
 };

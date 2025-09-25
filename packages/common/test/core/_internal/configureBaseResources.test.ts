@@ -1,5 +1,5 @@
-import { EntityResourceMap } from "../../../src/core/types";
 import { configureBaseResources } from "../../../src/core/_internal/configureBaseResources";
+import { EntityResourceMap } from "../../../src/core/types/types";
 
 describe("configureBaseResources:", () => {
   it("takes a resources object and returns an array of objects with a filename and resource", () => {

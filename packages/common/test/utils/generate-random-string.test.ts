@@ -1,7 +1,7 @@
-import { generateRandomString } from "../../src";
+import { generateRandomString } from "../../src/utils/generate-random-string";
 
-describe("generateRandomString", function() {
-  it("generates a random string", function() {
+describe("generateRandomString", function () {
+  it("generates a random string", function () {
     const numChars = 23;
     const str1 = generateRandomString(numChars);
     const str2 = generateRandomString(numChars);

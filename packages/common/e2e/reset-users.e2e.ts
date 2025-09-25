@@ -4,10 +4,10 @@ import {
 } from "@esri/arcgis-rest-request";
 import { resetConfig } from "./fixtures/resetConfig";
 import { request } from "@esri/arcgis-rest-request";
-import { getProp } from "../src";
 
 // NOTE: Need to swap this out for a real env file!
 import { adminInfo } from "./fixtures/env-example";
+import { getProp } from "../src/objects/get-prop";
 // import { adminInfo } from "./fixtures/env";
 
 /* tslint:disable:no-string-literal */
@@ -84,7 +84,7 @@ function resetPassword(
   username: string,
   password: string,
   newPassword: string,
-  dry: boolean = false
+  dry = false
 ) {
   const url = `${session.portal}/community/users/${username}/reset`;
   const options: IUserRequestOptions = {

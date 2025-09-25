@@ -1,4 +1,4 @@
-import { HubEntityType } from "../../core/types";
+import { HubEntityType } from "../../core/types/HubEntityType";
 import { IHubAssociationHierarchy } from "../../associations/types";
 import { ProjectAssociationHierarchies } from "../../projects/_internal/ProjectAssociationHierarchies";
 import { InitiativeAssociationHierarchies } from "../../initiatives/_internal/InitiativeAssociationHierarchies";

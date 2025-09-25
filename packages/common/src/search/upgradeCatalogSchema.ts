@@ -1,12 +1,12 @@
-import { getProp } from "../objects";
+import { getProp } from "../objects/get-prop";
 import { cloneObject } from "../util";
 import {
-  EntityType,
-  ICatalogScope,
-  IHubCatalog,
   IPredicate,
+  EntityType,
+  IHubCatalog,
+  ICatalogScope,
   IQuery,
-} from "./types";
+} from "./types/IHubCatalog";
 
 // The current catalog schema version
 export const CATALOG_SCHEMA_VERSION = 1.0;

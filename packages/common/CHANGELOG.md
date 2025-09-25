@@ -1,3 +1,31 @@
+# @esri/hub-common [20.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.9.0...@esri/hub-common@20.10.0) (2025-09-24)
+
+
+### Features
+
+* add layout selection option during site and page creation ([#1996](https://github.com/Esri/hub.js/issues/1996)) ([7fed265](https://github.com/Esri/hub.js/commit/7fed26544b58e37154213c5cf4f3cef05aa7fbed))
+
+# @esri/hub-common [20.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.1...@esri/hub-common@20.9.0) (2025-09-23)
+
+
+### Features
+
+* **hub-common:** add schemas for consolidated embed layout card editor ([#1993](https://github.com/Esri/hub.js/issues/1993)) ([8abc7cf](https://github.com/Esri/hub.js/commit/8abc7cfc059cc3d57a1b70c7d1deb768c4c2dfd1))
+
+## @esri/hub-common [20.8.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.0...@esri/hub-common@20.8.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* 13240 add location to initiative template ([#1995](https://github.com/Esri/hub.js/issues/1995)) ([72d9c79](https://github.com/Esri/hub.js/commit/72d9c79679e61c02e67b486636388878d3bcc776))
+
+# @esri/hub-common [20.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.7.0...@esri/hub-common@20.8.0) (2025-09-22)
+
+
+### Features
+
+* **hub-common:** add support for setting the layer style type on feature service content ([#1997](https://github.com/Esri/hub.js/issues/1997)) ([1953719](https://github.com/Esri/hub.js/commit/1953719190d04f099f679f7ea59240b2398b7a1a))
+
 # @esri/hub-common [20.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.1...@esri/hub-common@20.7.0) (2025-09-22)
 
 

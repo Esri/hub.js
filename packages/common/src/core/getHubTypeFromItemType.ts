@@ -1,5 +1,6 @@
 import { getTypeFromEntity } from "./getTypeFromEntity";
-import { HubEntityType, HubEntity } from "./types";
+import { HubEntity } from "./types/HubEntity";
+import { HubEntityType } from "./types/HubEntityType";
 
 /**
  * Given an item type, return its HubEntityType

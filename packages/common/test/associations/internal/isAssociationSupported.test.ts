@@ -1,4 +1,4 @@
-import { HubEntityType } from "../../../src/core/types";
+import { HubEntityType } from "../../../src/core/types/HubEntityType";
 import { isAssociationSupported } from "../../../src/associations/internal/isAssociationSupported";
 import * as getAssociationHierarchyModule from "../../../src/associations/internal/getAssociationHierarchy";
 

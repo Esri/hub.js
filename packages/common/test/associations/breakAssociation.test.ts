@@ -1,9 +1,10 @@
-import { ArcGISContext, cloneObject } from "../../src";
 import { breakAssociation } from "../../src/associations/breakAssociation";
 import { MOCK_CHILD_ENTITY, MOCK_PARENT_ENTITY } from "./fixtures";
 import * as RestPortalModule from "@esri/arcgis-rest-portal";
-import * as CoreModule from "../../src/core";
+import * as fetchHubEntityModule from "../../src/core/fetchHubEntity";
 import * as UpdateHubEntityModule from "../../src/core/updateHubEntity";
+import { cloneObject } from "../../src/util";
+import { ArcGISContext } from "../../src/ArcGISContext";
 
 describe("breakAssociation", () => {
   let unshareItemWithGroupSpy: jasmine.Spy;
@@ -15,9 +16,10 @@ describe("breakAssociation", () => {
       RestPortalModule,
       "unshareItemWithGroup"
     ).and.returnValue(Promise.resolve());
-    fetchHubEntitySpy = spyOn(CoreModule, "fetchHubEntity").and.returnValue(
-      Promise.resolve({ owner: "mock-owner" })
-    );
+    fetchHubEntitySpy = spyOn(
+      fetchHubEntityModule,
+      "fetchHubEntity"
+    ).and.returnValue(Promise.resolve({ owner: "mock-owner" }));
     updateHubEntitySpy = spyOn(
       UpdateHubEntityModule,
       "updateHubEntity"

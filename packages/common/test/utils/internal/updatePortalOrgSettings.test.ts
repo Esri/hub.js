@@ -1,6 +1,6 @@
 import * as requestModule from "@esri/arcgis-rest-request";
 import { updatePortalOrgSettings } from "../../../src/utils/internal/updatePortalOrgSettings";
-import { IArcGISContext } from "../../../src";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("updatePortalOrgSettings", () => {
   it("throws an error if there is no current user on the context object", async () => {

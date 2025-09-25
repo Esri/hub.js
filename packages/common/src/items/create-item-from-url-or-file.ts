@@ -6,10 +6,11 @@ import {
   shareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import type { IGroup, IItemAdd } from "@esri/arcgis-rest-portal";
-import { failSafe, isUpdateGroup } from "../utils";
 import { createItemFromFile } from "./create-item-from-file";
 import { createItemFromUrl } from "./create-item-from-url";
 import { _waitForItemReady } from "./_internal/_wait-for-item-ready";
+import { failSafe } from "../utils/fail-safe";
+import { isUpdateGroup } from "../utils/is-update-group";
 
 interface ICreateItemFromUrlOrFileOptions extends IUserRequestOptions {
   item: IItemAdd;

@@ -1,70 +1,68 @@
-import { getItem } from "@esri/arcgis-rest-portal";
-import {
-  lookupDomain,
-  deleteSite,
-  removeDomain,
-  IArcGISContext,
-  failSafe,
-} from "../src";
-let count = 0;
-async function processDomain(cfg: {
-  domain: string;
-  context: IArcGISContext;
-}): Promise<{ domain: string; state: string[] }> {
-  const result = {
-    domain: cfg.domain,
-    state: [] as string[],
-  };
-  // setup the functions with failsafe so we dont rely on try/catch
-  const fsLookupDomain = failSafe(lookupDomain, null);
-  const fsGetItem = failSafe(getItem, null);
-  const fsDeleteSite = failSafe(deleteSite, null);
-  const fsRemoveDomain = failSafe(removeDomain, null);
-  // get the domain record
-  const domainInfo = await fsLookupDomain(
-    cfg.domain,
-    cfg.context.hubRequestOptions
-  );
-  if (domainInfo) {
-    // try to get the item
-    result.state.push(`${cfg.domain}: domain exists`);
-    const siteItem = await fsGetItem(
-      domainInfo.siteId,
-      cfg.context.requestOptions
-    );
-    if (siteItem) {
-      result.state.push(`${cfg.domain}: site item exists`);
-      // console.log(`Site item ${siteItem.id} exists - removing`);
-      // got the site item
-      // delete the site
-      await fsDeleteSite(siteItem.id, cfg.context.requestOptions);
-      // delete the domain
-      await fsRemoveDomain(domainInfo.id, cfg.context.hubRequestOptions);
-    } else {
-      result.state.push(`${cfg.domain}: site item does not exist`);
-      // no site item
-      // remove the domain
-      await fsRemoveDomain(domainInfo.id, cfg.context.hubRequestOptions);
-    }
-    // verify domain is gone
-    // const chk = await fsLookupDomain(
-    //   config.domain,
-    //   config.context.hubRequestOptions
-    // );
-    // if (chk) {
-    //   result.state.push(`${config.domain}: domain not removed`);
-    //   console.warn(`Domain ${config.domain} is still exists`);
-    // } else {
-    //   result.state.push(`${config.domain}: domain removed `);
-    // }
-  } else {
-    // no domain record
-    result.state.push(`${cfg.domain}: domain record does not exist  `);
-  }
-  count++;
-  // console.log(`Processed ${count} domains`);
-  return result;
-}
+// import { getItem } from "@esri/arcgis-rest-portal";
+// import { IArcGISContext } from "../src/types/IArcGISContext";
+// import { failSafe } from "../src/utils/fail-safe";
+// import { lookupDomain } from "../src/sites/domains/lookup-domain";
+// import { deleteSite } from "../src/sites/HubSites";
+// import { removeDomain } from "../src/sites/domains/remove-domain";
+// let count = 0;
+// async function processDomain(cfg: {
+//   domain: string;
+//   context: IArcGISContext;
+// }): Promise<{ domain: string; state: string[] }> {
+//   const result = {
+//     domain: cfg.domain,
+//     state: [] as string[],
+//   };
+//   // setup the functions with failsafe so we dont rely on try/catch
+//   const fsLookupDomain = failSafe(lookupDomain, null);
+//   const fsGetItem = failSafe(getItem, null);
+//   const fsDeleteSite = failSafe(deleteSite, null);
+//   const fsRemoveDomain = failSafe(removeDomain, null);
+//   // get the domain record
+//   const domainInfo = await fsLookupDomain(
+//     cfg.domain,
+//     cfg.context.hubRequestOptions
+//   );
+//   if (domainInfo) {
+//     // try to get the item
+//     result.state.push(`${cfg.domain}: domain exists`);
+//     const siteItem = await fsGetItem(
+//       domainInfo.siteId,
+//       cfg.context.requestOptions
+//     );
+//     if (siteItem) {
+//       result.state.push(`${cfg.domain}: site item exists`);
+//       // console.log(`Site item ${siteItem.id} exists - removing`);
+//       // got the site item
+//       // delete the site
+//       await fsDeleteSite(siteItem.id, cfg.context.requestOptions);
+//       // delete the domain
+//       await fsRemoveDomain(domainInfo.id, cfg.context.hubRequestOptions);
+//     } else {
+//       result.state.push(`${cfg.domain}: site item does not exist`);
+//       // no site item
+//       // remove the domain
+//       await fsRemoveDomain(domainInfo.id, cfg.context.hubRequestOptions);
+//     }
+//     // verify domain is gone
+//     // const chk = await fsLookupDomain(
+//     //   config.domain,
+//     //   config.context.hubRequestOptions
+//     // );
+//     // if (chk) {
+//     //   result.state.push(`${config.domain}: domain not removed`);
+//     //   console.warn(`Domain ${config.domain} is still exists`);
+//     // } else {
+//     //   result.state.push(`${config.domain}: domain removed `);
+//     // }
+//   } else {
+//     // no domain record
+//     result.state.push(`${cfg.domain}: domain record does not exist  `);
+//   }
+//   count++;
+//   // console.log(`Processed ${count} domains`);
+//   return result;
+// }
 
 // describe("Purge Orphan Domains", () => {
 //   let factory: Artifactory;

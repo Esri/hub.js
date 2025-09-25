@@ -1,8 +1,6 @@
-import {
-  getTypeFromEntity,
-  getHubTypeFromItemType,
-  HubEntity,
-} from "../../src/core";
+import { getHubTypeFromItemType } from "../../src/core/getHubTypeFromItemType";
+import { getTypeFromEntity } from "../../src/core/getTypeFromEntity";
+import { HubEntity } from "../../src/core/types/HubEntity";
 
 describe("getTypeFromEntity:", () => {
   it("defaults to undefined", () => {

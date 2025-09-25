@@ -1,5 +1,6 @@
+import { IGeometryInstance } from "../core/types/IGeometryInstance";
+import { IHubEditableContent } from "../core/types/IHubEditableContent";
 import type { IArcGISContext } from "../types/IArcGISContext";
-import { IHubEditableContent, IGeometryInstance } from "../core/types";
 
 /**
  * This hash map was defined to support the previous implementation of the export item flow.

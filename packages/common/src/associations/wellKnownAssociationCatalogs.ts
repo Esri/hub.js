@@ -1,6 +1,7 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
-import { getTypeFromEntity } from "../core";
-import { HubEntity, HubEntityType } from "../core/types";
+import { getTypeFromEntity } from "../core/getTypeFromEntity";
+import { HubEntity } from "../core/types/HubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
 import { buildCatalog } from "../search/_internal/buildCatalog";
 import { getEntityTypeFromType } from "../search/_internal/getEntityTypeFromType";
 import { getAssociatedEntitiesQuery } from "./getAssociatedEntitiesQuery";
@@ -8,7 +9,6 @@ import { getPendingEntitiesQuery } from "./getPendingEntitiesQuery";
 import { getAvailableToRequestEntitiesQuery } from "./getAvailableToRequestEntitiesQuery";
 import { getRequestingEntitiesQuery } from "./getRequestingEntitiesQuery";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
-import { IHubCatalog, IQuery } from "../search/types";
 import {
   IGetWellKnownCatalogOptions,
   WellKnownCatalog,
@@ -17,6 +17,7 @@ import {
   getWellKnownCatalog,
   getWellknownCollection,
 } from "../search/wellKnownCatalog";
+import { IHubCatalog, IQuery } from "../search/types/IHubCatalog";
 
 /**
  * Supported association catalogs that can be requested.

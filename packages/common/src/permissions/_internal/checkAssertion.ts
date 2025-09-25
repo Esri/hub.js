@@ -1,9 +1,11 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { getProp } from "../../objects";
-import { mapBy } from "../../utils";
-import { IPolicyAssertion, IPolicyCheck, PolicyResponse } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
+import { getProp } from "../../objects/get-prop";
+import { mapBy } from "../../utils/map-by";
+import { IPolicyAssertion } from "../types/IPermissionPolicy";
+import { IPolicyCheck } from "../types/IPolicyCheck";
+import { PolicyResponse } from "../types/PolicyResponse";
 
 /**
  * Check a specific EntityAssertion
@@ -82,7 +84,9 @@ export function checkAssertion(
   }
 
   const result: IPolicyCheck = {
-    name: `assertion: ${assertion.property} ${assertion.type} ${assertion.value}`,
+    name: `assertion: ${assertion.property} ${assertion.type} ${JSON.stringify(
+      assertion.value
+    )}`,
     value: propValue,
     code: getPolicyResponseCode(response),
     response,
@@ -170,7 +174,7 @@ function includeAssertions(
   if (!Array.isArray(val)) {
     response = "property-not-array";
   } else {
-    const arrayVal = val as any[];
+    const arrayVal = val;
     if (!arrayVal.includes(propValue)) {
       response = "array-missing-required-value";
     }
@@ -296,7 +300,7 @@ function arrayAssertions(
   if (!Array.isArray(propValue)) {
     response = "property-not-array";
   } else {
-    const arrayProp = propValue as any[];
+    const arrayProp = propValue;
     if (assertion.type === "contains") {
       if (Array.isArray(val)) {
         const containsAll = val.every((v) => arrayProp.includes(v));

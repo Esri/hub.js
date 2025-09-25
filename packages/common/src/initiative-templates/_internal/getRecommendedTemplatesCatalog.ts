@@ -1,4 +1,4 @@
-import { IHubCollection } from "../../search";
+import { IHubCollection } from "../../search/types/IHubCatalog";
 import {
   getWellKnownCatalog,
   WellKnownCatalog,

@@ -9,20 +9,18 @@ import { updateInitiativeTemplate } from "../initiative-templates/edit";
 import { updateTemplate } from "../templates/edit";
 import { updateHubEvent } from "../events/edit";
 import { updateHubGroup } from "../groups/HubGroups";
-import {
-  HubEntity,
-  HubEntityType,
-  IHubDiscussion,
-  IHubEditableContent,
-  IHubInitiative,
-  IHubProject,
-  IHubSite,
-  IHubPage,
-  IHubInitiativeTemplate,
-  IHubTemplate,
-  IHubGroup,
-  IHubEvent,
-} from "./types";
+import { HubEntity } from "./types/HubEntity";
+import { HubEntityType } from "./types/HubEntityType";
+import { IHubDiscussion } from "./types/IHubDiscussion";
+import { IHubEditableContent } from "./types/IHubEditableContent";
+import { IHubEvent } from "./types/IHubEvent";
+import { IHubGroup } from "./types/IHubGroup";
+import { IHubInitiative } from "./types/IHubInitiative";
+import { IHubInitiativeTemplate } from "./types/IHubInitiativeTemplate";
+import { IHubPage } from "./types/IHubPage";
+import { IHubProject } from "./types/IHubProject";
+import { IHubSite } from "./types/IHubSite";
+import { IHubTemplate } from "./types/IHubTemplate";
 
 /**
  * centralized function to update a Hub entity - delegates

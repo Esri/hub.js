@@ -1,14 +1,14 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { getItemThumbnailUrl } from "../../resources";
-import { IHubProject } from "../../core";
 import { IModel } from "../../hub-types";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
-import { upgradeCatalogSchema } from "../../search";
 import { applyProjectMigrations } from "./applyProjectMigrations";
+import { IHubProject } from "../../core/types/IHubProject";
+import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
+import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped

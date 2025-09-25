@@ -1,4 +1,4 @@
-import { HubEnvironment } from "../permissions";
+import { HubEnvironment } from "../permissions/types/IPermissionPolicy";
 
 export function getEnvironmentFromPortalUrl(portalUrl: string): HubEnvironment {
   // default to enterprise because we don't know the patterns for that

@@ -1,10 +1,16 @@
 import type { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { getFamilyTypes } from "../content/get-family";
 import { HubFamily } from "../hub-types";
-import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";
 import { buildCatalog } from "./_internal/buildCatalog";
-import { getProp, getWithDefault } from "../objects";
 import type { IArcGISContext } from "../types/IArcGISContext";
+import { getProp } from "../objects/get-prop";
+import { getWithDefault } from "../objects/get-with-default";
+import {
+  IFilter,
+  EntityType,
+  IHubCatalog,
+  IHubCollection,
+} from "./types/IHubCatalog";
 
 /** well-known item catalogs */
 export const WELL_KNOWN_ITEM_CATALOGS = [

@@ -1,14 +1,14 @@
 import {
   IInviteGroupUsersResult,
-  ICreateOrgNotificationResult
+  ICreateOrgNotificationResult,
 } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import {
-  cloneObject,
-  IAddMemberContext,
-  IConsolidatedResult
-} from "../../../../src";
 import { _consolidateResults } from "../../../../src/groups/add-users-workflow/output-processors/_consolidate-results";
+import {
+  IAddMemberContext,
+  IConsolidatedResult,
+} from "../../../../src/groups/add-users-workflow/interfaces";
+import { cloneObject } from "../../../../src/util";
 
 describe("_consolidateResults", () => {
   const baseContext: IAddMemberContext = {
@@ -18,7 +18,7 @@ describe("_consolidateResults", () => {
     usersToEmail: [],
     usersToInvite: [],
     requestingUser: null,
-    primaryRO: null
+    primaryRO: null,
   };
 
   it("Properly creates a successful response", () => {
@@ -31,14 +31,14 @@ describe("_consolidateResults", () => {
       success: true,
       autoAdd: { success: true },
       invite: { success: true },
-      email: undefined
+      email: undefined,
     };
     expect(actual).toEqual(expected);
   });
 
   it("Properly creates a failed response", () => {
     const inviteResponse: IInviteGroupUsersResult = {
-      success: true
+      success: true,
     };
     const primaryEmailError = new ArcGISRequestError("Primary email not sent");
     const secondaryEmailError = new ArcGISRequestError(
@@ -49,11 +49,11 @@ describe("_consolidateResults", () => {
     context.inviteResult = inviteResponse;
     context.primaryEmailResult = {
       success: false,
-      errors: [primaryEmailError]
+      errors: [primaryEmailError],
     };
     context.secondaryEmailResult = {
       success: false,
-      errors: [secondaryEmailError]
+      errors: [secondaryEmailError],
     };
 
     const actual = _consolidateResults(context);
@@ -63,19 +63,19 @@ describe("_consolidateResults", () => {
       invite: inviteResponse,
       email: {
         success: false,
-        errors: [primaryEmailError, secondaryEmailError]
-      }
+        errors: [primaryEmailError, secondaryEmailError],
+      },
     };
     expect(actual).toEqual(expected);
   });
 
   it("Properly handles when one email response is null", () => {
     const inviteResponse: IInviteGroupUsersResult = {
-      success: true
+      success: true,
     };
     const secondaryEmailResult: ICreateOrgNotificationResult = {
       success: false,
-      errors: [new ArcGISRequestError("Secondary email not sent")]
+      errors: [new ArcGISRequestError("Secondary email not sent")],
     };
 
     const context = cloneObject(baseContext);
@@ -87,23 +87,23 @@ describe("_consolidateResults", () => {
       success: false,
       autoAdd: undefined,
       invite: inviteResponse,
-      email: secondaryEmailResult
+      email: secondaryEmailResult,
     };
     expect(actual).toEqual(expected);
   });
 
   it("Properly handles when neither emails have errors", () => {
     const inviteResponse: IInviteGroupUsersResult = {
-      success: true
+      success: true,
     };
     const primaryEmailResult: ICreateOrgNotificationResult = {
-      success: true
+      success: true,
     };
     const secondaryEmailResult: ICreateOrgNotificationResult = {
-      success: true
+      success: true,
     };
     const combinedEmailResult: ICreateOrgNotificationResult = {
-      success: true
+      success: true,
     };
 
     const context = cloneObject(baseContext);
@@ -116,7 +116,7 @@ describe("_consolidateResults", () => {
       success: true,
       autoAdd: undefined,
       invite: inviteResponse,
-      email: combinedEmailResult
+      email: combinedEmailResult,
     };
     expect(actual).toEqual(expected);
   });

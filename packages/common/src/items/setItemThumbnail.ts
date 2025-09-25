@@ -1,5 +1,5 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
-import { updateItem } from "../rest/portal";
+import { updateItem } from "../rest/portal/wrappers";
 import HubError from "../HubError";
 
 /**

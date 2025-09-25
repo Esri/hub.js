@@ -5,7 +5,10 @@ import {
   ServiceDownloadFormat,
 } from "../../../../src/downloads/types";
 import { fetchExportImageDownloadFile } from "../../../../src/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFile";
-import { IHubEditableContent, IServiceExtendedProps } from "../../../../src";
+import {
+  IHubEditableContent,
+  IServiceExtendedProps,
+} from "../../../../src/core/types/IHubEditableContent";
 
 describe("fetchExportImageDownloadFile", () => {
   it("should call progressCallback with PENDING statuses", async () => {

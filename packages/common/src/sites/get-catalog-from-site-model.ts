@@ -1,5 +1,5 @@
-import { IHubCatalog } from "../search";
 import { IModel } from "../hub-types";
+import { IHubCatalog } from "../search/types/IHubCatalog";
 import { cloneObject } from "../util";
 import { applyCatalogStructureMigration } from "./_internal/applyCatalogStructureMigration";
 import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";

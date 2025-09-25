@@ -9,7 +9,7 @@ import {
   initiativeTemplateToCardModel,
   initiativeTemplateResultToCardModel,
 } from "../../src/initiative-templates/view";
-import { cloneObject } from "../../src";
+import { cloneObject } from "../../src/util";
 
 describe("initiative template view module:", () => {
   let getShortenedCategoriesSpy: any;
@@ -151,9 +151,7 @@ describe("initiative template view module:", () => {
           },
           {
             i18nKey: "tags",
-            value: INITIATIVE_TEMPLATE_HUB_SEARCH_RESULT.tags?.join(
-              ", "
-            ) as string,
+            value: INITIATIVE_TEMPLATE_HUB_SEARCH_RESULT.tags?.join(", "),
           },
           { i18nKey: "categories", value: "category1, category2" },
           {

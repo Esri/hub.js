@@ -1,4 +1,4 @@
-import { getObjectSize } from "../../src";
+import { getObjectSize } from "../../src/utils/getObjectSize";
 
 describe("getObjectSize:", () => {
   it("returns size in b, kb, mb", () => {

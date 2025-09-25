@@ -1,4 +1,4 @@
-import { getProp } from "../../src/objects";
+import { getProp } from "../../src/objects/get-prop";
 import { processActionLink } from "../../src/core/processActionLinks";
 import {
   HubActionLink,
@@ -117,7 +117,7 @@ describe("processActionLink", () => {
       await processActionLink(mockLink, {});
     } catch (ex) {
       expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-      expect((ex as any).message).toBe("Unable to fetch entity: 00c");
+      expect(ex.message).toBe("Unable to fetch entity: 00c");
     }
   });
 });

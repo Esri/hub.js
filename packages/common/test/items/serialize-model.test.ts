@@ -1,7 +1,8 @@
-import { IModel, serializeModel } from "../../src";
+import { IModel } from "../../src/hub-types";
+import { serializeModel } from "../../src/models/serializeModel";
 
-describe("serializeModel", function() {
-  it("serializes the model", function() {
+describe("serializeModel", function () {
+  it("serializes the model", function () {
     const model: IModel = {
       item: {
         id: "someId",
@@ -12,9 +13,9 @@ describe("serializeModel", function() {
         numViews: 3,
         size: 3,
         title: "title",
-        type: "Hub Site Application"
+        type: "Hub Site Application",
       },
-      data: { foo: "bar", baz: { boop: "beep" } }
+      data: { foo: "bar", baz: { boop: "beep" } },
     };
 
     const serialized = serializeModel(model);

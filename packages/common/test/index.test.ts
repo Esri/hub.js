@@ -2,16 +2,15 @@ import * as hubCommon from "../src";
 
 /**
  * Skipping this test b/c it passes 100% of the time when running locally via `npm run test:node`
- * but fails 100% of the time in CI. Specifically, when it runs in CI, this test suggests some exported
- * members are not importable.
+ * but fails 100% of the time running `npm run test:chrome`. Specifically, when run in chrome, this
+ * test suggests some exported members are not importable.
  *
- * I highly suspect this is related to cyclic dependencies within this package, our current export strategy/order,
- * or a combination of both. We should revisit unskipping this test once cyclic deps are eliminated from hub-common,
- * and again if/when we change our export strategy/order...
+ * The missing artifacts in chrome are from the newsletter modules
  */
 
-xdescribe("index", () => {
-  const expectedMembers = [
+describe("index", () => {
+  // exports that are consistent between both chrome and node
+  const COMMON_EXPORTS = [
     "OperationStack",
     "OperationError",
     "HubError",
@@ -81,6 +80,7 @@ xdescribe("index", () => {
     "modelToHubEditableContent",
     "HubContent",
     "enrichContentSearchResult",
+    "enrichImageSearchResult",
     "parseDatasetId",
     "isSlug",
     "addContextToSlug",
@@ -98,6 +98,7 @@ xdescribe("index", () => {
     "HUB_ITEM_ENTITY_TYPES",
     "HUB_ENTITY_TYPES",
     "PublisherSource",
+    "FeatureLayerStyle",
     "TIMELINE_STAGE_STATUSES",
     "isHubService",
     "ExpressionRelationships",
@@ -110,6 +111,7 @@ xdescribe("index", () => {
     "validStatCardEditorTypes",
     "validFollowCardEditorTypes",
     "validEventGalleryCardEditorTypes",
+    "validEmbedCardEditorTypes",
     "validDiscussionSettingsEditorTypes",
     "validCardEditorTypes",
     "validEditorTypes",
@@ -132,6 +134,7 @@ xdescribe("index", () => {
     "ENTITY_MAP_SCHEMA",
     "ENTITY_IMAGE_SCHEMA",
     "ENTITY_TIMELINE_SCHEMA",
+    "ENTITY_LAYOUT_SETUP_SCHEMA",
     "PRIVACY_CONFIG_SCHEMA",
     "SLUG_SCHEMA",
     "ENTITY_CATALOG_SETUP_SCHEMA",
@@ -745,8 +748,13 @@ xdescribe("index", () => {
     "getHubEntityTypeFromPath",
     "parseContainmentPath",
     "catalogContains",
+    "fetchCategoriesUiSchemaElement",
     "btoa",
     "atob",
+  ];
+
+  const NODE_EXPORTS = [
+    ...COMMON_EXPORTS,
     "ICreateEventMetadata",
     "ICreateTelemetryReportMetadata",
     "INotificationSpec",
@@ -760,9 +768,10 @@ xdescribe("index", () => {
     "ISchedulerNotificationSpec",
     "ISchedulerSubscription",
     "INotify",
-    "EntityOrOptions",
   ];
   const exportedMembers = Object.keys(hubCommon);
+  const expectedMembers =
+    typeof window === "undefined" ? NODE_EXPORTS : COMMON_EXPORTS;
 
   it("should export the expected number of artifacts", () => {
     expect(exportedMembers.length).toEqual(expectedMembers.length);

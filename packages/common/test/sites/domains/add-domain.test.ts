@@ -1,7 +1,8 @@
-import { IHubRequestOptions, getProp, IDomainEntry } from "../../../src";
-import { addDomain } from "../../../src/sites/domains";
+import { addDomain } from "../../../src/sites/domains/add-domain";
 import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
+import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
+import { getProp } from "../../../src/objects/get-prop";
 
 describe("addDomain", function () {
   const domainEntry = {

@@ -7,8 +7,8 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { checkPermission } from "../../permissions/checkPermission";
 import { getWellKnownGroup } from "../getWellKnownGroup";
-import { IHubGroup } from "../../core";
-import { getProp } from "../../objects";
+import { IHubGroup } from "../../core/types/IHubGroup";
+import { getProp } from "../../objects/get-prop";
 
 /**
  * @private

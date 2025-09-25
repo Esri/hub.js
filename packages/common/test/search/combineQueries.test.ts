@@ -1,5 +1,7 @@
 import { combineQueries } from "../../src/search/combineQueries";
-import { cloneObject, IQuery } from "../../src";
+import { IQuery } from "../../src/search/types/IHubCatalog";
+import { cloneObject } from "../../src/util";
+
 const harnessQueries: IQuery[] = [
   {
     targetEntity: "item",

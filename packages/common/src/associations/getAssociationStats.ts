@@ -1,7 +1,5 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { getTypeFromEntity } from "../core/getTypeFromEntity";
-import { HubEntity, HubEntityType } from "../core/types";
-import { IQuery } from "../search/types";
 import { hubSearch } from "../search/hubSearch";
 import { getAssociatedEntitiesQuery } from "./getAssociatedEntitiesQuery";
 import { getPendingEntitiesQuery } from "./getPendingEntitiesQuery";
@@ -9,6 +7,9 @@ import { getRequestingEntitiesQuery } from "./getRequestingEntitiesQuery";
 import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { IAssociationStats } from "./types";
+import { HubEntity } from "../core/types/HubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
+import { IQuery } from "../search/types/IHubCatalog";
 
 /**
  * get Entity A's association stats with Entity B:

@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../src";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { updateCommunityOrgSettings } from "../../../src/utils/internal/updateCommunityOrgSettings";
 import * as requestModule from "@esri/arcgis-rest-request";
 

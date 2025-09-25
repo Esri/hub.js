@@ -11,9 +11,9 @@ import type { IArcGISContext } from "../types/IArcGISContext";
 import { fetchHubGroup } from "../groups/HubGroups";
 import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 import { fetchEvent } from "../events/fetch";
-import { fetchHubUser } from "../users";
 import { fetchOrganization } from "../org/fetch";
 import { fetchHubChannel } from "../channels/fetch";
+import { fetchHubUser } from "../users/HubUsers";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)

@@ -1,15 +1,5 @@
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
-  ArcGISContextManager,
-  IUserHubSettings,
-  IUserSiteSettings,
-  UserResourceApp,
-  fetchUserHubSettings,
-  fetchUserSiteSettings,
-  updateUserHubSettings,
-  updateUserSiteSettings,
-} from "../src";
-import {
   IAddUserResource,
   getUserResource,
   listUserResources,
@@ -21,6 +11,16 @@ import config from "./helpers/config";
 import { getUser } from "@esri/arcgis-rest-portal";
 import { clearUserSiteSettings } from "../src/utils/internal/clearUserSiteSettings";
 import { clearUserHubSettings } from "../src/utils/internal/clearUserHubSettings";
+import { ArcGISContextManager } from "../src/ArcGISContextManager";
+import { UserResourceApp } from "../src/hub-types";
+import { IUserHubSettings } from "../src/utils/IUserHubSettings";
+import {
+  fetchUserHubSettings,
+  fetchUserSiteSettings,
+  updateUserHubSettings,
+  updateUserSiteSettings,
+} from "../src/utils/hubUserAppResources";
+import { IUserSiteSettings } from "../src/utils/IUserSiteSettings";
 /* tslint:disable:no-string-literal */
 // NOTE: User App Resources is coupled with oAuth
 // so we can't simply create a session via username / pwd
@@ -89,7 +89,7 @@ describe("user-app-resources harness: ", () => {
     xit("purge hub resources", async () => {
       // clean up janky hub resources
       const siteToken = contextMgr.context.tokenFor("self");
-      const username = contextMgr.context.currentUser.username as string;
+      const username = contextMgr.context.currentUser.username;
       const portalUrl = contextMgr.context.portalUrl;
       const list = await listUserResources(
         username,
@@ -141,14 +141,9 @@ describe("user-app-resources harness: ", () => {
 
       const siteToken = contextMgr.context.tokenFor("self");
       const portalUrl = contextMgr.context.portalUrl;
-      const username = contextMgr.context.currentUser.username as string;
+      const username = contextMgr.context.currentUser.username;
 
-      const list = await listUserResources(
-        username,
-        portalUrl,
-        siteToken,
-        true
-      );
+      await listUserResources(username, portalUrl, siteToken, true);
 
       await setUserResource(payload, username, portalUrl, siteToken);
 
@@ -187,7 +182,7 @@ describe("user-app-resources harness: ", () => {
 
       const hubToken = contextMgr.context.tokenFor("hubforarcgis");
       const portalUrl = contextMgr.context.portalUrl;
-      const username = contextMgr.context.currentUser.username as string;
+      const username = contextMgr.context.currentUser.username;
       await setUserResource(
         payload,
         username,
@@ -195,7 +190,7 @@ describe("user-app-resources harness: ", () => {
         hubToken
       );
 
-      const list = await listUserResources(username, portalUrl, hubToken, true);
+      await listUserResources(username, portalUrl, hubToken, true);
 
       // now fetch it back again
       const chk = await getUserResource(
@@ -231,7 +226,7 @@ describe("user-app-resources harness: ", () => {
       };
 
       const token = contextMgr.context.tokenFor("arcgisonline");
-      const username = contextMgr.context.currentUser.username as string;
+      const username = contextMgr.context.currentUser.username;
       await setUserResource(
         payload,
         username,
@@ -265,9 +260,9 @@ describe("user-app-resources harness: ", () => {
         username: "verify-overwrite",
       };
       const token = contextMgr.context.tokenFor("self");
-      const username = contextMgr.context.currentUser.username as string;
+      const username = contextMgr.context.currentUser.username;
       const portalUrl = contextMgr.context.portalUrl;
-      const list = await listUserResources(username, portalUrl, token, true);
+      await listUserResources(username, portalUrl, token, true);
       await updateUserSiteSettings(settings, contextMgr.context);
       // now get it back
       const chk = await fetchUserSiteSettings(contextMgr.context);
@@ -282,9 +277,9 @@ describe("user-app-resources harness: ", () => {
         username: "verify-overwrite",
       };
       const token = contextMgr.context.tokenFor("hubforarcgis");
-      const username = contextMgr.context.currentUser.username as string;
+      const username = contextMgr.context.currentUser.username;
       const portalUrl = contextMgr.context.portalUrl;
-      const list = await listUserResources(username, portalUrl, token, true);
+      await listUserResources(username, portalUrl, token, true);
       await updateUserHubSettings(settings, contextMgr.context);
       // now get it back
       const chk = await fetchUserHubSettings(contextMgr.context);

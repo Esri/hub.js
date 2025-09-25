@@ -9,13 +9,13 @@ import {
   IHubGeography,
   IEnrichmentErrorInfo,
 } from "../hub-types";
-import { isMapOrFeatureServerUrl } from "../urls";
 import { cloneObject } from "../util";
-import { includes } from "../utils";
+import { includes } from "../utils/includes";
 import { IHubExtent, normalizeItemType } from "./compose";
 import { getFamily } from "./get-family";
 import { parseDatasetId } from "./slugs";
 import { DatasetResource } from "./types";
+import { isMapOrFeatureServerUrl } from "../urls/feature-service-urls";
 
 // TODO: need to fetch data for client-side layer views as well
 // determine if we should fetch data for an item

@@ -2,7 +2,7 @@ import { getUniqueDomainNamePortal } from "./get-unique-domain-name-portal";
 import { getUniqueDomainName } from "./get-unique-domain-name";
 import { _ensureSafeDomainLength } from "./_ensure-safe-domain-length";
 import { IHubRequestOptions } from "../../hub-types";
-import { stripProtocol } from "../../urls";
+import { stripProtocol } from "../../urls/strip-protocol";
 import { getHubApiUrl } from "../../api";
 
 /**
@@ -19,9 +19,9 @@ export function ensureUniqueDomainName(
   if (hubRequestOptions.isPortal) {
     prms = getUniqueDomainNamePortal(subdomain, hubRequestOptions);
   } else {
-    const baseDomain = `${hubRequestOptions.portalSelf.urlKey}.${stripProtocol(
-      getHubApiUrl(hubRequestOptions)
-    )}`;
+    const baseDomain = `${
+      hubRequestOptions.portalSelf.urlKey as string
+    }.${stripProtocol(getHubApiUrl(hubRequestOptions))}`;
     prms = getUniqueDomainName(subdomain, baseDomain, hubRequestOptions);
   }
   return prms.then((uniqueDomain) => {

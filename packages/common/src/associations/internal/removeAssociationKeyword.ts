@@ -1,4 +1,4 @@
-import { HubEntityType } from "../../core/types";
+import { HubEntityType } from "../../core/types/HubEntityType";
 
 /**
  * when a child decides it wants to "disconnect" itself from

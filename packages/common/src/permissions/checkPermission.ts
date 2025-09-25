@@ -1,5 +1,4 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
-import { getProp, getWithDefault } from "../objects";
 import { checkLicense } from "./_internal/checkLicense";
 import { getPermissionPolicy } from "./HubPermissionPolicies";
 import { Permission } from "./types/Permission";
@@ -21,8 +20,10 @@ import { PolicyResponse } from "./types/PolicyResponse";
 import { IPolicyCheck } from "./types/IPolicyCheck";
 import { IEntityPermissionPolicy } from "./types/IEntityPermissionPolicy";
 import { IUserHubSettings } from "../utils/IUserHubSettings";
-import { Logger } from "../utils";
 import { IPermissionPolicy } from "./types/IPermissionPolicy";
+import { getProp } from "../objects/get-prop";
+import { getWithDefault } from "../objects/get-with-default";
+import { Logger } from "../utils/logger";
 
 /**
  * @internal

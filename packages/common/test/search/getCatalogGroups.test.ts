@@ -1,7 +1,9 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager, getCatalogGroups, IHubCatalog } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { IHubCatalog } from "../../src/search/types/IHubCatalog";
+import { getCatalogGroups } from "../../src/search/getCatalogGroups";
 
 describe("getCatalogGroups:", () => {
   let licensedUserCtxMgr: ArcGISContextManager;

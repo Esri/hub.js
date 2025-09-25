@@ -1,4 +1,4 @@
-import { UiSchemaRuleEffects } from "../../src";
+import { UiSchemaRuleEffects } from "../../src/core/schemas/types";
 import { deepGetPropValues } from "../../src/objects/deepGetPropValues";
 import { cloneObject } from "../../src/util";
 

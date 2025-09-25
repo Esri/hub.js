@@ -19,7 +19,7 @@ import {
   isNil,
 } from "../src/util";
 
-import { getProp } from "../src/objects";
+import { getProp } from "../src/objects/get-prop";
 
 describe("util functions", () => {
   it("can clone a shallow object", () => {

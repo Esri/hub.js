@@ -4,7 +4,7 @@ import {
   IDiscussionsUser,
   SharingAccess,
 } from "../../../../../src/discussions/api/types";
-import { canReadChannel } from "../../../../../src/discussions/api/utils/channels";
+import { canReadChannel } from "../../../../../src/discussions/api/utils/channels/can-read-channel";
 import * as portalPrivModule from "../../../../../src/discussions/api/utils/portal-privilege";
 
 const groupId1 = "aaa";

@@ -1,11 +1,11 @@
-import { IHubChannel } from "../core";
+import { IHubChannel } from "../core/types/IHubChannel";
 import {
   removeChannelV2,
   updateChannelV2,
   createChannelV2,
 } from "../discussions/api/channels/channels";
 import { ICreateChannelV2, IUpdateChannelV2 } from "../discussions/api/types";
-import { IArcGISContext } from "../types";
+import { IArcGISContext } from "../types/IArcGISContext";
 import { transformChannelToEntity } from "./_internal/transformChannelToEntity";
 import { transformEntityToChannelData } from "./_internal/transformEntityToChannelData";
 

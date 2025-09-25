@@ -1,5 +1,5 @@
-import { cloneObject } from "../..";
 import { IHubInitiative } from "../../core/types/IHubInitiative";
+import { cloneObject } from "../../util";
 
 export function migrateInvalidTimelineStages(
   initiative: IHubInitiative

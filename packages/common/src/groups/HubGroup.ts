@@ -7,14 +7,6 @@ import {
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { IHubGroup, IHubGroupEditor } from "../core/types/IHubGroup";
 import { DEFAULT_GROUP } from "./defaults";
-import {
-  IEntityPermissionPolicy,
-  IPermissionAccessResponse,
-  Permission,
-  addPermissionPolicy,
-  checkPermission,
-  removePermissionPolicy,
-} from "../permissions";
 import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { IWithPermissionBehavior } from "../core/behaviors/IWithPermissionBehavior";
 import type { IArcGISContext } from "../types/IArcGISContext";
@@ -25,9 +17,17 @@ import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { setGroupThumbnail } from "./setGroupThumbnail";
 import { getGroupThumbnailUrl } from "../search/utils";
 import { deleteGroupThumbnail } from "./deleteGroupThumbnail";
-import { GroupEditorType } from "./_internal/GroupSchema";
-import { IEntityEditorContext } from "../core";
+import { GroupEditorType } from "./_internal/groupEditorTypes";
 import { enrichEntity } from "../core/enrichEntity";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import { checkPermission } from "../permissions/checkPermission";
+import { IEntityPermissionPolicy } from "../permissions/types/IEntityPermissionPolicy";
+import { IPermissionAccessResponse } from "../permissions/types/IPermissionAccessResponse";
+import { Permission } from "../permissions/types/Permission";
+import {
+  addPermissionPolicy,
+  removePermissionPolicy,
+} from "../permissions/utils";
 
 /**
  * Hub Group Class

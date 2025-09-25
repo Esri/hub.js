@@ -3,7 +3,7 @@ import * as portal from "@esri/arcgis-rest-portal";
 import * as _prepareUploadRequestsModule from "../../src/items/_internal/_prepare-upload-requests";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import type { IItemAdd } from "@esri/arcgis-rest-portal";
-import * as restPortal from "../../src/rest/portal";
+import * as restPortal from "../../src/rest/portal/wrappers";
 
 describe("createItemFromFile", () => {
   if (typeof Blob !== "undefined") {
@@ -144,13 +144,12 @@ describe("createItemFromFile", () => {
         "_prepareUploadRequests"
       ).and.returnValue([{}, {}, {}]);
       try {
-        const result = await createItemFromFile(item, ro);
+        await createItemFromFile(item, ro);
         expect(addItemPartSpy).toHaveBeenCalledTimes(3);
         expect(createItemSpy).toHaveBeenCalledTimes(1);
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
         expect(_prepareUploadRequestsSpy).toHaveBeenCalledTimes(1);
       } catch (err) {
-        const error = err as { message?: string };
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });
@@ -192,13 +191,12 @@ describe("createItemFromFile", () => {
         "_prepareUploadRequests"
       ).and.returnValue([{}, {}, {}]);
       try {
-        const result = await createItemFromFile(item, ro);
+        await createItemFromFile(item, ro);
         expect(addItemPartSpy).toHaveBeenCalledTimes(3);
         expect(createItemSpy).toHaveBeenCalledTimes(1);
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
         expect(_prepareUploadRequestsSpy).toHaveBeenCalledTimes(1);
       } catch (err) {
-        const error = err as { message?: string };
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });

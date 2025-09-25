@@ -1,4 +1,5 @@
-import { HubEntity, HubEntityType } from "../../src/core/types";
+import { HubEntity } from "../../src/core/types/HubEntity";
+import { HubEntityType } from "../../src/core/types/HubEntityType";
 import { getTypesFromEntityType } from "../../src/core/getTypesFromEntityType";
 
 describe("getTypesFromEntityType:", () => {

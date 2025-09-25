@@ -1,6 +1,7 @@
+import { IHubPage } from "../src/core/types/IHubPage";
+import { HubPage } from "../src/pages/HubPage";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { HubPage, IHubPage } from "../src";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
@@ -105,7 +106,7 @@ describe("HubPage Class", () => {
     try {
       await HubPage.fetch(id, ctxMgr.context);
     } catch (ex) {
-      expect((ex as any).message).toBe("Page not found.");
+      expect(ex.message).toBe("Page not found.");
     }
   });
   it("ensure unique slug", async () => {
@@ -113,7 +114,7 @@ describe("HubPage Class", () => {
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
 
     // create a page
-    const orgUrlKey = ctxMgr.context.portal.urlKey;
+    const orgUrlKey = ctxMgr.context.portal.urlKey as string;
     const treesPage = await HubPage.create(
       {
         name: "Trees Page",
@@ -148,7 +149,7 @@ describe("HubPage Class", () => {
     try {
       await treesPage.save();
     } catch (ex) {
-      expect((ex as any).message).toBe("HubPage is already destroyed.");
+      expect((ex as Error).message).toBe("HubPage is already destroyed.");
     }
   });
 });

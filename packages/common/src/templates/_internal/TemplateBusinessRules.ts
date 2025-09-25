@@ -1,4 +1,7 @@
-import { IFeatureFlags, IPermissionPolicy } from "../../permissions/types";
+import {
+  IFeatureFlags,
+  IPermissionPolicy,
+} from "../../permissions/types/IPermissionPolicy";
 
 /**
  * Default features for a Template. These are the features

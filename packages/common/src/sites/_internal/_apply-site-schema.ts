@@ -1,4 +1,4 @@
-import { getProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
 import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 

@@ -1,10 +1,11 @@
 /* Copyright (c) 2018-2021 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { getProp } from "../../src/objects/get-prop";
+
 /**
  * Configuration for the e2e suite
  */
-import { getProp } from "../../src";
 
 let QA_PWD;
 let USER_PWD;

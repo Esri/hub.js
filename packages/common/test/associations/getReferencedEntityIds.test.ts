@@ -1,4 +1,4 @@
-import { HubEntity } from "../../src/core/types";
+import { HubEntity } from "../../src/core/types/HubEntity";
 import { getReferencedEntityIds } from "../../src/associations/getReferencedEntityIds";
 import * as GetIdsFromKeywordsModule from "../../src/associations/internal/getIdsFromKeywords";
 

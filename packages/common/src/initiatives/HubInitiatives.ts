@@ -1,12 +1,6 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
-import {
-  createModel,
-  fetchModelFromItem,
-  getModel,
-  updateModel,
-} from "../models";
 import { constructSlug, getItemBySlug } from "../items/slugs";
 import { IQuery } from "../search/types/IHubCatalog";
 import {
@@ -18,8 +12,6 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubInitiative, IHubItemEntity } from "../core/types";
-import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
@@ -39,6 +31,13 @@ import { isGuid } from "../utils/is-guid";
 import { getFamily } from "../content/get-family";
 import { getProp } from "../objects/get-prop";
 import { mapBy } from "../utils/map-by";
+import { IHubInitiative } from "../core/types/IHubInitiative";
+import { IHubItemEntity } from "../core/types/IHubItemEntity";
+import { createModel } from "../models/createModel";
+import { fetchModelFromItem } from "../models/fetchModelFromItem";
+import { getModel } from "../models/getModel";
+import { updateModel } from "../models/updateModel";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**
  * @private

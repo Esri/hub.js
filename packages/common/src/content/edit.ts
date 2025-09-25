@@ -5,25 +5,10 @@ import {
   getItem,
   removeItem,
 } from "@esri/arcgis-rest-portal";
-import {
-  IDownloadFormatConfiguration,
-  IHubContentEditor,
-  IHubEditableContent,
-  IHubLocation,
-} from "../core";
-
-// Note - we separate these imports so we can cleanly spy on things in tests
-import {
-  createModel,
-  updateModel,
-  // upsertModelResources,
-} from "../models";
-
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IHubRequestOptions, IModel } from "../hub-types";
-import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import {
   getService,
@@ -43,11 +28,22 @@ import {
   maybeUpdateSchedule,
 } from "./manageSchedule";
 import { forceUpdateContent } from "./_internal/internalContentUtils";
-import { deepEqual, getProp, setProp } from "../objects";
 import { getDownloadFlow } from "../downloads/_internal/getDownloadFlow";
 import { getDownloadConfiguration } from "../downloads/getDownloadConfiguration";
 import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
 import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
+import {
+  IHubEditableContent,
+  IHubContentEditor,
+  IDownloadFormatConfiguration,
+} from "../core/types/IHubEditableContent";
+import { IHubLocation } from "../core/types/IHubLocation";
+import { setDiscussableKeyword } from "../discussions/utils";
+import { createModel } from "../models/createModel";
+import { updateModel } from "../models/updateModel";
+import { getProp } from "../objects/get-prop";
+import { setProp } from "../objects/set-prop";
+import { deepEqual } from "../objects/deepEqual";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {

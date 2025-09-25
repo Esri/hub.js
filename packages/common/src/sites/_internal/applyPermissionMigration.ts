@@ -1,10 +1,10 @@
-import { getProp } from "../../objects";
+import { IModel } from "../../hub-types";
+import { getProp } from "../../objects/get-prop";
 import {
   CollaborationType,
   IEntityPermissionPolicy,
-  Permission,
-} from "../../permissions";
-import { IModel } from "../../hub-types";
+} from "../../permissions/types/IEntityPermissionPolicy";
+import { Permission } from "../../permissions/types/Permission";
 import { cloneObject } from "../../util";
 
 /**

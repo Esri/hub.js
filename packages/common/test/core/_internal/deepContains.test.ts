@@ -4,17 +4,15 @@ import {
 } from "../../../src/core/_internal/deepContains";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import {
-  getProp,
-  IArcGISContext,
-  IDeepCatalogInfo,
-  IHubCatalog,
-} from "../../../src";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import * as FetchEntityCatalogModule from "../../../src/search/fetchEntityCatalog";
 import * as HubSearchModule from "../../../src/search/hubSearch";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { IDeepCatalogInfo } from "../../../src/search/types/types";
+import { getProp } from "../../../src/objects/get-prop";
+import { IHubCatalog } from "../../../src/search/types/IHubCatalog";
 // Test GUID
-const AppItemId: string = "63c765456d23439e8faf0e4172fc9b23";
+const AppItemId = "63c765456d23439e8faf0e4172fc9b23";
 
 describe("deepContains:", () => {
   let context: IArcGISContext;

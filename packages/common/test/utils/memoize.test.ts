@@ -1,4 +1,4 @@
-import { memoize, clearMemoizedCache } from "../../src";
+import { clearMemoizedCache, memoize } from "../../src/utils/memoize";
 
 describe("memoize:", () => {
   it("creates shared cache of the function, which has internal cache of outputs", () => {

@@ -1,12 +1,12 @@
-import { IHubProject, IHubRequestOptions } from "../../../../src";
-import { IHubLocation } from "../../../../src/core/types";
+import { IHubLocation } from "../../../../src/core/types/IHubLocation";
 import { getLocationOptions } from "../../../../src/core/schemas/internal/getLocationOptions";
 import * as ExtentModule from "../../../../src/extent";
+import { IHubRequestOptions } from "../../../../src/hub-types";
+import { IHubProject } from "../../../../src/core/types/IHubProject";
 
 describe("getLocationOptions:", () => {
-  let orgExtentSpy: jasmine.Spy;
   beforeEach(() => {
-    orgExtentSpy = spyOn(ExtentModule, "orgExtent").and.returnValue(
+    spyOn(ExtentModule, "orgExtent").and.returnValue(
       Promise.resolve({
         xmin: -180,
         ymin: -90,

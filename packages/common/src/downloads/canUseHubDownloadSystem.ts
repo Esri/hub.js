@@ -1,5 +1,5 @@
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
-import { isMapOrFeatureServerUrl } from "../urls";
+import { isMapOrFeatureServerUrl } from "../urls/feature-service-urls";
 
 export function canUseHubDownloadSystem(entity: IHubEditableContent): boolean {
   const isMapOrFeatureService = isMapOrFeatureServerUrl(entity.url);

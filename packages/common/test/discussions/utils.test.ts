@@ -1,24 +1,26 @@
 import * as restPortal from "@esri/arcgis-rest-portal";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
-  CANNOT_DISCUSS,
-  isDiscussable,
-  setDiscussableKeyword,
-  getChannelUsersQuery,
-  SharingAccess,
-  isPublicChannel,
-  isOrgChannel,
-  isPrivateChannel,
+  channelToSearchResult,
   getChannelAccess,
   getChannelGroupIds,
   getChannelOrgIds,
-  IChannel,
+  getChannelUsersQuery,
+  getPostCSVFileName,
+  isDiscussable,
+  isOrgChannel,
+  isPrivateChannel,
+  isPublicChannel,
+  setDiscussableKeyword,
+} from "../../src/discussions/utils";
+import { CANNOT_DISCUSS } from "../../src/discussions/constants";
+import {
   AclCategory,
   AclSubCategory,
+  IChannel,
   Role,
-  getPostCSVFileName,
-  channelToSearchResult,
-} from "../../src";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+  SharingAccess,
+} from "../../src/discussions/api/types";
 
 describe("discussions utils", () => {
   describe("isDiscussable", () => {

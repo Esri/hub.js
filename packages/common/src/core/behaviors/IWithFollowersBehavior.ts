@@ -1,5 +1,5 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { SettableAccessLevel } from "../types";
+import { SettableAccessLevel } from "../types/types";
 
 /**
  * Followers behavior for Item-Backed Entities

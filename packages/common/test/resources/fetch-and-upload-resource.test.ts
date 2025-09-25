@@ -2,11 +2,11 @@ import { mockUserSession } from "../test-helpers/fake-user-session";
 import * as fetchImageAsBlobModule from "../../src/resources/fetch-image-as-blob";
 import * as portalModule from "@esri/arcgis-rest-portal";
 
-import { fetchAndUploadResource } from "../../src";
 import {
   IItemResourceOptions,
   IItemResourceResponse,
 } from "@esri/arcgis-rest-portal";
+import { fetchAndUploadResource } from "../../src/resources/fetch-and-upload-resource";
 
 describe("fetchAndUploadResource", function () {
   // These tests create a blob

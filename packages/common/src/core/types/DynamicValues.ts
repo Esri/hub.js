@@ -1,6 +1,8 @@
 import { IQuery } from "../../search/types/IHubCatalog";
-import { IConfigurationSchema } from "../schemas";
+import { IConfigurationSchema } from "../schemas/types";
 import { IReference } from "./IReference";
+import { IServiceQueryOptions } from "./IServiceQueryOptions";
+import { ServiceAggregation } from "./ServiceAggregation";
 
 /**
  * The source for a dynamic value. Used to determine how to resolve the value
@@ -10,33 +12,6 @@ export type DynamicValueType =
   | "item-query"
   | "service-query"
   | "portal";
-
-/**
- * Options used to defined a feature service query
- */
-export interface IServiceQueryOptions {
-  /**
-   * The url of the feature service, including the layer
-   */
-  url: string;
-  /**
-   * Field on which to run an aggregation
-   */
-  field: string;
-  /**
-   * The type of server-side aggregation to run
-   */
-  statisticType: ServiceAggregation;
-  /**
-   * Where clause to apply to the query. Defaults to "1=1" if not provided
-   */
-  where?: string;
-}
-
-/**
- * Aggregations that can be done on a service
- */
-export type ServiceAggregation = "count" | "sum" | "min" | "max" | "avg";
 
 /**
  * Aggregations that can be applied to a set of dynamic values

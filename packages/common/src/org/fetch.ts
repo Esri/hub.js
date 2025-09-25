@@ -2,7 +2,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubOrganization } from "../core/types/IHubOrganization";
 import { fetchOrg } from "./fetch-org";
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { getOrgThumbnailUrl } from "../resources";
+import { getOrgThumbnailUrl } from "../resources/get-org-thumbnail-url";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 

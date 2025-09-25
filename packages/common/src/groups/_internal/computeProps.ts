@@ -2,13 +2,11 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import {
-  getDefaultEntitySettings,
-  IEntitySetting,
-  isDiscussable,
-} from "../../discussions";
 import { getGroupThumbnailUrl } from "../../search/utils";
 import { computeLinks } from "./computeLinks";
+import { getDefaultEntitySettings } from "../../discussions/api/settings/getDefaultEntitySettings";
+import { IEntitySetting } from "../../discussions/api/types";
+import { isDiscussable } from "../../discussions/utils";
 
 /**
  * Given a model and a group, set various computed properties that can't be directly mapped

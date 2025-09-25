@@ -1,4 +1,4 @@
-import { IHubAssistant } from "../../assistants";
+import { IHubAssistant } from "../../assistants/IHubAssistant";
 
 /**
  * Expose an assistant on an entity

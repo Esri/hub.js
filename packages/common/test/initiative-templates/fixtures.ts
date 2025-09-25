@@ -1,13 +1,11 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
 import type { IItem, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContext,
-  IHubCatalog,
-  IHubInitiativeTemplate,
-  IHubSearchResult,
-  IModel,
-} from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { IHubInitiativeTemplate } from "../../src/core/types/IHubInitiativeTemplate";
+import { IHubCatalog } from "../../src/search/types/IHubCatalog";
+import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
+import { IModel } from "../../src/hub-types";
+import { ArcGISContext } from "../../src/ArcGISContext";
 
 export const GUID = "8b77674e43cf4bbd9ecad5189b3f1fdc";
 
@@ -111,6 +109,9 @@ export const INITIATIVE_TEMPLATE_HUB_SEARCH_RESULT: IHubSearchResult = {
 export const INITIATIVE_TEMPLATE_DATA = {
   recommendedTemplates: ["c456"],
   siteSolutionId: "c123",
+  view: {
+    showMap: true,
+  },
 };
 
 export const INITIATIVE_TEMPLATE_MODEL = {

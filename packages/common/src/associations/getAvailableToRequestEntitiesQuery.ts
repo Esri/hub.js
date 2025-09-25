@@ -1,6 +1,4 @@
 import { getTypeFromEntity } from "../core/getTypeFromEntity";
-import { IQuery } from "../search/types";
-import { HubEntity, HubEntityType } from "../core/types";
 import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { getProp } from "../objects/get-prop";
@@ -10,6 +8,9 @@ import { getTypeByNotIdsQuery } from "./internal/getTypeByNotIdsQuery";
 import { negateGroupPredicates } from "../search/negateGroupPredicates";
 import { getTypeByIdsQuery } from "./internal/getTypeByIdsQuery";
 import { combineQueries } from "../search/combineQueries";
+import { HubEntity } from "../core/types/HubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
+import { IQuery } from "../search/types/IHubCatalog";
 
 /**
  * An entity can send an "outgoing" request to associate

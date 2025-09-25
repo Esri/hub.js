@@ -1,5 +1,5 @@
-import { extentToBBox } from "../../src";
 import type { IExtent } from "@esri/arcgis-rest-feature-service";
+import { extentToBBox } from "../../src/extent";
 
 describe("extentToBBox", function () {
   it("converts extent to bbox", function () {

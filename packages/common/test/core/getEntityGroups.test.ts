@@ -1,9 +1,9 @@
-import type { IHubItemEntity } from "../../src";
 import { getEntityGroups } from "../../src/core/getEntityGroups";
 import * as getEventGroupsModule from "../../src/events/getEventGroups";
-import type { IArcGISContext } from "../../src";
 import * as sharedWithModule from "../../src/core/_internal/sharedWith";
 import type { IGroup } from "@esri/arcgis-rest-portal";
+import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("getEntityGroups", () => {
   let entity: IHubItemEntity;

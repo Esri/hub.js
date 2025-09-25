@@ -3,11 +3,11 @@ import * as Portal from "@esri/arcgis-rest-portal";
 import * as SimpleGroupContentResponse from "../../mocks/portal-groups-search/simple-response.json";
 import * as SimpleGroupUserResponse from "../../mocks/portal-group-user-search/simple-response.json";
 import * as SimpleGroupResponse from "../../mocks/portal-get-group/simple-response.json";
+import { cloneObject } from "../../../src/util";
 import {
-  cloneObject,
   IEnrichmentErrorInfo,
   IHubRequestOptions,
-} from "../../../src";
+} from "../../../src/hub-types";
 
 describe("group enrichments:", () => {
   it("memberCount enrichment", async () => {

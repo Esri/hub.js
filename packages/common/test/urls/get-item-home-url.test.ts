@@ -1,5 +1,5 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { getItemHomeUrl } from "../../src";
+import { getItemHomeUrl } from "../../src/urls/get-item-home-url";
 
 describe("getItemHomeUrl", () => {
   const portalHostname = "portal-hostname.com";
@@ -9,7 +9,7 @@ describe("getItemHomeUrl", () => {
     name: "Portal Name",
     portalHostname,
     urlKey: "www",
-    customBaseUrl: "custom-base-url.com"
+    customBaseUrl: "custom-base-url.com",
   };
   const itemId = "foo";
   const portalUrl = `https://${portalHostname}`;

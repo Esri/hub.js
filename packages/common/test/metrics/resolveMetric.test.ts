@@ -1,18 +1,18 @@
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  IItemQueryMetricSource,
-  IMetric,
-  IQuery,
-  IServiceQueryMetricSource,
-  clearMemoizedCache,
-  cloneObject,
-  resolveMetric,
-} from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as FLModule from "@esri/arcgis-rest-feature-service";
 import * as PSModule from "../../src/search/_internal/portalSearchItems";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import {
+  IItemQueryMetricSource,
+  IMetric,
+  IServiceQueryMetricSource,
+} from "../../src/core/types/Metrics";
+import { resolveMetric } from "../../src/metrics/resolveMetric";
+import { cloneObject } from "../../src/util";
+import { clearMemoizedCache } from "../../src/utils/memoize";
+import { IQuery } from "../../src/search/types/IHubCatalog";
 
 describe("resolveMetric:", () => {
   let ctx: IArcGISContext;
@@ -294,7 +294,7 @@ describe("resolveMetric:", () => {
         // memoization cache just have an entry for ``
         clearMemoizedCache();
         querySpy = spyOn(PSModule, "portalSearchItemsAsItems").and.callFake(
-          (opts: any) => {
+          () => {
             return Promise.resolve(ResponseWithStaticValue);
           }
         );

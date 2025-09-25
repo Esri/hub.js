@@ -1,26 +1,22 @@
-import {
-  uploadResourcesFromUrl,
-  IHubRequestOptions,
-  IModel,
-  cloneObject,
-  IItemResource
-} from "../../src";
+import { IHubRequestOptions, IItemResource, IModel } from "../../src/hub-types";
 import * as fetchAndUploadResourceModule from "../../src/resources/fetch-and-upload-resource";
 import * as fetchAndUploadThumbnailModule from "../../src/resources/fetch-and-upload-thumbnail";
+import { uploadResourcesFromUrl } from "../../src/resources/upload-resources-from-url";
+import { cloneObject } from "../../src/util";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 import { IItemResourceResponse } from "@esri/arcgis-rest-portal";
 
-describe("uploadResourcesFromUrl", function() {
+describe("uploadResourcesFromUrl", function () {
   const requestOpts = {
     portalSelf: {
       user: {},
       id: "123",
       isPortal: false,
-      name: "some-portal"
+      name: "some-portal",
     },
     isPortal: false,
     hubApiUrl: "some-url",
-    authentication: mockUserSession
+    authentication: mockUserSession,
   } as IHubRequestOptions;
 
   const defaultModel: IModel = {
@@ -34,9 +30,9 @@ describe("uploadResourcesFromUrl", function() {
       numViews: 3,
       size: 3,
       title: "title",
-      type: "Hub Site Application"
+      type: "Hub Site Application",
     },
-    data: { foo: "bar", baz: { boop: "beep" } }
+    data: { foo: "bar", baz: { boop: "beep" } },
   };
 
   function resourceResponse(options: any): Promise<IItemResourceResponse> {
@@ -44,35 +40,35 @@ describe("uploadResourcesFromUrl", function() {
       success: true,
       itemId: options.id,
       owner: options.owner,
-      folder: null
+      folder: null,
     });
   }
 
-  it("uploads resources", async function() {
+  it("uploads resources", async function () {
     const model = cloneObject(defaultModel);
     const portalUrl = requestOpts.authentication.portal;
     const resources: IItemResource[] = [
       {
         url: "url1",
-        name: "name1"
+        name: "name1",
       },
       {
         url: `${portalUrl}/url2`,
-        name: "name2"
+        name: "name2",
       },
       {
         url: "url3",
-        name: "name3"
+        name: "name3",
       },
       {
         type: "thumbnail",
         url: "thumbnail-url",
-        name: "thumbnail-name"
+        name: "thumbnail-name",
       },
       {
         url: null,
-        name: "name5"
-      }
+        name: "name5",
+      },
     ];
 
     const fetchAndUploadResourceSpy = spyOn(
@@ -118,7 +114,7 @@ describe("uploadResourcesFromUrl", function() {
     );
   });
 
-  it("resolves when resources not an array", async function() {
+  it("resolves when resources not an array", async function () {
     const model = cloneObject(defaultModel);
 
     const resources: any = null;

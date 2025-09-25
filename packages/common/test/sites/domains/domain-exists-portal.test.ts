@@ -1,6 +1,6 @@
+import { IHubRequestOptions } from "../../../src/hub-types";
 import * as _lookupPortalModule from "../../../src/sites/domains/_lookup-portal";
-import { domainExistsPortal } from "../../../src/sites/domains";
-import { IHubRequestOptions } from "../../../src";
+import { domainExistsPortal } from "../../../src/sites/domains/domain-exists-portal";
 
 describe("domainExistsPortal", function () {
   it("resolves to true when exists", async function () {

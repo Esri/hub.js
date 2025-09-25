@@ -1,5 +1,5 @@
-import { IArcGISContext } from "../../../src";
 import { getExportItemDataUrl } from "../../../src/downloads/_internal/getExportItemDataUrl";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("getExportItemDataUrl", () => {
   it("should return the correct data url for the export item", () => {

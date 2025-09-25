@@ -1,7 +1,8 @@
 import * as request from "@esri/arcgis-rest-request";
 import { mockUserSession } from "../test-helpers/fake-user-session";
-import { IHubRequestOptions, orgExtent, GLOBAL_EXTENT } from "../../src";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IHubRequestOptions } from "../../src/hub-types";
+import { GLOBAL_EXTENT, orgExtent } from "../../src/extent";
 
 describe("orgExtent", function () {
   it("fetches extent when geometryServiceUrl and orgExtent are provided", async function () {

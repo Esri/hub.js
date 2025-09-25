@@ -1,26 +1,12 @@
-import { IConfigurationSchema } from "../../core";
 import {
-  DISCUSSION_SETTINGS_SCHEMA,
-  ENTITY_IMAGE_SCHEMA,
-  ENTITY_IS_DISCUSSABLE_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
+  ENTITY_IMAGE_SCHEMA,
+  ENTITY_IS_DISCUSSABLE_SCHEMA,
+  DISCUSSION_SETTINGS_SCHEMA,
   ENTITY_TAGS_SCHEMA,
-} from "../../core/schemas/shared";
-
-export type GroupEditorType = (typeof GroupEditorTypes)[number];
-export const GroupEditorTypes = [
-  "hub:group:edit",
-  "hub:group:settings",
-  "hub:group:settings:discussions",
-  // editor to create a followers group
-  "hub:group:create:followers",
-  // editor to create an association group
-  "hub:group:create:association",
-  "hub:group:create:view",
-  "hub:group:create:edit",
-  "hub:group:create",
-] as const;
+} from "../../core/schemas/shared/subschemas";
+import { IConfigurationSchema } from "../../core/schemas/types";
 
 /**
  * Defines the JSON schema for a Hub Group's editable fields

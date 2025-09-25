@@ -1,4 +1,4 @@
-import { HubEntity } from "./types";
+import { HubEntity } from "./types/HubEntity";
 
 interface IWithThumbnailUrl {
   thumbnailUrl: string;

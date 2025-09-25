@@ -1,6 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { GenericResult, IPredicateExplanation } from "../explainQueryResult";
-import { IMatchOptions } from "../types";
+import { GenericResult, IPredicateExplanation } from "../types";
 import {
   PREDICATE_DATE_PROPS,
   PREDICATE_NON_MATCH_OPTIONS_PROPS,
@@ -10,6 +9,7 @@ import {
   explainDatePredicate,
   explainPropPredicate,
 } from "./explainHelpers";
+import { IMatchOptions } from "../types/types";
 
 /**
  * Geneate an explanation if a specific result passes the predicate's criteria

@@ -1,14 +1,14 @@
-import { getHubProduct } from "../../src";
+import { getHubProduct } from "../../src/utils/get-hub-product";
 
-describe("getHubProduct", function() {
-  it("returns correct product", function() {
+describe("getHubProduct", function () {
+  it("returns correct product", function () {
     const hubEnabledPortal = {
       portalProperties: {
         hub: {
-          enabled: true
-        }
+          enabled: true,
+        },
       },
-      isPortal: false
+      isPortal: false,
     };
 
     expect(getHubProduct(hubEnabledPortal)).toBe("premium");
@@ -16,21 +16,21 @@ describe("getHubProduct", function() {
     const hubBasicPortal = {
       portalProperties: {
         hub: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
-      isPortal: false
+      isPortal: false,
     };
     expect(getHubProduct(hubBasicPortal)).toBe("basic");
 
     const portalPortal = {
       portalProperties: {
         hub: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       isPortal: true,
-      portalMode: "singletenant"
+      portalMode: "singletenant",
     };
     expect(getHubProduct(portalPortal)).toBe("portal");
   });

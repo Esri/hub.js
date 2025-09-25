@@ -11,7 +11,7 @@ import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import { fetchSettingV2 } from "../discussions/api/settings/settings";
 import { getDefaultEntitySettings } from "../discussions/api/settings/getDefaultEntitySettings";
 import { IHubRequestOptions } from "../hub-types";
-import { fetchModelFromItem } from "../models";
+import { fetchModelFromItem } from "../models/fetchModelFromItem";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IEntitySetting } from "../discussions/api/types";
 

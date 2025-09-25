@@ -1,29 +1,28 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
-import { HubEntityType } from "../core";
 import { catalogContains } from "../core/catalogContains";
 import HubError from "../HubError";
 import { cloneObject } from "../util";
-import { mapBy } from "../utils";
 import { fetchEntityCatalog } from "./fetchEntityCatalog";
 import { Collection } from "./Collection";
 import { hubSearch } from "./hubSearch";
-import {
-  EntityType,
-  ISearchResponseHash,
-  IContainsOptions,
-  IContainsResponse,
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  ICatalogScope,
-  IHubCatalog,
-  IQuery,
-  IFilter,
-  IHubCollection,
-  ICatalogDisplayConfig,
-} from "./types";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
+import { HubEntityType } from "../core/types/HubEntityType";
+import { mapBy } from "../utils/map-by";
+import {
+  IHubCatalog,
+  ICatalogScope,
+  EntityType,
+  ICatalogDisplayConfig,
+  IQuery,
+  IHubCollection,
+  IFilter,
+} from "./types/IHubCatalog";
+import { IHubSearchOptions } from "./types/IHubSearchOptions";
+import { IHubSearchResponse } from "./types/IHubSearchResponse";
+import { ISearchResponseHash } from "./types/IHubSearchResponseHash";
+import { IHubSearchResult } from "./types/IHubSearchResult";
+import { IContainsResponse, IContainsOptions } from "./types/types";
 
 /**
  * Catalog Class

@@ -1,16 +1,4 @@
 import { DEFAULT_PROJECT } from "./defaults";
-import {
-  IWithCatalogBehavior,
-  IWithStoreBehavior,
-  IWithSharingBehavior,
-  IWithCardBehavior,
-} from "../core/behaviors";
-import {
-  IHubProject,
-  IHubProjectEditor,
-  IEntityEditorContext,
-  IResolvedMetric,
-} from "../core/types";
 import { Catalog } from "../search/Catalog";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
@@ -32,13 +20,20 @@ import {
 import { projectToCardModel } from "./view";
 import { cloneObject } from "../util";
 import { createProject, updateProject } from "./edit";
-import { ProjectEditorType } from "./_internal/ProjectSchema";
+import { ProjectEditorType } from "./_internal/projectEditorTypes";
 import { enrichEntity } from "../core/enrichEntity";
-import { getWithDefault, setProp } from "../objects";
+import { setProp } from "../objects/set-prop";
+import { getWithDefault } from "../objects/get-with-default";
 import { metricToEditor } from "../metrics/metricToEditor";
-import { IMetricDisplayConfig } from "../core/types/Metrics";
+import { IMetricDisplayConfig, IResolvedMetric } from "../core/types/Metrics";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { IWithCardBehavior } from "../core/behaviors/IWithCardBehavior";
+import { IWithCatalogBehavior } from "../core/behaviors/IWithCatalogBehavior";
+import { IWithSharingBehavior } from "../core/behaviors/IWithSharingBehavior";
+import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import { IHubProject, IHubProjectEditor } from "../core/types/IHubProject";
 
 /**
  * Hub Project Class

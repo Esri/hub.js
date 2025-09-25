@@ -12,7 +12,7 @@ import { _processSecondaryEmail } from "./output-processors/_process-secondary-e
 import { _getAutoAddUsers } from "./utils/_get-auto-add-users";
 import { _getEmailUsers } from "./utils/_get-email-users";
 import { _getInviteUsers } from "./utils/_get-invite-users";
-import { IEmail } from "../types";
+import { IEmail } from "../types/types";
 
 /**
  * Adds, invites or emails users about joining a group

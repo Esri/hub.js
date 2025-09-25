@@ -12,11 +12,11 @@ import {
   IAddMemberContext,
   IConsolidatedResult,
 } from "../../../src/groups/add-users-workflow/interfaces";
-import { IEmail } from "../../../src/groups/types";
 import { IUser } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { cloneObject } from "../../../src/util";
 import { MOCK_AUTH } from "./fixtures";
+import { IEmail } from "../../../src/groups/types/types";
 
 describe("add-users-to-group", () => {
   ////////////////////////////////

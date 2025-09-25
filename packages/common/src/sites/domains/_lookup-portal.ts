@@ -1,6 +1,6 @@
 import { searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { includes } from "../../utils";
+import { includes } from "../../utils/includes";
 import { getSubdomainKeyword } from "../_internal/subdomains";
 
 /**
