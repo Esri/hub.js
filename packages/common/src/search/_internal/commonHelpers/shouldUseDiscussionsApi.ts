@@ -16,5 +16,5 @@ export function shouldUseDiscussionsApi(
   const {
     requestOptions: { isPortal },
   } = options;
-  return targetEntity === "channel" && !isPortal;
+  return (targetEntity === "channel" || targetEntity === "post") && !isPortal;
 }

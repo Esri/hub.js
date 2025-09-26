@@ -100,6 +100,7 @@ export const targetEntities = [
   "discussionPost",
   "eventAttendee",
   "organization",
+  "post",
 ] as const;
 export type EntityType = (typeof targetEntities)[number];
 

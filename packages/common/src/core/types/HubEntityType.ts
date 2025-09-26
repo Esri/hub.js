@@ -19,5 +19,6 @@ export const HUB_ENTITY_TYPES = [
   "organization",
   "user",
   "channel",
+  "post",
 ] as const;
 export type HubEntityType = (typeof HUB_ENTITY_TYPES)[number];

@@ -20,6 +20,7 @@ import { IHubSearchResponse } from "./types/IHubSearchResponse";
 import { IHubSearchOptions } from "./types/IHubSearchOptions";
 import { IHubSearchResult } from "./types/IHubSearchResult";
 import { ApiTarget } from "./types/types";
+import { hubSearchPosts } from "./_internal/hubSearchPosts";
 
 type HubSearchDelegate = (
   query: IQuery,
@@ -95,6 +96,7 @@ export async function hubSearch(
       discussionPost: hubSearchItems,
       event: hubSearchEvents,
       eventAttendee: hubSearchEventAttendees,
+      post: hubSearchPosts,
     },
   };
 
