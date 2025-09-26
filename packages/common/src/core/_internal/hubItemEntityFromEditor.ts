@@ -151,10 +151,17 @@ export const hubItemEntityFromEditor = async (
   }
 
   // f. handle layout setups in sites and pages
-  if (_layoutSetup?.layout === "simple") {
-    entity.layout = await getTemplate("simpleSiteOrPageLayout", context);
-  } else {
-    entity.layout = await getTemplate("blankSiteOrPageLayout", context);
+  // _layoutSetup is optional, if not present we
+  // simply do not modify the layout
+  // It should only be present on new entities
+  // being created via the add-content workflow
+  // where a layout choice is offered
+  if (_layoutSetup) {
+    if (_layoutSetup.layout === "simple") {
+      entity.layout = await getTemplate("simpleSiteOrPageLayout", context);
+    } else {
+      entity.layout = await getTemplate("blankSiteOrPageLayout", context);
+    }
   }
 
   return {
