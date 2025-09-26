@@ -75,7 +75,10 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
         personality: { type: "string" },
         description: { type: "string" },
         location: { type: "string" },
-        examplePrompts: { type: "array", items: { type: "string" } },
+        examplePrompts: {
+          type: "array",
+          items: { type: "string" },
+        },
         workflows: {
           type: "array",
           items: {

@@ -751,6 +751,7 @@ describe("index", () => {
     "fetchCategoriesUiSchemaElement",
     "btoa",
     "atob",
+    "compareAccess",
   ];
 
   const NODE_EXPORTS = [
