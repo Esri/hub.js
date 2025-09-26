@@ -208,7 +208,7 @@ export function getTemplate(
 
   const blankSiteOrPageLayout: IHubLayout = {
     sections: [],
-    header: undefined,
+    header: { component: {} },
     footer: undefined,
   };
 
