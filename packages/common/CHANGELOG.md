@@ -1,3 +1,10 @@
+## @esri/hub-common [20.11.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.11.0...@esri/hub-common@20.11.1) (2025-09-26)
+
+
+### Bug Fixes
+
+* only set the layout to a template if _layoutSetup is passd ([#2021](https://github.com/Esri/hub.js/issues/2021)) ([e02888f](https://github.com/Esri/hub.js/commit/e02888fc240366a22c4a0c328607c731344fb4e0))
+
 # @esri/hub-common [20.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.10.0...@esri/hub-common@20.11.0) (2025-09-25)
 
 
