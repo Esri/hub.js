@@ -16,6 +16,7 @@ import { migrateWebMappingApplicationSites } from "./_internal/migrateWebMapping
 import { _migrateLinkUnderlinesCapability } from "./_internal/_migrate-link-underlines-capability";
 import { _migrateToV2Catalog } from "./_internal/_migrate-to-v2-catalog";
 import { ensureLowercaseOrgUrlKeySlugAndKeyword } from "./_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
+import { removeCatalogV1FromUpgradedSite } from "./_internal/removeCatalogV1FromUpgradedSite";
 
 /**
  * Upgrades the schema upgrades
@@ -47,6 +48,8 @@ export function upgradeSiteSchema(model: IModel): IModel {
   model = migrateWebMappingApplicationSites(model);
   model = _migrateLinkUnderlinesCapability(model);
   model = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
+  // TODO: Remove this once all sites are fully on catalogV2
+  model = removeCatalogV1FromUpgradedSite(model);
 
   return model;
 }
