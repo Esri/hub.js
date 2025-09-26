@@ -33,11 +33,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      # Npm 7 is needed for workspaces, and it shipped w/ Node 16
-      # But we want to test on downlevel versions of node so we
-      # install npm7 directly
-      - name: Npm 7
-        run: npm i -g npm@7 --registry=https://registry.npmjs.org
+          cache: npm
 
       - name: Install Dependencies
         run: npm ci
