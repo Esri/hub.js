@@ -1,3 +1,10 @@
+# @esri/hub-common [20.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.11.1...@esri/hub-common@20.12.0) (2025-09-26)
+
+
+### Features
+
+* **hub-common:** modified sharing level access on site sharing level ([#2011](https://github.com/Esri/hub.js/issues/2011)) ([21888a9](https://github.com/Esri/hub.js/commit/21888a96afd57917946b94cc1ead009cd3d00ccf))
+
 ## @esri/hub-common [20.11.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.11.0...@esri/hub-common@20.11.1) (2025-09-26)
 
 
