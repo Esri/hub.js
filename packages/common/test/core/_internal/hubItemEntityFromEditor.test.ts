@@ -14,6 +14,7 @@ import * as upsertResourceModule from "../../../src/resources/upsertResource";
 import * as removeResourceModule from "../../../src/resources/removeResource";
 import * as metricsModule from "../../../src/metrics/editorToMetric";
 import { IHubCatalog } from "../../../src/search/types/IHubCatalog";
+import * as getTemplateModule from "../../../src/core/_internal/getTemplate";
 
 describe("hubItemEntityFromEditor", () => {
   let context: IArcGISContext;
@@ -215,5 +216,67 @@ describe("hubItemEntityFromEditor", () => {
     expect(result.entity).toBeDefined();
     expect(result.thumbnailCache).toBeUndefined();
     expect(result._catalog).toBeUndefined();
+  });
+
+  describe("hubItemEntityFromEditor layout setup", () => {
+    let context: IArcGISContext;
+    let getTemplateSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      context = {
+        portal: { urlKey: "testorg" },
+        userRequestOptions: {},
+      } as any;
+      getTemplateSpy = spyOn(getTemplateModule, "getTemplate");
+    });
+
+    function makeEditor(
+      props: Partial<IHubItemEntityEditor<IHubItemEntity>>
+    ): IHubItemEntityEditor<IHubItemEntity> {
+      return {
+        view: {},
+        location: {},
+        ...props,
+      } as IHubItemEntityEditor<IHubItemEntity>;
+    }
+
+    it("uses specified simple layout when provided", async () => {
+      getTemplateSpy.and.returnValue(Promise.resolve("simple-layout"));
+      const editor = makeEditor({
+        _layoutSetup: { layout: "simple" },
+        orgUrlKey: "TestOrg",
+      });
+      const result = await hubItemEntityFromEditor(editor, context);
+      expect(getTemplateSpy).toHaveBeenCalledWith(
+        "simpleSiteOrPageLayout",
+        context
+      );
+      expect(result.entity.layout).toBe("simple-layout");
+    });
+
+    it("uses specified blank layout when provided", async () => {
+      getTemplateSpy.and.returnValue(Promise.resolve("blank-layout"));
+      const editor = makeEditor({
+        _layoutSetup: { layout: "blank" },
+        orgUrlKey: "TestOrg",
+      });
+      const result = await hubItemEntityFromEditor(editor, context);
+      expect(getTemplateSpy).toHaveBeenCalledWith(
+        "blankSiteOrPageLayout",
+        context
+      );
+      expect(result.entity.layout).toBe("blank-layout");
+    });
+
+    it("does not update layout when _layoutSetup is undefined", async () => {
+      getTemplateSpy.and.returnValue(Promise.resolve("blank-layout"));
+      const editor = makeEditor({
+        orgUrlKey: "TestOrg",
+        layout: { the: "original layout" } as any,
+      });
+      const result = await hubItemEntityFromEditor(editor, context);
+      expect(getTemplateSpy).not.toHaveBeenCalled();
+      expect(result.entity.layout).toEqual({ the: "original layout" });
+    });
   });
 });

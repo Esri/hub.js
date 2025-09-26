@@ -1,7 +1,7 @@
 import { getTemplate } from "../../../src/core/_internal/getTemplate";
 import { IArcGISContext } from "../../../src/types";
 
-describe("getTemplate util", () => {
+describe("getTemplate util:", () => {
   let context: IArcGISContext;
 
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe("getTemplate util", () => {
     const template = await getTemplate("blankSiteOrPageLayout", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
-    expect(template.header).toBeUndefined();
+    expect(template.header).toEqual({ component: {} });
     expect(template.footer).toBeUndefined();
   });
 
@@ -31,7 +31,7 @@ describe("getTemplate util", () => {
     const template = await getTemplate("someUnknownTemplateName", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
-    expect(template.header).toBeUndefined();
+    expect(template.header).toEqual({ component: {} });
     expect(template.footer).toBeUndefined();
   });
 
@@ -65,7 +65,7 @@ describe("getTemplate util", () => {
     const template = await getTemplate("blankSiteOrPageLayout", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
-    expect(template.header).toBeUndefined();
+    expect(template.header).toEqual({ component: {} });
     expect(template.footer).toBeUndefined();
   });
 
@@ -73,7 +73,7 @@ describe("getTemplate util", () => {
     const template = await getTemplate("anotherUnknownTemplateName", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
-    expect(template.header).toBeUndefined();
+    expect(template.header).toEqual({ component: {} });
     expect(template.footer).toBeUndefined();
   });
 });
