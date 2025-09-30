@@ -41,7 +41,7 @@ The Hub System Permissions will have ArcGIS Online release permissions pre-defin
 }
 ```
 
-With this in place, and merged, we can then use `?pe=hub:release:20206R1` to enable that whole set of features at once.
+With this in place, and merged, we can then use `?pe=hub:release:2026R1` to enable that whole set of features at once.
 
 If your feature does not need to ship with a platform release, but also needs some additional time for docs, translations, customer outreach etc, we can also release on a future date. Coordinate with Product Engineers and Product Management to chose the date, and add it to your permission,
 
