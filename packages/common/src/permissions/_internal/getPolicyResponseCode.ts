@@ -46,7 +46,10 @@ const policyResponseCodes: IPolicyLookup[] = [
   { response: "feature-enabled", code: "PC136" },
   { response: "no-policy-exists", code: "PC137" },
   { response: "disabled-by-entity-flag", code: "PC137" },
-  { response: "disabled-by-feature-flag", code: "PC137" },
+  { response: "disabled-by-feature-flag", code: "PC138" },
+  { response: "release-date-not-reached", code: "PC139" },
+  { response: "retire-date-not-reached", code: "PC140" },
+  { response: "platform-version-not-met", code: "PC141" },
 ];
 
 /**
