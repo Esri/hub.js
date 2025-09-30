@@ -7,7 +7,7 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
  * Gate access based on the platform version (portal.currentVersion).
  * If the currentVersion is less than the policy.platformVersion, access is denied.
  * This is used to limit access to features that need to roll out with a
- * specific ArGISOnline version. This should not be used with Enterprise.
+ * specific ArcGISOnline version. This should not be used with Enterprise.
  * @param policy
  * @param context
  * @param _entity
