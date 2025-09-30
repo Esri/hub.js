@@ -90,7 +90,7 @@ export interface IPermissionPolicy {
   flagValue?: boolean;
 
   /**
-   * Policy will deny access on PROD,until after this date.
+   * Policy will deny access on PROD, until after this date.
    * Format must be ISO Date Time format: YYYY-MM-DDTHH:mm:ss.sssZ
    * This is primarily used to prevent access to features that require coordination
    * with documentation/string translations, which have specific delivery dates.
