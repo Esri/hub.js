@@ -1,3 +1,10 @@
+# @esri/hub-common [20.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.12.0...@esri/hub-common@20.13.0) (2025-10-01)
+
+
+### Features
+
+* extend permission for better release control and guides ([#2023](https://github.com/Esri/hub.js/issues/2023)) ([8b0a366](https://github.com/Esri/hub.js/commit/8b0a36633b02a0bd9019ea6e220b56d5f4fbe7ab))
+
 # @esri/hub-common [20.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.11.1...@esri/hub-common@20.12.0) (2025-09-26)
 
 
