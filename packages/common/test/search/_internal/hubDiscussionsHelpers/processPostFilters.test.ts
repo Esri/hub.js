@@ -2,7 +2,7 @@ import { processPostFilters } from "../../../../src/search/_internal/hubDiscussi
 import {
   SharingAccess,
   PostStatus,
-  PostRelation,
+  PostType,
 } from "../../../../src/discussions/api/types";
 import { IFilter } from "../../../../src/search/types";
 
@@ -24,12 +24,12 @@ describe("processPostFilters", () => {
     expect(result.status).toEqual([PostStatus.PENDING]);
   });
 
-  it("should process body, creator, editor, discussion, title", () => {
+  it("should process body, owner->creator, editor, discussion, title", () => {
     const filters: IFilter[] = [
       {
         predicates: [
           { body: "foo" },
-          { creator: "alice" },
+          { owner: "alice" },
           { editor: "bob" },
           { discussion: "d1" },
           { title: "bar" },
@@ -53,9 +53,33 @@ describe("processPostFilters", () => {
     expect(result.parents).toEqual(["p1"]);
   });
 
-  it("should process relations", () => {
-    const filters: IFilter[] = [{ predicates: [{ relation: "replies" }] }];
+  it("should process groups array", () => {
+    const filters: IFilter[] = [{ predicates: [{ groups: ["g1", "g2"] }] }];
     const result = processPostFilters(filters);
-    expect(result.relations).toEqual([PostRelation.REPLIES]);
+    expect(result.groups).toEqual(["g1", "g2"]);
+  });
+
+  it("should process postType", () => {
+    const filters: IFilter[] = [{ predicates: [{ postType: "text" }] }];
+    const result = processPostFilters(filters);
+    expect(result.postType).toEqual(PostType.Text);
+  });
+
+  it("should process created range", () => {
+    const filters: IFilter[] = [
+      { predicates: [{ created: { from: 1, to: 2 } }] },
+    ];
+    const result = processPostFilters(filters);
+    expect(result.createdAfter).toEqual(new Date(1));
+    expect(result.createdBefore).toEqual(new Date(2));
+  });
+
+  it("should process modified range", () => {
+    const filters: IFilter[] = [
+      { predicates: [{ modified: { from: 3, to: 4 } }] },
+    ];
+    const result = processPostFilters(filters);
+    expect(result.updatedAfter).toEqual(new Date(3));
+    expect(result.updatedBefore).toEqual(new Date(4));
   });
 });

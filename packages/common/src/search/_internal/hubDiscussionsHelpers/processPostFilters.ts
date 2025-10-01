@@ -1,11 +1,11 @@
 import {
   ISearchPosts,
-  PostRelation,
   PostStatus,
+  PostType,
   SharingAccess,
 } from "../../../discussions/api/types";
-import { IFilter } from "../../types";
-import { toEnums } from "../hubEventsHelpers/toEnumConverters";
+import { IDateRange, IFilter } from "../../types";
+import { toEnum, toEnums } from "../hubEventsHelpers/toEnumConverters";
 import { flattenFilters } from "./processChannelFilters";
 
 /**
@@ -36,8 +36,8 @@ export function processPostFilters(filters: IFilter[]): Partial<ISearchPosts> {
   }
 
   // creator
-  if (flattenedFilters.creator?.length) {
-    processedFilters.creator = flattenedFilters.creator[0] as string;
+  if (flattenedFilters.owner?.length) {
+    processedFilters.creator = flattenedFilters.owner[0] as string;
   }
 
   // discussion
@@ -68,14 +68,38 @@ export function processPostFilters(filters: IFilter[]): Partial<ISearchPosts> {
     processedFilters.parents = flattenedFilters.parentId as string[];
   }
 
-  // relations
-  if (flattenedFilters.relation?.length) {
-    processedFilters.relations = toEnums(
-      flattenedFilters.relation as string[],
-      PostRelation
+  // groups
+  if (flattenedFilters.groups?.length) {
+    processedFilters.groups = flattenedFilters.groups as string[];
+  }
+
+  // post type
+  if (flattenedFilters.postType?.length) {
+    processedFilters.postType = toEnum(
+      flattenedFilters.postType[0] as string,
+      PostType
     );
   }
-  // TODO: do we need location here?
+
+  // created
+  if (flattenedFilters.created?.length) {
+    processedFilters.createdBefore = new Date(
+      (flattenedFilters.created[0] as IDateRange<string | number>).to
+    );
+    processedFilters.createdAfter = new Date(
+      (flattenedFilters.created[0] as IDateRange<string | number>).from
+    );
+  }
+
+  // modified
+  if (flattenedFilters.modified?.length) {
+    processedFilters.updatedBefore = new Date(
+      (flattenedFilters.modified[0] as IDateRange<string | number>).to
+    );
+    processedFilters.updatedAfter = new Date(
+      (flattenedFilters.modified[0] as IDateRange<string | number>).from
+    );
+  }
 
   return processedFilters;
 }

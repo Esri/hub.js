@@ -14,16 +14,16 @@ describe("processPostOptions", () => {
     results = processPostOptions({ start: 11 } as any);
     expect(results.start).toEqual(11);
   });
-  it("should support sortBy", () => {
+  it("should support sortBy for allowed fields", () => {
     let results = processPostOptions({} as any);
     expect(results.sortBy).toBeUndefined();
     results = processPostOptions({ sortField: "body" } as any);
     expect(results.sortBy).toEqual(PostSort.BODY);
     results = processPostOptions({ sortField: "channelId" } as any);
     expect(results.sortBy).toEqual(PostSort.CHANNEL_ID);
-    results = processPostOptions({ sortField: "createdAt" } as any);
+    results = processPostOptions({ sortField: "created" } as any);
     expect(results.sortBy).toEqual(PostSort.CREATED_AT);
-    results = processPostOptions({ sortField: "creator" } as any);
+    results = processPostOptions({ sortField: "owner" } as any);
     expect(results.sortBy).toEqual(PostSort.CREATOR);
     results = processPostOptions({ sortField: "discussion" } as any);
     expect(results.sortBy).toEqual(PostSort.DISCUSSION);
@@ -37,15 +37,17 @@ describe("processPostOptions", () => {
     expect(results.sortBy).toEqual(PostSort.STATUS);
     results = processPostOptions({ sortField: "title" } as any);
     expect(results.sortBy).toEqual(PostSort.TITLE);
-    results = processPostOptions({ sortField: "updatedAt" } as any);
+    results = processPostOptions({ sortField: "modified" } as any);
     expect(results.sortBy).toEqual(PostSort.UPDATED_AT);
   });
-  it("should support sortOrder", () => {
+  it("should support explicit sortOrder only when provided and valid", () => {
     let results = processPostOptions({} as any);
-    expect(results.sortOrder).toEqual(SortOrder.ASC);
+    expect(results.sortOrder).toBeUndefined();
     results = processPostOptions({ sortOrder: "asc" } as any);
     expect(results.sortOrder).toEqual(SortOrder.ASC);
     results = processPostOptions({ sortOrder: "desc" } as any);
     expect(results.sortOrder).toEqual(SortOrder.DESC);
+    results = processPostOptions({ sortOrder: "invalid" } as any);
+    expect(results.sortOrder).toBeUndefined();
   });
 });

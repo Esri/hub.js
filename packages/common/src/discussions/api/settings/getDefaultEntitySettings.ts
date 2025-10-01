@@ -36,7 +36,6 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
   event: null,
   user: null,
   channel: null,
-  post: null,
 };
 
 export function getDefaultEntitySettings(

@@ -2,6 +2,44 @@ import { ISearchPosts, PostSort, SortOrder } from "../../../discussions";
 import { IHubSearchOptions } from "../../types";
 
 /**
+ * A union type of supported sort fields whens searching for posts
+ */
+type HubSearchPostSortFields =
+  | "body"
+  | "channelId"
+  | "created"
+  | "modified"
+  | "owner"
+  | "discussion"
+  | "editor"
+  | "id"
+  | "parentId"
+  | "status"
+  | "title";
+
+/**
+ * A map of HubSearchPostSortFields to PostSort
+ */
+const SORT_BY_MAP: Record<HubSearchPostSortFields, PostSort> = {
+  body: PostSort.BODY,
+  channelId: PostSort.CHANNEL_ID,
+  created: PostSort.CREATED_AT,
+  modified: PostSort.UPDATED_AT,
+  owner: PostSort.CREATOR,
+  discussion: PostSort.DISCUSSION,
+  editor: PostSort.EDITOR,
+  id: PostSort.ID,
+  parentId: PostSort.PARENT_ID,
+  status: PostSort.STATUS,
+  title: PostSort.TITLE,
+};
+
+const SORT_ORDER_MAP: Record<"desc" | "asc", SortOrder> = {
+  desc: SortOrder.DESC,
+  asc: SortOrder.ASC,
+};
+
+/**
  * Builds a Partial<ISearchPosts> for the given IHubSearchOptions
  * @param options An IHubSearchOptions object
  * @returns a Partial<ISearchPosts> for the given IHubSearchOptions
@@ -10,49 +48,27 @@ export function processPostOptions(
   options: IHubSearchOptions
 ): Partial<ISearchPosts> {
   const processedOptions: Partial<ISearchPosts> = {};
+  // num
   if (options.num > 0) {
     processedOptions.num = options.num;
   }
+
+  // start
   if (options.start > 1) {
     processedOptions.start = options.start;
   }
-  processedOptions.sortOrder =
-    options.sortOrder === "desc" ? SortOrder.DESC : SortOrder.ASC;
-  // sort field
-  switch (options.sortField) {
-    case "body":
-      processedOptions.sortBy = PostSort.BODY;
-      break;
-    case "channelId":
-      processedOptions.sortBy = PostSort.CHANNEL_ID;
-      break;
-    case "createdAt":
-      processedOptions.sortBy = PostSort.CREATED_AT;
-      break;
-    case "creator":
-      processedOptions.sortBy = PostSort.CREATOR;
-      break;
-    case "discussion":
-      processedOptions.sortBy = PostSort.DISCUSSION;
-      break;
-    case "editor":
-      processedOptions.sortBy = PostSort.EDITOR;
-      break;
-    case "id":
-      processedOptions.sortBy = PostSort.ID;
-      break;
-    case "parentId":
-      processedOptions.sortBy = PostSort.PARENT_ID;
-      break;
-    case "status":
-      processedOptions.sortBy = PostSort.STATUS;
-      break;
-    case "title":
-      processedOptions.sortBy = PostSort.TITLE;
-      break;
-    case "updatedAt":
-      processedOptions.sortBy = PostSort.UPDATED_AT;
-      break;
+
+  // sort order
+  if (options.sortOrder && SORT_ORDER_MAP[options.sortOrder]) {
+    processedOptions.sortOrder = SORT_ORDER_MAP[options.sortOrder];
   }
+
+  // sort field
+  const sortField: PostSort =
+    SORT_BY_MAP[options.sortField as HubSearchPostSortFields];
+  if (sortField) {
+    processedOptions.sortBy = sortField;
+  }
+
   return processedOptions;
 }
