@@ -12,6 +12,7 @@ import * as migrateBadBasemapModule from "../../src/sites/_internal/migrateBadBa
 import * as ensureBaseTelemetry from "../../src/sites/_internal/ensureBaseTelemetry";
 import * as _migrateToV2CatalogModule from "../../src/sites/_internal/_migrate-to-v2-catalog";
 import * as ensureLowercaseOrgUrlKeySlugAndKeywordModule from "../../src/sites/_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
+import * as removeCatalogV1FromUpgradedSite from "../../src/sites/_internal/removeCatalogV1FromUpgradedSite";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
 import { IModel } from "../../src/hub-types";
@@ -32,6 +33,7 @@ describe("upgradeSiteSchema", () => {
   let ensureBaseTelemetrySpy: jasmine.Spy;
   let migrateToV2CatalogSpy: jasmine.Spy;
   let slugFixSpy: jasmine.Spy;
+  let removeCatalogV1FromUpgradedSiteSpy: jasmine.Spy;
 
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
@@ -90,6 +92,10 @@ describe("upgradeSiteSchema", () => {
       ensureLowercaseOrgUrlKeySlugAndKeywordModule,
       "ensureLowercaseOrgUrlKeySlugAndKeyword"
     ).and.callFake((model: IModel) => model);
+    removeCatalogV1FromUpgradedSiteSpy = spyOn(
+      removeCatalogV1FromUpgradedSite,
+      "removeCatalogV1FromUpgradedSite"
+    ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades", async () => {
@@ -119,6 +125,7 @@ describe("upgradeSiteSchema", () => {
         migrateLinkUnderlinesCapabilitySpy,
         migrateToV2CatalogSpy,
         slugFixSpy,
+        removeCatalogV1FromUpgradedSiteSpy,
       ],
       expect
     );
@@ -155,7 +162,11 @@ describe("upgradeSiteSchema", () => {
     expectAll([migrateBadBasemapSpy], "toHaveBeenCalled", true, expect);
     expectAll([ensureBaseTelemetrySpy], "toHaveBeenCalled", true, expect);
     expectAll(
-      [migrateLinkUnderlinesCapabilitySpy, slugFixSpy],
+      [
+        migrateLinkUnderlinesCapabilitySpy,
+        slugFixSpy,
+        removeCatalogV1FromUpgradedSiteSpy,
+      ],
       "toHaveBeenCalled",
       true,
       expect
