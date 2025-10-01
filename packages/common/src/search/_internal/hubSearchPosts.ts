@@ -75,6 +75,8 @@ export async function hubSearchPosts(
   };
   const { items, nextStart, total } = await searchPostsV2({
     ...options.requestOptions,
+    // Passing `hubApiKey` as `token` to `searchPostsV2`. The token is defined as
+    // a prop in `IDiscussionsRequestOptions`, which `ISearchPostsParams` extends
     token: options.requestOptions?.hubApiKey,
     data,
   });
