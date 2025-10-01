@@ -52,4 +52,7 @@ export type PolicyResponse =
   | "feature-enabled" // feature has been enabled for the entity
   | "not-in-environment" // user is not in an allowed environment
   | "no-policy-exists" // policy is not defined for this permission
-  | "feature-flag-required"; // feature flag is not passed;
+  | "feature-flag-required" // feature flag is not passed
+  | "release-date-not-reached" // current date is before the release date
+  | "retire-date-not-reached" // current date is before the retire date
+  | "platform-version-not-met"; // current platform version is not supported

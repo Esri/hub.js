@@ -24,6 +24,8 @@ import { IPermissionPolicy } from "./types/IPermissionPolicy";
 import { getProp } from "../objects/get-prop";
 import { getWithDefault } from "../objects/get-with-default";
 import { Logger } from "../utils/logger";
+import { checkReleaseGating } from "./_internal/checkReleaseGating";
+import { checkPlatformVersion } from "./_internal/checkPlatformVersion";
 
 /**
  * @internal
@@ -194,18 +196,20 @@ export function checkPermission(
   const requiredChecks: PermissionCheckFunction[] = [
     checkServiceStatus,
     checkAuthentication,
+    checkLicense,
     checkPrivileges,
     checkOwner,
     checkEdit,
     checkDelete,
-    checkLicense,
     checkAssertions,
+    checkPlatformVersion,
   ];
 
   // checks that feature flags can override
   const overridableChecks: PermissionCheckFunction[] = [
     checkAvailability,
     checkEnvironment,
+    checkReleaseGating,
   ];
 
   let checkFns: PermissionCheckFunction[] = [];

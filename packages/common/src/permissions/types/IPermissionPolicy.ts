@@ -88,6 +88,31 @@ export interface IPermissionPolicy {
    * if a system is offline.
    */
   flagValue?: boolean;
+
+  /**
+   * Policy will deny access on PROD, until after this date.
+   * Format must be ISO Date Time format: YYYY-MM-DDTHH:mm:ss.sssZ
+   * This is primarily used to prevent access to features that require coordination
+   * with documentation/string translations, which have specific delivery dates.
+   */
+  releaseAfter?: string;
+
+  /**
+   * Policy will deny access on PROD, starting after this date.
+   * Format must be ISO Date Time format: YYYY-MM-DDTHH:mm:ss.sssZ
+   * This is primarily used to allow for deprecation of features, with a known retirement date.
+   * This should be used sparingly, and only when there is a clear deprecation path for users.
+   */
+  retireAfter?: string;
+
+  /**
+   * Policy will deny access until portal.currentVersion matches or is greater than this value. e.g. `2025.3`
+   * This is primarily used to prevent access to features that require coordination
+   * with specific ArcGIS Online releases.
+   * Do not use this for Enterprise version checks! Given that release cadence, we need
+   * to ungate features based on the Enterprise release cycle, and not on specific versions.
+   */
+  platformVersion?: number;
 }
 
 export type FeatureFlag = "settings" | "details";

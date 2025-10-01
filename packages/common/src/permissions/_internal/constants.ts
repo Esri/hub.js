@@ -18,6 +18,10 @@ import { UserPermissions } from "../../users/_internal/UserPermissions";
  * otherwise Permission devolves into just a string type
  */
 export const SystemPermissions = [
+  "hub:release:2025R3",
+  "hub:release:2026R1",
+  "hub:release:2026R2",
+  "hub:release:2026R3",
   "hub:gating:workspace:released",
   "hub:feature:ai-assistant",
   "hub:platform:ai-assistant",

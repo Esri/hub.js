@@ -8,37 +8,31 @@ group: 4-advanced
 
 ## Permissions
 
-Permissions are defined by `IPermissionPolicy` objects, which are considered platform business rules. They are stored in the `<Entity>BusinessRules.ts` modules, and should not be exported from Hub.js.
+ArcGIS Hub uses a single, centralized permission system to determine access to functionality within the application.
 
-For an overview of how permissons work, see the [Access Control Guide](../access-control)
+Permissions are defined by `IPermissionPolicy` objects, which represent platform business rules. These are stored in `<Entity>BusinessRules.ts` modules and should not be exported from Hub.js.
+
+For an overview of how permissions work, see the [Access Control Guide](../access-control).
 
 ### Permission Policy Properties
 
-**Permission**: Permission Identifier. e.g. `hub:projects:create`
+- **permission**: Permission identifier, e.g. `hub:projects:create`
+- **dependencies**: Array of other permissions this permission depends on. This allows for hierarchies and reduces duplication. Keep these shallow—at most 3 levels deep.
+- **services**: Services that must be online for this policy.
+- **authenticated**: Must the user be authenticated?
+- **privileges**: Platform-level privileges required, e.g. `portal:user:createItem`. The user must have all specified privileges.
+- **entityOwner**: Does this policy require the user to be the owner of the entity?
+- **entityEdit**: Does this policy require the user to be able to edit the entity?
+- **licenses**: Required Hub licenses. Specify only if the permission is limited to certain licenses.
+- **availability**: `alpha`, `beta`, or `general` availability. Can be overridden by passing `?pe=permission:to:enable` in the URI.
+- **environments**: `devext`, `qaext`, `production`, etc. Can be overridden by passing `?pe=permission:to:enable` in the URI.
+- **assertions**: Additional checks for custom scenarios not covered by other properties.
+- **entityConfigurable**: Can an entity enable/disable this permission?
+- **releaseAfter**: ISO date after which the permission is enabled (production only).
+- **retireAfter**: ISO date after which the permission is disabled (for deprecating functionality).
+- **portalVersion**: Numeric portal version (`2025.3`) after which the permission is enabled (for synchronizing releases with ArcGIS Online).
 
-**dependencies**: Array of other permissions this permission depends on. This allows for the creation of hiearchies, with reduces duplication
-
-**services**: What services must be online for this policy?
-
-**authenticated**: must user be authenticated?
-
-**privileges**: Any Platform level privileges that may be required. e.g. `portal:user:createItem`. User must have all specified privileges.
-
-**entityOwner**: Does this policy require that the user be the owner of the entity?
-
-**entityEdit**: Does this policy require that the user be able to edit the entity?
-
-**licenses**: What Hub Licenses are required? Only specify this if the permission is limited to a subset of licenses.
-
-**availability**: `alpha`, `beta` or `general` availability. Can be overridden by passing `?pe=permission:to:enable` in uri
-
-**environments**: `devext`, `qaext` or `production` etc. Can be overridden by passing `?pe=permission:to:enable` in uri
-
-**assertions**: additional checks that can address custom scenarios not covered by the other properties. (example shown below)
-
-**entityConfigurable**: can an entity enable/disable this?
-
-Please see the [`IPermissionPolicy` documentation](/hub.js/api/common/IPermissionPolicy/) for list of all available properties and theur detailed definitions.
+See the [`IPermissionPolicy` documentation](/hub.js/api/common/IPermissionPolicy/) for a full list of properties and detailed definitions.
 
 #### Example Annotated Policy
 
@@ -75,19 +69,11 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace:followers:manager",
     dependencies: ["hub:site:edit"],
-    // example of an assertion used to implement an
-    // entity specific rule
     assertions: [
       {
-        // Access to this permission requires that the current user
-        // is an admin of the followers group. To do that we
-        // look up a property on the context
         property: "context:currentUser",
-        // choose the type of assertion
         type: "is-group-admin",
-        // look up a property from the entity
         value: "entity:followersGroupId",
-        // see the IPolicyAssertion type for more information
       },
     ],
   },
@@ -104,12 +90,18 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     // see Entity Feature Flags below
     entityConfigurable: true,
   },
+  {
+    // Example of a new feature tied to an ArcGIS Online release
+    permission: "hub:site:discussion:mapview",
+    dependencies: ["hub:site:edit", "hub:release:2026R1"],
+    licenses: ["hub-premium"],
+  },
 ];
 ```
 
 ### Entity Permission Policies
 
-Entities can add additional "gating" for specific permissions. For example, a Site owner (`jsmith`) may choose to limit domain editing to themselves. So on the site entity, an `IEntityPermissionPolicy` would be added to the `.permissions` array, adding that conditition to the existing `IPermissionPolicy`
+Entities can add additional gating for specific permissions. For example, a Site owner (`jsmith`) may limit domain editing to themselves by adding an `IEntityPermissionPolicy` to the `.permissions` array.
 
 ```js
 site.permissions = [
@@ -121,16 +113,15 @@ site.permissions = [
 ];
 ```
 
-Entity Permission Policies are more limited than the full `IPermissionPolicy`, but they can cover a wide range of collaboration scenarios
+Entity Permission Policies are more limited than full `IPermissionPolicy` objects, but cover many collaboration scenarios:
 
-- is the current user a member of a specified group?
-- is the current user a member of a specified org?
-- is the current user specifically granted access by name? (as shown above)
+- Is the current user a member of a specified group?
+- Is the current user a member of a specified org?
+- Is the current user specifically granted access by name?
 
-Entities can define many policies for the same permission, and only one of those needs to pass.
+Entities can define multiple policies for the same permission; only one needs to pass.
 
 ```js
-// In this example jsmith or dvader will be granted access to hub:site:edit:domain
 site.permissions = [
   {
     permission: "hub:site:edit:domain",
@@ -147,55 +138,44 @@ site.permissions = [
 
 ### Entity Features
 
-Individual entities can disable "features" (which are represented by a permission). This is done by adding a key for the permission into the `entity.features` hash. Only permissions with `.entityConfigurable:true` will be read from this hash, ensuring general business rules can not be overridden.
+Entities can disable features (represented by permissions) by adding a key for the permission to the `entity.features` hash. Only permissions with `.entityConfigurable: true` are read from this hash, ensuring general business rules cannot be overridden.
 
 ```js
 site.features = {
-  // although the general business rules in the example above
-  // allow sites to have the chat "feature",
-  // by adding an entry for that permission, we can turn it off
   "hub:site:workspace:chat": false,
-  // NOTE: these values are only read if the permission policy specifically
-  // allows the permission to be "configured" by the entity
-  // by specifying entityConfigurable:true
+  // Only read if entityConfigurable: true on the permission policy
 };
 ```
 
 ### System Feature Flags
 
-Hub.js also supports system feature flags. These are passed into the `ArcGISContextManager.create(...)` as part of the options. The host application is responsible for parsing the values from the url.
+Hub.js supports system feature flags, passed into `ArcGISContextManager.create(...)` as part of the options. The host application parses values from the URL.
 
-System Feature Flags will override any Entity Feature flags, as well as the `availability` and `environment` checks. They can not be used to override license level checks, nor any core platform level privileges.
+System Feature Flags override Entity Feature flags and the `availability` and `environment` checks. They cannot override license checks or core platform privileges.
 
-These are typically used to demonstrate upcoming features in customer Production orgs, despite the feature being gated to `qaext`.
+These are typically used to demonstrate upcoming features in customer Production orgs, even if gated to `qaext`.
 
-Feature Flags are reset when the user formally signs out of the running application.
+Feature Flags are reset when the user signs out.
 
 ### System Service Flags
 
-As noted, Permission policies can list the services they depend upon (see the `hub:site:edit:domains` definition). In order to test our graceful degradation UX, we need a means to simulate a service being offline.
-
-Similar to System Feature Flags, these are passed into `ArcGISContextManager.create(...)` as part of the options, and override the live status information.
-
-Service Flags are reset when the user formally signs out of the running application.
+Permission policies can list dependent services. To test graceful degradation UX, you can simulate a service being offline using Service Flags, passed into `ArcGISContextManager.create(...)` as options. These override live status information and are reset on sign out.
 
 ### Feature Gating & User Opt-in/out
 
-During development, features are often gated—accessible only when a specific URI parameter is present or when the app runs in certain environments or availability modes (e.g., "alpha"). As release approaches, you may want to let users opt in to preview features. After general release, you may allow users to opt out for a limited time.
+During development, features are often gated—accessible only with a specific URI parameter or in certain environments/availability modes (e.g., "alpha"). As release approaches, users may opt in to preview features. After general release, users may opt out for a limited time.
 
 #### Defining Gating and Feature Permissions
 
-Start by defining both "gating" and "feature" permissions:
+Define both "gating" and "feature" permissions:
 
 ```js
 {
-  // Gating permission: cannot be overridden by user settings
   permission: "hub:gating:workspace:released",
   availability: ["alpha"],
   environments: ["devext", "qaext", "production"],
 },
 {
-  // Feature permission: can be opted in or out by the user
   permission: "hub:feature:workspace",
   dependencies: ["hub:gating:workspace:released"],
 },
@@ -225,7 +205,7 @@ To release the feature to all users, remove conditions from the gating permissio
 },
 ```
 
-Update the `getDefaultUserHubSettings(...)` function so the feature is opted in by default:
+Update `getDefaultUserHubSettings(...)` so the feature is opted in by default:
 
 ```js
 {
@@ -238,45 +218,79 @@ Update the `getDefaultUserHubSettings(...)` function so the feature is opted in 
 }
 ```
 
-Update the UI to reflect the feature’s general availability. The boolean value should remain consistent: `true` means the user has the feature, `false` means they do not.
+Update the UI to reflect general availability. The boolean value should remain consistent: `true` means the user has the feature, `false` means they do not.
 
 #### Ending the Opt-out Period
 
-When the opt-out period ends, apply a schema migration to remove the feature property from `IUserHubSettings.features`. This prevents users from opting out, even manually, and allows you to remove legacy code.
+When the opt-out period ends, apply a schema migration to remove the feature property from `IUserHubSettings.features`. This prevents users from opting out and allows removal of legacy code.
 
 ### Checking Permission Access
 
-Permissions can be checked directly on an Entity instance via the `instance.checkPermission(permission)` method. If you don’t have access to an Entity Instance, the `checkPermission(permission, context, entity?)` function is also available.
+Permissions can be checked directly on an Entity instance via `instance.checkPermission(permission)`. If you don’t have access to an Entity instance, use `checkPermission(permission, context, entity?)`.
 
 ```jsx
-// Check individual permission
-
 checkPermission("hub:events:create", entity, context);
-
-//=> {permission: "hub:events:create", access: false, response: "not-group-member", checks: [{"hub:events:create", value: "group:00c", response:"not-group-member"}]}
-// same function will be exposed on the class instances
+//=> {permission: "hub:events:create", access: false, response: "not-group-member", checks: [...]}
 
 site.checkPermission("hub:pages:create");
-//=> {permission: "hub:pages:create", access: true, response: "group-member", checks: [{"hub:pages:create", value: "group:00c", response:"group-member"}]}
+//=> {permission: "hub:pages:create", access: true, response: "group-member", checks: [...]}
 ```
 
-Both return an `IPermissionAccessResponse` . The most important property is `.access` which indicates if the current user has access to the capability. The other properties are for debugging and observability into why the system is returning the `.access` value, and can be used to display different messages to the user.
+Both return an `IPermissionAccessResponse`. The most important property is `.access`, indicating if the current user has access. Other properties provide debugging and observability into why `.access` is returned, and can be used to display different messages.
 
-For example, the `.result` property will be `granted` if access is allowed, but if access is denied, it will be a more informative value.
+For example, `.result` will be `granted` if access is allowed; if denied, it will be more informative.
 
-The table below lists all the values, but some of most important are:
+Some key values:
 
-**not-licensed-available** which means the feature is available, but user lacks a license. This is an opportunity to show an upgrade call-to-action
+- **not-licensed-available**: Feature is available, but user lacks a license. Opportunity to show an upgrade call-to-action.
+- **service-offline**: Required service is offline. Application can show a general error or continue with degraded experience.
+- **service-not-available**: Service is not available in the current environment. Useful for gating features not yet in Enterprise.
 
-**service-offline** a required service is currently offline. Application can choose to show a general error message, or continue with a gracefully degraded experience.
-
-**service-not-available** this means that the service is simply not available in the current environment. This is a good means to gate access to a feature that's not currently in Enterprise, but which we could add over time.
-
-Most of the rest of the values are specific to some policy check failing.
+Most other values are specific to policy check failures.
 
 | `result` Value                      | Description                                            |
 | ----------------------------------- | ------------------------------------------------------ |
 | "granted"                           | user has access                                        |
+| "disabled-by-feature-flag"          | access denied due to a flag                            |
+| "disabled-by-entity-flag"           | access denied due to a flag                            |
+| "org-member"                        | user is member of granted org                          |
+| "not-org-member"                    | user is not member of granted org                      |
+| "group-member"                      | user is member of granted group                        |
+| "not-group-member"                  | user is not member of granted group                    |
+| "not-group-admin"                   | user is not admin member of granted group              |
+| "is-user"                           | user is granted directly                               |
+| "not-owner"                         | user is not the owner                                  |
+| "not-licensed"                      | user is not licensed                                   |
+| "not-licensed-available"            | user is not licensed, but could be                     |
+| "not-available"                     | permission not available in this context               |
+| "not-granted"                       | user does not have permission                          |
+| "no-edit-access"                    | user does not have edit access                         |
+| "edit-access"                       | user has edit access but policy is for non-editors     |
+| "invalid-permission"                | permission is invalid                                  |
+| "invalid-capability"                | capability is invalid                                  |
+| "privilege-required"                | user does not have required privilege                  |
+| "service-offline"                   | service is offline                                     |
+| "service-maintenance"               | service is in maintenance mode                         |
+| "service-not-available"             | service is not available in this environment           |
+| "entity-required"                   | entity is required but not passed                      |
+| "not-authenticated"                 | user is not authenticated                              |
+| "not-alpha-org"                     | user is not in an alpha org                            |
+| "not-beta-org"                      | user is not in a beta org                              |
+| "property-missing"                  | assertion requires property but is missing from entity |
+| "property-not-array"                | assertion requires array property                      |
+| "array-contains-invalid-value"      | assertion specifies a value not be included            |
+| "array-missing-required-value"      | assertion specifies a value not be included            |
+| "property-mismatch"                 | assertion values do not match                          |
+| "user-not-group-member"             | user is not a member of a specified group              |
+| "user-not-group-manager"            | user is not a manager of a specified group             |
+| "user-not-group-owner"              | user is not a owner of a specified group               |
+| "assertion-property-not-found"      | assertion property was not found                       |
+| "assertion-failed"                  | assertion condition was not met                        |
+| "assertion-requires-numeric-values" | assertion requires numeric values                      |
+| "feature-disabled"                  | feature has been disabled for the entity               |
+| "feature-enabled"                   | feature has been enabled for the entity                |
+| "not-in-environment"                | user is not in an allowed environment                  |
+| "no-policy-exists"                  | policy is not defined for this permission              |
 | "disabled-by-feature-flag"          | access denied due to a flag                            |
 | "disabled-by-entity-flag"           | access denied due to a flag                            |
 | "org-member"                        | user is member of granted org                          |

@@ -84,6 +84,23 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // the workspace feature will be available to all users
     permission: "hub:gating:workspace:released",
   },
+  // AGO Release Permissions
+  {
+    permission: "hub:release:2025R3",
+    platformVersion: 2025.3,
+  },
+  {
+    permission: "hub:release:2026R1",
+    platformVersion: 2026.1,
+  },
+  {
+    permission: "hub:release:2026R2",
+    platformVersion: 2026.2,
+  },
+  {
+    permission: "hub:release:2026R3",
+    platformVersion: 2026.3,
+  },
 
   // AI Assistant org permissions
   // this is used to allow AI Assistant features from the org level
