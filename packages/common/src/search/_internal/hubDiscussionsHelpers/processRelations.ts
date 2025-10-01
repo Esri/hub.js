@@ -10,8 +10,7 @@ const RELATIONS_MAP: Record<string, PostRelation> = {
 };
 
 /**
- * Convert an array of `include` into a de-duplicated array
- * of PostRelation values.
+ * Convert an array of `include` into an array of PostRelation values.
  * @param relations array of include (e.g. ["channel", "replies"]).
  * @returns PostRelation[] with order of first appearance preserved.
  */
@@ -19,7 +18,9 @@ export function processRelations(relations: string[]): PostRelation[] {
   const results: PostRelation[] = [];
   for (const rel of relations) {
     const mapped = RELATIONS_MAP[rel];
-    if (mapped && !results.includes(mapped)) results.push(mapped);
+    if (mapped && !results.includes(mapped)) {
+      results.push(mapped);
+    }
   }
   return results;
 }
