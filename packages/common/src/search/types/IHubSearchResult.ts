@@ -1,7 +1,7 @@
 import { IGroup, IItem, IUser } from "@esri/arcgis-rest-portal";
 import { HubFamily, IHubGeography } from "../../hub-types";
 import { IOgcItem } from "../_internal/hubSearchItemsHelpers/interfaces";
-import { IChannel } from "../../discussions/api/types";
+import { IChannel, IPost } from "../../discussions/api/types";
 import { IEvent, IRegistration } from "../../events/api/orval/api/orval-events";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { AccessLevel } from "../../core/types/types";
@@ -77,7 +77,8 @@ export interface IHubSearchResult extends IHubEntityBase {
     | IOgcItem
     | IChannel
     | IEvent
-    | IRegistration;
+    | IRegistration
+    | IPost;
 
   /** Allow any additional properties to be added */
   [key: string]: any;

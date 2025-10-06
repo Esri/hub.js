@@ -5,6 +5,7 @@ import * as portalSearchItemsModule from "../../src/search/_internal/portalSearc
 import * as portalSearchGroupsModule from "../../src/search/_internal/portalSearchGroups";
 import * as hubSearchItemsModule from "../../src/search/_internal/hubSearchItems";
 import * as hubSearchChannelsModule from "../../src/search/_internal/hubSearchChannels";
+import * as hubSearchPostsModule from "../../src/search/_internal/hubSearchPosts";
 
 describe("hubSearch Module:", () => {
   describe("hubSearch:", () => {
@@ -100,6 +101,7 @@ describe("hubSearch Module:", () => {
       let portalSearchGroupsSpy: jasmine.Spy;
       let hubSearchItemsSpy: jasmine.Spy;
       let hubSearchChannelsSpy: jasmine.Spy;
+      let hubSearchPostsSpy: jasmine.Spy;
       beforeEach(() => {
         // we are only interested in verifying that the fn was called with specific args
         // so all the responses are fake
@@ -141,6 +143,16 @@ describe("hubSearch Module:", () => {
             hasNext: false,
             results: [],
             total: 99,
+          });
+        });
+        hubSearchPostsSpy = spyOn(
+          hubSearchPostsModule,
+          "hubSearchPosts"
+        ).and.callFake(() => {
+          return Promise.resolve({
+            hasNext: false,
+            results: [],
+            total: 77,
           });
         });
       });
@@ -278,6 +290,27 @@ describe("hubSearch Module:", () => {
         expect(chk.total).toBe(99);
         expect(hubSearchChannelsSpy.calls.count()).toBe(1);
         const [query, options] = hubSearchChannelsSpy.calls.argsFor(0);
+        expect(query).toEqual(qry);
+        expect(options).toEqual({ ...opts, api: "hub" });
+      });
+      it("posts + hub: hubSearchPosts", async () => {
+        const qry: IQuery = {
+          targetEntity: "post",
+          filters: [
+            {
+              predicates: [{ id: ["p1", "p2"] }],
+            },
+          ],
+        };
+        const opts: IHubSearchOptions = {
+          requestOptions: {
+            hubApiUrl: "https://hubqa.arcgis.com/api",
+          },
+        };
+        const chk = await hubSearch(qry, opts);
+        expect(chk.total).toBe(77);
+        expect(hubSearchPostsSpy.calls.count()).toBe(1);
+        const [query, options] = hubSearchPostsSpy.calls.argsFor(0);
         expect(query).toEqual(qry);
         expect(options).toEqual({ ...opts, api: "hub" });
       });

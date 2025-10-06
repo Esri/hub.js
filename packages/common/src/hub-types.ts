@@ -127,6 +127,10 @@ export interface IHubRequestOptions extends IRequestOptions {
    * The implementation of `fetch` to use. Defaults to a global `fetch`.
    */
   fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+  /**
+   * This is for server-side usage only, not for front-end use.
+   */
+  hubApiKey?: string;
 }
 
 /**
@@ -211,6 +215,7 @@ export const HubFamilies = [
   "discussion",
   "eventAttendee",
   "organization",
+  "post",
 ] as const;
 
 /**

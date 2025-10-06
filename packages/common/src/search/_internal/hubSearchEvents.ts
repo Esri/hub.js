@@ -68,7 +68,7 @@ export async function hubSearchEvents(
     total,
     results,
     hasNext,
-    next: () => {
+    next: (): Promise<IHubSearchResponse<IHubSearchResult>> => {
       if (!hasNext) {
         throw new Error("No more hub events for the given query and options");
       }
