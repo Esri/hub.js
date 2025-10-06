@@ -64,7 +64,7 @@ export function processPostFilters(filters: IFilter[]): Partial<ISearchPosts> {
   }
 
   // parents
-  if (flattenedFilters.parentId?.length) {
+  if (Array.isArray(flattenedFilters.parentId)) {
     processedFilters.parents = flattenedFilters.parentId as string[];
   }
 
