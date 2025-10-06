@@ -1,3 +1,10 @@
+# @esri/hub-common [20.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.13.0...@esri/hub-common@20.14.0) (2025-10-06)
+
+
+### Features
+
+* add post entity type and support 'post' in hubSearch ([#2019](https://github.com/Esri/hub.js/issues/2019)) ([4a5e6ba](https://github.com/Esri/hub.js/commit/4a5e6baa973adba9e8659ecb98b5bd6d78ba49e8))
+
 # @esri/hub-common [20.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.12.0...@esri/hub-common@20.13.0) (2025-10-01)
 
 
