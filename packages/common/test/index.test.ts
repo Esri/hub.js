@@ -134,6 +134,7 @@ describe("index", () => {
     "ENTITY_MAP_SCHEMA",
     "ENTITY_IMAGE_SCHEMA",
     "ENTITY_TIMELINE_SCHEMA",
+    "ENTITY_LAYOUT_SETUP_SCHEMA",
     "PRIVACY_CONFIG_SCHEMA",
     "SLUG_SCHEMA",
     "ENTITY_CATALOG_SETUP_SCHEMA",
@@ -750,6 +751,7 @@ describe("index", () => {
     "fetchCategoriesUiSchemaElement",
     "btoa",
     "atob",
+    "compareAccess",
   ];
 
   const NODE_EXPORTS = [

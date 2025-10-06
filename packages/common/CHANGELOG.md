@@ -1,3 +1,38 @@
+# @esri/hub-common [20.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.12.0...@esri/hub-common@20.13.0) (2025-10-01)
+
+
+### Features
+
+* extend permission for better release control and guides ([#2023](https://github.com/Esri/hub.js/issues/2023)) ([8b0a366](https://github.com/Esri/hub.js/commit/8b0a36633b02a0bd9019ea6e220b56d5f4fbe7ab))
+
+# @esri/hub-common [20.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.11.1...@esri/hub-common@20.12.0) (2025-09-26)
+
+
+### Features
+
+* **hub-common:** modified sharing level access on site sharing level ([#2011](https://github.com/Esri/hub.js/issues/2011)) ([21888a9](https://github.com/Esri/hub.js/commit/21888a96afd57917946b94cc1ead009cd3d00ccf))
+
+## @esri/hub-common [20.11.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.11.0...@esri/hub-common@20.11.1) (2025-09-26)
+
+
+### Bug Fixes
+
+* only set the layout to a template if _layoutSetup is passd ([#2021](https://github.com/Esri/hub.js/issues/2021)) ([e02888f](https://github.com/Esri/hub.js/commit/e02888fc240366a22c4a0c328607c731344fb4e0))
+
+# @esri/hub-common [20.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.10.0...@esri/hub-common@20.11.0) (2025-09-25)
+
+
+### Features
+
+* add group messaging permissions ([#2020](https://github.com/Esri/hub.js/issues/2020)) ([cfcfeb1](https://github.com/Esri/hub.js/commit/cfcfeb1d00c5f141b5a2cddf3b31f6a3909d58b7))
+
+# @esri/hub-common [20.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.9.0...@esri/hub-common@20.10.0) (2025-09-24)
+
+
+### Features
+
+* add layout selection option during site and page creation ([#1996](https://github.com/Esri/hub.js/issues/1996)) ([7fed265](https://github.com/Esri/hub.js/commit/7fed26544b58e37154213c5cf4f3cef05aa7fbed))
+
 # @esri/hub-common [20.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.1...@esri/hub-common@20.9.0) (2025-09-23)
 
 

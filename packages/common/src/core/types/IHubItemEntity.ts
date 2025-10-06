@@ -190,4 +190,6 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
    * catalog with a new group or an existing group.
    */
   _catalogSetup?: ICatalogSetup;
+
+  _layoutSetup?: { layout: "blank" | "simple" };
 };

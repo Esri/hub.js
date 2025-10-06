@@ -3,7 +3,11 @@ import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: site assistant", () => {
   it("returns the full site assistant uiSchema", async () => {
-    const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
+    const uiSchema = await buildUiSchema(
+      "some.scope",
+      { access: "public" } as any,
+      MOCK_CONTEXT
+    );
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
@@ -160,7 +164,7 @@ describe("buildUiSchema: site assistant", () => {
           },
           elements: [
             {
-              label: "Assistant Personality",
+              label: `{{some.scope.assistant.fields.personality.label:translate}}`,
               scope: "/properties/assistant/properties/personality",
               type: "Control",
               options: {
