@@ -10,11 +10,11 @@ const RELATIONS_MAP: Record<string, PostRelation> = {
 };
 
 /**
- * Convert an array of `include` into an array of PostRelation values.
+ * Convert an array of `include` into an array of PostRelation enum values.
  * @param relations array of include (e.g. ["channel", "replies"]).
- * @returns PostRelation[] with order of first appearance preserved.
+ * @returns PostRelation[] with order of first appearance preserved and duplicates removed.
  */
-export function processRelations(relations: string[]): PostRelation[] {
+export function processRelations(relations: string[] = []): PostRelation[] {
   const results: PostRelation[] = [];
   for (const rel of relations) {
     const mapped = RELATIONS_MAP[rel];

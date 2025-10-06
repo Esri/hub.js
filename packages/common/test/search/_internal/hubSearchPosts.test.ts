@@ -30,6 +30,7 @@ describe("hubSearchPosts", () => {
     const hubSearchOptions: IHubSearchOptions = {
       requestOptions: {
         authentication: { token: "token" },
+        hubApiKey: "backendToken",
       },
       num: 3,
       start: 1,
@@ -83,14 +84,19 @@ describe("hubSearchPosts", () => {
       next: jasmine.any(Function),
     });
     expect(searchPostsSpy).toHaveBeenCalledTimes(1);
-    expect(searchPostsSpy).toHaveBeenCalledWith({
-      ...hubSearchOptions.requestOptions,
-      data: {
-        ...processedFilters,
-        num: 3,
-        start: 1,
-        relations: [],
-      },
+    const firstCallArg = searchPostsSpy.calls.argsFor(0)[0];
+    // ensure hubApiKey was mapped to token for backend service call
+    expect(firstCallArg.token).toBe(hubSearchOptions.requestOptions.hubApiKey);
+    // ensure requestOptions properties were passed through
+    expect(firstCallArg.authentication).toEqual(
+      hubSearchOptions.requestOptions.authentication
+    );
+    // assert exact data payload (no extra keys)
+    expect(firstCallArg.data).toEqual({
+      ...processedFilters,
+      num: 3,
+      start: 1,
+      relations: [],
     });
     expect(processPostFiltersSpy).toHaveBeenCalledTimes(1);
     expect(processPostFiltersSpy).toHaveBeenCalledWith(query.filters);
@@ -117,14 +123,16 @@ describe("hubSearchPosts", () => {
       next: jasmine.any(Function),
     });
     expect(searchPostsSpy).toHaveBeenCalledTimes(1);
-    expect(searchPostsSpy).toHaveBeenCalledWith({
-      ...hubSearchOptions.requestOptions,
-      data: {
-        ...processedFilters,
-        num: 3,
-        start: 3,
-        relations: [],
-      },
+    const secondCallArg = searchPostsSpy.calls.argsFor(0)[0];
+    expect(secondCallArg.token).toBe(hubSearchOptions.requestOptions.hubApiKey);
+    expect(secondCallArg.authentication).toEqual(
+      hubSearchOptions.requestOptions.authentication
+    );
+    expect(secondCallArg.data).toEqual({
+      ...processedFilters,
+      num: 3,
+      start: 3,
+      relations: [],
     });
     expect(processPostFiltersSpy).toHaveBeenCalledTimes(1);
     expect(processPostFiltersSpy).toHaveBeenCalledWith(query.filters);
@@ -209,6 +217,36 @@ describe("hubSearchPosts", () => {
     const hubSearchOptions: IHubSearchOptions = {
       requestOptions: { authentication: { token: "token" } },
       include: ["foo", "bar"],
+    } as unknown as IHubSearchOptions;
+    const processedFilters = {};
+    spyOn(processPostFiltersModule, "processPostFilters").and.returnValue(
+      processedFilters
+    );
+    spyOn(processPostOptionsModule, "processPostOptions").and.returnValue({});
+    const apiResponse: IPagedResponse<IPost> = {
+      total: 0,
+      nextStart: -1,
+      start: 1,
+      num: 0,
+      items: [],
+    } as unknown as IPagedResponse<IPost>;
+    const searchPostsSpy = spyOn(postsModule, "searchPostsV2").and.returnValue(
+      Promise.resolve(apiResponse)
+    );
+    spyOn(
+      postResultsToSearchResultsModule,
+      "postToSearchResult"
+    ).and.callThrough();
+
+    await hubSearchPosts(query, hubSearchOptions);
+    const callArgs = searchPostsSpy.calls.argsFor(0)[0];
+    expect(callArgs.data.relations).toEqual([]);
+  });
+
+  it("defaults relations to empty array when include is undefined", async () => {
+    const hubSearchOptions: IHubSearchOptions = {
+      requestOptions: { authentication: { token: "token" } },
+      // no include property
     } as unknown as IHubSearchOptions;
     const processedFilters = {};
     spyOn(processPostFiltersModule, "processPostFilters").and.returnValue(
