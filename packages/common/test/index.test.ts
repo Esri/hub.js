@@ -1218,7 +1218,6 @@ describe("index", () => {
     "atob",
     "compareAccess",
     "CARD_TITLE_TAGS",
-    "bboxStringToGeoJSONPolygon",
   ];
 
   const BROWSER_EXPORTS = [...EXPORTED_ARTIFACTS];

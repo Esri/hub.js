@@ -248,25 +248,3 @@ export const GeoJSONPolygonToBBox = (polygon: Partial<Polygon>): BBox => {
     [xmax, ymax],
   ];
 };
-
-export function bboxStringToGeoJSONPolygon(bbox: string): Polygon {
-  const [lon1, lat1, lon2, lat2] = bbox
-    .split(",")
-    .map((vertex) => parseFloat(vertex.trim()));
-  const minLon = Math.min(lon1, lon2);
-  const minLat = Math.min(lat1, lat2);
-  const maxLon = Math.max(lon1, lon2);
-  const maxLat = Math.max(lat1, lat2);
-  return {
-    type: "Polygon",
-    coordinates: [
-      [
-        [minLon, minLat],
-        [maxLon, minLat],
-        [maxLon, maxLat],
-        [minLon, maxLat],
-        [minLon, minLat],
-      ],
-    ],
-  };
-}

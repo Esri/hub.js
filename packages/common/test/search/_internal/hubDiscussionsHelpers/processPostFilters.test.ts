@@ -5,7 +5,7 @@ import {
   PostType,
 } from "../../../../src/discussions/api/types";
 import { IFilter } from "../../../../src/search/types/IHubCatalog";
-import * as extentModule from "../../../../src/extent";
+import * as bboxStringToGeoJSONPolygonModule from "../../../../src/search/_internal/bboxStringToGeoJSONPolygon";
 import { Geometry } from "geojson";
 
 describe("processPostFilters", () => {
@@ -89,7 +89,7 @@ describe("processPostFilters", () => {
       ],
     };
     const bboxStringToGeoJSONPolygonSpy = spyOn(
-      extentModule,
+      bboxStringToGeoJSONPolygonModule,
       "bboxStringToGeoJSONPolygon"
     ).and.returnValue(geometry);
     const result = processPostFilters([{ predicates: [{ bbox }] }]);

@@ -6,7 +6,7 @@ import {
 } from "../../../discussions/api/types";
 import { IFilter } from "../../types/IHubCatalog";
 import { IDateRange } from "../../types/types";
-import { bboxStringToGeoJSONPolygon } from "../../../extent";
+import { bboxStringToGeoJSONPolygon } from "../bboxStringToGeoJSONPolygon";
 import { toEnum, toEnums } from "../hubEventsHelpers/toEnumConverters";
 import { flattenFilters } from "./processChannelFilters";
 
@@ -40,8 +40,8 @@ export function processPostFilters(filters: IFilter[]): Partial<ISearchPosts> {
     processedFilters.geometry = polygon;
   }
 
-  // term searches against both title and body so
-  // ignore title and body filters when term is provied
+  // `term` searches against both `title` and `body` so
+  // ignore `title` and `body` filters when `term` is provied
   if (flattenedFilters.term?.length) {
     processedFilters.term = flattenedFilters.term[0] as string;
   } else {
