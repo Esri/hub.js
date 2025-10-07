@@ -2,6 +2,7 @@ import {
   isValidExtent,
   allCoordinatesPossiblyWGS84,
   GeoJSONPolygonToBBox,
+  bboxStringToGeoJSONPolygon,
 } from "../../src/extent";
 import type { IExtent } from "@esri/arcgis-rest-feature-service";
 
@@ -142,5 +143,25 @@ describe("GeoJSONPolygonToBBox", function () {
       [-122.68, 45.53],
       [-122.68, 45.53],
     ]);
+  });
+});
+
+describe("bboxStringToGeoJSONPolygon", () => {
+  it("should transform a bbox string to a geojson polygon", () => {
+    const bbox =
+      "126.2274169922485, -42.559149812106845, -25.647583007805757, 83.1100826092665";
+    const results = bboxStringToGeoJSONPolygon(bbox);
+    expect(results).toEqual({
+      type: "Polygon",
+      coordinates: [
+        [
+          [-25.647583007805757, -42.559149812106845],
+          [126.2274169922485, -42.559149812106845],
+          [126.2274169922485, 83.1100826092665],
+          [-25.647583007805757, 83.1100826092665],
+          [-25.647583007805757, -42.559149812106845],
+        ],
+      ],
+    });
   });
 });
