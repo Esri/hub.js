@@ -136,6 +136,7 @@ describe("Subscriptions", () => {
           userId: "111",
           cadence: NewsletterCadence.WEEKLY,
           active: true,
+          entityId: "67e9ba62-8fa3-11ee-b9d1-0242ac120002",
         },
       };
 
