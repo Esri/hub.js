@@ -1,3 +1,10 @@
+# @esri/hub-search [20.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@20.0.0...@esri/hub-search@20.1.0) (2025-10-07)
+
+
+### Features
+
+* move 3dtiles service to maps collection ([#2010](https://github.com/Esri/hub.js/issues/2010)) ([e56bdef](https://github.com/Esri/hub.js/commit/e56bdefc403714c9b350c21a1bb9be4a31087221))
+
 # @esri/hub-search [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@19.0.0...@esri/hub-search@20.0.0) (2025-08-25)
 
 
