@@ -1,3 +1,17 @@
+# @esri/hub-common [20.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.14.0...@esri/hub-common@20.15.0) (2025-10-07)
+
+
+### Features
+
+* move 3dtiles service to maps collection ([#2010](https://github.com/Esri/hub.js/issues/2010)) ([e56bdef](https://github.com/Esri/hub.js/commit/e56bdefc403714c9b350c21a1bb9be4a31087221))
+
+# @esri/hub-common [20.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.13.0...@esri/hub-common@20.14.0) (2025-10-06)
+
+
+### Features
+
+* add post entity type and support 'post' in hubSearch ([#2019](https://github.com/Esri/hub.js/issues/2019)) ([4a5e6ba](https://github.com/Esri/hub.js/commit/4a5e6baa973adba9e8659ecb98b5bd6d78ba49e8))
+
 # @esri/hub-common [20.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.12.0...@esri/hub-common@20.13.0) (2025-10-01)
 
 

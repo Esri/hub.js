@@ -232,6 +232,7 @@ const getMetadataUpdatedDateInfo = (item: IItem, metadata?: any) => {
 export const getContentTypeIcon = (contentType: string) => {
   const type = camelize(contentType);
   const iconMap = {
+    "3dtilesService": "urban-model",
     appbuilderExtension: "file",
     appbuilderWidgetPackage: "widgets-source",
     application: "web",
