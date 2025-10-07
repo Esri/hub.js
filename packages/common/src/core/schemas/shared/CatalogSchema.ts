@@ -60,6 +60,7 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
       enum: ["relevance", "title", "created", "modified"],
       default: "relevance",
     },
+    customFiltersEnabled: { type: "boolean", default: false },
     filters: {
       type: "array",
       items: {
