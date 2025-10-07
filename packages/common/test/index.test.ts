@@ -752,7 +752,6 @@ describe("index", () => {
     "btoa",
     "atob",
     "compareAccess",
-    "bboxStringToGeoJSONPolygon",
   ];
 
   const NODE_EXPORTS = [
