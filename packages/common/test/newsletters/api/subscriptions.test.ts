@@ -47,6 +47,7 @@ describe("Subscriptions", () => {
           deliveryMethod: DeliveryMethod.EMAIL,
           notificationSpecName: SystemNotificationSpecNames.TELEMETRY_REPORT,
           metadata: {
+            type: SystemNotificationSpecNames.TELEMETRY_REPORT,
             hostname: "mock.com",
           },
         },
@@ -79,6 +80,7 @@ describe("Subscriptions", () => {
           deliveryMethod: DeliveryMethod.EMAIL,
           notificationSpecName: SystemNotificationSpecNames.TELEMETRY_REPORT,
           metadata: {
+            type: SystemNotificationSpecNames.TELEMETRY_REPORT,
             hostname: "mock.com",
           },
           userId: "111",
