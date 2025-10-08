@@ -389,7 +389,8 @@ export async function updateSite(
     delete modelToUpdate.data.catalog;
     delete (modelToUpdate.data.values as Record<string, unknown>)
       .searchCategories;
-    // set the temporary property to indicate the site is fully upgraded to catalogV2
+    // set the temporary property to indicate the site is fully upgraded to catalogV2.
+    // (only needed to circumvent some oddities around creating / deploying site templates)
     modelToUpdate.data.useCatalogV2 = true;
   }
   /**
