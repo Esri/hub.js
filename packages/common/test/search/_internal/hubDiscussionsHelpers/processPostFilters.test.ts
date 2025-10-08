@@ -6,7 +6,7 @@ import {
 } from "../../../../src/discussions/api/types";
 import { IFilter } from "../../../../src/search/types/IHubCatalog";
 import * as bboxStringToGeoJSONPolygonModule from "../../../../src/search/_internal/bboxStringToGeoJSONPolygon";
-import { Geometry } from "geojson";
+import { BBOX, GEOMETRY_FIXTURE } from "../fixtures";
 
 describe("processPostFilters", () => {
   it("should return empty object for empty filters", () => {
@@ -74,28 +74,14 @@ describe("processPostFilters", () => {
   });
 
   it("should process bbox", () => {
-    const bbox =
-      "126.2274169922485, -42.559149812106845, -25.647583007805757, 83.1100826092665";
-    const geometry: Geometry = {
-      type: "Polygon",
-      coordinates: [
-        [
-          [-25.647583007805757, -42.559149812106845],
-          [126.2274169922485, -42.559149812106845],
-          [126.2274169922485, 83.1100826092665],
-          [-25.647583007805757, 83.1100826092665],
-          [-25.647583007805757, -42.559149812106845],
-        ],
-      ],
-    };
     const bboxStringToGeoJSONPolygonSpy = spyOn(
       bboxStringToGeoJSONPolygonModule,
       "bboxStringToGeoJSONPolygon"
-    ).and.returnValue(geometry);
-    const result = processPostFilters([{ predicates: [{ bbox }] }]);
+    ).and.returnValue(GEOMETRY_FIXTURE);
+    const result = processPostFilters([{ predicates: [{ bbox: BBOX }] }]);
     expect(bboxStringToGeoJSONPolygonSpy).toHaveBeenCalledTimes(1);
-    expect(bboxStringToGeoJSONPolygonSpy).toHaveBeenCalledWith(bbox);
-    expect(result.geometry).toEqual(geometry);
+    expect(bboxStringToGeoJSONPolygonSpy).toHaveBeenCalledWith(BBOX);
+    expect(result.geometry).toEqual(GEOMETRY_FIXTURE);
   });
 
   it("should process postType", () => {
