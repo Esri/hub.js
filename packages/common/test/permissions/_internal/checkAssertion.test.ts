@@ -664,6 +664,31 @@ describe("checkAssertion:", () => {
       );
       expect(fail.response).toBe("array-missing-required-value");
     });
+    it("org id included-in list", () => {
+      const assertion: IPolicyAssertion = {
+        property: "context:portal.id",
+        type: "included-in",
+        value: ["ORGA", "ORGB"],
+      };
+      const ctx = {
+        isAuthenticated: true,
+        portal: {
+          id: "ORGA",
+        },
+      } as unknown as IArcGISContext;
+
+      const chk = checkAssertion(assertion, {}, ctx);
+      expect(chk.response).toBe("granted");
+
+      const ctx2 = {
+        isAuthenticated: true,
+        portal: {
+          id: "ORGZ",
+        },
+      } as unknown as IArcGISContext;
+      const fail = checkAssertion(assertion, {}, ctx2);
+      expect(fail.response).toBe("array-missing-required-value");
+    });
     it("non-array error", () => {
       const assertion: IPolicyAssertion = {
         property: "primaryColor",

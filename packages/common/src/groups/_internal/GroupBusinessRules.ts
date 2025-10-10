@@ -275,8 +275,6 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group:workspace:members"],
     authenticated: true,
     licenses: ["hub-premium"],
-    environments: ["qaext"],
-    availability: ["alpha"],
     assertions: [
       {
         property: "context:currentUser",

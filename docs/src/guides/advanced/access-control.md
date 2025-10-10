@@ -26,9 +26,9 @@ For details, see the [Permissions Guide](../permissions).
 
 A permission policy is defined as an object, stored in the `{Entity}BusinessRules.ts` module, and adheres to the following interface:
 
-```json
+```ts
 export interface IPermissionPolicy {
-   // unique permission identifier hub:project:edit etc
+  // unique permission identifier hub:project:edit etc
   permission: Permission;
 
   // used to group permissions and remove redundancy
@@ -149,7 +149,7 @@ For a single feature, that will be released independent of other things, a singl
 
 Example:
 
-```
+```ts
 {
     // Group Admin's can message members of a group
     permission: "hub:group:messaging",
@@ -170,7 +170,7 @@ Example:
 
 If a release happens with the permission in this state, the feature can be tested in production by using `?pe=hub:group:messaging`, which will skip the `environments` and `availibility` checks. Once QA is complete, to release this to all users in production, simply remove the `environments` and `availibility` properties.
 
-```
+```ts
 {
     // Group Admin's can message members of a group
     permission: "hub:group:messaging",
@@ -199,7 +199,7 @@ If a release happens with the permission in this state, the feature can be teste
 
 Example
 
-```tsx
+```ts
 // Epic 13472 — release gate only
 {
   permission: "hub:release:13472",
@@ -233,7 +233,7 @@ With this in place, and merged, QA can exercise all the functionality via `?pe="
 
 ### Scheduling the release
 
-```tsx
+```ts
 // Switch from env/availability gating to a date or version fence
 {
   permission: "hub:release:13472",
@@ -253,7 +253,7 @@ Finalization
 
 Example
 
-```json
+```ts
 // hub-settings.json fetched from portal api during auth
 {
   "features": {
@@ -265,7 +265,7 @@ Example
 }
 ```
 
-```tsx
+```ts
 // System feature policy
 {
 	permission: "hub:feature:workspace"
