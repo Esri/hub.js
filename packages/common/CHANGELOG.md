@@ -1,3 +1,10 @@
+## @esri/hub-common [20.16.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.1...@esri/hub-common@20.16.2) (2025-10-10)
+
+
+### Bug Fixes
+
+* add discussions subscription permission and gating ([#2024](https://github.com/Esri/hub.js/issues/2024)) ([77fa02e](https://github.com/Esri/hub.js/commit/77fa02e9a37ec34c4e13e64ad81d434c47469d78))
+
 ## @esri/hub-common [20.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.0...@esri/hub-common@20.16.1) (2025-10-10)
 
 
