@@ -1,70 +1,28 @@
-# Release Process
+# Release
 
-This project uses [semantic release](https://semantic-release.gitbook.io/semantic-release/) which is automated release tooling that uses commit messages to determine the correct semantic version for any given release.
+This package uses [changesets](https://github.com/changesets/changesets/) to manage releases.
 
-The process of initiating a release is simple: merge a PR into the `master` or `beta` branches, and `semantic release` will look at the included commits, compute the next version, and release the packages to NPM.
+## Adding a changeset
 
-## Semantic Commit Messages
+To indicate that your changes should trigger a release, run `npm run changeset` before pushing your branch.
 
-This system is founded in the use of the [Angular Commit Message Format](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format)
+[Learn more](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md)
 
-### Commit Message Format
+### Do I need to add a changeset?
 
-```
-<type>(<scope>): <short summary>
-  │       │             │
-  │       │             └─⫸ Summary in present tense. Not capitalized. No period at the end.
-  │       │
-  │       └─⫸ Commit Scope: hub-common | hub-content | hub-discussions | hub-downloads | hub-events | hub-initiatives | hub-search | hub-sites | hub-surveys | hub-teams (can also be left blank)
-  │
-  └─⫸ Commit Type: build|ci|docs|feat|fix|perf|refactor|test
-```
+Not every change requires a release. Only add a changeset if you are fixing a bug, adding a feature, or making a breaking change. You should not add changesets for chores or updates to documentation or tests or other changes that affect the API of the library.
 
-The `<type>` and `<summary>` fields are mandatory, the `(<scope>)` field is optional.
+## Reviewing changes
 
-##### Type
+We use the [changeset bot](https://github.com/apps/changeset-bot) to notify reviewers if a pull request does not include a changeset. Because not all pull requests require a changeset, this will **not** prevent the pull request from being merged.
 
-Must be one of the following:
+## Publishing the release
 
-- **build**: Changes that affect the build system or external dependencies
-- **ci**: Changes to our CI configuration files and scripts
-- **docs**: Documentation only changes
-- **feat**: A new feature
-- **fix**: A bug fix
-- **perf**: A code change that improves performance
-- **refactor**: A code change that neither fixes a bug nor adds a feature
-- **test**: Adding missing tests or correcting existing tests
+The [release workflow](./.github/workflows/release.yaml) uses the [changeset action](https://github.com/changesets/action) to automate publishing to NPM. This has two steps:
 
-**Important Note:**
+1. When a pull request with a changeset has been merged to the main branch, the action will create a new pull request that updates the package version and changelog.
+1. Once the version PR is merged to the main branch, the package will be published to NPM with the updated version.
 
-Not _all_ of the commit types above will result in a new release being published to Github and NPM. Specifically, `docs`, `refactor` and `test` _do not_ automatically trigger a release. If you need a release to be automatically published when you merge your pull request, please be sure to include at least one commit message using one of the other types listed above. If you find yourself in this situation _after_ having already merged, you can manually trigger a build by issuing an empty commit directly against the `master` or `beta` branches, e.g. `git commit --allow-empty -m "fix(): A descriptive patch message"` or `git commit --allow-empty -m "feat(): A descriptive minor message"`.
+## What about semantic commit messages
 
-## Breaking Changes
-
-To specify a breaking change, you need to use a multi-line commit message, and start a line with `BREAKING CHANGE`.
-
-```
-fix(): solve i18n issue in arcgis-hub-content-gallery
-
-BREAKING CHANGE: i18n strings must be loaded from a new location
-```
-
-If you are writing commit messages at the console, you can do this by just hitting `enter` twice while writing the commit message, _before closing the quotes_.
-
-```sh
-$ git commit -m 'fix(): solve i18n issue in arcgis-hub-content-gallery
-
-BREAKING CHANGE: i18n strings must be loaded from a new location'
-```
-
-Commit messages are run through `commitlint` using `husky` pre-commit hooks.
-
-Please do not use `--no-verify` unless you are _really_ sure you must.
-
-## Updating peerDependencies
-
-When releasing a feature or a breaking change to a package, you _may_ need to manually update the `peerDependencies` of any packages that depend on the package you are releasing. 
-
-**Example**: you've added a function to `@esri/hub-common` and _also_ use the new function in another package like `@esri/hub-sites`. The new function will be included in the next release of `@esri/hub-common` with a minor version bump, so in order to use that function in `@esri/hub-sites` you need to update it's peer dependency to point to the new version, which will not yet be published. The _safest_ way to do this is via two pull requests, first one to add the new function to `@esri/hub-common`, and once that has been published, a follow on PR to `@esri/hub-sites` to update the peer dependency and use the new function.
-
-If you are at all unsure about whether or not you need to update `peerDependencies`, please ask @tomwayson.
+Changesets does **not** use semantic commit messages, so they are not required for our automated release process to work. That said, we should continue to use them, especially for commits that are not part of a changeset, as they are an efficient way to convey the nature of the changes introduced by the commit.
