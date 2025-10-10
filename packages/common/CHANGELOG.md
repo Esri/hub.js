@@ -1,3 +1,10 @@
+# @esri/hub-common [20.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.15.0...@esri/hub-common@20.16.0) (2025-10-10)
+
+
+### Features
+
+* **hub-common:** updated newsletter subscription search params ([#2026](https://github.com/Esri/hub.js/issues/2026)) ([02b0f68](https://github.com/Esri/hub.js/commit/02b0f68c305cd4a6676f2a383b84d5940f3dcac2))
+
 # @esri/hub-common [20.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.14.0...@esri/hub-common@20.15.0) (2025-10-07)
 
 
