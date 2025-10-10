@@ -3,6 +3,10 @@ import { IHubRequestOptions } from "../../../src/hub-types";
 import { isValidDomain } from "../../../src/sites/domains/is-valid-domain";
 
 describe("isValidDomain", function () {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
   it("success is true when domain valid", async function () {
     const domainName = "domain";
     const ro = { isPortal: false } as IHubRequestOptions;

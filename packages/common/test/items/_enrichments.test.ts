@@ -9,6 +9,9 @@ import { IEnrichmentErrorInfo } from "../../src/hub-types";
 import { cloneObject } from "../../src/util";
 
 describe("_enrichments", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("fetchItemEnrichments", () => {
     // the error we expect when an API call 404s
     const expectedError = {

@@ -2,6 +2,9 @@ import * as fetchMock from "fetch-mock";
 import { fetchImageAsBlob } from "../../src/resources/fetch-image-as-blob";
 
 describe("fetchImageAsBlob", function () {
+  afterEach(() => {
+    fetchMock.restore();
+  });
   // These tests create a blob
   if (typeof Blob !== "undefined") {
     it("fetches an image as a blob", async function () {

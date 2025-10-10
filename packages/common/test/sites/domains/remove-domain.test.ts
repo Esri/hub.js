@@ -6,6 +6,10 @@ import { IHubRequestOptions } from "../../../src/hub-types";
 describe("removeDomain", function () {
   const domainId = "146663";
 
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
   it("removes domain", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;
 
