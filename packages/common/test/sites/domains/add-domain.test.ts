@@ -19,6 +19,10 @@ describe("addDomain", function () {
     sslOnly: true,
   };
 
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
   it("sends request in AGO", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;
 

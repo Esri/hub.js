@@ -66,6 +66,10 @@ describe("content: ", () => {
     spyOn(console, "warn").and.callFake(() => {});
   });
 
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
   describe("getTypes", () => {
     it("can abort", () => {
       expect(getTypes()).toBe(undefined);

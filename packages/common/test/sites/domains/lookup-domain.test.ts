@@ -6,6 +6,9 @@ import { lookupDomain } from "../../../src/sites/domains/lookup-domain";
 
 describe("lookupDomain", function () {
   const domainId = "146663";
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   it("looks up domain on portal", async function () {
     const ro = { isPortal: true } as IHubRequestOptions;
