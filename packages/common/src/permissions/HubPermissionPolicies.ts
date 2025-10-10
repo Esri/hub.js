@@ -288,6 +288,14 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:gallery-card:enterprise",
     environments: ["enterprise", "enterprise-k8s"],
   },
+  // DISCUSSION SUBSCRIPTIONS
+  // TODO: remove the environments & availability gating before release
+  {
+    permission: "hub:feature:discussions:subscription",
+    environments: ["devext", "qaext"],
+    availability: ["alpha"],
+    licenses: ["hub-premium"], // TODO: waiting for product's confirmation on hub-basic
+  },
   // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using hub-premium
   {
