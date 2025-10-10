@@ -1,3 +1,10 @@
+## @esri/hub-common [20.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.0...@esri/hub-common@20.16.1) (2025-10-10)
+
+
+### Bug Fixes
+
+* release send message to prod ([#2030](https://github.com/Esri/hub.js/issues/2030)) ([b7ad516](https://github.com/Esri/hub.js/commit/b7ad516cbdfb3a7c0f57cdb6bdaed69e8b01ab13))
+
 # @esri/hub-common [20.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.15.0...@esri/hub-common@20.16.0) (2025-10-10)
 
 
