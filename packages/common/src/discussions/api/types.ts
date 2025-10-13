@@ -3,7 +3,7 @@ import {
   IPagedResponse as IRestPagedResponse,
   IUser,
 } from "@esri/arcgis-rest-portal";
-import { Geometry, Polygon } from "geojson";
+import type { Geometry, Polygon } from "geojson";
 import { IHubRequestOptions } from "../../hub-types";
 
 /**

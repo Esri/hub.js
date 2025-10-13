@@ -1,4 +1,4 @@
-import { Geometry } from "geojson";
+import type { Geometry } from "geojson";
 import * as discussionsApiRequestModule from "../../../src/discussions/api/discussions-api-request";
 import {
   AclCategory,

@@ -11,7 +11,7 @@ import { setDiscussableKeyword } from "./utils";
 import { IHubRequestOptions, IModel } from "../hub-types";
 import { cloneObject } from "../util";
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
-import { Polygon } from "geojson";
+import type { Polygon } from "geojson";
 import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
 import { IHubDiscussion } from "../core/types/IHubDiscussion";
 import { IHubItemEntity } from "../core/types/IHubItemEntity";
