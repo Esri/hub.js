@@ -9,10 +9,14 @@ import { getModelBySlug } from "../../src/models/getModelBySlug";
 import { createModel } from "../../src/models/createModel";
 import { IModel } from "../../src/hub-types";
 import { updateModel } from "../../src/models/updateModel";
-import { fetchModelFromItem } from "../../src/models/fetchModelFromItem";
+import {
+  fetchModelFromItem,
+  shouldFetchItemData,
+} from "../../src/models/fetchModelFromItem";
 import { upsertModelResources } from "../../src/models/upsertModelResource";
 import { fetchModelResources } from "../../src/models/fetchModelResource";
 import { EntityResourceMap } from "../../src/core/types/types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 const LOCATION: IHubLocation = {
   type: "custom",
@@ -357,6 +361,13 @@ describe("model utils:", () => {
       expect(chk.data).toBeNull();
       expect(getItemDataSpy.calls.count()).toBe(1);
     });
+    it("should not fetch item data for excluded type", async () => {
+      const item = { id: "abc", type: "Image Collection" } as IItem;
+      expect(await fetchModelFromItem(item, {} as any)).toEqual({
+        item,
+        data: null,
+      } as IModel);
+    });
   });
 
   describe("upsertModelResources", () => {
@@ -448,6 +459,18 @@ describe("model utils:", () => {
 
       expect(fetchResourceSpy.calls.count()).toBe(1);
       expect(chk).toEqual({});
+    });
+  });
+
+  describe("shouldFetchItemData", () => {
+    it("return false for an excluded type", () => {
+      const item = { id: "abc", type: "Image Collection" } as IItem;
+      expect(shouldFetchItemData(item)).toBe(false);
+    });
+
+    it("returns true for a non-excluded type", () => {
+      const item = { id: "abc", type: "Feature Service" } as IItem;
+      expect(shouldFetchItemData(item)).toBe(true);
     });
   });
 });
