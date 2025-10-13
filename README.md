@@ -69,14 +69,14 @@ The functions and types from the following packages have been moved into other p
 - [`@esri/hub-content`](https://github.com/Esri/hub.js/tree/2379fbeb1672d059025c6efdc84b34b78ce23709/packages/content) - moved to [`@esri/hub-common`](./packages/common)
 - [`@esri/hub-discussions`](https://github.com/Esri/hub.js/tree/7f8863e1cb2cb061f85409704bb35ca8b4df6650/packages/discussions) - moved to [`@esri/hub-common`](./packages/common)
 
-The following packages have been archived w/o moving their functions into another package as they support workflows that have been replaced by the Hub entity classes in `@esri/hub-common`. The last published version of these packages on NPM rely on version 20.x of `@esri/hub-common`. As major versions of `@esri/hub-common` are released with breaking changes, it is possible that these packages will stop working:
-- [`@esri/hub-downloads`](./packages/downloads) - Helper functions for working with downloads.
-- [`@esri/hub-events`](./packages/events) - Helper functions for working with Events.
-- [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with [Initiatives](http://doc.arcgis.com/en/hub/initiatives/initiatives-overview.htm).
-- [`@esri/hub-search`](./packages/search) - Helper functions for search on ArcGIS Online.
-- [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm), Pages and Domains.
-- [`@esri/hub-surveys`](./packages/surveys) - Helper functions for working with Surveys.
-- [`@esri/hub-teams`](./packages/teams) - Helper functions for working with ArcGIS Online groups in a Hub context.
+The following packages [have been archived](https://github.com/Esri/hub.js/tree/archive/) w/o moving their functions into another package as they support workflows that have been replaced by the Hub entity classes in `@esri/hub-common`. The last published version of these packages on NPM rely on version 20.x of `@esri/hub-common`. As major versions of `@esri/hub-common` are released with breaking changes, it is possible that these packages will stop working:
+- [`@esri/hub-downloads`](https://github.com/Esri/hub.js/tree/archive/packages/downloads) - Helper functions for working with downloads.
+- [`@esri/hub-events`](https://github.com/Esri/hub.js/tree/archive/packages/events) - Helper functions for working with Events.
+- [`@esri/hub-initiatives`](https://github.com/Esri/hub.js/tree/archive/packages/initiatives) - Helper functions for working with [Initiatives](http://doc.arcgis.com/en/hub/initiatives/initiatives-overview.htm).
+- [`@esri/hub-search`](https://github.com/Esri/hub.js/tree/archive/packages/search) - Helper functions for search on ArcGIS Online.
+- [`@esri/hub-sites`](https://github.com/Esri/hub.js/tree/archive/packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm), Pages and Domains.
+- [`@esri/hub-surveys`](https://github.com/Esri/hub.js/tree/archive/packages/surveys) - Helper functions for working with Surveys.
+- [`@esri/hub-teams`](https://github.com/Esri/hub.js/tree/archive/packages/teams) - Helper functions for working with ArcGIS Online groups in a Hub context.
 
 ### Design Philosophy
 
