@@ -23,8 +23,6 @@
 		"@esri/arcgis-rest-feature-service": "^4.1.0",
 		"@esri/arcgis-rest-portal": "^4.6.1",
 		"@esri/arcgis-rest-request": "^4.7.1",
-		"@semantic-release/changelog": "^6.0.1",
-		"@semantic-release/git": "^10.0.1",
 		"@types/es6-promise": "0.0.32",
 		"@types/fetch-mock": "^7.0.0",
 		"@types/geojson": "^7946.0.16",
@@ -73,7 +71,6 @@
 		"lint-staged": "^4.3.0",
 		"madge": "^6.0.0",
 		"minimatch": "^3.0.4",
-		"multi-semantic-release": "^2.11.0",
 		"onchange": "^3.3.0",
 		"prettier": "^2.2.1",
 		"resolve": "^1.5.0",
@@ -147,9 +144,6 @@
 		"tsc:v": "lerna run tsc:v",
 		"y:publish": "lerna run y:publish",
 		"y:push": "lerna run y:push",
-		"release:dry": "multi-semantic-release --sequential-init --dry-run --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages --debug",
-		"prerelease": "npm config set workspaces-update false",
-		"release": "multi-semantic-release --sequential-init --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages",
 		"madge:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./packages/*/src"
 	},
 	"husky": {
@@ -196,33 +190,6 @@
 	"volta": {
 		"node": "18.20.3",
 		"npm": "10.7.0"
-	},
-	"release": {
-		"branches": [
-			"+([1-9])?(.{+([1-9]),x}).x",
-			"master",
-			{
-				"name": "next",
-				"prerelease": true
-			},
-			"next-major",
-			{
-				"name": "beta",
-				"prerelease": true
-			},
-			{
-				"name": "alpha",
-				"prerelease": true
-			}
-		],
-		"tagFormat": "${name}@${version}",
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-			"@semantic-release/release-notes-generator",
-			"@semantic-release/changelog",
-			"@semantic-release/npm",
-			"@semantic-release/git"
-		]
 	},
 	"madge": {
 		"fontSize": "10px",

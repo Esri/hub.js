@@ -6,9 +6,7 @@ on:
     types: [opened, reopened, ready_for_review, synchronize]
     branches:
       - master
-      - next
-      - alpha
-      - beta
+      - archive
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:
@@ -60,7 +58,3 @@ jobs:
 
       - name: Test in Node
         run: npm run test:node
-
-      - uses: codecov/codecov-action@v3
-        with:
-          directory: ./coverage
