@@ -87,8 +87,10 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  deploy-docs:
-    name: 'Deploy Documentation'
-    uses: ./.github/workflows/deploy-docs.yml
-    needs:
-      - release
+  # temporarily disabling until we decide how to handle docs
+  # since we've archived all packages except hub-common
+  # deploy-docs:
+  #   name: 'Deploy Documentation'
+  #   uses: ./.github/workflows/deploy-docs.yml
+  #   needs:
+  #     - release
