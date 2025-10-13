@@ -26,3 +26,13 @@ The [release workflow](./.github/workflows/release.yaml) uses the [changeset act
 ## What about semantic commit messages
 
 Changesets does **not** use semantic commit messages, so they are not required for our automated release process to work. That said, we should continue to use them, especially for commits that are not part of a changeset, as they are an efficient way to convey the nature of the changes introduced by the commit.
+
+## Releasing Archived Packages
+
+If we need to make a fix to one of the archived packages we can manually bump the version and release. After making the code changes, we would do something like:
+
+1. `cd` into the package's directory
+1. test the changes
+1. `npm run build`
+1. `npm version patch`
+1. `npm publish`
