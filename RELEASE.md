@@ -10,7 +10,7 @@ To indicate that your changes should trigger a release, run `npm run changeset` 
 
 ### Do I need to add a changeset?
 
-Not every change requires a release. Only add a changeset if you are fixing a bug, adding a feature, or making a breaking change. You should not add changesets for chores or updates to documentation or tests or other changes that affect the API of the library.
+Not every change requires a release. Only add a changeset if you are making a change that affects the API of the library such as fixing a bug, adding a feature, or making a breaking change. You should **not** add changesets for chores or updates to documentation or tests.
 
 ## Reviewing changes
 
@@ -29,10 +29,4 @@ Changesets does **not** use semantic commit messages, so they are not required f
 
 ## Releasing Archived Packages
 
-If we need to make a fix to one of the archived packages we can manually bump the version and release. After making the code changes, we would do something like:
-
-1. `cd` into the package's directory
-1. test the changes
-1. `npm run build`
-1. `npm version patch`
-1. `npm publish`
+If we need to make a fix to one of the archived packages we can [manually bump the version and release](https://github.com/Esri/hub.js/blob/archive/RELEASE.md).
