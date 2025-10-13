@@ -1,4 +1,4 @@
-import { Polygon } from "geojson";
+import type { Polygon } from "geojson";
 import { createOrUpdateEntitySettings } from "../../../src/core/_internal/createOrUpdateEntitySettings";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as settingUtils from "../../../src/discussions/api/settings/settings";

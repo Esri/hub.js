@@ -35,7 +35,7 @@ import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource"
 import { getEnvironmentFromPortalUrl } from "../../utils/getEnvironmentFromPortalUrl";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
-import { Polygon } from "geojson";
+import type { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { isSiteType } from "../isSiteType";

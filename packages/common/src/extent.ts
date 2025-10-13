@@ -8,7 +8,7 @@ import type {
 import { request } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions, BBox } from "./hub-types";
 import { getProp } from "./objects/get-prop";
-import { Polygon } from "geojson";
+import type { Polygon } from "geojson";
 
 /**
  * Turns an bounding box coordinate array into an extent object

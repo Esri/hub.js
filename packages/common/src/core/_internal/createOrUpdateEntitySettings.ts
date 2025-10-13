@@ -1,4 +1,4 @@
-import { Polygon } from "geojson";
+import type { Polygon } from "geojson";
 import { IHubRequestOptions } from "../../hub-types";
 import { IEntitySetting, IEntitySettings } from "../../discussions/api/types";
 import { getTypeFromEntity } from "../getTypeFromEntity";
