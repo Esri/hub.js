@@ -129,6 +129,4 @@ That will indicate a major release is needed for that commit.
 
 ## Releasing
 
-Currently the release process is semi-automated. And it's picky... so for now, after you get your PR approved and merge it, ask Tom or Dave to cut a release.
-
-Longer term we want to move to automating the release process via [semantic release](https://semantic-release.gitbook.io/semantic-release/) which is a set of patterns that enables CI to automate the release process.
+See the [release documentation](https://github.com/Esri/hub.js/blob/master/RELEASE.md).

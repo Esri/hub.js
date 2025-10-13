@@ -21,3 +21,6 @@ templates/*
 scripts
 support
 */e2e/*
+
+# archived packages
+archive
