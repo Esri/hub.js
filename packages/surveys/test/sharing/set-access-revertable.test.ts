@@ -3,8 +3,8 @@
 
 import * as restPortal from "@esri/arcgis-rest-portal";
 import * as hubCommon from "@esri/hub-common";
-import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
-import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
+import { mockUserSession as authentication } from "../test-helpers/fake-user-session";
+import * as FormItemPublished from "../mocks/items/form-item-published.json";
 import { setAccessRevertable } from "../../src/sharing/set-access-revertable";
 
 describe("setAccessRevertable", function () {

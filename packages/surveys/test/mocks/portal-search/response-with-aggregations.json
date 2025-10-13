@@ -1,0 +1,100 @@
+{
+    "total": 72,
+    "start": 1,
+    "num": 1,
+    "nextStart": 2,
+    "results": [
+        {
+            "id": "52fdc942c5d94f1883c476ebf3e950ca",
+            "owner": "qa_bas_sol_admin",
+            "created": 1607796929000,
+            "isOrgItem": true,
+            "modified": 1607796929000,
+            "guid": null,
+            "name": "Field_Notes_Fixture_5",
+            "title": "Field_Notes_Fixture_5",
+            "type": "Feature Service",
+            "typeKeywords": [
+                "Data",
+                "Service",
+                "Feature Service",
+                "ArcGIS Server",
+                "Feature Access",
+                "Hosted Service",
+                "Mosaic Dataset"
+            ],
+            "description": null,
+            "tags": [],
+            "snippet": null,
+            "thumbnail": null,
+            "documentation": null,
+            "extent": [],
+            "categories": [],
+            "spatialReference": null,
+            "accessInformation": null,
+            "licenseInfo": null,
+            "culture": null,
+            "properties": null,
+            "advancedSettings": null,
+            "url": "https://servicesqa.arcgis.com/MNF5ypRINzAAlFbv/arcgis/rest/services/Field_Notes_Fixture_5/FeatureServer",
+            "proxyFilter": null,
+            "access": "private",
+            "size": -1,
+            "subInfo": 0,
+            "appCategories": [],
+            "industries": [],
+            "languages": [],
+            "largeThumbnail": null,
+            "banner": null,
+            "screenshots": [],
+            "listed": false,
+            "ownerFolder": null,
+            "protected": false,
+            "numComments": 0,
+            "numRatings": 0,
+            "avgRating": 0,
+            "numViews": 0,
+            "scoreCompleteness": 16,
+            "groupDesignations": null,
+            "contentOrigin": "self"
+        }
+    ],
+    "aggregations": {
+        "counts": [
+            {
+                "fieldName": "access",
+                "fieldValues": [
+                    {
+                        "value": "private",
+                        "count": 61
+                    },
+                    {
+                        "value": "shared",
+                        "count": 9
+                    },
+                    {
+                        "value": "public",
+                        "count": 2
+                    }
+                ]
+            },
+            {
+                "fieldName": "tags",
+                "fieldValues": [
+                    {
+                        "value": "fixture",
+                        "count": 13
+                    },
+                    {
+                        "value": "hub site",
+                        "count": 7
+                    },
+                    {
+                        "value": "debug",
+                        "count": 1
+                    }
+                ]
+            }
+        ]
+    }
+}

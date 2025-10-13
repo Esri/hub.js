@@ -3,29 +3,29 @@ import * as _getDraftResourceNameModule from "../../src/drafts/_get-most-recent-
 import * as upgradeDraftSchemaModule from "../../src/drafts/upgrade-draft-schema";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "@esri/hub-common";
-import { IDraft } from "@esri/hub-common/src";
+import { IDraft } from "@esri/hub-common";
 
 describe("fetchDraft", () => {
   const draftName = "draft-12345678.json";
-  const siteDraft = ({
+  const siteDraft = {
     item: {},
-    data: { values: { capabilities: [], theme: {} } }
-  } as unknown) as IDraft;
-  const pageDraft = ({ item: {}, data: { values: {} } } as unknown) as IDraft;
+    data: { values: { capabilities: [], theme: {} } },
+  } as unknown as IDraft;
+  const pageDraft = { item: {}, data: { values: {} } } as unknown as IDraft;
 
-  const schemaUpgradedDraft = ({
+  const schemaUpgradedDraft = {
     item: { properties: { schemaVersion: 1.4 } },
-    data: { values: {} }
-  } as unknown) as IDraft;
-  const ro = ({
+    data: { values: {} },
+  } as unknown as IDraft;
+  const ro = {
     authentication: "auth",
-    portal: "portal"
-  } as unknown) as IHubRequestOptions;
+    portal: "portal",
+  } as unknown as IHubRequestOptions;
 
   let getDraftNameSpy: jasmine.Spy;
   let getResourceSpy: jasmine.Spy;
   let upgradeSchemaSpy: jasmine.Spy;
-  beforeEach(function() {
+  beforeEach(function () {
     getDraftNameSpy = spyOn(
       _getDraftResourceNameModule,
       "_getMostRecentDraftName"
@@ -48,7 +48,7 @@ describe("fetchDraft", () => {
       fileName: draftName,
       readAs: "json",
       authentication: ro.authentication,
-      portal: ro.portal
+      portal: ro.portal,
     });
     expect(upgradeSchemaSpy).toHaveBeenCalledWith(siteDraft);
   });
@@ -64,7 +64,7 @@ describe("fetchDraft", () => {
       fileName: draftName,
       readAs: "json",
       authentication: ro.authentication,
-      portal: ro.portal
+      portal: ro.portal,
     });
     // IMPORTANT...
     expect(upgradeSchemaSpy).not.toHaveBeenCalled();

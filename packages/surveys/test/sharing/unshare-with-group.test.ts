@@ -4,11 +4,11 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import * as hubCommon from "@esri/hub-common";
-import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
-import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
-import * as FeatureServiceItem from "../../../common/test/mocks/items/feature-service-item.json";
-import * as FieldworkerItem from "../../../common/test/mocks/items/fieldworker-item.json";
-import * as ViewGroup from "../../../common/test/mocks/groups/view-group.json";
+import { mockUserSession as authentication } from "../test-helpers/fake-user-session";
+import * as FormItemPublished from "../mocks/items/form-item-published.json";
+import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
+import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
+import * as ViewGroup from "../mocks/groups/view-group.json";
 import { unshareWithGroup } from "../../src/sharing/unshare-with-group";
 import * as unshareWithGroupRevertable from "../../src/sharing/unshare-with-group-revertable";
 import * as getGroupSharingDetails from "../../src/sharing/get-group-sharing-details";

@@ -4,12 +4,12 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as hubCommon from "@esri/hub-common";
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
-import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
-import * as FeatureServiceItem from "../../../common/test/mocks/items/feature-service-item.json";
-import * as FieldworkerItem from "../../../common/test/mocks/items/fieldworker-item.json";
-import * as StakeholderItem from "../../../common/test/mocks/items/stakeholder-item.json";
-import * as ViewGroup from "../../../common/test/mocks/groups/view-group.json";
+import { mockUserSession as authentication } from "../test-helpers/fake-user-session";
+import * as FormItemPublished from "../mocks/items/form-item-published.json";
+import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
+import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
+import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
+import * as ViewGroup from "../mocks/groups/view-group.json";
 import { shareWithGroup } from "../../src/sharing/share-with-group";
 import * as shareWithGroupRevertable from "../../src/sharing/share-with-group-revertable";
 import * as getGroupSharingDetails from "../../src/sharing/get-group-sharing-details";

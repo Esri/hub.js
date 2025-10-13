@@ -3,8 +3,8 @@
 
 import { isPublished } from "../../src/utils/is-published";
 import * as publishUtils from "@esri/hub-common";
-import * as FormItemDraft from "../../../common/test/mocks/items/form-item-draft.json";
-import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
+import * as FormItemDraft from "../mocks/items/form-item-draft.json";
+import * as FormItemPublished from "../mocks/items/form-item-published.json";
 import type { IItem } from "@esri/arcgis-rest-portal";
 
 describe("isPublished", function () {

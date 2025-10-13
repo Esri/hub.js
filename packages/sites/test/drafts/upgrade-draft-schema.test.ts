@@ -3,7 +3,7 @@ import * as commonModule from "@esri/hub-common";
 import { IModel } from "@esri/hub-common";
 import { SITE_SCHEMA_VERSION } from "../../src/site-schema-version";
 import { expectAll, expectAllCalled } from "../test-helpers.test";
-import { IDraft } from "@esri/hub-common/src";
+import { IDraft } from "@esri/hub-common";
 
 describe("upgradeDraftSchema", () => {
   let ensureTelemetrySpy: jasmine.Spy;

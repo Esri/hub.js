@@ -3,15 +3,15 @@
 
 import * as hubCommon from "@esri/hub-common";
 import { getGroupSharingDetails } from "../../src/sharing/get-group-sharing-details";
-import * as FormItemDraft from "../../../common/test/mocks/items/form-item-draft.json";
-import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
-import * as FeatureServiceItem from "../../../common/test/mocks/items/feature-service-item.json";
-import * as FieldworkerItem from "../../../common/test/mocks/items/fieldworker-item.json";
-import * as StakeholderItem from "../../../common/test/mocks/items/stakeholder-item.json";
-import * as UpdateGroup from "../../../common/test/mocks/groups/update-group.json";
-import * as ViewGroup from "../../../common/test/mocks/groups/view-group.json";
+import * as FormItemDraft from "../mocks/items/form-item-draft.json";
+import * as FormItemPublished from "../mocks/items/form-item-published.json";
+import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
+import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
+import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
+import * as UpdateGroup from "../mocks/groups/update-group.json";
+import * as ViewGroup from "../mocks/groups/view-group.json";
 import * as restPortal from "@esri/arcgis-rest-portal";
-import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-session";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 import * as isPublished from "../../src/utils/is-published";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 

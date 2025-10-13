@@ -3,9 +3,9 @@
 
 import * as restPortal from "@esri/arcgis-rest-portal";
 import * as hubCommon from "@esri/hub-common";
-import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
-import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
-import * as ViewGroup from "../../../common/test/mocks/groups/view-group.json";
+import { mockUserSession as authentication } from "../test-helpers/fake-user-session";
+import * as FormItemPublished from "../mocks/items/form-item-published.json";
+import * as ViewGroup from "../mocks/groups/view-group.json";
 import { shareWithGroupRevertable } from "../../src/sharing/share-with-group-revertable";
 
 describe("shareWithGroupRevertable", function () {

@@ -1,0 +1,13 @@
+import type { IUser } from "@esri/arcgis-rest-portal";
+
+export const mockUser = {
+  username: "vader",
+  fullName: "Darth Vader",
+  firstName: "Darth",
+  lastName: "Vader",
+  favGroupId: "7654321",
+  access: "public",
+  role: "org_admin",
+  created: 1609559200000,
+  modified: 1612167600000,
+} as IUser;

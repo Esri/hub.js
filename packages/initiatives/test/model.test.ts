@@ -9,7 +9,7 @@ import {
 import * as fetchMock from "fetch-mock";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import geometryService from "../src/geometry";
-import { IModel } from "@esri/hub-common/src";
+import { IModel } from "@esri/hub-common";
 
 const REST_URL = MOCK_REQUEST_OPTIONS.authentication.portal;
 
@@ -157,7 +157,7 @@ describe("model functions ::", () => {
         return Promise.resolve(result);
       });
       getProjectedExtentAsBBOXString(opts, MOCK_REQUEST_OPTIONS)
-        .then((bbox) => {
+        .then((_bbox) => {
           expect(projSpy.calls.count()).toEqual(
             1,
             "should make one call to geometry.project"

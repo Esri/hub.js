@@ -1,4 +1,4 @@
-import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
+import { mockUserSession as authentication } from "../test-helpers/fake-user-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   shouldDisplayResults,
@@ -10,11 +10,11 @@ import {
   IFormItemProperties,
 } from "../../src/types";
 import * as resultsUtils from "../../src/utils/results-availability/has-user-responded";
-import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
-import * as FormItemDraft from "../../../common/test/mocks/items/form-item-draft.json";
-import * as FeatureServiceItem from "../../../common/test/mocks/items/feature-service-item.json";
-import * as FieldworkerItem from "../../../common/test/mocks/items/fieldworker-item.json";
-import * as StakeholderItem from "../../../common/test/mocks/items/stakeholder-item.json";
+import * as FormItemPublished from "../mocks/items/form-item-published.json";
+import * as FormItemDraft from "../mocks/items/form-item-draft.json";
+import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
+import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
+import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
 import { cloneObject, IModel } from "@esri/hub-common";
 import * as featureLayerUtils from "@esri/arcgis-rest-feature-service";
 

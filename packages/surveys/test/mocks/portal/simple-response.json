@@ -1,0 +1,734 @@
+{
+    "2DStylesGroupQuery": "title:\"Esri 2D Styles\" AND owner:esri_en",
+    "access": "public",
+    "allSSL": true,
+    "allowedRedirectUris": [],
+    "analysisLayersGroupQuery": "title:\"Living Atlas Analysis Layers\" AND owner:esri",
+    "authorizedCrossOriginDomains": [],
+    "availableCredits": 28371.307,
+    "basemapGalleryGroupQuery": "title:\"United States Basemaps\" AND owner:Esri_cy_US",
+    "canListApps": false,
+    "canListConsultingServices": false,
+    "canListData": false,
+    "canListPreProvisionedItems": false,
+    "canListSolutions": false,
+    "canProvisionDirectPurchase": false,
+    "canSearchPublic": true,
+    "canSetCustomBuyLink": false,
+    "canSetQuestionnaire": false,
+    "canShareBingPublic": false,
+    "canSharePublic": true,
+    "canSignInArcGIS": true,
+    "canSignInIDP": true,
+    "canSignInOIDC": true,
+    "canSignInSocial": true,
+    "colorSetsGroupQuery": "title:\"Esri Colors\" AND owner:esri_en",
+    "commentsEnabled": true,
+    "contentCategorySetsGroupQuery": "title:\"ArcGIS Online Content Category Sets\" AND owner:esri_en",
+    "created": 1557329519000,
+    "culture": "",
+    "cultureFormat": "",
+    "customBaseUrl": "mapsdevext.arcgis.com",
+    "databaseQuota": -1,
+    "databaseUsage": -1,
+    "defaultBasemap": {
+        "baseMapLayers": [
+            {
+                "url": "https://servicesdev.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer",
+                "layerType": "ArcGISTiledMapServiceLayer",
+                "resourceInfo": {
+                    "currentVersion": 10.3,
+                    "mapName": "Layers",
+                    "supportsDynamicLayers": false,
+                    "layers": [
+                        {
+                            "id": 0,
+                            "name": "Citations",
+                            "parentLayerId": -1,
+                            "defaultVisibility": false,
+                            "subLayerIds": null,
+                            "minScale": 0,
+                            "maxScale": 0
+                        }
+                    ],
+                    "tables": [],
+                    "spatialReference": {
+                        "wkid": 102100,
+                        "latestWkid": 3857
+                    },
+                    "singleFusedMapCache": true,
+                    "tileInfo": {
+                        "rows": 256,
+                        "cols": 256,
+                        "dpi": 96,
+                        "format": "JPEG",
+                        "compressionQuality": 90,
+                        "origin": {
+                            "x": -20037508.342787,
+                            "y": 20037508.342787
+                        },
+                        "spatialReference": {
+                            "wkid": 102100,
+                            "latestWkid": 3857
+                        },
+                        "lods": [
+                            {
+                                "level": 0,
+                                "resolution": 156543.03392800014,
+                                "scale": 591657527.591555
+                            },
+                            {
+                                "level": 1,
+                                "resolution": 78271.51696399994,
+                                "scale": 295828763.795777
+                            },
+                            {
+                                "level": 2,
+                                "resolution": 39135.75848200009,
+                                "scale": 147914381.897889
+                            },
+                            {
+                                "level": 3,
+                                "resolution": 19567.87924099992,
+                                "scale": 73957190.948944
+                            },
+                            {
+                                "level": 4,
+                                "resolution": 9783.93962049996,
+                                "scale": 36978595.474472
+                            },
+                            {
+                                "level": 5,
+                                "resolution": 4891.96981024998,
+                                "scale": 18489297.737236
+                            },
+                            {
+                                "level": 6,
+                                "resolution": 2445.98490512499,
+                                "scale": 9244648.868618
+                            },
+                            {
+                                "level": 7,
+                                "resolution": 1222.992452562495,
+                                "scale": 4622324.434309
+                            },
+                            {
+                                "level": 8,
+                                "resolution": 611.4962262813797,
+                                "scale": 2311162.217155
+                            },
+                            {
+                                "level": 9,
+                                "resolution": 305.74811314055756,
+                                "scale": 1155581.108577
+                            },
+                            {
+                                "level": 10,
+                                "resolution": 152.87405657041106,
+                                "scale": 577790.554289
+                            },
+                            {
+                                "level": 11,
+                                "resolution": 76.43702828507324,
+                                "scale": 288895.277144
+                            },
+                            {
+                                "level": 12,
+                                "resolution": 38.21851414253662,
+                                "scale": 144447.638572
+                            },
+                            {
+                                "level": 13,
+                                "resolution": 19.10925707126831,
+                                "scale": 72223.819286
+                            },
+                            {
+                                "level": 14,
+                                "resolution": 9.554628535634155,
+                                "scale": 36111.909643
+                            },
+                            {
+                                "level": 15,
+                                "resolution": 4.77731426794937,
+                                "scale": 18055.954822
+                            },
+                            {
+                                "level": 16,
+                                "resolution": 2.388657133974685,
+                                "scale": 9027.977411
+                            },
+                            {
+                                "level": 17,
+                                "resolution": 1.1943285668550503,
+                                "scale": 4513.988705
+                            },
+                            {
+                                "level": 18,
+                                "resolution": 0.5971642835598172,
+                                "scale": 2256.994353
+                            },
+                            {
+                                "level": 19,
+                                "resolution": 0.29858214164761665,
+                                "scale": 1128.497176
+                            },
+                            {
+                                "level": 20,
+                                "resolution": 0.14929107082380833,
+                                "scale": 564.248588
+                            },
+                            {
+                                "level": 21,
+                                "resolution": 0.07464553541190416,
+                                "scale": 282.124294
+                            },
+                            {
+                                "level": 22,
+                                "resolution": 0.03732276770595208,
+                                "scale": 141.062147
+                            },
+                            {
+                                "level": 23,
+                                "resolution": 0.01866138385297604,
+                                "scale": 70.5310735
+                            }
+                        ]
+                    },
+                    "initialExtent": {
+                        "xmin": -28848255.049479112,
+                        "ymin": -2077452.082122866,
+                        "xmax": 28848255.049479112,
+                        "ymax": 16430757.376790084,
+                        "spatialReference": {
+                            "wkid": 102100,
+                            "latestWkid": 3857
+                        }
+                    },
+                    "fullExtent": {
+                        "xmin": -20037507.067161843,
+                        "ymin": -19971868.880408604,
+                        "xmax": 20037507.067161843,
+                        "ymax": 19971868.88040863,
+                        "spatialReference": {
+                            "wkid": 102100,
+                            "latestWkid": 3857
+                        }
+                    },
+                    "minScale": 591657527.591555,
+                    "maxScale": 70.5310735,
+                    "units": "esriMeters",
+                    "supportedImageFormatTypes": "PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP",
+                    "capabilities": "Map,Tilemap,Query,Data",
+                    "supportedQueryFormats": "JSON, AMF",
+                    "exportTilesAllowed": false,
+                    "maxRecordCount": 100,
+                    "maxImageHeight": 4096,
+                    "maxImageWidth": 4096,
+                    "supportedExtensions": "KmlServer"
+                }
+            }
+        ],
+        "title": "Topographic"
+    },
+    "defaultDevBasemap": {
+        "baseMapLayers": [
+            {
+                "id": "World_Hillshade_2559",
+                "layerType": "ArcGISTiledMapServiceLayer",
+                "url": "https://ibasemapsdev-api.arcgis.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer",
+                "visibility": true,
+                "opacity": 1,
+                "title": "World Hillshade"
+            },
+            {
+                "id": "VectorTile_9568",
+                "type": "VectorTileLayer",
+                "layerType": "VectorTileLayer",
+                "title": "World Topographic Map",
+                "styleUrl": "https://cdn.arcgis.com/sharing/rest/content/items/42df0d22517e49ad84edcee4c093857d/resources/styles/root.json",
+                "visibility": true,
+                "opacity": 1
+            }
+        ],
+        "title": "Topographic"
+    },
+    "defaultExtent": {
+        "xmin": -15000000,
+        "ymin": 2700000,
+        "xmax": -6200000,
+        "ymax": 6500000,
+        "spatialReference": {
+            "wkid": 102100
+        }
+    },
+    "defaultUserCreditAssignment": -1,
+    "defaultVectorBasemap": {
+        "baseMapLayers": [
+            {
+                "id": "World_Hillshade_3805",
+                "layerType": "ArcGISTiledMapServiceLayer",
+                "url": "https://servicesdev.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer",
+                "visibility": true,
+                "opacity": 1,
+                "title": "World Hillshade"
+            },
+            {
+                "id": "VectorTile_2333",
+                "type": "VectorTileLayer",
+                "layerType": "VectorTileLayer",
+                "title": "World Topographic Map",
+                "styleUrl": "https://cdn.arcgis.com/sharing/rest/content/items/7dc6cea0b1764a1f9af2e679f642f0f5/resources/styles/root.json",
+                "visibility": true,
+                "opacity": 1
+            }
+        ],
+        "title": "Topographic"
+    },
+    "description": "<br>",
+    "devBasemapGalleryGroupQuery": "title:\"World Basemaps for Developers\" AND owner:esri",
+    "eueiEnabled": true,
+    "featuredGroups": [
+        {
+            "title": "Esri Maps and Data",
+            "owner": "esri"
+        },
+        {
+            "title": "Living Atlas Curator Favorites",
+            "owner": "dkensok"
+        },
+        {
+            "title": "Web Application Templates",
+            "owner": "esri_en"
+        },
+        {
+            "title": "ArcGIS for Local Government",
+            "owner": "ArcGISTeamLocalGov"
+        }
+    ],
+    "featuredGroupsId": "",
+    "featuredItemsGroupQuery": "",
+    "galleryTemplatesGroupQuery": "title:\"Gallery Templates\" AND owner:esri_en",
+    "hasCategorySchema": true,
+    "hasMemberCategorySchema": false,
+    "helpBase": "https://docdev.arcgis.com/en/arcgis-online/",
+    "helperServices": {
+        "asyncClosestFacility": {
+            "url": "https://logisticsdev.arcgis.com/arcgis/rest/services/World/ClosestFacility/GPServer/FindClosestFacilities",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "asyncLocationAllocation": {
+            "url": "https://logisticsdev.arcgis.com/arcgis/rest/services/World/LocationAllocation/GPServer",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "asyncODCostMatrix": {
+            "url": "https://logisticsdev.arcgis.com/arcgis/rest/services/World/OriginDestinationCostMatrix/GPServer",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "asyncRoute": {
+            "url": "https://logisticsdev.arcgis.com/arcgis/rest/services/World/Route/GPServer",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "asyncServiceArea": {
+            "url": "https://logisticsdev.arcgis.com/arcgis/rest/services/World/ServiceAreas/GPServer/GenerateServiceAreas",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "asyncVRP": {
+            "url": "https://logisticsdev.arcgis.com/arcgis/rest/services/World/VehicleRoutingProblem/GPServer/SolveVehicleRoutingProblem",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "closestFacility": {
+            "url": "https://routedev.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "defaultElevationLayers": [
+            {
+                "url": "https://elevation3ddevext.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer",
+                "id": "globalElevation",
+                "layerType": "ArcGISTiledElevationServiceLayer"
+            }
+        ],
+        "elevation": {
+            "url": "https://elevationdev.arcgis.com/arcgis/rest/services/Tools/Elevation/GPServer"
+        },
+        "elevationSync": {
+            "url": "https://elevationdev.arcgis.com/arcgis/rest/services/Tools/ElevationSync/GPServer"
+        },
+        "geocode": [
+            {
+                "url": "https://geocodedev.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+                "northLat": "Ymax",
+                "southLat": "Ymin",
+                "eastLon": "Xmax",
+                "westLon": "Xmin",
+                "name": "ArcGIS World Geocoding Service",
+                "batch": true,
+                "placefinding": true,
+                "suggest": true
+            }
+        ],
+        "geometry": {
+            "url": "https://utilitydev.arcgisonline.com/arcgis/rest/services/Geometry/GeometryServer"
+        },
+        "hydrology": {
+            "url": "https://hydrodev.arcgis.com/arcgis/rest/services/Tools/Hydrology/GPServer"
+        },
+        "odCostMatrix": {
+            "url": "https://routedev.arcgis.com/arcgis/rest/services/World/OriginDestinationCostMatrix/NAServer/OriginDestinationCostMatrix_World",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "orthomappingElevation": {
+            "url": "https://elevation3ddevext.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"
+        },
+        "packaging": {
+            "url": "https://packagingdev.arcgis.com/arcgis/rest/services/OfflinePackaging/GPServer",
+            "maxMapAreaItemsLimit": 16,
+            "exportTilesMap": [
+                {
+                    "source": "https://servicesdev.arcgisonline.com",
+                    "export": "https://tiledbasemapsdev.arcgis.com"
+                },
+                {
+                    "source": "https://basemapsdev-api.arcgis.com",
+                    "export": "https://basemapsdev.arcgis.com"
+                },
+                {
+                    "source": "https://ibasemapsdev-api.arcgis.com",
+                    "export": "https://tiledbasemapsdev.arcgis.com"
+                }
+            ]
+        },
+        "printTask": {
+            "url": "https://utilitydev.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+        },
+        "route": {
+            "url": "https://routedev.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "routingUtilities": {
+            "url": "https://logisticsdev.arcgis.com/arcgis/rest/services/World/Utilities/GPServer"
+        },
+        "serviceArea": {
+            "url": "https://routedev.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "syncVRP": {
+            "url": "https://logisticsdev.arcgis.com/arcgis/rest/services/World/VehicleRoutingProblemSync/GPServer/EditVehicleRoutingProblem",
+            "defaultTravelMode": "FEgifRtFndKNcJMJ"
+        },
+        "traffic": {
+            "url": "https://trafficdev.arcgis.com/arcgis/rest/services/World/Traffic/MapServer"
+        },
+        "trafficData": {
+            "url": "https://trafficdev.arcgis.com/arcgis/rest/services/World/TrafficFeeds/GPServer"
+        },
+        "analysis": {
+            "url": "https://analysisdev.arcgis.com/arcgis/rest/services/tasks/GPServer"
+        },
+        "geoenrichment": {
+            "url": "https://geoenrichdev.arcgis.com/arcgis/rest/services/World/GeoenrichmentServer"
+        },
+        "asyncGeocode": {
+            "url": "https://analysisdev.arcgis.com/arcgis/rest/services/tasks/GPServer"
+        },
+        "creditEstimation": {
+            "url": "https://analysisdev.arcgis.com/arcgis/rest/services/Estimate/GPServer"
+        },
+        "rasterAnalytics": {
+            "url": "https://rasteranalysisdev.arcgis.com/arcgis/rest/services/RasterAnalysisTools/GPServer"
+        },
+        "rasterUtilities": {
+            "url": "https://rasteranalysisdev.arcgis.com/arcgis/rest/services/Utilities/RasterUtilities/GPServer"
+        },
+        "geoanalytics": {
+            "url": "https://geoanalyticsdev.arcgis.com/arcgis/rest/services/GeoAnalyticsTools/GPServer"
+        },
+        "datastoreManagement": {
+            "url": "https://datastoreManagementdev.arcgis.com"
+        }
+    },
+    "homePageFeaturedContent": "",
+    "homePageFeaturedContentCount": 12,
+    "id": "ATCRG96GAegBiycU",
+    "isPortal": false,
+    "isVerified": false,
+    "layerTemplatesGroupQuery": "title:\"Esri Layer Templates\" AND owner:esri_en",
+    "livingAtlasGroupQuery": "title:\"LAW Search\" AND owner:Esri_LivingAtlas",
+    "maxTokenExpirationMinutes": -1,
+    "metadataEditable": true,
+    "metadataFormats": [
+        "iso19139-3.2"
+    ],
+    "modified": 1654047173000,
+    "name": "Dev Premium Hub",
+    "notificationsEnabled": false,
+    "platformSSO": true,
+    "portalHostname": "devext.arcgis.com",
+    "portalMode": "multitenant",
+    "portalName": "ArcGIS Online",
+    "portalProperties": {
+        "links": {
+            "contactUs": {
+                "url": "mailto:jschneider@esri.com",
+                "visible": true
+            }
+        },
+        "openData": {
+            "enabled": true,
+            "settings": {
+                "migrations": {
+                    "siteToItems": true
+                },
+                "appVersion": "2.1",
+                "groupId": "8b002cd23acb41e698f820b60cc58b1b"
+            }
+        },
+        "hub": {
+            "enabled": true,
+            "settings": {
+                "orgType": "enterprise",
+                "communityOrg": {
+                    "orgId": "T0RZf30Yx0nok5zo",
+                    "portalHostname": "dev-pre-hub-c.mapsdevext.arcgis.com"
+                },
+                "events": {
+                    "serviceId": "c374010021604a10820b6aaab047ff63",
+                    "publicViewId": "9561a084e6e946aba0b4b9b19bbc2fd8"
+                },
+                "informationalBanner": false
+            }
+        },
+        "sharedTheme": {
+            "header": {},
+            "body": {},
+            "button": {},
+            "logo": {}
+        },
+        "showSocialMediaLinks": true,
+        "homePage": "transitional"
+    },
+    "portalThumbnail": null,
+    "rasterFunctionTemplatesGroupQuery": "title:\"Raster Function Templates\" AND owner:esri_en",
+    "region": "US",
+    "rotatorPanels": [
+        {
+            "id": "banner-2",
+            "innerHTML": "<img src='images/banner-2.jpg' style='-webkit-border-radius:0 0 10px 10px; -moz-border-radius:0 0 10px 10px; -o-border-radius:0 0 10px 10px; border-radius:0 0 10px 10px; margin-top:0; width:960px; height:180px;'/><div style='position:absolute; bottom:80px; left:80px; max-height:65px; width:660px; margin:0;'><span style='position:absolute; bottom:0; margin-bottom:0; line-height:normal; font-family:HelveticaNeue,Verdana; font-weight:600; font-size:32px; color:#369;'>Dev Premium Hub</span></div>"
+        }
+    ],
+    "showHomePageDescription": false,
+    "staticImagesUrl": "https://static.arcgis.com/images",
+    "storageQuota": 2199023255552,
+    "storageUsage": 5322726348,
+    "stylesGroupQuery": "title:\"Esri Styles\" AND owner:esri_en",
+    "supportsHostedServices": true,
+    "symbolSetsGroupQuery": "title:\"Esri Symbols\" AND owner:esri_en",
+    "templatesGroupQuery": "title:\"Web Application Templates\" AND owner:esri_en",
+    "thumbnail": null,
+    "units": "english",
+    "updateUserProfileDisabled": false,
+    "urlKey": "dev-pre-hub",
+    "useStandardizedQuery": true,
+    "useVectorBasemaps": true,
+    "vectorBasemapGalleryGroupQuery": "title:\"United States Vector Basemaps\" AND owner:Esri_cy_US",
+    "subscriptionInfo": {
+        "id": "4962563132",
+        "type": "In House",
+        "state": "active",
+        "expDate": 1682924399000,
+        "userLicenseTypes": {
+            "creatorUT": 50
+        },
+        "maxUsersPerLevel": {
+            "2": 50
+        },
+        "maxUsers": 50,
+        "availableCredits": 28371.307,
+        "collaborationSettings": {
+            "level": "4",
+            "maxItemSizeInMB": 1024,
+            "maxReplicationPackageSizeInMB": 5120
+        },
+        "hubSettings": {
+            "enabled": true
+        },
+        "companionOrganizations": [
+            {
+                "organizationUrl": "dev-pre-hub-c.mapsdevext.arcgis.com",
+                "orgId": "T0RZf30Yx0nok5zo",
+                "orgName": "Dev Premium Hub Community",
+                "type": "Community",
+                "canSignInArcGIS": true,
+                "canSignInIDP": true,
+                "canSignInSocial": true,
+                "canSignInOIDC": true
+            }
+        ]
+    },
+    "ipCntryCode": "US",
+    "httpPort": 80,
+    "httpsPort": 443,
+    "supportsOAuth": true,
+    "currentVersion": "10.2",
+    "allowedOrigins": [],
+    "mfaAdmins": [],
+    "allowedExternalLinks": [
+        "https://custom-1-dev-pre-hub.testopendata.com",
+        "https://elastictest.testopendata.com"
+    ],
+    "mfaEnabled": false,
+    "contacts": [
+        "dev_pre_hub_admin"
+    ],
+    "user": {
+        "username": "dev_pre_hub_admin",
+        "udn": null,
+        "id": "0fd9774f96eb411093454b0c1a0eb6b5",
+        "fullName": "Jeremy Schneider",
+        "categories": [],
+        "emailStatus": "notverified",
+        "firstName": "Jeremy",
+        "lastName": "Schneider",
+        "preferredView": null,
+        "description": "Linguist; Father; Anthropologist; Apologist; Contour Line Tracer; Former Digitizer. Can see in 3D, sometimes 4D. But really, we just need this to be long enough to ensure that we get some wrapping and eliding... elidation?",
+        "email": "jschneider@esri.com",
+        "userType": "arcgisonly",
+        "idpUsername": null,
+        "favGroupId": "2309370b778a487e8fcb605cc6196d12",
+        "lastLogin": 1654781573000,
+        "mfaEnabled": false,
+        "storageUsage": 5322726348,
+        "storageQuota": 2199023255552,
+        "orgId": "ATCRG96GAegBiycU",
+        "role": "org_admin",
+        "privileges": [
+            "features:user:edit",
+            "features:user:fullEdit",
+            "features:user:manageVersions",
+            "marketplace:admin:manage",
+            "marketplace:admin:purchase",
+            "marketplace:admin:startTrial",
+            "opendata:user:designateGroup",
+            "opendata:user:openDataAdmin",
+            "portal:admin:assignToGroups",
+            "portal:admin:categorizeItems",
+            "portal:admin:changeUserRoles",
+            "portal:admin:createUpdateCapableGroup",
+            "portal:admin:deleteGroups",
+            "portal:admin:deleteItems",
+            "portal:admin:deleteUsers",
+            "portal:admin:disableUsers",
+            "portal:admin:inviteUsers",
+            "portal:admin:manageCollaborations",
+            "portal:admin:manageCredits",
+            "portal:admin:manageEnterpriseGroups",
+            "portal:admin:manageLicenses",
+            "portal:admin:manageRoles",
+            "portal:admin:manageSecurity",
+            "portal:admin:manageServers",
+            "portal:admin:manageUtilityServices",
+            "portal:admin:manageWebsite",
+            "portal:admin:reassignGroups",
+            "portal:admin:reassignItems",
+            "portal:admin:reassignUsers",
+            "portal:admin:shareToGroup",
+            "portal:admin:shareToOrg",
+            "portal:admin:shareToPublic",
+            "portal:admin:updateGroups",
+            "portal:admin:updateItemCategorySchema",
+            "portal:admin:updateItems",
+            "portal:admin:updateMemberCategorySchema",
+            "portal:admin:updateUsers",
+            "portal:admin:viewGroups",
+            "portal:admin:viewItems",
+            "portal:admin:viewUsers",
+            "portal:publisher:bulkPublishFromDataStores",
+            "portal:publisher:publishBigDataAnalytics",
+            "portal:publisher:publishDynamicImagery",
+            "portal:publisher:publishFeatures",
+            "portal:publisher:publishFeeds",
+            "portal:publisher:publishKnowledgeGraph",
+            "portal:publisher:publishRealTimeAnalytics",
+            "portal:publisher:publishScenes",
+            "portal:publisher:publishServerGPServices",
+            "portal:publisher:publishServerServices",
+            "portal:publisher:publishTiledImagery",
+            "portal:publisher:publishTiles",
+            "portal:publisher:registerDataStores",
+            "portal:user:addExternalMembersToGroup",
+            "portal:user:categorizeItems",
+            "portal:user:createGroup",
+            "portal:user:createItem",
+            "portal:user:invitePartneredCollaborationMembers",
+            "portal:user:joinGroup",
+            "portal:user:joinNonOrgGroup",
+            "portal:user:reassignItems",
+            "portal:user:receiveItems",
+            "portal:user:shareGroupToOrg",
+            "portal:user:shareGroupToPublic",
+            "portal:user:shareToGroup",
+            "portal:user:shareToOrg",
+            "portal:user:shareToPublic",
+            "portal:user:viewOrgGroups",
+            "portal:user:viewOrgItems",
+            "portal:user:viewOrgUsers",
+            "portal:user:viewTracks",
+            "premium:publisher:createAdvancedNotebooks",
+            "premium:publisher:createNotebooks",
+            "premium:publisher:geoanalytics",
+            "premium:publisher:rasteranalysis",
+            "premium:publisher:scheduleNotebooks",
+            "premium:user:demographics",
+            "premium:user:elevation",
+            "premium:user:featurereport",
+            "premium:user:geocode",
+            "premium:user:geocode:stored",
+            "premium:user:geocode:temporary",
+            "premium:user:geoenrichment",
+            "premium:user:networkanalysis",
+            "premium:user:networkanalysis:closestfacility",
+            "premium:user:networkanalysis:locationallocation",
+            "premium:user:networkanalysis:optimizedrouting",
+            "premium:user:networkanalysis:origindestinationcostmatrix",
+            "premium:user:networkanalysis:routing",
+            "premium:user:networkanalysis:servicearea",
+            "premium:user:networkanalysis:vehiclerouting",
+            "premium:user:spatialanalysis"
+        ],
+        "level": "2",
+        "userLicenseTypeId": "creatorUT",
+        "disabled": false,
+        "tags": [],
+        "culture": "en-US",
+        "cultureFormat": "us",
+        "region": "US",
+        "units": "english",
+        "thumbnail": "blob.png",
+        "access": "public",
+        "created": 1557329516000,
+        "modified": 1654613416000,
+        "provider": "arcgis"
+    },
+    "appInfo": {
+        "appId": "zhGPGlPQaq11eIQC",
+        "itemId": "906e855bb18b4cf49031482c0c117f09",
+        "appOwner": "dev_pre_hub_admin",
+        "orgId": "ATCRG96GAegBiycU",
+        "appTitle": "Gallery Harness Dev Ext",
+        "privileges": [
+            "premium:user:demographics",
+            "premium:user:elevation",
+            "premium:user:geocode",
+            "premium:user:geocode:stored",
+            "premium:user:geocode:temporary",
+            "premium:user:geoenrichment",
+            "premium:user:networkanalysis",
+            "premium:user:networkanalysis:closestfacility",
+            "premium:user:networkanalysis:locationallocation",
+            "premium:user:networkanalysis:optimizedrouting",
+            "premium:user:networkanalysis:origindestinationcostmatrix",
+            "premium:user:networkanalysis:routing",
+            "premium:user:networkanalysis:servicearea",
+            "premium:user:networkanalysis:vehiclerouting"
+        ]
+    }
+}
