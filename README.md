@@ -14,6 +14,8 @@
 
 # @esri/hub.js
 
+**NOTE: this branch contains only the archived hub.js packages. See https://github.com/Esri/hub.js/ for the actively maintained packages**
+
 > compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.
 
 ## Table of Contents
