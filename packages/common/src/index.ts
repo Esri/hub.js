@@ -7,7 +7,6 @@ import OperationStack from "./OperationStack";
 
 // Re-exports
 export { atob, btoa } from "abab";
-export { deepEqual } from "assert";
 export { canEditEvent, IEventModel } from "./access/can-edit-event";
 export { canEditItem } from "./access/can-edit-item";
 export { canEditSite } from "./access/can-edit-site";
@@ -975,6 +974,7 @@ export {
 export { deepSet } from "./objects/deep-set";
 export { deepStringReplace } from "./objects/deep-string-replace";
 export { deepDeletePropByValue } from "./objects/deepDeletePropByValue";
+export { deepEqual } from "./objects/deepEqual";
 export { deepFilter } from "./objects/deepFilter";
 export { deepFind, deepFindById } from "./objects/deepFind";
 export { ensureProp } from "./objects/ensure-prop";
