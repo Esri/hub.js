@@ -715,6 +715,7 @@ export {
   PORTAL_EXPORT_TYPES,
   ServiceDownloadFormat,
 } from "./downloads/types";
+export { IEvent, IRegistration } from "./events/api/types";
 export {
   createHubEvent,
   createHubEventRegistration,
