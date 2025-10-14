@@ -8,7 +8,7 @@ import * as hubCommon from "../src";
  * The missing artifacts in chrome are from the newsletter modules
  */
 
-fdescribe("index", () => {
+describe("index", () => {
   // exported types, i.e. types, interfaces, etc
   const EXPORTED_TYPES = [
     "IPagedResponse",

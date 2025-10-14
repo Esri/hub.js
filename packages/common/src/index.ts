@@ -5,22 +5,9 @@ import HubError from "./HubError";
 import OperationError from "./OperationError";
 import OperationStack from "./OperationStack";
 
-export {
-  bboxToString,
-  commitItemUpload,
-  createItem,
-  getPortalUrl,
-  getUser,
-  IPagedResponse,
-  isBBox,
-  isOrgAdmin,
-  updateItem,
-  updateUser,
-} from "@esri/arcgis-rest-portal";
 // Re-exports
 export { atob, btoa } from "abab";
 export { deepEqual } from "assert";
-export { BBox } from "geojson";
 export { canEditEvent, IEventModel } from "./access/can-edit-event";
 export { canEditItem } from "./access/can-edit-item";
 export { canEditSite } from "./access/can-edit-site";
@@ -569,6 +556,7 @@ export {
   IFetchPost,
   IFetchPostParams,
   IFetchSettingParams,
+  IPagedResponse,
   IPlatformSharing,
   IPost,
   IPostOptions,
@@ -634,6 +622,7 @@ export {
 export { canReadChannelV2 } from "./discussions/api/utils/channels/can-read-channel-v2";
 export { deriveUserRoleV2 } from "./discussions/api/utils/channels/derive-user-role-v2";
 export {
+  isOrgAdmin,
   isOrgAdminInOrg,
   isUserInOrg,
   reduceByGroupMembership,
@@ -731,6 +720,7 @@ export { HubEventAttendanceType, HubEventCapacityType } from "./events/types";
 export {
   allCoordinatesPossiblyWGS84,
   bBoxToExtent,
+  bboxToString,
   createExtent,
   extentToBBox,
   extentToPolygon,
@@ -738,6 +728,7 @@ export {
   getExtentCenter,
   getOrgExtentAsBBox,
   GLOBAL_EXTENT,
+  isBBox,
   isValidExtent,
   orgExtent,
 } from "./extent";
@@ -786,6 +777,7 @@ export { _unprotectAndRemoveGroup } from "./groups/_unprotect-and-remove-group";
 export {
   AccessControl,
   addCreateItemTypes,
+  BBox,
   FileExtension,
   GenericAsyncFunc,
   GeographyProvenance,
@@ -971,7 +963,12 @@ export {
   SubscriptionAction,
   SystemNotificationSpecNames,
 } from "./newsletters/api/types";
-export { createUser, deleteUser } from "./newsletters/api/users";
+export {
+  createUser,
+  deleteUser,
+  getUser,
+  updateUser,
+} from "./newsletters/api/users";
 export { deepSet } from "./objects/deep-set";
 export { deepStringReplace } from "./objects/deep-string-replace";
 export { deepDeletePropByValue } from "./objects/deepDeletePropByValue";
@@ -1080,6 +1077,11 @@ export { uploadResourcesFromUrl } from "./resources/upload-resources-from-url";
 export { upsertResource } from "./resources/upsertResource";
 export { validateUrl } from "./resources/validate-url";
 export { _addTokenToResourceUrl } from "./resources/_add-token-to-resource-url";
+export {
+  commitItemUpload,
+  createItem,
+  updateItem,
+} from "./rest/portal/wrappers";
 export { Catalog } from "./search/Catalog";
 export { Collection } from "./search/Collection";
 export { combineQueries } from "./search/combineQueries";
@@ -1289,6 +1291,7 @@ export { getItemApiUrl } from "./urls/get-item-api-url";
 export { getItemDataUrl } from "./urls/get-item-data-url";
 export { getItemHomeUrl } from "./urls/get-item-home-url";
 export { getPortalApiUrl } from "./urls/get-portal-api-url";
+export { getPortalUrl } from "./urls/get-portal-url";
 export {
   getCardModelUrlFromEntity,
   getCardModelUrlFromResult,
