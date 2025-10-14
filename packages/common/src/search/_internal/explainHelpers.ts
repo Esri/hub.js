@@ -1,5 +1,9 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { GenericResult, IMatchReason, IPredicateExplanation } from "../types";
+import {
+  GenericResult,
+  IMatchReason,
+  IPredicateExplanation,
+} from "../types/types";
 import { cloneObject } from "../../util";
 import { IGroup, getItemGroups } from "@esri/arcgis-rest-portal";
 import { getWithDefault } from "../../objects/get-with-default";

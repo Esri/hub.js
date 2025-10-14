@@ -1,5 +1,5 @@
 import { explainFilter } from "../../../src/search/_internal/explainFilter";
-import { GenericResult } from "../../../src/search/types";
+import { GenericResult } from "../../../src/search/types/types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as ExplainPredicateModule from "../../../src/search/_internal/explainPredicate";
 import { IFilter } from "../../../src/search/types/IHubCatalog";

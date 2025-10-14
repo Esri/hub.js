@@ -1,5 +1,5 @@
 import { compareAccess } from "../../src/access/compareAccess";
-import { AccessLevel } from "../../src/core";
+import { AccessLevel } from "../../src/core/types/types";
 
 describe("compareAccess", function () {
   it("returns access1 when both levels are equal", function () {
