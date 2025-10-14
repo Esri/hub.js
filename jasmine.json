@@ -2,11 +2,6 @@
   "spec_dir": "packages",
   "spec_files": [
     "**/test/**/*.test.ts",
-    "!**/test/associations/internal/getIncludesAndReferencesQuery.test.ts",
-    "!**/test/associations/internal/getIncludesDoesNotReferenceQuery.test.ts",
-    "!**/test/associations/internal/getReferencesDoesNotIncludeQuery.test.ts",
-    "!**/test/associations/breakAssociation.test.ts",
-    "!**/test/associations/requestAssociation.test.ts",
     "!**/test/content/content.test.ts",
     "!**/test/content/edit.test.ts",
     "!**/test/content/fetchContent.test.ts",

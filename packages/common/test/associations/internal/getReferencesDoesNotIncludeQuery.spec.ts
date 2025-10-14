@@ -1,12 +1,19 @@
-import { getIncludesDoesNotReferenceQuery } from "../../../src/associations/internal/getIncludesDoesNotReferenceQuery";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
+import { getReferencesDoesNotIncludeQuery } from "../../../src/associations/internal/getReferencesDoesNotIncludeQuery";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import { cloneObject } from "../../../src/util";
 import { MOCK_PARENT_ENTITY, MOCK_CHILD_ENTITY } from "../fixtures";
 import * as ItemsModule from "@esri/arcgis-rest-portal";
 
-describe("getIncludesDoesNotReferenceQuery:", () => {
+vi.mock("@esri/arcgis-rest-portal");
+
+describe("getReferencesDoesNotIncludeQuery:", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   describe("from the parent entity perspective", () => {
     it("returns a valid IQuery to fetch child entities", async () => {
-      const query = await getIncludesDoesNotReferenceQuery(
+      const query = await getReferencesDoesNotIncludeQuery(
         MOCK_PARENT_ENTITY,
         "project",
         true,
@@ -21,30 +28,31 @@ describe("getIncludesDoesNotReferenceQuery:", () => {
             predicates: [
               {
                 type: ["Hub Project"],
-                typekeywords: { not: ["ref|initiative|parent-00a"] },
+                typekeywords: ["ref|initiative|parent-00a"],
               },
             ],
           },
           {
-            predicates: [{ group: "group-00a" }],
+            predicates: [{ group: { not: ["group-00a"], any: [], all: [] } }],
           },
         ],
       });
     });
   });
   describe("from the child entity perspective", () => {
-    it("returns a valid IQuery to fetch parent entities", async () => {
-      const getItemGroupsSpy = spyOn(
-        ItemsModule,
-        "getItemGroups"
-      ).and.returnValue(
+    let getItemGroupsSpy: any;
+    beforeEach(() => {
+      getItemGroupsSpy = vi.spyOn(ItemsModule, "getItemGroups").mockReturnValue(
         Promise.resolve({
           admin: [{ id: "group-00a", typeKeywords: ["initiative|parent-00b"] }],
           member: [{ id: "group-00b", typeKeywords: [] }],
           other: [{ id: "group-00c", typeKeywords: ["initiative|parent-00c"] }],
-        })
+        }) as any
       );
-      const query = await getIncludesDoesNotReferenceQuery(
+    });
+
+    it("returns a valid IQuery to fetch parent entities", async () => {
+      const query = await getReferencesDoesNotIncludeQuery(
         MOCK_CHILD_ENTITY,
         "initiative",
         false,
@@ -61,19 +69,18 @@ describe("getIncludesDoesNotReferenceQuery:", () => {
             predicates: [
               {
                 type: ["Hub Initiative"],
-                id: ["parent-00b", "parent-00c"],
+                id: ["parent-00a"],
               },
             ],
           },
         ],
       });
     });
-    it("returns null when the child is not 'included' by any parents", async () => {
-      spyOn(ItemsModule, "getItemGroups").and.returnValue(
-        Promise.resolve({ admin: [], member: [], other: [] })
-      );
-      const query = await getIncludesDoesNotReferenceQuery(
-        MOCK_CHILD_ENTITY,
+    it("returns null when the child doesn't reference any parents", async () => {
+      const child = cloneObject(MOCK_CHILD_ENTITY);
+      child.typeKeywords = [];
+      const query = await getReferencesDoesNotIncludeQuery(
+        child,
         "initiative",
         false,
         { requestOptions: {} } as IArcGISContext
