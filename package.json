@@ -7,6 +7,7 @@
 		"packages/common"
 	],
 	"devDependencies": {
+		"@changesets/cli": "^2.29.7",
 		"@chiragrupani/karma-chromium-edge-launcher": "^2.0.0",
 		"@commitlint/cli": "^11.0.0",
 		"@commitlint/config-conventional": "^11.0.0",
