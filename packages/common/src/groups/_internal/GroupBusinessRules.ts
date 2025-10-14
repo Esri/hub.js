@@ -77,33 +77,10 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group"],
     authenticated: true,
     assertions: [
-      // if the user is not a group admin, they must
-      // have the portal:admin:updateGroups privilege
       {
-        conditions: [
-          {
-            property: "context:currentUser",
-            type: "is-not-group-admin",
-            value: "entity:id",
-          },
-        ],
-        property: "context:currentUser.privileges",
-        type: "contains",
-        value: ["portal:admin:updateGroups"],
-      },
-      // if the user does not have the portal:admin:updateGroups
-      // privilege, they must be a group admin
-      {
-        conditions: [
-          {
-            property: "context:currentUser.privileges",
-            type: "without",
-            value: ["portal:admin:updateGroups"],
-          },
-        ],
-        property: "context:currentUser",
-        type: "is-group-admin",
-        value: "entity:id",
+        property: "entity:userMembership.memberType",
+        type: "included-in",
+        value: ["owner", "admin"],
       },
     ],
   },
@@ -148,48 +125,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   // note: pane actions are further gated individually
   {
     permission: "hub:group:manage",
-    assertions: [
-      // if the user is not a group admin,
-      // they must have one of the necessary
-      // privileges
-      {
-        conditions: [
-          {
-            property: "context:currentUser",
-            type: "is-not-group-admin",
-            value: "entity:id",
-          },
-        ],
-        property: "context:currentUser.privileges",
-        type: "contains-some",
-        value: [
-          "portal:admin:updateGroups",
-          "portal:admin:deleteGroups",
-          "portal:admin:assignToGroups",
-          "portal:admin:shareToGroup",
-        ],
-      },
-      // if the user does not have one of the
-      // necessary privileges, they must be a
-      // group admin
-      {
-        conditions: [
-          {
-            property: "context:currentUser.privileges",
-            type: "without",
-            value: [
-              "portal:admin:updateGroups",
-              "portal:admin:deleteGroups",
-              "portal:admin:assignToGroups",
-              "portal:admin:shareToGroup",
-            ],
-          },
-        ],
-        property: "context:currentUser",
-        type: "is-group-admin",
-        value: "entity:id",
-      },
-    ],
+    dependencies: ["hub:group:edit"],
   },
   {
     permission: "hub:group:owner",
