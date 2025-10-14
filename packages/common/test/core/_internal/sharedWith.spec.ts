@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { sharedWith } from "../../../src/core/_internal/sharedWith";
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { IGroup } from "@esri/arcgis-rest-portal";
@@ -10,7 +10,7 @@ vi.mock("@esri/arcgis-rest-portal", () => ({
 import { getItemGroups } from "@esri/arcgis-rest-portal";
 
 describe("sharedWith", () => {
-  beforeEach(() => {
+  afterEach(() => {
     vi.clearAllMocks();
   });
 

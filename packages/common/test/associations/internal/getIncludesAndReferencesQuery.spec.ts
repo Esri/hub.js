@@ -1,11 +1,17 @@
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { getIncludesAndReferencesQuery } from "../../../src/associations/internal/getIncludesAndReferencesQuery";
-import { HubEntity } from "../../../src/core/types/HubEntity";
-import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import type { HubEntity } from "../../../src/core/types/HubEntity";
+import type { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { cloneObject } from "../../../src/util";
 import { MOCK_PARENT_ENTITY, MOCK_CHILD_ENTITY } from "../fixtures";
 import * as ItemsModule from "@esri/arcgis-rest-portal";
 
+vi.mock("@esri/arcgis-rest-portal");
+
 describe("getIncludesAndReferencesQuery:", () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
   describe("from the parent entity perspective", () => {
     it("returns null if the parent's association group hasn't been created yet", async () => {
       const query = await getIncludesAndReferencesQuery(
@@ -46,16 +52,19 @@ describe("getIncludesAndReferencesQuery:", () => {
   });
   describe("from the child entity perspective", () => {
     it("returns a valid IQuery to fetch parent entities", async () => {
-      const getItemGroupsSpy = spyOn(
-        ItemsModule,
-        "getItemGroups"
-      ).and.returnValue(
-        Promise.resolve({
-          admin: [{ id: "group-00a", typeKeywords: ["initiative|parent-00a"] }],
-          member: [{ id: "group-00b", typeKeywords: [] }],
-          other: [{ id: "group-00c", typeKeywords: ["initiative|parent-00b"] }],
-        })
-      );
+      const getItemGroupsSpy = vi
+        .spyOn(ItemsModule, "getItemGroups")
+        .mockReturnValue(
+          Promise.resolve({
+            admin: [
+              { id: "group-00a", typeKeywords: ["initiative|parent-00a"] },
+            ],
+            member: [{ id: "group-00b", typeKeywords: [] }],
+            other: [
+              { id: "group-00c", typeKeywords: ["initiative|parent-00b"] },
+            ],
+          } as any)
+        );
       const query = await getIncludesAndReferencesQuery(
         MOCK_CHILD_ENTITY,
         "initiative",
@@ -81,12 +90,12 @@ describe("getIncludesAndReferencesQuery:", () => {
       });
     });
     it("returns null when the child is not 'included' by any parents", async () => {
-      spyOn(ItemsModule, "getItemGroups").and.returnValue(
+      vi.spyOn(ItemsModule, "getItemGroups").mockReturnValue(
         Promise.resolve({ admin: [], member: [], other: [] })
       );
       const query = await getIncludesAndReferencesQuery(
         MOCK_CHILD_ENTITY,
-        "initiative",
+        "initiative" as any,
         false,
         { requestOptions: {} } as IArcGISContext
       );
@@ -94,12 +103,12 @@ describe("getIncludesAndReferencesQuery:", () => {
       expect(query).toBeNull();
     });
     it("returns null when the child does not 'reference' any parents", async () => {
-      spyOn(ItemsModule, "getItemGroups").and.returnValue(
+      vi.spyOn(ItemsModule, "getItemGroups").mockReturnValue(
         Promise.resolve({
           admin: [{ id: "group-00a", typeKeywords: ["initiative|parent-00a"] }],
           member: [],
           other: [],
-        })
+        } as any)
       );
       const child = cloneObject(MOCK_CHILD_ENTITY);
       child.typeKeywords = [];

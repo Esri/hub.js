@@ -23,6 +23,8 @@ module.exports = function (config) {
 
     // list of files to exclude
     exclude: [
+      // we use .spec.ts for vitest
+      "packages/*/test/**/*.spec.ts",
       ...exclude
     ],
 
