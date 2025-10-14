@@ -4,16 +4,7 @@
 	"description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
 	"private": true,
 	"workspaces": [
-		"packages/common",
-		"packages/discussions",
-		"packages/downloads",
-		"packages/events",
-		"packages/initiatives",
-		"packages/surveys",
-		"packages/teams",
-		"packages/sites",
-		"packages/surveys",
-		"packages/search"
+		"packages/common"
 	],
 	"devDependencies": {
 		"@chiragrupani/karma-chromium-edge-launcher": "^2.0.0",
