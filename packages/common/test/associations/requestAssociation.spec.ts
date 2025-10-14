@@ -1,3 +1,12 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  afterEach,
+  beforeEach,
+  MockInstance,
+} from "vitest";
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { requestAssociation } from "../../src/associations/requestAssociation";
 import { MOCK_CHILD_ENTITY, MOCK_PARENT_ENTITY } from "./fixtures";
@@ -5,24 +14,26 @@ import * as RestPortalModule from "@esri/arcgis-rest-portal";
 import * as FetchHubEntityModule from "../../src/core/fetchHubEntity";
 import * as UpdateHubEntityModule from "../../src/core/updateHubEntity";
 
+vi.mock("@esri/arcgis-rest-portal");
+
 describe("requestAssociation", () => {
-  let shareItemWithGroupSpy: jasmine.Spy;
-  let fetchHubEntitySpy: jasmine.Spy;
-  let updateHubEntitySpy: jasmine.Spy;
+  let shareItemWithGroupSpy: MockInstance;
+  let fetchHubEntitySpy: MockInstance;
+  let updateHubEntitySpy: MockInstance;
 
   beforeEach(() => {
-    shareItemWithGroupSpy = spyOn(
-      RestPortalModule,
-      "shareItemWithGroup"
-    ).and.returnValue(Promise.resolve());
-    fetchHubEntitySpy = spyOn(
-      FetchHubEntityModule,
-      "fetchHubEntity"
-    ).and.returnValue(Promise.resolve({ owner: "mock-owner" }));
-    updateHubEntitySpy = spyOn(
-      UpdateHubEntityModule,
-      "updateHubEntity"
-    ).and.returnValue(Promise.resolve());
+    shareItemWithGroupSpy = vi
+      .spyOn(RestPortalModule, "shareItemWithGroup")
+      .mockReturnValue(Promise.resolve() as any);
+    fetchHubEntitySpy = vi
+      .spyOn(FetchHubEntityModule, "fetchHubEntity")
+      .mockReturnValue(Promise.resolve({ owner: "mock-owner" }) as any);
+    updateHubEntitySpy = vi
+      .spyOn(UpdateHubEntityModule, "updateHubEntity")
+      .mockReturnValue(Promise.resolve() as any);
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("parent perspective: shares the child to its association group", async () => {
@@ -60,7 +71,7 @@ describe("requestAssociation", () => {
     );
   });
   it("throws an error if there is an issue sharing the item with the association group", async () => {
-    shareItemWithGroupSpy.and.returnValue(Promise.reject("error"));
+    shareItemWithGroupSpy.mockReturnValue(Promise.reject("error"));
 
     try {
       await requestAssociation(

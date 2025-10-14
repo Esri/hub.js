@@ -1,3 +1,12 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  afterEach,
+  beforeEach,
+  MockInstance,
+} from "vitest";
 import { breakAssociation } from "../../src/associations/breakAssociation";
 import { MOCK_CHILD_ENTITY, MOCK_PARENT_ENTITY } from "./fixtures";
 import * as RestPortalModule from "@esri/arcgis-rest-portal";
@@ -6,29 +15,26 @@ import * as UpdateHubEntityModule from "../../src/core/updateHubEntity";
 import { cloneObject } from "../../src/util";
 import { ArcGISContext } from "../../src/ArcGISContext";
 
+vi.mock("@esri/arcgis-rest-portal");
+
 describe("breakAssociation", () => {
-  let unshareItemWithGroupSpy: jasmine.Spy;
-  let fetchHubEntitySpy: jasmine.Spy;
-  let updateHubEntitySpy: jasmine.Spy;
+  let unshareItemWithGroupSpy: MockInstance;
+  let fetchHubEntitySpy: MockInstance;
+  let updateHubEntitySpy: MockInstance;
 
   beforeEach(() => {
-    unshareItemWithGroupSpy = spyOn(
-      RestPortalModule,
-      "unshareItemWithGroup"
-    ).and.returnValue(Promise.resolve());
-    fetchHubEntitySpy = spyOn(
-      fetchHubEntityModule,
-      "fetchHubEntity"
-    ).and.returnValue(Promise.resolve({ owner: "mock-owner" }));
-    updateHubEntitySpy = spyOn(
-      UpdateHubEntityModule,
-      "updateHubEntity"
-    ).and.returnValue(Promise.resolve());
+    unshareItemWithGroupSpy = vi
+      .spyOn(RestPortalModule, "unshareItemWithGroup")
+      .mockReturnValue(Promise.resolve() as any);
+    fetchHubEntitySpy = vi
+      .spyOn(fetchHubEntityModule, "fetchHubEntity")
+      .mockReturnValue(Promise.resolve({ owner: "mock-owner" }) as any);
+    updateHubEntitySpy = vi
+      .spyOn(UpdateHubEntityModule, "updateHubEntity")
+      .mockReturnValue(Promise.resolve() as any);
   });
   afterEach(() => {
-    unshareItemWithGroupSpy.calls.reset();
-    fetchHubEntitySpy.calls.reset();
-    updateHubEntitySpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("parent perspective: unshares the child from its association group", async () => {
@@ -66,7 +72,7 @@ describe("breakAssociation", () => {
     );
   });
   it("throws an error if there is an issue unsharing the item from the association group", async () => {
-    unshareItemWithGroupSpy.and.returnValue(Promise.reject("unshare error"));
+    unshareItemWithGroupSpy.mockReturnValue(Promise.reject("unshare error"));
 
     try {
       await breakAssociation(MOCK_PARENT_ENTITY, "project", "child-00a", {
