@@ -13,9 +13,11 @@ export async function fetchModelFromItem(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IModel> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const data = shouldFetchItemData(item)
-    ? await getItemData(item.id, requestOptions).catch(() => null)
+    ? ((await getItemData(item.id, requestOptions).catch(() => null)) as Record<
+        string,
+        unknown
+      >)
     : null;
   return {
     item,

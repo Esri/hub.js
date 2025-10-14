@@ -362,11 +362,13 @@ describe("model utils:", () => {
       expect(getItemDataSpy.calls.count()).toBe(1);
     });
     it("should not fetch item data for excluded type", async () => {
+      const getItemDataSpy = spyOn(portalModule, "getItemData");
       const item = { id: "abc", type: "Image Collection" } as IItem;
       expect(await fetchModelFromItem(item, {} as any)).toEqual({
         item,
         data: null,
       } as IModel);
+      expect(getItemDataSpy.calls.count()).toBe(0);
     });
   });
 
