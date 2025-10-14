@@ -2,6 +2,13 @@
 // Generated on Thu Jul 13 2017 11:01:30 GMT-0700 (PDT)
 const fs = require("fs");
 
+// we use jasmine's config to determine which tests to exclude
+// it's essentially the inverse of spec_files
+const jasmineConfig = require("./jasmine.json");
+const exclude = jasmineConfig.spec_files
+  .filter(s => !s.match(/\*\.test\.ts$/))
+  .map(s => s.replace(/^\!/, ''));
+
 module.exports = function (config) {
   const configObj = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,7 +22,9 @@ module.exports = function (config) {
     files: ["packages/*/{src,test}/**/*.ts"],
 
     // list of files to exclude
-    exclude: [],
+    exclude: [
+      ...exclude
+    ],
 
     karmaTypescriptConfig: {
       coverageOptions: {
@@ -33,8 +42,9 @@ module.exports = function (config) {
           /orval-*/,
           /custom-client.ts/,
           // files whose tests have been migrated to vitest
-          /src\/util\.ts$/,
+          /src\/(api|util)\.ts$/,
           /src\/core\/_internal\/sharedWith\.ts$/,
+          // TODO: need to account for the excluded tests above
         ],
         threshold: {
           global: {
