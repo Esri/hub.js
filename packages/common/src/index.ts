@@ -910,7 +910,10 @@ export { buildWhereClause, editorToMetric } from "./metrics/editorToMetric";
 export { getEntityMetrics } from "./metrics/getEntityMetrics";
 export { resolveMetric } from "./metrics/resolveMetric";
 export { createModel } from "./models/createModel";
-export { fetchModelFromItem } from "./models/fetchModelFromItem";
+export {
+  fetchModelFromItem,
+  shouldFetchItemData,
+} from "./models/fetchModelFromItem";
 export { fetchModelResources } from "./models/fetchModelResource";
 export { getModel } from "./models/getModel";
 export { getModelBySlug } from "./models/getModelBySlug";
