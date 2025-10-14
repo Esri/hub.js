@@ -5,7 +5,6 @@
 ### Patch Changes
 
 - 534c742: Now able to specify item types that should not have their data fetched when visiting their explore views
-- 203269a: Now able to specify item types that should not have their data fetched when visiting their explore views
 
 ### Bug Fixes
 
