@@ -3,7 +3,8 @@ import { defineConfig } from "vite";
 export default defineConfig({
   test: {
     include: [
-      "vitest/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      // we use .spec.ts for vitest and .test.ts for karma/jasmine
+      "test/**/*.spec.ts"
     ],
     coverage: {
       enabled: true,
@@ -12,6 +13,7 @@ export default defineConfig({
         // "src/**/*.ts"
         // but for now we are just getting started converting to vitest
         "src/{api,util}.ts",
+        "src/associations/internal/getIncludesAndReferencesQuery.ts",
         "src/core/_internal/sharedWith.ts",
       ],
       // we have so many pre-existing istanbul ignore comments
