@@ -1007,7 +1007,6 @@ describe("index", () => {
     "addDefaultItemSearchPredicates",
     "getKilobyteSizeOfQuery",
     "expandPortalQuery",
-    "getCOrgOrEOrgId",
     "WELL_KNOWN_ITEM_CATALOGS",
     "WELL_KNOWN_GROUP_CATALOGS",
     "WELL_KNOWN_EVENT_CATALOGS",

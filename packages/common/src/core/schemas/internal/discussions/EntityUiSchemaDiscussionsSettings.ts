@@ -100,7 +100,7 @@ export const buildUiSchema = (
     });
 
     if (partnerOrgIds.length) {
-      orgFacets.options.splice(2, 0, {
+      orgFacets.options.splice(orgFacets.options.length - 1, 0, {
         label:
           "{{shared.fields.allowedChannelIds.facets.organization.options.partner.label:translate}}",
         key: "partner",
