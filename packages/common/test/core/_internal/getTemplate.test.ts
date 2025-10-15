@@ -1,5 +1,5 @@
 import { getTemplate } from "../../../src/core/_internal/getTemplate";
-import { IArcGISContext } from "../../../src/types";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("getTemplate util:", () => {
   let context: IArcGISContext;

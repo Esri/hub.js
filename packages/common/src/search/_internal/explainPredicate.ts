@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { GenericResult, IPredicateExplanation } from "../types";
+import { GenericResult, IPredicateExplanation } from "../types/types";
 import {
   PREDICATE_DATE_PROPS,
   PREDICATE_NON_MATCH_OPTIONS_PROPS,

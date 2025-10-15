@@ -1,5 +1,9 @@
-import { ISearchPosts, PostSort, SortOrder } from "../../../discussions";
-import { IHubSearchOptions } from "../../types";
+import {
+  ISearchPosts,
+  PostSort,
+  SortOrder,
+} from "../../../discussions/api/types";
+import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 
 /**
  * A union type of supported sort fields whens searching for posts

@@ -4,7 +4,8 @@ import {
   PostType,
   SharingAccess,
 } from "../../../discussions/api/types";
-import { IDateRange, IFilter } from "../../types";
+import { IFilter } from "../../types/IHubCatalog";
+import { IDateRange } from "../../types/types";
 import { toEnum, toEnums } from "../hubEventsHelpers/toEnumConverters";
 import { flattenFilters } from "./processChannelFilters";
 
