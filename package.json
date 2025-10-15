@@ -43,6 +43,7 @@
 		"fetch-mock": "^7.0.0",
 		"gh-pages": "^1.2.0",
 		"gh-release": "^3.4.0",
+		"glob-to-regexp": "^0.4.1",
 		"husky": "^4.3.0",
 		"jasmine": "^3.6.4",
 		"jasmine-core": "3.4.0",
