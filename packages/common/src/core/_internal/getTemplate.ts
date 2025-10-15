@@ -1,6 +1,6 @@
-import { IArcGISContext } from "../../types";
+import { IArcGISContext } from "../../types/IArcGISContext";
 import { getCdnAssetUrl } from "../../urls/get-cdn-asset-url";
-import { IHubLayout } from "../types";
+import { IHubLayout } from "../types/IHubLayout";
 
 /**
  * Returns a template layout by name.

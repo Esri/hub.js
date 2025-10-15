@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { explainPredicate } from "../../../src/search/_internal/explainPredicate";
 import { IPredicate } from "../../../src/search/types/IHubCatalog";
-import { GenericResult } from "../../../src/search/types";
+import { GenericResult } from "../../../src/search/types/types";
 import * as explainHelpersModule from "../../../src/search/_internal/explainHelpers";
 
 // Explain Predicate just delegates to more specific functions

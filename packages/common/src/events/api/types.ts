@@ -1,4 +1,5 @@
 export {
+  /* istanbul ignore next */
   EventAssociationEntityType,
   EventAccess,
   EventAttendanceType,
@@ -30,6 +31,7 @@ export {
   RegistrationStatus,
   RegistrationSort,
   EventSortOrder,
+  /* istanbul ignore next */
   EventSort,
   EventLocationType,
   IPagedRegistrationResponse,
