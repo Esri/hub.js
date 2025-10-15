@@ -1,19 +1,19 @@
 import * as computePropsModule from "../../../src/users/_internal/computeProps";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { createMockContext } from "../../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { mergeObjects } from "../../../src/objects/merge-objects";
 import { IHubUser } from "../../../src/core/types/IHubUser";
 import * as requestModule from "@esri/arcgis-rest-request";
 
-const initContextManager = async (opts = {}) => {
+const initContextManager = (opts = {}) => {
   const defaults = {
-    authentication: MOCK_AUTH,
+    // authentication: MOCK_AUTH,
     currentUser: {
       username: "casey",
       privileges: ["portal:user:shareToGroup"],
     } as unknown as PortalModule.IUser,
-    portal: {
+    portalSelf: {
       name: "DC R&D Center",
       id: "BRXFAKE",
       portalHostname: "portal-hostname.com",
@@ -22,16 +22,16 @@ const initContextManager = async (opts = {}) => {
     } as unknown as PortalModule.IPortal,
     portalUrl: "https://myserver.com",
   };
-  return await ArcGISContextManager.create(
-    mergeObjects(opts, defaults, ["currentUser"])
-  );
+  return {
+    context: createMockContext(mergeObjects(opts, defaults, ["currentUser"])),
+  };
 };
 
 describe("HubUser computeProps:", () => {
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: Partial<ArcGISContextManager>;
 
   beforeEach(async () => {
-    authdCtxMgr = await initContextManager();
+    authdCtxMgr = initContextManager();
   });
 
   describe("computeProps: ", () => {
