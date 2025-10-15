@@ -1,3 +1,4 @@
+import { IHubTrustedOrgsResponse } from "../../../../hub-types";
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { IUiSchema } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
@@ -50,6 +51,15 @@ export const buildUiSchema = (
     context.hubLicense === "hub-premium" &&
     options.type !== "Hub Site Application"
   ) {
+    const cOrgEOrgTrustedRelationship = context.trustedOrgs.find(
+      (org: IHubTrustedOrgsResponse) =>
+        org.from.orgId === context.currentUser.orgId
+    );
+    const cOrgOrEOrgId =
+      context.isCommunityOrg && cOrgEOrgTrustedRelationship
+        ? cOrgEOrgTrustedRelationship.to.orgId
+        : context.communityOrgId;
+
     uiSchema.elements[0].elements.push({
       labelKey: "shared.fields.allowedChannelIds.label",
       scope: "/properties/discussionSettings/properties/allowedChannelIds",
@@ -131,6 +141,60 @@ export const buildUiSchema = (
                 predicates: [
                   {
                     access: "private",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label:
+              "{{shared.fields.allowedChannelIds.facets.organization.label:translate}}",
+            key: "organization",
+            display: "single-select",
+            operation: "OR",
+            options: [
+              {
+                label:
+                  "{{shared.fields.allowedChannelIds.facets.organization.options.organization.label:translate}}",
+                key: "organization",
+                predicates: [
+                  {
+                    orgId: context.currentUser.orgId,
+                  },
+                ],
+              },
+              {
+                label:
+                  "{{shared.fields.allowedChannelIds.facets.organization.options.community.label:translate}}",
+                key: "community",
+                predicates: [
+                  {
+                    orgId: context.currentUser.cOrgId,
+                  },
+                ],
+              },
+              {
+                label:
+                  "{{shared.fields.allowedChannelIds.facets.organization.options.partner.label:translate}}",
+                key: "partner",
+                predicates: [
+                  {
+                    orgId: context.trustedOrgIds.filter((orgId: string) => {
+                      return (
+                        orgId !== context.currentUser.orgId &&
+                        orgId !== cOrgOrEOrgId
+                      );
+                    }),
+                  },
+                ],
+              },
+              {
+                label:
+                  "{{shared.fields.allowedChannelIds.facets.organization.options.world.label:translate}}",
+                key: "world",
+                predicates: [
+                  {
+                    orgId: null,
                   },
                 ],
               },
