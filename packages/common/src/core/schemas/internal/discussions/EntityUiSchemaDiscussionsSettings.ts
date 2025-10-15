@@ -1,4 +1,4 @@
-import { IHubTrustedOrgsResponse } from "../../../../hub-types";
+import { getCOrgOrEOrgId } from "../../../../search";
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { IUiSchema } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
@@ -51,14 +51,66 @@ export const buildUiSchema = (
     context.hubLicense === "hub-premium" &&
     options.type !== "Hub Site Application"
   ) {
-    const cOrgEOrgTrustedRelationship = context.trustedOrgs.find(
-      (org: IHubTrustedOrgsResponse) =>
-        org.from.orgId === context.currentUser.orgId
-    );
-    const cOrgOrEOrgId =
-      context.isCommunityOrg && cOrgEOrgTrustedRelationship
-        ? cOrgEOrgTrustedRelationship.to.orgId
-        : context.communityOrgId;
+    const orgFacets = {
+      label:
+        "{{shared.fields.allowedChannelIds.facets.organization.label:translate}}",
+      key: "organization",
+      display: "single-select",
+      operation: "OR",
+      options: [
+        {
+          label:
+            "{{shared.fields.allowedChannelIds.facets.organization.options.organization.label:translate}}",
+          key: "organization",
+          predicates: [
+            {
+              orgId: [context.currentUser.orgId],
+            },
+          ],
+        },
+        {
+          label:
+            "{{shared.fields.allowedChannelIds.facets.organization.options.world.label:translate}}",
+          key: "world",
+          predicates: [
+            {
+              orgId: [null],
+            },
+          ],
+        },
+      ],
+    };
+
+    if (context.currentUser.cOrgId) {
+      orgFacets.options.splice(1, 0, {
+        label:
+          "{{shared.fields.allowedChannelIds.facets.organization.options.community.label:translate}}",
+        key: "community",
+        predicates: [
+          {
+            orgId: [context.currentUser.cOrgId],
+          },
+        ],
+      });
+    }
+
+    const cOrgOrEOrgId = getCOrgOrEOrgId(context);
+    const partnerOrgIds = context.trustedOrgIds.filter((orgId: string) => {
+      return orgId !== context.currentUser.orgId && orgId !== cOrgOrEOrgId;
+    });
+
+    if (partnerOrgIds.length) {
+      orgFacets.options.splice(2, 0, {
+        label:
+          "{{shared.fields.allowedChannelIds.facets.organization.options.partner.label:translate}}",
+        key: "partner",
+        predicates: [
+          {
+            orgId: partnerOrgIds,
+          },
+        ],
+      });
+    }
 
     uiSchema.elements[0].elements.push({
       labelKey: "shared.fields.allowedChannelIds.label",
@@ -146,60 +198,7 @@ export const buildUiSchema = (
               },
             ],
           },
-          {
-            label:
-              "{{shared.fields.allowedChannelIds.facets.organization.label:translate}}",
-            key: "organization",
-            display: "single-select",
-            operation: "OR",
-            options: [
-              {
-                label:
-                  "{{shared.fields.allowedChannelIds.facets.organization.options.organization.label:translate}}",
-                key: "organization",
-                predicates: [
-                  {
-                    orgId: context.currentUser.orgId,
-                  },
-                ],
-              },
-              {
-                label:
-                  "{{shared.fields.allowedChannelIds.facets.organization.options.community.label:translate}}",
-                key: "community",
-                predicates: [
-                  {
-                    orgId: context.currentUser.cOrgId,
-                  },
-                ],
-              },
-              {
-                label:
-                  "{{shared.fields.allowedChannelIds.facets.organization.options.partner.label:translate}}",
-                key: "partner",
-                predicates: [
-                  {
-                    orgId: context.trustedOrgIds.filter((orgId: string) => {
-                      return (
-                        orgId !== context.currentUser.orgId &&
-                        orgId !== cOrgOrEOrgId
-                      );
-                    }),
-                  },
-                ],
-              },
-              {
-                label:
-                  "{{shared.fields.allowedChannelIds.facets.organization.options.world.label:translate}}",
-                key: "world",
-                predicates: [
-                  {
-                    orgId: null,
-                  },
-                ],
-              },
-            ],
-          },
+          orgFacets,
           {
             label:
               "{{shared.fields.allowedChannelIds.facets.groups.label:translate}}",
