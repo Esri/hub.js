@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getAvailableToRequestEntitiesQuery } from "../../src/associations/getAvailableToRequestEntitiesQuery";
 import { MOCK_CHILD_ENTITY, MOCK_PARENT_ENTITY } from "./fixtures";
 
@@ -20,6 +21,7 @@ describe("getAvailableToRequestEntitiesQuery:", () => {
       ],
     });
   });
+
   it("returns a valid IQuery for a child entity", () => {
     const query = getAvailableToRequestEntitiesQuery(
       MOCK_CHILD_ENTITY,
@@ -41,15 +43,14 @@ describe("getAvailableToRequestEntitiesQuery:", () => {
       ],
     });
   });
+
   it("throws an error if the association is not supported", () => {
-    try {
-      getAvailableToRequestEntitiesQuery(MOCK_PARENT_ENTITY, "group");
-    } catch (err) {
-      expect(err).toEqual(
-        new Error(
-          "getAvailableToRequestEntitiesQuery: Association between initiative and group is not supported."
-        )
-      );
-    }
+    expect(() =>
+      getAvailableToRequestEntitiesQuery(MOCK_PARENT_ENTITY, "group")
+    ).toThrow(
+      new Error(
+        "getAvailableToRequestEntitiesQuery: Association between initiative and group is not supported."
+      )
+    );
   });
 });
