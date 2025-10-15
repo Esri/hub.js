@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.17.0
+
+### Minor Changes
+
+- 3abf562: Adds an optional customFiltersEnabled property to IGalleryDisplayConfig
+
 ## 20.16.4
 
 ### Patch Changes
