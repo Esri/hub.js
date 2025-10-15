@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import { getIdsFromAssociationGroups } from "../../../src/associations/internal/getIdsFromAssociationGroups";
 

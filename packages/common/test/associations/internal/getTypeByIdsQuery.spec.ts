@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getTypeByIdsQuery } from "../../../src/associations/internal/getTypeByIdsQuery";
 
 describe("getTypeByIdsQuery:", () => {

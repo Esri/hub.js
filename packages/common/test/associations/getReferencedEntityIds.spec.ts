@@ -1,16 +1,17 @@
 import { HubEntity } from "../../src/core/types/HubEntity";
 import { getReferencedEntityIds } from "../../src/associations/getReferencedEntityIds";
 import * as GetIdsFromKeywordsModule from "../../src/associations/internal/getIdsFromKeywords";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 describe("getReferencedEntityIds", () => {
-  let getIdsFromKeywordsSpy: jasmine.Spy;
+  let getIdsFromKeywordsSpy: any;
 
   beforeEach(() => {
-    getIdsFromKeywordsSpy = spyOn(
-      GetIdsFromKeywordsModule,
-      "getIdsFromKeywords"
-    ).and.returnValue([]);
+    getIdsFromKeywordsSpy = vi
+      .spyOn(GetIdsFromKeywordsModule, "getIdsFromKeywords")
+      .mockReturnValue([] as any);
   });
+
   it("delegates to getIdsFromKeywords", () => {
     const entity = { id: "00c", typeKeywords: [] } as unknown as HubEntity;
     const associationType = "initiative";

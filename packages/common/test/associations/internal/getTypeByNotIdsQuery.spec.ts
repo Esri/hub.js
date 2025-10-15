@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getTypeByNotIdsQuery } from "../../../src/associations/internal/getTypeByNotIdsQuery";
 
 describe("getTypeByNotIdsQuery:", () => {
