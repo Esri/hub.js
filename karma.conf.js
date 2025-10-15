@@ -2,12 +2,39 @@
 // Generated on Thu Jul 13 2017 11:01:30 GMT-0700 (PDT)
 const fs = require("fs");
 
+// used to convert glob patterns to regex for excludes
+// TODO: remove this dev dependency after migrating to Vitest
+const globToRegExp = require('glob-to-regexp');
+
 // we use jasmine's config to determine which tests to exclude
 // it's essentially the inverse of spec_files
 const jasmineConfig = require("./jasmine.json");
 const exclude = jasmineConfig.spec_files
   .filter(s => !s.match(/\*\.test\.ts$/))
-  .map(s => s.replace(/^\!/, ''));
+  .map(s => s.replace(/^\!/, '')); // remove leading !
+
+// since we exclude those tests we need to 
+// exclude their source files from coverage too
+const excludeFromCoverage = exclude
+  .map(pattern => pattern
+    .replace(/\*\*\/test\//, 'src/') // change test to src
+    .replace(/\.test\.ts$/, '.ts') // change .test.ts to .ts
+  )
+  .map(pattern => new RegExp(pattern)); // convert to regex
+// console.log('Excluding from coverage:', excludeFromCoverage);
+
+// we use Vitest's coverage config to determine 
+// which src files to exclude from karma coverage
+const vitestCoverage = require("./packages/common/vitest-coverage");
+const coveredByVitest = vitestCoverage.include
+  .map(pattern => globToRegExp(pattern, { extended: true }) );
+// TODO: these are not quiet right yet
+// I think we just need to exclude the leading ^
+// /^src\/(api|util)\.ts$/,
+// /^src\/associations\/internal\/(getIncludesAndReferencesQuery|getIncludesDoesNotReferenceQuery|getReferencesDoesNotIncludeQuery)\.ts$/,
+// /^src\/associations\/(requestAssociation|breakAssociation)\.ts$/,
+// /^src\/core\/_internal\/sharedWith\.ts$/
+console.log('Excluding from coverage (covered by vitest):', coveredByVitest);
 
 module.exports = function (config) {
   const configObj = {
@@ -43,10 +70,18 @@ module.exports = function (config) {
           /test-helpers*/,
           /orval-*/,
           /custom-client.ts/,
+          // files that have been excluded from testing
+          ...excludeFromCoverage,
           // files whose tests have been migrated to vitest
+          ...coveredByVitest,
           /src\/(api|util)\.ts$/,
-          /src\/core\/_internal\/sharedWith\.ts$/,
-          // TODO: need to account for the excluded tests above
+          /src\/associations\/internal\/(getIncludesAndReferencesQuery|getIncludesDoesNotReferenceQuery|getReferencesDoesNotIncludeQuery)\.ts$/,
+          /src\/associations\/(requestAssociation|breakAssociation)\.ts$/,
+          /src\/core\/_internal\/sharedWith\.ts$/
+          // /src\/(api|util)\.ts$/,
+          // // "src/associations/internal/{getIncludesAndReferencesQuery,getIncludesDoesNotReferenceQuery,getReferencesDoesNotIncludeQuery}.ts",
+          // // "src/associations/{requestAssociation,breakAssociation}.ts",
+          // /src\/core\/_internal\/sharedWith\.ts$/,
         ],
         threshold: {
           global: {
