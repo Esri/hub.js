@@ -5,6 +5,7 @@ import {
   SharingAccess,
 } from "../../../discussions/api/types";
 import { IDateRange, IFilter } from "../../types";
+import { bboxStringToGeoJSONPolygon } from "../bboxStringToGeoJSONPolygon";
 import { toEnum, toEnums } from "../hubEventsHelpers/toEnumConverters";
 import { flattenFilters } from "./processChannelFilters";
 
@@ -25,9 +26,33 @@ export function processPostFilters(filters: IFilter[]): Partial<ISearchPosts> {
     );
   }
 
-  // body
-  if (flattenedFilters.body?.length) {
-    processedFilters.body = flattenedFilters.body[0] as string;
+  // bbox
+  if (flattenedFilters.bbox?.length) {
+    // for now, just map bbox to the `geometry` filter. a `featureGeometry` filter
+    // also exists, but we cannot use it in combination with `geometry` because
+    // the API will `AND` those conditions together. if we desire the ability to
+    // match posts whose `geometry` OR `featureGeometry` interesect the provided bbox,
+    // we will need a new API parameter, and update this mapping to use it.
+    const polygon = bboxStringToGeoJSONPolygon(
+      flattenedFilters.bbox[0] as string
+    );
+    processedFilters.geometry = polygon;
+  }
+
+  // `term` searches against both `title` and `body` so
+  // ignore `title` and `body` filters when `term` is provied
+  if (flattenedFilters.term?.length) {
+    processedFilters.term = flattenedFilters.term[0] as string;
+  } else {
+    // title
+    if (flattenedFilters.title?.length) {
+      processedFilters.title = flattenedFilters.title[0] as string;
+    }
+
+    // body
+    if (flattenedFilters.body?.length) {
+      processedFilters.body = flattenedFilters.body[0] as string;
+    }
   }
 
   // channels
@@ -56,11 +81,6 @@ export function processPostFilters(filters: IFilter[]): Partial<ISearchPosts> {
       flattenedFilters.status as string[],
       PostStatus
     );
-  }
-
-  // title
-  if (flattenedFilters.title?.length) {
-    processedFilters.title = flattenedFilters.title[0] as string;
   }
 
   // parents
