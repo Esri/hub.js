@@ -10,6 +10,7 @@ module.exports = {
     "src/associations/internal/{getIncludesAndReferencesQuery,getIncludesDoesNotReferenceQuery,getReferencesDoesNotIncludeQuery}.ts",
     "src/associations/{requestAssociation,breakAssociation}.ts",
     "src/core/_internal/sharedWith.ts",
+    "src/access/*.ts"
   ],
   // we have so many pre-existing istanbul ignore comments
   provider: "istanbul",
