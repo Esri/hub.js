@@ -219,6 +219,16 @@ export interface IGalleryDisplayConfig {
   /** button text rendered if showLinkButton = true */
   linkButtonText?: string;
   sort?: "relevance" | "title" | "created" | "modified";
+  /**
+   * Whether to apply a standard set of filters (that
+   * will update automatically as defaults evolve),
+   * or elect to manually reorder, show/hide, etc.
+   * filters to create a "custom" set.
+   *
+   * Defaults to false (i.e. use the standard set
+   * of filters)
+   */
+  customFiltersEnabled?: boolean;
   filters?: Array<{
     key:
       | "location"
