@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.17.1
+
+### Patch Changes
+
+- 27c018e: eliminate nested barrel (index.ts) files in hub-common while preserving all existing exports from the root barrel file
+
 ## 20.17.0
 
 ### Minor Changes
