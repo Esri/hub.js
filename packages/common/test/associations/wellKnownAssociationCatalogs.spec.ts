@@ -10,43 +10,38 @@ import * as wellKnownCatalogModule from "../../src/search/wellKnownCatalog";
 import { HubEntity } from "../../src/core/types/HubEntity";
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { IHubCollection } from "../../src/search/types/IHubCatalog";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("getWellKnownAssociationsCatalog", () => {
-  let getAssociatedEntitiesQuerySpy: jasmine.Spy;
-  let getPendingEntitiesQuerySpy: jasmine.Spy;
-  let getRequestingEntitiesQuerySpy: jasmine.Spy;
-  let getAvailableToRequestEntitiesQuerySpy: jasmine.Spy;
-  let getWellknownCollectionSpy: jasmine.Spy;
+  let getAssociatedEntitiesQuerySpy: any;
+  let getPendingEntitiesQuerySpy: any;
+  let getRequestingEntitiesQuerySpy: any;
+  let getAvailableToRequestEntitiesQuerySpy: any;
+  let getWellknownCollectionSpy: any;
 
   const mockFilters = [{ predicates: [{ owner: "mock-owner" }] }];
   beforeEach(() => {
-    getAssociatedEntitiesQuerySpy = spyOn(
-      getAssociatedEntitiesQueryModule,
-      "getAssociatedEntitiesQuery"
-    ).and.returnValue(Promise.resolve({ filters: mockFilters }));
-    getPendingEntitiesQuerySpy = spyOn(
-      getPendingEntitiesQueryModule,
-      "getPendingEntitiesQuery"
-    ).and.returnValue(Promise.resolve({ filters: mockFilters }));
-    getRequestingEntitiesQuerySpy = spyOn(
-      getRequestingEntitiesQueryModule,
-      "getRequestingEntitiesQuery"
-    ).and.returnValue(Promise.resolve({ filters: mockFilters }));
-    getAvailableToRequestEntitiesQuerySpy = spyOn(
-      getAvailableToRequestEntitiesQueryModule,
-      "getAvailableToRequestEntitiesQuery"
-    ).and.returnValue({ filters: mockFilters });
-    getWellknownCollectionSpy = spyOn(
-      wellKnownCatalogModule,
-      "getWellknownCollection"
-    ).and.returnValue({ key: "mock-collection" });
+    getAssociatedEntitiesQuerySpy = vi
+      .spyOn(getAssociatedEntitiesQueryModule, "getAssociatedEntitiesQuery")
+      .mockResolvedValue({ filters: mockFilters } as any);
+    getPendingEntitiesQuerySpy = vi
+      .spyOn(getPendingEntitiesQueryModule, "getPendingEntitiesQuery")
+      .mockResolvedValue({ filters: mockFilters } as any);
+    getRequestingEntitiesQuerySpy = vi
+      .spyOn(getRequestingEntitiesQueryModule, "getRequestingEntitiesQuery")
+      .mockResolvedValue({ filters: mockFilters } as any);
+    getAvailableToRequestEntitiesQuerySpy = vi
+      .spyOn(
+        getAvailableToRequestEntitiesQueryModule,
+        "getAvailableToRequestEntitiesQuery"
+      )
+      .mockReturnValue({ filters: mockFilters } as any);
+    getWellknownCollectionSpy = vi
+      .spyOn(wellKnownCatalogModule, "getWellknownCollection")
+      .mockReturnValue({ key: "mock-collection" } as any);
   });
   afterEach(() => {
-    getAssociatedEntitiesQuerySpy.calls.reset();
-    getPendingEntitiesQuerySpy.calls.reset();
-    getRequestingEntitiesQuerySpy.calls.reset();
-    getAvailableToRequestEntitiesQuerySpy.calls.reset();
-    getWellknownCollectionSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("builds a valid well-known catalog", async () => {
@@ -72,7 +67,11 @@ describe("getWellKnownAssociationsCatalog", () => {
     });
   });
   it("handles empty state filters", async () => {
-    getAssociatedEntitiesQuerySpy.and.returnValue(Promise.resolve(null));
+    // replace spy with a new mocked implementation that returns null
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    getAssociatedEntitiesQuerySpy.mockImplementation(() =>
+      Promise.resolve(null as any)
+    );
 
     const catalog = await getWellKnownAssociationsCatalog(
       "some-scope",
@@ -134,64 +133,67 @@ describe("getWellKnownAssociationsCatalog", () => {
     expect(getAvailableToRequestEntitiesQuerySpy).toHaveBeenCalledTimes(1);
   });
   it("throws an error if the association is not supported", async () => {
-    try {
-      await getWellKnownAssociationsCatalog(
+    await expect(
+      getWellKnownAssociationsCatalog(
         "some-scope",
         "associated" as any,
         { type: "Hub Initiative" } as HubEntity,
         "group",
         {} as ArcGISContext
-      );
-    } catch (err) {
-      expect((err as Error).message).toBe(
-        "getWellKnownAssociationsCatalog: Association between initiative and group is not supported."
-      );
-    }
+      )
+    ).rejects.toThrow(
+      "getWellKnownAssociationsCatalog: Association between initiative and group is not supported."
+    );
   });
 });
 
 describe("getAvailableToRequestAssociationCatalogs", () => {
-  let getAvailableToRequestEntitiesQuerySpy: jasmine.Spy;
-  let getWellknownCatalogSpy: jasmine.Spy;
+  let getAvailableToRequestEntitiesQuerySpy: any;
+  let getWellknownCatalogSpy: any;
 
   const mockFilters = [{ predicates: [{ id: ["00b", "00c"] }] }];
   beforeEach(() => {
-    getAvailableToRequestEntitiesQuerySpy = spyOn(
-      getAvailableToRequestEntitiesQueryModule,
-      "getAvailableToRequestEntitiesQuery"
-    ).and.returnValue({ filters: mockFilters });
-    getWellknownCatalogSpy = spyOn(
+    getAvailableToRequestEntitiesQuerySpy = vi
+      .spyOn(
+        getAvailableToRequestEntitiesQueryModule,
+        "getAvailableToRequestEntitiesQuery"
+      )
+      .mockReturnValue({ filters: mockFilters } as any);
+    getWellknownCatalogSpy = vi.spyOn(
       wellKnownCatalogModule,
       "getWellKnownCatalog"
-    ).and.returnValues(
-      { schemaVersion: 1, title: "mock-myContent" },
-      { schemaVersion: 1, title: "mock-favorites" },
-      { schemaVersion: 1, title: "mock-organization" },
-      { schemaVersion: 1, title: "mock-world" }
     );
+    // set initial return values
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    getWellknownCatalogSpy
+      .mockReturnValueOnce({ schemaVersion: 1, title: "mock-myContent" } as any)
+      .mockReturnValueOnce({ schemaVersion: 1, title: "mock-favorites" } as any)
+      .mockReturnValueOnce({
+        schemaVersion: 1,
+        title: "mock-organization",
+      } as any)
+      .mockReturnValueOnce({ schemaVersion: 1, title: "mock-world" } as any);
   });
   afterEach(() => {
-    getAvailableToRequestEntitiesQuerySpy.calls.reset();
-    getWellknownCatalogSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("throws an error if the association is not supported", () => {
-    try {
+    expect(() =>
       getAvailableToRequestAssociationCatalogs(
         "some-scope",
         { type: "Hub Initiative" } as HubEntity,
         "group",
         {} as ArcGISContext
-      );
-    } catch (err) {
-      expect((err as Error).message).toBe(
-        "getAvailableToRequestAssociationCatalogs: Association between initiative and group is not supported."
-      );
-    }
+      )
+    ).toThrow(
+      "getAvailableToRequestAssociationCatalogs: Association between initiative and group is not supported."
+    );
   });
   it("does not provide additional filters if the availableToRequestEntitiesQuery comes back empty", () => {
     // overwrite the spy to return null
-    getAvailableToRequestEntitiesQuerySpy.and.returnValue(null);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+    getAvailableToRequestEntitiesQuerySpy.mockImplementation(() => null as any);
 
     getAvailableToRequestAssociationCatalogs(
       "some-scope",
@@ -200,7 +202,7 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
       {} as ArcGISContext
     );
 
-    const args = getWellknownCatalogSpy.calls.argsFor(1);
+    const args = getWellknownCatalogSpy.mock.calls[1];
     expect(args[3].filters).toBeUndefined();
   });
   it('returns an array of valid "availableToRequest" catalogs', () => {
@@ -223,12 +225,22 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
   });
 
   it('returns an array of valid "availableToRequest" catalogs when given an array of catalogs', () => {
-    getWellknownCatalogSpy.and.returnValues(
-      { schemaVersion: 1, title: "mock-myContent" },
-      { schemaVersion: 1, title: "mock-organization" },
-      { schemaVersion: 1, title: "mock-community" },
-      { schemaVersion: 1, title: "mock-partners" }
-    );
+    // reset and set new return sequence
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    getWellknownCatalogSpy.mockRestore();
+    getWellknownCatalogSpy = vi
+      .spyOn(wellKnownCatalogModule, "getWellKnownCatalog")
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      .mockReturnValueOnce({ schemaVersion: 1, title: "mock-myContent" } as any)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      .mockReturnValueOnce({
+        schemaVersion: 1,
+        title: "mock-organization",
+      } as any)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      .mockReturnValueOnce({ schemaVersion: 1, title: "mock-community" } as any)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      .mockReturnValueOnce({ schemaVersion: 1, title: "mock-partners" } as any);
 
     const catalogs = getAvailableToRequestAssociationCatalogs(
       "some-scope",

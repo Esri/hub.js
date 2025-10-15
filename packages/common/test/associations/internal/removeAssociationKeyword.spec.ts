@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { removeAssociationKeyword } from "../../../src/associations/internal/removeAssociationKeyword";
 
 describe("setAssociationKeyword:", () => {

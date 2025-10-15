@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from "vitest";
 import { HubEntityType } from "../../../src/core/types/HubEntityType";
 import { isAssociationSupported } from "../../../src/associations/internal/isAssociationSupported";
 import * as getAssociationHierarchyModule from "../../../src/associations/internal/getAssociationHierarchy";
@@ -11,13 +12,12 @@ describe("isAssociationSupported:", () => {
     expect(chk2).toBe(true);
   });
   it("returns false if one of the provided entities doesn't have an association hierarchy defined", () => {
-    spyOn(
+    const spy = vi.spyOn(
       getAssociationHierarchyModule,
       "getAssociationHierarchy"
-    ).and.returnValues(
-      { children: ["child1"], parents: [] },
-      { children: [], parents: ["parent1"] }
     );
+    spy.mockReturnValueOnce({ children: ["child1"], parents: [] } as any);
+    spy.mockReturnValueOnce({ children: [], parents: ["parent1"] } as any);
 
     const chk = isAssociationSupported(
       "child1" as HubEntityType,

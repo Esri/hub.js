@@ -3,15 +3,15 @@ import { setEntityAssociationGroup } from "../../src/associations/setEntityAssoc
 import { MOCK_INITIAL_PARENT_ENTITY } from "./fixtures";
 import * as UpdateHubEntityModule from "../../src/core/updateHubEntity";
 import { ArcGISContext } from "../../src/ArcGISContext";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 describe("setEntityAssociationGroup", () => {
-  let updateHubEntitySpy: jasmine.Spy;
+  let updateHubEntitySpy: any;
 
   beforeEach(() => {
-    updateHubEntitySpy = spyOn(
-      UpdateHubEntityModule,
-      "updateHubEntity"
-    ).and.returnValue(Promise.resolve());
+    updateHubEntitySpy = vi
+      .spyOn(UpdateHubEntityModule, "updateHubEntity")
+      .mockResolvedValue(undefined as any);
   });
 
   it("sets an entity association group", async () => {
@@ -26,12 +26,17 @@ describe("setEntityAssociationGroup", () => {
       {} as ArcGISContext
     );
     expect(updateHubEntitySpy).toHaveBeenCalledTimes(2);
-    expect(updateHubEntitySpy.calls.argsFor(0)).toEqual([
+    expect(updateHubEntitySpy).toHaveBeenNthCalledWith(
+      1,
       "group",
-      { typeKeywords: ["initiative|parent-00a"], id: "g123" },
-      {},
-    ]);
-    expect(updateHubEntitySpy.calls.argsFor(1)).toEqual([
+      {
+        typeKeywords: ["initiative|parent-00a"],
+        id: "g123",
+      },
+      {}
+    );
+    expect(updateHubEntitySpy).toHaveBeenNthCalledWith(
+      2,
       "initiative",
       {
         id: "parent-00a",
@@ -47,8 +52,8 @@ describe("setEntityAssociationGroup", () => {
           },
         },
       },
-      {},
-    ]);
+      {}
+    );
   });
 
   it("set an entity association group with existing typeKeywords", async () => {
@@ -63,15 +68,17 @@ describe("setEntityAssociationGroup", () => {
       {} as ArcGISContext
     );
     expect(updateHubEntitySpy).toHaveBeenCalledTimes(2);
-    expect(updateHubEntitySpy.calls.argsFor(0)).toEqual([
+    expect(updateHubEntitySpy).toHaveBeenNthCalledWith(
+      1,
       "group",
       {
         typeKeywords: ["existing-keyword", "initiative|parent-00a"],
         id: "g123",
       },
-      {},
-    ]);
-    expect(updateHubEntitySpy.calls.argsFor(1)).toEqual([
+      {}
+    );
+    expect(updateHubEntitySpy).toHaveBeenNthCalledWith(
+      2,
       "initiative",
       {
         id: "parent-00a",
@@ -87,8 +94,8 @@ describe("setEntityAssociationGroup", () => {
           },
         },
       },
-      {},
-    ]);
+      {}
+    );
   });
 
   it("sets an association group that already has the entity typeKeyword", async () => {
@@ -103,12 +110,17 @@ describe("setEntityAssociationGroup", () => {
       {} as ArcGISContext
     );
     expect(updateHubEntitySpy).toHaveBeenCalledTimes(2);
-    expect(updateHubEntitySpy.calls.argsFor(0)).toEqual([
+    expect(updateHubEntitySpy).toHaveBeenNthCalledWith(
+      1,
       "group",
-      { typeKeywords: ["initiative|parent-00a"], id: "g123" },
-      {},
-    ]);
-    expect(updateHubEntitySpy.calls.argsFor(1)).toEqual([
+      {
+        typeKeywords: ["initiative|parent-00a"],
+        id: "g123",
+      },
+      {}
+    );
+    expect(updateHubEntitySpy).toHaveBeenNthCalledWith(
+      2,
       "initiative",
       {
         id: "parent-00a",
@@ -124,7 +136,7 @@ describe("setEntityAssociationGroup", () => {
           },
         },
       },
-      {},
-    ]);
+      {}
+    );
   });
 });

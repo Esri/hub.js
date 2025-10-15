@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { HubEntity } from "../../../src/core/types/HubEntity";
 import { getIdsFromKeywords } from "../../../src/associations/internal/getIdsFromKeywords";
 

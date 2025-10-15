@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { HubEntityType } from "../../../src/core/types/HubEntityType";
 import { getAssociationHierarchy } from "../../../src/associations/internal/getAssociationHierarchy";
 

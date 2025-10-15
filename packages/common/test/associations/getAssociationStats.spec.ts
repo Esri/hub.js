@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { getAssociationStats } from "../../src/associations/getAssociationStats";
 import { MOCK_CHILD_ENTITY, MOCK_PARENT_ENTITY } from "./fixtures";
 import { ArcGISContext } from "../../src/ArcGISContext";
@@ -7,30 +8,31 @@ import * as GetPendingEntitiesQueryModule from "../../src/associations/getPendin
 import * as GetRequestingEntitiesQueryModule from "../../src/associations/getRequestingEntitiesQuery";
 
 describe("getAssociationStats:", () => {
-  let hubSearchSpy: jasmine.Spy;
-  let getAssociatedEntitiesQuerySpy: jasmine.Spy;
-  let getPendingEntitiesQuerySpy: jasmine.Spy;
-  let getRequestingEntitiesQuerySpy: jasmine.Spy;
+  let hubSearchSpy: any;
+  let getAssociatedEntitiesQuerySpy: any;
+  let getPendingEntitiesQuerySpy: any;
+  let getRequestingEntitiesQuerySpy: any;
 
   beforeEach(() => {
-    getAssociatedEntitiesQuerySpy = spyOn(
-      GetAssociatedEntitiesQueryModule,
-      "getAssociatedEntitiesQuery"
-    ).and.returnValue(Promise.resolve({}));
-    getPendingEntitiesQuerySpy = spyOn(
-      GetPendingEntitiesQueryModule,
-      "getPendingEntitiesQuery"
-    ).and.returnValue(Promise.resolve({}));
-    getRequestingEntitiesQuerySpy = spyOn(
-      GetRequestingEntitiesQueryModule,
-      "getRequestingEntitiesQuery"
-    ).and.returnValue(Promise.resolve({}));
+    getAssociatedEntitiesQuerySpy = vi
+      .spyOn(GetAssociatedEntitiesQueryModule, "getAssociatedEntitiesQuery")
+      .mockResolvedValue({} as any);
+    getPendingEntitiesQuerySpy = vi
+      .spyOn(GetPendingEntitiesQueryModule, "getPendingEntitiesQuery")
+      .mockResolvedValue({} as any);
+    getRequestingEntitiesQuerySpy = vi
+      .spyOn(GetRequestingEntitiesQueryModule, "getRequestingEntitiesQuery")
+      .mockResolvedValue({} as any);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("delegates to getAssociatedEntitiesQuery, getPendingEntitiesQuery, and getRequestingEntitiesQuery", async () => {
-    hubSearchSpy = spyOn(SearchModule, "hubSearch").and.returnValue(
-      Promise.resolve({ total: 0 })
-    );
+    hubSearchSpy = vi
+      .spyOn(SearchModule, "hubSearch")
+      .mockResolvedValue({ total: 0 } as any);
 
     await getAssociationStats(
       MOCK_PARENT_ENTITY,
@@ -42,13 +44,16 @@ describe("getAssociationStats:", () => {
     expect(getAssociatedEntitiesQuerySpy).toHaveBeenCalledTimes(1);
     expect(getPendingEntitiesQuerySpy).toHaveBeenCalledTimes(1);
     expect(getRequestingEntitiesQuerySpy).toHaveBeenCalledTimes(1);
+
+    // mocks restored in afterEach
   });
+
   it("returns stats for a parent entity", async () => {
-    hubSearchSpy = spyOn(SearchModule, "hubSearch").and.returnValues(
-      Promise.resolve({ total: 1 }),
-      Promise.resolve({ total: 2 }),
-      Promise.resolve({ total: 3 })
-    );
+    hubSearchSpy = vi
+      .spyOn(SearchModule, "hubSearch")
+      .mockResolvedValueOnce({ total: 1 } as any)
+      .mockResolvedValueOnce({ total: 2 } as any)
+      .mockResolvedValueOnce({ total: 3 } as any);
 
     const stats = await getAssociationStats(
       MOCK_PARENT_ENTITY,
@@ -62,13 +67,16 @@ describe("getAssociationStats:", () => {
       requesting: 3,
       included: 3,
     });
+
+    // mocks restored in afterEach
   });
+
   it("returns stats for a child entity", async () => {
-    hubSearchSpy = spyOn(SearchModule, "hubSearch").and.returnValues(
-      Promise.resolve({ total: 1 }),
-      Promise.resolve({ total: 2 }),
-      Promise.resolve({ total: 3 })
-    );
+    hubSearchSpy = vi
+      .spyOn(SearchModule, "hubSearch")
+      .mockResolvedValueOnce({ total: 1 } as any)
+      .mockResolvedValueOnce({ total: 2 } as any)
+      .mockResolvedValueOnce({ total: 3 } as any);
 
     const stats = await getAssociationStats(
       MOCK_CHILD_ENTITY,
@@ -82,26 +90,24 @@ describe("getAssociationStats:", () => {
       requesting: 3,
       referenced: 3,
     });
+
+    // mocks restored in afterEach
   });
+
   it("throws an error if the association is not supported", async () => {
-    try {
-      await getAssociationStats(
-        MOCK_PARENT_ENTITY,
-        "group",
-        {} as ArcGISContext
-      );
-    } catch (err) {
-      expect(err).toEqual(
-        new Error(
-          "getAssociationStats: Association between initiative and group is not supported."
-        )
-      );
-    }
-  });
-  it("returns empty stats if hubSearch throws an error", async () => {
-    hubSearchSpy = spyOn(SearchModule, "hubSearch").and.returnValue(
-      Promise.reject({})
+    await expect(
+      getAssociationStats(MOCK_PARENT_ENTITY, "group", {} as ArcGISContext)
+    ).rejects.toEqual(
+      new Error(
+        "getAssociationStats: Association between initiative and group is not supported."
+      )
     );
+  });
+
+  it("returns empty stats if hubSearch throws an error", async () => {
+    hubSearchSpy = vi
+      .spyOn(SearchModule, "hubSearch")
+      .mockRejectedValue({} as any);
 
     const stats = await getAssociationStats(
       MOCK_PARENT_ENTITY,
@@ -115,9 +121,15 @@ describe("getAssociationStats:", () => {
       requesting: 0,
       included: 0,
     });
+
+    // mocks restored in afterEach
   });
+
   it("returns empty stats if any error is thrown", async () => {
-    getAssociatedEntitiesQuerySpy.and.returnValue(Promise.reject({}));
+    vi.spyOn(
+      GetAssociatedEntitiesQueryModule,
+      "getAssociatedEntitiesQuery"
+    ).mockRejectedValueOnce({});
 
     const stats = await getAssociationStats(
       MOCK_PARENT_ENTITY,
