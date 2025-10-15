@@ -78,9 +78,43 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     assertions: [
       {
+        // user is a group manager (owner or admin)
         property: "entity:userMembership.memberType",
         type: "included-in",
         value: ["owner", "admin"],
+        conditions: [
+          // Only use this check if user is owner or admin
+          // This is a weird construct, but it's needed to
+          // implement "OR" with the next assertion
+          {
+            property: "entity:userMembership.memberType",
+            type: "included-in",
+            value: ["owner", "admin"],
+          },
+        ],
+      },
+      // user is a member AND entity:orgId === context:portal.id AND user has portal:admin:updateGroups
+      {
+        // Dont run this check unless user is member or none
+        // and has updateGroups privilege
+        conditions: [
+          // user is not owner or admin
+          {
+            property: "entity:userMembership.memberType",
+            type: "included-in",
+            value: ["member", "none"],
+          },
+          // user has admin priv
+          {
+            property: "context:currentUser.privileges",
+            type: "contains",
+            value: ["portal:admin:updateGroups"],
+          },
+        ],
+        // then check if the group belongs to the user's org
+        property: "context:portal.id",
+        type: "eq",
+        value: "entity:orgId",
       },
     ],
   },
