@@ -539,7 +539,6 @@ describe("index", () => {
     "editorToContent",
     "fetchContent",
     "fetchHubContent",
-    "shouldFetchItemData",
     "convertItemToContent",
     "composeHubContent",
     "modelToHubEditableContent",

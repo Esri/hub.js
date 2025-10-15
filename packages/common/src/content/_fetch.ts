@@ -19,7 +19,7 @@ import { isMapOrFeatureServerUrl } from "../urls/feature-service-urls";
 
 // TODO: need to fetch data for client-side layer views as well
 // determine if we should fetch data for an item
-const shouldFetchData = (item: IItem) => {
+export const shouldFetchData = (item: IItem) => {
   const type = normalizeItemType(item);
   const family = getFamily(type);
   const dataFamilies = ["template", "solution"];

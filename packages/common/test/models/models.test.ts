@@ -9,10 +9,7 @@ import { getModelBySlug } from "../../src/models/getModelBySlug";
 import { createModel } from "../../src/models/createModel";
 import { IModel } from "../../src/hub-types";
 import { updateModel } from "../../src/models/updateModel";
-import {
-  fetchModelFromItem,
-  shouldFetchItemData,
-} from "../../src/models/fetchModelFromItem";
+import { fetchModelFromItem } from "../../src/models/fetchModelFromItem";
 import { upsertModelResources } from "../../src/models/upsertModelResource";
 import { fetchModelResources } from "../../src/models/fetchModelResource";
 import { EntityResourceMap } from "../../src/core/types/types";
@@ -461,18 +458,6 @@ describe("model utils:", () => {
 
       expect(fetchResourceSpy.calls.count()).toBe(1);
       expect(chk).toEqual({});
-    });
-  });
-
-  describe("shouldFetchItemData", () => {
-    it("return false for an excluded type", () => {
-      const item = { id: "abc", type: "Image Collection" } as IItem;
-      expect(shouldFetchItemData(item)).toBe(false);
-    });
-
-    it("returns true for a non-excluded type", () => {
-      const item = { id: "abc", type: "Feature Service" } as IItem;
-      expect(shouldFetchItemData(item)).toBe(true);
     });
   });
 });

@@ -1,7 +1,7 @@
 import { getItemData, IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IModel } from "../hub-types";
-import { includes } from "../utils/includes";
+import { shouldFetchData } from "../content/_fetch";
 
 /**
  * Given an Item, fetch the data json and return an IModel
@@ -13,28 +13,13 @@ export async function fetchModelFromItem(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IModel> {
-  const data = shouldFetchItemData(item)
-    ? ((await getItemData(item.id, requestOptions).catch(() => null)) as Record<
-        string,
-        unknown
-      >)
+  const data = shouldFetchData(item)
+    ? ((await getItemData(item.id, requestOptions).catch(
+        (): null => null
+      )) as Record<string, unknown>)
     : null;
   return {
     item,
     data,
   } as IModel;
-}
-
-/**
- * Determine if we should attempt to fetch the item data
- * @param item
- * @returns
- */
-export function shouldFetchItemData(item: IItem): boolean {
-  // This function can and should be expanded as we discover
-  // more item types or families that should not attempt to
-  // fetch data for. Example: "Image Collection" will try
-  // to download the entire image collection to the browser
-  const typesToExclude = ["Image Collection"];
-  return !includes(typesToExclude, item.type);
 }
