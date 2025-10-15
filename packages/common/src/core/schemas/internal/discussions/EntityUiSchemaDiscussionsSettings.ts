@@ -1,4 +1,4 @@
-import { getCOrgOrEOrgId } from "../../../../search";
+import { getCOrgOrEOrgId } from "../../../../search/getCOrgOrEOrgId";
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { IUiSchema } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";

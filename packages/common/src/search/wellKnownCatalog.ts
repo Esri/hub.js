@@ -11,7 +11,7 @@ import {
   IHubCatalog,
   IHubCollection,
 } from "./types/IHubCatalog";
-import { getCOrgOrEOrgId } from "./utils";
+import { getCOrgOrEOrgId } from "./getCOrgOrEOrgId";
 
 /** well-known item catalogs */
 export const WELL_KNOWN_ITEM_CATALOGS = [

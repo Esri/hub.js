@@ -11,6 +11,7 @@ export * from "./combineQueries";
 export * from "./serializeCatalogScopeQuery";
 export * from "./explainQueryResult";
 export * from "./getCatalogGroups";
+export * from "./getCOrgOrEOrgId";
 export * from "./getPredicateValues";
 export * from "./getUserGroupsByMembership";
 export * from "./getUserGroupsFromQuery";
