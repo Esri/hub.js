@@ -1,3 +1,12 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+  MockInstance,
+} from "vitest";
 import { IModel } from "../../src/hub-types";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { updateVersion } from "../../src/versioning/updateVersion";
@@ -10,12 +19,14 @@ import { IItemResourceOptions } from "@esri/arcgis-rest-portal";
 import * as ResourceResponse from "../mocks/versioning/resource.json";
 import { IVersion } from "../../src/versioning/types/IVersion";
 
+vi.mock("@esri/arcgis-rest-portal");
+
 describe("updateVersion", () => {
   let portal: string;
   let hubApiUrl: string;
   let requestOpts: IHubUserRequestOptions;
   let version: IVersion;
-  let updateItemResourceSpy: jasmine.Spy;
+  let updateItemResourceSpy: MockInstance;
 
   const model = {
     item: {
@@ -51,10 +62,10 @@ describe("updateVersion", () => {
       owner: "paige_pa",
       params: {
         properties: {
-          created: "9876543210",
+          created: 9876543210,
           creator: "casey",
           id: "def456",
-          updated: "9876543210",
+          updated: 9876543210,
         },
       },
       prefix: "hubVersion_def456",
@@ -62,7 +73,7 @@ describe("updateVersion", () => {
     };
 
     version = {
-      created: "9876543210",
+      created: 9876543210,
       creator: "casey",
       data: {
         data: {
@@ -79,24 +90,23 @@ describe("updateVersion", () => {
       size: 123,
     } as unknown as IVersion;
 
-    updateItemResourceSpy = spyOn(
-      portalModule,
-      "updateItemResource"
-    ).and.returnValue(Promise.resolve());
+    updateItemResourceSpy = vi
+      .spyOn(portalModule, "updateItemResource")
+      .mockReturnValue(Promise.resolve() as any);
 
-    spyOn(portalModule, "getItemResource").and.returnValue(
-      Promise.resolve(ResourceResponse)
+    vi.spyOn(portalModule, "getItemResource").mockReturnValue(
+      Promise.resolve(ResourceResponse) as any
     );
 
-    spyOn(objectToJsonBlobModule, "objectToJsonBlob").and.returnValue(
-      versionBlob
+    vi.spyOn(objectToJsonBlobModule, "objectToJsonBlob").mockReturnValue(
+      versionBlob as any
     );
-    spyOn(utilModule, "createId").and.returnValue("def456");
-    spyOn(Date, "now").and.returnValue("9876543210");
+    vi.spyOn(utilModule, "createId").mockReturnValue("def456");
+    vi.spyOn(Date, "now").mockReturnValue(9876543210);
   });
 
   afterEach(() => {
-    updateItemResourceSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("should update a version when force=true", async () => {

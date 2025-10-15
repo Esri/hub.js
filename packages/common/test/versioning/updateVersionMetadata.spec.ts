@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { updateVersionMetadata } from "../../src/versioning/updateVersionMetadata";
 import { IHubUserRequestOptions } from "../../src/hub-types";
@@ -5,6 +6,9 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ResourceResponse from "../mocks/versioning/resource.json";
 import * as objectToJsonBlobModule from "../../src/resources/object-to-json-blob";
 import { IVersionMetadata } from "../../src/versioning/types/IVersionMetadata";
+import { cloneObject } from "../../src";
+
+vi.mock("@esri/arcgis-rest-portal");
 
 describe("updateVersionMetadata", () => {
   let portal: string;
@@ -20,6 +24,9 @@ describe("updateVersionMetadata", () => {
       authentication: MOCK_AUTH,
     };
   });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it("should update the version metadata", async () => {
     const version: IVersionMetadata = {
@@ -32,20 +39,18 @@ describe("updateVersionMetadata", () => {
     };
     const id = "abc123";
 
-    const getItemResourceSpy = spyOn(
-      portalModule,
-      "getItemResource"
-    ).and.returnValue(Promise.resolve(ResourceResponse));
+    const getItemResourceSpy = vi
+      .spyOn(portalModule, "getItemResource")
+      .mockReturnValue(Promise.resolve(cloneObject(ResourceResponse)) as any);
 
-    const updateItemResourceSpy = spyOn(
-      portalModule,
-      "updateItemResource"
-    ).and.returnValue(Promise.resolve(version));
+    const updateItemResourceSpy = vi
+      .spyOn(portalModule, "updateItemResource")
+      .mockReturnValue(Promise.resolve(version) as any);
 
     const versionBlob = { size: 123 };
 
-    spyOn(objectToJsonBlobModule, "objectToJsonBlob").and.returnValue(
-      versionBlob
+    vi.spyOn(objectToJsonBlobModule, "objectToJsonBlob").mockReturnValue(
+      versionBlob as any
     );
 
     const result = await updateVersionMetadata(

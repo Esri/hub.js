@@ -1,8 +1,11 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { getVersion } from "../../src/versioning/getVersion";
 import { IHubUserRequestOptions } from "../../src/hub-types";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ResourceResponse from "../mocks/versioning/resource.json";
+
+vi.mock("@esri/arcgis-rest-portal");
 
 describe("getVersion", () => {
   let portal: string;
@@ -19,14 +22,17 @@ describe("getVersion", () => {
     };
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("should get the version", async () => {
     const id = "abc123";
     const versionId = "def456";
 
-    const getItemResourceSpy = spyOn(
-      portalModule,
-      "getItemResource"
-    ).and.returnValue(Promise.resolve(ResourceResponse));
+    const getItemResourceSpy = vi
+      .spyOn(portalModule, "getItemResource")
+      .mockReturnValue(Promise.resolve(ResourceResponse));
 
     const result = await getVersion(id, versionId, requestOpts);
 

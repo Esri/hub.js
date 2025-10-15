@@ -1,3 +1,12 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+  MockInstance,
+} from "vitest";
 import { IModel } from "../../src/hub-types";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { createVersion } from "../../src/versioning/createVersion";
@@ -8,6 +17,8 @@ import * as objectToJsonBlobModule from "../../src/resources/object-to-json-blob
 import * as utilModule from "../../src/util";
 import { IItemResourceOptions } from "@esri/arcgis-rest-portal";
 import { IVersion } from "../../src/versioning/types/IVersion";
+
+vi.mock("@esri/arcgis-rest-portal");
 
 describe("createVersion", () => {
   let portal: string;
@@ -29,7 +40,7 @@ describe("createVersion", () => {
   let expectedRequestOpts: IItemResourceOptions;
 
   const expectedVersionResult: IVersion = {
-    created: "9876543210",
+    created: 9876543210,
     creator: "casey",
     data: {
       data: {
@@ -43,13 +54,13 @@ describe("createVersion", () => {
     description: undefined,
     parent: undefined,
     path: "hubVersion_def456/version.json",
-    updated: "9876543210",
+    updated: 9876543210,
     size: 123,
   } as unknown as IVersion;
 
   const versionBlob = { size: 123 };
 
-  let addItemResourceSpy: jasmine.Spy;
+  let addItemResourceSpy: MockInstance;
 
   beforeEach(() => {
     portal = MOCK_AUTH.portal;
@@ -68,28 +79,28 @@ describe("createVersion", () => {
       owner: "paige_pa",
       params: {
         properties: {
-          created: "9876543210",
+          created: 9876543210,
           creator: "casey",
           id: "def456",
-          updated: "9876543210",
+          updated: 9876543210,
         },
       },
       prefix: "hubVersion_def456",
       resource: versionBlob,
     };
 
-    addItemResourceSpy = spyOn(portalModule, "addItemResource").and.returnValue(
-      Promise.resolve()
+    addItemResourceSpy = vi
+      .spyOn(portalModule, "addItemResource")
+      .mockReturnValue(Promise.resolve() as any);
+    vi.spyOn(objectToJsonBlobModule, "objectToJsonBlob").mockReturnValue(
+      versionBlob as any
     );
-    spyOn(objectToJsonBlobModule, "objectToJsonBlob").and.returnValue(
-      versionBlob
-    );
-    spyOn(utilModule, "createId").and.returnValue("def456");
-    spyOn(Date, "now").and.returnValue("9876543210");
+    vi.spyOn(utilModule, "createId").mockReturnValue("def456");
+    vi.spyOn(Date, "now").mockReturnValue(9876543210);
   });
 
   afterEach(() => {
-    addItemResourceSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("should create a version with default options", async () => {
@@ -118,13 +129,13 @@ describe("createVersion", () => {
       ...expectedRequestOpts,
       params: {
         properties: {
-          created: "9876543210",
+          created: 9876543210,
           creator: "casey",
           description: "this is the description",
           id: "def456",
           name: "my special version",
           parent: "ghi789",
-          updated: "9876543210",
+          updated: 9876543210,
         },
       },
     };

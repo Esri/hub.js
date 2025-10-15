@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getPrefix } from "../../src/versioning/_internal/getPrefix";
 
 describe("getPrefix", () => {
