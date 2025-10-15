@@ -12,6 +12,7 @@ module.exports = {
     "src/core/_internal/sharedWith.ts",
     "src/access/*.ts",
     "src/associations/**/*.ts",
+    "src/channels/**/*.ts",
     "src/versioning/**/*.ts",
   ],
   // we have so many pre-existing istanbul ignore comments
