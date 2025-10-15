@@ -130,7 +130,6 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   // and are expected to be long-lived
   {
     permission: "hub:feature:ai-assistant",
-    availability: ["alpha"],
     flagValue: false, // default to not enabled; site must opt-in
     entityConfigurable: true,
   },

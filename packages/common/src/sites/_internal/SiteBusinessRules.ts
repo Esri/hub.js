@@ -3,6 +3,17 @@ import {
   IPermissionPolicy,
 } from "../../permissions/types/IPermissionPolicy";
 
+// This array is used to enable the AI Assistant feature for specific production orgs during the private beta phase
+const PROD_ASSISTANT_ALPHA_ORGS = [
+  "1JONy5Qa4xQNSWRJ", // Prod Premium Hub
+  "neT9SoYxizqTHZPH", // DCGIS
+  "ypkPEy1AmwPKGNNv", // Australia
+  "rwnOSbfKSwyTBcwN", // Dallas
+  "jsIt88o09Q0r1j8h", // Washington State
+  "32TQOipPYLOeSkYk", // Forest Stewardship (FSC)
+  "8Pc9XBTAsYuxx9Ny", // Miami-Dade
+];
+
 /**
  * Default features for a Site. These are the features that can be enabled / disabled by the entity owner
  */
@@ -216,14 +227,53 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:site:workspace:assistant",
-    availability: ["alpha"],
-    licenses: ["hub-premium"],
-    dependencies: ["hub:site:workspace", "hub:site:edit"],
-    environments: ["devext", "qaext", "production"],
+    assertions: [
+      {
+        property: "context:portal.id",
+        type: "included-in",
+        // PROD orgs that have access to AI Assistant during alpha
+        value: PROD_ASSISTANT_ALPHA_ORGS,
+        // Only evaluate this assertion if the user is in the production environment
+        // This allows all other environments to use the feature as well as
+        // PROD orgs that are in the list above
+        conditions: [
+          {
+            property: "context:environment",
+            type: "eq",
+            value: "production",
+          },
+        ],
+      },
+    ],
+    // turn off license requirement during private beta. Only orgs above will have access
+    // licenses: ["hub-premium"],
+    dependencies: ["hub:site:workspace"],
+    services: ["hub-ai-assistant"],
+    // to ensure that only site owner and org admins can enable assistants
+    entityDelete: true,
   },
   {
     permission: "hub:site:assistant:access",
-    licenses: ["hub-premium"],
+    assertions: [
+      {
+        property: "context:portal.id",
+        type: "included-in",
+        // PROD orgs that have access to AI Assistant during alpha
+        value: PROD_ASSISTANT_ALPHA_ORGS,
+        // Only evaluate this assertion if the user is in the production environment
+        // This allows all other environments to use the feature as well as
+        // PROD orgs that are in the list above
+        conditions: [
+          {
+            property: "context:environment",
+            type: "eq",
+            value: "production",
+          },
+        ],
+      },
+    ],
+    // turn off license requirement during private beta. Only orgs above will have access
+    // licenses: ["hub-premium"],
   },
 ];
 
