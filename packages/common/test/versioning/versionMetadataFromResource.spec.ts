@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { versionMetadataFromResource } from "../../src/versioning/_internal/versionMetadataFromResource";
 import { IVersionMetadata } from "../../src/versioning/types/IVersionMetadata";
 

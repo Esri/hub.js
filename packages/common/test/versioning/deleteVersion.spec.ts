@@ -1,7 +1,10 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { deleteVersion } from "../../src/versioning/deleteVersion";
 import { IHubUserRequestOptions } from "../../src/hub-types";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+
+vi.mock("@esri/arcgis-rest-portal");
 
 describe("deleteVersion", () => {
   let portal: string;
@@ -17,16 +20,18 @@ describe("deleteVersion", () => {
       authentication: MOCK_AUTH,
     };
   });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it("should delete the version", async () => {
     const id = "abc123";
     const versionId = "def456";
     const owner = "paige_pa";
 
-    const removeItemResourceSpy = spyOn(
-      portalModule,
-      "removeItemResource"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    const removeItemResourceSpy = vi
+      .spyOn(portalModule, "removeItemResource")
+      .mockReturnValue(Promise.resolve({ success: true }));
 
     const result = await deleteVersion(id, versionId, owner, requestOpts);
 

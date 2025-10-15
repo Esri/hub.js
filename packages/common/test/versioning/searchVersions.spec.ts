@@ -1,8 +1,11 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { searchVersions } from "../../src/versioning/searchVersions";
 import { IHubUserRequestOptions } from "../../src/hub-types";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ResourcesResponse from "../mocks/versioning/resources.json";
+
+vi.mock("@esri/arcgis-rest-portal");
 
 describe("searchVersions", () => {
   let portal: string;
@@ -18,14 +21,16 @@ describe("searchVersions", () => {
       authentication: MOCK_AUTH,
     };
   });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it("should fetch item resources then map them through versionMetadataFromResource", async () => {
     const id = "abc123";
 
-    const getItemResourcesSpy = spyOn(
-      portalModule,
-      "getItemResources"
-    ).and.returnValue(Promise.resolve(ResourcesResponse));
+    const getItemResourcesSpy = vi
+      .spyOn(portalModule, "getItemResources")
+      .mockReturnValue(Promise.resolve(ResourcesResponse));
 
     const result = await searchVersions(id, requestOpts);
 

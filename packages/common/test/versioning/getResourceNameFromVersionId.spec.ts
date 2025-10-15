@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getResourceNameFromVersionId } from "../../src/versioning/_internal/getResourceNameFromVersionId";
 
 describe("getResourceNameFromVersionId", () => {

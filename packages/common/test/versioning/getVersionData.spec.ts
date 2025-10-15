@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { IModel } from "../../src/hub-types";
 import { getVersionData } from "../../src/versioning/_internal/getVersionData";
 
