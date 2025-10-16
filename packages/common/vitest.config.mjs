@@ -19,6 +19,7 @@ export default defineConfig({
         "src/core/_internal/sharedWith.ts",
         // TW working below this line
         "src/users/*.ts",
+        "src/utils/date/**/*.ts",
         "src/versioning/**/*.ts",
       ],
       // we have so many pre-existing istanbul ignore comments
