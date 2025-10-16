@@ -209,8 +209,8 @@ describe("EntityUiSchemaDiscussionsSettings", () => {
           { id: "53a", title: "Group 2" },
         ],
         orgId: "o1",
-        cOrgId: "co1",
       },
+      communityOrgId: "co1",
       trustedOrgs: [{ from: { orgId: "o1" } }, { from: { orgId: "o2" } }],
       trustedOrgIds: ["o1", "o2"],
     } as unknown as IArcGISContext;
@@ -352,7 +352,7 @@ describe("EntityUiSchemaDiscussionsSettings", () => {
                         key: "community",
                         predicates: [
                           {
-                            orgId: [context.currentUser.cOrgId],
+                            orgId: [context.communityOrgId],
                           },
                         ],
                       },

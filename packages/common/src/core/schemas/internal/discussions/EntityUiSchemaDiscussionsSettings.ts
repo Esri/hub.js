@@ -81,14 +81,14 @@ export const buildUiSchema = (
       ],
     };
 
-    if (context.currentUser.cOrgId) {
+    if (context.communityOrgId) {
       orgFacets.options.splice(1, 0, {
         label:
           "{{shared.fields.allowedChannelIds.facets.organization.options.community.label:translate}}",
         key: "community",
         predicates: [
           {
-            orgId: [context.currentUser.cOrgId],
+            orgId: [context.communityOrgId],
           },
         ],
       });
