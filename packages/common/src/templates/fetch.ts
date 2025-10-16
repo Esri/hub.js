@@ -18,6 +18,7 @@ import { getProp } from "../objects/get-prop";
 import { computeLinks } from "./_internal/computeLinks";
 import { getDeployedTemplateType } from "./utils";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
+import { AccessLevel } from "../core/types/types";
 
 /**
  * @private
@@ -80,7 +81,7 @@ export async function enrichTemplateSearchResult(
   requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   const result: IHubSearchResult = {
-    access: item.access,
+    access: item.access as AccessLevel,
     id: item.id,
     type: item.type,
     name: item.title,
