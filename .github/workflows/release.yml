@@ -16,20 +16,13 @@ jobs:
   build_and_test:
     name: Build and Test
 
-    runs-on: ${{ matrix.os }}
-
-    # PRs will run tests on the following os/node combos
-    # so for the release, we're just running node 18@ubuntu
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [18]
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 20
           cache: npm
 
       - name: Install
@@ -56,7 +49,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
 
       - name: Install

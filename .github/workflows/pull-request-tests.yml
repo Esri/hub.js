@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18]
+        node: [18, 20]
 
     steps:
       - uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
       # after adding vitest we need to explicitly install
       # the optional deps until we upgrade node/npm
       - name: Install Dependencies
-        run: npm i
+        run: npm ci
 
       - name: Lint & Check for Circular Dependencies
         run: npm run ci:lint
