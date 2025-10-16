@@ -110,7 +110,8 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   // to allow the AI Assistant to be enabled on an entity
   {
     permission: "hub:platform:ai-assistant",
-    licenses: ["hub-premium"],
+    // turn off license requirement during private beta. Only specified orgs will have access
+    // licenses: ["hub-premium"],
     services: ["hub-ai-assistant"],
     assertions: [
       {
