@@ -1,16 +1,17 @@
+import { describe, it, expect, vi } from "vitest";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { updateCommunityOrgSettings } from "../../../src/utils/internal/updateCommunityOrgSettings";
 import * as requestModule from "@esri/arcgis-rest-request";
+
+vi.mock("@esri/arcgis-rest-request");
 
 describe("updateCommunityOrgSettings", () => {
   it("throws an error if there is no current user on the context object", async () => {
     const settings = {};
     const context: IArcGISContext = {} as IArcGISContext;
-    try {
-      await updateCommunityOrgSettings(settings, context);
-    } catch (error) {
-      expect(error).toEqual(new Error("User is not authenticated"));
-    }
+    await expect(updateCommunityOrgSettings(settings, context)).rejects.toEqual(
+      new Error("User is not authenticated")
+    );
   });
 
   it("throws an error if the user is not an org admin in the current community org", async () => {
@@ -21,13 +22,9 @@ describe("updateCommunityOrgSettings", () => {
       isCommunityOrg: true,
     } as unknown as IArcGISContext;
 
-    try {
-      await updateCommunityOrgSettings(settings, context);
-    } catch (error) {
-      expect(error).toEqual(
-        new Error("User is not an org admin in the current community org")
-      );
-    }
+    await expect(updateCommunityOrgSettings(settings, context)).rejects.toEqual(
+      new Error("User is not an org admin in the current community org")
+    );
   });
 
   it("throws an error if the user is not in a community org", async () => {
@@ -38,13 +35,9 @@ describe("updateCommunityOrgSettings", () => {
       isCommunityOrg: false,
     } as unknown as IArcGISContext;
 
-    try {
-      await updateCommunityOrgSettings(settings, context);
-    } catch (error) {
-      expect(error).toEqual(
-        new Error("User is not an org admin in the current community org")
-      );
-    }
+    await expect(updateCommunityOrgSettings(settings, context)).rejects.toEqual(
+      new Error("User is not an org admin in the current community org")
+    );
   });
 
   it("sends a request to the right url with signup text and terms and conditions", async () => {
@@ -64,9 +57,9 @@ describe("updateCommunityOrgSettings", () => {
       },
     } as unknown as IArcGISContext;
 
-    const requestSpy = spyOn(requestModule, "request").and.callFake(() =>
-      Promise.resolve({})
-    );
+    const requestSpy = vi
+      .spyOn(requestModule as any, "request")
+      .mockImplementation(() => Promise.resolve({}));
 
     await updateCommunityOrgSettings(settings, context);
 
@@ -101,9 +94,9 @@ describe("updateCommunityOrgSettings", () => {
       },
     } as unknown as IArcGISContext;
 
-    const requestSpy = spyOn(requestModule, "request").and.callFake(() =>
-      Promise.resolve({})
-    );
+    const requestSpy = vi
+      .spyOn(requestModule as any, "request")
+      .mockImplementation(() => Promise.resolve({}));
 
     await updateCommunityOrgSettings(settings, context);
 

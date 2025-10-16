@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getProp } from "../../../src/objects/get-prop";
 import {
   applySiteSettingsMigrations,

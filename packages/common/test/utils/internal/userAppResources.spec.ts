@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import * as ResquestModule from "@esri/arcgis-rest-request";
 import {
   setUserResource,
@@ -6,6 +7,8 @@ import {
   listUserResources,
   IAddUserResource,
 } from "../../../src/utils/internal/userAppResources";
+
+vi.mock("@esri/arcgis-rest-request");
 
 const RESOURCE = { prop: "value" };
 
@@ -36,33 +39,32 @@ const PORTALURL = "https://www.arcgis.com";
 const TOKEN = "THEFAKETOKEN";
 
 describe("userAppResources:", () => {
-  let requestSpy: jasmine.Spy;
+  let requestSpy: any;
 
   describe("setUserResource:", () => {
     beforeEach(() => {
-      requestSpy = spyOn(ResquestModule, "request").and.callFake(
-        (url: string) => {
+      requestSpy = vi
+        .spyOn(ResquestModule as any, "request")
+        .mockImplementation((...args: any[]) => {
+          const url = args[0] as string;
           if (url.includes("/some-resource.json")) {
             return Promise.resolve({ other: "values" });
           } else {
             return Promise.resolve({ success: true });
           }
-        }
-      );
+        });
     });
     it("throws if data is too large", async () => {
-      try {
-        const resourceOpts: IAddUserResource = {
-          data: {
-            fake: new Array(200000).fill({ key: "value" }),
-          },
-          key: "some-resource.json",
-          access: "userappprivate",
-        };
-        await setUserResource(resourceOpts, "jsmith", PORTALURL, TOKEN);
-      } catch (ex) {
-        expect((ex as any).message).toContain("too large to store");
-      }
+      const resourceOpts: IAddUserResource = {
+        data: {
+          fake: new Array(200000).fill({ key: "value" }),
+        },
+        key: "some-resource.json",
+        access: "userappprivate",
+      };
+      await expect(
+        setUserResource(resourceOpts, "jsmith", PORTALURL, TOKEN)
+      ).rejects.toThrow("too large to store");
     });
     it("can replace", async () => {
       const resourceOpts: IAddUserResource = {
@@ -71,9 +73,9 @@ describe("userAppResources:", () => {
         access: "userappprivate",
       };
       await setUserResource(resourceOpts, "jsmith", PORTALURL, TOKEN, true);
-      expect(requestSpy.calls.count()).toBe(1);
-      const url = requestSpy.calls.argsFor(0)[0];
-      const opts = requestSpy.calls.argsFor(0)[1];
+      expect(requestSpy.mock.calls.length).toBe(1);
+      const url = requestSpy.mock.calls[0][0];
+      const opts = requestSpy.mock.calls[0][1];
       expect(url).toContain("users/jsmith/addResource");
       expect(opts.params.text).toEqual(JSON.stringify(RESOURCE));
       expect(opts.params.key).toEqual("some-resource.json");
@@ -87,10 +89,10 @@ describe("userAppResources:", () => {
         access: "userappprivate",
       };
       await setUserResource(resourceOpts, "jsmith", PORTALURL, TOKEN);
-      expect(requestSpy.calls.count()).toBe(2);
-      const url1 = requestSpy.calls.argsFor(0)[0];
-      const url2 = requestSpy.calls.argsFor(1)[0];
-      const opts = requestSpy.calls.argsFor(1)[1];
+      expect(requestSpy.mock.calls.length).toBe(2);
+      const url1 = requestSpy.mock.calls[0][0];
+      const url2 = requestSpy.mock.calls[1][0];
+      const opts = requestSpy.mock.calls[1][1];
       expect(url1).toContain("jsmith/resources/some-resource.json");
       expect(url2).toContain("users/jsmith/addResource");
       expect(opts.params.text).toEqual(
@@ -105,9 +107,9 @@ describe("userAppResources:", () => {
 
   describe("getUserResource:", () => {
     beforeEach(() => {
-      requestSpy = spyOn(ResquestModule, "request").and.callFake(() => {
-        return Promise.resolve(RESOURCE);
-      });
+      requestSpy = vi
+        .spyOn(ResquestModule as any, "request")
+        .mockImplementation((..._args: any[]) => Promise.resolve(RESOURCE));
     });
     it("construct url", async () => {
       const chk = await getUserResource(
@@ -116,7 +118,7 @@ describe("userAppResources:", () => {
         PORTALURL,
         TOKEN
       );
-      const url1 = requestSpy.calls.argsFor(0)[0];
+      const url1 = requestSpy.mock.calls[0][0];
       expect(url1).toContain("jsmith/resources/some-resource.json");
       expect(url1).toContain(`token=${TOKEN}`);
       expect(chk).toEqual(RESOURCE);
@@ -125,9 +127,11 @@ describe("userAppResources:", () => {
 
   describe("removeUserResource:", () => {
     beforeEach(() => {
-      requestSpy = spyOn(ResquestModule, "request").and.callFake(() => {
-        return Promise.resolve({ success: true });
-      });
+      requestSpy = vi
+        .spyOn(ResquestModule as any, "request")
+        .mockImplementation((..._args: any[]) =>
+          Promise.resolve({ success: true })
+        );
     });
     it("construct url", async () => {
       await removeUserResource(
@@ -136,9 +140,9 @@ describe("userAppResources:", () => {
         PORTALURL,
         TOKEN
       );
-      const url = requestSpy.calls.argsFor(0)[0];
+      const url = requestSpy.mock.calls[0][0];
       expect(url).toContain("jsmith/removeResource");
-      const opts = requestSpy.calls.argsFor(0)[1];
+      const opts = requestSpy.mock.calls[0][1];
       expect(opts.params.key).toEqual("some-resource.json");
       expect(opts.params.token).toEqual(TOKEN);
     });
@@ -146,21 +150,21 @@ describe("userAppResources:", () => {
 
   describe("listUserResources:", () => {
     beforeEach(() => {
-      requestSpy = spyOn(ResquestModule, "request").and.callFake(() => {
-        return Promise.resolve(LISTRESPONSE);
-      });
+      requestSpy = vi
+        .spyOn(ResquestModule as any, "request")
+        .mockImplementation((..._args: any[]) => Promise.resolve(LISTRESPONSE));
     });
 
     it("construct url", async () => {
       await listUserResources("jsmith", PORTALURL, TOKEN);
-      const url = requestSpy.calls.argsFor(0)[0];
+      const url = requestSpy.mock.calls[0][0];
       expect(url).toContain("jsmith/resources");
       expect(url).toContain(`token=${TOKEN}`);
       expect(url).toContain(`returnAllApps=false`);
     });
     it("can return all apps", async () => {
       await listUserResources("jsmith", PORTALURL, TOKEN, true);
-      const url = requestSpy.calls.argsFor(0)[0];
+      const url = requestSpy.mock.calls[0][0];
       expect(url).toContain("jsmith/resources");
       expect(url).toContain(`token=${TOKEN}`);
       expect(url).toContain(`returnAllApps=true`);

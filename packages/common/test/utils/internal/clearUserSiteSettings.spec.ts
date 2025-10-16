@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContext } from "../../../src/ArcGISContext";
 
@@ -8,10 +9,14 @@ import {
 } from "../../../src/utils/internal/clearUserSiteSettings";
 
 describe("clearUserSiteSettings:", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("delegates to removeUserResource", async () => {
-    const spy = spyOn(resourceModule, "removeUserResource").and.callFake(() => {
-      return Promise.resolve({ success: true });
-    });
+    const spy = vi
+      .spyOn(resourceModule as any, "removeUserResource")
+      .mockImplementation(() => Promise.resolve({ success: true }));
     const ctx = new ArcGISContext({
       id: 1,
       portalUrl: "https://www.arcgis.com",
@@ -30,7 +35,7 @@ describe("clearUserSiteSettings:", () => {
     expect(chk).toEqual({ success: true });
     expect(spy).toHaveBeenCalled();
     // verify args
-    const [username, key, url, token] = spy.calls.argsFor(0);
+    const [username, key, url, token] = (spy as any).mock.calls[0];
     expect(key).toBe(USER_SITE_SETTINGS_KEY);
     expect(username).toBe("jsmith");
     expect(url).toBe(ctx.portalUrl);

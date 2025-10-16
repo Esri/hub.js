@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { aggregateValues } from "../../../src/utils/internal/aggregateValues";
 
 describe("aggregateValues:", () => {

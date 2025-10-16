@@ -20,6 +20,7 @@ export default defineConfig({
         // TW working below this line
         "src/users/*.ts",
         "src/utils/date/**/*.ts",
+        "src/utils/internal/**/*.ts",
         "src/versioning/**/*.ts",
       ],
       // we have so many pre-existing istanbul ignore comments

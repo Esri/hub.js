@@ -1,16 +1,17 @@
+import { describe, it, expect, vi } from "vitest";
 import * as requestModule from "@esri/arcgis-rest-request";
 import { updatePortalOrgSettings } from "../../../src/utils/internal/updatePortalOrgSettings";
-import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import type { IArcGISContext } from "../../../src/types/IArcGISContext";
+
+vi.mock("@esri/arcgis-rest-request");
 
 describe("updatePortalOrgSettings", () => {
   it("throws an error if there is no current user on the context object", async () => {
     const settings = {};
     const context: IArcGISContext = {} as IArcGISContext;
-    try {
-      await updatePortalOrgSettings(settings, context);
-    } catch (error) {
-      expect(error).toEqual(new Error("User is not authenticated"));
-    }
+    await expect(updatePortalOrgSettings(settings, context)).rejects.toEqual(
+      new Error("User is not authenticated")
+    );
   });
 
   it("throws an error if the user is not an org admin in the current org", async () => {
@@ -20,13 +21,9 @@ describe("updatePortalOrgSettings", () => {
       isOrgAdmin: false,
       isCommunityOrg: true,
     } as unknown as IArcGISContext;
-    try {
-      await updatePortalOrgSettings(settings, context);
-    } catch (error) {
-      expect(error).toEqual(
-        new Error("User is not an org admin in the current org")
-      );
-    }
+    await expect(updatePortalOrgSettings(settings, context)).rejects.toEqual(
+      new Error("User is not an org admin in the current org")
+    );
   });
 
   it("sends a request to the right url w/ showInformationalBanner", async () => {
@@ -52,9 +49,9 @@ describe("updatePortalOrgSettings", () => {
         },
       },
     } as unknown as IArcGISContext;
-    const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve()
-    );
+    const requestSpy = vi
+      .spyOn(requestModule as any, "request")
+      .mockResolvedValue(Promise.resolve());
     await updatePortalOrgSettings(settings, context);
     expect(requestSpy).toHaveBeenCalledWith(
       "https://www.community-org.hubqa.arcgis.com/sharing/rest/portals/self/update?f=json",

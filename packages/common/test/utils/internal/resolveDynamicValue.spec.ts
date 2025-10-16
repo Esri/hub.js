@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 // import { resolveDynamicValue } from "../../../src/utils/internal/resolveDynamicValue";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
@@ -10,9 +11,9 @@ import * as resolveServiceQueryValuesModule from "../../../src/utils/internal/re
 
 describe("resolveDynamicValue:", () => {
   let context: IArcGISContext;
-  let itemQrySpy: jasmine.Spy;
-  let portalSpy: jasmine.Spy;
-  let serviceSpy: jasmine.Spy;
+  let itemQrySpy: any;
+  let portalSpy: any;
+  let serviceSpy: any;
   beforeEach(async () => {
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
@@ -37,18 +38,25 @@ describe("resolveDynamicValue:", () => {
     });
     context = authdCtxMgr.context;
 
-    itemQrySpy = spyOn(
-      resolveDynamicValuesModule._INTERNAL_FNS,
-      "resolveItemQueryValues"
-    ).and.callFake(() => Promise.resolve({ item: "spy" }));
-    portalSpy = spyOn(
-      resolvePortalValuesModule,
-      "resolvePortalValues"
-    ).and.callFake(() => Promise.resolve({ portal: "spy" }));
-    serviceSpy = spyOn(
-      resolveServiceQueryValuesModule,
-      "resolveServiceQueryValues"
-    ).and.callFake(() => Promise.resolve({ service: "spy" }));
+    itemQrySpy = vi
+      .spyOn(
+        resolveDynamicValuesModule._INTERNAL_FNS as any,
+        "resolveItemQueryValues"
+      )
+      .mockImplementation(() => Promise.resolve({ item: "spy" }));
+    portalSpy = vi
+      .spyOn(resolvePortalValuesModule as any, "resolvePortalValues")
+      .mockImplementation(() => Promise.resolve({ portal: "spy" }));
+    serviceSpy = vi
+      .spyOn(
+        resolveServiceQueryValuesModule as any,
+        "resolveServiceQueryValues"
+      )
+      .mockImplementation(() => Promise.resolve({ service: "spy" }));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("handles static-value internally", async () => {
@@ -133,15 +141,11 @@ describe("resolveDynamicValue:", () => {
       sourcePath: "orgKey",
       outPath: "urlKey",
     } as unknown as DynamicValueDefinition;
-    try {
-      await resolveDynamicValuesModule.resolveDynamicValue(def, context);
-    } catch (err) {
-      expect(err).toEqual(
-        new Error("Cannot resolve value - unexpected source.")
-      );
-      expect(itemQrySpy).not.toHaveBeenCalled();
-      expect(portalSpy).not.toHaveBeenCalled();
-      expect(serviceSpy).not.toHaveBeenCalled();
-    }
+    await expect(
+      resolveDynamicValuesModule.resolveDynamicValue(def, context)
+    ).rejects.toThrow("Cannot resolve value - unexpected source.");
+    expect(itemQrySpy).not.toHaveBeenCalled();
+    expect(portalSpy).not.toHaveBeenCalled();
+    expect(serviceSpy).not.toHaveBeenCalled();
   });
 });
