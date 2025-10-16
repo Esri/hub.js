@@ -9,7 +9,7 @@ import {
 import { hubSearchPosts } from "../../../src/search/_internal/hubSearchPosts";
 import * as processPostFiltersModule from "../../../src/search/_internal/hubDiscussionsHelpers/processPostFilters";
 import * as processPostOptionsModule from "../../../src/search/_internal/hubDiscussionsHelpers/processPostOptions";
-import * as postsModule from "../../../src/discussions/api/posts";
+import * as postsModule from "../../../src/discussions/api/posts/posts";
 import * as postResultsToSearchResultsModule from "../../../src/search/_internal/hubDiscussionsHelpers/postToSearchResult";
 
 describe("hubSearchPosts", () => {

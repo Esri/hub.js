@@ -1,5 +1,6 @@
 export {
   Cadence as NewsletterCadence,
+  /* istanbul ignore next */
   DeliveryMethod,
   ICreateEventMetadata,
   ICreateTelemetryReportMetadata,
@@ -8,7 +9,9 @@ export {
   ISubscription,
   ISubscriptionMetadata,
   IUser,
+  /* istanbul ignore next */
   SystemNotificationSpecNames,
+  /* istanbul ignore next */
   SubscriptionAction,
 } from "./orval/api/orval-newsletters";
 import { IHubRequestOptions } from "../../hub-types";

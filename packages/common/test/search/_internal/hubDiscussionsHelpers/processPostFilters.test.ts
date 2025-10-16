@@ -4,7 +4,7 @@ import {
   PostStatus,
   PostType,
 } from "../../../../src/discussions/api/types";
-import { IFilter } from "../../../../src/search/types";
+import { IFilter } from "../../../../src/search/types/IHubCatalog";
 
 describe("processPostFilters", () => {
   it("should return empty object for empty filters", () => {

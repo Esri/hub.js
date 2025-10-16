@@ -1,6 +1,6 @@
 import * as ExplainFilterModule from "../../src/search/_internal/explainFilter";
 import { explainQueryResult } from "../../src/search/explainQueryResult";
-import { GenericResult } from "../../src/search/types";
+import { GenericResult } from "../../src/search/types/types";
 import { IQuery } from "../../src/search/types/IHubCatalog";
 describe("explainQueryResult:", () => {
   it("throws if not an item query", async () => {

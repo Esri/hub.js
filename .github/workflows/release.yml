@@ -6,9 +6,8 @@ on:
   push:
     branches:
       - master
-    # Dont run if it's just markdown or doc files
+    # Dont run if it's just doc files
     paths-ignore:
-      - "**.md"
       - "docs/**"
 
 jobs:

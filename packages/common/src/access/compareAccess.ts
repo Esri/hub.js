@@ -1,4 +1,4 @@
-import { AccessLevel } from "../core";
+import { AccessLevel } from "../core/types/types";
 
 /**
  * Simple access comparison.

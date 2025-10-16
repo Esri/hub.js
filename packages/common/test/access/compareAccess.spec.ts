@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { compareAccess } from "../../src/access/compareAccess";
-import { AccessLevel } from "../../src/core";
+import { AccessLevel } from "../../src/core/types/types";
 
 describe("compareAccess", () => {
   it("returns access1 when both levels are equal", () => {

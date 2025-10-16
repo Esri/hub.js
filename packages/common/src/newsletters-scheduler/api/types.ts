@@ -3,6 +3,7 @@ export {
   ISubscriptionCatalog,
   IUser as ISchedulerUser,
   INotificationSpec as ISchedulerNotificationSpec,
+  /* istanbul ignore next */
   DeliveryMethod as SchedulerDeliveryMethod,
   ISubscription as ISchedulerSubscription,
   SystemNotificationSpecNames as SchedulerSystemNotificationSpecNames,

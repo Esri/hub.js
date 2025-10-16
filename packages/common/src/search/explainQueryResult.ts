@@ -8,7 +8,7 @@ import {
   IQueryExplanation,
   IFilterExplanation,
   IMatchReason,
-} from "./types";
+} from "./types/types";
 
 /**
  * Explain why a specific result was included in a Query.
