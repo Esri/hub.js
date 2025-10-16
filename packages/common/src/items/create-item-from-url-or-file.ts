@@ -1,10 +1,9 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
-import {
+import type {
   ICreateItemResponse,
   ISharingResponse,
-  setItemAccess,
-  shareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
+import { setItemAccess, shareItemWithGroup } from "@esri/arcgis-rest-portal";
 import type { IGroup, IItemAdd } from "@esri/arcgis-rest-portal";
 import { createItemFromFile } from "./create-item-from-file";
 import { createItemFromUrl } from "./create-item-from-url";
@@ -67,7 +66,7 @@ export async function createItemFromUrlOrFile(
     itemAccessResponse = await setItemAccess({
       id: createdItem.id,
       owner: item.owner,
-      access: item.access,
+      access: item.access as "private" | "org" | "public", // copied from ISetAccessOptions
       ...userRequestOptions,
     });
   }

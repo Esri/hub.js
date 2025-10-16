@@ -25,6 +25,7 @@ import { updateModel } from "../models/updateModel";
 import { getProp } from "../objects/get-prop";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils/map-by";
+import { AccessLevel } from "../core/types/types";
 
 /**
  * @private
@@ -179,7 +180,7 @@ export async function enrichPageSearchResult(
 ): Promise<IHubSearchResult> {
   // Create the basic structure
   const result: IHubSearchResult = {
-    access: item.access,
+    access: item.access as AccessLevel,
     id: item.id,
     type: item.type,
     name: item.title,
