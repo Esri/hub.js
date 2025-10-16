@@ -8,6 +8,8 @@ import {
   IFetchDownloadFileOptions,
   IFetchDownloadFileResponse,
 } from "./types";
+import { fetchHubApiDownloadFile } from "./_internal/file-url-fetchers/fetchHubApiDownloadFile";
+import { fetchExportImageDownloadFile } from "./_internal/file-url-fetchers/fetchExportImageDownloadFile";
 
 /**
  * Fetches a download file URL for the given entity and format.
@@ -27,13 +29,9 @@ export async function fetchDownloadFile(
 
   let fetchingFn;
   if (canUseHubDownloadApi(withPollInterval.entity, withPollInterval.context)) {
-    fetchingFn = (
-      await import("./_internal/file-url-fetchers/fetchHubApiDownloadFile")
-    ).fetchHubApiDownloadFile;
+    fetchingFn = fetchHubApiDownloadFile;
   } else if (canUseExportImageFlow(withPollInterval.entity)) {
-    fetchingFn = (
-      await import("./_internal/file-url-fetchers/fetchExportImageDownloadFile")
-    ).fetchExportImageDownloadFile;
+    fetchingFn = fetchExportImageDownloadFile;
   } else {
     throw new HubError(
       "fetchDownloadFile",
@@ -48,7 +46,7 @@ export async function fetchDownloadFile(
  * @param options options for the fetchDownloadFile operation
  * @throws {HubError} if the format requested is not enabled for the entity
  */
-function validateFormat(options: IFetchDownloadFileOptions) {
+function validateFormat(options: IFetchDownloadFileOptions): void {
   const { entity, context, format } = options;
   const validServerFormats: ServiceDownloadFormat[] = getDownloadFormats({
     entity,

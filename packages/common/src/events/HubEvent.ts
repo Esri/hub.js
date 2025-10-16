@@ -19,6 +19,7 @@ import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEdit
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { setProp } from "../objects/set-prop";
+import { createHubEvent, deleteHubEvent, updateHubEvent } from "./edit";
 
 /**
  * Defines the properties of a Hub Event object
@@ -100,13 +101,11 @@ export class HubEvent
     }
 
     if (this.entity.id) {
-      const { updateHubEvent } = await import("./edit");
       this.entity = await updateHubEvent(
         this.entity,
         this.context.hubRequestOptions
       );
     } else {
-      const { createHubEvent } = await import("./edit");
       this.entity = await createHubEvent(
         this.entity,
         this.context.hubRequestOptions
@@ -123,7 +122,6 @@ export class HubEvent
     if (this.isDestroyed) {
       throw new Error("HubEvent is already destroyed.");
     }
-    const { deleteHubEvent } = await import("./edit");
     await deleteHubEvent(this.entity.id, this.context.hubRequestOptions);
     this.isDestroyed = true;
   }
