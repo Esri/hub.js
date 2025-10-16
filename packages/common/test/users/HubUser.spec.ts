@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import type { IUser, IPortal } from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import type { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import type { ArcGISContext } from "../../src/ArcGISContext";
 import { HubUser } from "../../src/users/HubUser";
 import { createMockContext } from "../mocks/mock-auth";
 import { mergeObjects } from "../../src/objects/merge-objects";
@@ -10,7 +11,9 @@ import { IHubUser } from "../../src/core/types/IHubUser";
 import * as UpdateCommunityOrgSettingsModule from "../../src/utils/internal/updateCommunityOrgSettings";
 import * as UpdatePortalOrgSettingsModule from "../../src/utils/internal/updatePortalOrgSettings";
 
-const initContextManager = (opts = {}): { context: any } => {
+const initContextManager = (
+  opts: Partial<ArcGISContext> = {}
+): { context: ArcGISContext } => {
   const defaults = {
     currentUser: {
       username: "casey",
