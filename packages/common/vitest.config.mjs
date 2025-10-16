@@ -2,6 +2,9 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   test: {
+    // allow tests to use globals like describe/it/expect without importing them
+    // to make it easier to convert jasmine/karma tests which also use globals
+    globals: true,
     include: [
       // we use .spec.ts for vitest and .test.ts for karma/jasmine
       "test/**/*.spec.ts"
@@ -19,8 +22,7 @@ export default defineConfig({
         "src/core/_internal/sharedWith.ts",
         // TW working below this line
         "src/users/*.ts",
-        "src/utils/date/**/*.ts",
-        "src/utils/internal/**/*.ts",
+        "src/utils/**/*.ts",
         "src/versioning/**/*.ts",
       ],
       // we have so many pre-existing istanbul ignore comments

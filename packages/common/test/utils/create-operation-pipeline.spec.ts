@@ -20,11 +20,7 @@ interface IFakeItem {
 }
 
 const delay = <T>(data: T, delayMs: number): Promise<T> =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      return resolve(data);
-    }, delayMs)
-  );
+  new Promise((resolve) => setTimeout(() => resolve(data), delayMs));
 
 const timeStampName = (
   input: IPipeable<Partial<IFakeItem>>
@@ -99,6 +95,8 @@ const fetchOwner = (
 // Fake request options
 const ro = {} as unknown as IHubRequestOptions;
 
+import { describe, it, expect } from "vitest";
+
 describe("createOperationPipeline:: ", () => {
   it("runs a single function", () => {
     const m = {
@@ -111,7 +109,8 @@ describe("createOperationPipeline:: ", () => {
     } as IPipeable<Partial<IFakeItem>>;
     const pipeline = createOperationPipeline([timeStampName]);
     return pipeline(input).then((result) => {
-      expect(result.data.name.split(":")[1]).toBeGreaterThan(0);
+      const ts = Number(result.data.name.split(":")[1]);
+      expect(ts).toBeGreaterThan(0);
     });
   });
 
@@ -132,13 +131,11 @@ describe("createOperationPipeline:: ", () => {
       fetchOwner,
     ]);
     return pipeline(input).then((result) => {
-      expect(result.data.name.split(":")[1]).toBeGreaterThan(0);
+      const ts = Number(result.data.name.split(":")[1]);
+      expect(ts).toBeGreaterThan(0);
       expect(result.data.createdAt).not.toBeUndefined();
       expect(result.data.owner).not.toBeUndefined();
-      expect(result.stack.getOperations().length).toBe(
-        4,
-        "should have 4 operations"
-      );
+      expect(result.stack.getOperations().length).toBe(4);
     });
   });
   it("handles subfunction rejecting with OperationError", () => {
@@ -159,10 +156,7 @@ describe("createOperationPipeline:: ", () => {
     ]);
     return pipeline(input).catch((err) => {
       const error = err as { name?: string };
-      expect(error.name).toBe(
-        "OperationError",
-        "Should reject with an OperationError"
-      );
+      expect(error.name).toBe("OperationError");
       expect(err.operationStack.operations.length).toBe(3);
       expect(err.message).toContain("Operation timeStampName");
       expect(err.message).toContain("Operation addCreatedAt");
@@ -191,10 +185,7 @@ describe("createOperationPipeline:: ", () => {
         message?: string;
         operationStack?: ISerializedOperationStack;
       };
-      expect(error.name).toBe(
-        "OperationError",
-        "Should reject with an OperationError"
-      );
+      expect(error.name).toBe("OperationError");
 
       const ops = getProp(error, "operationStack.operations") || [];
       expect(ops.length).toBe(3);

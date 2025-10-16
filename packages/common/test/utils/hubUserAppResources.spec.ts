@@ -12,14 +12,18 @@ import {
 } from "../../src/utils/hubUserAppResources";
 import { IUserHubSettings } from "../../src/utils/IUserHubSettings";
 
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 describe("hubUserAppResources:", () => {
   describe("updateUserSiteSettings:", () => {
-    let spy: jasmine.Spy;
+    let spy: ReturnType<typeof vi.fn>;
     let ctx: ArcGISContext;
     beforeEach(() => {
-      spy = spyOn(resourceModule, "setUserResource").and.callFake(() => {
-        return Promise.resolve();
-      });
+      spy = vi
+        .spyOn(resourceModule, "setUserResource")
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
     });
     it("sends resource", async () => {
       const settings: IUserSiteSettings = {
@@ -43,8 +47,9 @@ describe("hubUserAppResources:", () => {
       });
       await updateUserSiteSettings(settings, ctx);
       expect(spy).toHaveBeenCalled();
-      // inspect the arts
-      const [resource, username, url, token, replace] = spy.calls.argsFor(0);
+      // inspect the args
+      const [resource, username, url, token, replace] = (spy as any).mock
+        .calls[0];
       expect(resource.key).toBe(USER_SITE_SETTINGS_KEY);
       expect(resource.data.username).toBe("jsmith");
       expect(resource.data.updated).toBeGreaterThan(0);
@@ -54,7 +59,7 @@ describe("hubUserAppResources:", () => {
       expect(token).toBe("FAKESITETOKEN");
       expect(replace).toBe(false);
       await updateUserSiteSettings(settings, ctx, true);
-      expect(spy.calls.argsFor(1)[4]).toEqual(true);
+      expect((spy as any).mock.calls[1][4]).toBe(true);
     });
     it("throws if token not found for ", async () => {
       const settings: IUserSiteSettings = {
@@ -85,12 +90,14 @@ describe("hubUserAppResources:", () => {
     });
   });
   describe("fetchUserSiteSettings:", () => {
-    let spy: jasmine.Spy;
+    let spy: ReturnType<typeof vi.fn>;
     let ctx: ArcGISContext;
     beforeEach(() => {
-      spy = spyOn(resourceModule, "getUserResource").and.callFake(() => {
-        return Promise.resolve({ fake: "settings" });
-      });
+      spy = vi
+        .spyOn(resourceModule, "getUserResource")
+        .mockImplementation(() => {
+          return Promise.resolve({ fake: "settings" });
+        });
     });
     it("get resource", async () => {
       ctx = new ArcGISContext({
@@ -112,8 +119,8 @@ describe("hubUserAppResources:", () => {
         fake: "settings",
       } as unknown as IUserSiteSettings);
       expect(spy).toHaveBeenCalled();
-      const [username, key, url, token] = spy.calls.argsFor(0);
-      expect(key).toEqual(USER_SITE_SETTINGS_KEY);
+      const [username, key, url, token] = (spy as any).mock.calls[0];
+      expect(key).toBe(USER_SITE_SETTINGS_KEY);
       expect(username).toBe("jsmith");
       expect(url).toBe(ctx.portalUrl);
       expect(token).toBe("FAKESITETOKEN");
@@ -139,12 +146,14 @@ describe("hubUserAppResources:", () => {
     });
   });
   describe("updateUserHubSettings:", () => {
-    let spy: jasmine.Spy;
+    let spy: ReturnType<typeof vi.fn>;
     let ctx: ArcGISContext;
     beforeEach(() => {
-      spy = spyOn(resourceModule, "setUserResource").and.callFake(() => {
-        return Promise.resolve();
-      });
+      spy = vi
+        .spyOn(resourceModule, "setUserResource")
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
     });
     it("sends resource", async () => {
       const settings: IUserHubSettings = {
@@ -168,8 +177,9 @@ describe("hubUserAppResources:", () => {
       });
       await updateUserHubSettings(settings, ctx);
       expect(spy).toHaveBeenCalled();
-      // inspect the arts
-      let [resource, username, url, token, replace] = spy.calls.argsFor(0);
+      // inspect the args
+      let [resource, username, url, token, replace] = (spy as any).mock
+        .calls[0];
       expect(replace).toBe(false);
       expect(resource.key).toBe(USER_HUB_SETTINGS_KEY);
       expect(resource.data.username).toBe("jsmith");
@@ -179,8 +189,8 @@ describe("hubUserAppResources:", () => {
       expect(url).toBe(ctx.portalUrl);
       expect(token).toBe("FAKEHUBTOKEN");
       await updateUserHubSettings(settings, ctx, true);
-      [resource, username, url, token, replace] = spy.calls.argsFor(1);
-      expect(replace).toEqual(true, "replace should be true");
+      [resource, username, url, token, replace] = (spy as any).mock.calls[1];
+      expect(replace).toBe(true);
     });
     it("throws if token not found for ", async () => {
       const settings: IUserSiteSettings = {
@@ -211,12 +221,14 @@ describe("hubUserAppResources:", () => {
     });
   });
   describe("fetchUserHubSettings:", () => {
-    let spy: jasmine.Spy;
+    let spy: ReturnType<typeof vi.fn>;
     let ctx: ArcGISContext;
     beforeEach(() => {
-      spy = spyOn(resourceModule, "getUserResource").and.callFake(() => {
-        return Promise.resolve({ fake: "settings" });
-      });
+      spy = vi
+        .spyOn(resourceModule, "getUserResource")
+        .mockImplementation(() => {
+          return Promise.resolve({ fake: "settings" });
+        });
     });
     it("get resource", async () => {
       ctx = new ArcGISContext({
@@ -238,8 +250,8 @@ describe("hubUserAppResources:", () => {
         fake: "settings",
       } as unknown as IUserHubSettings);
       expect(spy).toHaveBeenCalled();
-      const [username, key, url, token] = spy.calls.argsFor(0);
-      expect(key).toEqual(USER_HUB_SETTINGS_KEY);
+      const [username, key, url, token] = (spy as any).mock.calls[0];
+      expect(key).toBe(USER_HUB_SETTINGS_KEY);
       expect(username).toBe("jsmith");
       expect(url).toBe(ctx.portalUrl);
       expect(token).toBe("FAKEHUBTOKEN");

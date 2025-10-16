@@ -1,4 +1,5 @@
 import { maybeConcat, splitArrayByLength } from "../../src/utils/_array";
+import { describe, it, expect } from "vitest";
 
 describe("maybeConcat", () => {
   it("returns undefined when no arrays", () => {

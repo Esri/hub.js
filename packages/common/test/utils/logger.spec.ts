@@ -8,13 +8,15 @@ import * as configModule from "../../src/utils/internal/config";
 // this array must match the names & order of the Level enum
 const levels: LogLevel[] = ["all", "debug", "info", "warn", "error", "off"];
 
+import { beforeEach, describe, it, expect, vi } from "vitest";
+
 describe("Logger |", function () {
   beforeEach(() => {
-    spyOn(console, "log").and.stub().calls.reset();
-    spyOn(console, "debug").and.stub().calls.reset();
-    spyOn(console, "info").and.stub().calls.reset();
-    spyOn(console, "warn").and.stub().calls.reset();
-    spyOn(console, "error").and.stub().calls.reset();
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    vi.spyOn(console, "debug").mockImplementation(() => {});
+    vi.spyOn(console, "info").mockImplementation(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   levels.forEach((level: LogLevel) => testLogLevel(level));
