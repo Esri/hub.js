@@ -23,19 +23,6 @@ const excludeFromCoverage = exclude
   .map(pattern => new RegExp(pattern)); // convert to regex
 // console.log('Excluding from coverage:', excludeFromCoverage);
 
-// we use Vitest's coverage config to determine 
-// which src files to exclude from karma coverage
-const vitestCoverage = require("./packages/common/vitest-coverage");
-const coveredByVitest = vitestCoverage.include
-  .map(pattern => globToRegExp(pattern, { extended: true }) );
-// TODO: these are not quiet right yet
-// I think we just need to exclude the leading ^
-// /^src\/(api|util)\.ts$/,
-// /^src\/associations\/internal\/(getIncludesAndReferencesQuery|getIncludesDoesNotReferenceQuery|getReferencesDoesNotIncludeQuery)\.ts$/,
-// /^src\/associations\/(requestAssociation|breakAssociation)\.ts$/,
-// /^src\/core\/_internal\/sharedWith\.ts$/
-console.log('Excluding from coverage (covered by vitest):', coveredByVitest);
-
 module.exports = function (config) {
   const configObj = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -60,7 +47,8 @@ module.exports = function (config) {
         // uncomment the next flag to disable coverage, and
         // enable debugging in the browser
         // if left true, the source maps won't actually match up
-        // instrumentation: false,
+        // NOTE: turning off coverage as we migrate to vitest
+        instrumentation: false,
 
         // don't report coverage on fixtures or tests
         exclude: [
@@ -73,15 +61,14 @@ module.exports = function (config) {
           // files that have been excluded from testing
           ...excludeFromCoverage,
           // files whose tests have been migrated to vitest
-          ...coveredByVitest,
+          // NOTE: these are adapted from vitest.config.mjs
           /src\/(api|util)\.ts$/,
-          /src\/associations\/internal\/(getIncludesAndReferencesQuery|getIncludesDoesNotReferenceQuery|getReferencesDoesNotIncludeQuery)\.ts$/,
-          /src\/associations\/(requestAssociation|breakAssociation)\.ts$/,
-          /src\/core\/_internal\/sharedWith\.ts$/
-          // /src\/(api|util)\.ts$/,
-          // // "src/associations/internal/{getIncludesAndReferencesQuery,getIncludesDoesNotReferenceQuery,getReferencesDoesNotIncludeQuery}.ts",
-          // // "src/associations/{requestAssociation,breakAssociation}.ts",
-          // /src\/core\/_internal\/sharedWith\.ts$/,
+          /src\/access\/.*\.ts$/,
+          /src\/associations\/.*\.ts$/,
+          /src\/core\/_internal\/sharedWith\.ts$/,
+          // TW working below this line
+          /src\/users\/.*\.ts$/,
+          /src\/versioning\/.*\.ts$/,
         ],
         threshold: {
           global: {
