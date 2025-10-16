@@ -8,25 +8,23 @@ import { includes } from "../../utils/includes";
 /**
  * Determine if we should fetch data(.json or other content) for an item
  * @param item
- * @param allowTypes *to be used sparingly* -- additional types that should trigger a data fetch
- * @param allowFamilies *to be used sparingly* -- additional families that should trigger a data fetch
  * @returns
  */
-export const shouldFetchData = (
-  item: IItem,
-  allowTypes: string[] = [],
-  allowFamilies: string[] = []
-): boolean => {
+export const shouldFetchData = (item: IItem): boolean => {
   const type = normalizeItemType(item);
   const family = getFamily(type);
-  const dataFamilies = ["template", "solution", ...allowFamilies];
+  const dataFamilies = ["template", "solution"];
   const dataTypes = [
     // needed for web map/scene definition
     "Web Map",
     "Web Scene",
     // needed for popup template definition
     "Feature Service",
-    ...allowTypes,
+    // other types that require data fetches
+    "Discussion",
+    "Hub Initiative",
+    "Hub Page",
+    "Hub Project",
   ];
   return includes(dataFamilies, family) || includes(dataTypes, type);
 };
