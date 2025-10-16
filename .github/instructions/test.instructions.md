@@ -17,7 +17,7 @@ applyTo: "packages/common/test/**/*.ts"
 
 ## Vitest Coverage & Configuration
 - Coverage is enforced via `vitest.config.mjs` (see `coverage.include` and `thresholds`).
-- Run `npm test:common` from the root of the repository or `npm test` from `packages/common` to check coverage.
+- Run `npm run test:vitest` from the root of the repository or `npm test` from `packages/common` to check coverage.
 - There is no need to attempt to cover existing Istanbul ignore comments (e.g., `/* istanbul ignore else */`), but we should avoid adding new ones.
 
 ## Jasmine Coverage & Configuration
