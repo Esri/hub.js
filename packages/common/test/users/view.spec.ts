@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { cloneObject } from "../../src/util";
 import { USER_HUB_SEARCH_RESULT } from "./fixtures";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
@@ -5,23 +6,24 @@ import * as titleUrlModule from "../../src/urls/getCardModelUrl";
 import { userResultToCardModel } from "../../src/users/view";
 
 describe("user view module:", () => {
-  let getShortenedCategoriesSpy: any;
-
   beforeEach(() => {
-    getShortenedCategoriesSpy = spyOn(
-      internalContentUtils,
+    vi.spyOn(
+      internalContentUtils as any,
       "getShortenedCategories"
-    ).and.returnValue(["category1", "category2"]);
+    ).mockReturnValue(["category1", "category2"] as any);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("userResultToCardModel", () => {
     let getCardModelUrlFromResultSpy: any;
 
     beforeEach(() => {
-      getCardModelUrlFromResultSpy = spyOn(
-        titleUrlModule,
-        "getCardModelUrlFromResult"
-      ).and.returnValue("https://mock-title-url.com");
+      getCardModelUrlFromResultSpy = vi
+        .spyOn(titleUrlModule as any, "getCardModelUrlFromResult")
+        .mockReturnValue("https://mock-title-url.com" as any);
     });
 
     it("returns the card view model from the hub search result", () => {
