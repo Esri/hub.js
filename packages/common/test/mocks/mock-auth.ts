@@ -233,7 +233,7 @@ export const MOCK_ANON_CONTEXT = new ArcGISContext({
 }) as IArcGISContext;
 
 export function createMockContext(
-  opts: IArcGISContextOptions = {} as IArcGISContextOptions
+  opts?: Partial<IArcGISContextOptions>
 ): ArcGISContext {
   return new ArcGISContext({
     id: 123,
