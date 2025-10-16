@@ -773,15 +773,16 @@ export {
 } from "./groups/types/types";
 // TODO: end
 export { _unprotectAndRemoveGroup } from "./groups/_unprotect-and-remove-group";
+export { HubEntityStatus } from "./enums/hubEntityStatus";
+export { HubEntityHero } from "./enums/hubEntityHero";
+export { FileExtension } from "./enums/fileExtension";
+export { ItemType } from "./enums/itemType";
 export {
   AccessControl,
   addCreateItemTypes,
   BBox,
-  FileExtension,
   GenericAsyncFunc,
   GeographyProvenance,
-  HubEntityHero,
-  HubEntityStatus,
   HubFamilies,
   HubFamily,
   IActionLink,
@@ -817,7 +818,6 @@ export {
   ISerializedOperationStack,
   ISolutionTemplate,
   ITemplateAsset,
-  ItemType,
   IUpdatePageOptions,
   IUpdateSiteOptions,
   SearchableType,

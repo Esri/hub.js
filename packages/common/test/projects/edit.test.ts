@@ -10,9 +10,10 @@ import {
   deleteProject,
   updateProject,
 } from "../../src/projects/edit";
-import { HubEntityStatus, IModel } from "../../src/hub-types";
+import { IModel } from "../../src/hub-types";
 import { cloneObject } from "../../src/util";
 import { IHubProject } from "../../src/core/types/IHubProject";
+import { HubEntityStatus } from "../../src/enums/hubEntityStatus";
 
 describe("project edit module:", () => {
   describe("destroyProject:", () => {

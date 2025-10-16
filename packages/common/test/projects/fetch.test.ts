@@ -9,8 +9,9 @@ import {
   fetchProject,
 } from "../../src/projects/fetch";
 import { IHubProject } from "../../src/core/types/IHubProject";
-import { HubEntityStatus, IHubRequestOptions } from "../../src/hub-types";
+import { IHubRequestOptions } from "../../src/hub-types";
 import { cloneObject } from "../../src/util";
+import { HubEntityStatus } from "../../src/enums/hubEntityStatus";
 
 describe("project fetch module:", () => {
   describe("fetchProject:", () => {
