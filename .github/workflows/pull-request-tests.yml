@@ -41,8 +41,9 @@ jobs:
       - name: Build
         run: npm run ci:build
 
+      # Run Vitest tests then legacy Jasmine/Karma tests
       - name: Run Tests
-        run: npm run ci:test
+        run: npm run test -w @esri/hub-common && npm run ci:test
 
       # Only run FF on Linux b/c Windows is already really slow
       - name: Test in Firefox
