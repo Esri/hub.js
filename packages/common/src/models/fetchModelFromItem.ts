@@ -1,7 +1,7 @@
 import { getItemData, IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IModel } from "../hub-types";
-import { shouldFetchData } from "../content/_fetch";
+import { shouldFetchData } from "../content/_internal/shouldFetchData";
 
 /**
  * Given an Item, fetch the data json and return an IModel
