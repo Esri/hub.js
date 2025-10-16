@@ -6,9 +6,6 @@ on:
     types: [opened, reopened, ready_for_review, synchronize]
     branches:
       - master
-      - next
-      - alpha
-      - beta
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:
@@ -38,17 +35,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
+      - name: Lint & Check for Circular Dependencies
+        run: npm run ci:lint
       
-      - name: Check for circular dependencies
-        run: npm run madge:circular
-
       - name: Build
-        run: npm run build
+        run: npm run ci:build
 
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
+      - name: Run Tests
+        run: npm run ci:test
 
       # Only run FF on Linux b/c Windows is already really slow
       - name: Test in Firefox
@@ -58,9 +52,6 @@ jobs:
           fi
         shell: bash
 
-      - name: Test in Node
-        run: npm run test:node
-
       - uses: codecov/codecov-action@v3
         with:
-          directory: ./coverage
+          directory: ./packages/common/coverage
