@@ -3,29 +3,27 @@ import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import * as UserUiSchemaSettings from "../../../src/users/_internal/UserUiSchemaSettings";
 import * as FetchOrgModule from "../../../src/org/fetch-org";
 import * as PortalModule from "@esri/arcgis-rest-portal";
+import { describe, it, expect, vi, afterEach } from "vitest";
+
+vi.mock("@esri/arcgis-rest-portal");
 
 describe("UserUiSchemaSettings:", () => {
-  let portalSettingsSpy: jasmine.Spy;
-
   afterEach(() => {
-    portalSettingsSpy.calls.reset();
+    // restore any mocks/spies to keep tests isolated
+    vi.restoreAllMocks();
   });
 
   it("reports misconfiguration for Community Org", async () => {
-    spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    const consoleWarnSpy = spyOn(console, "warn").and.callThrough();
+    vi.spyOn(FetchOrgModule as any, "fetchOrg").mockResolvedValue({});
+    const consoleWarnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
 
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
 
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",
@@ -58,20 +56,16 @@ describe("UserUiSchemaSettings:", () => {
   });
 
   it("reports misconfiguration for Staff Org", async () => {
-    spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    const consoleWarnSpy = spyOn(console, "warn").and.callThrough();
+    vi.spyOn(FetchOrgModule as any, "fetchOrg").mockResolvedValue({});
+    const consoleWarnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
 
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
 
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",
@@ -103,19 +97,15 @@ describe("UserUiSchemaSettings:", () => {
   });
 
   it("creates the uiSchema correctly", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({});
 
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
 
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",
@@ -342,21 +332,17 @@ describe("UserUiSchemaSettings:", () => {
     });
   });
   it("creates the uiSchema correctly when authed as a community org with an e-org attached", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({
         urlKey: "qaext",
         customBaseUrl: "arcgis.com",
       });
-    });
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.c.arcgis.com",
       enterpriseOrgId: "1234",
@@ -581,21 +567,17 @@ describe("UserUiSchemaSettings:", () => {
     });
   });
   it("creates the uiSchema correctly when authed as a community org with an e-org attached but not an org admin", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({
         urlKey: "qaext",
         customBaseUrl: "arcgis.com",
       });
-    });
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.c.arcgis.com",
       enterpriseOrgId: "1234",
@@ -821,18 +803,14 @@ describe("UserUiSchemaSettings:", () => {
     });
   });
   it("creates the uiSchema correctly when no community org", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({});
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",
       portal: {
@@ -1043,21 +1021,17 @@ describe("UserUiSchemaSettings:", () => {
     });
   });
   it("creates the uiSchema correctly when authed as a community org with an e-org attached", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({
         urlKey: "qaext",
         customBaseUrl: "arcgis.com",
       });
-    });
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.c.arcgis.com",
       enterpriseOrgId: "1234",
@@ -1282,19 +1256,15 @@ describe("UserUiSchemaSettings:", () => {
       ],
     });
   });
-  xit("creates the uiSchema correctly when no community org", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+  it.skip("creates the uiSchema correctly when no community org", async () => {
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({});
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",
       portal: {
@@ -1505,18 +1475,14 @@ describe("UserUiSchemaSettings:", () => {
     });
   });
   it("creates the uiSchema correctly when authed as a community org with an e-org attached that is private", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: true,
-          },
-        });
-      }
-    );
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({});
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: true,
+      },
+    } as any);
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.c.arcgis.com",
       enterpriseOrgId: "1234",
@@ -1736,18 +1702,14 @@ describe("UserUiSchemaSettings:", () => {
   });
 
   it("creates the uiSchema correctly when portalSettings.informationalBanner not enabled", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve({
-          informationalBanner: {
-            enabled: false,
-          },
-        });
-      }
-    );
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({});
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue({
+      informationalBanner: {
+        enabled: false,
+      },
+    } as any);
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",
       communityOrgId: "abc",
@@ -1973,13 +1935,11 @@ describe("UserUiSchemaSettings:", () => {
     });
   });
   it("creates the uiSchema correctly when unable to access portalSettings.informationalBanner", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
-      () => {
-        return Promise.resolve(new Error("Unable to access portal settings"));
-      }
+    const fetchOrgSpy = vi
+      .spyOn(FetchOrgModule as any, "fetchOrg")
+      .mockResolvedValue({});
+    vi.spyOn(PortalModule as any, "getPortalSettings").mockResolvedValue(
+      new Error("Unable to access portal settings") as any
     );
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",

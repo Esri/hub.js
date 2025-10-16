@@ -1,4 +1,6 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import * as computePropsModule from "../../../src/users/_internal/computeProps";
+import type { ArcGISContext } from "../../../src/ArcGISContext";
 import { createMockContext } from "../../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
@@ -6,9 +8,11 @@ import { mergeObjects } from "../../../src/objects/merge-objects";
 import { IHubUser } from "../../../src/core/types/IHubUser";
 import * as requestModule from "@esri/arcgis-rest-request";
 
-const initContextManager = (opts = {}) => {
+vi.mock("@esri/arcgis-rest-request");
+vi.mock("@esri/arcgis-rest-portal");
+
+const initContextManager = (opts = {}): { context: ArcGISContext } => {
   const defaults = {
-    // authentication: MOCK_AUTH,
     currentUser: {
       username: "casey",
       privileges: ["portal:user:shareToGroup"],
@@ -34,34 +38,35 @@ describe("HubUser computeProps:", () => {
     authdCtxMgr = initContextManager();
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   describe("computeProps: ", () => {
     it("computes props correctly", async () => {
-      spyOn(computePropsModule, "getPortalSignInSettings").and.callFake(() => {
-        return Promise.resolve({
-          termsAndConditions: "terms",
-          signupText: "signup",
-        });
+      vi.spyOn(
+        computePropsModule as any,
+        "getPortalSignInSettings"
+      ).mockResolvedValue({
+        termsAndConditions: "terms",
+        signupText: "signup",
       });
 
-      const getPortalSelfSpy = spyOn(PortalModule, "getSelf").and.callFake(
-        () => {
-          return Promise.resolve({
-            portalProperties: {
-              hub: {
-                settings: {
-                  informationalBanner: false,
-                },
+      const getPortalSelfSpy = vi
+        .spyOn(PortalModule as any, "getSelf")
+        .mockResolvedValue({
+          portalProperties: {
+            hub: {
+              settings: {
+                informationalBanner: false,
               },
             },
-          });
-        }
-      );
-
-      spyOn(requestModule, "request").and.callFake(() => {
-        return Promise.resolve({
-          termsAndConditions: "terms",
-          signupText: "signup",
+          },
         });
+
+      vi.spyOn(requestModule as any, "request").mockResolvedValue({
+        termsAndConditions: "terms",
+        signupText: "signup",
       });
 
       const user = {
@@ -87,19 +92,24 @@ describe("HubUser computeProps:", () => {
 
   describe("getPortalSignInSettings:", () => {
     it("fetches portal signin settings", async () => {
-      const requestSpy = spyOn(requestModule, "request").and.callFake(() => {
-        return Promise.resolve({
+      // ensure getPortalUrl returns the expected sharing/rest base
+      vi.spyOn(PortalModule as any, "getPortalUrl").mockReturnValue(
+        "https://www.custom-base-url.com/sharing/rest"
+      );
+      const requestSpy = vi
+        .spyOn(requestModule as any, "request")
+        .mockResolvedValue({
           termsAndConditions: "terms",
           signupText: "signup",
         });
-      });
 
       await computePropsModule.getPortalSignInSettings(authdCtxMgr.context);
       expect(requestSpy).toHaveBeenCalledTimes(1);
-      expect(requestSpy.calls.argsFor(0)[0]).toEqual(
+      const [url, opts] = (requestSpy as any).mock.calls[0];
+      expect(url).toEqual(
         "https://www.custom-base-url.com/sharing/rest/portals/self/signinSettings"
       );
-      expect(requestSpy.calls.argsFor(0)[1]).toEqual({
+      expect(opts).toEqual({
         ...authdCtxMgr.context.requestOptions,
         httpMethod: "GET",
       });

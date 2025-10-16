@@ -1,3 +1,5 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/users/_internal/enrichments";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -6,7 +8,12 @@ import { enrichUserSearchResult, fetchHubUser } from "../../src/users/HubUsers";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import { cloneObject } from "../../src/util";
 
-const TEST_USER: restPortal.IUser & Record<string, any> = {
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  getUser: vi.fn(),
+}));
+
+const TEST_USER: IUser & Record<string, any> = {
   username: "juliana_p",
   fullName: "Juliana Mascasa",
 
@@ -39,14 +46,16 @@ const TEST_USER: restPortal.IUser & Record<string, any> = {
   modified: 1654549320000,
   provider: "arcgis",
   groups: [],
-} as unknown as restPortal.IUser;
+} as unknown as IUser;
 
 describe("HubUsers Module:", () => {
   describe("fetchHubUser", () => {
     it("should fetch a user", async () => {
-      const spy = spyOn(restPortal, "getUser").and.callFake(() => {
-        return Promise.resolve(TEST_USER);
-      });
+      const spy = vi
+        .spyOn(restPortal as any, "getUser")
+        .mockImplementation(() => {
+          return Promise.resolve(TEST_USER);
+        });
       const ro = {} as IHubRequestOptions;
       const username = TEST_USER.username;
       await fetchHubUser(username, {
@@ -54,23 +63,39 @@ describe("HubUsers Module:", () => {
       } as unknown as IArcGISContext);
       expect(spy).toHaveBeenCalledWith({ ...ro, username });
     });
+    it("should use context.currentUser when username is self", async () => {
+      const localUser = { ...TEST_USER, username: "me_self" } as IUser &
+        Record<string, any>;
+      const spy = vi
+        .spyOn(restPortal as any, "getUser")
+        .mockImplementation(() => Promise.resolve(TEST_USER));
+
+      const ctx = { currentUser: localUser } as unknown as IArcGISContext;
+      const res = await fetchHubUser("self", ctx);
+      // should not have called getUser because username === 'self' uses context.currentUser
+      expect(spy).toHaveBeenCalledTimes(0);
+      expect(res.id).toEqual(localUser.username);
+    });
   });
   describe("enrichments:", () => {
-    let enrichmentSpy: jasmine.Spy;
+    let enrichmentSpy: any;
     let hubRo: IHubRequestOptions;
     beforeEach(() => {
-      enrichmentSpy = spyOn(
-        FetchEnrichments,
-        "fetchUserEnrichments"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          org: { name: "Fake Org" },
+      enrichmentSpy = vi
+        .spyOn(FetchEnrichments as any, "fetchUserEnrichments")
+        .mockImplementation(() => {
+          return Promise.resolve({
+            org: { name: "Fake Org" },
+          });
         });
-      });
       hubRo = {
         portal: "https://some-server.com/gis/sharing/rest",
         authentication: MOCK_AUTH,
       };
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
     it("converts user to search result", async () => {
@@ -79,10 +104,7 @@ describe("HubUsers Module:", () => {
         [],
         hubRo
       );
-      expect(enrichmentSpy.calls.count()).toBe(
-        0,
-        "should not fetch enrichments"
-      );
+      expect(enrichmentSpy).toHaveBeenCalledTimes(0);
 
       const USR = cloneObject(TEST_USER);
       expect(chk.access).toEqual(USR.access);
@@ -106,6 +128,17 @@ describe("HubUsers Module:", () => {
       );
     });
 
+    it("handles missing thumbnail gracefully", async () => {
+      const noThumb = cloneObject(TEST_USER) as any;
+      delete noThumb.thumbnail;
+      const ro = {
+        portal: "https://some-server.com/gis/sharing/rest",
+        authentication: MOCK_AUTH,
+      } as IHubRequestOptions;
+      const chk = await enrichUserSearchResult(noThumb, [], ro);
+      expect(chk.links.thumbnail).toBeNull();
+    });
+
     it("sets siteRelative to user home url when isPortal is true", async () => {
       const ro = {
         portal: "https://some-server.com/gis/sharing/rest",
@@ -124,7 +157,7 @@ describe("HubUsers Module:", () => {
         ["org.name as OrgName"],
         hubRo
       );
-      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
+      expect(enrichmentSpy).toHaveBeenCalledTimes(1);
 
       const USR = cloneObject(TEST_USER);
       expect(chk.access).toEqual(USR.access);
@@ -159,8 +192,9 @@ describe("HubUsers Module:", () => {
         ["org.name AS orgName"],
         hubRo
       );
-      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
-      const [user, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
+      expect(enrichmentSpy).toHaveBeenCalledTimes(1);
+      const call = enrichmentSpy.mock.calls[0];
+      const [user, enrichments, ro] = call;
       expect(user).toEqual(TEST_USER);
       expect(enrichments).toEqual(["org"]);
       expect(ro).toBe(hubRo);
