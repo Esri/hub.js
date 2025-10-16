@@ -25,6 +25,7 @@ import {
   IPipeable,
   createOperationPipeline,
 } from "../utils/create-operation-pipeline";
+import { parse } from "fast-xml-parser";
 
 /**
  * An object containing the item and fetched enrichments
@@ -63,16 +64,15 @@ export type EditableContentEnrichment = keyof IHubEditableContentEnrichments;
  * @returns
  */
 async function parseMetadataXml(metadataXml: string): Promise<any> {
-  // lazy load xml parsing library
-  const { parse } = await import("fast-xml-parser");
-  // return XML parsed as JSON
+  // resolve XML parsed as JSON
   const opts = {
     // options for fastXmlParser to read tag attrs
     ignoreAttributes: false,
     attributeNamePrefix: "@_", // attr name will be a new field in the resulting json with this prefix
     textNodeName: "#value", // the resulting json will have field called #value pointing to the actual tag value,
   };
-  return parse(metadataXml, opts);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  return Promise.resolve(parse(metadataXml, opts));
 }
 
 /**

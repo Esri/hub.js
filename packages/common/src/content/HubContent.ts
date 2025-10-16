@@ -10,7 +10,12 @@ import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
-import { editorToContent } from "./edit";
+import {
+  createContent,
+  deleteContent,
+  editorToContent,
+  updateContent,
+} from "./edit";
 import { ContentEditorType } from "./_internal/contentEditorTypes";
 import { enrichEntity } from "../core/enrichEntity";
 import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
@@ -46,8 +51,6 @@ export class HubContent
    */
   async save(): Promise<void> {
     this._checkDestroyed();
-    const { createContent, updateContent } = await import("./edit");
-
     if (this.entity.id) {
       // update it
       this.entity = await updateContent(
@@ -85,7 +88,6 @@ export class HubContent
   async delete(): Promise<void> {
     this._checkDestroyed();
     this.isDestroyed = true;
-    const { deleteContent } = await import("./edit");
     // Delegate to module fn
     await deleteContent(this.entity.id, this.context.hubRequestOptions);
   }
