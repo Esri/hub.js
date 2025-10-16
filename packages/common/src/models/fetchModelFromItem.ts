@@ -13,7 +13,13 @@ export async function fetchModelFromItem(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IModel> {
-  const data = shouldFetchData(item)
+  const data = shouldFetchData(item, [
+    // other types that require data fetches
+    "Discussion",
+    "Hub Initiative",
+    "Hub Page",
+    "Hub Project",
+  ])
     ? ((await getItemData(item.id, requestOptions).catch(
         (): null => null
       )) as Record<string, unknown>)
