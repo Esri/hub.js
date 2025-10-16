@@ -6,6 +6,8 @@ import {
 // This array is used to enable the AI Assistant feature for specific production orgs during the private beta phase
 const PROD_ASSISTANT_ALPHA_ORGS = [
   "1JONy5Qa4xQNSWRJ", // Prod Premium Hub
+  "TWfU0bgvgUkCgHLa", // Hub Prod
+  "bkrWlSKcjUDFDtgw", // DCDEV
   "neT9SoYxizqTHZPH", // DCGIS
   "ypkPEy1AmwPKGNNv", // Australia
   "rwnOSbfKSwyTBcwN", // Dallas
