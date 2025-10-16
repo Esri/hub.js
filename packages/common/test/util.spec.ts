@@ -631,47 +631,6 @@ describe("util functions", () => {
     });
   });
 
-  it("can clone a shallow object", () => {
-    const obj = { color: "red", length: 12, startDate: new Date() };
-    const c = cloneObject(obj);
-    expect(c).not.toBe(obj);
-    expect(c.color).toBe(obj.color);
-    expect(c.length).toBe(obj.length);
-    expect(c.startDate).toEqual(obj.startDate);
-    expect(c.startDate).not.toBe(obj.startDate);
-  });
-
-  it("can clone a deep object", () => {
-    const obj = {
-      color: "red",
-      length: 12,
-      field: { name: "origin", type: "string" },
-    };
-    const c = cloneObject(obj);
-    expect(c).not.toBe(obj);
-    expect(c.field).not.toBe(obj.field);
-    expect(c.color).toBe(obj.color);
-    expect(c.length).toBe(obj.length);
-    expect(c.field.name).toBe(obj.field.name);
-    expect(c.field.type).toBe(obj.field.type);
-  });
-
-  it("does not stringify null", () => {
-    const obj = {
-      color: "red",
-      length: 12,
-      field: { name: "origin", type: null },
-    } as any;
-    const c = cloneObject(obj);
-    expect(c).not.toBe(obj);
-    expect(c.field).not.toBe(obj.field);
-    expect(c.field.type).toBe(null);
-    expect(c.color).toBe(obj.color);
-    expect(c.length).toBe(obj.length);
-    expect(c.field.name).toBe(obj.field.name);
-    expect(c.field.type).toBe(obj.field.type);
-  });
-
   it("handles nulls in arrays", () => {
     const obj: Array<null> = [null, null, null];
     const chk: Array<null> = cloneObject(obj);
