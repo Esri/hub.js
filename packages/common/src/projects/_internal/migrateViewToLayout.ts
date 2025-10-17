@@ -82,8 +82,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                     properties: {
                       sections: [
                         {
-                          // TODO: add :translate directive in hub.js
-                          label: "{{tabs.overview}}",
+                          label: "{{tabs.overview:translate}}",
                           hidden: false,
                           id: "overview-root",
                           tag: "arcgis-layout-section",
@@ -104,8 +103,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                                       id: "about-title",
                                       tag: "arcgis-text-card",
                                       properties: {
-                                        // TODO: add :translate directive in hub.js
-                                        html: `<h2>{{about}}</h2>`,
+                                        html: `<h2>{{about:translate}}</h2>`,
                                       },
                                     },
                                     {
@@ -154,8 +152,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                                               id: "about-metrics-title",
                                               tag: "arcgis-text-card",
                                               properties: {
-                                                // TODO: add :translate directive in hub.js
-                                                html: "<h2>{{metrics}}</h2>",
+                                                html: "<h2>{{metrics:translate}}</h2>",
                                               },
                                             },
                                             {
@@ -263,8 +260,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                                       id: "about-featured-content-title",
                                       tag: "arcgis-text-card",
                                       properties: {
-                                        // TODO: add :translate directive in hub.js
-                                        html: `<h2>{{featuredContent}}</h2>`,
+                                        html: `<h2>{{featuredContent:translate}}</h2>`,
                                       },
                                     },
                                     {
@@ -310,8 +306,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                                       id: "status-title",
                                       tag: "arcgis-text-card",
                                       properties: {
-                                        // TODO: add :translate directive in hub.js
-                                        html: `<h2>{{status.label.project}}</h2>`,
+                                        html: `<h2>{{status.label.project:translate}}</h2>`,
                                       },
                                     },
                                     {
@@ -319,12 +314,10 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                                       tag: "calcite-chip",
                                       properties: {
                                         scale: "l",
-                                        // TODO: add :translate directive in hub.js
-                                        label: "{{entity.status}}",
+                                        label: "{{entity.status:translate}}",
                                       },
                                       slots: {
-                                        // TODO: add :translate directive in hub.js
-                                        default: "{{entity.status}}",
+                                        default: "{{entity.status:translate}}",
                                       },
                                     },
                                     {
@@ -341,8 +334,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                                       id: "status-details-title",
                                       tag: "arcgis-text-card",
                                       properties: {
-                                        // TODO: add :translate directive in hub.js
-                                        html: `<h2>{{details}}</h2>`,
+                                        html: `<h2>{{details:translate}}</h2>`,
                                       },
                                     },
                                     {
@@ -356,8 +348,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                                       id: "associated-initiatives-title",
                                       tag: "arcgis-text-card",
                                       properties: {
-                                        // TODO: add :translate directive in hub.js
-                                        html: `<h2>{{associatedInitiatives}}</h2>`,
+                                        html: `<h2>{{associatedInitiatives:translate}}</h2>`,
                                       },
                                     },
                                     {
@@ -389,8 +380,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                         },
                         // CONTENT TAB
                         {
-                          // TODO: add :translate directive in hub.js
-                          label: "{{tabs.content}}",
+                          label: "{{tabs.content:translate}}",
                           hidden: false,
                           id: "content-root",
                           tag: "arcgis-layout-section",
@@ -447,8 +437,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                         },
                         // EVENTS TAB
                         {
-                          // TODO: add :translate directive in hub.js
-                          label: "{{tabs.events}}",
+                          label: "{{tabs.events:translate}}",
                           hidden: false,
                           id: "events-root",
                           tag: "arcgis-layout-section",
@@ -502,8 +491,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                         },
                         // METRICS TAB
                         {
-                          // TODO: add :translate directive in hub.js
-                          label: "{{tabs.metrics}}",
+                          label: "{{tabs.metrics:translate}}",
                           hidden: false,
                           id: "metrics-root",
                           tag: "arcgis-layout-section",
@@ -534,8 +522,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                         },
                         // INITIATIVES TAB
                         {
-                          // TODO: add :translate directive in hub.js
-                          label: "{{tabs.initiatives}}",
+                          label: "{{tabs.initiatives:translate}}",
                           hidden: false,
                           id: "initiatives-section",
                           tag: "arcgis-layout-section",
