@@ -62,7 +62,7 @@ export async function createProject(
   model = await createModel(model, requestOptions);
   // map the model back into a IHubProject
   let newProject = mapper.storeToEntity(model, {});
-  newProject = computeProps(model, newProject, requestOptions);
+  newProject = await computeProps(model, newProject, requestOptions);
   // and return it
   return newProject as IHubProject;
 }
@@ -105,7 +105,7 @@ export async function updateProject(
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into a project and return that
   let updatedProject = mapper.storeToEntity(updatedModel, project);
-  updatedProject = computeProps(model, updatedProject, requestOptions);
+  updatedProject = await computeProps(model, updatedProject, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
   return updatedProject as IHubProject;
