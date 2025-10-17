@@ -129,7 +129,7 @@ describe("templates: edit module", () => {
     });
   });
 
-  describe("delteTemplate", () => {
+  describe("deleteTemplate", () => {
     it("deletes the template's backing item", async () => {
       const removeItemSpy = vi
         .spyOn(portalModule, "removeItem")
