@@ -1,4 +1,4 @@
-import { HubEntityStatus } from "../../../src/enums/hubEntityStatus";
+import { HubEntityStatus } from "../../../src/hub-types";
 import { setEntityStatusKeyword } from "../../../src/utils/internal/setEntityStatusKeyword";
 
 describe("setEntityStatusKeyword:", () => {

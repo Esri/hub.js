@@ -1,6 +1,6 @@
 import { MetricSchema } from "../../core/schemas/internal/metrics/MetricSchema";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
-import { HubEntityStatus } from "../../enums/hubEntityStatus";
+import { HubEntityStatus } from "../../hub-types";
 import {
   IF_SOURCE_TITLE_THEN_SOURCE_LINK,
   IF_STATIC_THEN_REQUIRE_VALUE,

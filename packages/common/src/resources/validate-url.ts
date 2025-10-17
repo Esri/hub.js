@@ -1,4 +1,4 @@
-import { ItemType } from "../enums/itemType";
+import { ItemType } from "../hub-types";
 import { Logger } from "../utils/logger";
 import {
   isUrl,

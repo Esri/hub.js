@@ -19,7 +19,7 @@ import {
   pingFeatureService,
 } from "../../src/resources/_internal/_validate-url-helpers";
 import { isService } from "../../src/resources/is-service";
-import { ItemType } from "../../src/enums/itemType";
+import { ItemType } from "../../src/hub-types";
 
 describe("_validate-url-helpers", () => {
   it("shouldHaveDataUrl", () => {

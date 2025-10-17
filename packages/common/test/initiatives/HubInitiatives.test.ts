@@ -7,7 +7,11 @@ import * as getModelUtils from "../../src/models/getModel";
 import * as updateModelUtils from "../../src/models/updateModel";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions, IModel } from "../../src/hub-types";
+import {
+  HubEntityStatus,
+  IHubRequestOptions,
+  IModel,
+} from "../../src/hub-types";
 import {
   createInitiative,
   enrichInitiativeSearchResult,
@@ -18,7 +22,6 @@ import {
 } from "../../src/initiatives/HubInitiatives";
 import { IHubInitiative } from "../../src/core/types/IHubInitiative";
 import * as utilModule from "../../src/util";
-import { HubEntityStatus } from "../../src/enums/hubEntityStatus";
 // import {
 //   IPredicate,
 //   IQuery,
