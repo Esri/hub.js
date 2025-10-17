@@ -13,7 +13,6 @@ import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityP
 
 describe("transformEditorToEntity", () => {
   afterEach(() => vi.restoreAllMocks());
-
   it("should transform an IHubChannelEditor to a partial IHubChannel", () => {
     const editor: IHubChannelEditor = {
       id: "31c",
