@@ -2,6 +2,7 @@ import { migrateInvalidTimelineStages } from "./migrateInvalidTimelineStages";
 import { IHubProject } from "../../core/types/IHubProject";
 import { HUB_PROJECT_CURRENT_SCHEMA_VERSION } from "../defaults";
 import { migrateProjectSlugAndOrgUrlKey } from "./migrateProjectSlugAndOrgUrlKey";
+import { migrateViewToLayout } from "./migrateViewToLayout";
 
 /**
  * Apply project migrations.
@@ -17,6 +18,7 @@ export function applyProjectMigrations(project: IHubProject): IHubProject {
   // Apply the migrations
   let migrated = migrateProjectSlugAndOrgUrlKey(project);
   migrated = migrateInvalidTimelineStages(migrated);
+  migrated = migrateViewToLayout(migrated);
   // add more migration here as needed
   // e.g. migrated = anotherMigration(migrated);
   return migrated;

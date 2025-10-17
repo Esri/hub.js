@@ -9,6 +9,9 @@ import { applyProjectMigrations } from "./applyProjectMigrations";
 import { IHubProject } from "../../core/types/IHubProject";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
+import { ArcGISContextManager } from "../../ArcGISContextManager";
+import { MetricVisibility } from "../../core/types/Metrics";
+import { getAssociatedEntitiesQuery } from "../../associations/getAssociatedEntitiesQuery";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -18,11 +21,17 @@ import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
  * @param requestOptions
  * @returns
  */
-export function computeProps(
+export async function computeProps(
   model: IModel,
   project: Partial<IHubProject>,
   requestOptions: IRequestOptions
-): IHubProject {
+): Promise<IHubProject> {
+  const contextMngr = await ArcGISContextManager.create({
+    portalUrl: requestOptions.portal,
+    authentication: requestOptions.authentication as ArcGISIdentityManager,
+  });
+  const context = contextMngr.context;
+
   let token: string;
   if (requestOptions.authentication) {
     const session: ArcGISIdentityManager =
@@ -50,6 +59,68 @@ export function computeProps(
   );
 
   project.links = computeLinks(model.item, requestOptions);
+
+  const featuredMetricDisplays =
+    project.view?.metricDisplays?.filter(
+      (display) => display.visibility === MetricVisibility.featured
+    ) || [];
+  const metrics = project.metrics || [];
+  (project.view || {})._layoutInterpolationProps = {
+    featuredEmbed: project.view?.embeds?.[0],
+    associatedEntitiesQuery: await getAssociatedEntitiesQuery(
+      project as IHubProject,
+      "initiative",
+      context
+    ),
+    ...(featuredMetricDisplays.length > 0 && {
+      featuredMetric1: {
+        metric: metrics.find(
+          (metric) => metric.id === featuredMetricDisplays[0].metricId
+        ),
+        display: {
+          ...featuredMetricDisplays[0],
+          scale: "m",
+          border: true,
+        },
+      },
+    }),
+    ...(featuredMetricDisplays.length > 1 && {
+      featuredMetric2: {
+        metric: metrics.find(
+          (metric) => metric.id === featuredMetricDisplays[1].metricId
+        ),
+        display: {
+          ...featuredMetricDisplays[1],
+          scale: "m",
+          border: true,
+        },
+      },
+    }),
+    ...(featuredMetricDisplays.length > 2 && {
+      featuredMetric3: {
+        metric: metrics.find(
+          (metric) => metric.id === featuredMetricDisplays[2].metricId
+        ),
+        display: {
+          ...featuredMetricDisplays[2],
+          scale: "m",
+          border: true,
+        },
+      },
+    }),
+    ...(featuredMetricDisplays.length > 3 && {
+      featuredMetric4: {
+        metric: metrics.find(
+          (metric) => metric.id === featuredMetricDisplays[3].metricId
+        ),
+        display: {
+          ...featuredMetricDisplays[3],
+          scale: "m",
+          border: true,
+        },
+      },
+    }),
+  };
 
   // apply migrations
   project = applyProjectMigrations(project as IHubProject);

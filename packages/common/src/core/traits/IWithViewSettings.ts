@@ -1,9 +1,10 @@
 import { HubEntityHero } from "../../hub-types";
+import { IQuery } from "../../search/types/IHubCatalog";
 import { HubActionLink } from "../types/ActionLinks";
 import { IHubEmbed } from "../types/Embeds";
 import { IHubMapSettings } from "../types/IHubMapSettings";
 import { IHubTimeline } from "../types/IHubTimeline";
-import { IMetricDisplayConfig } from "../types/Metrics";
+import { IMetric, IMetricDisplayConfig } from "../types/Metrics";
 
 /**
  * Properties to be exclusively displayed on an entity's
@@ -69,4 +70,28 @@ export interface IWithViewSettings {
    * future layout system
    */
   embeds?: IHubEmbed[];
+  /**
+   * private properties exposed for interpolation
+   * purposes within the view > layout migrations
+   */
+  _layoutInterpolationProps?: {
+    featuredEmbed?: IHubEmbed;
+    associatedEntitiesQuery?: IQuery;
+    featuredMetric1?: {
+      metric: IMetric;
+      display: IMetricDisplayConfig;
+    };
+    featuredMetric2?: {
+      metric: IMetric;
+      display: IMetricDisplayConfig;
+    };
+    featuredMetric3?: {
+      metric: IMetric;
+      display: IMetricDisplayConfig;
+    };
+    featuredMetric4?: {
+      metric: IMetric;
+      display: IMetricDisplayConfig;
+    };
+  };
 }

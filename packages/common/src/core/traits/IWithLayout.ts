@@ -9,6 +9,9 @@ export interface IWithLayout {
   /**
    * Layout property
    */
+  // TODO: once hub.js is merged into the hub-ui
+  // monorepo, change this to reference the Layout
+  // type from the new layout system types.ts
   layout?: IHubLayout;
 }
 /**

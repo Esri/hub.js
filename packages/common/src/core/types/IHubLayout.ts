@@ -3,6 +3,10 @@
  *
  * Optional header and footer are only used for
  * a Hub Site
+ *
+ * TODO: once hub.js is merged into the hub-ui
+ * monorepo, remove IHubLayout in favor of
+ * ILayoutV1
  */
 export interface IHubLayout {
   /**
