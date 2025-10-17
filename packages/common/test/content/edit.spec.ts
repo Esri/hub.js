@@ -1,6 +1,39 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+// provide mocked versions of external arcgis-rest modules so tests can
+// control named exports (getItem/getService/updateServiceDefinition/removeItem)
+// Return only the specific functions we need typed to avoid spreading unknown
+// module shapes which causes TS "spread types" errors.
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    // preserve helpers needed by internal code
+    getPortalUrl: (actual as any).getPortalUrl,
+    // mock the remote calls we control in tests
+    getItem: vi.fn(),
+    removeItem: vi.fn(),
+  } as Partial<typeof import("@esri/arcgis-rest-portal")>;
+});
+vi.mock("@esri/arcgis-rest-feature-service", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    // preserve parsing helpers
+    parseServiceUrl: (actual as any).parseServiceUrl,
+    // mock the remote calls we control in tests
+    getService: vi.fn(),
+    updateServiceDefinition: vi.fn(),
+  } as Partial<typeof import("@esri/arcgis-rest-feature-service")>;
+});
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
 import * as adminModule from "@esri/arcgis-rest-feature-service";
+
+// Mock internal helpers that we override in tests. Returning mock fns at
+// module-mock time avoids trying to assign to read-only ESM namespace exports.
+vi.mock("../../src/models/createModel", () => ({ createModel: vi.fn() }));
+vi.mock("../../src/models/updateModel", () => ({ updateModel: vi.fn() }));
+vi.mock("../../src/core/_internal/createOrUpdateEntitySettings", () => ({
+  createOrUpdateEntitySettings: vi.fn(),
+}));
 import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
 import * as createModelUtils from "../../src/models/createModel";
 import * as updateModelUtils from "../../src/models/updateModel";
@@ -39,25 +72,26 @@ export const DEFAULT_SETTINGS =
   getDefaultEntitySettingsUtils.getDefaultEntitySettings("content");
 
 describe("content editing:", () => {
-  let createOrUpdateEntitySettingsSpy: jasmine.Spy;
+  // typed spies to avoid unsafe any calls
+  let createOrUpdateEntitySettingsSpy: ReturnType<typeof vi.fn>;
+  afterEach(() => {
+    // ensure module-level mocks do not leak call history between tests
+    vi.resetAllMocks();
+  });
   describe("create content:", () => {
     it("converts to a model and creates the item", async () => {
-      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
-        (m: IModel) => {
-          const newModel = cloneObject(m);
-          newModel.item.id = GUID;
-          return Promise.resolve(newModel);
-        }
-      );
-      createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsUtils,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({
-          id: GUID,
-          ...DEFAULT_SETTINGS,
-        })
-      );
+      const createSpy = vi.fn((m: IModel) => {
+        const newModel = cloneObject(m);
+        newModel.item.id = GUID;
+        return Promise.resolve(newModel);
+      });
+      (createModelUtils as any).createModel = createSpy;
+      createOrUpdateEntitySettingsSpy = vi.fn().mockResolvedValue({
+        id: GUID,
+        ...DEFAULT_SETTINGS,
+      });
+      (createOrUpdateEntitySettingsUtils as any).createOrUpdateEntitySettings =
+        createOrUpdateEntitySettingsSpy;
       const chk = await createContent(
         {
           name: "Hello World",
@@ -73,57 +107,53 @@ describe("content editing:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       // should create the item
-      expect(createSpy.calls.count()).toBe(1);
-      const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(createSpy).toHaveBeenCalledTimes(1);
+      const modelToCreate = createSpy.mock.calls[0][0];
       expect(modelToCreate.item.title).toBe("Hello World");
       // expect(modelToCreate.item.type).toBe("Hub Content");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
-      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(1);
+      expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
     });
   });
   describe("update content:", () => {
-    let getItemSpy: jasmine.Spy;
-    let getServiceSpy: jasmine.Spy;
-    let updateModelSpy: jasmine.Spy;
-    let updateServiceSpy: jasmine.Spy;
-    let createOrUpdateEntitySettingsSpy: jasmine.Spy;
+    let getItemSpy: ReturnType<typeof vi.fn>;
+    let getServiceSpy: ReturnType<typeof vi.fn>;
+    let updateModelSpy: ReturnType<typeof vi.fn>;
+    let updateServiceSpy: ReturnType<typeof vi.fn>;
+    let createOrUpdateEntitySettingsSpy: ReturnType<typeof vi.fn>;
 
     beforeEach(() => {
-      getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve({
-          item: {
-            typeKeywords: [],
-          },
-        })
-      );
-      getServiceSpy = spyOn(featureLayerModule, "getService");
-      updateModelSpy = spyOn(updateModelUtils, "updateModel").and.callFake(
-        (m: IModel) => {
-          return Promise.resolve(m);
-        }
-      );
-      updateServiceSpy = spyOn(
-        adminModule,
-        "updateServiceDefinition"
-      ).and.callFake((_url: string, opts: any) =>
-        Promise.resolve(opts.updateDefinition)
-      );
-      createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsUtils,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({
-          id: GUID,
-          ...DEFAULT_SETTINGS,
-        })
-      );
+      // use the module-level mocks returned by vi.mock above
+      getItemSpy = portalModule.getItem as unknown as ReturnType<typeof vi.fn>;
+      getServiceSpy = featureLayerModule.getService as unknown as ReturnType<
+        typeof vi.fn
+      >;
+      updateModelSpy = updateModelUtils.updateModel as unknown as ReturnType<
+        typeof vi.fn
+      >;
+      updateServiceSpy =
+        adminModule.updateServiceDefinition as unknown as ReturnType<
+          typeof vi.fn
+        >;
+      createOrUpdateEntitySettingsSpy =
+        createOrUpdateEntitySettingsUtils.createOrUpdateEntitySettings as unknown as ReturnType<
+          typeof vi.fn
+        >;
+
+      // initialize mocked behaviors
+      getItemSpy.mockResolvedValue({ item: { typeKeywords: [] } });
+      updateModelSpy.mockImplementation((m: IModel) => Promise.resolve(m));
+      createOrUpdateEntitySettingsSpy.mockResolvedValue({
+        id: GUID,
+        ...DEFAULT_SETTINGS,
+      });
     });
     afterEach(() => {
-      getItemSpy.calls.reset();
-      getServiceSpy.calls.reset();
-      updateModelSpy.calls.reset();
-      updateServiceSpy.calls.reset();
-      createOrUpdateEntitySettingsSpy.calls.reset();
+      getItemSpy.mockReset();
+      getServiceSpy.mockReset();
+      updateModelSpy.mockReset();
+      updateServiceSpy.mockReset();
+      createOrUpdateEntitySettingsSpy.mockReset();
     });
     it("converts to a model and updates the item", async () => {
       const content: IHubEditableContent = {
@@ -156,14 +186,14 @@ describe("content editing:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(getItemSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.item.description).toBe(content.description);
       // No service is associated with Hub Initiatives
       expect(getServiceSpy).not.toHaveBeenCalled();
       expect(updateServiceSpy).not.toHaveBeenCalled();
-      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(1);
+      expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
     });
     it("handles when a location is explicitly set", async () => {
       const content: IHubEditableContent = {
@@ -197,9 +227,9 @@ describe("content editing:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(getItemSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.item.description).toBe(content.description);
       // No service is associated with Hub Initiatives
       expect(getServiceSpy).not.toHaveBeenCalled();
@@ -208,7 +238,7 @@ describe("content editing:", () => {
     it("doesn't update the hosted service if configurations haven't changed", async () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
         { capabilities: "Extract" };
-      getServiceSpy.and.returnValue(Promise.resolve(currentDefinition));
+      getServiceSpy.mockResolvedValue(currentDefinition);
 
       const content: IHubEditableContent = {
         itemControl: "edit",
@@ -247,15 +277,15 @@ describe("content editing:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
+      expect(getItemSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
       expect(getServiceSpy).toHaveBeenCalledTimes(1);
       expect(updateServiceSpy).not.toHaveBeenCalled();
     });
     it("updates the hosted service if configurations have changed", async () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
         { currentVersion: 11.2, capabilities: "Query" };
-      getServiceSpy.and.returnValue(Promise.resolve(currentDefinition));
+      getServiceSpy.mockResolvedValue(currentDefinition);
 
       const content: IHubEditableContent = {
         itemControl: "edit",
@@ -294,11 +324,11 @@ describe("content editing:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
+      expect(getItemSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
       expect(getServiceSpy).toHaveBeenCalledTimes(1);
       expect(updateServiceSpy).toHaveBeenCalledTimes(1);
-      const [url, { updateDefinition }] = updateServiceSpy.calls.argsFor(0);
+      const [url, { updateDefinition }] = updateServiceSpy.mock.calls[0];
       expect(url).toEqual(
         "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer"
       );
@@ -307,7 +337,7 @@ describe("content editing:", () => {
     it("sets the download object on the model", async () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
         { capabilities: "Extract" };
-      getServiceSpy.and.returnValue(Promise.resolve(currentDefinition));
+      getServiceSpy.mockResolvedValue(currentDefinition);
       const content: IHubEditableContent = {
         itemControl: "edit",
         id: GUID,
@@ -431,22 +461,19 @@ describe("content editing:", () => {
       expect(chk.discussionSettings).toEqual(
         DEFAULT_SETTINGS.settings?.discussions
       );
-      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(1);
+      expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
     });
   });
   describe("delete content", () => {
     it("deletes the item", async () => {
-      const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
-        Promise.resolve({ success: true })
-      );
+      const removeSpy = vi.fn().mockResolvedValue({ success: true });
+      (portalModule as any).removeItem = removeSpy;
 
-      const result = await deleteContent("3ef", {
-        authentication: MOCK_AUTH,
-      });
+      const result = await deleteContent("3ef", { authentication: MOCK_AUTH });
       expect(result).toBeUndefined();
-      expect(removeSpy.calls.count()).toBe(1);
-      expect(removeSpy.calls.argsFor(0)[0].authentication).toBe(MOCK_AUTH);
-      expect(removeSpy.calls.argsFor(0)[0].id).toBe("3ef");
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+      expect(removeSpy.mock.calls[0][0].authentication).toBe(MOCK_AUTH);
+      expect(removeSpy.mock.calls[0][0].id).toBe("3ef");
     });
   });
 });

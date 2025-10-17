@@ -11,13 +11,22 @@ import { IHubRequestOptions } from "../../../src/hub-types";
 import { cloneObject } from "../../../src/util";
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 import { IHubLocation } from "../../../src/core/types/IHubLocation";
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("getContentEditUrl", () => {
   let requestOptions: IHubRequestOptions;
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
   beforeEach(async () => {
     requestOptions = cloneObject(MOCK_HUB_REQOPTS);
@@ -350,10 +359,9 @@ describe("deriveLocationFromItem", () => {
     expect(chk).toEqual({ type: "none" });
   });
   it("should set correct location source type based on item type", () => {
-    const isSiteTypeSpy = spyOn(
-      isSiteTypeModule,
-      "isSiteType"
-    ).and.callThrough();
+    const isSiteTypeSpy = vi
+      .spyOn(isSiteTypeModule, "isSiteType")
+      .mockImplementation((t: string) => t.startsWith("Site"));
     const _item = cloneObject(item);
     _item.type = "Site Application";
     _item.extent = [
@@ -369,7 +377,11 @@ describe("deriveLocationFromItem", () => {
     expect(chk2.type).toEqual("custom");
   });
   it("should create custom location from item extent", () => {
-    spyOn(internalContentUtils, "getExtentObject").and.callThrough();
+    vi.spyOn(internalContentUtils, "getExtentObject").mockImplementation(
+      (e: any) => {
+        return internalContentUtils.getExtentObject(e);
+      }
+    );
     const _item = cloneObject(item);
     _item.extent = [
       [0, 0],
@@ -485,6 +497,9 @@ describe("deriveLocationFromItem", () => {
         wkid: 4326,
       },
     });
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 });
 

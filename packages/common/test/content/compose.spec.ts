@@ -10,6 +10,7 @@ import {
 } from "../../src/content/compose";
 import { IHubGeography, IHubRequestOptions } from "../../src/hub-types";
 import { PublisherSource } from "../../src/core/types/IHubContent";
+import { describe, it, expect, beforeAll, beforeEach, vi } from "vitest";
 
 const featureServiceItem = {
   id: "3ae",
@@ -31,7 +32,7 @@ describe("composeContent", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
   let item: IItem;
   // most of compose content is currently covered by
@@ -432,38 +433,23 @@ describe("composeContent", () => {
       let layerId = 0;
       let layerContent = composeContent(item, { layerId, layers });
       let layer = layers[0];
-      expect(layerContent.layer).toEqual(layer, "should set layer");
-      expect(layerContent.hubId).toBeUndefined("should not set hubId");
-      expect(layerContent.type).toBe(layer.type, "should set type");
-      expect(layerContent.family).toBe("dataset", "should set family");
-      expect(layerContent.title).toEqual("layer 0", "should set title");
-      expect(layerContent.description).toEqual(
-        layer.description,
-        "should set description"
-      );
-      expect(layerContent.summary).toEqual(
-        item.snippet,
-        "should not set summary"
-      );
-      expect(layerContent.url).toEqual(
-        `${item.url}/${layerId}`,
-        "should set url"
-      );
+      expect(layerContent.layer).toEqual(layer);
+      expect(layerContent.hubId).toBeUndefined();
+      expect(layerContent.type).toBe(layer.type);
+      expect(layerContent.family).toBe("dataset");
+      expect(layerContent.title).toEqual("layer 0");
+      expect(layerContent.description).toEqual(layer.description);
+      expect(layerContent.summary).toEqual(item.snippet);
+      expect(layerContent.url).toEqual(`${item.url}/${layerId}`);
       // layer w/ no description
       layerId = 1;
       layerContent = composeContent(item, { layerId, layers });
       layer = layers[1];
-      expect(layerContent.layer).toEqual(layer, "should set layer");
-      expect(layerContent.title).toEqual("layer 1", "should set title");
-      expect(layerContent.description).toEqual(
-        item.description,
-        "should set description"
-      );
-      expect(layerContent.summary).toEqual(item.snippet, "should set summary");
-      expect(layerContent.url).toEqual(
-        `${item.url}/${layerId}`,
-        "should set url"
-      );
+      expect(layerContent.layer).toEqual(layer);
+      expect(layerContent.title).toEqual("layer 1");
+      expect(layerContent.description).toEqual(item.description);
+      expect(layerContent.summary).toEqual(item.snippet);
+      expect(layerContent.url).toEqual(`${item.url}/${layerId}`);
     });
     it("public, multi-layer feature service w/o layerId", () => {
       const layerContent = composeContent(item, { layers });
@@ -479,26 +465,14 @@ describe("composeContent", () => {
     it("public, single-layer feature service w/o layerId", () => {
       const layer = layers[0];
       const layerContent = composeContent(item, { layers: [layer] });
-      expect(layerContent.layer).toEqual(layer, "should set layer");
-      expect(layerContent.hubId).toBe(
-        `${item.id}_${layer.id}`,
-        "should set hubId"
-      );
-      expect(layerContent.type).toBe(layer.type, "should set type");
-      expect(layerContent.family).toBe("dataset", "should set family");
-      expect(layerContent.url).toEqual(
-        `${item.url}/${layer.id}`,
-        "should set url"
-      );
-      expect(layerContent.title).toEqual(item.title, "should not set title");
-      expect(layerContent.description).toEqual(
-        item.description,
-        "should not set description"
-      );
-      expect(layerContent.summary).toEqual(
-        item.snippet,
-        "should not set summary"
-      );
+      expect(layerContent.layer).toEqual(layer);
+      expect(layerContent.hubId).toBe(`${item.id}_${layer.id}`);
+      expect(layerContent.type).toBe(layer.type);
+      expect(layerContent.family).toBe("dataset");
+      expect(layerContent.url).toEqual(`${item.url}/${layer.id}`);
+      expect(layerContent.title).toEqual(item.title);
+      expect(layerContent.description).toEqual(item.description);
+      expect(layerContent.summary).toEqual(item.snippet);
     });
     // NOTE: we may want to re-implement the tests in enrichments.test.ts
     // that were introduced in https://github.com/Esri/hub.js/pull/633
@@ -545,10 +519,13 @@ describe("composeContent", () => {
     it("should handle boundary type automatic from the Hub API", () => {
       item = cloneObject(mapServiceItem) as IItem;
       // create new geometry and center by shifting y coord up 1
-      const shiftXY = ([x, y]: [number, number]) => [x, y + 1];
+      const shiftXY = ([x, y]: [number, number]): [number, number] => [
+        x,
+        y + 1,
+      ];
       const updatedGeometry = {
         ...geometry,
-        rings: [geometry.rings[0].map(shiftXY)],
+        rings: [(geometry.rings[0] as [number, number][]).map(shiftXY)],
       };
       const updatedCenter = shiftXY(center);
       const boundary = {

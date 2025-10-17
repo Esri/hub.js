@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { buildUiSchema } from "../../../src/content/_internal/ContentUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
@@ -72,21 +73,24 @@ const CATEGORIES_ELEMENTS = [
 ];
 
 describe("buildUiSchema: content edit", () => {
-  let fetchCategoriesUiSchemaElementSpy: jasmine.Spy;
+  let fetchCategoriesUiSchemaElementSpy: any;
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   it("returns the full content edit uiSchema", async () => {
-    fetchCategoriesUiSchemaElementSpy = spyOn(
-      fetchCategoriesUiSchemaElementModule,
-      "fetchCategoriesUiSchemaElement"
-    ).and.returnValue(Promise.resolve(CATEGORIES_ELEMENTS));
-    spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
-      Promise.resolve([])
+    fetchCategoriesUiSchemaElementSpy = vi
+      .spyOn(
+        fetchCategoriesUiSchemaElementModule,
+        "fetchCategoriesUiSchemaElement"
+      )
+      .mockResolvedValue(CATEGORIES_ELEMENTS as any);
+    vi.spyOn(getLocationExtentModule, "getLocationExtent").mockResolvedValue(
+      [] as any
     );
-    spyOn(getLocationOptionsModule, "getLocationOptions").and.returnValue(
-      Promise.resolve([])
+    vi.spyOn(getLocationOptionsModule, "getLocationOptions").mockResolvedValue(
+      [] as any
     );
-    spyOn(getTagItemsModule, "getTagItems").and.returnValue(
-      Promise.resolve([])
-    );
+    vi.spyOn(getTagItemsModule, "getTagItems").mockResolvedValue([] as any);
 
     const uiSchema = await buildUiSchema(
       "some.scope",

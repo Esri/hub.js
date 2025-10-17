@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { buildUiSchema } from "../../../src/content/_internal/ContentUiSchemaSettings";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as hostedServiceUtilsModule from "../../../src/content/hostedServiceUtils";
@@ -6,14 +7,17 @@ import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOp
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 
 describe("buildUiSchema: content settings", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   it("includes download fields for hosted feature service entities", async () => {
-    spyOn(
+    vi.spyOn(
       hostedServiceUtilsModule,
       "isHostedFeatureServiceMainEntity"
-    ).and.returnValue(true);
-    spyOn(checkPermissionModule, "checkPermission").and.returnValue({
+    ).mockReturnValue(true as any);
+    vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
       access: false,
-    });
+    } as any);
     const uiSchema = await buildUiSchema(
       "some.scope",
       {
@@ -125,13 +129,13 @@ describe("buildUiSchema: content settings", () => {
     });
   });
   it("excludes download fields for other entities", async () => {
-    spyOn(
+    vi.spyOn(
       hostedServiceUtilsModule,
       "isHostedFeatureServiceMainEntity"
-    ).and.returnValue(false);
-    spyOn(checkPermissionModule, "checkPermission").and.returnValue({
+    ).mockReturnValue(false as any);
+    vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
       access: false,
-    });
+    } as any);
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
     expect(uiSchema).toEqual({
       type: "Layout",
@@ -164,13 +168,13 @@ describe("buildUiSchema: content settings", () => {
     });
   });
   it("includes enabled schedule fields for public entities", async () => {
-    spyOn(
+    vi.spyOn(
       hostedServiceUtilsModule,
       "isHostedFeatureServiceMainEntity"
-    ).and.returnValue(false);
-    spyOn(checkPermissionModule, "checkPermission").and.returnValue({
+    ).mockReturnValue(false as any);
+    vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
       access: true,
-    });
+    } as any);
     const uiSchema = await buildUiSchema(
       "some.scope",
       { access: "public" } as any,
@@ -286,13 +290,13 @@ describe("buildUiSchema: content settings", () => {
     });
   });
   it("includes disabled schedule fields for private entities", async () => {
-    spyOn(
+    vi.spyOn(
       hostedServiceUtilsModule,
       "isHostedFeatureServiceMainEntity"
-    ).and.returnValue(false);
-    spyOn(checkPermissionModule, "checkPermission").and.returnValue({
+    ).mockReturnValue(false as any);
+    vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
       access: true,
-    });
+    } as any);
     const uiSchema = await buildUiSchema(
       "some.scope",
       { access: "private" } as any,

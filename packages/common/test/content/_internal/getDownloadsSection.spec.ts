@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getDownloadsSection } from "../../../src/content/_internal/getDownloadsSection";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import { IHubEditableContent } from "../../../src/core/types/IHubEditableContent";
