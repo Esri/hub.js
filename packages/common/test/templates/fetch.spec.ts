@@ -78,9 +78,9 @@ describe("templates: fetch module", () => {
   });
 
   describe("enrichTemplateSearchResult", () => {
-    let fetchItemEnrichmentsSpy: any;
-    let computLinksSpy: any;
-    let getDeployedTemplateTypeSpy: any;
+    let fetchItemEnrichmentsSpy: ReturnType<typeof vi.spyOn>;
+    let computLinksSpy: ReturnType<typeof vi.spyOn>;
+    let getDeployedTemplateTypeSpy: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
       fetchItemEnrichmentsSpy = vi
