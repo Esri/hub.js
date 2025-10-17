@@ -471,6 +471,8 @@ describe("index", () => {
     "INotify",
     "IEvent",
     "IRegistration",
+    "IMigratableSchema",
+    "MigratableSchemaTransformMap",
     "Breakpoint",
     "ColumnWidth",
     "HTMLConfigurableLayoutNodeElement",
@@ -488,7 +490,6 @@ describe("index", () => {
     "ISectionProps",
     "LayoutColumnChild",
     "LayoutNodeTag",
-    "LayoutNodeType",
     "Ref",
     "SectionOrRef",
     "ResponsiveValue",
@@ -497,6 +498,7 @@ describe("index", () => {
     "LayoutUtils",
     "ILayoutV1",
     "ILayoutV2",
+    "LayoutNode",
   ];
 
   // exported artifacts, i.e. functions, constants, etc
