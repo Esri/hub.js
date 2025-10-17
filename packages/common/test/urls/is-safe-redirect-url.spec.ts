@@ -1,18 +1,24 @@
-import { IHubRequestOptions } from "../../src/hub-types";
+import { vi } from "vitest";
+import type { IHubRequestOptions } from "../../src/hub-types";
 import { isSafeRedirectUrl } from "../../src/urls/is-safe-redirect-url";
 import * as domainExistsUtils from "../../src/sites/domains/domain-exists";
 
-describe("isSafeRedirectUrl", function () {
+describe("isSafeRedirectUrl", () => {
   const externalUrl = "https://some.external.site.com";
-  let domainExistsSpy: jasmine.Spy;
+  let domainExistsSpy: any;
   let hubRequestOptions: IHubRequestOptions;
 
   beforeEach(() => {
     hubRequestOptions = {};
-    domainExistsSpy = spyOn(domainExistsUtils, "domainExists");
+    // use vi.spyOn to mock domainExists
+    domainExistsSpy = vi.spyOn(domainExistsUtils, "domainExists");
   });
 
-  it("resolves true for whitelisted domains", async function () {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("resolves true for whitelisted domains", async () => {
     const urls = [
       "http://arcgis.com/",
       "https://hubdev.arcgis.com/?a=b",
@@ -29,8 +35,8 @@ describe("isSafeRedirectUrl", function () {
     expect(domainExistsSpy).not.toHaveBeenCalled();
   });
 
-  it("resolves true for non-whitelisted domains when domainExists resolves true", async function () {
-    domainExistsSpy.and.returnValue(Promise.resolve(true));
+  it("resolves true for non-whitelisted domains when domainExists resolves true", async () => {
+    domainExistsSpy.mockResolvedValue(true);
     const results = await isSafeRedirectUrl({
       url: externalUrl,
       ...hubRequestOptions,
@@ -43,8 +49,8 @@ describe("isSafeRedirectUrl", function () {
     );
   });
 
-  it("resolves false for non-whitelisted domains when domainExists resolves false", async function () {
-    domainExistsSpy.and.returnValue(Promise.resolve(false));
+  it("resolves false for non-whitelisted domains when domainExists resolves false", async () => {
+    domainExistsSpy.mockResolvedValue(false);
     const results = await isSafeRedirectUrl({
       url: externalUrl,
       ...hubRequestOptions,
@@ -57,8 +63,8 @@ describe("isSafeRedirectUrl", function () {
     );
   });
 
-  it("resolves false for non-whitelisted domains when an error occurs", async function () {
-    domainExistsSpy.and.returnValue(Promise.reject(new Error("fail")));
+  it("resolves false for non-whitelisted domains when an error occurs", async () => {
+    domainExistsSpy.mockRejectedValue(new Error("fail"));
     const results = await isSafeRedirectUrl({
       url: externalUrl,
       ...hubRequestOptions,
@@ -71,9 +77,9 @@ describe("isSafeRedirectUrl", function () {
     );
   });
 
-  it("resolves false invalid protocols", async function () {
+  it("resolves false invalid protocols", async () => {
     const url = "some://where.external.com";
-    domainExistsSpy.and.returnValue(Promise.resolve(true));
+    domainExistsSpy.mockResolvedValue(true);
     const results = await isSafeRedirectUrl({ url, ...hubRequestOptions });
     expect(results).toBe(false);
     expect(domainExistsSpy).not.toHaveBeenCalled();

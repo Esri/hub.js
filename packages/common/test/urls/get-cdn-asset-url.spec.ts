@@ -1,4 +1,4 @@
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getCdnAssetUrl } from "../../src/urls/get-cdn-asset-url";
 
 describe("getCdnAssetUrl", () => {

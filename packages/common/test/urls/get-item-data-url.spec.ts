@@ -1,4 +1,4 @@
-import { IItem, IPortal } from "@esri/arcgis-rest-portal";
+import type { IItem, IPortal } from "@esri/arcgis-rest-portal";
 import { getItemDataUrl } from "../../src/urls/get-item-data-url";
 
 describe("getItemDataUrl", () => {

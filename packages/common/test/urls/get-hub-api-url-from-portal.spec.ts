@@ -1,4 +1,4 @@
-import { IPortal } from "@esri/arcgis-rest-portal";
+import type { IPortal } from "@esri/arcgis-rest-portal";
 import { getHubApiUrlFromPortal } from "../../src/urls/get-hub-api-url-from-portal";
 
 describe("getHubApiUrl", function () {

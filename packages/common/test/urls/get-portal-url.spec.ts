@@ -1,11 +1,11 @@
-import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions } from "../../src/hub-types";
+import type { IPortal } from "@esri/arcgis-rest-portal";
+import type { IRequestOptions } from "@esri/arcgis-rest-request";
+import type { IHubRequestOptions } from "../../src/hub-types";
 import { getPortalUrl } from "../../src/urls/get-portal-url";
 
 describe("getPortalUrl", function () {
   const portalApiUrl = "https://www.arcgis.com/sharing/rest";
-  let portalSelf: arcgisRestPortal.IPortal;
+  let portalSelf: IPortal;
   beforeEach(() => {
     portalSelf = {
       isPortal: true,

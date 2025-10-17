@@ -1,8 +1,9 @@
+import { vi } from "vitest";
 import { getContentHomeUrl } from "../../src/urls/getContentHomeUrl";
 import * as getPortalUrlModule from "../../src/urls/get-portal-url";
-import { IPortal } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "../../src/hub-types";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import type { IPortal } from "@esri/arcgis-rest-portal";
+import type { IHubRequestOptions } from "../../src/hub-types";
+import type { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("getContentHomeUrl", () => {
   const portalUrl = "https://portal.com";
@@ -24,22 +25,21 @@ describe("getContentHomeUrl", () => {
     ["an IRequestOptions object", requestOptions],
     ["an IHubRequestOptions object", hubRequestOptions],
   ];
-  let getPortalUrlStub: jasmine.Spy;
+  let getPortalUrlStub: any;
 
   beforeEach(() => {
-    getPortalUrlStub = spyOn(
-      getPortalUrlModule,
-      "getPortalUrl"
-    ).and.returnValue(portalUrl);
+    getPortalUrlStub = vi
+      .spyOn(getPortalUrlModule, "getPortalUrl")
+      .mockReturnValue(portalUrl);
   });
 
   afterEach(() => {
-    getPortalUrlStub.calls.reset();
+    vi.restoreAllMocks();
   });
 
   inputs.forEach(([label, value]) => {
-    it(`returns the AGO content home URL for ${label}`, () => {
-      const result = getContentHomeUrl(value);
+    it(`returns the AGO content home URL for ${label as string}`, () => {
+      const result = getContentHomeUrl(value as any);
       expect(result).toEqual(`${portalUrl}/home/content.html`);
       expect(getPortalUrlStub).toHaveBeenCalledTimes(1);
       expect(getPortalUrlStub).toHaveBeenCalledWith(value);

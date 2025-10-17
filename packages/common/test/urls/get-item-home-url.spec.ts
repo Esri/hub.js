@@ -1,4 +1,4 @@
-import { IPortal } from "@esri/arcgis-rest-portal";
+import type { IPortal } from "@esri/arcgis-rest-portal";
 import { getItemHomeUrl } from "../../src/urls/get-item-home-url";
 
 describe("getItemHomeUrl", () => {

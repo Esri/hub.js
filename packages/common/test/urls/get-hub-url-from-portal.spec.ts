@@ -1,5 +1,5 @@
 import { getHubUrlFromPortal } from "../../src/urls/get-hub-url-from-portal";
-import { IPortal } from "@esri/arcgis-rest-portal";
+import type { IPortal } from "@esri/arcgis-rest-portal";
 
 describe("getHubUrlFromPortal", () => {
   let portalSelf: IPortal;
@@ -8,7 +8,7 @@ describe("getHubUrlFromPortal", () => {
       id: "fakeId",
       name: "fakeName",
       isPortal: false,
-      portalHostname: "https://foo.com"
+      portalHostname: "https://foo.com",
     } as IPortal;
   });
 
