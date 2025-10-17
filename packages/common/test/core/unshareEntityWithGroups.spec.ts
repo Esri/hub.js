@@ -3,11 +3,16 @@ import { unshareEntityWithGroups } from "../../src/core/unshareEntityWithGroups"
 import * as unshareEventWithGroupsModule from "../../src/events/_internal/unshareEventWithGroups";
 import * as unshareItemFromGroupsModule from "../../src/items/unshare-item-from-groups";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { vi } from "vitest";
 
 describe("unshareEntityWithGroups", () => {
   let entity: IHubItemEntity;
   let updatedEntity: IHubItemEntity;
   let context: IArcGISContext;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   beforeEach(() => {
     entity = { id: "9c3", type: "Content", owner: "jdoe" } as IHubItemEntity;
@@ -30,10 +35,9 @@ describe("unshareEntityWithGroups", () => {
 
   it("should call unshareEventWithGroups for an event", async () => {
     entity.type = "Event";
-    const unshareEventWithGroupsSpy = spyOn(
-      unshareEventWithGroupsModule,
-      "unshareEventWithGroups"
-    ).and.returnValue(Promise.resolve(updatedEntity));
+    const unshareEventWithGroupsSpy = vi
+      .spyOn(unshareEventWithGroupsModule as any, "unshareEventWithGroups")
+      .mockResolvedValue(updatedEntity as any);
     const res = await unshareEntityWithGroups(entity, ["31c", "5n6"], context);
     expect(unshareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
     expect(unshareEventWithGroupsSpy).toHaveBeenCalledWith(
@@ -46,10 +50,9 @@ describe("unshareEntityWithGroups", () => {
 
   it("should call shareItemToGroups for an item", async () => {
     entity.type = "Content";
-    const unshareItemFromGroupsSpy = spyOn(
-      unshareItemFromGroupsModule,
-      "unshareItemFromGroups"
-    ).and.returnValue(Promise.resolve(undefined));
+    const unshareItemFromGroupsSpy = vi
+      .spyOn(unshareItemFromGroupsModule as any, "unshareItemFromGroups")
+      .mockResolvedValue(undefined as any);
     const res = await unshareEntityWithGroups(entity, ["31c", "5n6"], context);
     expect(unshareItemFromGroupsSpy).toHaveBeenCalledTimes(1);
     expect(unshareItemFromGroupsSpy).toHaveBeenCalledWith(

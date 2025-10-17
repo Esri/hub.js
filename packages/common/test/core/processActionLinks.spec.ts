@@ -1,5 +1,6 @@
 import { getProp } from "../../src/objects/get-prop";
 import { processActionLink } from "../../src/core/processActionLinks";
+import { vi } from "vitest";
 import {
   HubActionLink,
   IHubActionLinkSection,
@@ -10,10 +11,14 @@ import {
 import * as searchModule from "../../src/search/hubSearch";
 
 describe("processActionLink", () => {
-  let hubSearchSpy: jasmine.Spy;
+  let hubSearchSpy: any;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('processes action links of kind "content": fetches the content item and returns an external action link', async () => {
-    hubSearchSpy = spyOn(searchModule, "hubSearch").and.returnValue(
+    hubSearchSpy = vi.spyOn(searchModule as any, "hubSearch").mockReturnValue(
       Promise.resolve({
         results: [{ id: "00c", links: { siteRelative: "/mock-site-url" } }],
       })
@@ -67,7 +72,7 @@ describe("processActionLink", () => {
   });
 
   it("handles nested links", async () => {
-    hubSearchSpy = spyOn(searchModule, "hubSearch").and.returnValue(
+    hubSearchSpy = vi.spyOn(searchModule as any, "hubSearch").mockReturnValue(
       Promise.resolve({
         results: [{ id: "00c", links: { siteRelative: "/mock-site-url" } }],
       })
@@ -103,9 +108,9 @@ describe("processActionLink", () => {
   });
 
   it("handles errors", async () => {
-    hubSearchSpy = spyOn(searchModule, "hubSearch").and.returnValue(
-      Promise.reject(new Error("error"))
-    );
+    hubSearchSpy = vi
+      .spyOn(searchModule as any, "hubSearch")
+      .mockReturnValue(Promise.reject(new Error("error")));
 
     const mockLink: IHubContentActionLink = {
       kind: "content",
@@ -117,7 +122,8 @@ describe("processActionLink", () => {
       await processActionLink(mockLink, {});
     } catch (ex) {
       expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-      expect(ex.message).toBe("Unable to fetch entity: 00c");
+      const err = ex as Error;
+      expect(err.message).toBe("Unable to fetch entity: 00c");
     }
   });
 });

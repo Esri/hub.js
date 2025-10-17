@@ -1,48 +1,39 @@
+import { vi } from "vitest";
+// make getGroup spyable on the ESM module
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  getGroup: vi.fn(),
+}));
 import { enrichEntity } from "../../src/core/enrichEntity";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubEntity } from "../../src/core/types/HubEntity";
 import { getProp } from "../../src/objects/get-prop";
 
 describe("enrichEntity", () => {
-  let authdCtxMgr: ArcGISContextManager;
-  beforeEach(async () => {
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://fake-org.maps.arcgis.com",
-    });
+  // Use a minimal mock requestOptions object instead of ArcGISContextManager
+  const requestOptions = { authentication: MOCK_AUTH } as any;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("doesn't add anything to the entity if no enrichments are requested", async () => {
-    const chk = await enrichEntity(
-      {} as HubEntity,
-      [],
-      authdCtxMgr.context.hubRequestOptions
-    );
+    const chk = await enrichEntity({} as HubEntity, [], requestOptions);
 
     expect(chk).toEqual({} as HubEntity);
   });
   it("enriches the entity based on the enrichment spec", async () => {
-    spyOn(PortalModule, "getGroup").and.returnValue(
-      Promise.resolve({
-        id: "00c",
-        access: "public",
-      })
-    );
+    // cast to any to avoid needing to construct a full IGroup
+    (PortalModule.getGroup as unknown as any).mockResolvedValue({
+      id: "00c",
+      access: "public",
+    } as any);
 
     const chk = await enrichEntity(
       { followersGroupId: "followers_00c" } as HubEntity,
       ["followersGroup.access AS _followersGroup.access"],
-      authdCtxMgr.context.hubRequestOptions
+      requestOptions
     );
 
     expect(getProp(chk, "_followersGroup.access")).toBe("public");
@@ -51,56 +42,50 @@ describe("enrichEntity", () => {
   describe("followersGroup enrichment", () => {
     let getGroupSpy: any;
     afterEach(() => {
-      getGroupSpy.calls.reset();
+      getGroupSpy && getGroupSpy.mockReset();
     });
     it("enriches the entity with the followers group", async () => {
       const mockFollowersGroup = {
         id: "00c",
         access: "public",
       };
-      getGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
-        Promise.resolve(mockFollowersGroup)
-      );
+      getGroupSpy = vi
+        .spyOn(PortalModule, "getGroup")
+        .mockResolvedValue(mockFollowersGroup as any);
 
       const chk = await enrichEntity(
         { followersGroupId: "followers_00c" } as HubEntity,
         ["followersGroup AS _followersGroup"],
-        authdCtxMgr.context.hubRequestOptions
+        requestOptions
       );
 
       expect(getGroupSpy).toHaveBeenCalledTimes(1);
-      expect(getGroupSpy).toHaveBeenCalledWith(
-        "followers_00c",
-        authdCtxMgr.context.hubRequestOptions
-      );
+      expect(getGroupSpy).toHaveBeenCalledWith("followers_00c", requestOptions);
       expect(getProp(chk, "_followersGroup")).toBe(mockFollowersGroup);
     });
     it("returns an empty object if there isn't a followersGroupId defined on the entity", async () => {
-      getGroupSpy = spyOn(PortalModule, "getGroup");
+      getGroupSpy = vi.spyOn(PortalModule, "getGroup");
       const chk = await enrichEntity(
         {} as HubEntity,
         ["followersGroup AS _followersGroup"],
-        authdCtxMgr.context.hubRequestOptions
+        requestOptions
       );
       expect(getGroupSpy).not.toHaveBeenCalled();
       expect(getProp(chk, "_followersGroup")).toEqual({});
     });
     it("returns an empty object and handles the error if there's an issue fetching the followers group", async () => {
-      getGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
-        Promise.reject()
-      );
+      getGroupSpy = vi
+        .spyOn(PortalModule, "getGroup")
+        .mockRejectedValue(undefined);
 
       const chk = await enrichEntity(
         { followersGroupId: "followers_00c" } as HubEntity,
         ["followersGroup AS _followersGroup"],
-        authdCtxMgr.context.hubRequestOptions
+        requestOptions
       );
 
       expect(getGroupSpy).toHaveBeenCalledTimes(1);
-      expect(getGroupSpy).toHaveBeenCalledWith(
-        "followers_00c",
-        authdCtxMgr.context.hubRequestOptions
-      );
+      expect(getGroupSpy).toHaveBeenCalledWith("followers_00c", requestOptions);
       expect(getProp(chk, "_followersGroup")).toEqual({});
     });
   });

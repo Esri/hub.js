@@ -118,7 +118,7 @@ const noScopeCatalog: IHubCatalog = {
 };
 
 describe("catalogContains:", () => {
-  let hubSearchSpy: jasmine.Spy;
+  let hubSearchSpy: any;
   let context: IArcGISContext;
   beforeEach(async () => {
     const authdCtxMgr = await ArcGISContextManager.create({
@@ -137,9 +137,9 @@ describe("catalogContains:", () => {
   });
 
   it("returns false if scope does not exist for entityType ", async () => {
-    hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-      return Promise.resolve({ fake: "response" });
-    });
+    hubSearchSpy = vi
+      .spyOn(HubSearchModule as any, "hubSearch")
+      .mockImplementation(() => Promise.resolve({ fake: "response" }));
 
     const res = await catalogContains(
       "1950189b18a64ab78fc478d97ea502e0",
@@ -152,9 +152,9 @@ describe("catalogContains:", () => {
     expect(hubSearchSpy).toHaveBeenCalledTimes(0);
   });
   it("returns false if no scope or collection for entityType", async () => {
-    hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-      return Promise.resolve({ fake: "response" });
-    });
+    hubSearchSpy = vi
+      .spyOn(HubSearchModule as any, "hubSearch")
+      .mockImplementation(() => Promise.resolve({ fake: "response" }));
     const noScopeOrCollections = cloneObject(noScopeCatalog);
     delete noScopeOrCollections.collections;
     const res = await catalogContains(
@@ -168,11 +168,11 @@ describe("catalogContains:", () => {
     expect(hubSearchSpy).toHaveBeenCalledTimes(0);
   });
   it("executes scope search if entity type specified and scope exists", async () => {
-    hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-      return Promise.resolve({
-        results: ["results just needs to have an entry"],
-      });
-    });
+    hubSearchSpy = vi
+      .spyOn(HubSearchModule as any, "hubSearch")
+      .mockImplementation(() =>
+        Promise.resolve({ results: ["results just needs to have an entry"] })
+      );
 
     const res = await catalogContains(
       "1950189b18a64ab78fc478d97ea502e0",
@@ -182,7 +182,7 @@ describe("catalogContains:", () => {
     );
     expect(res.isContained).toBe(true);
     expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-    const chkQry = hubSearchSpy.calls.argsFor(0)[0];
+    const chkQry = hubSearchSpy.mock.calls[0][0];
     const predicates: IPredicate = chkQry.filters.reduce(
       (acc: IPredicate[], f: IFilter) => {
         return acc.concat(f.predicates);
@@ -197,11 +197,11 @@ describe("catalogContains:", () => {
     ).toBe(true);
   });
   it("executes collection search if no scope", async () => {
-    hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-      return Promise.resolve({
-        results: ["results just needs to have an entry"],
-      });
-    });
+    hubSearchSpy = vi
+      .spyOn(HubSearchModule as any, "hubSearch")
+      .mockImplementation(() =>
+        Promise.resolve({ results: ["results just needs to have an entry"] })
+      );
     const scopelessCatalog = cloneObject(catalogJson);
     delete scopelessCatalog.scopes?.item;
 
@@ -213,7 +213,7 @@ describe("catalogContains:", () => {
     );
     expect(res.isContained).toBe(true);
     expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-    const chkQry = hubSearchSpy.calls.argsFor(0)[0];
+    const chkQry = hubSearchSpy.mock.calls[0][0];
     const predicates: IPredicate = chkQry.filters.reduce(
       (acc: IPredicate[], f: IFilter) => {
         return acc.concat(f.predicates);
@@ -229,18 +229,16 @@ describe("catalogContains:", () => {
   });
 
   it("assumes slug if not guid", async () => {
-    hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-      return Promise.resolve({
-        results: [
-          {
-            typeKeywords: ["slug|org|my-name-is-vader-1"],
-          },
-          {
-            typeKeywords: ["slug|org|my-name-is-vader"],
-          },
-        ],
-      });
-    });
+    hubSearchSpy = vi
+      .spyOn(HubSearchModule as any, "hubSearch")
+      .mockImplementation(() =>
+        Promise.resolve({
+          results: [
+            { typeKeywords: ["slug|org|my-name-is-vader-1"] },
+            { typeKeywords: ["slug|org|my-name-is-vader"] },
+          ],
+        })
+      );
 
     const res = await catalogContains(
       "org|my-name-is-vader",
@@ -251,7 +249,7 @@ describe("catalogContains:", () => {
 
     expect(res.isContained).toBe(true);
     expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-    const chkQry = hubSearchSpy.calls.argsFor(0)[0];
+    const chkQry = hubSearchSpy.mock.calls[0][0];
     const predicates: IPredicate = chkQry.filters.reduce(
       (acc: IPredicate[], f: IFilter) => {
         return acc.concat(f.predicates);
@@ -267,14 +265,16 @@ describe("catalogContains:", () => {
   });
   it("executes one search per-scope if entity type not specified", async () => {
     let called = false;
-    hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-      let response: any = { results: [] };
-      if (!called) {
-        response = { results: ["results just needs to have an entry"] };
-        called = true;
-      }
-      return Promise.resolve(response);
-    });
+    hubSearchSpy = vi
+      .spyOn(HubSearchModule as any, "hubSearch")
+      .mockImplementation(() => {
+        let response: any = { results: [] };
+        if (!called) {
+          response = { results: ["results just needs to have an entry"] };
+          called = true;
+        }
+        return Promise.resolve(response);
+      });
 
     const res = await catalogContains(
       "1950189b18a64ab78fc478d97ea502e0",

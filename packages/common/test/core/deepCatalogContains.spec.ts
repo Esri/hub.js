@@ -1,12 +1,16 @@
 import * as DeepContainsModule from "../../src/core/_internal/deepContains";
-import { deepCatalogContains } from "../../src/core/deepCatalogContains";
+import { vi } from "vitest";
 import { IHubCatalog } from "../../src/search/types/IHubCatalog";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 
 describe("deepCatalogContains:", () => {
+  afterEach(() => vi.restoreAllMocks());
   it("fails containment if the path is invalid", async () => {
     const ctx = {} as IArcGISContext;
     const path = "sites/00a/initiatives/00b/projects";
+    const { deepCatalogContains } = await import(
+      "../../src/core/deepCatalogContains"
+    );
     const result = await deepCatalogContains("00c", "content", path, ctx);
     expect(result.isContained).toBeFalsy();
     expect(result.reason).toBe(
@@ -14,23 +18,37 @@ describe("deepCatalogContains:", () => {
     );
   });
   it("handles random error from pathToCatalog", async () => {
-    spyOn(DeepContainsModule, "pathToCatalogInfo").and.callFake(() => {
+    vi.spyOn(DeepContainsModule, "pathToCatalogInfo").mockImplementation(() => {
       throw new Error();
     });
     const ctx = {} as IArcGISContext;
     const path = "sites/00a/initiatives/00b/projects";
+    const { deepCatalogContains } = await import(
+      "../../src/core/deepCatalogContains"
+    );
     const result = await deepCatalogContains("00c", "content", path, ctx);
     expect(result.isContained).toBeFalsy();
     expect(result.reason).toBe("An error occurred while parsing path.");
   });
   it("delegates to deepContains", async () => {
-    const spy = spyOn(DeepContainsModule, "deepContains").and.callFake(() => {
-      return Promise.resolve({ isContained: true });
-    });
+    const spy = vi
+      .spyOn(DeepContainsModule, "deepContains")
+      .mockImplementation(() =>
+        Promise.resolve({
+          identifier: "ff3",
+          isContained: true,
+          catalogInfo: {},
+          duration: 0,
+        })
+      );
 
     const ctx = {} as IArcGISContext;
 
     const path = "sites/00a/initiatives/00b/projects/00c";
+
+    const { deepCatalogContains } = await import(
+      "../../src/core/deepCatalogContains"
+    );
 
     const result = await deepCatalogContains("ff3", "content", path, ctx);
 
@@ -39,7 +57,8 @@ describe("deepCatalogContains:", () => {
     expect(spy).toHaveBeenCalledTimes(1);
 
     // validate the args passed to deepContains
-    const args = spy.calls.mostRecent().args;
+    const calls = (spy as any).mock.calls as any[];
+    const args = calls[calls.length - 1];
     expect(args[0]).toBe("ff3");
     expect(args[1]).toBe("content");
     expect(args[2]).toEqual([
@@ -51,9 +70,16 @@ describe("deepCatalogContains:", () => {
   });
 
   it("includes root Catalog is passed in", async () => {
-    const spy = spyOn(DeepContainsModule, "deepContains").and.callFake(() => {
-      return Promise.resolve({ isContained: true });
-    });
+    const spy = vi
+      .spyOn(DeepContainsModule, "deepContains")
+      .mockImplementation(() =>
+        Promise.resolve({
+          identifier: "ff3",
+          isContained: true,
+          catalogInfo: {},
+          duration: 0,
+        })
+      );
 
     const ctx = {} as IArcGISContext;
 
@@ -64,6 +90,10 @@ describe("deepCatalogContains:", () => {
     };
 
     const path = "initiatives/00b/projects/00c";
+
+    const { deepCatalogContains } = await import(
+      "../../src/core/deepCatalogContains"
+    );
 
     const result = await deepCatalogContains(
       "ff3",
@@ -78,14 +108,15 @@ describe("deepCatalogContains:", () => {
     expect(spy).toHaveBeenCalledTimes(1);
 
     // validate the args passed to deepContains
-    const args = spy.calls.mostRecent().args;
-    expect(args[0]).toBe("ff3");
-    expect(args[1]).toBe("content");
-    expect(args[2]).toEqual([
+    const calls2 = (spy as any).mock.calls as any[];
+    const args2 = calls2[calls2.length - 1];
+    expect(args2[0]).toBe("ff3");
+    expect(args2[1]).toBe("content");
+    expect(args2[2]).toEqual([
       { id: "00c", hubEntityType: "project" },
       { id: "00b", hubEntityType: "initiative" },
       { id: "root", hubEntityType: "site", catalog: rootCatalog },
     ]);
-    expect(args[3]).toBe(ctx);
+    expect(args2[3]).toBe(ctx);
   });
 });

@@ -8,6 +8,7 @@ import * as pagesModule from "../../src/pages/HubPages";
 import * as editInitiativeTemplateModule from "../../src/initiative-templates/edit";
 import * as groupsModule from "../../src/groups/HubGroups";
 import * as editEventsModule from "../../src/events/edit";
+import { vi } from "vitest";
 import { HubEntityType } from "../../src/core/types/HubEntityType";
 import { HubEntity } from "../../src/core/types/HubEntity";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
@@ -23,9 +24,9 @@ describe("updateHubEntity:", () => {
     const ctx = {
       userRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(editProjectsModule, "updateProject").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(editProjectsModule as any, "updateProject")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("project", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -33,9 +34,9 @@ describe("updateHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(sitesModule, "updateSite").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(sitesModule as any, "updateSite")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("site", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -43,9 +44,9 @@ describe("updateHubEntity:", () => {
     const ctx = {
       userRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(initiativesModule, "updateInitiative").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(initiativesModule as any, "updateInitiative")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("initiative", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -54,10 +55,9 @@ describe("updateHubEntity:", () => {
       userRequestOptions: "fakeRequestOptions",
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(
-      editDiscussionsModule,
-      "updateDiscussion"
-    ).and.returnValue(Promise.resolve({}));
+    const spy = vi
+      .spyOn(editDiscussionsModule as any, "updateDiscussion")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("discussion", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -65,9 +65,9 @@ describe("updateHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(editContentModule, "updateContent").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(editContentModule as any, "updateContent")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("content", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -75,9 +75,9 @@ describe("updateHubEntity:", () => {
     const ctx = {
       userRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(editTemplatesModule, "updateTemplate").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(editTemplatesModule as any, "updateTemplate")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("template", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -85,9 +85,9 @@ describe("updateHubEntity:", () => {
     const ctx = {
       userRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(pagesModule, "updatePage").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(pagesModule as any, "updatePage")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("page", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -95,10 +95,9 @@ describe("updateHubEntity:", () => {
     const ctx = {
       userRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(
-      editInitiativeTemplateModule,
-      "updateInitiativeTemplate"
-    ).and.returnValue(Promise.resolve({}));
+    const spy = vi
+      .spyOn(editInitiativeTemplateModule as any, "updateInitiativeTemplate")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("initiativeTemplate", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -106,9 +105,9 @@ describe("updateHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(groupsModule, "updateHubGroup").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(groupsModule as any, "updateHubGroup")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("group", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, ctx);
   });
@@ -116,10 +115,13 @@ describe("updateHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(editEventsModule, "updateHubEvent").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(editEventsModule as any, "updateHubEvent")
+      .mockResolvedValue(Promise.resolve({}));
     await updateHubEntity("event", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 });
