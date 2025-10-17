@@ -10,28 +10,11 @@ import {
   IEnrichmentErrorInfo,
 } from "../hub-types";
 import { cloneObject } from "../util";
-import { includes } from "../utils/includes";
-import { IHubExtent, normalizeItemType } from "./compose";
-import { getFamily } from "./get-family";
+import { IHubExtent } from "./compose";
 import { parseDatasetId } from "./slugs";
 import { DatasetResource } from "./types";
 import { isMapOrFeatureServerUrl } from "../urls/feature-service-urls";
-
-// TODO: need to fetch data for client-side layer views as well
-// determine if we should fetch data for an item
-const shouldFetchData = (item: IItem) => {
-  const type = normalizeItemType(item);
-  const family = getFamily(type);
-  const dataFamilies = ["template", "solution"];
-  const dataTypes = [
-    // needed for web map/scene definition
-    "Web Map",
-    "Web Scene",
-    // needed for popup template definition
-    "Feature Service",
-  ];
-  return includes(dataFamilies, family) || includes(dataTypes, type);
-};
+import { shouldFetchData } from "./_internal/shouldFetchData";
 
 /**
  * get the default list of enrichments to fetch for content

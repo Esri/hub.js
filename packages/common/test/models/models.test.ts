@@ -9,10 +9,7 @@ import { getModelBySlug } from "../../src/models/getModelBySlug";
 import { createModel } from "../../src/models/createModel";
 import { IModel } from "../../src/hub-types";
 import { updateModel } from "../../src/models/updateModel";
-import {
-  fetchModelFromItem,
-  shouldFetchItemData,
-} from "../../src/models/fetchModelFromItem";
+import { fetchModelFromItem } from "../../src/models/fetchModelFromItem";
 import { upsertModelResources } from "../../src/models/upsertModelResource";
 import { fetchModelResources } from "../../src/models/fetchModelResource";
 import { EntityResourceMap } from "../../src/core/types/types";
@@ -339,12 +336,15 @@ describe("model utils:", () => {
         Promise.resolve({ data: "values" })
       );
       const chk = await fetchModelFromItem(
-        { id: "3ef" } as portalModule.IItem,
+        { id: "3ef", type: "Web Map" } as portalModule.IItem,
         {
           authentication: MOCK_AUTH,
         }
       );
-      expect(chk.item).toEqual({ id: "3ef" } as portalModule.IItem);
+      expect(chk.item).toEqual({
+        id: "3ef",
+        type: "Web Map",
+      } as portalModule.IItem);
       expect(chk.data).toEqual({ data: "values" });
       expect(getItemDataSpy.calls.count()).toBe(1);
     });
@@ -353,7 +353,7 @@ describe("model utils:", () => {
         Promise.reject("no item")
       );
       const chk = await fetchModelFromItem(
-        { id: "3ef" } as portalModule.IItem,
+        { id: "3ef", type: "Web Map" } as portalModule.IItem,
         {
           authentication: MOCK_AUTH,
         }
@@ -461,18 +461,6 @@ describe("model utils:", () => {
 
       expect(fetchResourceSpy.calls.count()).toBe(1);
       expect(chk).toEqual({});
-    });
-  });
-
-  describe("shouldFetchItemData", () => {
-    it("return false for an excluded type", () => {
-      const item = { id: "abc", type: "Image Collection" } as IItem;
-      expect(shouldFetchItemData(item)).toBe(false);
-    });
-
-    it("returns true for a non-excluded type", () => {
-      const item = { id: "abc", type: "Feature Service" } as IItem;
-      expect(shouldFetchItemData(item)).toBe(true);
     });
   });
 });
