@@ -1,10 +1,12 @@
 import * as fetchMock from "fetch-mock";
 import { MOCK_HUB_REQOPTS, MOCK_PORTAL_REQOPTS } from "../test-helpers.test";
 import { ensureUniqueDomainName } from "../../../src/sites/domains/ensure-unique-domain-name";
+import { vi } from "vitest";
 
 describe("ensureUniqueDomainName", () => {
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
   it("ensureUniqueDomainName for AGO", async function () {
     // return a 200 for the default domain, forcing it to increment

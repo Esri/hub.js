@@ -2,12 +2,15 @@ import type { IHubRequestOptions, IModel } from "../../../src/hub-types";
 import * as addDomainModule from "../../../src/sites/domains/add-domain";
 
 import { addSiteDomains } from "../../../src/sites/domains/addSiteDomains";
+import { vi } from "vitest";
 
 describe("addSiteDomains", () => {
+  afterEach(() => vi.restoreAllMocks());
+
   it("adds site domains", async () => {
-    const addSpy = spyOn(addDomainModule, "addDomain").and.returnValue(
-      Promise.resolve({})
-    );
+    const addSpy = vi
+      .spyOn(addDomainModule, "addDomain")
+      .mockReturnValue(Promise.resolve({}) as any);
 
     const model = {
       item: {
@@ -32,8 +35,8 @@ describe("addSiteDomains", () => {
 
     await addSiteDomains(model, ro);
 
-    expect(addSpy.calls.count()).toBe(1);
-    expect(addSpy.calls.argsFor(0)[0]).toEqual(
+    expect((addSpy as any).mock.calls.length).toBe(1);
+    expect((addSpy as any).mock.calls[0][0]).toEqual(
       {
         hostname: "default-hostname",
         clientKey: model.data?.values.clientId,
@@ -49,9 +52,9 @@ describe("addSiteDomains", () => {
   });
 
   it("does nothing on portal", async () => {
-    const addSpy = spyOn(addDomainModule, "addDomain").and.returnValue(
-      Promise.resolve({})
-    );
+    const addSpy = vi
+      .spyOn(addDomainModule, "addDomain")
+      .mockReturnValue(Promise.resolve({}) as any);
 
     const model = {
       item: {
@@ -83,6 +86,6 @@ describe("addSiteDomains", () => {
       "returns portal client key"
     );
 
-    expect(addSpy.calls.count()).toBe(0);
+    expect((addSpy as any).mock.calls.length).toBe(0);
   });
 });

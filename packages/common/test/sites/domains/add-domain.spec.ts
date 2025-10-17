@@ -3,6 +3,7 @@ import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
 import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
 import { getProp } from "../../../src/objects/get-prop";
+import { vi } from "vitest";
 
 describe("addDomain", function () {
   const domainEntry = {
@@ -21,15 +22,16 @@ describe("addDomain", function () {
 
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
 
   it("sends request in AGO", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;
 
-    spyOn(
+    vi.spyOn(
       _checkStatusAndParseJsonModule,
       "_checkStatusAndParseJson"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    ).mockReturnValue(Promise.resolve({ success: true }) as any);
 
     fetchMock.post("end:api/v3/domains", {});
 
@@ -60,10 +62,10 @@ describe("addDomain", function () {
     } as unknown as IDomainEntry;
     const ro = { isPortal: false } as IHubRequestOptions;
 
-    spyOn(
+    vi.spyOn(
       _checkStatusAndParseJsonModule,
       "_checkStatusAndParseJson"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    ).mockReturnValue(Promise.resolve({ success: true }) as any);
 
     fetchMock.post("end:api/v3/domains", {});
 
@@ -97,10 +99,10 @@ describe("addDomain", function () {
     } as unknown as IDomainEntry;
     const ro = { isPortal: false } as IHubRequestOptions;
 
-    spyOn(
+    vi.spyOn(
       _checkStatusAndParseJsonModule,
       "_checkStatusAndParseJson"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    ).mockReturnValue(Promise.resolve({ success: true }) as any);
 
     fetchMock.post("end:api/v3/domains", {});
 
@@ -122,10 +124,10 @@ describe("addDomain", function () {
   it("function runs as expected without a client key (code coverage)", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;
 
-    spyOn(
+    vi.spyOn(
       _checkStatusAndParseJsonModule,
       "_checkStatusAndParseJson"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    ).mockReturnValue(Promise.resolve({ success: true }) as any);
 
     fetchMock.post("end:api/v3/domains", {});
 
@@ -156,10 +158,10 @@ describe("addDomain", function () {
   it("throws error on portal", async function () {
     const ro = { isPortal: true } as IHubRequestOptions;
 
-    spyOn(
+    vi.spyOn(
       _checkStatusAndParseJsonModule,
       "_checkStatusAndParseJson"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    ).mockReturnValue(Promise.resolve({ success: true }) as any);
 
     fetchMock.post("end:api/v3/domains", {});
 

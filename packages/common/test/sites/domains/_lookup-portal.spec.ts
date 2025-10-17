@@ -1,8 +1,17 @@
+// Ensure the arcgis-rest-portal module is mocked before importing the module-under-test
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  searchItems: vi.fn(),
+}));
+
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { _lookupPortal } from "../../../src/sites/domains/_lookup-portal";
+import { vi } from "vitest";
 
 describe("_lookupPortal", function () {
+  afterEach(() => vi.restoreAllMocks());
+
   it("looks up a portal", async function () {
     const portal = {
       hostname: "mysite",
@@ -19,38 +28,35 @@ describe("_lookupPortal", function () {
       ],
     };
 
-    const searchItemsSpy = spyOn(portalModule, "searchItems").and.returnValue(
-      Promise.resolve(sitesResponse)
-    );
+    const searchItemsSpy = vi
+      .spyOn(portalModule, "searchItems")
+      .mockReturnValue(Promise.resolve(sitesResponse) as any);
 
     const res = await _lookupPortal(domain, {} as IHubRequestOptions);
 
     expect(portalModule.searchItems).toHaveBeenCalled();
-    expect(searchItemsSpy.calls.argsFor(0)[0].q).toBe(
+    expect((searchItemsSpy as any).mock.calls[0][0].q).toBe(
       `typekeywords: hubsubdomain|${domain}`
     );
     expect(res).toEqual(portal);
   });
 
-  it("looks up a portal", async function () {
+  it("looks up a portal (and handles truncated domain)", async function () {
     const domain = "this-should-get-cut-off/#/foobar";
     const sitesResponse: { results: any[] } = {
       results: [],
     };
 
-    const searchItemsSpy = spyOn(portalModule, "searchItems").and.returnValue(
-      Promise.resolve(sitesResponse)
-    );
+    const searchItemsSpy = vi
+      .spyOn(portalModule, "searchItems")
+      .mockReturnValue(Promise.resolve(sitesResponse) as any);
 
-    try {
-      await _lookupPortal(domain, {} as IHubRequestOptions);
-      fail("should have rejected");
-    } catch (err) {
-      expect(err).toBeDefined();
-    }
+    await expect(
+      _lookupPortal(domain, {} as IHubRequestOptions)
+    ).rejects.toBeDefined();
 
     expect(portalModule.searchItems).toHaveBeenCalled();
-    expect(searchItemsSpy.calls.argsFor(0)[0].q).toBe(
+    expect((searchItemsSpy as any).mock.calls[0][0].q).toBe(
       `typekeywords: hubsubdomain|foobar`
     );
   });

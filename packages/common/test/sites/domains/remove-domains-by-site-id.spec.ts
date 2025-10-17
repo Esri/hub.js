@@ -2,20 +2,22 @@ import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
 import { removeDomainsBySiteId } from "../../../src/sites/domains/remove-domains-by-site-id";
 import { IHubRequestOptions } from "../../../src/hub-types";
+import { vi } from "vitest";
 
 describe("removeDomainsBySiteId", function () {
   const domainSiteId = "foobarbaz1234";
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
 
   it("removes domains", async () => {
     const ro = { isPortal: false } as IHubRequestOptions;
 
-    spyOn(
+    vi.spyOn(
       _checkStatusAndParseJsonModule,
       "_checkStatusAndParseJson"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    ).mockReturnValue(Promise.resolve({ success: true }) as any);
 
     fetchMock.delete(`end:api/v3/domains/?siteId=${domainSiteId}`, {});
 
@@ -27,10 +29,10 @@ describe("removeDomainsBySiteId", function () {
   it("throws error on portal", async () => {
     const ro = { isPortal: true } as IHubRequestOptions;
 
-    spyOn(
+    vi.spyOn(
       _checkStatusAndParseJsonModule,
       "_checkStatusAndParseJson"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    ).mockReturnValue(Promise.resolve({ success: true }) as any);
 
     fetchMock.put(`end:api/v3/domains/?siteId=${domainSiteId}`, {});
 

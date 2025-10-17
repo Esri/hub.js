@@ -1,6 +1,9 @@
 import { _checkStatusAndParseJson } from "../../../src/sites/domains/_check-status-and-parse-json";
+import { vi, expect } from "vitest";
 
 describe("_checkStatusAndParseJson", function () {
+  afterEach(() => vi.restoreAllMocks());
+
   it("resolves with JSON when success", async function () {
     const res = {
       status: 200,
@@ -8,16 +11,12 @@ describe("_checkStatusAndParseJson", function () {
         return {};
       },
     } as Response;
-    spyOn(res, "json").and.returnValue(
-      Promise.resolve({ message: "my json response" })
+    vi.spyOn(res, "json").mockReturnValue(
+      Promise.resolve({ message: "my json response" }) as any
     );
 
-    try {
-      const result = await _checkStatusAndParseJson(res);
-      expect(result.message).toBe("my json response");
-    } catch (err) {
-      fail("shouldnt reject");
-    }
+    const result = await _checkStatusAndParseJson(res);
+    expect(result.message).toBe("my json response");
   });
 
   it("rejects with error when fail with message", async function () {
@@ -34,14 +33,13 @@ describe("_checkStatusAndParseJson", function () {
         return {};
       },
     } as Response;
-    spyOn(res, "json").and.callFake(() => Promise.resolve(jsonRes));
+    vi.spyOn(res, "json").mockImplementation(
+      () => Promise.resolve(jsonRes) as any
+    );
 
-    try {
-      await _checkStatusAndParseJson(res);
-      fail("should reject");
-    } catch (err) {
-      expect((err as Error).message).toBe("title :: an error :: 404");
-    }
+    await expect(_checkStatusAndParseJson(res)).rejects.toThrow(
+      "title :: an error :: 404"
+    );
   });
 
   it("rejects with error when fail", async function () {
@@ -53,13 +51,10 @@ describe("_checkStatusAndParseJson", function () {
         return {};
       },
     } as Response;
-    spyOn(res, "json").and.callFake(() => Promise.resolve(jsonRes));
+    vi.spyOn(res, "json").mockImplementation(
+      () => Promise.resolve(jsonRes) as any
+    );
 
-    try {
-      await _checkStatusAndParseJson(res);
-      fail("should reject");
-    } catch (err) {
-      expect(err as Error).toBeDefined("threw generic error");
-    }
+    await expect(_checkStatusAndParseJson(res)).rejects.toBeDefined();
   });
 });

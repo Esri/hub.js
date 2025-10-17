@@ -1,11 +1,14 @@
 import { _ensureSafeDomainLength } from "../../../src/sites/domains/_ensure-safe-domain-length";
 import * as generateRandomStringModule from "../../../src/utils/generate-random-string";
+import { vi } from "vitest";
 
 describe("_ensureSafeDomainLength", () => {
+  afterEach(() => vi.restoreAllMocks());
   it("shortens domain and appends random hash if necessary", async () => {
-    spyOn(generateRandomStringModule, "generateRandomString").and.returnValue(
-      "abcde"
-    );
+    vi.spyOn(
+      generateRandomStringModule,
+      "generateRandomString"
+    ).mockReturnValue("abcde" as any);
 
     expect(_ensureSafeDomainLength("short-domain")).toBe(
       "short-domain",
@@ -24,9 +27,10 @@ describe("_ensureSafeDomainLength", () => {
   });
 
   it("takes into account url key", async () => {
-    spyOn(generateRandomStringModule, "generateRandomString").and.returnValue(
-      "abcde"
-    );
+    vi.spyOn(
+      generateRandomStringModule,
+      "generateRandomString"
+    ).mockReturnValue("abcde" as any);
 
     const domainWith58Chars =
       "0123456789012345678901234567890123456789012345678901234567";

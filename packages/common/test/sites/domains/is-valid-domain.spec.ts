@@ -1,10 +1,12 @@
 import * as fetchMock from "fetch-mock";
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { isValidDomain } from "../../../src/sites/domains/is-valid-domain";
+import { vi } from "vitest";
 
 describe("isValidDomain", function () {
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
 
   it("success is true when domain valid", async function () {

@@ -1,11 +1,13 @@
 import * as fetchMock from "fetch-mock";
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { domainExists } from "../../../src/sites/domains/domain-exists";
+import { vi } from "vitest";
 
 describe("domainExists", function () {
   const domainId = "146663";
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
 
   it("returns false and true correctly", async function () {

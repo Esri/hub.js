@@ -1,10 +1,12 @@
 import * as fetchMock from "fetch-mock";
 import { getDomainsForSite } from "../../../src/sites/domains/get-domains-for-site";
 import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
+import { vi } from "vitest";
 
 describe("getDomainsForSite", function () {
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
   const domains = [{ some: "domain" }] as unknown as IDomainEntry[];
   it("resolves with the domain entries for a site", async function () {
@@ -37,12 +39,9 @@ describe("getDomainsForSite", function () {
     const responseConfig = { body: JSON.stringify(domains), status: 404 };
     fetchMock.get(`end:?siteId=${siteId}`, responseConfig);
 
-    try {
-      await getDomainsForSite(siteId, {} as IHubRequestOptions);
-      fail("should reject");
-    } catch (err) {
-      expect(err).toBeDefined();
-    }
+    await expect(
+      getDomainsForSite(siteId, {} as IHubRequestOptions)
+    ).rejects.toBeDefined();
 
     expect(fetchMock.done()).toBeTruthy("fetch called correct number of times");
     expect(fetchMock.calls()[0][1].mode).toBe("cors");

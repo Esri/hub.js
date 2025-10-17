@@ -3,11 +3,13 @@ import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_che
 import * as _lookupPortalModule from "../../../src/sites/domains/_lookup-portal";
 import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
 import { lookupDomain } from "../../../src/sites/domains/lookup-domain";
+import { vi } from "vitest";
 
 describe("lookupDomain", function () {
   const domainId = "146663";
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
 
   it("looks up domain on portal", async function () {
@@ -17,8 +19,8 @@ describe("lookupDomain", function () {
       hostname: "someurl",
       siteId: "someid",
     };
-    spyOn(_lookupPortalModule, "_lookupPortal").and.returnValue(
-      Promise.resolve(portalDomainEntry)
+    vi.spyOn(_lookupPortalModule, "_lookupPortal").mockReturnValue(
+      Promise.resolve(portalDomainEntry) as any
     );
 
     fetchMock.get(`end:api/v3/domains/${domainId}`, {});
@@ -33,10 +35,10 @@ describe("lookupDomain", function () {
   it("looks up domain outside portal", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;
 
-    spyOn(
+    vi.spyOn(
       _checkStatusAndParseJsonModule,
       "_checkStatusAndParseJson"
-    ).and.returnValue(Promise.resolve({ id: "domain-record-id" }));
+    ).mockReturnValue(Promise.resolve({ id: "domain-record-id" }) as any);
 
     fetchMock.get(`end:api/v3/domains/${domainId}`, {});
 
