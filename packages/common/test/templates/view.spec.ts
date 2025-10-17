@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { cloneObject } from "../../src/util";
 import {
   initContextManager,
@@ -14,13 +15,17 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 
 describe("template view module:", () => {
   let getShortenedCategoriesSpy: any;
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: Partial<ArcGISContextManager>;
 
   beforeEach(async () => {
-    authdCtxMgr = await initContextManager();
+    authdCtxMgr = initContextManager();
     getShortenedCategoriesSpy = vi
       .spyOn(internalContentUtils, "getShortenedCategories")
       .mockReturnValue(["category1", "category2"]);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("templateToCardModel:", () => {

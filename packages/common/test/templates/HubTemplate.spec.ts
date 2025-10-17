@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubTemplate } from "../../src/templates/HubTemplate";
 import { initContextManager } from "./fixtures";
@@ -10,9 +11,12 @@ import * as enrichEntityModule from "../../src/core/enrichEntity";
 import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 describe("HubTemplate Class", () => {
-  let authdCtxMgr: ArcGISContextManager;
-  beforeEach(async () => {
-    authdCtxMgr = await initContextManager();
+  let authdCtxMgr: Partial<ArcGISContextManager>;
+  beforeEach(() => {
+    authdCtxMgr = initContextManager();
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("static methods", () => {
@@ -33,11 +37,13 @@ describe("HubTemplate Class", () => {
     describe("create", () => {
       let createSpy: any;
       beforeEach(() => {
-        createSpy = spyOn(editModule, "createTemplate").and.callFake(() =>
-          Promise.resolve()
-        );
+        createSpy = vi
+          .spyOn(editModule, "createTemplate")
+          .mockImplementation(() => Promise.resolve());
       });
-      afterEach(() => createSpy.calls.reset());
+      afterEach(() => {
+        vi.restoreAllMocks();
+      });
 
       it("saves the instance when prompted to", async () => {
         await HubTemplate.create(
@@ -59,9 +65,9 @@ describe("HubTemplate Class", () => {
 
     describe("fetch", () => {
       it("fetches the Template backing item", async () => {
-        const fetchSpy = spyOn(fetchModule, "fetchTemplate").and.callFake(() =>
-          Promise.resolve({ id: "00c" })
-        );
+        const fetchSpy = vi
+          .spyOn(fetchModule, "fetchTemplate")
+          .mockImplementation(() => Promise.resolve({ id: "00c" }));
 
         const chk = await HubTemplate.fetch("00c", authdCtxMgr.context);
 
@@ -69,11 +75,13 @@ describe("HubTemplate Class", () => {
         expect(chk.toJson().id).toBe("00c");
       });
       it("catches errors when attempting to fetch missing or inaccessible templates", async () => {
-        const fetchSpy = spyOn(fetchModule, "fetchTemplate").and.callFake(() =>
-          Promise.reject(
-            new Error("CONT_0001: Item does not exist or is inaccessible.")
-          )
-        );
+        const fetchSpy = vi
+          .spyOn(fetchModule, "fetchTemplate")
+          .mockImplementation(() =>
+            Promise.reject(
+              new Error("CONT_0001: Item does not exist or is inaccessible.")
+            )
+          );
 
         try {
           await HubTemplate.fetch("00c", authdCtxMgr.context);
@@ -83,9 +91,9 @@ describe("HubTemplate Class", () => {
         }
       });
       it("catches other errors", async () => {
-        const fetchSpy = spyOn(fetchModule, "fetchTemplate").and.callFake(() =>
-          Promise.reject(new Error("error"))
-        );
+        const fetchSpy = vi
+          .spyOn(fetchModule, "fetchTemplate")
+          .mockImplementation(() => Promise.reject(new Error("error")));
 
         try {
           await HubTemplate.fetch("00c", authdCtxMgr.context);
@@ -99,9 +107,9 @@ describe("HubTemplate Class", () => {
 
   describe("save", () => {
     it("creates a backing item for a template entity if one does not already exist", async () => {
-      const createSpy = spyOn(editModule, "createTemplate").and.callFake(() =>
-        Promise.resolve()
-      );
+      const createSpy = vi
+        .spyOn(editModule, "createTemplate")
+        .mockImplementation(() => Promise.resolve());
 
       const chk = HubTemplate.fromJson(
         { name: "Test Template" },
@@ -112,9 +120,9 @@ describe("HubTemplate Class", () => {
       expect(createSpy).toHaveBeenCalledTimes(1);
     });
     it("updates the backing item of the template entity if it already exists", async () => {
-      const updateSpy = spyOn(editModule, "updateTemplate").and.callFake(() =>
-        Promise.resolve()
-      );
+      const updateSpy = vi
+        .spyOn(editModule, "updateTemplate")
+        .mockImplementation(() => Promise.resolve());
 
       const chk = HubTemplate.fromJson(
         { id: "00c", name: "Test Template" },
@@ -129,10 +137,9 @@ describe("HubTemplate Class", () => {
   describe("IWithEditorBehavior", () => {
     describe("getEditorConfig", () => {
       it("delegates to the schema subsystem", async () => {
-        const getEditorConfigSpy = spyOn(
-          getEditorConfigModule,
-          "getEditorConfig"
-        ).and.callFake(() => Promise.resolve({ fake: "config" }));
+        const getEditorConfigSpy = vi
+          .spyOn(getEditorConfigModule, "getEditorConfig")
+          .mockImplementation(() => Promise.resolve({ fake: "config" } as any));
 
         const chk = HubTemplate.fromJson(
           { id: "00c", name: "Test Template" },
@@ -155,10 +162,9 @@ describe("HubTemplate Class", () => {
 
     describe("toEditor", () => {
       it("optionally enriches the entity", async () => {
-        const enrichEntitySpy = spyOn(
-          enrichEntityModule,
-          "enrichEntity"
-        ).and.returnValue(Promise.resolve({}));
+        const enrichEntitySpy = vi
+          .spyOn(enrichEntityModule, "enrichEntity")
+          .mockReturnValue(Promise.resolve({} as any));
         const chk = HubTemplate.fromJson({ id: "00c" }, authdCtxMgr.context);
         await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
         expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
@@ -177,16 +183,21 @@ describe("HubTemplate Class", () => {
     });
 
     describe("fromEditor:", () => {
-      let createSpy: jasmine.Spy;
-      let hubItemEntityFromEditorSpy: jasmine.Spy;
+      let createSpy: any;
+      let hubItemEntityFromEditorSpy: any;
       beforeEach(() => {
-        createSpy = spyOn(editModule, "createTemplate").and.callFake(() =>
-          Promise.resolve({ id: "00c" })
-        );
-        hubItemEntityFromEditorSpy = spyOn(
-          hubItemEntityFromEditorModule,
-          "hubItemEntityFromEditor"
-        ).and.callThrough();
+        createSpy = vi
+          .spyOn(editModule, "createTemplate")
+          .mockImplementation(() => Promise.resolve({ id: "00c" } as any));
+        // capture the original implementation so the spy can delegate to it
+        const originalHubItemEntityFromEditor = (
+          hubItemEntityFromEditorModule as any
+        ).hubItemEntityFromEditor;
+        hubItemEntityFromEditorSpy = vi
+          .spyOn(hubItemEntityFromEditorModule, "hubItemEntityFromEditor")
+          .mockImplementation((...args: any[]) =>
+            originalHubItemEntityFromEditor(...args)
+          );
       });
       it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const chk = HubTemplate.fromJson(
@@ -197,7 +208,7 @@ describe("HubTemplate Class", () => {
           },
           authdCtxMgr.context
         );
-        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        vi.spyOn(chk, "save").mockReturnValue(Promise.resolve() as any);
         const editor = await chk.toEditor();
         await chk.fromEditor(editor);
         expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
@@ -208,7 +219,9 @@ describe("HubTemplate Class", () => {
           authdCtxMgr.context
         );
         // 1. spy on the instance .save method and return void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockReturnValue(Promise.resolve() as any);
         // 2. make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "Updated Name";
@@ -228,7 +241,9 @@ describe("HubTemplate Class", () => {
         );
 
         // 1. spy on the instance .save method and return void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockReturnValue(Promise.resolve() as any);
         // 2. make changes to the thumbnail
         const editor = await chk.toEditor();
         editor._thumbnail = {
@@ -252,7 +267,9 @@ describe("HubTemplate Class", () => {
         );
 
         // 1. spy on the instance .save method and return void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockReturnValue(Promise.resolve() as any);
         // 2. clear the thumbnail
         const editor = await chk.toEditor();
         editor._thumbnail = {};
@@ -293,9 +310,9 @@ describe("HubTemplate Class", () => {
     let deleteSpy: any;
     let chk: any;
     beforeEach(() => {
-      deleteSpy = spyOn(editModule, "deleteTemplate").and.callFake(() =>
-        Promise.resolve()
-      );
+      deleteSpy = vi
+        .spyOn(editModule, "deleteTemplate")
+        .mockImplementation(() => Promise.resolve() as any);
       chk = HubTemplate.fromJson(
         { id: "00c", name: "Test Template" },
         authdCtxMgr.context

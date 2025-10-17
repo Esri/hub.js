@@ -1,6 +1,8 @@
+import { vi } from "vitest";
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { computeLinks } from "../../../src/templates/_internal/computeLinks";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { createMockContext } from "../../mocks/mock-auth";
+import type { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { setProp } from "../../../src/objects/set-prop";
 import { initContextManager } from "../fixtures";
 import * as getItemThumbnailUrlModule from "../../../src/resources/get-item-thumbnail-url";
@@ -8,8 +10,8 @@ import * as getItemHomeUrlModule from "../../../src/urls/get-item-home-url";
 import { IHubEntityLinks } from "../../../src/core/types/IHubEntityBase";
 
 describe("templates: computeLinks", () => {
-  let authdCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: Partial<ArcGISContextManager>;
+  let unauthdCtxMgr: Partial<ArcGISContextManager>;
   let item: IItem;
 
   beforeEach(async () => {
@@ -17,8 +19,10 @@ describe("templates: computeLinks", () => {
       type: "Solution",
       id: "00c",
     } as IItem;
-    authdCtxMgr = await initContextManager();
-    unauthdCtxMgr = await ArcGISContextManager.create();
+    authdCtxMgr = initContextManager();
+    unauthdCtxMgr = {
+      context: createMockContext(),
+    } as Partial<ArcGISContextManager>;
 
     vi.spyOn(getItemHomeUrlModule, "getItemHomeUrl").mockReturnValue(
       "/some-item-home-url"
@@ -26,6 +30,10 @@ describe("templates: computeLinks", () => {
     vi.spyOn(getItemThumbnailUrlModule, "getItemThumbnailUrl").mockReturnValue(
       "/some-thumbnail-url"
     );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("generates a links hash using the template's slug", () => {
