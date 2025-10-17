@@ -53,6 +53,10 @@ module.exports = {
         message:
           "Enums are not allowed. Consider using separate const and type. E.g. const FRUIT = { APPLE: 'apple', BANANA: 'banana' } as const; type Fruit = typeof FRUIT[keyof typeof FRUIT];",
       },
+      {
+        selector: 'ImportExpression',
+        message: 'Dynamic import() is not allowed.',
+      },
     ],
     "@typescript-eslint/no-require-imports": "error",
   },
