@@ -72,18 +72,7 @@ This pattern lets you iterate quickly on a subset of tests and only pay the cost
     - Mock external dependencies using Vitest's `vi.mock()`
 
     - Special note for `@esri/arcgis-rest-*` packages:
-      - These packages export ESM namespace objects which are not safely spyable after import. To make individual exported functions spyable, register an async mock at the top of your spec that merges the original module via the `importOriginal` factory and overrides only the functions you need to spy on. Example:
-
-        ```ts
-        // at the very top of the spec, before importing the module-under-test
-        vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
-          ...(await importOriginal()),
-          getItem: vi.fn(),
-          getItemData: vi.fn(),
-        }));
-        ```
-
-      - Important: register this `vi.mock()` before importing the code that will call or spy on those exports. Otherwise the exports cannot be replaced and `vi.spyOn` won't work.
+      - These packages export ESM namespace objects which are not safely spyable after import. Register an async `vi.mock()` at the top of your spec (before importing the module-under-test) to merge the original module via `importOriginal()` and override only the functions you need to spy on. For the canonical example and extra tips, see the repository agent chatmode: `.github/chatmodes/test-migration.chatmode.md`.
       - After tests, restore mocks to avoid cross-test leakage: `afterEach(() => vi.restoreAllMocks())`.
 
 ## Type Safety
