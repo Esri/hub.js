@@ -20,6 +20,39 @@ applyTo: "packages/common/test/**/*.ts"
 - Run `npm run test -w @esri/hub-common` from the root of the repository or `npm test` from `packages/common` to check coverage.
 - There is no need to attempt to cover existing Istanbul ignore comments (e.g., `/* istanbul ignore else */`), but we should avoid adding new ones.
 
+### Fast iterative testing (recommended)
+
+When migrating or fixing tests it's much faster to run only the folder you're actively working on and to disable coverage during iteration. This avoids the global 100% coverage enforcement while you're still converting specs.
+
+- Run a focused folder without coverage (from `packages/common`):
+
+  ```sh
+  npx vitest --config=vitest.config.mjs run --coverage=false test/<folder>
+  # example: npx vitest --config=vitest.config.mjs run --coverage=false test/surveys
+  ```
+
+- Use `--run` for a single run and `--watch` for code-edit cycles:
+
+  ```sh
+  # run once
+  npx vitest --config=vitest.config.mjs run test/surveys
+
+  # watch files and re-run tests on change
+  npx vitest --config=vitest.config.mjs --watch test/surveys
+  ```
+
+- When the folder's tests are green and lint/type issues are resolved, run the full package tests with coverage to verify the repo thresholds pass:
+
+  ```sh
+  # from packages/common
+  npm test
+
+  # or from repo root
+  npm run test -w @esri/hub-common
+  ```
+
+This pattern lets you iterate quickly on a subset of tests and only pay the cost of a full coverage run once the folder is stable.
+
 ## Jasmine Coverage & Configuration
 - Coverage is enforced via `karma.config.js` (see `coverageOptions`)
 - To run tests with coverage, from the root of the repository run `npm run test:chrome`.
