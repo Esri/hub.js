@@ -37,7 +37,14 @@ module.exports = {
         ]
       }
     ],
-    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/no-require-imports": "error",
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector: 'ImportExpression',
+        message: 'Dynamic import() is not allowed.',
+      },
+    ],
   },
   overrides: [
     {

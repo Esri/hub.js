@@ -11,6 +11,11 @@ import {
   IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
+import { fetchHubChannel } from "./fetch";
+import { createHubChannel, deleteHubChannel, updateHubChannel } from "./edit";
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { transformEntityToEditor } from "./_internal/transformEntityToEditor";
+import { transformEditorToEntity } from "./_internal/transformEditorToEntity";
 
 export class HubChannel
   implements IWithStoreBehavior<IHubChannel>, IWithEditorBehavior
@@ -69,7 +74,6 @@ export class HubChannel
     context: IArcGISContext
   ): Promise<HubChannel> {
     try {
-      const { fetchHubChannel } = await import("./fetch");
       const entity = await fetchHubChannel(identifier, context);
       return HubChannel.fromJson(entity, context);
     } catch (e) {
@@ -151,10 +155,8 @@ export class HubChannel
     }
 
     if (this.entity.id) {
-      const { updateHubChannel } = await import("./edit");
       this.entity = await updateHubChannel(this.entity, this.context);
     } else {
-      const { createHubChannel } = await import("./edit");
       this.entity = await createHubChannel(this.entity, this.context);
     }
   }
@@ -168,7 +170,6 @@ export class HubChannel
     if (this.isDestroyed) {
       throw new Error("HubChannel is already destroyed.");
     }
-    const { deleteHubChannel } = await import("./edit");
     this.isDestroyed = true;
     await deleteHubChannel(this.entity.id, this.context);
   }
@@ -193,7 +194,6 @@ export class HubChannel
     i18nScope: string,
     type: ChannelEditorType
   ): Promise<IEditorConfig> {
-    const { getEditorConfig } = await import("../core/schemas/getEditorConfig");
     return getEditorConfig(i18nScope, type, this.entity, this.context);
   }
 
@@ -207,10 +207,7 @@ export class HubChannel
     _editorContext: IEntityEditorContext,
     _include?: string[]
   ): Promise<IHubChannelEditor> {
-    const { transformEntityToEditor } = await import(
-      "./_internal/transformEntityToEditor"
-    );
-    return transformEntityToEditor(this.entity, this.context);
+    return Promise.resolve(transformEntityToEditor(this.entity, this.context));
   }
 
   /**
@@ -219,9 +216,6 @@ export class HubChannel
    * @returns a promise that resolves an IHubChannel
    */
   async fromEditor(editor: IHubChannelEditor): Promise<IHubChannel> {
-    const { transformEditorToEntity } = await import(
-      "./_internal/transformEditorToEntity"
-    );
     this.entity = {
       ...this.entity,
       ...transformEditorToEntity(editor),
