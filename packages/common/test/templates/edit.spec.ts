@@ -1,3 +1,8 @@
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  removeItem: vi.fn(),
+}));
+
 import { vi } from "vitest";
 import {
   createTemplate,
@@ -22,11 +27,6 @@ import * as getModelUtils from "../../src/models/getModel";
 import * as updateModelUtils from "../../src/models/updateModel";
 import type { IPortal } from "@esri/arcgis-rest-portal";
 import * as portalModule from "@esri/arcgis-rest-portal";
-
-vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
-  ...(await importOriginal()),
-  removeItem: vi.fn(),
-}));
 
 describe("templates: edit module", () => {
   let authdCtxMgr: Partial<ArcGISContextManager>;

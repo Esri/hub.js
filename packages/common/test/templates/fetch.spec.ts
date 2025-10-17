@@ -1,3 +1,9 @@
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  getItem: vi.fn(),
+  getItemData: vi.fn(),
+}));
+
 import { vi } from "vitest";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
@@ -16,12 +22,6 @@ import * as getItemBySlugModule from "../../src/items/slugs";
 import * as fetchItemEnrichmentsModule from "../../src/items/_enrichments";
 import * as computeLinksModule from "../../src/templates/_internal/computeLinks";
 import * as templateUtilsModule from "../../src/templates/utils";
-
-vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
-  ...(await importOriginal()),
-  getItem: vi.fn(),
-  getItemData: vi.fn(),
-}));
 
 describe("templates: fetch module", () => {
   let authdCtxMgr: Partial<ArcGISContextManager>;
