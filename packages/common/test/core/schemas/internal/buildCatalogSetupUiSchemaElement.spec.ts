@@ -2,6 +2,7 @@ import { buildCatalogSetupUiSchemaElement } from "../../../../src/core/schemas/i
 import * as wellKnownCatalogModule from "../../../../src/search/wellKnownCatalog";
 import * as checkPermissionModule from "../../../../src/permissions/checkPermission";
 import { IArcGISContext } from "../../../../src/types/IArcGISContext";
+import { vi } from "vitest";
 
 describe("buildCatalogSetupUiSchemaElement", () => {
   let context: IArcGISContext;
@@ -13,14 +14,12 @@ describe("buildCatalogSetupUiSchemaElement", () => {
   });
 
   it("returns two elements with correct structure and calls getWellKnownCatalogs with expected args", () => {
-    const getWellKnownCatalogsSpy = spyOn(
-      wellKnownCatalogModule,
-      "getWellKnownCatalogs"
-    ).and.returnValue(["mockCatalog"]);
-    spyOn(checkPermissionModule, "checkPermission").and.returnValues(
-      { access: true },
-      { access: false }
-    );
+    const getWellKnownCatalogsSpy = vi
+      .spyOn(wellKnownCatalogModule, "getWellKnownCatalogs")
+      .mockReturnValue(["mockCatalog"] as any);
+    vi.spyOn(checkPermissionModule, "checkPermission")
+      .mockReturnValueOnce({ access: true } as any)
+      .mockReturnValueOnce({ access: false } as any);
 
     const i18nScope = "test.scope";
     let result = buildCatalogSetupUiSchemaElement(i18nScope, context);

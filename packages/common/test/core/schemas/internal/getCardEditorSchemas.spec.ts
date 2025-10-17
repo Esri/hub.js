@@ -15,22 +15,27 @@ import { IArcGISContext } from "../../../../src/types/IArcGISContext";
 import { EventGalleryCardSchema } from "../../../../src/core/schemas/internal/events/EventGalleryCardSchema";
 import { EmbedCardSchema } from "../../../../src/core/schemas/internal/embed/EmbedSchema";
 
+import { vi } from "vitest";
+
 describe("getCardEditorSchemas", () => {
-  let uiSchemaBuildFnSpy: jasmine.Spy;
+  let uiSchemaBuildFnSpy: any;
   const context: IArcGISContext = {
     context: true,
   } as unknown as IArcGISContext;
 
   afterEach(() => {
-    uiSchemaBuildFnSpy.calls.reset();
+    // restore any spies/mocks created by vi.spyOn
+    vi.restoreAllMocks();
   });
 
   [{ type: "hub:card:stat", buildFn: statUiSchemaModule }].forEach(
     ({ type, buildFn }) => {
       it("returns a schema & uiSchema for a given card and card type", async () => {
-        uiSchemaBuildFnSpy = spyOn(buildFn, "buildUiSchema").and.returnValue({
-          type: "Layout",
-        });
+        uiSchemaBuildFnSpy = vi
+          .spyOn(buildFn, "buildUiSchema")
+          .mockResolvedValue({
+            type: "Layout",
+          } as unknown as IUiSchema);
         const { schema, uiSchema } = await getCardEditorSchemas(
           "some.scope",
           type as CardEditorType,
@@ -45,14 +50,12 @@ describe("getCardEditorSchemas", () => {
     }
   );
   it("filters the schemas to the uiSchema elements before returning", async () => {
-    const filterSchemaToUiSchemaSpy = spyOn(
-      filterSchemaModule,
-      "filterSchemaToUiSchema"
-    ).and.callThrough();
-    uiSchemaBuildFnSpy = spyOn(
-      statUiSchemaModule,
-      "buildUiSchema"
-    ).and.returnValue({});
+    const filterSchemaToUiSchemaSpy = vi
+      .spyOn(filterSchemaModule, "filterSchemaToUiSchema")
+      .mockImplementation((s: IConfigurationSchema) => s);
+    uiSchemaBuildFnSpy = vi
+      .spyOn(statUiSchemaModule, "buildUiSchema")
+      .mockResolvedValue({} as IUiSchema);
 
     await getCardEditorSchemas("some.scope", "hub:card:stat", {}, context);
 
@@ -63,9 +66,11 @@ describe("getCardEditorSchemas", () => {
   [{ type: "hub:card:follow", buildFn: followUiSchemaModule }].forEach(
     ({ type, buildFn }) => {
       it("returns a schema & uiSchema for a given card and card type", async () => {
-        uiSchemaBuildFnSpy = spyOn(buildFn, "buildUiSchema").and.returnValue({
-          type: "Layout",
-        });
+        uiSchemaBuildFnSpy = vi
+          .spyOn(buildFn, "buildUiSchema")
+          .mockReturnValue({
+            type: "Layout",
+          } as IUiSchema);
         const { schema, uiSchema } = await getCardEditorSchemas(
           "some.scope",
           type as CardEditorType,
@@ -80,14 +85,12 @@ describe("getCardEditorSchemas", () => {
     }
   );
   it("filters the schemas to the uiSchema elements before returning", async () => {
-    const filterSchemaToUiSchemaSpy = spyOn(
-      filterSchemaModule,
-      "filterSchemaToUiSchema"
-    ).and.callThrough();
-    uiSchemaBuildFnSpy = spyOn(
-      followUiSchemaModule,
-      "buildUiSchema"
-    ).and.returnValue({});
+    const filterSchemaToUiSchemaSpy = vi
+      .spyOn(filterSchemaModule, "filterSchemaToUiSchema")
+      .mockImplementation((s: IConfigurationSchema) => s);
+    uiSchemaBuildFnSpy = vi
+      .spyOn(followUiSchemaModule, "buildUiSchema")
+      .mockReturnValue({} as IUiSchema);
 
     await getCardEditorSchemas("some.scope", "hub:card:follow", {}, context);
 
@@ -104,14 +107,12 @@ describe("getCardEditorSchemas", () => {
         filtered: true,
       } as unknown as IConfigurationSchema;
       const uiSchema = { uiSchema: true } as unknown as IUiSchema;
-      const filterSchemaToUiSchemaSpy = spyOn(
-        filterSchemaModule,
-        "filterSchemaToUiSchema"
-      ).and.returnValue(filteredSchema);
-      uiSchemaBuildFnSpy = spyOn(
-        eventGalleryUiSchemaModule,
-        "buildUiSchema"
-      ).and.returnValue(uiSchema);
+      const filterSchemaToUiSchemaSpy = vi
+        .spyOn(filterSchemaModule, "filterSchemaToUiSchema")
+        .mockReturnValue(filteredSchema);
+      uiSchemaBuildFnSpy = vi
+        .spyOn(eventGalleryUiSchemaModule, "buildUiSchema")
+        .mockResolvedValue(uiSchema);
 
       const results = await getCardEditorSchemas(
         "some.scope",
@@ -145,14 +146,12 @@ describe("getCardEditorSchemas", () => {
         filtered: true,
       } as unknown as IConfigurationSchema;
       const uiSchema = { uiSchema: true } as unknown as IUiSchema;
-      const filterSchemaToUiSchemaSpy = spyOn(
-        filterSchemaModule,
-        "filterSchemaToUiSchema"
-      ).and.returnValue(filteredSchema);
-      uiSchemaBuildFnSpy = spyOn(
-        embedUiSchemaModule,
-        "buildUiSchema"
-      ).and.returnValue(uiSchema);
+      const filterSchemaToUiSchemaSpy = vi
+        .spyOn(filterSchemaModule, "filterSchemaToUiSchema")
+        .mockReturnValue(filteredSchema);
+      uiSchemaBuildFnSpy = vi
+        .spyOn(embedUiSchemaModule, "buildUiSchema")
+        .mockReturnValue(uiSchema);
 
       const results = await getCardEditorSchemas(
         "",
