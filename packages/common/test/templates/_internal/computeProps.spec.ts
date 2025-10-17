@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { computeProps } from "../../../src/templates/_internal/computeProps";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { IHubTemplate } from "../../../src/core/types/IHubTemplate";
@@ -7,35 +8,43 @@ import * as computeLinksModule from "../../../src/templates/_internal/computeLin
 import * as computeItemPropsModule from "../../../src/core/_internal/computeItemProps";
 import * as processEntityFeaturesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import * as templateUtilsModule from "../../../src/templates/utils";
-
 describe("templates: computeProps:", () => {
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: Partial<ArcGISContextManager>;
   let model: IModel;
   let template: Partial<IHubTemplate>;
-  let computeLinksSpy: jasmine.Spy;
-  let computeItemPropsSpy: jasmine.Spy;
-  let processEntityFeaturesSpy: jasmine.Spy;
-  let getDeployedTemplateTypeSpy: jasmine.Spy;
+  let computeLinksSpy: any;
+  let computeItemPropsSpy: any;
+  let processEntityFeaturesSpy: any;
+  beforeEach(() => {
+    // initContextManager returns a Partial in our fixtures
+    authdCtxMgr = initContextManager();
 
-  beforeEach(async () => {
-    authdCtxMgr = await initContextManager();
-    computeLinksSpy = spyOn(computeLinksModule, "computeLinks").and.returnValue(
-      { self: "some-link", thumbnail: "some-thumbnail-link" }
+    computeLinksSpy = vi
+      .spyOn(computeLinksModule, "computeLinks")
+      .mockReturnValue({ self: "some-link", thumbnail: "some-thumbnail-link" });
+
+    computeItemPropsSpy = vi
+      .spyOn(computeItemPropsModule, "computeItemProps")
+      .mockImplementation(
+        (
+          _item: any,
+          _template: Partial<IHubTemplate>
+        ): Partial<IHubTemplate> => {
+          return {
+            ...(_template || {}),
+            isDiscussable: true,
+          } as Partial<IHubTemplate>;
+        }
+      );
+
+    processEntityFeaturesSpy = vi
+      .spyOn(processEntityFeaturesModule, "processEntityFeatures")
+      .mockReturnValue({});
+
+    // no local variable needed for the spy; just install it
+    vi.spyOn(templateUtilsModule, "getDeployedTemplateType").mockReturnValue(
+      "StoryMap"
     );
-    computeItemPropsSpy = spyOn(
-      computeItemPropsModule,
-      "computeItemProps"
-    ).and.callFake((_item: any, _template: any) => {
-      return { ..._template, isDiscussable: true };
-    });
-    processEntityFeaturesSpy = spyOn(
-      processEntityFeaturesModule,
-      "processEntityFeatures"
-    ).and.returnValue({});
-    getDeployedTemplateTypeSpy = spyOn(
-      templateUtilsModule,
-      "getDeployedTemplateType"
-    ).and.returnValue("StoryMap");
 
     template = {
       type: "Solution",
@@ -50,6 +59,10 @@ describe("templates: computeProps:", () => {
       },
       data: {},
     } as IModel;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("links: computes a links hash", () => {

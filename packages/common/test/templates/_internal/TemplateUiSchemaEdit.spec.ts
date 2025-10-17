@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import { buildUiSchema } from "../../../src/templates/_internal/TemplateUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
@@ -69,12 +70,18 @@ const CATEGORIES_ELEMENTS = [
 ];
 
 describe("buildUiSchema: template edit", () => {
-  let fetchCategoriesUiSchemaElementSpy: jasmine.Spy;
+  let fetchCategoriesUiSchemaElementSpy: any;
   beforeEach(() => {
-    fetchCategoriesUiSchemaElementSpy = spyOn(
-      fetchCategoriesUiSchemaElementModule,
-      "fetchCategoriesUiSchemaElement"
-    ).and.returnValue(Promise.resolve(CATEGORIES_ELEMENTS));
+    fetchCategoriesUiSchemaElementSpy = vi
+      .spyOn(
+        fetchCategoriesUiSchemaElementModule,
+        "fetchCategoriesUiSchemaElement"
+      )
+      .mockReturnValue(Promise.resolve(CATEGORIES_ELEMENTS));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
   it("returns the full template edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(
