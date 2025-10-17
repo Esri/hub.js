@@ -39,6 +39,7 @@ import { getProp } from "../objects/get-prop";
 import { setProp } from "../objects/set-prop";
 import { mapBy } from "../utils/map-by";
 import { handleDomainChanges } from "./_internal/handleDomainChanges";
+import { AccessLevel } from "../core/types/types";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -519,7 +520,7 @@ export async function enrichSiteSearchResult(
 
   // Create the basic structure
   const result: IHubSearchResult = {
-    access: item.access,
+    access: item.access as AccessLevel,
     id: item.id,
     type: item.type,
     name: item.title,

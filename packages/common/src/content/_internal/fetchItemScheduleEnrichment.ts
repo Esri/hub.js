@@ -4,6 +4,7 @@ import { getSchedule, isDownloadSchedulingAvailable } from "../manageSchedule";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../hub-types";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { AccessLevel } from "../../core/types/types";
 
 /**
  * @private
@@ -24,7 +25,7 @@ export async function fetchItemScheduleEnrichment(
   if (
     isDownloadSchedulingAvailable(
       requestOptions as IHubRequestOptions,
-      item.access
+      item.access as AccessLevel
     )
   ) {
     try {
