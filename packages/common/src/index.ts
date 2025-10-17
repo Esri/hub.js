@@ -1410,7 +1410,7 @@ export {
   IColumn,
   IColumnProps,
   IConfigurableLayoutNode,
-  ILayout,
+  ITranslationMap,
   ILayoutNode,
   ILayoutNodeChangeEventDetail,
   ILayoutNodeConfig,
@@ -1419,16 +1419,14 @@ export {
   IRowProps,
   ISection,
   ISectionProps,
-  ITranslationMap,
-  Layout,
   LayoutColumnChild,
   LayoutNodeTag,
   layoutNodeTags,
   LayoutNode,
-  LayoutUtils,
   Ref,
   SectionOrRef,
   ResponsiveValue,
-} from "./layouts/types";
+} from "./layouts/layout-shared-types";
+export { ILayout, Layout, LayoutUtils } from "./layouts/types";
 export { ILayoutV1 } from "./layouts/migrations/types/ILayoutV1";
 export { ILayoutV2 } from "./layouts/migrations/types/ILayoutV2";

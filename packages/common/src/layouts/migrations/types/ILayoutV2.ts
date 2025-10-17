@@ -4,7 +4,7 @@ import type {
   INodeOverrides,
   ITranslationMap,
   SectionOrRef,
-} from "../../types";
+} from "../../layout-shared-types";
 
 /** Interface representing a V2 layout object. */
 export interface ILayoutV2 extends IMigratableSchema {
