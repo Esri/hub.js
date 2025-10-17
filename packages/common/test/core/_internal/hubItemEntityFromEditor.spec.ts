@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { hubItemEntityFromEditor } from "../../../src/core/_internal/hubItemEntityFromEditor";
 import { Catalog } from "../../../src/search/Catalog";
 import * as slugsModule from "../../../src/items/_internal/slugs";
@@ -31,9 +32,9 @@ describe("hubItemEntityFromEditor", () => {
   });
 
   it("handles slug truncation and empty slug", async () => {
-    const truncateSpy = spyOn(slugsModule, "truncateSlug").and.returnValue(
-      "truncated"
-    );
+    const truncateSpy = vi
+      .spyOn(slugsModule, "truncateSlug")
+      .mockReturnValue("truncated");
     const result = await hubItemEntityFromEditor(
       { ...editor, _slug: "slug" },
       context
@@ -64,14 +65,12 @@ describe("hubItemEntityFromEditor", () => {
   });
 
   it("handles featured image upload and removal", async () => {
-    spyOn(upsertResourceModule, "upsertResource").and.returnValue(
-      Promise.resolve("url")
+    vi.spyOn(upsertResourceModule, "upsertResource").mockResolvedValue("url");
+    vi.spyOn(doesResourceExistModule, "doesResourceExist").mockResolvedValue(
+      true
     );
-    spyOn(doesResourceExistModule, "doesResourceExist").and.returnValue(
-      Promise.resolve(true)
-    );
-    spyOn(removeResourceModule, "removeResource").and.returnValue(
-      Promise.resolve()
+    vi.spyOn(removeResourceModule, "removeResource").mockResolvedValue(
+      undefined
     );
 
     // With blob
@@ -102,10 +101,10 @@ describe("hubItemEntityFromEditor", () => {
       },
       collections: [],
     } as IHubCatalog;
-    spyOn(initCatalogModule, "initCatalogOnEntityCreate").and.returnValue(
-      Promise.resolve(fakeCatalog)
+    vi.spyOn(initCatalogModule, "initCatalogOnEntityCreate").mockResolvedValue(
+      fakeCatalog as any
     );
-    spyOn(Catalog, "fromJson").and.returnValue("catalogInstance");
+    vi.spyOn(Catalog, "fromJson").mockReturnValue("catalogInstance" as any);
     // newGroup
     let result = await hubItemEntityFromEditor(
       { ...editor, _catalogSetup: { type: "newGroup" } },
@@ -128,11 +127,14 @@ describe("hubItemEntityFromEditor", () => {
   });
 
   it("handles metrics logic", async () => {
-    spyOn(metricsModule, "editorToMetric").and.returnValue({
+    vi.spyOn(metricsModule, "editorToMetric").mockReturnValue({
       metric: { id: "m" },
       displayConfig: { foo: 1 },
-    });
-    spyOn(setMetricAndDisplayModule, "setMetricAndDisplay").and.callFake(
+    } as any);
+    vi.spyOn(
+      setMetricAndDisplayModule,
+      "setMetricAndDisplay"
+    ).mockImplementation(
       (
         entity: IHubItemEntity,
         metric: { [key: string]: any },
@@ -155,17 +157,17 @@ describe("hubItemEntityFromEditor", () => {
   });
 
   it("removes ephemeral props from editor", async () => {
-    spyOn(upsertResourceModule, "upsertResource").and.returnValue(
-      Promise.resolve("mock-url")
+    vi.spyOn(upsertResourceModule, "upsertResource").mockResolvedValue(
+      "mock-url"
     );
-    spyOn(doesResourceExistModule, "doesResourceExist").and.returnValue(
-      Promise.resolve(false)
+    vi.spyOn(doesResourceExistModule, "doesResourceExist").mockResolvedValue(
+      false
     );
-    spyOn(removeResourceModule, "removeResource").and.returnValue(
-      Promise.resolve()
+    vi.spyOn(removeResourceModule, "removeResource").mockResolvedValue(
+      undefined
     );
-    spyOn(initCatalogModule, "initCatalogOnEntityCreate").and.returnValue(
-      Promise.resolve({})
+    vi.spyOn(initCatalogModule, "initCatalogOnEntityCreate").mockResolvedValue(
+      {} as any
     );
     const mockEditor = {
       ...editor,
@@ -220,14 +222,14 @@ describe("hubItemEntityFromEditor", () => {
 
   describe("hubItemEntityFromEditor layout setup", () => {
     let context: IArcGISContext;
-    let getTemplateSpy: jasmine.Spy;
+    let getTemplateSpy: any;
 
     beforeEach(() => {
       context = {
         portal: { urlKey: "testorg" },
         userRequestOptions: {},
       } as any;
-      getTemplateSpy = spyOn(getTemplateModule, "getTemplate");
+      getTemplateSpy = vi.spyOn(getTemplateModule, "getTemplate");
     });
 
     function makeEditor(
@@ -241,7 +243,7 @@ describe("hubItemEntityFromEditor", () => {
     }
 
     it("uses specified simple layout when provided", async () => {
-      getTemplateSpy.and.returnValue(Promise.resolve("simple-layout"));
+      getTemplateSpy.mockResolvedValue("simple-layout");
       const editor = makeEditor({
         _layoutSetup: { layout: "simple" },
         orgUrlKey: "TestOrg",
@@ -255,7 +257,7 @@ describe("hubItemEntityFromEditor", () => {
     });
 
     it("uses specified blank layout when provided", async () => {
-      getTemplateSpy.and.returnValue(Promise.resolve("blank-layout"));
+      getTemplateSpy.mockResolvedValue("blank-layout");
       const editor = makeEditor({
         _layoutSetup: { layout: "blank" },
         orgUrlKey: "TestOrg",
@@ -269,7 +271,7 @@ describe("hubItemEntityFromEditor", () => {
     });
 
     it("does not update layout when _layoutSetup is undefined", async () => {
-      getTemplateSpy.and.returnValue(Promise.resolve("blank-layout"));
+      getTemplateSpy.mockResolvedValue("blank-layout");
       const editor = makeEditor({
         orgUrlKey: "TestOrg",
         layout: { the: "original layout" } as any,

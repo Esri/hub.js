@@ -21,7 +21,7 @@ export default defineConfig({
         "src/associations/**/*.ts",
         "src/channels/**/*.ts",
         "src/content/**/*.ts",
-        "src/core/_internal/sharedWith.ts",
+        "src/core/**/*.ts",
         // TW working below this line
         "src/templates/_internal/**/*.ts",
         "src/urls/*.ts",

@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import {
   deepContains,
   pathToCatalogInfo,
@@ -47,17 +48,12 @@ describe("deepContains:", () => {
     expect(response.isContained).toBe(false);
   });
   it("fetches and returns catalog if only id is passed", async () => {
-    const fetchCatalogSpy = spyOn(
-      FetchEntityCatalogModule,
-      "fetchEntityCatalog"
-    ).and.callFake(() => {
-      return Promise.resolve(createMockCatalog("ff1"));
-    });
-    const hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(
-      () => {
-        return Promise.resolve({ results: [] });
-      }
-    );
+    const fetchCatalogSpy = vi
+      .spyOn(FetchEntityCatalogModule, "fetchEntityCatalog")
+      .mockResolvedValue(createMockCatalog("ff1") as any);
+    const hubSearchSpy = vi
+      .spyOn(HubSearchModule, "hubSearch")
+      .mockResolvedValue({ results: [] } as any);
 
     const response = await deepContains(
       AppItemId,
@@ -71,24 +67,16 @@ describe("deepContains:", () => {
     expect(cachedCatalog).toEqual(createMockCatalog("ff1"));
 
     expect(fetchCatalogSpy).toHaveBeenCalledTimes(1);
-    expect(fetchCatalogSpy.calls.argsFor(0)[0]).toEqual(
-      "00c",
-      "should fetch catalog based on Id in hiearchy"
-    );
+    expect(fetchCatalogSpy.mock.calls[0][0]).toEqual("00c");
     expect(hubSearchSpy).toHaveBeenCalledTimes(1);
   });
   it("fetches multiple catalogs if only ids are passed", async () => {
-    const fetchCatalogSpy = spyOn(
-      FetchEntityCatalogModule,
-      "fetchEntityCatalog"
-    ).and.callFake(() => {
-      return Promise.resolve(createMockCatalog("ff1"));
-    });
-    const hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(
-      () => {
-        return Promise.resolve({ results: [] });
-      }
-    );
+    const fetchCatalogSpy = vi
+      .spyOn(FetchEntityCatalogModule, "fetchEntityCatalog")
+      .mockResolvedValue(createMockCatalog("ff1") as any);
+    const hubSearchSpy = vi
+      .spyOn(HubSearchModule, "hubSearch")
+      .mockResolvedValue({ results: [] } as any);
 
     const response = await deepContains(
       AppItemId,
@@ -102,28 +90,17 @@ describe("deepContains:", () => {
     expect(response.identifier).toBe(AppItemId);
     expect(response.isContained).toBe(false);
     expect(fetchCatalogSpy).toHaveBeenCalledTimes(2);
-    expect(fetchCatalogSpy.calls.argsFor(0)[0]).toEqual(
-      "00c",
-      "should fetch catalog based on Id in hiearchy"
-    );
-    expect(fetchCatalogSpy.calls.argsFor(1)[0]).toEqual(
-      "00d",
-      "should fetch catalog based on Id in hiearchy"
-    );
+    expect(fetchCatalogSpy.mock.calls[0][0]).toEqual("00c");
+    expect(fetchCatalogSpy.mock.calls[1][0]).toEqual("00d");
     expect(hubSearchSpy).toHaveBeenCalledTimes(2);
   });
   it("uses catalog if passed and returns contained", async () => {
-    const fetchCatalogSpy = spyOn(
-      FetchEntityCatalogModule,
-      "fetchEntityCatalog"
-    ).and.callFake(() => {
-      return Promise.resolve(createMockCatalog("ff1"));
-    });
-    const hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(
-      () => {
-        return Promise.resolve({ results: [{ id: AppItemId }] });
-      }
-    );
+    const fetchCatalogSpy = vi
+      .spyOn(FetchEntityCatalogModule, "fetchEntityCatalog")
+      .mockResolvedValue(createMockCatalog("ff1") as any);
+    const hubSearchSpy = vi
+      .spyOn(HubSearchModule, "hubSearch")
+      .mockResolvedValue({ results: [{ id: AppItemId }] } as any);
 
     const response = await deepContains(
       AppItemId,
@@ -143,17 +120,12 @@ describe("deepContains:", () => {
     expect(hubSearchSpy).toHaveBeenCalledTimes(1);
   });
   it("uses catalog if passed", async () => {
-    const fetchCatalogSpy = spyOn(
-      FetchEntityCatalogModule,
-      "fetchEntityCatalog"
-    ).and.callFake(() => {
-      return Promise.resolve(createMockCatalog("ff1"));
-    });
-    const hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(
-      () => {
-        return Promise.resolve({ results: [] });
-      }
-    );
+    const fetchCatalogSpy = vi
+      .spyOn(FetchEntityCatalogModule, "fetchEntityCatalog")
+      .mockResolvedValue(createMockCatalog("ff1") as any);
+    const hubSearchSpy = vi
+      .spyOn(HubSearchModule, "hubSearch")
+      .mockResolvedValue({ results: [] } as any);
 
     const response = await deepContains(
       AppItemId,
@@ -172,6 +144,10 @@ describe("deepContains:", () => {
     expect(response.reason).toContain("not contained in catalog");
     expect(fetchCatalogSpy).toHaveBeenCalledTimes(0);
     expect(hubSearchSpy).toHaveBeenCalledTimes(1);
+  });
+  afterEach(() => {
+    // restore any spies/mocks created with vi
+    vi.restoreAllMocks();
   });
 });
 
