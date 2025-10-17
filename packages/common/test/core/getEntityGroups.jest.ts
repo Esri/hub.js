@@ -1,0 +1,51 @@
+import { getEntityGroups } from "../../src/core/getEntityGroups";
+import * as getEventGroupsModule from "../../src/events/getEventGroups";
+import * as sharedWithModule from "../../src/core/_internal/sharedWith";
+import type { IGroup } from "@esri/arcgis-rest-portal";
+import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
+import { IArcGISContext } from "../../src/types/IArcGISContext";
+
+describe("getEntityGroups", () => {
+  let entity: IHubItemEntity;
+  let context: IArcGISContext;
+  let groups: IGroup[];
+
+  beforeEach(() => {
+    entity = { id: "9c3", type: "Content" } as IHubItemEntity;
+    context = {
+      requestOptions: {
+        authentication: {
+          portal: "https://some.portal",
+        },
+      },
+    } as IArcGISContext;
+    groups = [
+      { id: "31c", capabilities: [] } as unknown as IGroup,
+      { id: "5n6", capabilities: ["updateitemcontrol"] } as unknown as IGroup,
+    ];
+  });
+
+  it("should call getEventGroups for an event", async () => {
+    entity.type = "Event";
+    const getEventGroupsSpy = jest
+      .spyOn(getEventGroupsModule, "getEventGroups")
+      .mockReturnValue(Promise.resolve(groups));
+    const res = await getEntityGroups(entity, context);
+    expect(res).toEqual(groups);
+    expect(getEventGroupsSpy).toHaveBeenCalledTimes(1);
+    expect(getEventGroupsSpy).toHaveBeenCalledWith(entity.id, context);
+  });
+
+  it("should call sharedWith for an other", async () => {
+    const sharedWithSpy = jest
+      .spyOn(sharedWithModule, "sharedWith")
+      .mockReturnValue(Promise.resolve(groups));
+    const res = await getEntityGroups(entity, context);
+    expect(res).toEqual(groups);
+    expect(sharedWithSpy).toHaveBeenCalledTimes(1);
+    expect(sharedWithSpy).toHaveBeenCalledWith(
+      entity.id,
+      context.requestOptions
+    );
+  });
+});
