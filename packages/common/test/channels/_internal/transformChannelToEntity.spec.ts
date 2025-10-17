@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, afterEach } from "vitest";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import {
   AclCategory,
@@ -43,18 +44,18 @@ describe("transformChannelToEntity", () => {
       collaborationId: "orgId123",
       id: "31c",
     };
-    const transformAclPermissionToEntityPermissionPolicySpy = spyOn(
-      transformAclPermissionToEntityPermissionPolicyModule,
-      "transformAclPermissionToEntityPermissionPolicy"
-    ).and.returnValue(entityPermissionPolicy);
-    const canEditChannelV2Spy = spyOn(
-      canEditChannelV2Module,
-      "canEditChannelV2"
-    ).and.returnValue(true);
-    const canDeleteChannelV2Spy = spyOn(
-      canDeleteChannelV2Module,
-      "canDeleteChannelV2"
-    ).and.returnValue(false);
+    const transformAclPermissionToEntityPermissionPolicySpy = vi
+      .spyOn(
+        transformAclPermissionToEntityPermissionPolicyModule,
+        "transformAclPermissionToEntityPermissionPolicy"
+      )
+      .mockReturnValue(entityPermissionPolicy);
+    const canEditChannelV2Spy = vi
+      .spyOn(canEditChannelV2Module, "canEditChannelV2")
+      .mockReturnValue(true);
+    const canDeleteChannelV2Spy = vi
+      .spyOn(canDeleteChannelV2Module, "canDeleteChannelV2")
+      .mockReturnValue(false);
     const expected: IHubChannel = {
       id: "31c",
       name: "My channel",
@@ -100,5 +101,8 @@ describe("transformChannelToEntity", () => {
     expect(canEditChannelV2Spy).toHaveBeenCalledWith(channel, user, channel);
     expect(canDeleteChannelV2Spy).toHaveBeenCalledTimes(1);
     expect(canDeleteChannelV2Spy).toHaveBeenCalledWith(channel, user);
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 });

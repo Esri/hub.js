@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { transformEntityToEditor } from "../../../src/channels/_internal/transformEntityToEditor";
 import * as transformEntityPermissionPoliciesToFormValuesModule from "../../../src/channels/_internal/transformEntityPermissionPoliciesToFormValues";
 import {
@@ -10,10 +11,10 @@ import { COLLABORATION_TYPES } from "../../../src/permissions/types/IEntityPermi
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("transformEntityToEditor", () => {
-  let transformEntityPermissionPoliciesToPublicFormValuesSpy: jasmine.Spy;
-  let transformEntityPermissionPoliciesToOrgFormValuesSpy: jasmine.Spy;
-  let transformEntityPermissionPoliciesToGroupFormValuesSpy: jasmine.Spy;
-  let transformEntityPermissionPoliciesToUserFormValuesSpy: jasmine.Spy;
+  let transformEntityPermissionPoliciesToPublicFormValuesSpy: any;
+  let transformEntityPermissionPoliciesToOrgFormValuesSpy: any;
+  let transformEntityPermissionPoliciesToGroupFormValuesSpy: any;
+  let transformEntityPermissionPoliciesToUserFormValuesSpy: any;
   const CONTEXT: IArcGISContext = {
     currentUser: {
       orgId: "userOrgId123",
@@ -139,22 +140,34 @@ describe("transformEntityToEditor", () => {
   } as IHubChannel;
 
   beforeEach(() => {
-    transformEntityPermissionPoliciesToPublicFormValuesSpy = spyOn(
-      transformEntityPermissionPoliciesToFormValuesModule,
-      "transformEntityPermissionPoliciesToPublicFormValues"
-    ).and.returnValue(PUBLIC_CONFIGS);
-    transformEntityPermissionPoliciesToOrgFormValuesSpy = spyOn(
-      transformEntityPermissionPoliciesToFormValuesModule,
-      "transformEntityPermissionPoliciesToOrgFormValues"
-    ).and.returnValue(ORG_CONFIGS);
-    transformEntityPermissionPoliciesToGroupFormValuesSpy = spyOn(
-      transformEntityPermissionPoliciesToFormValuesModule,
-      "transformEntityPermissionPoliciesToGroupFormValues"
-    ).and.returnValue(GROUP_CONFIGS);
-    transformEntityPermissionPoliciesToUserFormValuesSpy = spyOn(
-      transformEntityPermissionPoliciesToFormValuesModule,
-      "transformEntityPermissionPoliciesToUserFormValues"
-    ).and.returnValue(USER_CONFIGS);
+    transformEntityPermissionPoliciesToPublicFormValuesSpy = vi
+      .spyOn(
+        transformEntityPermissionPoliciesToFormValuesModule,
+        "transformEntityPermissionPoliciesToPublicFormValues"
+      )
+      .mockReturnValue(PUBLIC_CONFIGS);
+    transformEntityPermissionPoliciesToOrgFormValuesSpy = vi
+      .spyOn(
+        transformEntityPermissionPoliciesToFormValuesModule,
+        "transformEntityPermissionPoliciesToOrgFormValues"
+      )
+      .mockReturnValue(ORG_CONFIGS);
+    transformEntityPermissionPoliciesToGroupFormValuesSpy = vi
+      .spyOn(
+        transformEntityPermissionPoliciesToFormValuesModule,
+        "transformEntityPermissionPoliciesToGroupFormValues"
+      )
+      .mockReturnValue(GROUP_CONFIGS);
+    transformEntityPermissionPoliciesToUserFormValuesSpy = vi
+      .spyOn(
+        transformEntityPermissionPoliciesToFormValuesModule,
+        "transformEntityPermissionPoliciesToUserFormValues"
+      )
+      .mockReturnValue(USER_CONFIGS);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should transform an IHubChannel object to an IHubChannelEditor object", () => {

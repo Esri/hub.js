@@ -12,7 +12,12 @@ import * as buildDefaultChannelModule from "../../src/channels/_internal/buildDe
 import * as fetchHubChannelModule from "../../src/channels/fetch";
 import { IEditorConfig } from "../../src/core/schemas/types";
 
+import { describe, it, expect, vi, afterEach } from "vitest";
+
 describe("HubChannel", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   const entity: IHubChannel = {
     canDelete: true,
     canEdit: true,
@@ -106,20 +111,18 @@ describe("HubChannel", () => {
       const channel: IHubChannel = {
         id: "31c",
       } as IHubChannel;
-      const createHubChannelSpy = spyOn(
-        editModule,
-        "createHubChannel"
-      ).and.returnValue(Promise.resolve(channel));
-      const updateHubChannelSpy = spyOn(
-        editModule,
-        "updateHubChannel"
-      ).and.returnValue(Promise.resolve(channel));
+      const createHubChannelSpy = vi
+        .spyOn(editModule, "createHubChannel")
+        .mockResolvedValue(channel as any);
+      const updateHubChannelSpy = vi
+        .spyOn(editModule, "updateHubChannel")
+        .mockResolvedValue(channel as any);
       const instance = new HubChannel(entity, context);
       /* tslint:disable-next-line */
       instance["isDestroyed"] = true;
       try {
         await instance.save();
-        fail("did not reject");
+        throw new Error("did not reject");
       } catch (e) {
         expect((e as Error).message).toEqual(
           "HubChannel is already destroyed."
@@ -137,11 +140,10 @@ describe("HubChannel", () => {
         id: "31c",
         updatedDate: new Date(1741107658000),
       } as IHubChannel;
-      const createHubChannelSpy = spyOn(editModule, "createHubChannel");
-      const updateHubChannelSpy = spyOn(
-        editModule,
-        "updateHubChannel"
-      ).and.returnValue(Promise.resolve(updatedChannel));
+      const createHubChannelSpy = vi.spyOn(editModule, "createHubChannel");
+      const updateHubChannelSpy = vi
+        .spyOn(editModule, "updateHubChannel")
+        .mockResolvedValue(updatedChannel as any);
       const instance = new HubChannel(channel, context);
       await instance.save();
       expect(createHubChannelSpy).not.toHaveBeenCalled();
@@ -158,11 +160,10 @@ describe("HubChannel", () => {
         id: "31c",
         updatedDate: new Date(1741107658000),
       } as IHubChannel;
-      const createHubChannelSpy = spyOn(
-        editModule,
-        "createHubChannel"
-      ).and.returnValue(Promise.resolve(createdChannel));
-      const updateHubChannelSpy = spyOn(editModule, "updateHubChannel");
+      const createHubChannelSpy = vi
+        .spyOn(editModule, "createHubChannel")
+        .mockResolvedValue(createdChannel as any);
+      const updateHubChannelSpy = vi.spyOn(editModule, "updateHubChannel");
       const instance = new HubChannel(channel, context);
       await instance.save();
       expect(createHubChannelSpy).toHaveBeenCalledTimes(1);
@@ -174,14 +175,14 @@ describe("HubChannel", () => {
   });
   describe("delete", () => {
     it("should throw an error when isDestroyed is true", async () => {
-      const deleteHubChannelSpy = spyOn(editModule, "deleteHubChannel");
+      const deleteHubChannelSpy = vi.spyOn(editModule, "deleteHubChannel");
       const entityWithId = { ...entity, id: "31c" };
       const instance = new HubChannel(entityWithId, context);
       /* tslint:disable-next-line */
       instance["isDestroyed"] = true;
       try {
         await instance.delete();
-        fail("did not reject");
+        throw new Error("did not reject");
       } catch (e) {
         const error = e as { message?: string };
         expect(error.message).toEqual("HubChannel is already destroyed.");
@@ -189,10 +190,9 @@ describe("HubChannel", () => {
       }
     });
     it("should call deleteHubChannel", async () => {
-      const deleteHubChannelSpy = spyOn(
-        editModule,
-        "deleteHubChannel"
-      ).and.returnValue(Promise.resolve());
+      const deleteHubChannelSpy = vi
+        .spyOn(editModule, "deleteHubChannel")
+        .mockResolvedValue(undefined as any);
       const entityWithId = { ...entity, id: "31c" };
       const instance = new HubChannel(entityWithId, context);
       await instance.delete();
@@ -220,10 +220,9 @@ describe("HubChannel", () => {
   describe("getEditorConfig", () => {
     it("should call getEditorConfig and resolve the IEditorConfig", async () => {
       const editor: IEditorConfig = {} as IEditorConfig;
-      const getEditorConfigSpy = spyOn(
-        getEditorConfigModule,
-        "getEditorConfig"
-      ).and.returnValue(editor);
+      const getEditorConfigSpy = vi
+        .spyOn(getEditorConfigModule, "getEditorConfig")
+        .mockReturnValue(editor as any);
       const instance = new HubChannel(entity, context);
       const result = await instance.getEditorConfig(
         "myI18nScope",
@@ -251,10 +250,9 @@ describe("HubChannel", () => {
         groupConfigs: [],
         userConfigs: [],
       };
-      const transformEntityToEditorSpy = spyOn(
-        transformEntityToEditorModule,
-        "transformEntityToEditor"
-      ).and.returnValue(editor);
+      const transformEntityToEditorSpy = vi
+        .spyOn(transformEntityToEditorModule, "transformEntityToEditor")
+        .mockReturnValue(editor as any);
       const instance = new HubChannel(entity, context);
       const result = await instance.toEditor({}, []);
       expect(result).toEqual(editor);
@@ -277,14 +275,13 @@ describe("HubChannel", () => {
       const transformedEntity: IHubChannel = {
         updatedDate: new Date(1741107657268),
       } as IHubChannel;
-      const transformEditorToEntitySpy = spyOn(
-        transformEditorToEntityModule,
-        "transformEditorToEntity"
-      ).and.returnValue(transformedEntity);
+      const transformEditorToEntitySpy = vi
+        .spyOn(transformEditorToEntityModule, "transformEditorToEntity")
+        .mockReturnValue(transformedEntity as any);
       const instance = new HubChannel(entity, context);
-      const saveSpy = spyOn(instance, "save").and.returnValue(
-        Promise.resolve()
-      );
+      const saveSpy = vi
+        .spyOn(instance, "save")
+        .mockResolvedValue(undefined as any);
       const result = await instance.fromEditor(editor);
       expect(result).toEqual({
         ...entity,
@@ -301,15 +298,14 @@ describe("HubChannel", () => {
         name: "My channel",
         blockWords: ["baad", "baaad"],
       };
-      const buildDefaultChannelSpy = spyOn(
-        buildDefaultChannelModule,
-        "buildDefaultChannel"
-      ).and.returnValue({
-        name: "",
-        blockWords: [],
-        allowAsAnonymous: true,
-        permissions: [],
-      });
+      const buildDefaultChannelSpy = vi
+        .spyOn(buildDefaultChannelModule, "buildDefaultChannel")
+        .mockReturnValue({
+          name: "",
+          blockWords: [],
+          allowAsAnonymous: true,
+          permissions: [],
+        } as any);
       const result = HubChannel.fromJson(channel, context);
       expect(buildDefaultChannelSpy).toHaveBeenCalledTimes(1);
       expect(buildDefaultChannelSpy).toHaveBeenCalledWith(
@@ -342,14 +338,15 @@ describe("HubChannel", () => {
         ...input,
       } as IHubChannel;
       const instance = new HubChannel(merged, context);
-      const fromJsonSpy = spyOn(HubChannel, "fromJson").and.returnValue(
-        instance
-      );
-      const buildDefaultChannelSpy = spyOn(
-        buildDefaultChannelModule,
-        "buildDefaultChannel"
-      ).and.returnValue(defaults);
-      const saveSpy = spyOn(instance, "save");
+      const fromJsonSpy = vi
+        .spyOn(HubChannel, "fromJson")
+        .mockReturnValue(instance as any);
+      const buildDefaultChannelSpy = vi
+        .spyOn(buildDefaultChannelModule, "buildDefaultChannel")
+        .mockReturnValue(defaults as any);
+      const saveSpy = vi
+        .spyOn(instance, "save")
+        .mockResolvedValue(undefined as any);
       const result = await HubChannel.create(input, context);
       expect(result instanceof HubChannel).toBe(true);
       /* tslint:disable-next-line */
@@ -378,14 +375,15 @@ describe("HubChannel", () => {
         ...input,
       } as IHubChannel;
       const instance = new HubChannel(merged, context);
-      const fromJsonSpy = spyOn(HubChannel, "fromJson").and.returnValue(
-        instance
-      );
-      const buildDefaultChannelSpy = spyOn(
-        buildDefaultChannelModule,
-        "buildDefaultChannel"
-      ).and.returnValue(defaults);
-      const saveSpy = spyOn(instance, "save");
+      const fromJsonSpy = vi
+        .spyOn(HubChannel, "fromJson")
+        .mockReturnValue(instance as any);
+      const buildDefaultChannelSpy = vi
+        .spyOn(buildDefaultChannelModule, "buildDefaultChannel")
+        .mockReturnValue(defaults as any);
+      const saveSpy = vi
+        .spyOn(instance, "save")
+        .mockResolvedValue(undefined as any);
       const result = await HubChannel.create(input, context, true);
       expect(result instanceof HubChannel).toBe(true);
       /* tslint:disable-next-line */
@@ -401,14 +399,13 @@ describe("HubChannel", () => {
   });
   describe("fetch", () => {
     it("should reject with an error", async () => {
-      const fetchHubChannelSpy = spyOn(
-        fetchHubChannelModule,
-        "fetchHubChannel"
-      ).and.returnValue(Promise.reject(new Error("fail")));
-      const fromJsonSpy = spyOn(HubChannel, "fromJson");
+      const fetchHubChannelSpy = vi
+        .spyOn(fetchHubChannelModule, "fetchHubChannel")
+        .mockRejectedValue(new Error("fail"));
+      const fromJsonSpy = vi.spyOn(HubChannel, "fromJson");
       try {
         await HubChannel.fetch("channelId1", context);
-        fail("should have thrown");
+        throw new Error("should have thrown");
       } catch (e) {
         const error = e as { message?: string };
         expect(fetchHubChannelSpy).toHaveBeenCalledTimes(1);
@@ -418,14 +415,13 @@ describe("HubChannel", () => {
       }
     });
     it("call fetchHubChannel and resolve a HubChannel instance", async () => {
-      const fetchHubChannelSpy = spyOn(
-        fetchHubChannelModule,
-        "fetchHubChannel"
-      ).and.returnValue(Promise.resolve(entity));
+      const fetchHubChannelSpy = vi
+        .spyOn(fetchHubChannelModule, "fetchHubChannel")
+        .mockResolvedValue(entity as any);
       const instance = new HubChannel(entity, context);
-      const fromJsonSpy = spyOn(HubChannel, "fromJson").and.returnValue(
-        instance
-      );
+      const fromJsonSpy = vi
+        .spyOn(HubChannel, "fromJson")
+        .mockReturnValue(instance as any);
       const result = await HubChannel.fetch("channelId1", context);
       expect(fetchHubChannelSpy).toHaveBeenCalledTimes(1);
       expect(fetchHubChannelSpy).toHaveBeenCalledWith("channelId1", context);

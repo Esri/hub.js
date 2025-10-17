@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from "vitest";
 import {
   AclCategory,
   AclSubCategory,
@@ -15,10 +16,12 @@ describe("buildDefaultChannel", () => {
       collaborationId: "orgId1",
       id: "1aa",
     };
-    const transformAclPermissionToEntityPermissionPolicySpy = spyOn(
-      transformAclPermissionToEntityPermissionPolicyModule,
-      "transformAclPermissionToEntityPermissionPolicy"
-    ).and.returnValue(entityPermissionPolicy);
+    const transformAclPermissionToEntityPermissionPolicySpy = vi
+      .spyOn(
+        transformAclPermissionToEntityPermissionPolicyModule,
+        "transformAclPermissionToEntityPermissionPolicy"
+      )
+      .mockReturnValue(entityPermissionPolicy);
     const expected = {
       name: "",
       blockWords: [] as string[],

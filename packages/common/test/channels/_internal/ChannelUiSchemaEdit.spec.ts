@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from "vitest";
 import { buildUiSchema } from "../../../src/channels/_internal/ChannelUiSchemaEdit";
 import * as ChannelUiSchemaCreateModule from "../../../src/channels/_internal/ChannelUiSchemaCreate";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
@@ -20,10 +21,9 @@ describe("ChannelUiSchemaEdit", () => {
         type: "Layout",
         elements: [],
       };
-      const buildUiSchemaCreateSpy = spyOn(
-        ChannelUiSchemaCreateModule,
-        "buildUiSchema"
-      ).and.returnValue(createSchema);
+      const buildUiSchemaCreateSpy = vi
+        .spyOn(ChannelUiSchemaCreateModule, "buildUiSchema")
+        .mockResolvedValue(createSchema);
       const expected: IUiSchema = {
         ...createSchema,
       };
@@ -42,10 +42,9 @@ describe("ChannelUiSchemaEdit", () => {
         type: "Layout",
         elements: [],
       };
-      const buildUiSchemaCreateSpy = spyOn(
-        ChannelUiSchemaCreateModule,
-        "buildUiSchema"
-      ).and.returnValue(createSchema);
+      const buildUiSchemaCreateSpy = vi
+        .spyOn(ChannelUiSchemaCreateModule, "buildUiSchema")
+        .mockResolvedValue(createSchema);
       const expected: IUiSchema = {
         ...createSchema,
         elements: [

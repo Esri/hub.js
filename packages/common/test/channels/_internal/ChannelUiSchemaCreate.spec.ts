@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { buildUiSchema } from "../../../src/channels/_internal/ChannelUiSchemaCreate";
 import { IChannel, Role } from "../../../src/discussions/api/types";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
@@ -17,21 +18,18 @@ describe("ChannelUiSchemaCreate", () => {
     const i18nScope = "myScope";
     const catalog: IHubCatalog = { schemaVersion: 0 };
     let partialChannel: Partial<IHubChannel>;
-    let getWellKnownCatalogSpy: jasmine.Spy;
-    let deriveUserRoleV2Spy: jasmine.Spy;
 
     beforeEach(() => {
       partialChannel = {};
-      getWellKnownCatalogSpy = spyOn(
+      vi.spyOn(
         getWellKnownCatalogModule,
         "getWellKnownCatalog"
-      ).and.returnValue(catalog);
-      deriveUserRoleV2Spy = spyOn(deriveUserRoleV2Module, "deriveUserRoleV2");
+      ).mockReturnValue(catalog);
+      vi.spyOn(deriveUserRoleV2Module, "deriveUserRoleV2");
     });
 
     afterEach(() => {
-      getWellKnownCatalogSpy.calls.reset();
-      deriveUserRoleV2Spy.calls.reset();
+      vi.restoreAllMocks();
     });
 
     const buildSchema = (
@@ -344,7 +342,9 @@ describe("ChannelUiSchemaCreate", () => {
         ],
       };
       if (hasCommunityId) {
-        schema.elements[2].elements[2].elements[0].options.actions[0].options.facets[0].options.push(
+        (
+          schema as any
+        ).elements[2].elements[2].elements[0].options.actions[0].options.facets[0].options.push(
           {
             label: `{{${i18nScope}.sections.group.picker.facets.myCommunity.label:translate}}`,
             key: "my-community",
@@ -374,14 +374,15 @@ describe("ChannelUiSchemaCreate", () => {
         const expected: IUiSchema = buildSchema(false, [], context);
         const result = await buildUiSchema(i18nScope, partialChannel, context);
         expect(result).toEqual(expected);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
-          i18nScope,
-          "allGroups",
-          "group",
-          { user: context.currentUser }
-        );
-        expect(deriveUserRoleV2Spy).not.toHaveBeenCalled();
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledWith(i18nScope, "allGroups", "group", {
+          user: context.currentUser,
+        });
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).not.toHaveBeenCalled();
       });
       it("should build a schema for a user with a community org", async () => {
         const context = {
@@ -394,14 +395,15 @@ describe("ChannelUiSchemaCreate", () => {
         const expected: IUiSchema = buildSchema(true, [], context);
         const result = await buildUiSchema(i18nScope, partialChannel, context);
         expect(result).toEqual(expected);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
-          i18nScope,
-          "allGroups",
-          "group",
-          { user: context.currentUser }
-        );
-        expect(deriveUserRoleV2Spy).not.toHaveBeenCalled();
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledWith(i18nScope, "allGroups", "group", {
+          user: context.currentUser,
+        });
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).not.toHaveBeenCalled();
       });
     });
     describe("existing channel", () => {
@@ -417,7 +419,9 @@ describe("ChannelUiSchemaCreate", () => {
             username: "user123",
           },
         } as unknown as IArcGISContext;
-        deriveUserRoleV2Spy.and.returnValue(Role.READ);
+        vi.spyOn(deriveUserRoleV2Module, "deriveUserRoleV2").mockReturnValue(
+          Role.READ
+        );
         const expected: IUiSchema = buildSchema(
           false,
           [
@@ -432,15 +436,18 @@ describe("ChannelUiSchemaCreate", () => {
         );
         const result = await buildUiSchema(i18nScope, partialChannel, context);
         expect(result).toEqual(expected);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
-          i18nScope,
-          "allGroups",
-          "group",
-          { user: context.currentUser }
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledWith(i18nScope, "allGroups", "group", {
+          user: context.currentUser,
+        });
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).toHaveBeenCalledTimes(
+          1
         );
-        expect(deriveUserRoleV2Spy).toHaveBeenCalledTimes(1);
-        expect(deriveUserRoleV2Spy).toHaveBeenCalledWith(
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).toHaveBeenCalledWith(
           partialChannel.channel,
           context.currentUser
         );
@@ -453,7 +460,9 @@ describe("ChannelUiSchemaCreate", () => {
             username: "user123",
           },
         } as unknown as IArcGISContext;
-        deriveUserRoleV2Spy.and.returnValue(Role.MODERATE);
+        vi.spyOn(deriveUserRoleV2Module, "deriveUserRoleV2").mockReturnValue(
+          Role.MODERATE
+        );
         const expected: IUiSchema = buildSchema(
           false,
           ["name", "publicConfigs", "orgConfigs", "groupConfigs"],
@@ -461,15 +470,18 @@ describe("ChannelUiSchemaCreate", () => {
         );
         const result = await buildUiSchema(i18nScope, partialChannel, context);
         expect(result).toEqual(expected);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
-          i18nScope,
-          "allGroups",
-          "group",
-          { user: context.currentUser }
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledWith(i18nScope, "allGroups", "group", {
+          user: context.currentUser,
+        });
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).toHaveBeenCalledTimes(
+          1
         );
-        expect(deriveUserRoleV2Spy).toHaveBeenCalledTimes(1);
-        expect(deriveUserRoleV2Spy).toHaveBeenCalledWith(
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).toHaveBeenCalledWith(
           partialChannel.channel,
           context.currentUser
         );
@@ -482,19 +494,24 @@ describe("ChannelUiSchemaCreate", () => {
             username: "user123",
           },
         } as unknown as IArcGISContext;
-        deriveUserRoleV2Spy.and.returnValue(Role.MANAGE);
+        vi.spyOn(deriveUserRoleV2Module, "deriveUserRoleV2").mockReturnValue(
+          Role.MANAGE
+        );
         const expected: IUiSchema = buildSchema(false, [], context);
         const result = await buildUiSchema(i18nScope, partialChannel, context);
         expect(result).toEqual(expected);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
-          i18nScope,
-          "allGroups",
-          "group",
-          { user: context.currentUser }
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledWith(i18nScope, "allGroups", "group", {
+          user: context.currentUser,
+        });
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).toHaveBeenCalledTimes(
+          1
         );
-        expect(deriveUserRoleV2Spy).toHaveBeenCalledTimes(1);
-        expect(deriveUserRoleV2Spy).toHaveBeenCalledWith(
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).toHaveBeenCalledWith(
           partialChannel.channel,
           context.currentUser
         );
@@ -507,19 +524,24 @@ describe("ChannelUiSchemaCreate", () => {
             username: "user123",
           },
         } as unknown as IArcGISContext;
-        deriveUserRoleV2Spy.and.returnValue(Role.OWNER);
+        vi.spyOn(deriveUserRoleV2Module, "deriveUserRoleV2").mockReturnValue(
+          Role.OWNER
+        );
         const expected: IUiSchema = buildSchema(false, [], context);
         const result = await buildUiSchema(i18nScope, partialChannel, context);
         expect(result).toEqual(expected);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
-        expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
-          i18nScope,
-          "allGroups",
-          "group",
-          { user: context.currentUser }
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          getWellKnownCatalogModule.getWellKnownCatalog
+        ).toHaveBeenCalledWith(i18nScope, "allGroups", "group", {
+          user: context.currentUser,
+        });
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).toHaveBeenCalledTimes(
+          1
         );
-        expect(deriveUserRoleV2Spy).toHaveBeenCalledTimes(1);
-        expect(deriveUserRoleV2Spy).toHaveBeenCalledWith(
+        expect(deriveUserRoleV2Module.deriveUserRoleV2).toHaveBeenCalledWith(
           partialChannel.channel,
           context.currentUser
         );

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { CHANNEL_PERMISSIONS } from "../../../src/channels/_internal/ChannelBusinessRules";
 import { transformEntityToChannelData } from "../../../src/channels/_internal/transformEntityToChannelData";
 import { IHubChannel } from "../../../src/core/types/IHubChannel";
