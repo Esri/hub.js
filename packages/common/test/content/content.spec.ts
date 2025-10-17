@@ -1,4 +1,13 @@
+import { describe, it, expect, vi, beforeAll, afterEach } from "vitest";
 import type { IItem } from "@esri/arcgis-rest-portal";
+// create a module mock that delegates to the real module so named exports
+// like `parseServiceUrl` remain available, but the module object is mockable
+vi.mock("@esri/arcgis-rest-feature-service", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+  };
+});
 import type { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
 import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
 import {
@@ -63,7 +72,7 @@ describe("content: ", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
 
   afterEach(() => {
@@ -598,15 +607,10 @@ describe("content: ", () => {
       attributes.modified = 1623232000295;
       delete attributes.itemModified;
       let item = datasetToItem(dataset);
-      expect(item.modified).toBe(
-        attributes.modified,
-        "returns modified when provenance is item"
-      );
+      expect(item.modified).toBe(attributes.modified);
       attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
       item = datasetToItem(dataset);
-      expect(item.modified).toBeFalsy(
-        "is undefined when provenance is layer.editingInfo"
-      );
+      expect(item.modified).toBeFalsy();
     });
     // NOTE: other use cases are covered by getContent() tests
   });
@@ -646,10 +650,7 @@ describe("content: ", () => {
       expect(content.org).toEqual({ id, extent, name });
       delete dataset.attributes.orgName;
       content = datasetToContent(dataset);
-      expect(content.org).toEqual(
-        { id, extent, name: organization },
-        "name falls back to organization"
-      );
+      expect(content.org).toEqual({ id, extent, name: organization });
     });
     it("only uses enrichment attributes when they exist", () => {
       const dataset = cloneObject(documentsJson.data) as DatasetResource;
@@ -1636,9 +1637,9 @@ describe("content: ", () => {
       };
 
       // Spy on the `getService` call that happens within `getServiceStatus`
-      spyOn(featureLayerModule, "getService").and.returnValue(
-        Promise.reject(requestError["500"])
-      );
+      (featureLayerModule as any).getService = vi
+        .fn()
+        .mockRejectedValue(requestError["500"]);
 
       // Call `getServiceStatus` and expect the result to be "unavailable"
       await getServiceStatus(entity, {
@@ -1674,9 +1675,9 @@ describe("content: ", () => {
       };
 
       // Spy on the `getService` call that happens within `getServiceStatus`
-      spyOn(featureLayerModule, "getService").and.returnValue(
-        Promise.reject(requestError["403"])
-      );
+      (featureLayerModule as any).getService = vi
+        .fn()
+        .mockRejectedValue(requestError["403"]);
 
       // Call `getServiceStatus` and expect the result to be "auth-required"
       await getServiceStatus(entity, {
@@ -1712,9 +1713,9 @@ describe("content: ", () => {
       };
 
       // Spy on the `getService` call that happens within `getServiceStatus`
-      spyOn(featureLayerModule, "getService").and.returnValue(
-        Promise.reject(requestError["499"])
-      );
+      (featureLayerModule as any).getService = vi
+        .fn()
+        .mockRejectedValue(requestError["499"]);
 
       // Call `getServiceStatus` and expect the result to be "auth-required"
       await getServiceStatus(entity, {

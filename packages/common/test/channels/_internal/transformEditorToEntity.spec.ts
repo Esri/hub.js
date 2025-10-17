@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { transformEditorToEntity } from "../../../src/channels/_internal/transformEditorToEntity";
 import {
   IHubChannel,
@@ -11,6 +12,7 @@ import {
 import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityPermissionPolicy";
 
 describe("transformEditorToEntity", () => {
+  afterEach(() => vi.restoreAllMocks());
   it("should transform an IHubChannelEditor to a partial IHubChannel", () => {
     const editor: IHubChannelEditor = {
       id: "31c",

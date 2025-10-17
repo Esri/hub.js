@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, afterEach } from "vitest";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import {
   AclCategory,
@@ -100,5 +101,8 @@ describe("transformChannelToEntity", () => {
     expect(canEditChannelV2Spy).toHaveBeenCalledWith(channel, user, channel);
     expect(canDeleteChannelV2Spy).toHaveBeenCalledTimes(1);
     expect(canDeleteChannelV2Spy).toHaveBeenCalledWith(channel, user);
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 });

@@ -5,7 +5,13 @@ import { IHubChannel } from "../../src/core/types/IHubChannel";
 import { fetchHubChannel } from "../../src/channels/fetch";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 
+import { describe, it, expect, vi, afterEach } from "vitest";
+
 describe("fetchHubChannel", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("should call fetchChannelV2 and resolve an IHubChannel object", async () => {
     const context: IArcGISContext = {
       hubRequestOptions: { portal: "https://some.portal" },
@@ -21,14 +27,12 @@ describe("fetchHubChannel", () => {
       name: "My channel",
       permissions: [],
     } as IHubChannel;
-    const fetchChannelV2Spy = spyOn(
-      fetchChannelV2Module,
-      "fetchChannelV2"
-    ).and.returnValue(Promise.resolve(channel));
-    const transformChannelToEntitySpy = spyOn(
-      transformChannelToEntityModule,
-      "transformChannelToEntity"
-    ).and.returnValue(Promise.resolve(entity));
+    const fetchChannelV2Spy = vi
+      .spyOn(fetchChannelV2Module, "fetchChannelV2")
+      .mockResolvedValue(channel as any);
+    const transformChannelToEntitySpy = vi
+      .spyOn(transformChannelToEntityModule, "transformChannelToEntity")
+      .mockResolvedValue(entity as any);
     const result = await fetchHubChannel("channelId1", context);
     expect(result).toEqual(entity);
     expect(fetchChannelV2Spy).toHaveBeenCalledTimes(1);

@@ -14,35 +14,36 @@ import * as fetchModelFromItemModule from "../../src/models/fetchModelFromItem";
 import * as fetchSettingsModule from "../../src/discussions/api/settings/settings";
 import { IHubRequestOptions } from "../../src/hub-types";
 import { IServiceExtendedProps } from "../../src/core/types/IHubEditableContent";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 describe("fetchHubContent", () => {
-  let fetchContentSpy: jasmine.Spy;
-  let fetchEditableContentEnrichmentsSpy: jasmine.Spy;
-  let fetchModelFromItemSpy: jasmine.Spy;
-  let fetchSettingsSpy: jasmine.Spy;
+  let fetchContentSpy: any;
+  let fetchEditableContentEnrichmentsSpy: any;
+  let fetchModelFromItemSpy: any;
+  let fetchSettingsSpy: any;
 
   beforeEach(() => {
-    fetchContentSpy = spyOn(fetchContentModule, "fetchContent");
-    fetchEditableContentEnrichmentsSpy = spyOn(
-      fetchEditableContentEnrichmentsModule,
+    fetchContentSpy = vi.spyOn(fetchContentModule as any, "fetchContent");
+    fetchEditableContentEnrichmentsSpy = vi.spyOn(
+      fetchEditableContentEnrichmentsModule as any,
       "fetchEditableContentEnrichments"
     );
-    fetchModelFromItemSpy = spyOn(
-      fetchModelFromItemModule,
+    fetchModelFromItemSpy = vi.spyOn(
+      fetchModelFromItemModule as any,
       "fetchModelFromItem"
     );
-    fetchSettingsSpy = spyOn(fetchSettingsModule, "fetchSettingV2");
+    fetchSettingsSpy = vi.spyOn(fetchSettingsModule as any, "fetchSettingV2");
   });
 
   it("gets feature service content", async () => {
-    fetchContentSpy.and.returnValue(
+    fetchContentSpy.mockReturnValue(
       Promise.resolve({ item: HOSTED_FEATURE_SERVICE_ITEM })
     );
-    fetchEditableContentEnrichmentsSpy.and.returnValue({
+    fetchEditableContentEnrichmentsSpy.mockReturnValue({
       metadata: null,
       server: HOSTED_FEATURE_SERVICE_DEFINITION,
     });
-    fetchModelFromItemSpy.and.returnValue(
+    fetchModelFromItemSpy.mockReturnValue(
       Promise.resolve(
         Promise.resolve({
           item: HOSTED_FEATURE_SERVICE_ITEM,
@@ -50,7 +51,7 @@ describe("fetchHubContent", () => {
         })
       )
     );
-    fetchSettingsSpy.and.returnValue(
+    fetchSettingsSpy.mockReturnValue(
       Promise.resolve({
         id: HOSTED_FEATURE_SERVICE_GUID,
         ...DISCUSSION_SETTINGS,
@@ -73,9 +74,7 @@ describe("fetchHubContent", () => {
     expect(extendedProps.serverQueryCapability).toBeTruthy();
 
     expect(fetchContentSpy).toHaveBeenCalledTimes(1);
-    expect(fetchContentSpy.calls.argsFor(0)[0]).toBe(
-      HOSTED_FEATURE_SERVICE_GUID
-    );
+    expect(fetchContentSpy.mock.calls[0][0]).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(fetchEditableContentEnrichmentsSpy).toHaveBeenCalledTimes(1);
     // NOTE: the last argument is an override for which enrichments should be fetched (undefined by default)
     expect(fetchEditableContentEnrichmentsSpy).toHaveBeenCalledWith(
@@ -88,9 +87,9 @@ describe("fetchHubContent", () => {
   });
 
   it("gets non-service content", async () => {
-    fetchContentSpy.and.returnValue(Promise.resolve({ item: PDF_ITEM }));
-    fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
-    fetchModelFromItemSpy.and.returnValue(
+    fetchContentSpy.mockReturnValue(Promise.resolve({ item: PDF_ITEM }));
+    fetchEditableContentEnrichmentsSpy.mockReturnValue({ metadata: null });
+    fetchModelFromItemSpy.mockReturnValue(
       Promise.resolve(
         Promise.resolve({
           item: PDF_ITEM,
@@ -98,7 +97,7 @@ describe("fetchHubContent", () => {
         })
       )
     );
-    fetchSettingsSpy.and.returnValue(
+    fetchSettingsSpy.mockReturnValue(
       Promise.resolve({
         id: PDF_GUID,
         ...DISCUSSION_SETTINGS,
@@ -114,7 +113,7 @@ describe("fetchHubContent", () => {
     expect(chk.owner).toBe(PDF_ITEM.owner);
 
     expect(fetchContentSpy).toHaveBeenCalledTimes(1);
-    expect(fetchContentSpy.calls.argsFor(0)[0]).toBe(PDF_GUID);
+    expect(fetchContentSpy.mock.calls[0][0]).toBe(PDF_GUID);
     expect(fetchEditableContentEnrichmentsSpy).toHaveBeenCalledTimes(1);
     // NOTE: the last argument is an override for which enrichments should be fetched (undefined by default)
     expect(fetchEditableContentEnrichmentsSpy).toHaveBeenCalledWith(
@@ -125,13 +124,13 @@ describe("fetchHubContent", () => {
   });
 
   it("allows override of enrichments to fetch", async () => {
-    fetchContentSpy.and.returnValue(
+    fetchContentSpy.mockReturnValue(
       Promise.resolve({ item: HOSTED_FEATURE_SERVICE_ITEM })
     );
-    fetchEditableContentEnrichmentsSpy.and.returnValue({
+    fetchEditableContentEnrichmentsSpy.mockReturnValue({
       metadata: { metadata: "value" },
     });
-    fetchModelFromItemSpy.and.returnValue(
+    fetchModelFromItemSpy.mockReturnValue(
       Promise.resolve(
         Promise.resolve({
           item: HOSTED_FEATURE_SERVICE_ITEM,
@@ -139,7 +138,7 @@ describe("fetchHubContent", () => {
         })
       )
     );
-    fetchSettingsSpy.and.returnValue(
+    fetchSettingsSpy.mockReturnValue(
       Promise.resolve({
         id: HOSTED_FEATURE_SERVICE_GUID,
         ...DISCUSSION_SETTINGS,
@@ -165,9 +164,7 @@ describe("fetchHubContent", () => {
     expect(extendedProps.serverQueryCapability).toBeUndefined();
 
     expect(fetchContentSpy).toHaveBeenCalledTimes(1);
-    expect(fetchContentSpy.calls.argsFor(0)[0]).toBe(
-      HOSTED_FEATURE_SERVICE_GUID
-    );
+    expect(fetchContentSpy.mock.calls[0][0]).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(fetchEditableContentEnrichmentsSpy).toHaveBeenCalledTimes(1);
     expect(fetchEditableContentEnrichmentsSpy).toHaveBeenCalledWith(
       HOSTED_FEATURE_SERVICE_ITEM,
@@ -177,7 +174,7 @@ describe("fetchHubContent", () => {
   });
 
   it("normalizes the item type", async () => {
-    fetchContentSpy.and.returnValue(
+    fetchContentSpy.mockReturnValue(
       Promise.resolve({
         item: {
           id: "ae3",
@@ -186,8 +183,8 @@ describe("fetchHubContent", () => {
         },
       })
     );
-    fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
-    fetchModelFromItemSpy.and.returnValue(
+    fetchEditableContentEnrichmentsSpy.mockReturnValue({ metadata: null });
+    fetchModelFromItemSpy.mockReturnValue(
       Promise.resolve(
         Promise.resolve({
           item: {
@@ -199,7 +196,7 @@ describe("fetchHubContent", () => {
         })
       )
     );
-    fetchSettingsSpy.and.returnValue(
+    fetchSettingsSpy.mockReturnValue(
       Promise.resolve({
         id: "ae3",
         ...DISCUSSION_SETTINGS,
@@ -215,7 +212,7 @@ describe("fetchHubContent", () => {
   });
 
   it("uses default settings if fetchSettings fails", async () => {
-    fetchContentSpy.and.returnValue(
+    fetchContentSpy.mockReturnValue(
       Promise.resolve({
         item: {
           id: "ae3",
@@ -224,8 +221,8 @@ describe("fetchHubContent", () => {
         },
       })
     );
-    fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
-    fetchModelFromItemSpy.and.returnValue(
+    fetchEditableContentEnrichmentsSpy.mockReturnValue({ metadata: null });
+    fetchModelFromItemSpy.mockReturnValue(
       Promise.resolve(
         Promise.resolve({
           item: {
@@ -237,7 +234,7 @@ describe("fetchHubContent", () => {
         })
       )
     );
-    fetchSettingsSpy.and.returnValue(
+    fetchSettingsSpy.mockReturnValue(
       Promise.reject(new Error("Failed to fetch settings"))
     );
 
@@ -250,7 +247,7 @@ describe("fetchHubContent", () => {
   });
 
   it("does not call fetchSettings if permissions invalid", async () => {
-    fetchContentSpy.and.returnValue(
+    fetchContentSpy.mockReturnValue(
       Promise.resolve({
         item: {
           id: "ae3",
@@ -259,8 +256,8 @@ describe("fetchHubContent", () => {
         },
       })
     );
-    fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
-    fetchModelFromItemSpy.and.returnValue(
+    fetchEditableContentEnrichmentsSpy.mockReturnValue({ metadata: null });
+    fetchModelFromItemSpy.mockReturnValue(
       Promise.resolve(
         Promise.resolve({
           item: {

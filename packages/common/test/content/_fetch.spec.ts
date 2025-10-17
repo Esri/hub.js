@@ -9,12 +9,21 @@ import * as documentItem from "../mocks/items/document.json";
 import * as featureServiceItem from "../mocks/items/feature-service-item.json";
 import { IHubRequestOptions } from "../../src/hub-types";
 import { DatasetResource } from "../../src/content/types";
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("_fetch", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
   afterEach(() => {
     fetchMock.restore();

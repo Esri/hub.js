@@ -11,6 +11,7 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../src/hub-types";
 import { composeHubContent } from "../../src/content/composeHubContent";
 import { IServiceExtendedProps } from "../../src/core/types/IHubEditableContent";
+import { describe, it, expect } from "vitest";
 
 describe("composeHubContent", () => {
   it("composes feature service content", () => {

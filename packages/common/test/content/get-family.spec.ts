@@ -1,10 +1,17 @@
+import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 import { getFamily, getFamilyTypes } from "../../src/content/get-family";
+import { getCategory, getTypeCategories } from "../../src/content/contentUtils";
 
 describe("getFamily", () => {
   beforeAll(() => {
     // suppress deprecation warnings
-    // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {
+      return undefined;
+    });
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
   });
   describe("getFamilyTypes", () => {
     it("can get 'content' types", () => {
@@ -96,6 +103,41 @@ describe("getFamily", () => {
     it("can get types any other valid family", () => {
       const type = getFamily("organization");
       expect(type).toBe("organization");
+    });
+
+    it("handles specific type overrides (image service, feature service, excel)", () => {
+      expect(getFamily("Image Service")).toBe("dataset");
+      expect(getFamily("Feature Service")).toBe("map");
+      expect(getFamily("Microsoft Excel")).toBe("document");
+      expect(getFamily("Event")).toBe("event");
+    });
+
+    it("exposes deprecated helpers getCategory and getTypeCategories", () => {
+      // call these to ensure deprecated paths are exercised (and warnings suppressed above)
+      const cat = getCategory("Feature Layer");
+      expect(typeof cat).toBe("string");
+
+      const tcs = getTypeCategories({ type: "Hub Site Application" } as any);
+      expect(Array.isArray(tcs)).toBeTruthy();
+    });
+
+    it("getTypeCategories returns Other for unknown types and getCategory maps feedback->app", () => {
+      const unknown = getTypeCategories({ type: "ThisDoesNotExist" } as any);
+      expect(Array.isArray(unknown)).toBeTruthy();
+      expect(unknown[0]).toBe("Other");
+
+      // 'Form' is in the feedback collection and should map to 'app' via getCategory
+      expect(getCategory("Form")).toBe("app");
+    });
+
+    it("calls deprecated helpers with no args to exercise defaults", () => {
+      // calling with no args should not throw and should exercise default-parameter branches
+      const noCat = getCategory();
+      expect(noCat).toBeUndefined();
+
+      const noTypeCats = getTypeCategories();
+      expect(Array.isArray(noTypeCats)).toBeTruthy();
+      expect(noTypeCats[0]).toBe("Other");
     });
   });
 });

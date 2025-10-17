@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { ChannelEditorTypes } from "../../../src/channels/_internal/channelEditorTypes";
 import { ChannelSchema } from "../../../src/channels/_internal/ChannelSchema";
 

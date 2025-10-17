@@ -11,13 +11,25 @@ import { IHubRequestOptions, IModel } from "../../src/hub-types";
 import { cloneObject } from "../../src/util";
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
 import * as isServiceModule from "../../src/resources/is-service";
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("content computeProps", () => {
   let requestOptions: IHubRequestOptions;
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
   beforeEach(async () => {
     requestOptions = cloneObject(MOCK_HUB_REQOPTS);
@@ -150,7 +162,7 @@ describe("content computeProps", () => {
   });
 
   it("adds content extended props for non-service items", () => {
-    spyOn(isServiceModule, "isService").and.returnValue(false);
+    vi.spyOn(isServiceModule, "isService").mockReturnValue(false as any);
     const additionalResources: IHubAdditionalResource[] = [
       {
         name: "My Resource",
@@ -158,10 +170,9 @@ describe("content computeProps", () => {
         isDataSource: false,
       },
     ];
-    const getAdditionalResourcesSpy = spyOn(
-      internalContentUtilsModule,
-      "getAdditionalResources"
-    ).and.returnValue(additionalResources);
+    const getAdditionalResourcesSpy = vi
+      .spyOn(internalContentUtilsModule, "getAdditionalResources")
+      .mockReturnValue(additionalResources as any);
 
     const model: IModel = {
       item: {
@@ -201,7 +212,7 @@ describe("content computeProps", () => {
   });
 
   it("adds service extended props for service items", () => {
-    spyOn(isServiceModule, "isService").and.returnValue(true);
+    vi.spyOn(isServiceModule, "isService").mockReturnValue(true as any);
     const additionalResources: IHubAdditionalResource[] = [
       {
         name: "My Resource",
@@ -209,10 +220,9 @@ describe("content computeProps", () => {
         isDataSource: false,
       },
     ];
-    const getAdditionalResourcesSpy = spyOn(
-      internalContentUtilsModule,
-      "getAdditionalResources"
-    ).and.returnValue(additionalResources);
+    const getAdditionalResourcesSpy = vi
+      .spyOn(internalContentUtilsModule, "getAdditionalResources")
+      .mockReturnValue(additionalResources as any);
 
     const model: IModel = {
       item: {
@@ -265,7 +275,7 @@ describe("content computeProps", () => {
   });
 
   it("handles service extended props for service items when enrichments are missing", () => {
-    spyOn(isServiceModule, "isService").and.returnValue(true);
+    vi.spyOn(isServiceModule, "isService").mockReturnValue(true as any);
     const additionalResources: IHubAdditionalResource[] = [
       {
         name: "My Resource",
@@ -273,10 +283,9 @@ describe("content computeProps", () => {
         isDataSource: false,
       },
     ];
-    const getAdditionalResourcesSpy = spyOn(
-      internalContentUtilsModule,
-      "getAdditionalResources"
-    ).and.returnValue(additionalResources);
+    const getAdditionalResourcesSpy = vi
+      .spyOn(internalContentUtilsModule, "getAdditionalResources")
+      .mockReturnValue(additionalResources as any);
 
     const model: IModel = {
       item: {

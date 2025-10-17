@@ -14,7 +14,13 @@ import {
 } from "../../src/channels/edit";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 
+import { describe, it, expect, vi, afterEach } from "vitest";
+
 describe("edit", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   describe("createHubChannel", () => {
     it("should call createChannelV2 and resolve an IHubChannel object", async () => {
       const context: IArcGISContext = {
@@ -46,18 +52,18 @@ describe("edit", () => {
         blockWords: ["baad"],
         allowAsAnonymous: true,
       } as IHubChannel;
-      const transformEntityToChannelDataSpy = spyOn(
-        transformEntityToChannelDataModule,
-        "transformEntityToChannelData"
-      ).and.returnValue(transformedChannel);
-      const createChannelV2Spy = spyOn(
-        channelsModule,
-        "createChannelV2"
-      ).and.returnValue(channel);
-      const transformChannelToEntitySpy = spyOn(
-        transformChannelToEntityModule,
-        "transformChannelToEntity"
-      ).and.returnValue(entity);
+      const transformEntityToChannelDataSpy = vi
+        .spyOn(
+          transformEntityToChannelDataModule,
+          "transformEntityToChannelData"
+        )
+        .mockReturnValue(transformedChannel);
+      const createChannelV2Spy = vi
+        .spyOn(channelsModule, "createChannelV2")
+        .mockResolvedValue(channel as any);
+      const transformChannelToEntitySpy = vi
+        .spyOn(transformChannelToEntityModule, "transformChannelToEntity")
+        .mockReturnValue(entity);
       const result = await createHubChannel(input, context);
       expect(result).toEqual(entity);
       expect(transformEntityToChannelDataSpy).toHaveBeenCalledTimes(1);
@@ -107,18 +113,18 @@ describe("edit", () => {
         blockWords: ["baad"],
         allowAsAnonymous: true,
       } as IHubChannel;
-      const transformEntityToChannelDataSpy = spyOn(
-        transformEntityToChannelDataModule,
-        "transformEntityToChannelData"
-      ).and.returnValue(transformedChannel);
-      const updateChannelV2Spy = spyOn(
-        channelsModule,
-        "updateChannelV2"
-      ).and.returnValue(channel);
-      const transformChannelToEntitySpy = spyOn(
-        transformChannelToEntityModule,
-        "transformChannelToEntity"
-      ).and.returnValue(entity);
+      const transformEntityToChannelDataSpy = vi
+        .spyOn(
+          transformEntityToChannelDataModule,
+          "transformEntityToChannelData"
+        )
+        .mockReturnValue(transformedChannel);
+      const updateChannelV2Spy = vi
+        .spyOn(channelsModule, "updateChannelV2")
+        .mockResolvedValue(channel as any);
+      const transformChannelToEntitySpy = vi
+        .spyOn(transformChannelToEntityModule, "transformChannelToEntity")
+        .mockReturnValue(entity);
       const result = await updateHubChannel(input, context);
       expect(result).toEqual(entity);
       expect(transformEntityToChannelDataSpy).toHaveBeenCalledTimes(1);
@@ -142,10 +148,9 @@ describe("edit", () => {
         hubRequestOptions: { portal: "https://some.portal" },
         currentUser: { id: "42n" },
       } as unknown as IArcGISContext;
-      const removeChannelV2Spy = spyOn(
-        channelsModule,
-        "removeChannelV2"
-      ).and.returnValue(Promise.resolve());
+      const removeChannelV2Spy = vi
+        .spyOn(channelsModule, "removeChannelV2")
+        .mockResolvedValue(undefined);
       await deleteHubChannel("channelId1", context);
       expect(removeChannelV2Spy).toHaveBeenCalledTimes(1);
       expect(removeChannelV2Spy).toHaveBeenCalledWith({

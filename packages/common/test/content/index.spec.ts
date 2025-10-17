@@ -1,9 +1,13 @@
+import { describe, it, expect, beforeAll, beforeEach, vi } from "vitest";
 import { IItem } from "@esri/arcgis-rest-portal";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import { IHubLocation } from "../../src/core/types/IHubLocation";
 import { IHubRequestOptions } from "../../src/hub-types";
-import { enrichContentSearchResult, enrichImageSearchResult } from "../../src/content/search";
+import {
+  enrichContentSearchResult,
+  enrichImageSearchResult,
+} from "../../src/content/search";
 import { cloneObject } from "../../src/util";
 
 const LOCATION: IHubLocation = {
@@ -85,29 +89,31 @@ const FEATURE_SERVICE_ITEM: IItem = {
 describe("content module:", () => {
   beforeAll(() => {
     // suppress deprecation warnings
-    // tslint:disable-next-line: no-empty
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {
+      return undefined;
+    });
   });
   describe("enrichments:", () => {
-    let enrichmentSpy: jasmine.Spy;
-    let deriveLocationFromItemSpy: jasmine.Spy;
+    let enrichmentSpy: any;
+    let deriveLocationFromItemSpy: any;
     let hubRo: IHubRequestOptions;
     beforeEach(() => {
-      enrichmentSpy = spyOn(
-        FetchEnrichments,
-        "fetchItemEnrichments"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          server: {
-            layers: [{ id: 1 }],
-          },
+      enrichmentSpy = vi
+        .spyOn(FetchEnrichments as any, "fetchItemEnrichments")
+        .mockImplementation(() => {
+          return Promise.resolve({
+            server: {
+              layers: [{ id: 1 }],
+            },
+          });
         });
-      });
-      deriveLocationFromItemSpy = spyOn(
-        internalContentUtils,
-        "deriveLocationFromItem"
-      ).and.callThrough();
+      const origDeriveLocationFromItem = (internalContentUtils as any)
+        .deriveLocationFromItem;
+      deriveLocationFromItemSpy = vi
+        .spyOn(internalContentUtils as any, "deriveLocationFromItem")
+        .mockImplementation((...args: any[]) => {
+          return origDeriveLocationFromItem(...args);
+        });
       hubRo = {
         portal: "https://some-server.com/gis/sharing/rest",
       };
@@ -120,14 +126,8 @@ describe("content module:", () => {
         hubRo
       );
 
-      expect(enrichmentSpy.calls.count()).toBe(
-        0,
-        "should not fetch enrichments"
-      );
-      expect(deriveLocationFromItemSpy.calls.count()).toBe(
-        1,
-        "should call location enrichment"
-      );
+      expect(enrichmentSpy.mock.calls.length).toBe(0);
+      expect(deriveLocationFromItemSpy.mock.calls.length).toBe(1);
 
       // verify expected output
       const ITM = cloneObject(FEATURE_SERVICE_ITEM);
@@ -174,8 +174,8 @@ describe("content module:", () => {
       expect(chk.layerCount).toBe(1);
 
       // verify the spy
-      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
-      const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
+      expect(enrichmentSpy.mock.calls.length).toBe(1);
+      const [item, enrichments, ro] = enrichmentSpy.mock.calls[0];
       expect(item).toEqual(FEATURE_SERVICE_ITEM);
       expect(enrichments).toEqual(["server"]);
       expect(ro).toBe(hubRo);

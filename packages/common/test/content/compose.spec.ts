@@ -10,6 +10,7 @@ import {
 } from "../../src/content/compose";
 import { IHubGeography, IHubRequestOptions } from "../../src/hub-types";
 import { PublisherSource } from "../../src/core/types/IHubContent";
+import { describe, it, expect, beforeAll, beforeEach, vi } from "vitest";
 
 const featureServiceItem = {
   id: "3ae",
@@ -31,7 +32,7 @@ describe("composeContent", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
   let item: IItem;
   // most of compose content is currently covered by
@@ -125,6 +126,18 @@ describe("composeContent", () => {
       };
       const content = composeContent(item, { ownerUser });
       expect(content.orgId).toBe(orgId);
+    });
+    it("should prefer org.id when provided", () => {
+      item = cloneObject(documentItem);
+      const org = { id: "org-123", name: "My Org" } as any;
+      const content = composeContent(item, { org });
+      expect(content.orgId).toBe("org-123");
+    });
+    it("should return undefined when no org and no ownerUser/orgId", () => {
+      item = cloneObject(documentItem);
+      delete item.orgId;
+      const content = composeContent(item);
+      expect(content.orgId).toBeUndefined();
     });
   });
   describe("with metadata", () => {
@@ -432,38 +445,23 @@ describe("composeContent", () => {
       let layerId = 0;
       let layerContent = composeContent(item, { layerId, layers });
       let layer = layers[0];
-      expect(layerContent.layer).toEqual(layer, "should set layer");
-      expect(layerContent.hubId).toBeUndefined("should not set hubId");
-      expect(layerContent.type).toBe(layer.type, "should set type");
-      expect(layerContent.family).toBe("dataset", "should set family");
-      expect(layerContent.title).toEqual("layer 0", "should set title");
-      expect(layerContent.description).toEqual(
-        layer.description,
-        "should set description"
-      );
-      expect(layerContent.summary).toEqual(
-        item.snippet,
-        "should not set summary"
-      );
-      expect(layerContent.url).toEqual(
-        `${item.url}/${layerId}`,
-        "should set url"
-      );
+      expect(layerContent.layer).toEqual(layer);
+      expect(layerContent.hubId).toBeUndefined();
+      expect(layerContent.type).toBe(layer.type);
+      expect(layerContent.family).toBe("dataset");
+      expect(layerContent.title).toEqual("layer 0");
+      expect(layerContent.description).toEqual(layer.description);
+      expect(layerContent.summary).toEqual(item.snippet);
+      expect(layerContent.url).toEqual(`${item.url}/${layerId}`);
       // layer w/ no description
       layerId = 1;
       layerContent = composeContent(item, { layerId, layers });
       layer = layers[1];
-      expect(layerContent.layer).toEqual(layer, "should set layer");
-      expect(layerContent.title).toEqual("layer 1", "should set title");
-      expect(layerContent.description).toEqual(
-        item.description,
-        "should set description"
-      );
-      expect(layerContent.summary).toEqual(item.snippet, "should set summary");
-      expect(layerContent.url).toEqual(
-        `${item.url}/${layerId}`,
-        "should set url"
-      );
+      expect(layerContent.layer).toEqual(layer);
+      expect(layerContent.title).toEqual("layer 1");
+      expect(layerContent.description).toEqual(item.description);
+      expect(layerContent.summary).toEqual(item.snippet);
+      expect(layerContent.url).toEqual(`${item.url}/${layerId}`);
     });
     it("public, multi-layer feature service w/o layerId", () => {
       const layerContent = composeContent(item, { layers });
@@ -479,26 +477,14 @@ describe("composeContent", () => {
     it("public, single-layer feature service w/o layerId", () => {
       const layer = layers[0];
       const layerContent = composeContent(item, { layers: [layer] });
-      expect(layerContent.layer).toEqual(layer, "should set layer");
-      expect(layerContent.hubId).toBe(
-        `${item.id}_${layer.id}`,
-        "should set hubId"
-      );
-      expect(layerContent.type).toBe(layer.type, "should set type");
-      expect(layerContent.family).toBe("dataset", "should set family");
-      expect(layerContent.url).toEqual(
-        `${item.url}/${layer.id}`,
-        "should set url"
-      );
-      expect(layerContent.title).toEqual(item.title, "should not set title");
-      expect(layerContent.description).toEqual(
-        item.description,
-        "should not set description"
-      );
-      expect(layerContent.summary).toEqual(
-        item.snippet,
-        "should not set summary"
-      );
+      expect(layerContent.layer).toEqual(layer);
+      expect(layerContent.hubId).toBe(`${item.id}_${layer.id}`);
+      expect(layerContent.type).toBe(layer.type);
+      expect(layerContent.family).toBe("dataset");
+      expect(layerContent.url).toEqual(`${item.url}/${layer.id}`);
+      expect(layerContent.title).toEqual(item.title);
+      expect(layerContent.description).toEqual(item.description);
+      expect(layerContent.summary).toEqual(item.snippet);
     });
     // NOTE: we may want to re-implement the tests in enrichments.test.ts
     // that were introduced in https://github.com/Esri/hub.js/pull/633
@@ -545,10 +531,13 @@ describe("composeContent", () => {
     it("should handle boundary type automatic from the Hub API", () => {
       item = cloneObject(mapServiceItem) as IItem;
       // create new geometry and center by shifting y coord up 1
-      const shiftXY = ([x, y]: [number, number]) => [x, y + 1];
+      const shiftXY = ([x, y]: [number, number]): [number, number] => [
+        x,
+        y + 1,
+      ];
       const updatedGeometry = {
         ...geometry,
-        rings: [geometry.rings[0].map(shiftXY)],
+        rings: [(geometry.rings[0] as [number, number][]).map(shiftXY)],
       };
       const updatedCenter = shiftXY(center);
       const boundary = {
@@ -585,5 +574,80 @@ describe("getPortalUrls", () => {
     const item = cloneObject(documentItem);
     const result = getPortalUrls(item, { authentication: {} } as unknown);
     expect(result.portalHome.indexOf("token")).toBe(-1);
+  });
+});
+
+describe("composeContent - additional getters", () => {
+  it("should expose actionLinks and hubActions from item.properties", () => {
+    const item = cloneObject(documentItem) as IItem;
+    const properties: any = {
+      links: ["/foo"],
+      actions: { edit: true },
+    };
+    const content = composeContent({ ...item, properties });
+    expect(content.actionLinks).toEqual(properties.links);
+    expect(content.hubActions).toEqual(properties.actions);
+  });
+
+  it("should return viewDefinition when layer is a layer view and data provided", () => {
+    const item: IItem = {
+      id: "layered",
+      type: "Feature Service",
+      title: "Layered Service",
+      url: "https://sampleserver/arcgis/rest/services/test/FeatureServer/0",
+      access: "public",
+      owner: "me",
+      created: 1,
+      modified: 2,
+    } as IItem;
+
+    const layer = {
+      id: 0,
+      isView: true,
+      type: "Feature Layer",
+    } as Partial<ILayerDefinition>;
+
+    const data = {
+      layers: [
+        {
+          id: 0,
+          layerDefinition: { foo: "bar" },
+        },
+      ],
+    } as any;
+
+    const content = composeContent(item, {
+      layers: [layer as any],
+      data,
+    } as any);
+    expect(content.viewDefinition).toEqual({ foo: "bar" });
+  });
+
+  it("should return undefined viewDefinition when no matching data layer", () => {
+    const item: IItem = {
+      id: "nolayer",
+      type: "Feature Service",
+      title: "No Layer Service",
+      url: "https://sampleserver/arcgis/rest/services/test/FeatureServer/1",
+      access: "public",
+      owner: "me",
+      created: 1,
+      modified: 2,
+    } as IItem;
+
+    const layer = {
+      id: 1,
+      isView: true,
+      type: "Feature Layer",
+    } as Partial<ILayerDefinition>;
+
+    // data has no matching layer id
+    const data = { layers: [{ id: 0, layerDefinition: { a: 1 } }] } as any;
+
+    const content = composeContent(item, {
+      layers: [layer as any],
+      data,
+    } as any);
+    expect(content.viewDefinition).toBeUndefined();
   });
 });

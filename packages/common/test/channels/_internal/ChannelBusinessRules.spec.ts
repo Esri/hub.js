@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { ChannelPermissions } from "../../../src/channels/_internal/ChannelPermissions";
 
 describe("ChannelBusinessRules", () => {
