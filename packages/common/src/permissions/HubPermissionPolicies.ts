@@ -84,6 +84,12 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // the workspace feature will be available to all users
     permission: "hub:gating:workspace:released",
   },
+  // permission to gate the configurable views release
+  {
+    permission: "hub:gating:configurableViews:released",
+    availability: ["alpha"],
+    environments: ["devext", "qaext"],
+  },
   // AGO Release Permissions
   {
     permission: "hub:release:2025R3",
@@ -149,7 +155,11 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:workspace",
     dependencies: ["hub:gating:workspace:released"],
   },
-
+  // permission to enable the configurable views feature
+  {
+    permission: "hub:feature:configurableViews",
+    dependencies: ["hub:gating:configurableViews:released"],
+  },
   {
     // Enables access to the user preferences section of the user profile
     // This will likely be removed when we swap the user profile to use workspace
