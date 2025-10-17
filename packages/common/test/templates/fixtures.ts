@@ -1,9 +1,9 @@
 import type { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { IModel } from "../../src/hub-types";
 import { IHubTemplate } from "../../src/core/types/IHubTemplate";
-import { MOCK_AUTH } from "../mocks/mock-auth";
-import { IPortal } from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { createMockContext } from "../mocks/mock-auth";
+import type { IPortal } from "@esri/arcgis-rest-portal";
+import type { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { mergeObjects } from "../../src/objects/merge-objects";
 import { IHubCatalog } from "../../src/search/types/IHubCatalog";
 import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
@@ -122,21 +122,22 @@ export const TEMPLATE_MODEL = {
   data: TEMPLATE_DATA,
 } as IModel;
 
-export const initContextManager = async (opts = {}) => {
+export const initContextManager = (
+  opts = {}
+): Partial<ArcGISContextManager> => {
   const defaults = {
-    authentication: MOCK_AUTH,
     currentUser: {
       username: "casey",
       privileges: [],
     } as unknown as IUser,
-    portal: {
+    portalSelf: {
       name: "DC R&D Center",
       id: "BRXFAKE",
       urlKey: "fake-org",
     } as unknown as IPortal,
     portalUrl: "https://myserver.com",
   };
-  return await ArcGISContextManager.create(
-    mergeObjects(opts, defaults, ["currentUser"])
-  );
+  return {
+    context: createMockContext(mergeObjects(opts, defaults, ["currentUser"])),
+  };
 };

@@ -6,9 +6,6 @@ on:
     types: [opened, reopened, ready_for_review, synchronize]
     branches:
       - master
-      - next
-      - alpha
-      - beta
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:
@@ -42,17 +39,15 @@ jobs:
         # https://github.com/Esri/hub.js/actions/runs/18601122095/job/53039558079
         run: npm i
 
-      - name: Lint
-        run: npm run lint
+      - name: Lint & Check for Circular Dependencies
+        run: npm run ci:lint
       
-      - name: Check for circular dependencies
-        run: npm run madge:circular
-
       - name: Build
-        run: npm run build
+        run: npm run ci:build
 
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
+      # Run Vitest tests then legacy Jasmine/Karma tests
+      - name: Run Tests
+        run: npm run test -w @esri/hub-common && npm run ci:test
 
       # Only run FF on Linux b/c Windows is already really slow
       - name: Test in Firefox
@@ -62,9 +57,6 @@ jobs:
           fi
         shell: bash
 
-      - name: Test in Node
-        run: npm run test:node
-
       - uses: codecov/codecov-action@v3
         with:
-          directory: ./coverage
+          directory: ./packages/common/coverage

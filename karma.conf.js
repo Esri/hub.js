@@ -2,6 +2,27 @@
 // Generated on Thu Jul 13 2017 11:01:30 GMT-0700 (PDT)
 const fs = require("fs");
 
+// used to convert glob patterns to regex for excludes
+// TODO: remove this dev dependency after migrating to Vitest
+const globToRegExp = require('glob-to-regexp');
+
+// we use jasmine's config to determine which tests to exclude
+// it's essentially the inverse of spec_files
+const jasmineConfig = require("./jasmine.json");
+const exclude = jasmineConfig.spec_files
+  .filter(s => !s.match(/\*\.test\.ts$/))
+  .map(s => s.replace(/^\!/, '')); // remove leading !
+
+// since we exclude those tests we need to 
+// exclude their source files from coverage too
+const excludeFromCoverage = exclude
+  .map(pattern => pattern
+    .replace(/\*\*\/test\//, 'src/') // change test to src
+    .replace(/\.test\.ts$/, '.ts') // change .test.ts to .ts
+  )
+  .map(pattern => new RegExp(pattern)); // convert to regex
+// console.log('Excluding from coverage:', excludeFromCoverage);
+
 module.exports = function (config) {
   const configObj = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -15,14 +36,19 @@ module.exports = function (config) {
     files: ["packages/*/{src,test}/**/*.ts"],
 
     // list of files to exclude
-    exclude: [],
+    exclude: [
+      // we use .spec.ts for vitest
+      "packages/*/test/**/*.spec.ts",
+      ...exclude
+    ],
 
     karmaTypescriptConfig: {
       coverageOptions: {
         // uncomment the next flag to disable coverage, and
         // enable debugging in the browser
         // if left true, the source maps won't actually match up
-        // instrumentation: false,
+        // NOTE: turning off coverage as we migrate to vitest
+        instrumentation: false,
 
         // don't report coverage on fixtures or tests
         exclude: [
@@ -32,6 +58,17 @@ module.exports = function (config) {
           /test-helpers*/,
           /orval-*/,
           /custom-client.ts/,
+          // files that have been excluded from testing
+          ...excludeFromCoverage,
+          // files whose tests have been migrated to vitest
+          // NOTE: these are adapted from vitest.config.mjs
+          /src\/(api|util)\.ts$/,
+          /src\/access\/.*\.ts$/,
+          /src\/associations\/.*\.ts$/,
+          /src\/core\/_internal\/sharedWith\.ts$/,
+          // TW working below this line
+          /src\/users\/.*\.ts$/,
+          /src\/versioning\/.*\.ts$/,
         ],
         threshold: {
           global: {
