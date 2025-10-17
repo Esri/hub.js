@@ -471,6 +471,32 @@ describe("index", () => {
     "INotify",
     "IEvent",
     "IRegistration",
+    "Breakpoint",
+    "ColumnWidth",
+    "HTMLConfigurableLayoutNodeElement",
+    "IColumn",
+    "IColumnProps",
+    "IConfigurableLayoutNode",
+    "ITranslationMap",
+    "ILayoutNode",
+    "ILayoutNodeChangeEventDetail",
+    "ILayoutNodeConfig",
+    "IProcessLayoutOptions",
+    "IRow",
+    "IRowProps",
+    "ISection",
+    "ISectionProps",
+    "LayoutColumnChild",
+    "LayoutNodeTag",
+    "LayoutNodeType",
+    "Ref",
+    "SectionOrRef",
+    "ResponsiveValue",
+    "ILayout",
+    "Layout",
+    "LayoutUtils",
+    "ILayoutV1",
+    "ILayoutV2",
   ];
 
   // exported artifacts, i.e. functions, constants, etc
@@ -1218,6 +1244,7 @@ describe("index", () => {
     "atob",
     "compareAccess",
     "CARD_TITLE_TAGS",
+    "layoutNodeTags",
   ];
 
   const BROWSER_EXPORTS = [...EXPORTED_ARTIFACTS];
