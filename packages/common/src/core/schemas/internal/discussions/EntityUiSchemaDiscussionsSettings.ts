@@ -1,3 +1,4 @@
+import { getCOrgOrEOrgId } from "../../../../search/getCOrgOrEOrgId";
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { IUiSchema } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
@@ -50,6 +51,67 @@ export const buildUiSchema = (
     context.hubLicense === "hub-premium" &&
     options.type !== "Hub Site Application"
   ) {
+    const orgFacets = {
+      label:
+        "{{shared.fields.allowedChannelIds.facets.organization.label:translate}}",
+      key: "organization",
+      display: "single-select",
+      operation: "OR",
+      options: [
+        {
+          label:
+            "{{shared.fields.allowedChannelIds.facets.organization.options.organization.label:translate}}",
+          key: "organization",
+          predicates: [
+            {
+              orgId: [context.currentUser.orgId],
+            },
+          ],
+        },
+        {
+          label:
+            "{{shared.fields.allowedChannelIds.facets.organization.options.world.label:translate}}",
+          key: "world",
+          predicates: [
+            {
+              orgId: [null],
+            },
+          ],
+        },
+      ],
+    };
+
+    if (context.communityOrgId) {
+      orgFacets.options.splice(1, 0, {
+        label:
+          "{{shared.fields.allowedChannelIds.facets.organization.options.community.label:translate}}",
+        key: "community",
+        predicates: [
+          {
+            orgId: [context.communityOrgId],
+          },
+        ],
+      });
+    }
+
+    const cOrgOrEOrgId = getCOrgOrEOrgId(context);
+    const partnerOrgIds = context.trustedOrgIds.filter((orgId: string) => {
+      return orgId !== context.currentUser.orgId && orgId !== cOrgOrEOrgId;
+    });
+
+    if (partnerOrgIds.length) {
+      orgFacets.options.splice(orgFacets.options.length - 1, 0, {
+        label:
+          "{{shared.fields.allowedChannelIds.facets.organization.options.partner.label:translate}}",
+        key: "partner",
+        predicates: [
+          {
+            orgId: partnerOrgIds,
+          },
+        ],
+      });
+    }
+
     uiSchema.elements[0].elements.push({
       labelKey: "shared.fields.allowedChannelIds.label",
       scope: "/properties/discussionSettings/properties/allowedChannelIds",
@@ -136,6 +198,7 @@ export const buildUiSchema = (
               },
             ],
           },
+          orgFacets,
           {
             label:
               "{{shared.fields.allowedChannelIds.facets.groups.label:translate}}",
