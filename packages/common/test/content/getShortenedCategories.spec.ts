@@ -1,10 +1,16 @@
+import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 import { getShortenedCategories } from "../../src/content/_internal/internalContentUtils";
 
 describe("getShortenedCategories", () => {
   beforeAll(() => {
     // suppress deprecation warnings
-    // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {
+      return undefined;
+    });
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
   });
   it("returns an empty array when no categories are provided", () => {
     const result = getShortenedCategories([]);

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import type { IItem } from "@esri/arcgis-rest-portal";
 import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
 import {

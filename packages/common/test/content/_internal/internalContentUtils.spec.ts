@@ -498,6 +498,31 @@ describe("deriveLocationFromItem", () => {
       },
     });
   });
+
+  it("constructs geojson location and falls back when getItemSpatialReference returns null", () => {
+    const _item = cloneObject(item);
+    // extent in geojson coords that will not be recognized as allCoordinatesPossiblyWGS84
+    _item.extent = {
+      type: "Polygon",
+      coordinates: [
+        [
+          [0, 0],
+          [1, 0],
+          [1, 1],
+          [0, 1],
+          [0, 0],
+        ],
+      ],
+    } as any;
+    // spatialReference as a non-numeric string to force getItemSpatialReference -> null
+    _item.spatialReference = "NAD_1983_StatePlane" as any;
+
+    const chk = deriveLocationFromItem(_item);
+    // should return a custom location with a spatialReference object (default or from item)
+    expect(chk.type).toBe("custom");
+    expect(chk.geometries && chk.geometries[0]).toBeDefined();
+    expect(chk.spatialReference).toBeDefined();
+  });
   afterEach(() => {
     vi.restoreAllMocks();
   });

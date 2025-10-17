@@ -1,5 +1,5 @@
+import { describe, it, expect, beforeAll, beforeEach, vi } from "vitest";
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { HubContent } from "../../src/content/HubContent";
@@ -10,39 +10,44 @@ import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as ShouldShowDownloadsConfigurationModule from "../../src/content/_internal/shouldShowDownloadsConfiguration";
 
 describe("HubContent class", () => {
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: any;
   beforeAll(() => {
     // suppress deprecation warnings
-    // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {
+      return undefined;
+    });
   });
   // let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    // unauthdCtxMgr = await ArcGISContextManager.create();
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalSettings: {} as PortalModule.IPortalSettings,
-      portalUrl: "https://myserver.com",
-    });
+    // Instead of calling ArcGISContextManager.create(), use a mocked context object
+    authdCtxMgr = {
+      context: {
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as PortalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalSettings: {} as PortalModule.IPortalSettings,
+        portalUrl: "https://myserver.com",
+      },
+    };
   });
   describe("ctor:", () => {
     it("save calls createContent if object does not have an id", async () => {
-      const createSpy = spyOn(editModule, "createContent").and.callFake(
-        (p: IHubEditableContent) => {
-          return Promise.resolve(p);
-        }
-      );
+      const createSpy = vi
+        .spyOn(editModule, "createContent")
+        .mockImplementation(
+          async (partialContent: Partial<IHubEditableContent>) => {
+            // return the created content (preserve passed properties)
+            return {
+              ...(partialContent as IHubEditableContent),
+            } as IHubEditableContent;
+          }
+        );
       const chk = HubContent.fromJson(
         { name: "Test Content" },
         authdCtxMgr.context
@@ -52,11 +57,12 @@ describe("HubContent class", () => {
       expect(chk.toJson().name).toEqual("Test Content");
     });
     it("save calls updateContent if object does not have an id", async () => {
-      const updateSpy = spyOn(editModule, "updateContent").and.callFake(
-        (p: IHubEditableContent) => {
-          return Promise.resolve(p);
-        }
-      );
+      const updateSpy = vi
+        .spyOn(editModule, "updateContent")
+        .mockImplementation(async (content: IHubEditableContent) => {
+          // return the updated content (preserve passed properties)
+          return { ...content } as IHubEditableContent;
+        });
       const chk = HubContent.fromJson(
         {
           id: "bc3",
@@ -86,9 +92,9 @@ describe("HubContent class", () => {
     expect(chk.toJson().tags).toEqual(["one", "two"]);
   });
   it("delete", async () => {
-    const deleteSpy = spyOn(editModule, "deleteContent").and.callFake(() => {
-      return Promise.resolve();
-    });
+    const deleteSpy = vi
+      .spyOn(editModule, "deleteContent")
+      .mockResolvedValue(undefined as any);
     const chk = HubContent.fromJson(
       {
         id: "bc3",
@@ -123,11 +129,9 @@ describe("HubContent class", () => {
   });
   describe("IWithEditorBehavior:", () => {
     it("getEditorConfig delegates to helper", async () => {
-      const spy2 = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({ fake: "config" });
-        }
-      );
+      const spy2 = vi
+        .spyOn(EditConfigModule, "getEditorConfig")
+        .mockResolvedValue({ fake: "config" } as unknown as any);
       const chk = HubContent.fromJson(
         {
           id: "bc3",
@@ -151,10 +155,9 @@ describe("HubContent class", () => {
 
     describe("toEditor:", () => {
       it("optionally enriches the entity", async () => {
-        const enrichEntitySpy = spyOn(
-          EnrichEntityModule,
-          "enrichEntity"
-        ).and.returnValue(Promise.resolve({}));
+        const enrichEntitySpy = vi
+          .spyOn(EnrichEntityModule, "enrichEntity")
+          .mockResolvedValue({} as unknown as any);
         const chk = HubContent.fromJson({ id: "bc3" }, authdCtxMgr.context);
         await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
 
@@ -178,10 +181,12 @@ describe("HubContent class", () => {
         );
       });
       it("should append downloadFormats when entity should show downloads configuration", async () => {
-        const shouldShowDownloadsConfigurationSpy = spyOn(
-          ShouldShowDownloadsConfigurationModule,
-          "shouldShowDownloadsConfiguration"
-        ).and.returnValue(true);
+        const shouldShowDownloadsConfigurationSpy = vi
+          .spyOn(
+            ShouldShowDownloadsConfigurationModule,
+            "shouldShowDownloadsConfiguration"
+          )
+          .mockReturnValue(true);
         const chk = HubContent.fromJson(
           {
             id: "bc3",
@@ -216,7 +221,9 @@ describe("HubContent class", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockReturnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -237,7 +244,9 @@ describe("HubContent class", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockReturnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -264,7 +273,9 @@ describe("HubContent class", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockReturnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -291,7 +302,9 @@ describe("HubContent class", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockReturnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -319,8 +332,10 @@ describe("HubContent class", () => {
           },
           authdCtxMgr.context
         );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // spy on the instance .save method and return void
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockReturnValue(Promise.resolve() as any);
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";

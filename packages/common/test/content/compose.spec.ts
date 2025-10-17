@@ -127,6 +127,18 @@ describe("composeContent", () => {
       const content = composeContent(item, { ownerUser });
       expect(content.orgId).toBe(orgId);
     });
+    it("should prefer org.id when provided", () => {
+      item = cloneObject(documentItem);
+      const org = { id: "org-123", name: "My Org" } as any;
+      const content = composeContent(item, { org });
+      expect(content.orgId).toBe("org-123");
+    });
+    it("should return undefined when no org and no ownerUser/orgId", () => {
+      item = cloneObject(documentItem);
+      delete item.orgId;
+      const content = composeContent(item);
+      expect(content.orgId).toBeUndefined();
+    });
   });
   describe("with metadata", () => {
     beforeEach(() => {
@@ -562,5 +574,80 @@ describe("getPortalUrls", () => {
     const item = cloneObject(documentItem);
     const result = getPortalUrls(item, { authentication: {} } as unknown);
     expect(result.portalHome.indexOf("token")).toBe(-1);
+  });
+});
+
+describe("composeContent - additional getters", () => {
+  it("should expose actionLinks and hubActions from item.properties", () => {
+    const item = cloneObject(documentItem) as IItem;
+    const properties: any = {
+      links: ["/foo"],
+      actions: { edit: true },
+    };
+    const content = composeContent({ ...item, properties });
+    expect(content.actionLinks).toEqual(properties.links);
+    expect(content.hubActions).toEqual(properties.actions);
+  });
+
+  it("should return viewDefinition when layer is a layer view and data provided", () => {
+    const item: IItem = {
+      id: "layered",
+      type: "Feature Service",
+      title: "Layered Service",
+      url: "https://sampleserver/arcgis/rest/services/test/FeatureServer/0",
+      access: "public",
+      owner: "me",
+      created: 1,
+      modified: 2,
+    } as IItem;
+
+    const layer = {
+      id: 0,
+      isView: true,
+      type: "Feature Layer",
+    } as Partial<ILayerDefinition>;
+
+    const data = {
+      layers: [
+        {
+          id: 0,
+          layerDefinition: { foo: "bar" },
+        },
+      ],
+    } as any;
+
+    const content = composeContent(item, {
+      layers: [layer as any],
+      data,
+    } as any);
+    expect(content.viewDefinition).toEqual({ foo: "bar" });
+  });
+
+  it("should return undefined viewDefinition when no matching data layer", () => {
+    const item: IItem = {
+      id: "nolayer",
+      type: "Feature Service",
+      title: "No Layer Service",
+      url: "https://sampleserver/arcgis/rest/services/test/FeatureServer/1",
+      access: "public",
+      owner: "me",
+      created: 1,
+      modified: 2,
+    } as IItem;
+
+    const layer = {
+      id: 1,
+      isView: true,
+      type: "Feature Layer",
+    } as Partial<ILayerDefinition>;
+
+    // data has no matching layer id
+    const data = { layers: [{ id: 0, layerDefinition: { a: 1 } }] } as any;
+
+    const content = composeContent(item, {
+      layers: [layer as any],
+      data,
+    } as any);
+    expect(content.viewDefinition).toBeUndefined();
   });
 });
