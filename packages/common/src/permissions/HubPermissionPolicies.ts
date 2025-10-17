@@ -234,38 +234,17 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
   },
   /**
-   * Gates advanced editing (e.g. adding new collections, adding
-   * additional scope filters, etc.) in the catalog configuration
-   * experince.
-   *
-   * TODO: Remove the site entity assertion once all catalog
-   * configuration features are supported by sites
-   */
-  {
-    permission: "hub:feature:catalogs:edit:advanced",
-    entityEdit: true,
-    licenses: ["hub-premium"],
-    assertions: [
-      {
-        property: "entity:type",
-        type: "neq",
-        value: "Hub Site Application",
-      },
-    ],
-  },
-  /**
    * Gates catalog & collection appearance editing
    * in the catalog configuration experience.
    *
    * TODO: remove environment & availability gating once
    * we are ready to release catalog appearance
-   * configuration. Alternatively, we can remove it entirely
-   * in favor of the "hub:feature:caatalogs:edit:advanced"
-   * permission
+   * configuration.
    */
   {
     permission: "hub:feature:catalogs:edit:appearance",
-    dependencies: ["hub:feature:catalogs:edit:advanced"],
+    entityEdit: true,
+    licenses: ["hub-premium"],
     environments: ["qaext"],
     availability: ["alpha"],
   },
