@@ -15,7 +15,7 @@ import { cloneObject } from "../../src/util";
 import * as settingUtils from "../../src/discussions/api/settings/settings";
 import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
 import * as terraformer from "@terraformer/arcgis";
-import { Polygon } from "geojson";
+import type { Polygon } from "geojson";
 import { IGeometryInstance } from "../../src/core/types/IGeometryInstance";
 import * as createOrUpdateEntitySettingsUtils from "../../src/core/_internal/createOrUpdateEntitySettings";
 

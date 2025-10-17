@@ -1,6 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { GenericResult } from "../../../src/search/types";
+import { GenericResult } from "../../../src/search/types/types";
 import {
   checkAll,
   checkAny,

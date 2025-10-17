@@ -16,6 +16,9 @@ describe("_fetch", () => {
     // tslint:disable-next-line: no-empty
     spyOn(console, "warn").and.callFake(() => {});
   });
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("getContentEnrichments", () => {
     it("should return defaults for items that are not maps, services, or templates, etc", () => {
       const result = getContentEnrichments(documentItem);

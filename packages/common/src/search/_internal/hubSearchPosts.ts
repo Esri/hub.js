@@ -1,13 +1,13 @@
 import { IHubSearchResult } from "../types/IHubSearchResult";
 import { IHubSearchOptions } from "../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../types/IHubSearchResponse";
-import { searchPostsV2 } from "../../discussions/api/posts";
 import { IQuery } from "../types/IHubCatalog";
-import { ISearchPosts } from "../..";
 import { postToSearchResult } from "./hubDiscussionsHelpers/postToSearchResult";
 import { processPostFilters } from "./hubDiscussionsHelpers/processPostFilters";
 import { processPostOptions } from "./hubDiscussionsHelpers/processPostOptions";
 import { processRelations } from "./hubDiscussionsHelpers/processRelations";
+import { ISearchPosts } from "../../discussions/api/types";
+import { searchPostsV2 } from "../../discussions/api/posts/posts";
 
 /**
  * @private

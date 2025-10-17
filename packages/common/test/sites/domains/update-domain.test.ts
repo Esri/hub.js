@@ -19,6 +19,10 @@ describe("updateDomain", function () {
     sslOnly: true,
   };
 
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
   it("updates domain", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;
 

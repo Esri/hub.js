@@ -4,6 +4,9 @@ import { domainExists } from "../../../src/sites/domains/domain-exists";
 
 describe("domainExists", function () {
   const domainId = "146663";
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   it("returns false and true correctly", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;

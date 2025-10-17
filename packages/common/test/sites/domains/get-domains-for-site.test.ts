@@ -3,6 +3,9 @@ import { getDomainsForSite } from "../../../src/sites/domains/get-domains-for-si
 import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
 
 describe("getDomainsForSite", function () {
+  afterEach(() => {
+    fetchMock.restore();
+  });
   const domains = [{ some: "domain" }] as unknown as IDomainEntry[];
   it("resolves with the domain entries for a site", async function () {
     const siteId = "siteId";

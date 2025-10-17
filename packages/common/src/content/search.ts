@@ -15,6 +15,7 @@ import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { unique } from "../util";
 import { mapBy } from "../utils/map-by";
+import { AccessLevel } from "../core/types/types";
 
 /**
  * Enrich a generic search result
@@ -30,7 +31,7 @@ export async function enrichContentSearchResult(
 ): Promise<IHubSearchResult> {
   // Create the basic structure
   const result: IHubSearchResult = {
-    access: item.access,
+    access: item.access as AccessLevel,
     id: item.id,
     type: item.type,
     name: item.title,

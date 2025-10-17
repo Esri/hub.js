@@ -3,6 +3,10 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import * as fetchMock from "fetch-mock";
 
 describe("fetchHubTranslation", function () {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
   it("fetches a translation", async function () {
     const portal: IPortal = {
       name: "My Portal",

@@ -2,6 +2,9 @@ import * as fetchMock from "fetch-mock";
 import { hubApiRequest } from "../src/request";
 
 describe("hubApiRequest", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("handles a server error", (done) => {
     const status = 403;
     const route = "badurl";

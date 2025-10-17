@@ -3,6 +3,9 @@ import { MOCK_HUB_REQOPTS, MOCK_PORTAL_REQOPTS } from "../test-helpers.test";
 import { ensureUniqueDomainName } from "../../../src/sites/domains/ensure-unique-domain-name";
 
 describe("ensureUniqueDomainName", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("ensureUniqueDomainName for AGO", async function () {
     // return a 200 for the default domain, forcing it to increment
     fetchMock.once("glob:*/domains/foo-org*", {

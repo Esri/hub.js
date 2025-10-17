@@ -1,457 +1,433 @@
-# @esri/hub-common [20.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.14.0...@esri/hub-common@20.15.0) (2025-10-07)
+## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.17.1
+
+### Patch Changes
+
+- 27c018e: eliminate nested barrel (index.ts) files in hub-common while preserving all existing exports from the root barrel file
+
+## 20.17.0
+
+### Minor Changes
+
+- 3abf562: Adds an optional customFiltersEnabled property to IGalleryDisplayConfig
+
+## 20.16.4
+
+### Patch Changes
+
+- 534c742: Now able to specify item types that should not have their data fetched when visiting their explore views
+
+### Bug Fixes
+
+- **hub-common:** add missing geojson dependency ([#2033](https://github.com/Esri/hub.js/issues/2033)) ([9208e02](https://github.com/Esri/hub.js/commit/9208e025b85d274a8e0252ebec08d317b3f62ed6))
+
+## @esri/hub-common [20.16.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.1...@esri/hub-common@20.16.2) (2025-10-10)
+
+### Bug Fixes
+
+- add discussions subscription permission and gating ([#2024](https://github.com/Esri/hub.js/issues/2024)) ([77fa02e](https://github.com/Esri/hub.js/commit/77fa02e9a37ec34c4e13e64ad81d434c47469d78))
+
+## @esri/hub-common [20.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.0...@esri/hub-common@20.16.1) (2025-10-10)
+
+### Bug Fixes
+
+- release send message to prod ([#2030](https://github.com/Esri/hub.js/issues/2030)) ([b7ad516](https://github.com/Esri/hub.js/commit/b7ad516cbdfb3a7c0f57cdb6bdaed69e8b01ab13))
+
+# @esri/hub-common [20.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.15.0...@esri/hub-common@20.16.0) (2025-10-10)
 
 ### Features
 
-* move 3dtiles service to maps collection ([#2010](https://github.com/Esri/hub.js/issues/2010)) ([e56bdef](https://github.com/Esri/hub.js/commit/e56bdefc403714c9b350c21a1bb9be4a31087221))
+- **hub-common:** updated newsletter subscription search params ([#2026](https://github.com/Esri/hub.js/issues/2026)) ([02b0f68](https://github.com/Esri/hub.js/commit/02b0f68c305cd4a6676f2a383b84d5940f3dcac2))
+
+# @esri/hub-common [20.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.14.0...@esri/hub-common@20.15.0) (2025-10-07)
+
+### Features
+
+- move 3dtiles service to maps collection ([#2010](https://github.com/Esri/hub.js/issues/2010)) ([e56bdef](https://github.com/Esri/hub.js/commit/e56bdefc403714c9b350c21a1bb9be4a31087221))
 
 # @esri/hub-common [20.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.13.0...@esri/hub-common@20.14.0) (2025-10-06)
 
-
 ### Features
 
-* add post entity type and support 'post' in hubSearch ([#2019](https://github.com/Esri/hub.js/issues/2019)) ([4a5e6ba](https://github.com/Esri/hub.js/commit/4a5e6baa973adba9e8659ecb98b5bd6d78ba49e8))
+- add post entity type and support 'post' in hubSearch ([#2019](https://github.com/Esri/hub.js/issues/2019)) ([4a5e6ba](https://github.com/Esri/hub.js/commit/4a5e6baa973adba9e8659ecb98b5bd6d78ba49e8))
 
 # @esri/hub-common [20.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.12.0...@esri/hub-common@20.13.0) (2025-10-01)
 
-
 ### Features
 
-* extend permission for better release control and guides ([#2023](https://github.com/Esri/hub.js/issues/2023)) ([8b0a366](https://github.com/Esri/hub.js/commit/8b0a36633b02a0bd9019ea6e220b56d5f4fbe7ab))
+- extend permission for better release control and guides ([#2023](https://github.com/Esri/hub.js/issues/2023)) ([8b0a366](https://github.com/Esri/hub.js/commit/8b0a36633b02a0bd9019ea6e220b56d5f4fbe7ab))
 
 # @esri/hub-common [20.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.11.1...@esri/hub-common@20.12.0) (2025-09-26)
 
-
 ### Features
 
-* **hub-common:** modified sharing level access on site sharing level ([#2011](https://github.com/Esri/hub.js/issues/2011)) ([21888a9](https://github.com/Esri/hub.js/commit/21888a96afd57917946b94cc1ead009cd3d00ccf))
+- **hub-common:** modified sharing level access on site sharing level ([#2011](https://github.com/Esri/hub.js/issues/2011)) ([21888a9](https://github.com/Esri/hub.js/commit/21888a96afd57917946b94cc1ead009cd3d00ccf))
 
 ## @esri/hub-common [20.11.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.11.0...@esri/hub-common@20.11.1) (2025-09-26)
 
-
 ### Bug Fixes
 
-* only set the layout to a template if _layoutSetup is passd ([#2021](https://github.com/Esri/hub.js/issues/2021)) ([e02888f](https://github.com/Esri/hub.js/commit/e02888fc240366a22c4a0c328607c731344fb4e0))
+- only set the layout to a template if \_layoutSetup is passd ([#2021](https://github.com/Esri/hub.js/issues/2021)) ([e02888f](https://github.com/Esri/hub.js/commit/e02888fc240366a22c4a0c328607c731344fb4e0))
 
 # @esri/hub-common [20.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.10.0...@esri/hub-common@20.11.0) (2025-09-25)
 
-
 ### Features
 
-* add group messaging permissions ([#2020](https://github.com/Esri/hub.js/issues/2020)) ([cfcfeb1](https://github.com/Esri/hub.js/commit/cfcfeb1d00c5f141b5a2cddf3b31f6a3909d58b7))
+- add group messaging permissions ([#2020](https://github.com/Esri/hub.js/issues/2020)) ([cfcfeb1](https://github.com/Esri/hub.js/commit/cfcfeb1d00c5f141b5a2cddf3b31f6a3909d58b7))
 
 # @esri/hub-common [20.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.9.0...@esri/hub-common@20.10.0) (2025-09-24)
 
-
 ### Features
 
-* add layout selection option during site and page creation ([#1996](https://github.com/Esri/hub.js/issues/1996)) ([7fed265](https://github.com/Esri/hub.js/commit/7fed26544b58e37154213c5cf4f3cef05aa7fbed))
+- add layout selection option during site and page creation ([#1996](https://github.com/Esri/hub.js/issues/1996)) ([7fed265](https://github.com/Esri/hub.js/commit/7fed26544b58e37154213c5cf4f3cef05aa7fbed))
 
 # @esri/hub-common [20.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.1...@esri/hub-common@20.9.0) (2025-09-23)
 
-
 ### Features
 
-* **hub-common:** add schemas for consolidated embed layout card editor ([#1993](https://github.com/Esri/hub.js/issues/1993)) ([8abc7cf](https://github.com/Esri/hub.js/commit/8abc7cfc059cc3d57a1b70c7d1deb768c4c2dfd1))
+- **hub-common:** add schemas for consolidated embed layout card editor ([#1993](https://github.com/Esri/hub.js/issues/1993)) ([8abc7cf](https://github.com/Esri/hub.js/commit/8abc7cfc059cc3d57a1b70c7d1deb768c4c2dfd1))
 
 ## @esri/hub-common [20.8.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.8.0...@esri/hub-common@20.8.1) (2025-09-22)
 
-
 ### Bug Fixes
 
-* 13240 add location to initiative template ([#1995](https://github.com/Esri/hub.js/issues/1995)) ([72d9c79](https://github.com/Esri/hub.js/commit/72d9c79679e61c02e67b486636388878d3bcc776))
+- 13240 add location to initiative template ([#1995](https://github.com/Esri/hub.js/issues/1995)) ([72d9c79](https://github.com/Esri/hub.js/commit/72d9c79679e61c02e67b486636388878d3bcc776))
 
 # @esri/hub-common [20.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.7.0...@esri/hub-common@20.8.0) (2025-09-22)
 
-
 ### Features
 
-* **hub-common:** add support for setting the layer style type on feature service content ([#1997](https://github.com/Esri/hub.js/issues/1997)) ([1953719](https://github.com/Esri/hub.js/commit/1953719190d04f099f679f7ea59240b2398b7a1a))
+- **hub-common:** add support for setting the layer style type on feature service content ([#1997](https://github.com/Esri/hub.js/issues/1997)) ([1953719](https://github.com/Esri/hub.js/commit/1953719190d04f099f679f7ea59240b2398b7a1a))
 
 # @esri/hub-common [20.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.1...@esri/hub-common@20.7.0) (2025-09-22)
 
-
 ### Features
 
-* **hub-common:** expose new helpers, sort fields, searchable predicates and permissions for the gallery card ([#1952](https://github.com/Esri/hub.js/issues/1952)) ([8833568](https://github.com/Esri/hub.js/commit/88335682e872b3e1678f287a02238e75c88464e4))
+- **hub-common:** expose new helpers, sort fields, searchable predicates and permissions for the gallery card ([#1952](https://github.com/Esri/hub.js/issues/1952)) ([8833568](https://github.com/Esri/hub.js/commit/88335682e872b3e1678f287a02238e75c88464e4))
 
 ## @esri/hub-common [20.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.6.0...@esri/hub-common@20.6.1) (2025-09-22)
 
-
 ### Bug Fixes
 
-* image entities in search will display image as default thumbnail ([#2005](https://github.com/Esri/hub.js/issues/2005)) ([5352efa](https://github.com/Esri/hub.js/commit/5352efad2ceb9244e37ebf584436ec8c6e278599))
+- image entities in search will display image as default thumbnail ([#2005](https://github.com/Esri/hub.js/issues/2005)) ([5352efa](https://github.com/Esri/hub.js/commit/5352efad2ceb9244e37ebf584436ec8c6e278599))
 
 # @esri/hub-common [20.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.1...@esri/hub-common@20.6.0) (2025-09-19)
 
-
 ### Features
 
-* **hub-common:** added q and bbox to IOgcAggregationQueryParams ([#2008](https://github.com/Esri/hub.js/issues/2008)) ([b3cde7b](https://github.com/Esri/hub.js/commit/b3cde7bc9fd31753fa123ff803484d84b545b2b6))
+- **hub-common:** added q and bbox to IOgcAggregationQueryParams ([#2008](https://github.com/Esri/hub.js/issues/2008)) ([b3cde7b](https://github.com/Esri/hub.js/commit/b3cde7bc9fd31753fa123ff803484d84b545b2b6))
 
 ## @esri/hub-common [20.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.0...@esri/hub-common@20.5.1) (2025-09-18)
 
-
 ### Bug Fixes
 
-* **hub-common:** events don't set discussions settings on portal ([#2006](https://github.com/Esri/hub.js/issues/2006)) ([35e930f](https://github.com/Esri/hub.js/commit/35e930f033b98f90c45b5bb83cf03f9532d4189c))
+- **hub-common:** events don't set discussions settings on portal ([#2006](https://github.com/Esri/hub.js/issues/2006)) ([35e930f](https://github.com/Esri/hub.js/commit/35e930f033b98f90c45b5bb83cf03f9532d4189c))
 
 # @esri/hub-common [20.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.7...@esri/hub-common@20.5.0) (2025-09-18)
 
-
 ### Features
 
-* **hub-common:** add / populate IHubSite.isCatalogV1Enabled while fetching ([#2004](https://github.com/Esri/hub.js/issues/2004)) ([c0cd402](https://github.com/Esri/hub.js/commit/c0cd4026859fab7a4008c62ba25abc5d389aa7c3))
+- **hub-common:** add / populate IHubSite.isCatalogV1Enabled while fetching ([#2004](https://github.com/Esri/hub.js/issues/2004)) ([c0cd402](https://github.com/Esri/hub.js/commit/c0cd4026859fab7a4008c62ba25abc5d389aa7c3))
 
 ## @esri/hub-common [20.4.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.6...@esri/hub-common@20.4.7) (2025-09-18)
 
-
 ### Bug Fixes
 
-* page slug urls use bare slug ([#2009](https://github.com/Esri/hub.js/issues/2009)) ([fbbfcf6](https://github.com/Esri/hub.js/commit/fbbfcf674f060007fb64211248dd9ae151537932))
+- page slug urls use bare slug ([#2009](https://github.com/Esri/hub.js/issues/2009)) ([fbbfcf6](https://github.com/Esri/hub.js/commit/fbbfcf674f060007fb64211248dd9ae151537932))
 
 ## @esri/hub-common [20.4.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.5...@esri/hub-common@20.4.6) (2025-09-12)
 
-
 ### Bug Fixes
 
-* make siteRelative link for users conditional based on environment ([#1998](https://github.com/Esri/hub.js/issues/1998)) ([f97af5f](https://github.com/Esri/hub.js/commit/f97af5f08fc973bf41c9d62adfe35ebb9a5a3c0f))
+- make siteRelative link for users conditional based on environment ([#1998](https://github.com/Esri/hub.js/issues/1998)) ([f97af5f](https://github.com/Esri/hub.js/commit/f97af5f08fc973bf41c9d62adfe35ebb9a5a3c0f))
 
 ## @esri/hub-common [20.4.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.4...@esri/hub-common@20.4.5) (2025-09-10)
 
-
 ### Bug Fixes
 
-* user settings schema tolerant of misconfigured trustedOrgs ([#1994](https://github.com/Esri/hub.js/issues/1994)) ([8ba01f9](https://github.com/Esri/hub.js/commit/8ba01f92c8bbdf5256da5b5afc3e2edfb18bfebf))
+- user settings schema tolerant of misconfigured trustedOrgs ([#1994](https://github.com/Esri/hub.js/issues/1994)) ([8ba01f9](https://github.com/Esri/hub.js/commit/8ba01f92c8bbdf5256da5b5afc3e2edfb18bfebf))
 
 ## @esri/hub-common [20.4.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.3...@esri/hub-common@20.4.4) (2025-09-04)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix issue where existing download export requests were not serialized correctly ([#1987](https://github.com/Esri/hub.js/issues/1987)) ([cebb78a](https://github.com/Esri/hub.js/commit/cebb78af4ad618d29dd57fd8e8872b75c21a27ff))
+- **hub-common:** fix issue where existing download export requests were not serialized correctly ([#1987](https://github.com/Esri/hub.js/issues/1987)) ([cebb78a](https://github.com/Esri/hub.js/commit/cebb78af4ad618d29dd57fd8e8872b75c21a27ff))
 
 ## @esri/hub-common [20.4.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.2...@esri/hub-common@20.4.3) (2025-09-04)
 
-
 ### Bug Fixes
 
-* ensure all permissions are in HubPermissions array ([#1991](https://github.com/Esri/hub.js/issues/1991)) ([a38dddf](https://github.com/Esri/hub.js/commit/a38dddf64e08e142f48607618b832d25561dd3b4))
+- ensure all permissions are in HubPermissions array ([#1991](https://github.com/Esri/hub.js/issues/1991)) ([a38dddf](https://github.com/Esri/hub.js/commit/a38dddf64e08e142f48607618b832d25561dd3b4))
 
 ## @esri/hub-common [20.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.1...@esri/hub-common@20.4.2) (2025-09-04)
 
-
 ### Bug Fixes
 
-* **hub-common:** partial groups have group typing ([#1990](https://github.com/Esri/hub.js/issues/1990)) ([6a9e8a9](https://github.com/Esri/hub.js/commit/6a9e8a96454b90bad19857d9a41392649cedffee))
+- **hub-common:** partial groups have group typing ([#1990](https://github.com/Esri/hub.js/issues/1990)) ([6a9e8a9](https://github.com/Esri/hub.js/commit/6a9e8a96454b90bad19857d9a41392649cedffee))
 
 ## @esri/hub-common [20.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.0...@esri/hub-common@20.4.1) (2025-09-04)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix create group discussion settings ([#1988](https://github.com/Esri/hub.js/issues/1988)) ([51eabc2](https://github.com/Esri/hub.js/commit/51eabc2eb287448610e604ac814a1bfbde351ecb))
+- **hub-common:** fix create group discussion settings ([#1988](https://github.com/Esri/hub.js/issues/1988)) ([51eabc2](https://github.com/Esri/hub.js/commit/51eabc2eb287448610e604ac814a1bfbde351ecb))
 
 # @esri/hub-common [20.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.3.0...@esri/hub-common@20.4.0) (2025-09-02)
 
-
 ### Features
 
-* **hub-common:** add permissions for ai assistant ([#1986](https://github.com/Esri/hub.js/issues/1986)) ([1dd52a3](https://github.com/Esri/hub.js/commit/1dd52a3a1eb3aa8e198e52ab3ae8dd59c84e03e1))
+- **hub-common:** add permissions for ai assistant ([#1986](https://github.com/Esri/hub.js/issues/1986)) ([1dd52a3](https://github.com/Esri/hub.js/commit/1dd52a3a1eb3aa8e198e52ab3ae8dd59c84e03e1))
 
 # @esri/hub-common [20.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.2.0...@esri/hub-common@20.3.0) (2025-08-29)
 
-
 ### Features
 
-* **hub-common:** add group workspace discussions settings permissions ([#1981](https://github.com/Esri/hub.js/issues/1981)) ([5e3796a](https://github.com/Esri/hub.js/commit/5e3796a37348273595c2a9e2e2d19870b8de27a8))
+- **hub-common:** add group workspace discussions settings permissions ([#1981](https://github.com/Esri/hub.js/issues/1981)) ([5e3796a](https://github.com/Esri/hub.js/commit/5e3796a37348273595c2a9e2e2d19870b8de27a8))
 
 # @esri/hub-common [20.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.1.1...@esri/hub-common@20.2.0) (2025-08-29)
 
-
 ### Features
 
-* **hub-common:** Prevent items list from being resorted on save event ([#1982](https://github.com/Esri/hub.js/issues/1982)) ([1925493](https://github.com/Esri/hub.js/commit/19254931ce3256d5f2978e51271ddaab23f613cc))
+- **hub-common:** Prevent items list from being resorted on save event ([#1982](https://github.com/Esri/hub.js/issues/1982)) ([1925493](https://github.com/Esri/hub.js/commit/19254931ce3256d5f2978e51271ddaab23f613cc))
 
 ## @esri/hub-common [20.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.1.0...@esri/hub-common@20.1.1) (2025-08-28)
 
-
 ### Bug Fixes
 
-* collection schema label maxLength ([#1983](https://github.com/Esri/hub.js/issues/1983)) ([d4425f5](https://github.com/Esri/hub.js/commit/d4425f51d7fed1914098c37e0ab4c1cb2f2d8337))
-* limit maxLength of site name to 240 characters in enterprise ([#1985](https://github.com/Esri/hub.js/issues/1985)) ([f8b0987](https://github.com/Esri/hub.js/commit/f8b0987c91f247bd2006cb64888759a41a4fea90))
+- collection schema label maxLength ([#1983](https://github.com/Esri/hub.js/issues/1983)) ([d4425f5](https://github.com/Esri/hub.js/commit/d4425f51d7fed1914098c37e0ab4c1cb2f2d8337))
+- limit maxLength of site name to 240 characters in enterprise ([#1985](https://github.com/Esri/hub.js/issues/1985)) ([f8b0987](https://github.com/Esri/hub.js/commit/f8b0987c91f247bd2006cb64888759a41a4fea90))
 
 # @esri/hub-common [20.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.0.1...@esri/hub-common@20.1.0) (2025-08-27)
 
-
 ### Features
 
-* serialize catalog scope query function ([#1975](https://github.com/Esri/hub.js/issues/1975)) ([b350124](https://github.com/Esri/hub.js/commit/b3501246d9e6a6072950483e9b5c87bd75939dcb))
+- serialize catalog scope query function ([#1975](https://github.com/Esri/hub.js/issues/1975)) ([b350124](https://github.com/Esri/hub.js/commit/b3501246d9e6a6072950483e9b5c87bd75939dcb))
 
 ## @esri/hub-common [20.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.0.0...@esri/hub-common@20.0.1) (2025-08-27)
 
-
 ### Bug Fixes
 
-* **hub-common:** settings => discussions pane is not accessible in en… ([#1984](https://github.com/Esri/hub.js/issues/1984)) ([0954ab6](https://github.com/Esri/hub.js/commit/0954ab601093284a704c2d4e1ef6469bf239a154))
+- **hub-common:** settings => discussions pane is not accessible in en… ([#1984](https://github.com/Esri/hub.js/issues/1984)) ([0954ab6](https://github.com/Esri/hub.js/commit/0954ab601093284a704c2d4e1ef6469bf239a154))
 
 # @esri/hub-common [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.4.1...@esri/hub-common@20.0.0) (2025-08-25)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix site workspace shows slug editor ([#1980](https://github.com/Esri/hub.js/issues/1980)) ([60abb75](https://github.com/Esri/hub.js/commit/60abb75cf4e0dba730bc18258beb69695499a497))
-
+- **hub-common:** fix site workspace shows slug editor ([#1980](https://github.com/Esri/hub.js/issues/1980)) ([60abb75](https://github.com/Esri/hub.js/commit/60abb75cf4e0dba730bc18258beb69695499a497))
 
 ### BREAKING CHANGES
 
-* **hub-common:** update site entity so that sites do not have slugs
+- **hub-common:** update site entity so that sites do not have slugs
 
 ## @esri/hub-common [19.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.4.0...@esri/hub-common@19.4.1) (2025-08-20)
 
-
 ### Bug Fixes
 
-* page slugify regex ([#1974](https://github.com/Esri/hub.js/issues/1974)) ([bf1e283](https://github.com/Esri/hub.js/commit/bf1e28348248afb0d40c787806d270017b3d0dcb))
+- page slugify regex ([#1974](https://github.com/Esri/hub.js/issues/1974)) ([bf1e283](https://github.com/Esri/hub.js/commit/bf1e28348248afb0d40c787806d270017b3d0dcb))
 
 # @esri/hub-common [19.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.1...@esri/hub-common@19.4.0) (2025-08-20)
 
-
 ### Features
 
-* add Discussions to Settings pane for site and content workspaces ([#1958](https://github.com/Esri/hub.js/issues/1958)) ([22f0d2e](https://github.com/Esri/hub.js/commit/22f0d2ea88fd0295e7df3e895a6f0368fd6d3fdc))
+- add Discussions to Settings pane for site and content workspaces ([#1958](https://github.com/Esri/hub.js/issues/1958)) ([22f0d2e](https://github.com/Esri/hub.js/commit/22f0d2ea88fd0295e7df3e895a6f0368fd6d3fdc))
 
 ## @esri/hub-common [19.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.0...@esri/hub-common@19.3.1) (2025-08-14)
 
-
 ### Bug Fixes
 
-* url key not present breaks enterprise ([#1970](https://github.com/Esri/hub.js/issues/1970)) ([68485f2](https://github.com/Esri/hub.js/commit/68485f25449406a9804b57c797eb7695bb899a16))
+- url key not present breaks enterprise ([#1970](https://github.com/Esri/hub.js/issues/1970)) ([68485f2](https://github.com/Esri/hub.js/commit/68485f25449406a9804b57c797eb7695bb899a16))
 
 # @esri/hub-common [19.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.2.0...@esri/hub-common@19.3.0) (2025-08-14)
 
-
 ### Features
 
-* **hub-common:** add group to EntitySettingType enum ([#1964](https://github.com/Esri/hub.js/issues/1964)) ([7e13e6d](https://github.com/Esri/hub.js/commit/7e13e6dab7af5ac62ee5996648301892b5d9efe8))
+- **hub-common:** add group to EntitySettingType enum ([#1964](https://github.com/Esri/hub.js/issues/1964)) ([7e13e6d](https://github.com/Esri/hub.js/commit/7e13e6dab7af5ac62ee5996648301892b5d9efe8))
 
 # @esri/hub-common [19.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.3...@esri/hub-common@19.2.0) (2025-08-14)
 
-
 ### Features
 
-* **hub-common:** add events catalog permissions for discussions ([#1969](https://github.com/Esri/hub.js/issues/1969)) ([e63fcde](https://github.com/Esri/hub.js/commit/e63fcde4744efaab48c5b33a0df0573fbf855d92))
+- **hub-common:** add events catalog permissions for discussions ([#1969](https://github.com/Esri/hub.js/issues/1969)) ([e63fcde](https://github.com/Esri/hub.js/commit/e63fcde4744efaab48c5b33a0df0573fbf855d92))
 
 ## @esri/hub-common [19.1.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.2...@esri/hub-common@19.1.3) (2025-08-12)
 
-
 ### Bug Fixes
 
-* **hub-common:** page maps location property ([#1967](https://github.com/Esri/hub.js/issues/1967)) ([f1b35ef](https://github.com/Esri/hub.js/commit/f1b35ef51c39f294afad96e2888ebabea0998bac))
+- **hub-common:** page maps location property ([#1967](https://github.com/Esri/hub.js/issues/1967)) ([f1b35ef](https://github.com/Esri/hub.js/commit/f1b35ef51c39f294afad96e2888ebabea0998bac))
 
 ## @esri/hub-common [19.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.1...@esri/hub-common@19.1.2) (2025-08-08)
 
-
 ### Bug Fixes
 
-* make stage title required, migrate invalid stages ([#1966](https://github.com/Esri/hub.js/issues/1966)) ([d5c69c3](https://github.com/Esri/hub.js/commit/d5c69c354d894cfafbd6a4db9b5a7d9a4cc3127e))
+- make stage title required, migrate invalid stages ([#1966](https://github.com/Esri/hub.js/issues/1966)) ([d5c69c3](https://github.com/Esri/hub.js/commit/d5c69c354d894cfafbd6a4db9b5a7d9a4cc3127e))
 
 ## @esri/hub-common [19.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.0...@esri/hub-common@19.1.1) (2025-08-08)
 
-
 ### Bug Fixes
 
-* address problems with mixed-case org urlKeys ([#1959](https://github.com/Esri/hub.js/issues/1959)) ([001bb42](https://github.com/Esri/hub.js/commit/001bb426c009933bf193843ecb309251667a20ef))
+- address problems with mixed-case org urlKeys ([#1959](https://github.com/Esri/hub.js/issues/1959)) ([001bb42](https://github.com/Esri/hub.js/commit/001bb426c009933bf193843ecb309251667a20ef))
 
 # @esri/hub-common [19.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.0.1...@esri/hub-common@19.1.0) (2025-08-05)
 
-
 ### Features
 
-* **hub-common:** enable catalogs on hub discussion boards ([#1929](https://github.com/Esri/hub.js/issues/1929)) ([430e6d8](https://github.com/Esri/hub.js/commit/430e6d886f08b594ef3a0123239605425d7ad3aa))
+- **hub-common:** enable catalogs on hub discussion boards ([#1929](https://github.com/Esri/hub.js/issues/1929)) ([430e6d8](https://github.com/Esri/hub.js/commit/430e6d886f08b594ef3a0123239605425d7ad3aa))
 
 ## @esri/hub-common [19.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.0.0...@esri/hub-common@19.0.1) (2025-08-05)
 
-
 ### Bug Fixes
 
-* getWellKnownGroup - hubViewGroup returns access level based on… ([#1962](https://github.com/Esri/hub.js/issues/1962)) ([b19f47d](https://github.com/Esri/hub.js/commit/b19f47da7c96fc28fd21d12b9280d6f76f5941f1))
+- getWellKnownGroup - hubViewGroup returns access level based on… ([#1962](https://github.com/Esri/hub.js/issues/1962)) ([b19f47d](https://github.com/Esri/hub.js/commit/b19f47da7c96fc28fd21d12b9280d6f76f5941f1))
 
 # @esri/hub-common [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.14.0...@esri/hub-common@19.0.0) (2025-08-04)
 
-
 ### Bug Fixes
 
-* lint error; will be used to force breaking change ([#1960](https://github.com/Esri/hub.js/issues/1960)) ([6837b61](https://github.com/Esri/hub.js/commit/6837b614114cb9a9fd46f42ee33179673d7cb746))
-
+- lint error; will be used to force breaking change ([#1960](https://github.com/Esri/hub.js/issues/1960)) ([6837b61](https://github.com/Esri/hub.js/commit/6837b614114cb9a9fd46f42ee33179673d7cb746))
 
 ### BREAKING CHANGES
 
-* removes editorToProject, editorToInitiative utils
+- removes editorToProject, editorToInitiative utils
 
 # @esri/hub-common [18.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.13.0...@esri/hub-common@18.14.0) (2025-08-04)
 
-
 ### Features
 
-* enable catalog initialization on entity creation ([#1955](https://github.com/Esri/hub.js/issues/1955)) ([34a7fc7](https://github.com/Esri/hub.js/commit/34a7fc712f4677509a6bb1d1800daf3bb93d3a0b))
+- enable catalog initialization on entity creation ([#1955](https://github.com/Esri/hub.js/issues/1955)) ([34a7fc7](https://github.com/Esri/hub.js/commit/34a7fc712f4677509a6bb1d1800daf3bb93d3a0b))
 
 # @esri/hub-common [18.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.2...@esri/hub-common@18.13.0) (2025-07-31)
 
-
 ### Features
 
-* **hub-common:** refactor getTypeFromEntity to return "content" for … ([#1957](https://github.com/Esri/hub.js/issues/1957)) ([418770e](https://github.com/Esri/hub.js/commit/418770e7e559f8dff74a55b166a4b6b567848d9c))
+- **hub-common:** refactor getTypeFromEntity to return "content" for … ([#1957](https://github.com/Esri/hub.js/issues/1957)) ([418770e](https://github.com/Esri/hub.js/commit/418770e7e559f8dff74a55b166a4b6b567848d9c))
 
 ## @esri/hub-common [18.12.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.1...@esri/hub-common@18.12.2) (2025-07-28)
 
-
 ### Bug Fixes
 
-* **hub-common:** site subdomain not kept in sync w slug in enterprise ([#1954](https://github.com/Esri/hub.js/issues/1954)) ([eb75707](https://github.com/Esri/hub.js/commit/eb75707eecac02c70e3a0f61867cabe5c8f0bdc2))
+- **hub-common:** site subdomain not kept in sync w slug in enterprise ([#1954](https://github.com/Esri/hub.js/issues/1954)) ([eb75707](https://github.com/Esri/hub.js/commit/eb75707eecac02c70e3a0f61867cabe5c8f0bdc2))
 
 ## @esri/hub-common [18.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.0...@esri/hub-common@18.12.1) (2025-07-25)
 
-
 ### Bug Fixes
 
-* apply updates made specifically for 11.5 ([#1951](https://github.com/Esri/hub.js/issues/1951)) ([0e98d3f](https://github.com/Esri/hub.js/commit/0e98d3f65bb345ae274e24e3f75690ca4f236a7a))
+- apply updates made specifically for 11.5 ([#1951](https://github.com/Esri/hub.js/issues/1951)) ([0e98d3f](https://github.com/Esri/hub.js/commit/0e98d3f65bb345ae274e24e3f75690ca4f236a7a))
 
 # @esri/hub-common [18.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.11.0...@esri/hub-common@18.12.0) (2025-07-25)
 
-
 ### Features
 
-* add permission for catalog appearance ([#1953](https://github.com/Esri/hub.js/issues/1953)) ([ed7d2dc](https://github.com/Esri/hub.js/commit/ed7d2dcda0a8a66af67856f909f8222ad679b1e2))
+- add permission for catalog appearance ([#1953](https://github.com/Esri/hub.js/issues/1953)) ([ed7d2dc](https://github.com/Esri/hub.js/commit/ed7d2dcda0a8a66af67856f909f8222ad679b1e2))
 
 # @esri/hub-common [18.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.10.0...@esri/hub-common@18.11.0) (2025-07-23)
 
-
 ### Features
 
-* **hub-common:** discussions v1 to v2 ([#1853](https://github.com/Esri/hub.js/issues/1853)) ([e58efae](https://github.com/Esri/hub.js/commit/e58efae4861515b6eb58fbc4069c43b611738a94))
+- **hub-common:** discussions v1 to v2 ([#1853](https://github.com/Esri/hub.js/issues/1853)) ([e58efae](https://github.com/Esri/hub.js/commit/e58efae4861515b6eb58fbc4069c43b611738a94))
 
 # @esri/hub-common [18.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.9.1...@esri/hub-common@18.10.0) (2025-07-21)
 
-
 ### Features
 
-* **hub-common:** categories ui element has a separate group for saved (but unrecognized) values; can support aggregation-backed categories ([#1941](https://github.com/Esri/hub.js/issues/1941)) ([cca0bda](https://github.com/Esri/hub.js/commit/cca0bdaa26f97e71cc046d2e5871cb1a2365ee0b))
+- **hub-common:** categories ui element has a separate group for saved (but unrecognized) values; can support aggregation-backed categories ([#1941](https://github.com/Esri/hub.js/issues/1941)) ([cca0bda](https://github.com/Esri/hub.js/commit/cca0bdaa26f97e71cc046d2e5871cb1a2365ee0b))
 
 ## @esri/hub-common [18.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.9.0...@esri/hub-common@18.9.1) (2025-07-21)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix issue with hubSearch() where .next() functions would fail for portal-based searches ([#1949](https://github.com/Esri/hub.js/issues/1949)) ([d5e845e](https://github.com/Esri/hub.js/commit/d5e845e0b152593baf0d149f299f09b60a2d4cf8))
+- **hub-common:** fix issue with hubSearch() where .next() functions would fail for portal-based searches ([#1949](https://github.com/Esri/hub.js/issues/1949)) ([d5e845e](https://github.com/Esri/hub.js/commit/d5e845e0b152593baf0d149f299f09b60a2d4cf8))
 
 # @esri/hub-common [18.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.8.0...@esri/hub-common@18.9.0) (2025-07-17)
 
-
 ### Features
 
-* **hub-common:** added file too large error for hub download system workflow ([#1945](https://github.com/Esri/hub.js/issues/1945)) ([04ce949](https://github.com/Esri/hub.js/commit/04ce949db2a74a9d67b4628ef0986a23572f269a))
+- **hub-common:** added file too large error for hub download system workflow ([#1945](https://github.com/Esri/hub.js/issues/1945)) ([04ce949](https://github.com/Esri/hub.js/commit/04ce949db2a74a9d67b4628ef0986a23572f269a))
 
 # @esri/hub-common [18.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.7.0...@esri/hub-common@18.8.0) (2025-07-17)
 
-
 ### Features
 
-* **hub-common:** add service to platform AI permission check ([#1943](https://github.com/Esri/hub.js/issues/1943)) ([b5f8332](https://github.com/Esri/hub.js/commit/b5f8332fc5dc8607ff890d9f7d3a454f2f04a7a9))
+- **hub-common:** add service to platform AI permission check ([#1943](https://github.com/Esri/hub.js/issues/1943)) ([b5f8332](https://github.com/Esri/hub.js/commit/b5f8332fc5dc8607ff890d9f7d3a454f2f04a7a9))
 
 # @esri/hub-common [18.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.6.1...@esri/hub-common@18.7.0) (2025-07-16)
 
-
 ### Features
 
-* hide privacy config in enterprise ([#1946](https://github.com/Esri/hub.js/issues/1946)) ([b00f51c](https://github.com/Esri/hub.js/commit/b00f51c976832640d5c5335fb3860bf83b179104))
+- hide privacy config in enterprise ([#1946](https://github.com/Esri/hub.js/issues/1946)) ([b00f51c](https://github.com/Esri/hub.js/commit/b00f51c976832640d5c5335fb3860bf83b179104))
 
 ## @esri/hub-common [18.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.6.0...@esri/hub-common@18.6.1) (2025-07-15)
 
-
 ### Bug Fixes
 
-* community org AGO url ([#1944](https://github.com/Esri/hub.js/issues/1944)) ([3bae9e8](https://github.com/Esri/hub.js/commit/3bae9e82bccde173e407eefe85086b1eb9340fb4))
+- community org AGO url ([#1944](https://github.com/Esri/hub.js/issues/1944)) ([3bae9e8](https://github.com/Esri/hub.js/commit/3bae9e82bccde173e407eefe85086b1eb9340fb4))
 
 # @esri/hub-common [18.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.5.1...@esri/hub-common@18.6.0) (2025-07-11)
 
-
 ### Features
 
-* **hub-common:** added file too large errors to shapefiles ([#1942](https://github.com/Esri/hub.js/issues/1942)) ([8fdc6d9](https://github.com/Esri/hub.js/commit/8fdc6d913256fd35fc6c808c7c02daa200cffcd5))
+- **hub-common:** added file too large errors to shapefiles ([#1942](https://github.com/Esri/hub.js/issues/1942)) ([8fdc6d9](https://github.com/Esri/hub.js/commit/8fdc6d913256fd35fc6c808c7c02daa200cffcd5))
 
 ## @esri/hub-common [18.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.5.0...@esri/hub-common@18.5.1) (2025-07-07)
 
-
 ### Bug Fixes
 
-* add comment in site ai assistant schema ([#1940](https://github.com/Esri/hub.js/issues/1940)) ([a927d97](https://github.com/Esri/hub.js/commit/a927d97222848f0faeab178f8f857e986105a838))
+- add comment in site ai assistant schema ([#1940](https://github.com/Esri/hub.js/issues/1940)) ([a927d97](https://github.com/Esri/hub.js/commit/a927d97222848f0faeab178f8f857e986105a838))
 
 # @esri/hub-common [18.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.4.1...@esri/hub-common@18.5.0) (2025-07-03)
 
-
 ### Features
 
-* **hub-common:** 2746 new relation replyCount discussion post query ([#1938](https://github.com/Esri/hub.js/issues/1938)) ([7519587](https://github.com/Esri/hub.js/commit/751958788c2e991b8e5ffbc7f19b97a6c82d3fac))
+- **hub-common:** 2746 new relation replyCount discussion post query ([#1938](https://github.com/Esri/hub.js/issues/1938)) ([7519587](https://github.com/Esri/hub.js/commit/751958788c2e991b8e5ffbc7f19b97a6c82d3fac))
 
 ## @esri/hub-common [18.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.4.0...@esri/hub-common@18.4.1) (2025-07-03)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix issue where org home sites didn't have default group and user catalog scopes ([#1933](https://github.com/Esri/hub.js/issues/1933)) ([edf8f23](https://github.com/Esri/hub.js/commit/edf8f232eb70a95de914664c3b54f6767e31c628))
+- **hub-common:** fix issue where org home sites didn't have default group and user catalog scopes ([#1933](https://github.com/Esri/hub.js/issues/1933)) ([edf8f23](https://github.com/Esri/hub.js/commit/edf8f232eb70a95de914664c3b54f6767e31c628))
 
 # @esri/hub-common [18.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.1...@esri/hub-common@18.4.0) (2025-07-01)
 
-
 ### Features
 
-* **hub-common:** add group events workspace permission policy ([#1935](https://github.com/Esri/hub.js/issues/1935)) ([327ef10](https://github.com/Esri/hub.js/commit/327ef1028e86518c904ff97c9388949e93ed4413))
+- **hub-common:** add group events workspace permission policy ([#1935](https://github.com/Esri/hub.js/issues/1935)) ([327ef10](https://github.com/Esri/hub.js/commit/327ef1028e86518c904ff97c9388949e93ed4413))
 
 ## @esri/hub-common [18.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.0...@esri/hub-common@18.3.1) (2025-06-27)
 
-
 ### Bug Fixes
 
-* **hub-common:** discussion post channelId not optional ([#1934](https://github.com/Esri/hub.js/issues/1934)) ([40ccb9a](https://github.com/Esri/hub.js/commit/40ccb9a08dbe61c0803a7f761e06a51517b1b81a))
+- **hub-common:** discussion post channelId not optional ([#1934](https://github.com/Esri/hub.js/issues/1934)) ([40ccb9a](https://github.com/Esri/hub.js/commit/40ccb9a08dbe61c0803a7f761e06a51517b1b81a))
 
 # @esri/hub-common [18.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.2.0...@esri/hub-common@18.3.0) (2025-06-26)
 
-
 ### Bug Fixes
 
-* internalize service flag processing in context manager ([#1931](https://github.com/Esri/hub.js/issues/1931)) ([305d775](https://github.com/Esri/hub.js/commit/305d775a8f0e63262b985029dced91d8484c2554))
-
+- internalize service flag processing in context manager ([#1931](https://github.com/Esri/hub.js/issues/1931)) ([305d775](https://github.com/Esri/hub.js/commit/305d775a8f0e63262b985029dced91d8484c2554))
 
 ### Features
 
-* **hub-common:** add removeNonDiscussableGroups to interface ISearch… ([#1932](https://github.com/Esri/hub.js/issues/1932)) ([7e7e7af](https://github.com/Esri/hub.js/commit/7e7e7af0562284f55b3b75769d86581363b82080))
+- **hub-common:** add removeNonDiscussableGroups to interface ISearch… ([#1932](https://github.com/Esri/hub.js/issues/1932)) ([7e7e7af](https://github.com/Esri/hub.js/commit/7e7e7af0562284f55b3b75769d86581363b82080))
 
 # @esri/hub-common [18.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.1.0...@esri/hub-common@18.2.0) (2025-06-25)
 
-
 ### Features
 
-* **hub-common:** add roles to interface ISearchChannels ([#1930](https://github.com/Esri/hub.js/issues/1930)) ([73b0b74](https://github.com/Esri/hub.js/commit/73b0b741f01ce9e23275ae3d16d30a6a1f760778))
+- **hub-common:** add roles to interface ISearchChannels ([#1930](https://github.com/Esri/hub.js/issues/1930)) ([73b0b74](https://github.com/Esri/hub.js/commit/73b0b741f01ce9e23275ae3d16d30a6a1f760778))
 
 # @esri/hub-common [18.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.0.0...@esri/hub-common@18.1.0) (2025-06-25)
 
-
 ### Features
 
-* **hub-common:** add catalog to events ([#1926](https://github.com/Esri/hub.js/issues/1926)) ([893e79b](https://github.com/Esri/hub.js/commit/893e79b280e6a2b48cbfdb319925c0757b148ad7))
+- **hub-common:** add catalog to events ([#1926](https://github.com/Esri/hub.js/issues/1926)) ([893e79b](https://github.com/Esri/hub.js/commit/893e79b280e6a2b48cbfdb319925c0757b148ad7))
 
 # @esri/hub-common [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.21.0...@esri/hub-common@18.0.0) (2025-06-18)
 
-
 ### Features
 
-* **hub-common:** remove IHubSearchOptions.site, refactor IHubSearchOptions.api to take either 'portal' | 'hub' ([#1925](https://github.com/Esri/hub.js/issues/1925)) ([211fde5](https://github.com/Esri/hub.js/commit/211fde56367994aa5548d80719339a38367a15d9))
-
+- **hub-common:** remove IHubSearchOptions.site, refactor IHubSearchOptions.api to take either 'portal' | 'hub' ([#1925](https://github.com/Esri/hub.js/issues/1925)) ([211fde5](https://github.com/Esri/hub.js/commit/211fde56367994aa5548d80719339a38367a15d9))
 
 ### BREAKING CHANGES
 
-* **hub-common:** IHubSearchOptions.site has been removed, use IHubSearchOptions.api = 'hub' to target the OGC api via hubSearch() instead
+- **hub-common:** IHubSearchOptions.site has been removed, use IHubSearchOptions.api = 'hub' to target the OGC api via hubSearch() instead
 
 Note that hubSearch() was refactored so it doesn't need IHubSearchOptions.api
 to be an API definition object to function. Based on the string value of IHubSearchOptions.api, each delegate
@@ -459,4731 +435,4063 @@ calculates the result url from the passed in request options.
 
 # @esri/hub-common [17.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.20.0...@esri/hub-common@17.21.0) (2025-06-18)
 
-
 ### Features
 
-* update permissions and slugs ([#1923](https://github.com/Esri/hub.js/issues/1923)) ([0458fbc](https://github.com/Esri/hub.js/commit/0458fbc0608dc3531ef3fe81e786c170a0454829))
+- update permissions and slugs ([#1923](https://github.com/Esri/hub.js/issues/1923)) ([0458fbc](https://github.com/Esri/hub.js/commit/0458fbc0608dc3531ef3fe81e786c170a0454829))
 
 # @esri/hub-common [17.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.19.0...@esri/hub-common@17.20.0) (2025-06-17)
 
-
 ### Features
 
-* **hub-common:** modernize hubSearchItems() with well-known predicate support and unneeded feature removal ([#1906](https://github.com/Esri/hub.js/issues/1906)) ([64bf450](https://github.com/Esri/hub.js/commit/64bf4508f2caee4bb597e7e05fb0a12f2cb83ba2))
+- **hub-common:** modernize hubSearchItems() with well-known predicate support and unneeded feature removal ([#1906](https://github.com/Esri/hub.js/issues/1906)) ([64bf450](https://github.com/Esri/hub.js/commit/64bf4508f2caee4bb597e7e05fb0a12f2cb83ba2))
 
 # @esri/hub-common [17.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.18.1...@esri/hub-common@17.19.0) (2025-06-12)
 
-
 ### Features
 
-* **hub-common:** context.hubHomeUrl works in enterprise ([#1922](https://github.com/Esri/hub.js/issues/1922)) ([f728613](https://github.com/Esri/hub.js/commit/f728613abbc3ae42cc31e32d388431125d326a0a))
+- **hub-common:** context.hubHomeUrl works in enterprise ([#1922](https://github.com/Esri/hub.js/issues/1922)) ([f728613](https://github.com/Esri/hub.js/commit/f728613abbc3ae42cc31e32d388431125d326a0a))
 
 ## @esri/hub-common [17.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.18.0...@esri/hub-common@17.18.1) (2025-06-09)
 
-
 ### Bug Fixes
 
-* workspace permission update ([#1919](https://github.com/Esri/hub.js/issues/1919)) ([d1a8761](https://github.com/Esri/hub.js/commit/d1a8761faeac3390864756ef691818906276c713))
+- workspace permission update ([#1919](https://github.com/Esri/hub.js/issues/1919)) ([d1a8761](https://github.com/Esri/hub.js/commit/d1a8761faeac3390864756ef691818906276c713))
 
 # @esri/hub-common [17.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.17.0...@esri/hub-common@17.18.0) (2025-06-09)
 
-
 ### Features
 
-* **hub-common:** ungate events ([#1915](https://github.com/Esri/hub.js/issues/1915)) ([07aeedc](https://github.com/Esri/hub.js/commit/07aeedce8a95c2de0ab03c2040fe198205584f53))
+- **hub-common:** ungate events ([#1915](https://github.com/Esri/hub.js/issues/1915)) ([07aeedc](https://github.com/Esri/hub.js/commit/07aeedce8a95c2de0ab03c2040fe198205584f53))
 
 # @esri/hub-common [17.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.5...@esri/hub-common@17.17.0) (2025-06-06)
 
-
 ### Features
 
-* force release of hub-common ([2eb12dd](https://github.com/Esri/hub.js/commit/2eb12dd92acad13b9af6a20ecdc4647ed4ccceb7))
+- force release of hub-common ([2eb12dd](https://github.com/Esri/hub.js/commit/2eb12dd92acad13b9af6a20ecdc4647ed4ccceb7))
 
 ## @esri/hub-common [17.16.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.4...@esri/hub-common@17.16.5) (2025-06-04)
 
-
 ### Bug Fixes
 
-* **hub-common:** events have migrated catalog ([#1918](https://github.com/Esri/hub.js/issues/1918)) ([8d08638](https://github.com/Esri/hub.js/commit/8d08638da4c227e58d259c0a620cd3e0360795a2))
+- **hub-common:** events have migrated catalog ([#1918](https://github.com/Esri/hub.js/issues/1918)) ([8d08638](https://github.com/Esri/hub.js/commit/8d08638da4c227e58d259c0a620cd3e0360795a2))
 
 ## @esri/hub-common [17.16.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.3...@esri/hub-common@17.16.4) (2025-06-04)
 
-
 ### Bug Fixes
 
-* **hub-common:** fixed reference to hub page icon ([#1916](https://github.com/Esri/hub.js/issues/1916)) ([0b64e6a](https://github.com/Esri/hub.js/commit/0b64e6a7d0a32b2f3fbc75c907e43ea423d453bd))
+- **hub-common:** fixed reference to hub page icon ([#1916](https://github.com/Esri/hub.js/issues/1916)) ([0b64e6a](https://github.com/Esri/hub.js/commit/0b64e6a7d0a32b2f3fbc75c907e43ea423d453bd))
 
 ## @esri/hub-common [17.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.2...@esri/hub-common@17.16.3) (2025-06-03)
 
-
 ### Bug Fixes
 
-* **hub-common:** events thumbnail not set by default ([#1912](https://github.com/Esri/hub.js/issues/1912)) ([1df3702](https://github.com/Esri/hub.js/commit/1df370234894b756eb30b418fd1521c2ed248603))
+- **hub-common:** events thumbnail not set by default ([#1912](https://github.com/Esri/hub.js/issues/1912)) ([1df3702](https://github.com/Esri/hub.js/commit/1df370234894b756eb30b418fd1521c2ed248603))
 
 ## @esri/hub-common [17.16.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.1...@esri/hub-common@17.16.2) (2025-06-02)
 
-
 ### Bug Fixes
 
-* change group capabilities toggles to inline and add tooltips in group creation ([#1909](https://github.com/Esri/hub.js/issues/1909)) ([3f14664](https://github.com/Esri/hub.js/commit/3f146646c8a959fef253ea0ceb5a2dd55ef2cc8d))
+- change group capabilities toggles to inline and add tooltips in group creation ([#1909](https://github.com/Esri/hub.js/issues/1909)) ([3f14664](https://github.com/Esri/hub.js/commit/3f146646c8a959fef253ea0ceb5a2dd55ef2cc8d))
 
 ## @esri/hub-common [17.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.0...@esri/hub-common@17.16.1) (2025-05-29)
 
-
 ### Bug Fixes
 
-* always hide isSharedUpdate toggle ([#1907](https://github.com/Esri/hub.js/issues/1907)) ([68925db](https://github.com/Esri/hub.js/commit/68925dbd9f756ff28533e36c1b74963ecec120c8))
+- always hide isSharedUpdate toggle ([#1907](https://github.com/Esri/hub.js/issues/1907)) ([68925db](https://github.com/Esri/hub.js/commit/68925dbd9f756ff28533e36c1b74963ecec120c8))
 
 # @esri/hub-common [17.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.15.0...@esri/hub-common@17.16.0) (2025-05-27)
 
-
 ### Features
 
-* **hub-common:** hub assistant data model ([#1913](https://github.com/Esri/hub.js/issues/1913)) ([4566e7f](https://github.com/Esri/hub.js/commit/4566e7f30a7ac938fbc24a72afb2ad6e211a9816))
+- **hub-common:** hub assistant data model ([#1913](https://github.com/Esri/hub.js/issues/1913)) ([4566e7f](https://github.com/Esri/hub.js/commit/4566e7f30a7ac938fbc24a72afb2ad6e211a9816))
 
 # @esri/hub-common [17.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.14.0...@esri/hub-common@17.15.0) (2025-05-27)
 
-
 ### Features
 
-* **hub-common:** swap group settings ui schema to use a tile select instead of a radio group ([#1779](https://github.com/Esri/hub.js/issues/1779)) ([189793b](https://github.com/Esri/hub.js/commit/189793bec7501ab5c6dc3f3b4c4b76484494d351))
+- **hub-common:** swap group settings ui schema to use a tile select instead of a radio group ([#1779](https://github.com/Esri/hub.js/issues/1779)) ([189793b](https://github.com/Esri/hub.js/commit/189793bec7501ab5c6dc3f3b4c4b76484494d351))
 
 # @esri/hub-common [17.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.2...@esri/hub-common@17.14.0) (2025-05-24)
 
-
 ### Features
 
-* **hub-common:** add notIds to interface ISearchEvents ([#1911](https://github.com/Esri/hub.js/issues/1911)) ([e4057fd](https://github.com/Esri/hub.js/commit/e4057fd3296cd4bc3889c79541b16f691348f203))
+- **hub-common:** add notIds to interface ISearchEvents ([#1911](https://github.com/Esri/hub.js/issues/1911)) ([e4057fd](https://github.com/Esri/hub.js/commit/e4057fd3296cd4bc3889c79541b16f691348f203))
 
 ## @esri/hub-common [17.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.1...@esri/hub-common@17.13.2) (2025-05-21)
 
-
 ### Bug Fixes
 
-* **hub-common:** gates user workspace events pane ([#1905](https://github.com/Esri/hub.js/issues/1905)) ([fdeaa7b](https://github.com/Esri/hub.js/commit/fdeaa7be888bbdca1eab2c77fa6990da87c4a8fa))
+- **hub-common:** gates user workspace events pane ([#1905](https://github.com/Esri/hub.js/issues/1905)) ([fdeaa7b](https://github.com/Esri/hub.js/commit/fdeaa7be888bbdca1eab2c77fa6990da87c4a8fa))
 
 ## @esri/hub-common [17.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.0...@esri/hub-common@17.13.1) (2025-05-19)
 
-
 ### Bug Fixes
 
-* configuration editor now allows an empty value for the slug field ([#1901](https://github.com/Esri/hub.js/issues/1901)) ([3ed5725](https://github.com/Esri/hub.js/commit/3ed57250d18869d187ef8ba44e8293206e8eb1b3))
+- configuration editor now allows an empty value for the slug field ([#1901](https://github.com/Esri/hub.js/issues/1901)) ([3ed5725](https://github.com/Esri/hub.js/commit/3ed57250d18869d187ef8ba44e8293206e8eb1b3))
 
 # @esri/hub-common [17.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.12.0...@esri/hub-common@17.13.0) (2025-05-19)
 
-
 ### Features
 
-* **hub-common:** consistent UI schemas ([#1882](https://github.com/Esri/hub.js/issues/1882)) ([592b2a8](https://github.com/Esri/hub.js/commit/592b2a89167d420f52be5414c497693d35c7043c))
+- **hub-common:** consistent UI schemas ([#1882](https://github.com/Esri/hub.js/issues/1882)) ([592b2a8](https://github.com/Esri/hub.js/commit/592b2a89167d420f52be5414c497693d35c7043c))
 
 # @esri/hub-common [17.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.11.0...@esri/hub-common@17.12.0) (2025-05-16)
 
-
 ### Features
 
-* **hub-common:** ungate events from alpha ([#1902](https://github.com/Esri/hub.js/issues/1902)) ([836ddef](https://github.com/Esri/hub.js/commit/836ddeff8a4f1a4a4c5fcc938e095dd34a4d3232))
+- **hub-common:** ungate events from alpha ([#1902](https://github.com/Esri/hub.js/issues/1902)) ([836ddef](https://github.com/Esri/hub.js/commit/836ddeff8a4f1a4a4c5fcc938e095dd34a4d3232))
 
 # @esri/hub-common [17.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.10.0...@esri/hub-common@17.11.0) (2025-05-14)
 
-
 ### Features
 
-* log checkpermission failures with Logger ([#1900](https://github.com/Esri/hub.js/issues/1900)) ([44ef8dd](https://github.com/Esri/hub.js/commit/44ef8ddba454d4cac583679cefa78ad5b879bdca))
+- log checkpermission failures with Logger ([#1900](https://github.com/Esri/hub.js/issues/1900)) ([44ef8dd](https://github.com/Esri/hub.js/commit/44ef8ddba454d4cac583679cefa78ad5b879bdca))
 
 # @esri/hub-common [17.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.9.1...@esri/hub-common@17.10.0) (2025-05-13)
 
-
 ### Features
 
-* **hub-common:** ungate the hub:site:workspace:catalog permission, remove deprecated hub:site:workspace:content permission ([#1896](https://github.com/Esri/hub.js/issues/1896)) ([d4b3d26](https://github.com/Esri/hub.js/commit/d4b3d2691fca20d5bf4a9b7795902eabff6cd6c3))
+- **hub-common:** ungate the hub:site:workspace:catalog permission, remove deprecated hub:site:workspace:content permission ([#1896](https://github.com/Esri/hub.js/issues/1896)) ([d4b3d26](https://github.com/Esri/hub.js/commit/d4b3d2691fca20d5bf4a9b7795902eabff6cd6c3))
 
 ## @esri/hub-common [17.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.9.0...@esri/hub-common@17.9.1) (2025-05-13)
 
-
 ### Bug Fixes
 
-* page slugs ([#1895](https://github.com/Esri/hub.js/issues/1895)) ([99d2abb](https://github.com/Esri/hub.js/commit/99d2abb1c4e36096185291e26335a6f890b76a5d))
+- page slugs ([#1895](https://github.com/Esri/hub.js/issues/1895)) ([99d2abb](https://github.com/Esri/hub.js/commit/99d2abb1c4e36096185291e26335a6f890b76a5d))
 
 # @esri/hub-common [17.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.8.0...@esri/hub-common@17.9.0) (2025-05-12)
 
-
 ### Features
 
-* **hub-common:** ungate the user workspace permission on prod for workspace users ([#1888](https://github.com/Esri/hub.js/issues/1888)) ([01eb439](https://github.com/Esri/hub.js/commit/01eb4399fa9a586c7b0e6e0dadfbf9037a44ca91))
+- **hub-common:** ungate the user workspace permission on prod for workspace users ([#1888](https://github.com/Esri/hub.js/issues/1888)) ([01eb439](https://github.com/Esri/hub.js/commit/01eb4399fa9a586c7b0e6e0dadfbf9037a44ca91))
 
 # @esri/hub-common [17.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.7.0...@esri/hub-common@17.8.0) (2025-05-09)
 
-
 ### Features
 
-* **hub-common:** add interface IChannelAclUpdateDefinition ([#1893](https://github.com/Esri/hub.js/issues/1893)) ([9913e5a](https://github.com/Esri/hub.js/commit/9913e5a17b6f8d5bc1ed3a2a4a73f4037fe32be6))
+- **hub-common:** add interface IChannelAclUpdateDefinition ([#1893](https://github.com/Esri/hub.js/issues/1893)) ([9913e5a](https://github.com/Esri/hub.js/commit/9913e5a17b6f8d5bc1ed3a2a4a73f4037fe32be6))
 
 # @esri/hub-common [17.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.6.0...@esri/hub-common@17.7.0) (2025-05-08)
 
-
 ### Features
 
-* additions to gallery display config interface & schema ([#1886](https://github.com/Esri/hub.js/issues/1886)) ([f7063c0](https://github.com/Esri/hub.js/commit/f7063c0de2246a3364b0eda660a88b6bc9f3daf4))
+- additions to gallery display config interface & schema ([#1886](https://github.com/Esri/hub.js/issues/1886)) ([f7063c0](https://github.com/Esri/hub.js/commit/f7063c0de2246a3364b0eda660a88b6bc9f3daf4))
 
 # @esri/hub-common [17.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.5.0...@esri/hub-common@17.6.0) (2025-05-08)
 
-
 ### Features
 
-* **hub-common:** deprecate GET /events ([#1892](https://github.com/Esri/hub.js/issues/1892)) ([04c8827](https://github.com/Esri/hub.js/commit/04c8827597a938f94323a603351f848f3d3ac708))
+- **hub-common:** deprecate GET /events ([#1892](https://github.com/Esri/hub.js/issues/1892)) ([04c8827](https://github.com/Esri/hub.js/commit/04c8827597a938f94323a603351f848f3d3ac708))
 
 # @esri/hub-common [17.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.4.0...@esri/hub-common@17.5.0) (2025-05-07)
 
-
 ### Features
 
-* **hub-common:** update event edit uischema ([#1891](https://github.com/Esri/hub.js/issues/1891)) ([8c56e5e](https://github.com/Esri/hub.js/commit/8c56e5e8c9b4037f034bf54169198b8ae9391765))
+- **hub-common:** update event edit uischema ([#1891](https://github.com/Esri/hub.js/issues/1891)) ([8c56e5e](https://github.com/Esri/hub.js/commit/8c56e5e8c9b4037f034bf54169198b8ae9391765))
 
 # @esri/hub-common [17.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.3.0...@esri/hub-common@17.4.0) (2025-05-02)
 
-
 ### Features
 
-* **hub-common:** add searchAssociatedContent() function and permissions ([#1873](https://github.com/Esri/hub.js/issues/1873)) ([f829bb4](https://github.com/Esri/hub.js/commit/f829bb4a1005bb0abf1842b2e76b3776fe48f4de))
+- **hub-common:** add searchAssociatedContent() function and permissions ([#1873](https://github.com/Esri/hub.js/issues/1873)) ([f829bb4](https://github.com/Esri/hub.js/commit/f829bb4a1005bb0abf1842b2e76b3776fe48f4de))
 
 # @esri/hub-common [17.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.2.0...@esri/hub-common@17.3.0) (2025-05-01)
 
-
 ### Features
 
-* update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
+- update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
 
 # @esri/hub-common [17.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.1...@esri/hub-common@17.2.0) (2025-04-30)
 
-
 ### Features
 
-* moving notice into image picker ([#1884](https://github.com/Esri/hub.js/issues/1884)) ([9930bcb](https://github.com/Esri/hub.js/commit/9930bcb56e31ad13ceb280f9b7dd21b96ced8559))
+- moving notice into image picker ([#1884](https://github.com/Esri/hub.js/issues/1884)) ([9930bcb](https://github.com/Esri/hub.js/commit/9930bcb56e31ad13ceb280f9b7dd21b96ced8559))
 
 ## @esri/hub-common [17.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.0...@esri/hub-common@17.1.1) (2025-04-29)
 
-
 ### Bug Fixes
 
-* **hub-common:** remove location configuration from event creation ([#1887](https://github.com/Esri/hub.js/issues/1887)) ([c0e0b26](https://github.com/Esri/hub.js/commit/c0e0b26d8a3c20c24d723aa3f0eddb9546fe18bd))
+- **hub-common:** remove location configuration from event creation ([#1887](https://github.com/Esri/hub.js/issues/1887)) ([c0e0b26](https://github.com/Esri/hub.js/commit/c0e0b26d8a3c20c24d723aa3f0eddb9546fe18bd))
 
 # @esri/hub-common [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.3...@esri/hub-common@17.1.0) (2025-04-24)
 
-
 ### Features
 
-* **hub-common:** remove connected content field ([#1878](https://github.com/Esri/hub.js/issues/1878)) ([e64fd86](https://github.com/Esri/hub.js/commit/e64fd86c11dee74218bd2ce423a1c992e0b6bf66))
+- **hub-common:** remove connected content field ([#1878](https://github.com/Esri/hub.js/issues/1878)) ([e64fd86](https://github.com/Esri/hub.js/commit/e64fd86c11dee74218bd2ce423a1c992e0b6bf66))
 
 ## @esri/hub-common [17.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.2...@esri/hub-common@17.0.3) (2025-04-23)
 
-
 ### Bug Fixes
 
-* **hub-common:** update events types export after nest v10 (swagger) … ([#1870](https://github.com/Esri/hub.js/issues/1870)) ([10a2255](https://github.com/Esri/hub.js/commit/10a2255d3926f857c66490d23bbd5178fc9f2de0))
+- **hub-common:** update events types export after nest v10 (swagger) … ([#1870](https://github.com/Esri/hub.js/issues/1870)) ([10a2255](https://github.com/Esri/hub.js/commit/10a2255d3926f857c66490d23bbd5178fc9f2de0))
 
 ## @esri/hub-common [17.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.1...@esri/hub-common@17.0.2) (2025-04-23)
 
-
 ### Bug Fixes
 
-* item.data not saved in commitItemUpload, createItem, and updateItem ([#1876](https://github.com/Esri/hub.js/issues/1876)) ([5e14b88](https://github.com/Esri/hub.js/commit/5e14b886230f151a7a5d0c1017edd2dfec01331a))
+- item.data not saved in commitItemUpload, createItem, and updateItem ([#1876](https://github.com/Esri/hub.js/issues/1876)) ([5e14b88](https://github.com/Esri/hub.js/commit/5e14b886230f151a7a5d0c1017edd2dfec01331a))
 
 ## @esri/hub-common [17.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.0...@esri/hub-common@17.0.1) (2025-04-23)
 
-
 ### Bug Fixes
 
-* **hub-common:** gate events pane to premium users ([#1875](https://github.com/Esri/hub.js/issues/1875)) ([25c8a2b](https://github.com/Esri/hub.js/commit/25c8a2bafb9861c0035605b57346ab882d6b2258))
+- **hub-common:** gate events pane to premium users ([#1875](https://github.com/Esri/hub.js/issues/1875)) ([25c8a2b](https://github.com/Esri/hub.js/commit/25c8a2bafb9861c0035605b57346ab882d6b2258))
 
 # @esri/hub-common [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.6.0...@esri/hub-common@17.0.0) (2025-04-22)
 
-
 ### Features
 
-* upgrade to ArcGIS REST JS 4 ([#1850](https://github.com/Esri/hub.js/issues/1850)) ([8eb1496](https://github.com/Esri/hub.js/commit/8eb14967af7cc194cdc03b5d5c2648dac77597f0))
-
+- upgrade to ArcGIS REST JS 4 ([#1850](https://github.com/Esri/hub.js/issues/1850)) ([8eb1496](https://github.com/Esri/hub.js/commit/8eb14967af7cc194cdc03b5d5c2648dac77597f0))
 
 ### BREAKING CHANGES
 
-* ArcGIS REST JS peer dependencies must be v4
+- ArcGIS REST JS peer dependencies must be v4
 
 # @esri/hub-common [16.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.3...@esri/hub-common@16.6.0) (2025-04-21)
 
-
 ### Features
 
-* add well-known group and event catalogs ([#1871](https://github.com/Esri/hub.js/issues/1871)) ([3cf57e0](https://github.com/Esri/hub.js/commit/3cf57e086e9239b3f7102509db58d96c0a569b4f))
+- add well-known group and event catalogs ([#1871](https://github.com/Esri/hub.js/issues/1871)) ([3cf57e0](https://github.com/Esri/hub.js/commit/3cf57e086e9239b3f7102509db58d96c0a569b4f))
 
 ## @esri/hub-common [16.5.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.2...@esri/hub-common@16.5.3) (2025-04-18)
 
-
 ### Bug Fixes
 
-* case insensitive subdomain comparison ([#1872](https://github.com/Esri/hub.js/issues/1872)) ([ec5ae45](https://github.com/Esri/hub.js/commit/ec5ae45f452697a2e4183df1216fafbb3283357a))
+- case insensitive subdomain comparison ([#1872](https://github.com/Esri/hub.js/issues/1872)) ([ec5ae45](https://github.com/Esri/hub.js/commit/ec5ae45f452697a2e4183df1216fafbb3283357a))
 
 ## @esri/hub-common [16.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.1...@esri/hub-common@16.5.2) (2025-04-14)
 
-
 ### Bug Fixes
 
-* show all collection facets for project featured content and action links ([#1861](https://github.com/Esri/hub.js/issues/1861)) ([3e884df](https://github.com/Esri/hub.js/commit/3e884df9e90a834ad53438065839ba62765edc33))
+- show all collection facets for project featured content and action links ([#1861](https://github.com/Esri/hub.js/issues/1861)) ([3e884df](https://github.com/Esri/hub.js/commit/3e884df9e90a834ad53438065839ba62765edc33))
 
 ## @esri/hub-common [16.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.0...@esri/hub-common@16.5.1) (2025-04-14)
 
-
 ### Bug Fixes
 
-* site event catalog gating ([#1865](https://github.com/Esri/hub.js/issues/1865)) ([c704b37](https://github.com/Esri/hub.js/commit/c704b3732e4a4fb48029ce3776ae104fdb6b7c5e))
+- site event catalog gating ([#1865](https://github.com/Esri/hub.js/issues/1865)) ([c704b37](https://github.com/Esri/hub.js/commit/c704b3732e4a4fb48029ce3776ae104fdb6b7c5e))
 
 # @esri/hub-common [16.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.4.0...@esri/hub-common@16.5.0) (2025-04-14)
 
-
 ### Features
 
-* add hub-premium gating to hub:feature:catalogs:edit:advanced permission ([#1854](https://github.com/Esri/hub.js/issues/1854)) ([4f2ee37](https://github.com/Esri/hub.js/commit/4f2ee376517375982d77ad51cee278e574e5e83d))
+- add hub-premium gating to hub:feature:catalogs:edit:advanced permission ([#1854](https://github.com/Esri/hub.js/issues/1854)) ([4f2ee37](https://github.com/Esri/hub.js/commit/4f2ee376517375982d77ad51cee278e574e5e83d))
 
 # @esri/hub-common [16.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.4...@esri/hub-common@16.4.0) (2025-04-12)
 
-
 ### Features
 
-* **hub-common:** add updatedAtAfter and updatedAtBefore to interface… ([#1864](https://github.com/Esri/hub.js/issues/1864)) ([02d955b](https://github.com/Esri/hub.js/commit/02d955bae6e3ce5cc349e083bf0bfc11b32fbd4e))
+- **hub-common:** add updatedAtAfter and updatedAtBefore to interface… ([#1864](https://github.com/Esri/hub.js/issues/1864)) ([02d955b](https://github.com/Esri/hub.js/commit/02d955bae6e3ce5cc349e083bf0bfc11b32fbd4e))
 
 ## @esri/hub-common [16.3.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.3...@esri/hub-common@16.3.4) (2025-04-11)
 
-
 ### Bug Fixes
 
-* adds isOnlyWhitespace format to collectionschema ([#1860](https://github.com/Esri/hub.js/issues/1860)) ([43a07ff](https://github.com/Esri/hub.js/commit/43a07ff646ab38a293771ef76e8cedd196e0c873))
+- adds isOnlyWhitespace format to collectionschema ([#1860](https://github.com/Esri/hub.js/issues/1860)) ([43a07ff](https://github.com/Esri/hub.js/commit/43a07ff646ab38a293771ef76e8cedd196e0c873))
 
 ## @esri/hub-common [16.3.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.2...@esri/hub-common@16.3.3) (2025-04-11)
 
-
 ### Bug Fixes
 
-* **hub-common:** simplify the filter processing logic for events 3 wh… ([#1862](https://github.com/Esri/hub.js/issues/1862)) ([7d87b7c](https://github.com/Esri/hub.js/commit/7d87b7c50d2b418bdb499d92fb0ea45d5931b6b2))
+- **hub-common:** simplify the filter processing logic for events 3 wh… ([#1862](https://github.com/Esri/hub.js/issues/1862)) ([7d87b7c](https://github.com/Esri/hub.js/commit/7d87b7c50d2b418bdb499d92fb0ea45d5931b6b2))
 
 ## @esri/hub-common [16.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.1...@esri/hub-common@16.3.2) (2025-04-11)
 
-
 ### Bug Fixes
 
-* update site now uses fetch site model ([#1859](https://github.com/Esri/hub.js/issues/1859)) ([90f1b11](https://github.com/Esri/hub.js/commit/90f1b119857220b2e96f0bebf1504e1257a9566b))
+- update site now uses fetch site model ([#1859](https://github.com/Esri/hub.js/issues/1859)) ([90f1b11](https://github.com/Esri/hub.js/commit/90f1b119857220b2e96f0bebf1504e1257a9566b))
 
 ## @esri/hub-common [16.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.0...@esri/hub-common@16.3.1) (2025-04-10)
 
-
 ### Bug Fixes
 
-* enable "Add content" in project featured content ([#1857](https://github.com/Esri/hub.js/issues/1857)) ([64070a4](https://github.com/Esri/hub.js/commit/64070a486d81c8816fc69082cfbf3d9634b58fcf))
+- enable "Add content" in project featured content ([#1857](https://github.com/Esri/hub.js/issues/1857)) ([64070a4](https://github.com/Esri/hub.js/commit/64070a486d81c8816fc69082cfbf3d9634b58fcf))
 
 # @esri/hub-common [16.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.2.1...@esri/hub-common@16.3.0) (2025-04-09)
 
-
 ### Features
 
-* add new Text UiSchemaElementType ([#1856](https://github.com/Esri/hub.js/issues/1856)) ([2b5b125](https://github.com/Esri/hub.js/commit/2b5b125a6fe1e86d8cb3886bca80bc2cbf972f50))
+- add new Text UiSchemaElementType ([#1856](https://github.com/Esri/hub.js/issues/1856)) ([2b5b125](https://github.com/Esri/hub.js/commit/2b5b125a6fe1e86d8cb3886bca80bc2cbf972f50))
 
 ## @esri/hub-common [16.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.2.0...@esri/hub-common@16.2.1) (2025-04-09)
 
-
 ### Bug Fixes
 
-* update slug validation rules ([#1858](https://github.com/Esri/hub.js/issues/1858)) ([be2150f](https://github.com/Esri/hub.js/commit/be2150f2b11d02942980cdbe8d1abdc08a89dfa8))
+- update slug validation rules ([#1858](https://github.com/Esri/hub.js/issues/1858)) ([be2150f](https://github.com/Esri/hub.js/commit/be2150f2b11d02942980cdbe8d1abdc08a89dfa8))
 
 # @esri/hub-common [16.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.1.0...@esri/hub-common@16.2.0) (2025-04-07)
 
-
 ### Features
 
-* **hub-common:** add entity discussion settings ui schema ([#1852](https://github.com/Esri/hub.js/issues/1852)) ([878b482](https://github.com/Esri/hub.js/commit/878b48245d2a85b735b56fc4b15d659a008b0422))
+- **hub-common:** add entity discussion settings ui schema ([#1852](https://github.com/Esri/hub.js/issues/1852)) ([878b482](https://github.com/Esri/hub.js/commit/878b48245d2a85b735b56fc4b15d659a008b0422))
 
 # @esri/hub-common [16.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.2...@esri/hub-common@16.1.0) (2025-04-04)
 
-
 ### Features
 
-* **hub-common:** search events download as csv ([#1846](https://github.com/Esri/hub.js/issues/1846)) ([ef72381](https://github.com/Esri/hub.js/commit/ef7238142bdbf37ddf561ed4c66f81a945f394f3))
+- **hub-common:** search events download as csv ([#1846](https://github.com/Esri/hub.js/issues/1846)) ([ef72381](https://github.com/Esri/hub.js/commit/ef7238142bdbf37ddf561ed4c66f81a945f394f3))
 
 ## @esri/hub-common [16.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.1...@esri/hub-common@16.0.2) (2025-04-03)
 
-
 ### Bug Fixes
 
-* removed unused layout options in catalog schema  ([#1855](https://github.com/Esri/hub.js/issues/1855)) ([326925d](https://github.com/Esri/hub.js/commit/326925d709618dc90481725cff50390f04368e67))
-* removed unused layout options in catalog schema ([#1851](https://github.com/Esri/hub.js/issues/1851)) ([2ff71e0](https://github.com/Esri/hub.js/commit/2ff71e0d0edcbfcf19a0e414a0f898d026a14601))
+- removed unused layout options in catalog schema ([#1855](https://github.com/Esri/hub.js/issues/1855)) ([326925d](https://github.com/Esri/hub.js/commit/326925d709618dc90481725cff50390f04368e67))
+- removed unused layout options in catalog schema ([#1851](https://github.com/Esri/hub.js/issues/1851)) ([2ff71e0](https://github.com/Esri/hub.js/commit/2ff71e0d0edcbfcf19a0e414a0f898d026a14601))
 
 ## @esri/hub-common [16.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.0...@esri/hub-common@16.0.1) (2025-03-31)
 
-
 ### Bug Fixes
 
-* **hub-common:** update "hub:site:workspace:catalog:events" permission to include license checks ([#1849](https://github.com/Esri/hub.js/issues/1849)) ([fabc8e7](https://github.com/Esri/hub.js/commit/fabc8e71bbfeee014dbc09a20410ada25da2286d))
+- **hub-common:** update "hub:site:workspace:catalog:events" permission to include license checks ([#1849](https://github.com/Esri/hub.js/issues/1849)) ([fabc8e7](https://github.com/Esri/hub.js/commit/fabc8e71bbfeee014dbc09a20410ada25da2286d))
 
 # @esri/hub-common [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.47.0...@esri/hub-common@16.0.0) (2025-03-28)
 
-
 ### Features
 
-* remove deprecated functions ([#1848](https://github.com/Esri/hub.js/issues/1848)) ([8f2d2da](https://github.com/Esri/hub.js/commit/8f2d2dae3f3c0ebfb25e4fa0b31d51bcf7281757))
-
+- remove deprecated functions ([#1848](https://github.com/Esri/hub.js/issues/1848)) ([8f2d2da](https://github.com/Esri/hub.js/commit/8f2d2dae3f3c0ebfb25e4fa0b31d51bcf7281757))
 
 ### BREAKING CHANGES
 
-* removes deprecated functions
+- removes deprecated functions
 
 # @esri/hub-common [15.47.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.46.0...@esri/hub-common@15.47.0) (2025-03-28)
 
-
 ### Features
 
-* **hub-common:** trigger major version release ([#1847](https://github.com/Esri/hub.js/issues/1847)) ([16730ac](https://github.com/Esri/hub.js/commit/16730ac0be7b4152fdc016fcdfe315c33e4217ff))
+- **hub-common:** trigger major version release ([#1847](https://github.com/Esri/hub.js/issues/1847)) ([16730ac](https://github.com/Esri/hub.js/commit/16730ac0be7b4152fdc016fcdfe315c33e4217ff))
 
 # @esri/hub-common [15.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.45.0...@esri/hub-common@15.46.0) (2025-03-28)
 
-
 ### Features
 
-* **hub-common:** remove all collection, update default collection definitions, start persisting IHubCatalog to sites ([#1833](https://github.com/Esri/hub.js/issues/1833)) ([0d09013](https://github.com/Esri/hub.js/commit/0d090137e829d7c0c31e7f0f5021f37ef9c1b75a))
+- **hub-common:** remove all collection, update default collection definitions, start persisting IHubCatalog to sites ([#1833](https://github.com/Esri/hub.js/issues/1833)) ([0d09013](https://github.com/Esri/hub.js/commit/0d090137e829d7c0c31e7f0f5021f37ef9c1b75a))
 
 # @esri/hub-common [15.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.44.0...@esri/hub-common@15.45.0) (2025-03-26)
 
-
 ### Features
 
-* **hub-common:** add optional param notIds to ISearchChannels ([#1844](https://github.com/Esri/hub.js/issues/1844)) ([0b57b8f](https://github.com/Esri/hub.js/commit/0b57b8fb4150545553bd377855321996dfd03263))
+- **hub-common:** add optional param notIds to ISearchChannels ([#1844](https://github.com/Esri/hub.js/issues/1844)) ([0b57b8f](https://github.com/Esri/hub.js/commit/0b57b8fb4150545553bd377855321996dfd03263))
 
 # @esri/hub-common [15.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.43.0...@esri/hub-common@15.44.0) (2025-03-25)
 
-
 ### Features
 
-* **hub-common:** support flatten and fields predicates in hubSearch() ([#1842](https://github.com/Esri/hub.js/issues/1842)) ([cf737a0](https://github.com/Esri/hub.js/commit/cf737a0860ceea29aeb7ec7d6635d8f1542b16c6))
+- **hub-common:** support flatten and fields predicates in hubSearch() ([#1842](https://github.com/Esri/hub.js/issues/1842)) ([cf737a0](https://github.com/Esri/hub.js/commit/cf737a0860ceea29aeb7ec7d6635d8f1542b16c6))
 
 # @esri/hub-common [15.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.42.0...@esri/hub-common@15.43.0) (2025-03-20)
 
-
 ### Features
 
-* **hub-common:** add optional filter ids to discussions ISearchChannels ([#1837](https://github.com/Esri/hub.js/issues/1837)) ([b9c28e9](https://github.com/Esri/hub.js/commit/b9c28e90d2a0a42bb567ed2f573f5dea0c5864fe))
+- **hub-common:** add optional filter ids to discussions ISearchChannels ([#1837](https://github.com/Esri/hub.js/issues/1837)) ([b9c28e9](https://github.com/Esri/hub.js/commit/b9c28e90d2a0a42bb567ed2f573f5dea0c5864fe))
 
 # @esri/hub-common [15.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.4...@esri/hub-common@15.42.0) (2025-03-17)
 
-
 ### Features
 
-* **hub-common:** add channel entity, schema, uischema & supporting fns ([#1829](https://github.com/Esri/hub.js/issues/1829)) ([6148236](https://github.com/Esri/hub.js/commit/61482361f421c377ea39420c808d0ce3215cebf0))
+- **hub-common:** add channel entity, schema, uischema & supporting fns ([#1829](https://github.com/Esri/hub.js/issues/1829)) ([6148236](https://github.com/Esri/hub.js/commit/61482361f421c377ea39420c808d0ce3215cebf0))
 
 ## @esri/hub-common [15.41.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.3...@esri/hub-common@15.41.4) (2025-03-17)
 
-
 ### Bug Fixes
 
-* add minProperties validation to catalog schemas ([#1832](https://github.com/Esri/hub.js/issues/1832)) ([a95de50](https://github.com/Esri/hub.js/commit/a95de5048ac454344f68de7c86e8eebd476308f5))
+- add minProperties validation to catalog schemas ([#1832](https://github.com/Esri/hub.js/issues/1832)) ([a95de50](https://github.com/Esri/hub.js/commit/a95de5048ac454344f68de7c86e8eebd476308f5))
 
 ## @esri/hub-common [15.41.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.2...@esri/hub-common@15.41.3) (2025-03-13)
 
-
 ### Bug Fixes
 
-* update schemas to require catalog scope ([#1825](https://github.com/Esri/hub.js/issues/1825)) ([2177b46](https://github.com/Esri/hub.js/commit/2177b46c20ceeb87306f8001de9aebb054e89fdd))
+- update schemas to require catalog scope ([#1825](https://github.com/Esri/hub.js/issues/1825)) ([2177b46](https://github.com/Esri/hub.js/commit/2177b46c20ceeb87306f8001de9aebb054e89fdd))
 
 ## @esri/hub-common [15.41.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.1...@esri/hub-common@15.41.2) (2025-03-11)
 
-
 ### Bug Fixes
 
-* **hub-common:** site collections not hidden properly ([#1827](https://github.com/Esri/hub.js/issues/1827)) ([c0a0bb8](https://github.com/Esri/hub.js/commit/c0a0bb841ee93f9df755fc9ddfd9031d5a130c51))
+- **hub-common:** site collections not hidden properly ([#1827](https://github.com/Esri/hub.js/issues/1827)) ([c0a0bb8](https://github.com/Esri/hub.js/commit/c0a0bb841ee93f9df755fc9ddfd9031d5a130c51))
 
 ## @esri/hub-common [15.41.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.0...@esri/hub-common@15.41.1) (2025-03-10)
 
-
 ### Bug Fixes
 
-* add displayConfig to CollectionSchema ([#1823](https://github.com/Esri/hub.js/issues/1823)) ([a42f3bd](https://github.com/Esri/hub.js/commit/a42f3bd5f5fda5de4591493bb1bc3839e0bac59c))
+- add displayConfig to CollectionSchema ([#1823](https://github.com/Esri/hub.js/issues/1823)) ([a42f3bd](https://github.com/Esri/hub.js/commit/a42f3bd5f5fda5de4591493bb1bc3839e0bac59c))
 
 # @esri/hub-common [15.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.40.0...@esri/hub-common@15.41.0) (2025-03-06)
 
-
 ### Features
 
-* **hub-common:** update organization entity and search results to ha… ([#1826](https://github.com/Esri/hub.js/issues/1826)) ([6e3a321](https://github.com/Esri/hub.js/commit/6e3a321741dfd9a68e9d69d5a9b25c5420454982))
+- **hub-common:** update organization entity and search results to ha… ([#1826](https://github.com/Esri/hub.js/issues/1826)) ([6e3a321](https://github.com/Esri/hub.js/commit/6e3a321741dfd9a68e9d69d5a9b25c5420454982))
 
 # @esri/hub-common [15.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.39.0...@esri/hub-common@15.40.0) (2025-03-05)
 
-
 ### Features
 
-* **hub-common:** restrict v2 channel delete to org admins or channel permission OWNER roles ([#1824](https://github.com/Esri/hub.js/issues/1824)) ([972af97](https://github.com/Esri/hub.js/commit/972af9762c049c3ddc4975e7e9c71194da8a87a4))
+- **hub-common:** restrict v2 channel delete to org admins or channel permission OWNER roles ([#1824](https://github.com/Esri/hub.js/issues/1824)) ([972af97](https://github.com/Esri/hub.js/commit/972af9762c049c3ddc4975e7e9c71194da8a87a4))
 
 # @esri/hub-common [15.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.4...@esri/hub-common@15.39.0) (2025-03-04)
 
-
 ### Features
 
-* **hub-common:** add arcgisHubConfig global variable ([#1820](https://github.com/Esri/hub.js/issues/1820)) ([5ffd3fa](https://github.com/Esri/hub.js/commit/5ffd3fa379158f19f61a6130e82a74b3f8ca5969))
+- **hub-common:** add arcgisHubConfig global variable ([#1820](https://github.com/Esri/hub.js/issues/1820)) ([5ffd3fa](https://github.com/Esri/hub.js/commit/5ffd3fa379158f19f61a6130e82a74b3f8ca5969))
 
 ## @esri/hub-common [15.38.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.3...@esri/hub-common@15.38.4) (2025-03-03)
 
-
 ### Bug Fixes
 
-* add maxItems to ENTITY_CATEGORIES_SCHEMA ([#1822](https://github.com/Esri/hub.js/issues/1822)) ([b0b6d21](https://github.com/Esri/hub.js/commit/b0b6d210560ca75f363758de3cd932f65f59ad01))
+- add maxItems to ENTITY_CATEGORIES_SCHEMA ([#1822](https://github.com/Esri/hub.js/issues/1822)) ([b0b6d21](https://github.com/Esri/hub.js/commit/b0b6d210560ca75f363758de3cd932f65f59ad01))
 
 ## @esri/hub-common [15.38.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.2...@esri/hub-common@15.38.3) (2025-02-28)
 
-
 ### Bug Fixes
 
-* add grid-filled to IGalleryDisplayConfig ([#1818](https://github.com/Esri/hub.js/issues/1818)) ([3ec828f](https://github.com/Esri/hub.js/commit/3ec828fedefb89d8106af992839fa054259be625))
+- add grid-filled to IGalleryDisplayConfig ([#1818](https://github.com/Esri/hub.js/issues/1818)) ([3ec828f](https://github.com/Esri/hub.js/commit/3ec828fedefb89d8106af992839fa054259be625))
 
 ## @esri/hub-common [15.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.1...@esri/hub-common@15.38.2) (2025-02-27)
 
-
 ### Bug Fixes
 
-* **hub-common:** site entity only displays slug on enterprise ([#1817](https://github.com/Esri/hub.js/issues/1817)) ([2090f98](https://github.com/Esri/hub.js/commit/2090f981e001a2bd8b8256e3f6af64a19a3944e5))
+- **hub-common:** site entity only displays slug on enterprise ([#1817](https://github.com/Esri/hub.js/issues/1817)) ([2090f98](https://github.com/Esri/hub.js/commit/2090f981e001a2bd8b8256e3f6af64a19a3944e5))
 
 ## @esri/hub-common [15.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.0...@esri/hub-common@15.38.1) (2025-02-27)
 
-
 ### Bug Fixes
 
-* account for empty collection filters when merging with scope filters ([#1819](https://github.com/Esri/hub.js/issues/1819)) ([e494d77](https://github.com/Esri/hub.js/commit/e494d770a6c7741986d925551315d27de3285603))
+- account for empty collection filters when merging with scope filters ([#1819](https://github.com/Esri/hub.js/issues/1819)) ([e494d77](https://github.com/Esri/hub.js/commit/e494d770a6c7741986d925551315d27de3285603))
 
 # @esri/hub-common [15.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.37.1...@esri/hub-common@15.38.0) (2025-02-26)
 
-
 ### Features
 
-* **hub-common:** move all fns and types from discussions package to common package ([#1810](https://github.com/Esri/hub.js/issues/1810)) ([dbab1e0](https://github.com/Esri/hub.js/commit/dbab1e0cd700c46e08756c0c2e9169c0299cbe50))
+- **hub-common:** move all fns and types from discussions package to common package ([#1810](https://github.com/Esri/hub.js/issues/1810)) ([dbab1e0](https://github.com/Esri/hub.js/commit/dbab1e0cd700c46e08756c0c2e9169c0299cbe50))
 
 ## @esri/hub-common [15.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.37.0...@esri/hub-common@15.37.1) (2025-02-26)
 
-
 ### Bug Fixes
 
-* resolve circular deps related to ArcGISContext ([#1815](https://github.com/Esri/hub.js/issues/1815)) ([05d8e4d](https://github.com/Esri/hub.js/commit/05d8e4d40f4b67e10b3fa214899e6a490acf88a7))
+- resolve circular deps related to ArcGISContext ([#1815](https://github.com/Esri/hub.js/issues/1815)) ([05d8e4d](https://github.com/Esri/hub.js/commit/05d8e4d40f4b67e10b3fa214899e6a490acf88a7))
 
 # @esri/hub-common [15.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.36.1...@esri/hub-common@15.37.0) (2025-02-26)
 
-
 ### Features
 
-* add logic/permissions to enable site catalog config in new UI ([#1812](https://github.com/Esri/hub.js/issues/1812)) ([510603b](https://github.com/Esri/hub.js/commit/510603bafc6b1954571c378933842f68d65a18ed))
+- add logic/permissions to enable site catalog config in new UI ([#1812](https://github.com/Esri/hub.js/issues/1812)) ([510603b](https://github.com/Esri/hub.js/commit/510603bafc6b1954571c378933842f68d65a18ed))
 
 ## @esri/hub-common [15.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.36.0...@esri/hub-common@15.36.1) (2025-02-25)
 
-
 ### Bug Fixes
 
-* revert "refactor: minimize use of rest-types package" ([#1813](https://github.com/Esri/hub.js/issues/1813)) ([11e151b](https://github.com/Esri/hub.js/commit/11e151b3d13b1a04e73cb85330a606c2dcb749d7))
+- revert "refactor: minimize use of rest-types package" ([#1813](https://github.com/Esri/hub.js/issues/1813)) ([11e151b](https://github.com/Esri/hub.js/commit/11e151b3d13b1a04e73cb85330a606c2dcb749d7))
 
 # @esri/hub-common [15.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.35.0...@esri/hub-common@15.36.0) (2025-02-25)
 
-
 ### Features
 
-* ungate project/initiative catalog panes ([#1804](https://github.com/Esri/hub.js/issues/1804)) ([a980be6](https://github.com/Esri/hub.js/commit/a980be6016760c1963e4ec0e0372864ab04ebafa))
+- ungate project/initiative catalog panes ([#1804](https://github.com/Esri/hub.js/issues/1804)) ([a980be6](https://github.com/Esri/hub.js/commit/a980be6016760c1963e4ec0e0372864ab04ebafa))
 
 # @esri/hub-common [15.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.34.0...@esri/hub-common@15.35.0) (2025-02-21)
 
-
 ### Features
 
-* add IHubOrganization with fetch and hubSearch support ([#1808](https://github.com/Esri/hub.js/issues/1808)) ([ef89d09](https://github.com/Esri/hub.js/commit/ef89d09d50cd6fc625738d37ae7d6f35bd2053d4))
+- add IHubOrganization with fetch and hubSearch support ([#1808](https://github.com/Esri/hub.js/issues/1808)) ([ef89d09](https://github.com/Esri/hub.js/commit/ef89d09d50cd6fc625738d37ae7d6f35bd2053d4))
 
 # @esri/hub-common [15.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.33.0...@esri/hub-common@15.34.0) (2025-02-20)
 
-
 ### Features
 
-* **hub-discussions:** add separate v2 route functions for channels, posts, reactions ([#1806](https://github.com/Esri/hub.js/issues/1806)) ([4a42d5f](https://github.com/Esri/hub.js/commit/4a42d5f5129e4a4eead04cc7d26559dae549435e))
+- **hub-discussions:** add separate v2 route functions for channels, posts, reactions ([#1806](https://github.com/Esri/hub.js/issues/1806)) ([4a42d5f](https://github.com/Esri/hub.js/commit/4a42d5f5129e4a4eead04cc7d26559dae549435e))
 
 # @esri/hub-common [15.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.32.0...@esri/hub-common@15.33.0) (2025-02-20)
 
-
 ### Features
 
-* **hub-common:** add new v2 discussions interfaces and functions ([#1807](https://github.com/Esri/hub.js/issues/1807)) ([98a5377](https://github.com/Esri/hub.js/commit/98a5377363ac4f4738e6f5eef8521aef8cfecb70))
+- **hub-common:** add new v2 discussions interfaces and functions ([#1807](https://github.com/Esri/hub.js/issues/1807)) ([98a5377](https://github.com/Esri/hub.js/commit/98a5377363ac4f4738e6f5eef8521aef8cfecb70))
 
 # @esri/hub-common [15.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.31.2...@esri/hub-common@15.32.0) (2025-02-13)
 
-
 ### Features
 
-* add ai-assistant permission ([#1803](https://github.com/Esri/hub.js/issues/1803)) ([2144f67](https://github.com/Esri/hub.js/commit/2144f67bbbb2b4e4fe10ff79e3c369f38f37ccc9))
+- add ai-assistant permission ([#1803](https://github.com/Esri/hub.js/issues/1803)) ([2144f67](https://github.com/Esri/hub.js/commit/2144f67bbbb2b4e4fe10ff79e3c369f38f37ccc9))
 
 ## @esri/hub-common [15.31.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.31.1...@esri/hub-common@15.31.2) (2025-02-12)
 
-
 ### Bug Fixes
 
-* change export location ([#1802](https://github.com/Esri/hub.js/issues/1802)) ([cc19da5](https://github.com/Esri/hub.js/commit/cc19da50b7ef0db93234517dff39b685d1adda10))
+- change export location ([#1802](https://github.com/Esri/hub.js/issues/1802)) ([cc19da5](https://github.com/Esri/hub.js/commit/cc19da50b7ef0db93234517dff39b685d1adda10))
 
 ## @esri/hub-common [15.31.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.31.0...@esri/hub-common@15.31.1) (2025-02-11)
 
-
 ### Bug Fixes
 
-* exports for extracted getAddWorkflowConfig ([#1799](https://github.com/Esri/hub.js/issues/1799)) ([28e746c](https://github.com/Esri/hub.js/commit/28e746cdb075a1097635dd2b818634d424cd763b))
+- exports for extracted getAddWorkflowConfig ([#1799](https://github.com/Esri/hub.js/issues/1799)) ([28e746c](https://github.com/Esri/hub.js/commit/28e746cdb075a1097635dd2b818634d424cd763b))
 
 # @esri/hub-common [15.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.30.0...@esri/hub-common@15.31.0) (2025-02-10)
 
-
 ### Features
 
-* **hub-common:** implement getCatalogFromModel() ([#1796](https://github.com/Esri/hub.js/issues/1796)) ([d9846de](https://github.com/Esri/hub.js/commit/d9846de7fe705ee9d5e090a04c74431dbefbbcf1))
+- **hub-common:** implement getCatalogFromModel() ([#1796](https://github.com/Esri/hub.js/issues/1796)) ([d9846de](https://github.com/Esri/hub.js/commit/d9846de7fe705ee9d5e090a04c74431dbefbbcf1))
 
 # @esri/hub-common [15.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.29.0...@esri/hub-common@15.30.0) (2025-02-07)
 
-
 ### Features
 
-* **hub-common:** add minimal definitions of ArcGIS types and drop arcgis-js-api ([#1797](https://github.com/Esri/hub.js/issues/1797)) ([27c08b8](https://github.com/Esri/hub.js/commit/27c08b87bccd15b60c1d2563479bdf1dc1f21c3c))
+- **hub-common:** add minimal definitions of ArcGIS types and drop arcgis-js-api ([#1797](https://github.com/Esri/hub.js/issues/1797)) ([27c08b8](https://github.com/Esri/hub.js/commit/27c08b87bccd15b60c1d2563479bdf1dc1f21c3c))
 
 # @esri/hub-common [15.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.28.0...@esri/hub-common@15.29.0) (2025-02-07)
 
-
 ### Features
 
-* **hub-common:** event implements image picker ([#1784](https://github.com/Esri/hub.js/issues/1784)) ([3916521](https://github.com/Esri/hub.js/commit/39165218ddf19267cff85c2236d43ea8409c1cb0))
+- **hub-common:** event implements image picker ([#1784](https://github.com/Esri/hub.js/issues/1784)) ([3916521](https://github.com/Esri/hub.js/commit/39165218ddf19267cff85c2236d43ea8409c1cb0))
 
 # @esri/hub-common [15.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.27.0...@esri/hub-common@15.28.0) (2025-02-04)
 
-
 ### Features
 
-* **hub-common:** add content home url util ([#1791](https://github.com/Esri/hub.js/issues/1791)) ([efdf12b](https://github.com/Esri/hub.js/commit/efdf12bd32bc1a727effd9d601b52bdc731312a9))
+- **hub-common:** add content home url util ([#1791](https://github.com/Esri/hub.js/issues/1791)) ([efdf12b](https://github.com/Esri/hub.js/commit/efdf12bd32bc1a727effd9d601b52bdc731312a9))
 
 # @esri/hub-common [15.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.26.1...@esri/hub-common@15.27.0) (2025-02-04)
 
-
 ### Features
 
-* expand gallerydisplayconfig with sort and filters ([#1789](https://github.com/Esri/hub.js/issues/1789)) ([0f733dd](https://github.com/Esri/hub.js/commit/0f733dde0df136e4abcbd569931507053d94e298))
+- expand gallerydisplayconfig with sort and filters ([#1789](https://github.com/Esri/hub.js/issues/1789)) ([0f733dd](https://github.com/Esri/hub.js/commit/0f733dde0df136e4abcbd569931507053d94e298))
 
 ## @esri/hub-common [15.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.26.0...@esri/hub-common@15.26.1) (2025-02-03)
 
-
 ### Bug Fixes
 
-* **hub-common:** modify IUpdateEvent to allow null for description, s… ([#1790](https://github.com/Esri/hub.js/issues/1790)) ([6ac1f02](https://github.com/Esri/hub.js/commit/6ac1f02ec9e61fb5f837fcd34f60f648329bc0ed))
+- **hub-common:** modify IUpdateEvent to allow null for description, s… ([#1790](https://github.com/Esri/hub.js/issues/1790)) ([6ac1f02](https://github.com/Esri/hub.js/commit/6ac1f02ec9e61fb5f837fcd34f60f648329bc0ed))
 
 # @esri/hub-common [15.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.25.1...@esri/hub-common@15.26.0) (2025-01-31)
 
-
 ### Features
 
-* **hub-common:** hubSearchEvents switch to new POST events search route ([#1787](https://github.com/Esri/hub.js/issues/1787)) ([8fbb944](https://github.com/Esri/hub.js/commit/8fbb944668a75bf4326d34c995b91b95e109b5dd))
+- **hub-common:** hubSearchEvents switch to new POST events search route ([#1787](https://github.com/Esri/hub.js/issues/1787)) ([8fbb944](https://github.com/Esri/hub.js/commit/8fbb944668a75bf4326d34c995b91b95e109b5dd))
 
 ## @esri/hub-common [15.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.25.0...@esri/hub-common@15.25.1) (2025-01-31)
 
-
 ### Bug Fixes
 
-* **hub-common:** update spatial element from default dcat us template ([#1788](https://github.com/Esri/hub.js/issues/1788)) ([064deea](https://github.com/Esri/hub.js/commit/064deea7d18175c6d13848cc9026740e59d322f1))
+- **hub-common:** update spatial element from default dcat us template ([#1788](https://github.com/Esri/hub.js/issues/1788)) ([064deea](https://github.com/Esri/hub.js/commit/064deea7d18175c6d13848cc9026740e59d322f1))
 
 # @esri/hub-common [15.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.24.0...@esri/hub-common@15.25.0) (2025-01-30)
 
-
 ### Features
 
-* **hub-common:** add hub:feature:catalogs:edit:advanced permission for controlling catalog editing ([#1785](https://github.com/Esri/hub.js/issues/1785)) ([d3fd836](https://github.com/Esri/hub.js/commit/d3fd8361e11133d62293dd76e1e45316791e3126))
+- **hub-common:** add hub:feature:catalogs:edit:advanced permission for controlling catalog editing ([#1785](https://github.com/Esri/hub.js/issues/1785)) ([d3fd836](https://github.com/Esri/hub.js/commit/d3fd8361e11133d62293dd76e1e45316791e3126))
 
 # @esri/hub-common [15.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.5...@esri/hub-common@15.24.0) (2025-01-29)
 
-
 ### Features
 
-* **hub-common:** add searchEvents function ([#1778](https://github.com/Esri/hub.js/issues/1778)) ([2996bc8](https://github.com/Esri/hub.js/commit/2996bc86cde76caa07ee3c18fec36c59b6d0babf))
+- **hub-common:** add searchEvents function ([#1778](https://github.com/Esri/hub.js/issues/1778)) ([2996bc8](https://github.com/Esri/hub.js/commit/2996bc86cde76caa07ee3c18fec36c59b6d0babf))
 
 ## @esri/hub-common [15.23.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.4...@esri/hub-common@15.23.5) (2025-01-29)
 
-
 ### Bug Fixes
 
-* **hub-common:** adjust discussions apiRequest response for text from… ([#1786](https://github.com/Esri/hub.js/issues/1786)) ([69c0a9e](https://github.com/Esri/hub.js/commit/69c0a9e96a82dc8096f68ee3d11d5ea52fdac0ac))
+- **hub-common:** adjust discussions apiRequest response for text from… ([#1786](https://github.com/Esri/hub.js/issues/1786)) ([69c0a9e](https://github.com/Esri/hub.js/commit/69c0a9e96a82dc8096f68ee3d11d5ea52fdac0ac))
 
 ## @esri/hub-common [15.23.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.3...@esri/hub-common@15.23.4) (2025-01-29)
 
-
 ### Bug Fixes
 
-* **hub-discussions:** use POST /posts/search to search and export posts ([#1781](https://github.com/Esri/hub.js/issues/1781)) ([04698e7](https://github.com/Esri/hub.js/commit/04698e72f7572a1804051db8a9dd0d2a5069c538))
+- **hub-discussions:** use POST /posts/search to search and export posts ([#1781](https://github.com/Esri/hub.js/issues/1781)) ([04698e7](https://github.com/Esri/hub.js/commit/04698e72f7572a1804051db8a9dd0d2a5069c538))
 
 ## @esri/hub-common [15.23.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.2...@esri/hub-common@15.23.3) (2025-01-23)
 
-
 ### Bug Fixes
 
-* add format for subdomain field ([#1782](https://github.com/Esri/hub.js/issues/1782)) ([aed32b0](https://github.com/Esri/hub.js/commit/aed32b0d0d25618b597c1ba8e615abfb100a0ae3))
+- add format for subdomain field ([#1782](https://github.com/Esri/hub.js/issues/1782)) ([aed32b0](https://github.com/Esri/hub.js/commit/aed32b0d0d25618b597c1ba8e615abfb100a0ae3))
 
 ## @esri/hub-common [15.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.1...@esri/hub-common@15.23.2) (2025-01-17)
 
-
 ### Bug Fixes
 
-* update correct schemas for catalog editing ([#1776](https://github.com/Esri/hub.js/issues/1776)) ([d48f8c0](https://github.com/Esri/hub.js/commit/d48f8c0840f8998d2d26e6299ff929ddbae3b696))
+- update correct schemas for catalog editing ([#1776](https://github.com/Esri/hub.js/issues/1776)) ([d48f8c0](https://github.com/Esri/hub.js/commit/d48f8c0840f8998d2d26e6299ff929ddbae3b696))
 
 ## @esri/hub-common [15.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.0...@esri/hub-common@15.23.1) (2025-01-16)
 
-
 ### Bug Fixes
 
-* fix hub_cdn_urls ([#1774](https://github.com/Esri/hub.js/issues/1774)) ([c9b1a7f](https://github.com/Esri/hub.js/commit/c9b1a7f157180a6be9d0c841d41359ad1dc62214))
+- fix hub_cdn_urls ([#1774](https://github.com/Esri/hub.js/issues/1774)) ([c9b1a7f](https://github.com/Esri/hub.js/commit/c9b1a7f157180a6be9d0c841d41359ad1dc62214))
 
 # @esri/hub-common [15.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.22.1...@esri/hub-common@15.23.0) (2025-01-15)
 
-
 ### Features
 
-* adds domain to site creation uiSchema ([#1772](https://github.com/Esri/hub.js/issues/1772)) ([55c5453](https://github.com/Esri/hub.js/commit/55c545300b0520378a80b7bbafa6320b648069d7))
+- adds domain to site creation uiSchema ([#1772](https://github.com/Esri/hub.js/issues/1772)) ([55c5453](https://github.com/Esri/hub.js/commit/55c545300b0520378a80b7bbafa6320b648069d7))
 
 ## @esri/hub-common [15.22.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.22.0...@esri/hub-common@15.22.1) (2025-01-13)
 
-
 ### Bug Fixes
 
-* update correct schemas for catalog editing ([#1769](https://github.com/Esri/hub.js/issues/1769)) ([4888c08](https://github.com/Esri/hub.js/commit/4888c08b8186402ffe45fbe3e3de4bc500761a20))
+- update correct schemas for catalog editing ([#1769](https://github.com/Esri/hub.js/issues/1769)) ([4888c08](https://github.com/Esri/hub.js/commit/4888c08b8186402ffe45fbe3e3de4bc500761a20))
 
 # @esri/hub-common [15.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.21.0...@esri/hub-common@15.22.0) (2025-01-07)
 
-
 ### Features
 
-* **hub-common:** replace temporary workspace feeds permission with hub:site:workspace:feeds ([#1766](https://github.com/Esri/hub.js/issues/1766)) ([4471d8e](https://github.com/Esri/hub.js/commit/4471d8e5ecd48845a849fd930cd4ec389a72f071))
+- **hub-common:** replace temporary workspace feeds permission with hub:site:workspace:feeds ([#1766](https://github.com/Esri/hub.js/issues/1766)) ([4471d8e](https://github.com/Esri/hub.js/commit/4471d8e5ecd48845a849fd930cd4ec389a72f071))
 
 # @esri/hub-common [15.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.20.1...@esri/hub-common@15.21.0) (2025-01-02)
 
-
 ### Features
 
-* set the aria level for all location pickers ([#1767](https://github.com/Esri/hub.js/issues/1767)) ([51095fd](https://github.com/Esri/hub.js/commit/51095fd10e86b64ef84d9e48a1b5bd1628539946))
+- set the aria level for all location pickers ([#1767](https://github.com/Esri/hub.js/issues/1767)) ([51095fd](https://github.com/Esri/hub.js/commit/51095fd10e86b64ef84d9e48a1b5bd1628539946))
 
 ## @esri/hub-common [15.20.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.20.0...@esri/hub-common@15.20.1) (2024-12-27)
 
-
 ### Bug Fixes
 
-* add catalog permission ([#1768](https://github.com/Esri/hub.js/issues/1768)) ([0212e7b](https://github.com/Esri/hub.js/commit/0212e7b9a4a03061de9dc09392ae7ea839b606ba))
+- add catalog permission ([#1768](https://github.com/Esri/hub.js/issues/1768)) ([0212e7b](https://github.com/Esri/hub.js/commit/0212e7b9a4a03061de9dc09392ae7ea839b606ba))
 
 # @esri/hub-common [15.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.19.0...@esri/hub-common@15.20.0) (2024-12-20)
 
-
 ### Features
 
-* **hub-common:** update orval events to include event thumbnail ([#1765](https://github.com/Esri/hub.js/issues/1765)) ([b94fa14](https://github.com/Esri/hub.js/commit/b94fa142eb6b1bb30cf43d0a482489d9abd1aca6))
+- **hub-common:** update orval events to include event thumbnail ([#1765](https://github.com/Esri/hub.js/issues/1765)) ([b94fa14](https://github.com/Esri/hub.js/commit/b94fa142eb6b1bb30cf43d0a482489d9abd1aca6))
 
 # @esri/hub-common [15.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.3...@esri/hub-common@15.19.0) (2024-12-12)
 
-
 ### Features
 
-* handle item type combobox with nested selections ([#1726](https://github.com/Esri/hub.js/issues/1726)) ([6a504f1](https://github.com/Esri/hub.js/commit/6a504f16b970998b15e26a8a38c1cebc53c60ccc))
+- handle item type combobox with nested selections ([#1726](https://github.com/Esri/hub.js/issues/1726)) ([6a504f1](https://github.com/Esri/hub.js/commit/6a504f16b970998b15e26a8a38c1cebc53c60ccc))
 
 ## @esri/hub-common [15.18.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.2...@esri/hub-common@15.18.3) (2024-12-12)
 
-
 ### Bug Fixes
 
-* removing extra launch icons on user settings ([#1764](https://github.com/Esri/hub.js/issues/1764)) ([3a1f607](https://github.com/Esri/hub.js/commit/3a1f607b48f9d160ae7a6671989620af769dee31))
+- removing extra launch icons on user settings ([#1764](https://github.com/Esri/hub.js/issues/1764)) ([3a1f607](https://github.com/Esri/hub.js/commit/3a1f607b48f9d160ae7a6671989620af769dee31))
 
 ## @esri/hub-common [15.18.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.1...@esri/hub-common@15.18.2) (2024-12-09)
 
-
 ### Bug Fixes
 
-* add required type to IChangeEventDetail ([#1760](https://github.com/Esri/hub.js/issues/1760)) ([1adc7fb](https://github.com/Esri/hub.js/commit/1adc7fb722578ecf4943736965bdd765eeb691d6))
+- add required type to IChangeEventDetail ([#1760](https://github.com/Esri/hub.js/issues/1760)) ([1adc7fb](https://github.com/Esri/hub.js/commit/1adc7fb722578ecf4943736965bdd765eeb691d6))
 
 ## @esri/hub-common [15.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.0...@esri/hub-common@15.18.1) (2024-12-05)
 
-
 ### Bug Fixes
 
-* **hub-common:** updated metrics editors  ([#1757](https://github.com/Esri/hub.js/issues/1757)) ([b0de73f](https://github.com/Esri/hub.js/commit/b0de73f6dff3218e2a7f520fa5c1634f3885ef64))
+- **hub-common:** updated metrics editors ([#1757](https://github.com/Esri/hub.js/issues/1757)) ([b0de73f](https://github.com/Esri/hub.js/commit/b0de73f6dff3218e2a7f520fa5c1634f3885ef64))
 
 # @esri/hub-common [15.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.1...@esri/hub-common@15.18.0) (2024-12-05)
 
-
 ### Features
 
-* **hub-common:** add optional includeIdInSlug arg to getItemIdentifier ([#1759](https://github.com/Esri/hub.js/issues/1759)) ([f54ca6d](https://github.com/Esri/hub.js/commit/f54ca6da621319e5c47c4551431ce2dc1a297c39)), closes [#1746](https://github.com/Esri/hub.js/issues/1746)
+- **hub-common:** add optional includeIdInSlug arg to getItemIdentifier ([#1759](https://github.com/Esri/hub.js/issues/1759)) ([f54ca6d](https://github.com/Esri/hub.js/commit/f54ca6da621319e5c47c4551431ce2dc1a297c39)), closes [#1746](https://github.com/Esri/hub.js/issues/1746)
 
 ## @esri/hub-common [15.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.0...@esri/hub-common@15.17.1) (2024-12-05)
 
-
 ### Bug Fixes
 
-* **hub-common:** modify ISearchCHannels interface orgId => orgIds ([#1762](https://github.com/Esri/hub.js/issues/1762)) ([56b2131](https://github.com/Esri/hub.js/commit/56b2131b0eab8abc83dcc326a2bd8ceac75d613a))
+- **hub-common:** modify ISearchCHannels interface orgId => orgIds ([#1762](https://github.com/Esri/hub.js/issues/1762)) ([56b2131](https://github.com/Esri/hub.js/commit/56b2131b0eab8abc83dcc326a2bd8ceac75d613a))
 
 # @esri/hub-common [15.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.16.0...@esri/hub-common@15.17.0) (2024-12-04)
 
-
 ### Features
 
-* **hub-common:** add allowPost to IChannel ([#1755](https://github.com/Esri/hub.js/issues/1755)) ([d500a53](https://github.com/Esri/hub.js/commit/d500a5312e069432988725d776c0753c2a897519))
+- **hub-common:** add allowPost to IChannel ([#1755](https://github.com/Esri/hub.js/issues/1755)) ([d500a53](https://github.com/Esri/hub.js/commit/d500a5312e069432988725d776c0753c2a897519))
 
 # @esri/hub-common [15.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.15.0...@esri/hub-common@15.16.0) (2024-12-04)
 
-
 ### Features
 
-* **hub-common:** add allowPost to IChannel and ICreateChannelSettings ([#1761](https://github.com/Esri/hub.js/issues/1761)) ([4fe3f57](https://github.com/Esri/hub.js/commit/4fe3f5742807f0b629365a83bfc7f4244b5fc333))
+- **hub-common:** add allowPost to IChannel and ICreateChannelSettings ([#1761](https://github.com/Esri/hub.js/issues/1761)) ([4fe3f57](https://github.com/Esri/hub.js/commit/4fe3f5742807f0b629365a83bfc7f4244b5fc333))
 
 # @esri/hub-common [15.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.14.0...@esri/hub-common@15.15.0) (2024-12-04)
 
-
 ### Features
 
-* **hub-common:** add fetchItem and call it from fetchPage ([#1756](https://github.com/Esri/hub.js/issues/1756)) ([e3fa5af](https://github.com/Esri/hub.js/commit/e3fa5afdd1248f89799cd10543d924184bf1d15e))
+- **hub-common:** add fetchItem and call it from fetchPage ([#1756](https://github.com/Esri/hub.js/issues/1756)) ([e3fa5af](https://github.com/Esri/hub.js/commit/e3fa5afdd1248f89799cd10543d924184bf1d15e))
 
 # @esri/hub-common [15.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.2...@esri/hub-common@15.14.0) (2024-12-03)
 
-
 ### Features
 
-* add displayConfig in Hub Catalog, update GalleryDisplayConfigSchema ([#1747](https://github.com/Esri/hub.js/issues/1747)) ([5d1cb18](https://github.com/Esri/hub.js/commit/5d1cb18cb145bc930874ebf188acbd85408a845a))
+- add displayConfig in Hub Catalog, update GalleryDisplayConfigSchema ([#1747](https://github.com/Esri/hub.js/issues/1747)) ([5d1cb18](https://github.com/Esri/hub.js/commit/5d1cb18cb145bc930874ebf188acbd85408a845a))
 
 ## @esri/hub-common [15.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.1...@esri/hub-common@15.13.2) (2024-12-02)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix event summary validation error ([#1751](https://github.com/Esri/hub.js/issues/1751)) ([1ceb5ef](https://github.com/Esri/hub.js/commit/1ceb5efe1e585ee1230741f5e1670fa564df9ce7))
+- **hub-common:** fix event summary validation error ([#1751](https://github.com/Esri/hub.js/issues/1751)) ([1ceb5ef](https://github.com/Esri/hub.js/commit/1ceb5efe1e585ee1230741f5e1670fa564df9ce7))
 
 ## @esri/hub-common [15.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.0...@esri/hub-common@15.13.1) (2024-11-27)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix Events 3 create and edit form validations ([#1749](https://github.com/Esri/hub.js/issues/1749)) ([5a20b99](https://github.com/Esri/hub.js/commit/5a20b999ec88248c0beb16aed7ac4de365d14191))
+- **hub-common:** fix Events 3 create and edit form validations ([#1749](https://github.com/Esri/hub.js/issues/1749)) ([5a20b99](https://github.com/Esri/hub.js/commit/5a20b999ec88248c0beb16aed7ac4de365d14191))
 
 # @esri/hub-common [15.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.12.1...@esri/hub-common@15.13.0) (2024-11-25)
 
-
 ### Features
 
-* **hub-common:** add csv file name function ([#1748](https://github.com/Esri/hub.js/issues/1748)) ([1aa14a9](https://github.com/Esri/hub.js/commit/1aa14a9257fb25cec24affa98f6e0da480f1b9a2))
+- **hub-common:** add csv file name function ([#1748](https://github.com/Esri/hub.js/issues/1748)) ([1aa14a9](https://github.com/Esri/hub.js/commit/1aa14a9257fb25cec24affa98f6e0da480f1b9a2))
 
 ## @esri/hub-common [15.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.12.0...@esri/hub-common@15.12.1) (2024-11-25)
 
-
 ### Bug Fixes
 
-* **hub-common:** rename hub:event:workspace:attendees permission ([#1737](https://github.com/Esri/hub.js/issues/1737)) ([a96ecdc](https://github.com/Esri/hub.js/commit/a96ecdcec164640478c8a3606d9d5a6700102d22))
+- **hub-common:** rename hub:event:workspace:attendees permission ([#1737](https://github.com/Esri/hub.js/issues/1737)) ([a96ecdc](https://github.com/Esri/hub.js/commit/a96ecdcec164640478c8a3606d9d5a6700102d22))
 
 # @esri/hub-common [15.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.11.0...@esri/hub-common@15.12.0) (2024-11-22)
 
-
 ### Features
 
-* **hub-common:** added dcat us template ([#1736](https://github.com/Esri/hub.js/issues/1736)) ([651d04c](https://github.com/Esri/hub.js/commit/651d04ca050f370d7d73a1080fc6afa2fea9b8c2))
+- **hub-common:** added dcat us template ([#1736](https://github.com/Esri/hub.js/issues/1736)) ([651d04c](https://github.com/Esri/hub.js/commit/651d04ca050f370d7d73a1080fc6afa2fea9b8c2))
 
 # @esri/hub-common [15.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.10.0...@esri/hub-common@15.11.0) (2024-11-22)
 
-
 ### Features
 
-* add link org settings in user workspace ([#1707](https://github.com/Esri/hub.js/issues/1707)) ([83ddde5](https://github.com/Esri/hub.js/commit/83ddde516dc06f37f2a7b87abe6089efbdbd32c3))
+- add link org settings in user workspace ([#1707](https://github.com/Esri/hub.js/issues/1707)) ([83ddde5](https://github.com/Esri/hub.js/commit/83ddde516dc06f37f2a7b87abe6089efbdbd32c3))
 
 # @esri/hub-common [15.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.9.0...@esri/hub-common@15.10.0) (2024-11-22)
 
-
 ### Features
 
-* add executed query length to search response ([#1733](https://github.com/Esri/hub.js/issues/1733)) ([1388046](https://github.com/Esri/hub.js/commit/138804661a4d5c868aae2839b94d70db1241490d))
+- add executed query length to search response ([#1733](https://github.com/Esri/hub.js/issues/1733)) ([1388046](https://github.com/Esri/hub.js/commit/138804661a4d5c868aae2839b94d70db1241490d))
 
 # @esri/hub-common [15.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.8.0...@esri/hub-common@15.9.0) (2024-11-20)
 
-
 ### Features
 
-* expose item size for content entities ([#1720](https://github.com/Esri/hub.js/issues/1720)) ([e4e6c86](https://github.com/Esri/hub.js/commit/e4e6c867507cd28f184796fbbd590631edf0b106))
+- expose item size for content entities ([#1720](https://github.com/Esri/hub.js/issues/1720)) ([e4e6c86](https://github.com/Esri/hub.js/commit/e4e6c867507cd28f184796fbbd590631edf0b106))
 
 # @esri/hub-common [15.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.7.1...@esri/hub-common@15.8.0) (2024-11-20)
 
-
 ### Features
 
-* **hub-common:** add IExportPostsParams interface ([#1744](https://github.com/Esri/hub.js/issues/1744)) ([7fd02ec](https://github.com/Esri/hub.js/commit/7fd02ec2e0239baa79b7f541a05ff2671f359710))
+- **hub-common:** add IExportPostsParams interface ([#1744](https://github.com/Esri/hub.js/issues/1744)) ([7fd02ec](https://github.com/Esri/hub.js/commit/7fd02ec2e0239baa79b7f541a05ff2671f359710))
 
 ## @esri/hub-common [15.7.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.7.0...@esri/hub-common@15.7.1) (2024-11-19)
 
-
 ### Bug Fixes
 
-* **hub-common:** rename "request" method used by Discussions API fns … ([#1742](https://github.com/Esri/hub.js/issues/1742)) ([72af97d](https://github.com/Esri/hub.js/commit/72af97da770c373781e91d40b4e872de96e928a3))
+- **hub-common:** rename "request" method used by Discussions API fns … ([#1742](https://github.com/Esri/hub.js/issues/1742)) ([72af97d](https://github.com/Esri/hub.js/commit/72af97da770c373781e91d40b4e872de96e928a3))
 
 # @esri/hub-common [15.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.6.1...@esri/hub-common@15.7.0) (2024-11-19)
 
-
 ### Features
 
-* hub page layoutRelative and workspaceRelative links ([#1740](https://github.com/Esri/hub.js/issues/1740)) ([0b2a281](https://github.com/Esri/hub.js/commit/0b2a2817ba974ed70063f9507fe3263ba1ce75ba))
+- hub page layoutRelative and workspaceRelative links ([#1740](https://github.com/Esri/hub.js/issues/1740)) ([0b2a281](https://github.com/Esri/hub.js/commit/0b2a2817ba974ed70063f9507fe3263ba1ce75ba))
 
 ## @esri/hub-common [15.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.6.0...@esri/hub-common@15.6.1) (2024-11-15)
 
-
 ### Bug Fixes
 
-* add new item types from AGO to collections ([#1724](https://github.com/Esri/hub.js/issues/1724)) ([c87c8ef](https://github.com/Esri/hub.js/commit/c87c8ef55e797d66f61ff3865cffd7ed984a3879))
+- add new item types from AGO to collections ([#1724](https://github.com/Esri/hub.js/issues/1724)) ([c87c8ef](https://github.com/Esri/hub.js/commit/c87c8ef55e797d66f61ff3865cffd7ed984a3879))
 
 # @esri/hub-common [15.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.5.0...@esri/hub-common@15.6.0) (2024-11-14)
 
-
 ### Features
 
-* **hub-discussions:** added enum and parameter for downloading posts as csv ([#1734](https://github.com/Esri/hub.js/issues/1734)) ([19af95f](https://github.com/Esri/hub.js/commit/19af95f7d97eaf4ae5020c07cc6103e7902f33e1))
+- **hub-discussions:** added enum and parameter for downloading posts as csv ([#1734](https://github.com/Esri/hub.js/issues/1734)) ([19af95f](https://github.com/Esri/hub.js/commit/19af95f7d97eaf4ae5020c07cc6103e7902f33e1))
 
 # @esri/hub-common [15.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.4.0...@esri/hub-common@15.5.0) (2024-11-13)
 
-
 ### Features
 
-* **hub-discussions:** canEditPost is a breaking change until prod migrations are unblocked ([#1731](https://github.com/Esri/hub.js/issues/1731)) ([4914ee2](https://github.com/Esri/hub.js/commit/4914ee28406378a2e8f7cdb47ba9ea50b30ca1b5))
+- **hub-discussions:** canEditPost is a breaking change until prod migrations are unblocked ([#1731](https://github.com/Esri/hub.js/issues/1731)) ([4914ee2](https://github.com/Esri/hub.js/commit/4914ee28406378a2e8f7cdb47ba9ea50b30ca1b5))
 
 # @esri/hub-common [15.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.7...@esri/hub-common@15.4.0) (2024-11-12)
 
-
 ### Features
 
-* **hub-common:** add feature flag for site pages via catalog ([#1730](https://github.com/Esri/hub.js/issues/1730)) ([e459c74](https://github.com/Esri/hub.js/commit/e459c7468c01841e1f78dfe55b6014beb6b5abcc))
+- **hub-common:** add feature flag for site pages via catalog ([#1730](https://github.com/Esri/hub.js/issues/1730)) ([e459c74](https://github.com/Esri/hub.js/commit/e459c7468c01841e1f78dfe55b6014beb6b5abcc))
 
 ## @esri/hub-common [15.3.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.6...@esri/hub-common@15.3.7) (2024-11-12)
 
-
 ### Bug Fixes
 
-* expose editor to metric functions ([#1717](https://github.com/Esri/hub.js/issues/1717)) ([8664170](https://github.com/Esri/hub.js/commit/86641702afc6b48c81c3b23faa92347a346575a8))
+- expose editor to metric functions ([#1717](https://github.com/Esri/hub.js/issues/1717)) ([8664170](https://github.com/Esri/hub.js/commit/86641702afc6b48c81c3b23faa92347a346575a8))
 
 ## @esri/hub-common [15.3.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.5...@esri/hub-common@15.3.6) (2024-11-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** make getUser optional ([#1722](https://github.com/Esri/hub.js/issues/1722)) ([b3531bd](https://github.com/Esri/hub.js/commit/b3531bd4c11a0665b8a7f514d637817f71543022))
+- **hub-common:** make getUser optional ([#1722](https://github.com/Esri/hub.js/issues/1722)) ([b3531bd](https://github.com/Esri/hub.js/commit/b3531bd4c11a0665b8a7f514d637817f71543022))
 
 ## @esri/hub-common [15.3.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.4...@esri/hub-common@15.3.5) (2024-11-07)
 
-
 ### Bug Fixes
 
-* remove troublesome migration that was not really needed ([#1725](https://github.com/Esri/hub.js/issues/1725)) ([a075492](https://github.com/Esri/hub.js/commit/a0754929dcc86b263db3c3ba02d161d31e4a27af))
+- remove troublesome migration that was not really needed ([#1725](https://github.com/Esri/hub.js/issues/1725)) ([a075492](https://github.com/Esri/hub.js/commit/a0754929dcc86b263db3c3ba02d161d31e4a27af))
 
 ## @esri/hub-common [15.3.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.3...@esri/hub-common@15.3.4) (2024-11-07)
 
-
 ### Bug Fixes
 
-* ensure site created via HubSite class has correct catalog format ([#1719](https://github.com/Esri/hub.js/issues/1719)) ([58dffcf](https://github.com/Esri/hub.js/commit/58dffcf25748080b6420c2ded00c7c9b2b965125))
+- ensure site created via HubSite class has correct catalog format ([#1719](https://github.com/Esri/hub.js/issues/1719)) ([58dffcf](https://github.com/Esri/hub.js/commit/58dffcf25748080b6420c2ded00c7c9b2b965125))
 
 ## @esri/hub-common [15.3.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.2...@esri/hub-common@15.3.3) (2024-11-06)
 
-
 ### Bug Fixes
 
-* add notice to uiSchemas ([#1711](https://github.com/Esri/hub.js/issues/1711)) ([fbf76fb](https://github.com/Esri/hub.js/commit/fbf76fb46434ce76a2e33b18140f3a31dc080430))
+- add notice to uiSchemas ([#1711](https://github.com/Esri/hub.js/issues/1711)) ([fbf76fb](https://github.com/Esri/hub.js/commit/fbf76fb46434ce76a2e33b18140f3a31dc080430))
 
 ## @esri/hub-common [15.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.1...@esri/hub-common@15.3.2) (2024-11-06)
 
-
 ### Bug Fixes
 
-* **hub-common:** access is correctly labelled when shared ([#1708](https://github.com/Esri/hub.js/issues/1708)) ([a0bc7da](https://github.com/Esri/hub.js/commit/a0bc7da64c828cfb44aa74d6855de80157edc280))
+- **hub-common:** access is correctly labelled when shared ([#1708](https://github.com/Esri/hub.js/issues/1708)) ([a0bc7da](https://github.com/Esri/hub.js/commit/a0bc7da64c828cfb44aa74d6855de80157edc280))
 
 ## @esri/hub-common [15.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.0...@esri/hub-common@15.3.1) (2024-11-06)
 
-
 ### Bug Fixes
 
-* update permissions for user event and discussion pane ([#1718](https://github.com/Esri/hub.js/issues/1718)) ([f5cccc1](https://github.com/Esri/hub.js/commit/f5cccc1dc2044b09595bf06c40a267ff150f37d7))
+- update permissions for user event and discussion pane ([#1718](https://github.com/Esri/hub.js/issues/1718)) ([f5cccc1](https://github.com/Esri/hub.js/commit/f5cccc1dc2044b09595bf06c40a267ff150f37d7))
 
 # @esri/hub-common [15.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.2.0...@esri/hub-common@15.3.0) (2024-11-05)
 
-
 ### Features
 
-* collection appearance ([#1703](https://github.com/Esri/hub.js/issues/1703)) ([bfcfdc2](https://github.com/Esri/hub.js/commit/bfcfdc20d2a1a5235d43ad62786ff82d37b377b9))
+- collection appearance ([#1703](https://github.com/Esri/hub.js/issues/1703)) ([bfcfdc2](https://github.com/Esri/hub.js/commit/bfcfdc20d2a1a5235d43ad62786ff82d37b377b9))
 
 # @esri/hub-common [15.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.1.0...@esri/hub-common@15.2.0) (2024-11-05)
 
-
 ### Features
 
-* **hub-common:** add supported download formats for fgdb job ([#1715](https://github.com/Esri/hub.js/issues/1715)) ([0a8aade](https://github.com/Esri/hub.js/commit/0a8aade73d3003607dd3148c15c9c1ad502e49f7))
+- **hub-common:** add supported download formats for fgdb job ([#1715](https://github.com/Esri/hub.js/issues/1715)) ([0a8aade](https://github.com/Esri/hub.js/commit/0a8aade73d3003607dd3148c15c9c1ad502e49f7))
 
 # @esri/hub-common [15.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.0.0...@esri/hub-common@15.1.0) (2024-11-04)
 
-
 ### Features
 
-* add create form error validation for site and project entities ([#1691](https://github.com/Esri/hub.js/issues/1691)) ([43dab51](https://github.com/Esri/hub.js/commit/43dab51242653bc2c1e6ce33dfccb27da8ec5fd5))
+- add create form error validation for site and project entities ([#1691](https://github.com/Esri/hub.js/issues/1691)) ([43dab51](https://github.com/Esri/hub.js/commit/43dab51242653bc2c1e6ce33dfccb27da8ec5fd5))
 
 # @esri/hub-common [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.225.0...@esri/hub-common@15.0.0) (2024-11-01)
 
-
 ### Features
 
-* minor comment change in ts file to try to force release to run ([#1713](https://github.com/Esri/hub.js/issues/1713)) ([568bbe3](https://github.com/Esri/hub.js/commit/568bbe35cf22186a479b777498a09b1c931d861a))
-* remove deprecated functions, rework catalog containment ([4e6816e](https://github.com/Esri/hub.js/commit/4e6816e3043ccf8fea03e0c4d9bae60a45bd82f4))
-* update readme with details on breaking changes ([#1712](https://github.com/Esri/hub.js/issues/1712)) ([8c07681](https://github.com/Esri/hub.js/commit/8c07681178040701f9e872964bab8f6a7be4c33b))
-
+- minor comment change in ts file to try to force release to run ([#1713](https://github.com/Esri/hub.js/issues/1713)) ([568bbe3](https://github.com/Esri/hub.js/commit/568bbe35cf22186a479b777498a09b1c931d861a))
+- remove deprecated functions, rework catalog containment ([4e6816e](https://github.com/Esri/hub.js/commit/4e6816e3043ccf8fea03e0c4d9bae60a45bd82f4))
+- update readme with details on breaking changes ([#1712](https://github.com/Esri/hub.js/issues/1712)) ([8c07681](https://github.com/Esri/hub.js/commit/8c07681178040701f9e872964bab8f6a7be4c33b))
 
 ### BREAKING CHANGES
 
-* removes deprecated functions
+- removes deprecated functions
 
 # @esri/hub-common [14.225.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.224.0...@esri/hub-common@14.225.0) (2024-11-01)
 
-
 ### Features
 
-* catalog fetch via entity; remove associations ([#1710](https://github.com/Esri/hub.js/issues/1710)) ([a8eec53](https://github.com/Esri/hub.js/commit/a8eec53df0f4bee4ff76332dde9cfc975e5f856e))
+- catalog fetch via entity; remove associations ([#1710](https://github.com/Esri/hub.js/issues/1710)) ([a8eec53](https://github.com/Esri/hub.js/commit/a8eec53df0f4bee4ff76332dde9cfc975e5f856e))
 
 # @esri/hub-common [14.224.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.223.0...@esri/hub-common@14.224.0) (2024-10-31)
 
-
 ### Features
 
-* **hub-common:** add updated utils for managing and previewing feeds ([#1690](https://github.com/Esri/hub.js/issues/1690)) ([8556115](https://github.com/Esri/hub.js/commit/8556115ad68dcafbfa8e000dbc0a2b8e2cfb463b))
+- **hub-common:** add updated utils for managing and previewing feeds ([#1690](https://github.com/Esri/hub.js/issues/1690)) ([8556115](https://github.com/Esri/hub.js/commit/8556115ad68dcafbfa8e000dbc0a2b8e2cfb463b))
 
 # @esri/hub-common [14.223.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.222.0...@esri/hub-common@14.223.0) (2024-10-30)
 
-
 ### Features
 
-* **hub-common:** add slug to entity edit schemas ([#1706](https://github.com/Esri/hub.js/issues/1706)) ([dc38ff4](https://github.com/Esri/hub.js/commit/dc38ff4fe48386ce1fec59a1f05a14ec23690e62))
+- **hub-common:** add slug to entity edit schemas ([#1706](https://github.com/Esri/hub.js/issues/1706)) ([dc38ff4](https://github.com/Esri/hub.js/commit/dc38ff4fe48386ce1fec59a1f05a14ec23690e62))
 
 # @esri/hub-common [14.222.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.221.1...@esri/hub-common@14.222.0) (2024-10-29)
 
-
 ### Features
 
-* **hub-common:** add channelAcl to PostRelation ([#1701](https://github.com/Esri/hub.js/issues/1701)) ([5568041](https://github.com/Esri/hub.js/commit/5568041765d4672deb486b485a463c926d7f8257))
+- **hub-common:** add channelAcl to PostRelation ([#1701](https://github.com/Esri/hub.js/issues/1701)) ([5568041](https://github.com/Esri/hub.js/commit/5568041765d4672deb486b485a463c926d7f8257))
 
 ## @esri/hub-common [14.221.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.221.0...@esri/hub-common@14.221.1) (2024-10-29)
 
-
 ### Bug Fixes
 
-* **hub-common:** remove calcite-radio-group ([#1704](https://github.com/Esri/hub.js/issues/1704)) ([1daf1bc](https://github.com/Esri/hub.js/commit/1daf1bc756a4a47067237913e2e65bed4497d00f))
+- **hub-common:** remove calcite-radio-group ([#1704](https://github.com/Esri/hub.js/issues/1704)) ([1daf1bc](https://github.com/Esri/hub.js/commit/1daf1bc756a4a47067237913e2e65bed4497d00f))
 
 # @esri/hub-common [14.221.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.220.0...@esri/hub-common@14.221.0) (2024-10-25)
 
-
 ### Features
 
-* add inline-workspace flag; limit workspace:org to devext ([#1700](https://github.com/Esri/hub.js/issues/1700)) ([4ad870b](https://github.com/Esri/hub.js/commit/4ad870ba31ea9fd3b6113edc4855e73314d7d301))
+- add inline-workspace flag; limit workspace:org to devext ([#1700](https://github.com/Esri/hub.js/issues/1700)) ([4ad870b](https://github.com/Esri/hub.js/commit/4ad870ba31ea9fd3b6113edc4855e73314d7d301))
 
 # @esri/hub-common [14.220.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.219.0...@esri/hub-common@14.220.0) (2024-10-25)
 
-
 ### Features
 
-* **hub-common:** change subscription actions to singular action ([#1698](https://github.com/Esri/hub.js/issues/1698)) ([b3a60f3](https://github.com/Esri/hub.js/commit/b3a60f34d837951a23cb37597d7b5d24e16b11c5))
+- **hub-common:** change subscription actions to singular action ([#1698](https://github.com/Esri/hub.js/issues/1698)) ([b3a60f3](https://github.com/Esri/hub.js/commit/b3a60f34d837951a23cb37597d7b5d24e16b11c5))
 
 # @esri/hub-common [14.219.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.218.0...@esri/hub-common@14.219.0) (2024-10-24)
 
-
 ### Features
 
-* **hub-common:** export newsletters packages and rename conflicting … ([#1696](https://github.com/Esri/hub.js/issues/1696)) ([7771446](https://github.com/Esri/hub.js/commit/7771446705183886b8e28bd2d76c472909bc3eda))
+- **hub-common:** export newsletters packages and rename conflicting … ([#1696](https://github.com/Esri/hub.js/issues/1696)) ([7771446](https://github.com/Esri/hub.js/commit/7771446705183886b8e28bd2d76c472909bc3eda))
 
 # @esri/hub-common [14.218.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.217.0...@esri/hub-common@14.218.0) (2024-10-23)
 
-
 ### Features
 
-* **hub-discussions:** channel edit optional update parameter for V2 ([#1695](https://github.com/Esri/hub.js/issues/1695)) ([2096bae](https://github.com/Esri/hub.js/commit/2096bae84628ecdf162d7be9a650ea21adacbcea))
+- **hub-discussions:** channel edit optional update parameter for V2 ([#1695](https://github.com/Esri/hub.js/issues/1695)) ([2096bae](https://github.com/Esri/hub.js/commit/2096bae84628ecdf162d7be9a650ea21adacbcea))
 
 # @esri/hub-common [14.217.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.216.0...@esri/hub-common@14.217.0) (2024-10-23)
 
-
 ### Features
 
-* **hub-discussions:** add ChannelFilter to filter channels by disc uri ([#1686](https://github.com/Esri/hub.js/issues/1686)) ([f2d8aaa](https://github.com/Esri/hub.js/commit/f2d8aaa016228a60d4fb68faa747f567feff2985))
+- **hub-discussions:** add ChannelFilter to filter channels by disc uri ([#1686](https://github.com/Esri/hub.js/issues/1686)) ([f2d8aaa](https://github.com/Esri/hub.js/commit/f2d8aaa016228a60d4fb68faa747f567feff2985))
 
 # @esri/hub-common [14.216.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.2...@esri/hub-common@14.216.0) (2024-10-22)
 
-
 ### Features
 
-* prescribe order of add content config items ([#1694](https://github.com/Esri/hub.js/issues/1694)) ([cea0885](https://github.com/Esri/hub.js/commit/cea0885ebb8ac2df81740c96dbf5c1ac57eac620))
+- prescribe order of add content config items ([#1694](https://github.com/Esri/hub.js/issues/1694)) ([cea0885](https://github.com/Esri/hub.js/commit/cea0885ebb8ac2df81740c96dbf5c1ac57eac620))
 
 ## @esri/hub-common [14.215.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.1...@esri/hub-common@14.215.2) (2024-10-22)
 
-
 ### Bug Fixes
 
-* **hub-common:** ensure entity slug is unique and typekeyword is in sync ([#1693](https://github.com/Esri/hub.js/issues/1693)) ([fdc017f](https://github.com/Esri/hub.js/commit/fdc017f04c1a1de2f3ce0ed0921d7c2f4bf186ca))
+- **hub-common:** ensure entity slug is unique and typekeyword is in sync ([#1693](https://github.com/Esri/hub.js/issues/1693)) ([fdc017f](https://github.com/Esri/hub.js/commit/fdc017f04c1a1de2f3ce0ed0921d7c2f4bf186ca))
 
 ## @esri/hub-common [14.215.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.0...@esri/hub-common@14.215.1) (2024-10-22)
 
-
 ### Bug Fixes
 
-* small fixes for breadcrumbs and deep containment checks ([#1692](https://github.com/Esri/hub.js/issues/1692)) ([8d5597c](https://github.com/Esri/hub.js/commit/8d5597c42861d562d85d42bce31a68c885b19aa2))
+- small fixes for breadcrumbs and deep containment checks ([#1692](https://github.com/Esri/hub.js/issues/1692)) ([8d5597c](https://github.com/Esri/hub.js/commit/8d5597c42861d562d85d42bce31a68c885b19aa2))
 
 # @esri/hub-common [14.215.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.214.0...@esri/hub-common@14.215.0) (2024-10-17)
 
-
 ### Features
 
-* **hub-common:** add location props ([#1684](https://github.com/Esri/hub.js/issues/1684)) ([5b5e27c](https://github.com/Esri/hub.js/commit/5b5e27ca5e7b7bbedd44496d082837eb67838347))
+- **hub-common:** add location props ([#1684](https://github.com/Esri/hub.js/issues/1684)) ([5b5e27c](https://github.com/Esri/hub.js/commit/5b5e27ca5e7b7bbedd44496d082837eb67838347))
 
 # @esri/hub-common [14.214.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.213.1...@esri/hub-common@14.214.0) (2024-10-17)
 
-
 ### Features
 
-* remove alpha gating of user content and groups panes ([#1689](https://github.com/Esri/hub.js/issues/1689)) ([1088642](https://github.com/Esri/hub.js/commit/1088642b50ed69164a0d2f9e9a47c60f13177b1b))
+- remove alpha gating of user content and groups panes ([#1689](https://github.com/Esri/hub.js/issues/1689)) ([1088642](https://github.com/Esri/hub.js/commit/1088642b50ed69164a0d2f9e9a47c60f13177b1b))
 
 ## @esri/hub-common [14.213.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.213.0...@esri/hub-common@14.213.1) (2024-10-16)
 
-
 ### Bug Fixes
 
-* update deepCatalogContains to fail correctly; deepContains handles catalogs array ([#1688](https://github.com/Esri/hub.js/issues/1688)) ([94784d9](https://github.com/Esri/hub.js/commit/94784d988cb448d23350f674c96e52727998d5ef))
+- update deepCatalogContains to fail correctly; deepContains handles catalogs array ([#1688](https://github.com/Esri/hub.js/issues/1688)) ([94784d9](https://github.com/Esri/hub.js/commit/94784d988cb448d23350f674c96e52727998d5ef))
 
 # @esri/hub-common [14.213.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.212.0...@esri/hub-common@14.213.0) (2024-10-11)
 
-
 ### Features
 
-* **hub-discussions:** discussions can now query by orgId ([#1685](https://github.com/Esri/hub.js/issues/1685)) ([ae51c2f](https://github.com/Esri/hub.js/commit/ae51c2fe8498fe6330874568093a4e27b868ac0c))
+- **hub-discussions:** discussions can now query by orgId ([#1685](https://github.com/Esri/hub.js/issues/1685)) ([ae51c2f](https://github.com/Esri/hub.js/commit/ae51c2fe8498fe6330874568093a4e27b868ac0c))
 
 # @esri/hub-common [14.212.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.211.0...@esri/hub-common@14.212.0) (2024-10-11)
 
-
 ### Features
 
-* events processFilters support occurrence && group to sharedToGroup ([#1683](https://github.com/Esri/hub.js/issues/1683)) ([44bb6f2](https://github.com/Esri/hub.js/commit/44bb6f2dc8acfcc75434b870c84441486671d73c))
+- events processFilters support occurrence && group to sharedToGroup ([#1683](https://github.com/Esri/hub.js/issues/1683)) ([44bb6f2](https://github.com/Esri/hub.js/commit/44bb6f2dc8acfcc75434b870c84441486671d73c))
 
 # @esri/hub-common [14.211.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.210.0...@esri/hub-common@14.211.0) (2024-10-09)
 
-
 ### Features
 
-* switch scheduler to select format ([#1680](https://github.com/Esri/hub.js/issues/1680)) ([96c5f79](https://github.com/Esri/hub.js/commit/96c5f79c3378e2d7c775cfdc1c54203099ae1a1b))
+- switch scheduler to select format ([#1680](https://github.com/Esri/hub.js/issues/1680)) ([96c5f79](https://github.com/Esri/hub.js/commit/96c5f79c3378e2d7c775cfdc1c54203099ae1a1b))
 
 # @esri/hub-common [14.210.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.209.0...@esri/hub-common@14.210.0) (2024-10-08)
 
-
 ### Features
 
-* **hub-common:** change content settings schema's extract toggle to be a tile select ([#1681](https://github.com/Esri/hub.js/issues/1681)) ([6445470](https://github.com/Esri/hub.js/commit/64454709271af68fffd3b20db84a0456afba4d17))
+- **hub-common:** change content settings schema's extract toggle to be a tile select ([#1681](https://github.com/Esri/hub.js/issues/1681)) ([6445470](https://github.com/Esri/hub.js/commit/64454709271af68fffd3b20db84a0456afba4d17))
 
 # @esri/hub-common [14.209.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.208.0...@esri/hub-common@14.209.0) (2024-10-08)
 
-
 ### Features
 
-* user overview resources ([#1682](https://github.com/Esri/hub.js/issues/1682)) ([c0774a4](https://github.com/Esri/hub.js/commit/c0774a490356d89f10d9f5ef798dc103d30a31af))
+- user overview resources ([#1682](https://github.com/Esri/hub.js/issues/1682)) ([c0774a4](https://github.com/Esri/hub.js/commit/c0774a490356d89f10d9f5ef798dc103d30a31af))
 
 # @esri/hub-common [14.208.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.207.0...@esri/hub-common@14.208.0) (2024-10-07)
 
-
 ### Features
 
-* scaffold catalog configuration experience ([#1662](https://github.com/Esri/hub.js/issues/1662)) ([e9e26cd](https://github.com/Esri/hub.js/commit/e9e26cd08b3ffc41829b0621ddec5e8c6c37e46b))
+- scaffold catalog configuration experience ([#1662](https://github.com/Esri/hub.js/issues/1662)) ([e9e26cd](https://github.com/Esri/hub.js/commit/e9e26cd08b3ffc41829b0621ddec5e8c6c37e46b))
 
 # @esri/hub-common [14.207.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.206.0...@esri/hub-common@14.207.0) (2024-10-07)
 
-
 ### Features
 
-* **hub-common:** reenable additional info ([#1678](https://github.com/Esri/hub.js/issues/1678)) ([ebf08ef](https://github.com/Esri/hub.js/commit/ebf08ef434f6293ce4011e5bfceddcb0e0b4064f))
+- **hub-common:** reenable additional info ([#1678](https://github.com/Esri/hub.js/issues/1678)) ([ebf08ef](https://github.com/Esri/hub.js/commit/ebf08ef434f6293ce4011e5bfceddcb0e0b4064f))
 
 # @esri/hub-common [14.206.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.205.0...@esri/hub-common@14.206.0) (2024-10-04)
 
-
 ### Features
 
-* deepCatalogContains delegates to deepContains ([#1677](https://github.com/Esri/hub.js/issues/1677)) ([4a6ca57](https://github.com/Esri/hub.js/commit/4a6ca579c71af720a5114ef2b6ab99559a8ecacf))
+- deepCatalogContains delegates to deepContains ([#1677](https://github.com/Esri/hub.js/issues/1677)) ([4a6ca57](https://github.com/Esri/hub.js/commit/4a6ca579c71af720a5114ef2b6ab99559a8ecacf))
 
 # @esri/hub-common [14.205.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.204.0...@esri/hub-common@14.205.0) (2024-10-04)
 
-
 ### Features
 
-* showInfoBanner for user org settings ([#1676](https://github.com/Esri/hub.js/issues/1676)) ([ee32bb6](https://github.com/Esri/hub.js/commit/ee32bb6a3ca18245043ece193943b210a9b251d6))
+- showInfoBanner for user org settings ([#1676](https://github.com/Esri/hub.js/issues/1676)) ([ee32bb6](https://github.com/Esri/hub.js/commit/ee32bb6a3ca18245043ece193943b210a9b251d6))
 
 # @esri/hub-common [14.204.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.203.0...@esri/hub-common@14.204.0) (2024-10-02)
 
-
 ### Features
 
-* update community org settings ([#1672](https://github.com/Esri/hub.js/issues/1672)) ([64cd725](https://github.com/Esri/hub.js/commit/64cd7251755b3d82659160ef9c564981ec14b777))
+- update community org settings ([#1672](https://github.com/Esri/hub.js/issues/1672)) ([64cd725](https://github.com/Esri/hub.js/commit/64cd7251755b3d82659160ef9c564981ec14b777))
 
 # @esri/hub-common [14.203.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.202.0...@esri/hub-common@14.203.0) (2024-10-01)
 
-
 ### Features
 
-* **hub-common:** add site URL to settings schema ([#1668](https://github.com/Esri/hub.js/issues/1668)) ([4a36d18](https://github.com/Esri/hub.js/commit/4a36d188aa94ea953b62e0a7dc7f6a1224624f44))
+- **hub-common:** add site URL to settings schema ([#1668](https://github.com/Esri/hub.js/issues/1668)) ([4a36d18](https://github.com/Esri/hub.js/commit/4a36d188aa94ea953b62e0a7dc7f6a1224624f44))
 
 # @esri/hub-common [14.202.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.201.0...@esri/hub-common@14.202.0) (2024-10-01)
 
-
 ### Features
 
-* add support for httpMethod on IHubSearchOptions ([#1675](https://github.com/Esri/hub.js/issues/1675)) ([3506956](https://github.com/Esri/hub.js/commit/3506956fd44ff4fa2b22fd9b1a240cb5f962af07))
+- add support for httpMethod on IHubSearchOptions ([#1675](https://github.com/Esri/hub.js/issues/1675)) ([3506956](https://github.com/Esri/hub.js/commit/3506956fd44ff4fa2b22fd9b1a240cb5f962af07))
 
 # @esri/hub-common [14.201.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.200.1...@esri/hub-common@14.201.0) (2024-10-01)
 
-
 ### Features
 
-* more schema updates ([#1674](https://github.com/Esri/hub.js/issues/1674)) ([30445f8](https://github.com/Esri/hub.js/commit/30445f86f1e6cefb2a9a29cfed73f1d214c3368e))
+- more schema updates ([#1674](https://github.com/Esri/hub.js/issues/1674)) ([30445f8](https://github.com/Esri/hub.js/commit/30445f86f1e6cefb2a9a29cfed73f1d214c3368e))
 
 ## @esri/hub-common [14.200.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.200.0...@esri/hub-common@14.200.1) (2024-09-30)
 
-
 ### Bug Fixes
 
-* **hub-common:** added sharedToGroups filter for get-events ([#1673](https://github.com/Esri/hub.js/issues/1673)) ([de9f76d](https://github.com/Esri/hub.js/commit/de9f76d586d57bfc602a0fd26e89379abf41558a))
+- **hub-common:** added sharedToGroups filter for get-events ([#1673](https://github.com/Esri/hub.js/issues/1673)) ([de9f76d](https://github.com/Esri/hub.js/commit/de9f76d586d57bfc602a0fd26e89379abf41558a))
 
 # @esri/hub-common [14.200.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.199.0...@esri/hub-common@14.200.0) (2024-09-30)
 
-
 ### Features
 
-* **hub-common:** add event scope to catalog ([#1669](https://github.com/Esri/hub.js/issues/1669)) ([9aa595c](https://github.com/Esri/hub.js/commit/9aa595c0131365679eee41174fd012791079a828))
-* user settings org section & notice ([#1655](https://github.com/Esri/hub.js/issues/1655)) ([868fb26](https://github.com/Esri/hub.js/commit/868fb26a432020d6cb3148fca19d4a5f7e678adb))
+- **hub-common:** add event scope to catalog ([#1669](https://github.com/Esri/hub.js/issues/1669)) ([9aa595c](https://github.com/Esri/hub.js/commit/9aa595c0131365679eee41174fd012791079a828))
+- user settings org section & notice ([#1655](https://github.com/Esri/hub.js/issues/1655)) ([868fb26](https://github.com/Esri/hub.js/commit/868fb26a432020d6cb3148fca19d4a5f7e678adb))
 
 # @esri/hub-common [14.199.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.198.1...@esri/hub-common@14.199.0) (2024-09-30)
 
-
 ### Features
 
-* regate user workspace to qaext and devext so we can try outsi… ([#1660](https://github.com/Esri/hub.js/issues/1660)) ([c634773](https://github.com/Esri/hub.js/commit/c634773a1679a1e8ed55458153cadb5220fe74dc))
+- regate user workspace to qaext and devext so we can try outsi… ([#1660](https://github.com/Esri/hub.js/issues/1660)) ([c634773](https://github.com/Esri/hub.js/commit/c634773a1679a1e8ed55458153cadb5220fe74dc))
 
 ## @esri/hub-common [14.198.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.198.0...@esri/hub-common@14.198.1) (2024-09-30)
 
-
 ### Bug Fixes
 
-* replace hub-radio input with tile-select to resolve a11y bug ([#1665](https://github.com/Esri/hub.js/issues/1665)) ([80dddc0](https://github.com/Esri/hub.js/commit/80dddc0c7e84b35da1c79f4812bc13ca1297f799))
+- replace hub-radio input with tile-select to resolve a11y bug ([#1665](https://github.com/Esri/hub.js/issues/1665)) ([80dddc0](https://github.com/Esri/hub.js/commit/80dddc0c7e84b35da1c79f4812bc13ca1297f799))
 
 # @esri/hub-common [14.198.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.197.0...@esri/hub-common@14.198.0) (2024-09-27)
 
-
 ### Features
 
-* group schema and create group uischema ([#1666](https://github.com/Esri/hub.js/issues/1666)) ([d856c49](https://github.com/Esri/hub.js/commit/d856c494bf5d040c1c77c5f7c526b6d5a27538e4))
+- group schema and create group uischema ([#1666](https://github.com/Esri/hub.js/issues/1666)) ([d856c49](https://github.com/Esri/hub.js/commit/d856c494bf5d040c1c77c5f7c526b6d5a27538e4))
 
 # @esri/hub-common [14.197.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.196.1...@esri/hub-common@14.197.0) (2024-09-26)
 
-
 ### Features
 
-* **hub-common:** add calendar layout option ([#1671](https://github.com/Esri/hub.js/issues/1671)) ([fc6c545](https://github.com/Esri/hub.js/commit/fc6c545921fe1c64ddc3872b16cdf8462e897bb6))
+- **hub-common:** add calendar layout option ([#1671](https://github.com/Esri/hub.js/issues/1671)) ([fc6c545](https://github.com/Esri/hub.js/commit/fc6c545921fe1c64ddc3872b16cdf8462e897bb6))
 
 ## @esri/hub-common [14.196.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.196.0...@esri/hub-common@14.196.1) (2024-09-26)
 
-
 ### Bug Fixes
 
-* **hub-common:** add trackCacheUpdate by default when polling download API ([#1670](https://github.com/Esri/hub.js/issues/1670)) ([0a701c0](https://github.com/Esri/hub.js/commit/0a701c0f55769319bb66e87bd976fd617e6547c3))
+- **hub-common:** add trackCacheUpdate by default when polling download API ([#1670](https://github.com/Esri/hub.js/issues/1670)) ([0a701c0](https://github.com/Esri/hub.js/commit/0a701c0f55769319bb66e87bd976fd617e6547c3))
 
 # @esri/hub-common [14.196.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.195.0...@esri/hub-common@14.196.0) (2024-09-26)
 
-
 ### Features
 
-* adds reset uischema rule effect ([#1664](https://github.com/Esri/hub.js/issues/1664)) ([eb68ed9](https://github.com/Esri/hub.js/commit/eb68ed9ab2401565a1b1981e910fdaa18fed21ef))
+- adds reset uischema rule effect ([#1664](https://github.com/Esri/hub.js/issues/1664)) ([eb68ed9](https://github.com/Esri/hub.js/commit/eb68ed9ab2401565a1b1981e910fdaa18fed21ef))
 
 # @esri/hub-common [14.195.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.194.0...@esri/hub-common@14.195.0) (2024-09-26)
 
-
 ### Features
 
-* **hub-common:** allow force updates of cache files as well as cache status reporting ([#1657](https://github.com/Esri/hub.js/issues/1657)) ([e46c6b2](https://github.com/Esri/hub.js/commit/e46c6b2137c10f5e92f17bee57806668c8a0f5f4))
+- **hub-common:** allow force updates of cache files as well as cache status reporting ([#1657](https://github.com/Esri/hub.js/issues/1657)) ([e46c6b2](https://github.com/Esri/hub.js/commit/e46c6b2137c10f5e92f17bee57806668c8a0f5f4))
 
 # @esri/hub-common [14.194.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.193.0...@esri/hub-common@14.194.0) (2024-09-25)
 
-
 ### Features
 
-* user workspace pane permissions & add content config ([#1667](https://github.com/Esri/hub.js/issues/1667)) ([82bcd8b](https://github.com/Esri/hub.js/commit/82bcd8bc49a709682e26dd9d634f45ac963531c7))
+- user workspace pane permissions & add content config ([#1667](https://github.com/Esri/hub.js/issues/1667)) ([82bcd8b](https://github.com/Esri/hub.js/commit/82bcd8bc49a709682e26dd9d634f45ac963531c7))
 
 # @esri/hub-common [14.193.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.192.0...@esri/hub-common@14.193.0) (2024-09-25)
 
-
 ### Features
 
-* **hub-common:** add layout field for list and map views to event ga… ([#1663](https://github.com/Esri/hub.js/issues/1663)) ([78f2d8c](https://github.com/Esri/hub.js/commit/78f2d8cd365a70e367a968f069628d22ceb801a0))
+- **hub-common:** add layout field for list and map views to event ga… ([#1663](https://github.com/Esri/hub.js/issues/1663)) ([78f2d8c](https://github.com/Esri/hub.js/commit/78f2d8cd365a70e367a968f069628d22ceb801a0))
 
 # @esri/hub-common [14.192.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.191.1...@esri/hub-common@14.192.0) (2024-09-24)
 
-
 ### Features
 
-* **hub-common:** add catalog field for newsletter subscriptions ([#1661](https://github.com/Esri/hub.js/issues/1661)) ([dc53d47](https://github.com/Esri/hub.js/commit/dc53d476d0095892b151e362179a9ab3d3237eff))
+- **hub-common:** add catalog field for newsletter subscriptions ([#1661](https://github.com/Esri/hub.js/issues/1661)) ([dc53d47](https://github.com/Esri/hub.js/commit/dc53d476d0095892b151e362179a9ab3d3237eff))
 
 ## @esri/hub-common [14.191.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.191.0...@esri/hub-common@14.191.1) (2024-09-24)
 
-
 ### Bug Fixes
 
-* **hub-common:** hide showAdditionalInfo field in event gallery card … ([#1659](https://github.com/Esri/hub.js/issues/1659)) ([baf5764](https://github.com/Esri/hub.js/commit/baf5764b5eec61d5444c522c8bf2e12025e1b4cc))
+- **hub-common:** hide showAdditionalInfo field in event gallery card … ([#1659](https://github.com/Esri/hub.js/issues/1659)) ([baf5764](https://github.com/Esri/hub.js/commit/baf5764b5eec61d5444c522c8bf2e12025e1b4cc))
 
 # @esri/hub-common [14.191.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.190.0...@esri/hub-common@14.191.0) (2024-09-20)
 
-
 ### Features
 
-* **hub-common:** add slot to event gallery card editor ui schema ([#1656](https://github.com/Esri/hub.js/issues/1656)) ([dbb7b55](https://github.com/Esri/hub.js/commit/dbb7b55b1e8129521f9059fd1b3b3e36e36bf6c7))
+- **hub-common:** add slot to event gallery card editor ui schema ([#1656](https://github.com/Esri/hub.js/issues/1656)) ([dbb7b55](https://github.com/Esri/hub.js/commit/dbb7b55b1e8129521f9059fd1b3b3e36e36bf6c7))
 
 # @esri/hub-common [14.190.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.189.0...@esri/hub-common@14.190.0) (2024-09-18)
 
-
 ### Bug Fixes
 
-* added util for confirming service is not secure proxy ([#1654](https://github.com/Esri/hub.js/issues/1654)) ([f63927b](https://github.com/Esri/hub.js/commit/f63927ba26efe542f3b88995006acbc13803df10))
-
+- added util for confirming service is not secure proxy ([#1654](https://github.com/Esri/hub.js/issues/1654)) ([f63927b](https://github.com/Esri/hub.js/commit/f63927ba26efe542f3b88995006acbc13803df10))
 
 ### Features
 
-* **hub-common:** add support to hubSearch for searching for events 3… ([#1648](https://github.com/Esri/hub.js/issues/1648)) ([c31891e](https://github.com/Esri/hub.js/commit/c31891ee673a573aceee9a3860179c77369fa2fc))
+- **hub-common:** add support to hubSearch for searching for events 3… ([#1648](https://github.com/Esri/hub.js/issues/1648)) ([c31891e](https://github.com/Esri/hub.js/commit/c31891ee673a573aceee9a3860179c77369fa2fc))
 
 # @esri/hub-common [14.189.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.188.1...@esri/hub-common@14.189.0) (2024-09-17)
 
-
 ### Features
 
-* introduce addCollection method to Catalog class ([#1651](https://github.com/Esri/hub.js/issues/1651)) ([3b6507c](https://github.com/Esri/hub.js/commit/3b6507cf6dad73c587301dca67a51f5dcb04f1c6))
+- introduce addCollection method to Catalog class ([#1651](https://github.com/Esri/hub.js/issues/1651)) ([3b6507c](https://github.com/Esri/hub.js/commit/3b6507cf6dad73c587301dca67a51f5dcb04f1c6))
 
 ## @esri/hub-common [14.188.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.188.0...@esri/hub-common@14.188.1) (2024-09-16)
 
-
 ### Bug Fixes
 
-* revert 11360 changes until we hear from AGO ([#1650](https://github.com/Esri/hub.js/issues/1650)) ([8fb4db1](https://github.com/Esri/hub.js/commit/8fb4db1a01cdc8a29d14d26fdf5f825ad8bd68c6))
+- revert 11360 changes until we hear from AGO ([#1650](https://github.com/Esri/hub.js/issues/1650)) ([8fb4db1](https://github.com/Esri/hub.js/commit/8fb4db1a01cdc8a29d14d26fdf5f825ad8bd68c6))
 
 # @esri/hub-common [14.188.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.187.0...@esri/hub-common@14.188.0) (2024-09-13)
 
-
 ### Features
 
-* **hub-common:** add getCuid ([#1646](https://github.com/Esri/hub.js/issues/1646)) ([28ab37c](https://github.com/Esri/hub.js/commit/28ab37c25c77f4f6af73052d6e1e919cf9fb12f1))
+- **hub-common:** add getCuid ([#1646](https://github.com/Esri/hub.js/issues/1646)) ([28ab37c](https://github.com/Esri/hub.js/commit/28ab37c25c77f4f6af73052d6e1e919cf9fb12f1))
 
 # @esri/hub-common [14.187.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.186.0...@esri/hub-common@14.187.0) (2024-09-12)
 
-
 ### Features
 
-* **hub-common:** add additional filter params endDateTimeAfter and e… ([#1649](https://github.com/Esri/hub.js/issues/1649)) ([9682d98](https://github.com/Esri/hub.js/commit/9682d983bcefc2fa0663487afbc12d64fdaa5e59))
+- **hub-common:** add additional filter params endDateTimeAfter and e… ([#1649](https://github.com/Esri/hub.js/issues/1649)) ([9682d98](https://github.com/Esri/hub.js/commit/9682d983bcefc2fa0663487afbc12d64fdaa5e59))
 
 # @esri/hub-common [14.186.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.185.0...@esri/hub-common@14.186.0) (2024-09-12)
 
-
 ### Features
 
-* **hub-common:** add new fields for newsletter subscriptions ([#1647](https://github.com/Esri/hub.js/issues/1647)) ([ed6cd52](https://github.com/Esri/hub.js/commit/ed6cd524e86146862b7a7feb04fb92990ea88d3a))
+- **hub-common:** add new fields for newsletter subscriptions ([#1647](https://github.com/Esri/hub.js/issues/1647)) ([ed6cd52](https://github.com/Esri/hub.js/commit/ed6cd524e86146862b7a7feb04fb92990ea88d3a))
 
 # @esri/hub-common [14.185.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.2...@esri/hub-common@14.185.0) (2024-09-12)
 
-
 ### Features
 
-* **hub-common:** add support for configuring entity references for E… ([#1611](https://github.com/Esri/hub.js/issues/1611)) ([9435382](https://github.com/Esri/hub.js/commit/94353826fd4835864302ba347c8647ffd353d871))
+- **hub-common:** add support for configuring entity references for E… ([#1611](https://github.com/Esri/hub.js/issues/1611)) ([9435382](https://github.com/Esri/hub.js/commit/94353826fd4835864302ba347c8647ffd353d871))
 
 ## @esri/hub-common [14.184.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.1...@esri/hub-common@14.184.2) (2024-09-11)
 
-
 ### Bug Fixes
 
-* secure proxy servers may not be hosted, so we should return false ([#1642](https://github.com/Esri/hub.js/issues/1642)) ([49bf71c](https://github.com/Esri/hub.js/commit/49bf71cc4a7112684d179083eab47d9380de9813))
+- secure proxy servers may not be hosted, so we should return false ([#1642](https://github.com/Esri/hub.js/issues/1642)) ([49bf71c](https://github.com/Esri/hub.js/commit/49bf71cc4a7112684d179083eab47d9380de9813))
 
 ## @esri/hub-common [14.184.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.0...@esri/hub-common@14.184.1) (2024-09-11)
 
-
 ### Bug Fixes
 
-* **hub-common:** getContentIcon returns wrong icon for types w/ acron… ([#1645](https://github.com/Esri/hub.js/issues/1645)) ([7aab426](https://github.com/Esri/hub.js/commit/7aab426860c143c628b3efced51ec13a4ac754e4))
+- **hub-common:** getContentIcon returns wrong icon for types w/ acron… ([#1645](https://github.com/Esri/hub.js/issues/1645)) ([7aab426](https://github.com/Esri/hub.js/commit/7aab426860c143c628b3efced51ec13a4ac754e4))
 
 # @esri/hub-common [14.184.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.183.0...@esri/hub-common@14.184.0) (2024-09-11)
 
-
 ### Features
 
-* add newentityview flag permission ([#1639](https://github.com/Esri/hub.js/issues/1639)) ([726776d](https://github.com/Esri/hub.js/commit/726776d5420b20ed2223e04b73469531315640ac))
+- add newentityview flag permission ([#1639](https://github.com/Esri/hub.js/issues/1639)) ([726776d](https://github.com/Esri/hub.js/commit/726776d5420b20ed2223e04b73469531315640ac))
 
 # @esri/hub-common [14.183.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.182.0...@esri/hub-common@14.183.0) (2024-09-11)
 
-
 ### Features
 
-* scaffold user workspace ([#1634](https://github.com/Esri/hub.js/issues/1634)) ([8a8e755](https://github.com/Esri/hub.js/commit/8a8e755d37f7b1d060505eb195ff25a7e5fd2849))
+- scaffold user workspace ([#1634](https://github.com/Esri/hub.js/issues/1634)) ([8a8e755](https://github.com/Esri/hub.js/commit/8a8e755d37f7b1d060505eb195ff25a7e5fd2849))
 
 # @esri/hub-common [14.182.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.181.0...@esri/hub-common@14.182.0) (2024-09-10)
 
-
 ### Features
 
-* add catalogs permissions ([#1641](https://github.com/Esri/hub.js/issues/1641)) ([dc33f03](https://github.com/Esri/hub.js/commit/dc33f03666143719ec4bfcf8836fbca42208d7e2))
+- add catalogs permissions ([#1641](https://github.com/Esri/hub.js/issues/1641)) ([dc33f03](https://github.com/Esri/hub.js/commit/dc33f03666143719ec4bfcf8836fbca42208d7e2))
 
 # @esri/hub-common [14.181.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.180.0...@esri/hub-common@14.181.0) (2024-09-05)
 
-
 ### Features
 
-* swap to new notice implementation for uiSchemas ([#1638](https://github.com/Esri/hub.js/issues/1638)) ([41fe5ba](https://github.com/Esri/hub.js/commit/41fe5ba364dbbb5b08da52cab49f0f7698962ac5))
+- swap to new notice implementation for uiSchemas ([#1638](https://github.com/Esri/hub.js/issues/1638)) ([41fe5ba](https://github.com/Esri/hub.js/commit/41fe5ba364dbbb5b08da52cab49f0f7698962ac5))
 
 # @esri/hub-common [14.180.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.179.0...@esri/hub-common@14.180.0) (2024-09-04)
 
-
 ### Features
 
-* **hub-common:** add optional ariaLabel to ICardAction link ([#1640](https://github.com/Esri/hub.js/issues/1640)) ([0ce0177](https://github.com/Esri/hub.js/commit/0ce0177312b3ddc93e80822bc0e0558d0d5af4bf))
+- **hub-common:** add optional ariaLabel to ICardAction link ([#1640](https://github.com/Esri/hub.js/issues/1640)) ([0ce0177](https://github.com/Esri/hub.js/commit/0ce0177312b3ddc93e80822bc0e0558d0d5af4bf))
 
 # @esri/hub-common [14.179.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.178.0...@esri/hub-common@14.179.0) (2024-08-29)
 
-
 ### Features
 
-* **hub-common:** adds downloadFormats property to configure formats … ([#1626](https://github.com/Esri/hub.js/issues/1626)) ([228e6e3](https://github.com/Esri/hub.js/commit/228e6e35bb97bdfa88b1825f215b189b8c70b580))
+- **hub-common:** adds downloadFormats property to configure formats … ([#1626](https://github.com/Esri/hub.js/issues/1626)) ([228e6e3](https://github.com/Esri/hub.js/commit/228e6e35bb97bdfa88b1825f215b189b8c70b580))
 
 # @esri/hub-common [14.178.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.1...@esri/hub-common@14.178.0) (2024-08-28)
 
-
 ### Features
 
-* **hub-common:** add additional filters for fetching events ([#1636](https://github.com/Esri/hub.js/issues/1636)) ([83c4277](https://github.com/Esri/hub.js/commit/83c4277b98b08df7791293eb255f8311a6102029))
-* **hub-common:** add deleteHubEvent ([#1637](https://github.com/Esri/hub.js/issues/1637)) ([1a9ae87](https://github.com/Esri/hub.js/commit/1a9ae87b10b44e09b37765502d51b467a1b006fd))
+- **hub-common:** add additional filters for fetching events ([#1636](https://github.com/Esri/hub.js/issues/1636)) ([83c4277](https://github.com/Esri/hub.js/commit/83c4277b98b08df7791293eb255f8311a6102029))
+- **hub-common:** add deleteHubEvent ([#1637](https://github.com/Esri/hub.js/issues/1637)) ([1a9ae87](https://github.com/Esri/hub.js/commit/1a9ae87b10b44e09b37765502d51b467a1b006fd))
 
 ## @esri/hub-common [14.177.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.0...@esri/hub-common@14.177.1) (2024-08-23)
 
-
 ### Bug Fixes
 
-* address invalid query serialization ([#1635](https://github.com/Esri/hub.js/issues/1635)) ([f32fe56](https://github.com/Esri/hub.js/commit/f32fe5628abe9b64b7782317339471d670db211e))
+- address invalid query serialization ([#1635](https://github.com/Esri/hub.js/issues/1635)) ([f32fe56](https://github.com/Esri/hub.js/commit/f32fe5628abe9b64b7782317339471d670db211e))
 
 # @esri/hub-common [14.177.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.176.0...@esri/hub-common@14.177.0) (2024-08-23)
 
-
 ### Features
 
-* update embed apps interface ([#1625](https://github.com/Esri/hub.js/issues/1625)) ([2ffc996](https://github.com/Esri/hub.js/commit/2ffc996ba34f3e64d63cd6261912cead893f8de2))
-* **hub-common:** add composeHubContent() for creating an IHubEditableContent from pre-fetched parts ([#1630](https://github.com/Esri/hub.js/issues/1630)) ([2626a26](https://github.com/Esri/hub.js/commit/2626a26e1dc25d4274404ebbf44f2958a70270ec))
+- update embed apps interface ([#1625](https://github.com/Esri/hub.js/issues/1625)) ([2ffc996](https://github.com/Esri/hub.js/commit/2ffc996ba34f3e64d63cd6261912cead893f8de2))
+- **hub-common:** add composeHubContent() for creating an IHubEditableContent from pre-fetched parts ([#1630](https://github.com/Esri/hub.js/issues/1630)) ([2626a26](https://github.com/Esri/hub.js/commit/2626a26e1dc25d4274404ebbf44f2958a70270ec))
 
 # @esri/hub-common [14.176.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.175.0...@esri/hub-common@14.176.0) (2024-08-22)
 
-
 ### Features
 
-* **hub-common:** add allowAsAnonymous to IChannel & ICreateChannelSe… ([#1628](https://github.com/Esri/hub.js/issues/1628)) ([d15f831](https://github.com/Esri/hub.js/commit/d15f83158d927857598fe2214968c1d1a5a88a56))
+- **hub-common:** add allowAsAnonymous to IChannel & ICreateChannelSe… ([#1628](https://github.com/Esri/hub.js/issues/1628)) ([d15f831](https://github.com/Esri/hub.js/commit/d15f83158d927857598fe2214968c1d1a5a88a56))
 
 # @esri/hub-common [14.175.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.174.0...@esri/hub-common@14.175.0) (2024-08-21)
 
-
 ### Features
 
-* add embeds to schema and uiSchema ([#1608](https://github.com/Esri/hub.js/issues/1608)) ([0f6a65b](https://github.com/Esri/hub.js/commit/0f6a65b06502cab7cefcde316e8fd7a62bc56ddc))
+- add embeds to schema and uiSchema ([#1608](https://github.com/Esri/hub.js/issues/1608)) ([0f6a65b](https://github.com/Esri/hub.js/commit/0f6a65b06502cab7cefcde316e8fd7a62bc56ddc))
 
 # @esri/hub-common [14.174.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.173.0...@esri/hub-common@14.174.0) (2024-08-21)
 
-
 ### Features
 
-* **hub-common:** adds default thumbnail for discussions ([#1627](https://github.com/Esri/hub.js/issues/1627)) ([4fbef75](https://github.com/Esri/hub.js/commit/4fbef757b7a4330d6e1914f415448a0d14530e8d))
+- **hub-common:** adds default thumbnail for discussions ([#1627](https://github.com/Esri/hub.js/issues/1627)) ([4fbef75](https://github.com/Esri/hub.js/commit/4fbef757b7a4330d6e1914f415448a0d14530e8d))
 
 # @esri/hub-common [14.173.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.172.0...@esri/hub-common@14.173.0) (2024-08-21)
 
-
 ### Features
 
-* add notice type to uiSchemaElementTypes ([#1612](https://github.com/Esri/hub.js/issues/1612)) ([bbf5146](https://github.com/Esri/hub.js/commit/bbf51467f547f4fc2bdde615f5a3bf3e3234f5de))
+- add notice type to uiSchemaElementTypes ([#1612](https://github.com/Esri/hub.js/issues/1612)) ([bbf5146](https://github.com/Esri/hub.js/commit/bbf51467f547f4fc2bdde615f5a3bf3e3234f5de))
 
 # @esri/hub-common [14.172.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.171.0...@esri/hub-common@14.172.0) (2024-08-21)
 
-
 ### Features
 
-* adding a third content service status ([#1619](https://github.com/Esri/hub.js/issues/1619)) ([a5d4ee5](https://github.com/Esri/hub.js/commit/a5d4ee57c6d034a2d1570b84016946c989ad5dc9))
+- adding a third content service status ([#1619](https://github.com/Esri/hub.js/issues/1619)) ([a5d4ee5](https://github.com/Esri/hub.js/commit/a5d4ee57c6d034a2d1570b84016946c989ad5dc9))
 
 # @esri/hub-common [14.171.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.170.0...@esri/hub-common@14.171.0) (2024-08-19)
 
-
 ### Features
 
-* **hub-common:** add HubSite.isUmbrella() and isOpenDataGroup() ([#1631](https://github.com/Esri/hub.js/issues/1631)) ([54ba448](https://github.com/Esri/hub.js/commit/54ba4481b42d782104823ec9af13d59ecdb5ea7d))
-* **hub-common:** set description to optional ([#1629](https://github.com/Esri/hub.js/issues/1629)) ([384cb99](https://github.com/Esri/hub.js/commit/384cb9923701f955fdbfb177890e622bb33aa104))
+- **hub-common:** add HubSite.isUmbrella() and isOpenDataGroup() ([#1631](https://github.com/Esri/hub.js/issues/1631)) ([54ba448](https://github.com/Esri/hub.js/commit/54ba4481b42d782104823ec9af13d59ecdb5ea7d))
+- **hub-common:** set description to optional ([#1629](https://github.com/Esri/hub.js/issues/1629)) ([384cb99](https://github.com/Esri/hub.js/commit/384cb9923701f955fdbfb177890e622bb33aa104))
 
 # @esri/hub-common [14.170.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.169.0...@esri/hub-common@14.170.0) (2024-08-12)
 
-
 ### Features
 
-* add entity catalogs, AddContentConfig types & helper functions ([#1573](https://github.com/Esri/hub.js/issues/1573)) ([59a54d1](https://github.com/Esri/hub.js/commit/59a54d1e219b87d66c82b7ced2dbe472c35da5d9))
+- add entity catalogs, AddContentConfig types & helper functions ([#1573](https://github.com/Esri/hub.js/issues/1573)) ([59a54d1](https://github.com/Esri/hub.js/commit/59a54d1e219b87d66c82b7ced2dbe472c35da5d9))
 
 # @esri/hub-common [14.169.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.2...@esri/hub-common@14.169.0) (2024-08-09)
 
-
 ### Features
 
-* **hub-common:** add orgId to IChannel ([#1621](https://github.com/Esri/hub.js/issues/1621)) ([fafa0b4](https://github.com/Esri/hub.js/commit/fafa0b405050f561bd2a5b94826cc0a2abbb9f35))
+- **hub-common:** add orgId to IChannel ([#1621](https://github.com/Esri/hub.js/issues/1621)) ([fafa0b4](https://github.com/Esri/hub.js/commit/fafa0b405050f561bd2a5b94826cc0a2abbb9f35))
 
 ## @esri/hub-common [14.168.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.1...@esri/hub-common@14.168.2) (2024-08-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** hub-common missing @types/arcgis-js-api dependency ([#1620](https://github.com/Esri/hub.js/issues/1620)) ([ed5edec](https://github.com/Esri/hub.js/commit/ed5edeca51f7cb080684c1e8ac748957c4284163))
+- **hub-common:** hub-common missing @types/arcgis-js-api dependency ([#1620](https://github.com/Esri/hub.js/issues/1620)) ([ed5edec](https://github.com/Esri/hub.js/commit/ed5edeca51f7cb080684c1e8ac748957c4284163))
 
 ## @esri/hub-common [14.168.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.0...@esri/hub-common@14.168.1) (2024-08-06)
 
-
 ### Bug Fixes
 
-* **hub-common:** remove unimplemented flow for downloading files via export item ([#1613](https://github.com/Esri/hub.js/issues/1613)) ([c62a9ce](https://github.com/Esri/hub.js/commit/c62a9cebc72020df9f404a334e6db5ef5ea4002d))
+- **hub-common:** remove unimplemented flow for downloading files via export item ([#1613](https://github.com/Esri/hub.js/issues/1613)) ([c62a9ce](https://github.com/Esri/hub.js/commit/c62a9cebc72020df9f404a334e6db5ef5ea4002d))
 
 # @esri/hub-common [14.168.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.167.0...@esri/hub-common@14.168.0) (2024-08-02)
 
-
 ### Features
 
-* stat card supports visual interest ([#1597](https://github.com/Esri/hub.js/issues/1597)) ([2ffc48f](https://github.com/Esri/hub.js/commit/2ffc48f9f77cf33d415432076e69b4e6cb8882f6))
+- stat card supports visual interest ([#1597](https://github.com/Esri/hub.js/issues/1597)) ([2ffc48f](https://github.com/Esri/hub.js/commit/2ffc48f9f77cf33d415432076e69b4e6cb8882f6))
 
 # @esri/hub-common [14.167.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.166.0...@esri/hub-common@14.167.0) (2024-08-01)
 
-
 ### Features
 
-* **hub-common:** refactor event gallery card editor uiSchema to use … ([#1610](https://github.com/Esri/hub.js/issues/1610)) ([b2370d1](https://github.com/Esri/hub.js/commit/b2370d1cc95b9f4cc6b9a9dd0952aae0b650474f))
+- **hub-common:** refactor event gallery card editor uiSchema to use … ([#1610](https://github.com/Esri/hub.js/issues/1610)) ([b2370d1](https://github.com/Esri/hub.js/commit/b2370d1cc95b9f4cc6b9a9dd0952aae0b650474f))
 
 # @esri/hub-common [14.166.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.165.0...@esri/hub-common@14.166.0) (2024-07-31)
 
-
 ### Features
 
-* **hub-common:** add EventGalleryCardSchema and EventGalleryCardUiSchema ([#1604](https://github.com/Esri/hub.js/issues/1604)) ([09f197c](https://github.com/Esri/hub.js/commit/09f197ca2520cb2e12a0a20f0fa40f3526475ad6))
+- **hub-common:** add EventGalleryCardSchema and EventGalleryCardUiSchema ([#1604](https://github.com/Esri/hub.js/issues/1604)) ([09f197c](https://github.com/Esri/hub.js/commit/09f197ca2520cb2e12a0a20f0fa40f3526475ad6))
 
 # @esri/hub-common [14.165.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.1...@esri/hub-common@14.165.0) (2024-07-26)
 
-
 ### Features
 
-* extend static download formats to support additional resources ([#1607](https://github.com/Esri/hub.js/issues/1607)) ([e27f83d](https://github.com/Esri/hub.js/commit/e27f83d98a305ce0bb110e6b9773f2d349cbd263))
+- extend static download formats to support additional resources ([#1607](https://github.com/Esri/hub.js/issues/1607)) ([e27f83d](https://github.com/Esri/hub.js/commit/e27f83d98a305ce0bb110e6b9773f2d349cbd263))
 
 ## @esri/hub-common [14.164.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.0...@esri/hub-common@14.164.1) (2024-07-26)
 
-
 ### Bug Fixes
 
-* update groups uiSchemas ([#1606](https://github.com/Esri/hub.js/issues/1606)) ([2e33d8b](https://github.com/Esri/hub.js/commit/2e33d8b7a39f179ae3aff4598b72058ee0197f16))
-* update uiSchemas ([#1605](https://github.com/Esri/hub.js/issues/1605)) ([2d3f195](https://github.com/Esri/hub.js/commit/2d3f195094ada793923b31550df393be059530e9))
+- update groups uiSchemas ([#1606](https://github.com/Esri/hub.js/issues/1606)) ([2e33d8b](https://github.com/Esri/hub.js/commit/2e33d8b7a39f179ae3aff4598b72058ee0197f16))
+- update uiSchemas ([#1605](https://github.com/Esri/hub.js/issues/1605)) ([2d3f195](https://github.com/Esri/hub.js/commit/2d3f195094ada793923b31550df393be059530e9))
 
 # @esri/hub-common [14.164.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.163.0...@esri/hub-common@14.164.0) (2024-07-25)
 
-
 ### Features
 
-* consolidate group creation ([#1603](https://github.com/Esri/hub.js/issues/1603)) ([af3a889](https://github.com/Esri/hub.js/commit/af3a88929f1dfc2a9c7f3f09e6297b131be8aaca))
+- consolidate group creation ([#1603](https://github.com/Esri/hub.js/issues/1603)) ([af3a889](https://github.com/Esri/hub.js/commit/af3a88929f1dfc2a9c7f3f09e6297b131be8aaca))
 
 # @esri/hub-common [14.163.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.162.0...@esri/hub-common@14.163.0) (2024-07-24)
 
-
 ### Features
 
-* add requesting metrics source option behind feature flag ([#1593](https://github.com/Esri/hub.js/issues/1593)) ([9b01a66](https://github.com/Esri/hub.js/commit/9b01a667f91e0483bf0236e34e558f93fbac64c8))
+- add requesting metrics source option behind feature flag ([#1593](https://github.com/Esri/hub.js/issues/1593)) ([9b01a66](https://github.com/Esri/hub.js/commit/9b01a667f91e0483bf0236e34e558f93fbac64c8))
 
 # @esri/hub-common [14.162.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.2...@esri/hub-common@14.162.0) (2024-07-24)
 
-
 ### Features
 
-* moving types and utils ([#1595](https://github.com/Esri/hub.js/issues/1595)) ([e1b9e41](https://github.com/Esri/hub.js/commit/e1b9e41aa424d3d34fb33f7f75d35ea99b6fba1a))
+- moving types and utils ([#1595](https://github.com/Esri/hub.js/issues/1595)) ([e1b9e41](https://github.com/Esri/hub.js/commit/e1b9e41aa424d3d34fb33f7f75d35ea99b6fba1a))
 
 ## @esri/hub-common [14.161.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.1...@esri/hub-common@14.161.2) (2024-07-17)
 
-
 ### Bug Fixes
 
-* **hub-common:** added orgId filter to GetEventsParams ([#1594](https://github.com/Esri/hub.js/issues/1594)) ([f832165](https://github.com/Esri/hub.js/commit/f83216526382df1a431360d61f8cfb108b3a1518))
+- **hub-common:** added orgId filter to GetEventsParams ([#1594](https://github.com/Esri/hub.js/issues/1594)) ([f832165](https://github.com/Esri/hub.js/commit/f83216526382df1a431360d61f8cfb108b3a1518))
 
 ## @esri/hub-common [14.161.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.0...@esri/hub-common@14.161.1) (2024-07-16)
 
-
 ### Bug Fixes
 
-* **hub-common:** updates the calcite icon used for hub-site item type ([#1592](https://github.com/Esri/hub.js/issues/1592)) ([d4eef06](https://github.com/Esri/hub.js/commit/d4eef06f89d97758c52c4b8db1a30aa65a2b58cb))
+- **hub-common:** updates the calcite icon used for hub-site item type ([#1592](https://github.com/Esri/hub.js/issues/1592)) ([d4eef06](https://github.com/Esri/hub.js/commit/d4eef06f89d97758c52c4b8db1a30aa65a2b58cb))
 
 # @esri/hub-common [14.161.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.2...@esri/hub-common@14.161.0) (2024-07-15)
 
-
 ### Features
 
-* add embed types/interfaces ([#1585](https://github.com/Esri/hub.js/issues/1585)) ([0529404](https://github.com/Esri/hub.js/commit/05294040b08614379acaabacf56d151b0178f46b))
-* uiSchemas for new create flow ([#1582](https://github.com/Esri/hub.js/issues/1582)) ([68ca656](https://github.com/Esri/hub.js/commit/68ca65659b239740ff942e62040a34caf7d64ef0))
+- add embed types/interfaces ([#1585](https://github.com/Esri/hub.js/issues/1585)) ([0529404](https://github.com/Esri/hub.js/commit/05294040b08614379acaabacf56d151b0178f46b))
+- uiSchemas for new create flow ([#1582](https://github.com/Esri/hub.js/issues/1582)) ([68ca656](https://github.com/Esri/hub.js/commit/68ca65659b239740ff942e62040a34caf7d64ef0))
 
 ## @esri/hub-common [14.160.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.1...@esri/hub-common@14.160.2) (2024-07-11)
 
-
 ### Bug Fixes
 
-* **hub-common:** add inPersonCapacityType to IHubEvent ([#1591](https://github.com/Esri/hub.js/issues/1591)) ([fdbbfbf](https://github.com/Esri/hub.js/commit/fdbbfbf45d9115d2398045251911d3cfe49a87ff))
+- **hub-common:** add inPersonCapacityType to IHubEvent ([#1591](https://github.com/Esri/hub.js/issues/1591)) ([fdbbfbf](https://github.com/Esri/hub.js/commit/fdbbfbf45d9115d2398045251911d3cfe49a87ff))
 
 ## @esri/hub-common [14.160.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.0...@esri/hub-common@14.160.1) (2024-07-10)
 
-
 ### Bug Fixes
 
-* **hub-common:** change event.onlineMeetings => event.onlineMeeting ([#1589](https://github.com/Esri/hub.js/issues/1589)) ([1d126a0](https://github.com/Esri/hub.js/commit/1d126a0633ac45c2e079f258d4b5ece88fdb2bc5))
+- **hub-common:** change event.onlineMeetings => event.onlineMeeting ([#1589](https://github.com/Esri/hub.js/issues/1589)) ([1d126a0](https://github.com/Esri/hub.js/commit/1d126a0633ac45c2e079f258d4b5ece88fdb2bc5))
 
 # @esri/hub-common [14.160.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.159.1...@esri/hub-common@14.160.0) (2024-07-10)
 
-
 ### Features
 
-* **hub-common:** change order of download button for KML format ([#1588](https://github.com/Esri/hub.js/issues/1588)) ([67bc539](https://github.com/Esri/hub.js/commit/67bc53912e13e1df1894f26ed2482a80a018cada))
+- **hub-common:** change order of download button for KML format ([#1588](https://github.com/Esri/hub.js/issues/1588)) ([67bc539](https://github.com/Esri/hub.js/commit/67bc53912e13e1df1894f26ed2482a80a018cada))
 
 ## @esri/hub-common [14.159.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.159.0...@esri/hub-common@14.159.1) (2024-07-09)
 
-
 ### Bug Fixes
 
-* group workspace access ([#1574](https://github.com/Esri/hub.js/issues/1574)) ([044cc26](https://github.com/Esri/hub.js/commit/044cc26d1959003faf8a1fbbb6282c62cd8d5432))
+- group workspace access ([#1574](https://github.com/Esri/hub.js/issues/1574)) ([044cc26](https://github.com/Esri/hub.js/commit/044cc26d1959003faf8a1fbbb6282c62cd8d5432))
 
 # @esri/hub-common [14.159.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.158.0...@esri/hub-common@14.159.0) (2024-07-09)
 
-
 ### Features
 
-* **hub-common:** add event capabilities field ([#1587](https://github.com/Esri/hub.js/issues/1587)) ([ee19ba0](https://github.com/Esri/hub.js/commit/ee19ba00bf485579075e87435fc14330c0cdea2f))
-* **hub-common:** add registration count props ([#1583](https://github.com/Esri/hub.js/issues/1583)) ([55ed1d7](https://github.com/Esri/hub.js/commit/55ed1d7ee01c6562fd5355848980a67283cfba6d))
+- **hub-common:** add event capabilities field ([#1587](https://github.com/Esri/hub.js/issues/1587)) ([ee19ba0](https://github.com/Esri/hub.js/commit/ee19ba00bf485579075e87435fc14330c0cdea2f))
+- **hub-common:** add registration count props ([#1583](https://github.com/Esri/hub.js/issues/1583)) ([55ed1d7](https://github.com/Esri/hub.js/commit/55ed1d7ee01c6562fd5355848980a67283cfba6d))
 
 # @esri/hub-common [14.158.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.157.0...@esri/hub-common@14.158.0) (2024-07-09)
 
-
 ### Features
 
-* **hub-common:** allow image service downloads ([#1577](https://github.com/Esri/hub.js/issues/1577)) ([dc7d6f8](https://github.com/Esri/hub.js/commit/dc7d6f87be12a06b08a7f9654f9b32e1805e709c))
+- **hub-common:** allow image service downloads ([#1577](https://github.com/Esri/hub.js/issues/1577)) ([dc7d6f8](https://github.com/Esri/hub.js/commit/dc7d6f87be12a06b08a7f9654f9b32e1805e709c))
 
 # @esri/hub-common [14.157.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.156.0...@esri/hub-common@14.157.0) (2024-07-08)
 
-
 ### Features
 
-* **hub-common:** change public int ids to cuids ([#1581](https://github.com/Esri/hub.js/issues/1581)) ([1405fe8](https://github.com/Esri/hub.js/commit/1405fe8ed7bba4dca307c5a21dd658570f772d91))
+- **hub-common:** change public int ids to cuids ([#1581](https://github.com/Esri/hub.js/issues/1581)) ([1405fe8](https://github.com/Esri/hub.js/commit/1405fe8ed7bba4dca307c5a21dd658570f772d91))
 
 # @esri/hub-common [14.156.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.155.1...@esri/hub-common@14.156.0) (2024-07-08)
 
-
 ### Features
 
-* **hub-common:** add IEventRegistrationCount to IEvent ([#1580](https://github.com/Esri/hub.js/issues/1580)) ([72128c3](https://github.com/Esri/hub.js/commit/72128c3de8a4b9d4bc9de390ad3384f31ac7e6df))
+- **hub-common:** add IEventRegistrationCount to IEvent ([#1580](https://github.com/Esri/hub.js/issues/1580)) ([72128c3](https://github.com/Esri/hub.js/commit/72128c3de8a4b9d4bc9de390ad3384f31ac7e6df))
 
 ## @esri/hub-common [14.155.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.155.0...@esri/hub-common@14.155.1) (2024-07-05)
 
-
 ### Bug Fixes
 
-* **hub-common:** event location picker uses all draw tools ([#1579](https://github.com/Esri/hub.js/issues/1579)) ([69001c6](https://github.com/Esri/hub.js/commit/69001c68c33278a2551f5f371385a6a20eb75776))
+- **hub-common:** event location picker uses all draw tools ([#1579](https://github.com/Esri/hub.js/issues/1579)) ([69001c6](https://github.com/Esri/hub.js/commit/69001c68c33278a2551f5f371385a6a20eb75776))
 
 # @esri/hub-common [14.155.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.154.0...@esri/hub-common@14.155.0) (2024-07-05)
 
-
 ### Features
 
-* **hub-common:** add createRegistration ([#1558](https://github.com/Esri/hub.js/issues/1558)) ([6102280](https://github.com/Esri/hub.js/commit/610228095339d58e0d47e31076c7e9259fe8e9ec))
+- **hub-common:** add createRegistration ([#1558](https://github.com/Esri/hub.js/issues/1558)) ([6102280](https://github.com/Esri/hub.js/commit/610228095339d58e0d47e31076c7e9259fe8e9ec))
 
 # @esri/hub-common [14.154.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.2...@esri/hub-common@14.154.0) (2024-07-03)
 
-
 ### Features
 
-* **hub-common:** support KML format for create replica ([#1575](https://github.com/Esri/hub.js/issues/1575)) ([1a78ad1](https://github.com/Esri/hub.js/commit/1a78ad1ae015de482bf8b28e210d0d1e0438aea6))
+- **hub-common:** support KML format for create replica ([#1575](https://github.com/Esri/hub.js/issues/1575)) ([1a78ad1](https://github.com/Esri/hub.js/commit/1a78ad1ae015de482bf8b28e210d0d1e0438aea6))
 
 ## @esri/hub-common [14.153.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.1...@esri/hub-common@14.153.2) (2024-07-03)
 
-
 ### Bug Fixes
 
-* remove dynamic link save override ([#1570](https://github.com/Esri/hub.js/issues/1570)) ([4ebff79](https://github.com/Esri/hub.js/commit/4ebff794f228ebfa04daef0efcdd3e5b7c95494e))
-* resolve internal issue with Catalog.searchCollections ([#1572](https://github.com/Esri/hub.js/issues/1572)) ([e41d158](https://github.com/Esri/hub.js/commit/e41d158d4500e12f5896f16c4564394fb857b414))
+- remove dynamic link save override ([#1570](https://github.com/Esri/hub.js/issues/1570)) ([4ebff79](https://github.com/Esri/hub.js/commit/4ebff794f228ebfa04daef0efcdd3e5b7c95494e))
+- resolve internal issue with Catalog.searchCollections ([#1572](https://github.com/Esri/hub.js/issues/1572)) ([e41d158](https://github.com/Esri/hub.js/commit/e41d158d4500e12f5896f16c4564394fb857b414))
 
 ## @esri/hub-common [14.153.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.0...@esri/hub-common@14.153.1) (2024-07-01)
 
-
 ### Bug Fixes
 
-* getIncludesAndReferencesQuery accounts for no association group ([#1571](https://github.com/Esri/hub.js/issues/1571)) ([7f1d64c](https://github.com/Esri/hub.js/commit/7f1d64c1cc96436e1237b18df923a76016f04fff))
+- getIncludesAndReferencesQuery accounts for no association group ([#1571](https://github.com/Esri/hub.js/issues/1571)) ([7f1d64c](https://github.com/Esri/hub.js/commit/7f1d64c1cc96436e1237b18df923a76016f04fff))
 
 # @esri/hub-common [14.153.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.2...@esri/hub-common@14.153.0) (2024-07-01)
 
-
 ### Features
 
-* ungate project workspace initiatives association ([#1569](https://github.com/Esri/hub.js/issues/1569)) ([826e691](https://github.com/Esri/hub.js/commit/826e691d2da4c4f6c319bf79c307f4f1d78a40fc))
+- ungate project workspace initiatives association ([#1569](https://github.com/Esri/hub.js/issues/1569)) ([826e691](https://github.com/Esri/hub.js/commit/826e691d2da4c4f6c319bf79c307f4f1d78a40fc))
 
 ## @esri/hub-common [14.152.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.1...@esri/hub-common@14.152.2) (2024-06-28)
 
-
 ### Bug Fixes
 
-* 10795 10736 project and initiative creation rules updates ([#1562](https://github.com/Esri/hub.js/issues/1562)) ([409edc5](https://github.com/Esri/hub.js/commit/409edc5f6e4ab2c4c41ccad5450938284673abc3))
+- 10795 10736 project and initiative creation rules updates ([#1562](https://github.com/Esri/hub.js/issues/1562)) ([409edc5](https://github.com/Esri/hub.js/commit/409edc5f6e4ab2c4c41ccad5450938284673abc3))
 
 ## @esri/hub-common [14.152.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.0...@esri/hub-common@14.152.1) (2024-06-28)
 
-
 ### Bug Fixes
 
-* hub:project:edit allowed on both prem and basic licenses ([#1568](https://github.com/Esri/hub.js/issues/1568)) ([4236aef](https://github.com/Esri/hub.js/commit/4236aefa70dd8e73dcb72d3b0a4d25bbfe029e0e))
+- hub:project:edit allowed on both prem and basic licenses ([#1568](https://github.com/Esri/hub.js/issues/1568)) ([4236aef](https://github.com/Esri/hub.js/commit/4236aefa70dd8e73dcb72d3b0a4d25bbfe029e0e))
 
 # @esri/hub-common [14.152.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.151.0...@esri/hub-common@14.152.0) (2024-06-27)
 
-
 ### Features
 
-* Removed sharing section on metric pane in initiative and project entities ([#1567](https://github.com/Esri/hub.js/issues/1567)) ([bc8bdd2](https://github.com/Esri/hub.js/commit/bc8bdd21c85a56dfa1308d5d4e5e643f64de9129))
+- Removed sharing section on metric pane in initiative and project entities ([#1567](https://github.com/Esri/hub.js/issues/1567)) ([bc8bdd2](https://github.com/Esri/hub.js/commit/bc8bdd21c85a56dfa1308d5d4e5e643f64de9129))
 
 # @esri/hub-common [14.151.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.150.0...@esri/hub-common@14.151.0) (2024-06-26)
 
-
 ### Features
 
-* **hub-common:** adds map settings to discussion board settings schema ([#1565](https://github.com/Esri/hub.js/issues/1565)) ([617394e](https://github.com/Esri/hub.js/commit/617394e572495f72db6e0991a26cb296b1d52d6b))
+- **hub-common:** adds map settings to discussion board settings schema ([#1565](https://github.com/Esri/hub.js/issues/1565)) ([617394e](https://github.com/Esri/hub.js/commit/617394e572495f72db6e0991a26cb296b1d52d6b))
 
 # @esri/hub-common [14.150.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.149.0...@esri/hub-common@14.150.0) (2024-06-24)
 
-
 ### Features
 
-* **hub-common:** disable categories field and provide notice when no options are available ([#1561](https://github.com/Esri/hub.js/issues/1561)) ([95035c0](https://github.com/Esri/hub.js/commit/95035c019fd141e80df8d94ac1dacfb5322ae86f))
+- **hub-common:** disable categories field and provide notice when no options are available ([#1561](https://github.com/Esri/hub.js/issues/1561)) ([95035c0](https://github.com/Esri/hub.js/commit/95035c019fd141e80df8d94ac1dacfb5322ae86f))
 
 # @esri/hub-common [14.149.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.2...@esri/hub-common@14.149.0) (2024-06-24)
 
-
 ### Features
 
-* **hub-common:** release project map settings ([#1563](https://github.com/Esri/hub.js/issues/1563)) ([fe1e2c1](https://github.com/Esri/hub.js/commit/fe1e2c196c2ec0d2b3c824158c65f9c05447bd53))
+- **hub-common:** release project map settings ([#1563](https://github.com/Esri/hub.js/issues/1563)) ([fe1e2c1](https://github.com/Esri/hub.js/commit/fe1e2c196c2ec0d2b3c824158c65f9c05447bd53))
 
 ## @esri/hub-common [14.148.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.1...@esri/hub-common@14.148.2) (2024-06-21)
 
-
 ### Bug Fixes
 
-* **hub-common:** update event location type ([#1556](https://github.com/Esri/hub.js/issues/1556)) ([d89c187](https://github.com/Esri/hub.js/commit/d89c18775de9831cc5b11954e8db00173eb56a49))
+- **hub-common:** update event location type ([#1556](https://github.com/Esri/hub.js/issues/1556)) ([d89c187](https://github.com/Esri/hub.js/commit/d89c18775de9831cc5b11954e8db00173eb56a49))
 
 ## @esri/hub-common [14.148.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.0...@esri/hub-common@14.148.1) (2024-06-18)
 
-
 ### Bug Fixes
 
-* **hub-common:** swallow errors when trying to fetch enrichments in fetchHubContent ([#1557](https://github.com/Esri/hub.js/issues/1557)) ([3b6f37e](https://github.com/Esri/hub.js/commit/3b6f37e722322d7dba2e0beb9f29048da2fb396e))
+- **hub-common:** swallow errors when trying to fetch enrichments in fetchHubContent ([#1557](https://github.com/Esri/hub.js/issues/1557)) ([3b6f37e](https://github.com/Esri/hub.js/commit/3b6f37e722322d7dba2e0beb9f29048da2fb396e))
 
 # @esri/hub-common [14.148.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.147.0...@esri/hub-common@14.148.0) (2024-06-18)
 
-
 ### Features
 
-* **hub-common:** adds map settings configuration to initiative entity ([#1541](https://github.com/Esri/hub.js/issues/1541)) ([49e8659](https://github.com/Esri/hub.js/commit/49e8659fb6df828c9ae73933b038a17bd05e04ef))
+- **hub-common:** adds map settings configuration to initiative entity ([#1541](https://github.com/Esri/hub.js/issues/1541)) ([49e8659](https://github.com/Esri/hub.js/commit/49e8659fb6df828c9ae73933b038a17bd05e04ef))
 
 # @esri/hub-common [14.147.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.146.1...@esri/hub-common@14.147.0) (2024-06-17)
 
-
 ### Features
 
-* **hub-common:** expose additional helpers for download format calculation and fix available format detection logic ([#1542](https://github.com/Esri/hub.js/issues/1542)) ([5b37b68](https://github.com/Esri/hub.js/commit/5b37b68d1a989cd546c012c0d3089dbe4e894f07))
+- **hub-common:** expose additional helpers for download format calculation and fix available format detection logic ([#1542](https://github.com/Esri/hub.js/issues/1542)) ([5b37b68](https://github.com/Esri/hub.js/commit/5b37b68d1a989cd546c012c0d3089dbe4e894f07))
 
 ## @esri/hub-common [14.146.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.146.0...@esri/hub-common@14.146.1) (2024-06-17)
 
-
 ### Bug Fixes
 
-* actually makes hub:feature:workspace:user a valid permission ([#1555](https://github.com/Esri/hub.js/issues/1555)) ([21ed3a0](https://github.com/Esri/hub.js/commit/21ed3a0fe86b6d22bf1259f404b200311f7d2221))
+- actually makes hub:feature:workspace:user a valid permission ([#1555](https://github.com/Esri/hub.js/issues/1555)) ([21ed3a0](https://github.com/Esri/hub.js/commit/21ed3a0fe86b6d22bf1259f404b200311f7d2221))
 
 # @esri/hub-common [14.146.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.145.0...@esri/hub-common@14.146.0) (2024-06-14)
 
-
 ### Features
 
-* **hub-common:** add events location picker ([#1546](https://github.com/Esri/hub.js/issues/1546)) ([0205b32](https://github.com/Esri/hub.js/commit/0205b32e68da3923bfcdf359d9e7becc22c307cf))
+- **hub-common:** add events location picker ([#1546](https://github.com/Esri/hub.js/issues/1546)) ([0205b32](https://github.com/Esri/hub.js/commit/0205b32e68da3923bfcdf359d9e7becc22c307cf))
 
 # @esri/hub-common [14.145.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.144.0...@esri/hub-common@14.145.0) (2024-06-14)
 
-
 ### Features
 
-* add buildDefaults for metrics ([#1551](https://github.com/Esri/hub.js/issues/1551)) ([036bf13](https://github.com/Esri/hub.js/commit/036bf134141c192330fe1afc9c7296317cfcd5bc))
+- add buildDefaults for metrics ([#1551](https://github.com/Esri/hub.js/issues/1551)) ([036bf13](https://github.com/Esri/hub.js/commit/036bf134141c192330fe1afc9c7296317cfcd5bc))
 
 # @esri/hub-common [14.144.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.143.0...@esri/hub-common@14.144.0) (2024-06-13)
 
-
 ### Features
 
-* **hub-common:** add events filters ([#1543](https://github.com/Esri/hub.js/issues/1543)) ([7698062](https://github.com/Esri/hub.js/commit/7698062de2df6006a6218d035ed4a53e45051ae2))
+- **hub-common:** add events filters ([#1543](https://github.com/Esri/hub.js/issues/1543)) ([7698062](https://github.com/Esri/hub.js/commit/7698062de2df6006a6218d035ed4a53e45051ae2))
 
 # @esri/hub-common [14.143.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.142.0...@esri/hub-common@14.143.0) (2024-06-13)
 
-
 ### Features
 
-* hub:feature:workspace:user permission ([#1553](https://github.com/Esri/hub.js/issues/1553)) ([2f6611c](https://github.com/Esri/hub.js/commit/2f6611c3dc67dce75c41006edf7979dcfca7ee53))
+- hub:feature:workspace:user permission ([#1553](https://github.com/Esri/hub.js/issues/1553)) ([2f6611c](https://github.com/Esri/hub.js/commit/2f6611c3dc67dce75c41006edf7979dcfca7ee53))
 
 # @esri/hub-common [14.142.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.141.0...@esri/hub-common@14.142.0) (2024-06-12)
 
-
 ### Features
 
-* remove underlinedLinks capability ([#1550](https://github.com/Esri/hub.js/issues/1550)) ([e060e52](https://github.com/Esri/hub.js/commit/e060e525c35692ed5cee28e0172f36befcba848c))
+- remove underlinedLinks capability ([#1550](https://github.com/Esri/hub.js/issues/1550)) ([e060e52](https://github.com/Esri/hub.js/commit/e060e525c35692ed5cee28e0172f36befcba848c))
 
 # @esri/hub-common [14.141.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.4...@esri/hub-common@14.141.0) (2024-06-11)
 
-
 ### Features
 
-* expose hub:feature:user:preferences to production ([#1549](https://github.com/Esri/hub.js/issues/1549)) ([23c6731](https://github.com/Esri/hub.js/commit/23c67312eeab34557a25670d916736105bfb989a))
-* new env permissions && permission tweaks ([#1547](https://github.com/Esri/hub.js/issues/1547)) ([36444ae](https://github.com/Esri/hub.js/commit/36444ae45bfdabba04342a54ef16a438be79efdc))
+- expose hub:feature:user:preferences to production ([#1549](https://github.com/Esri/hub.js/issues/1549)) ([23c6731](https://github.com/Esri/hub.js/commit/23c67312eeab34557a25670d916736105bfb989a))
+- new env permissions && permission tweaks ([#1547](https://github.com/Esri/hub.js/issues/1547)) ([36444ae](https://github.com/Esri/hub.js/commit/36444ae45bfdabba04342a54ef16a438be79efdc))
 
 ## @esri/hub-common [14.140.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.3...@esri/hub-common@14.140.4) (2024-06-11)
 
-
 ### Bug Fixes
 
-* **hub-common:** added filter for createdByIds ([#1548](https://github.com/Esri/hub.js/issues/1548)) ([7f903ee](https://github.com/Esri/hub.js/commit/7f903ee4e5d3a15664f714b280e596df4bc79103))
+- **hub-common:** added filter for createdByIds ([#1548](https://github.com/Esri/hub.js/issues/1548)) ([7f903ee](https://github.com/Esri/hub.js/commit/7f903ee4e5d3a15664f714b280e596df4bc79103))
 
 ## @esri/hub-common [14.140.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.2...@esri/hub-common@14.140.3) (2024-06-10)
 
-
 ### Bug Fixes
 
-* update schema ([#1545](https://github.com/Esri/hub.js/issues/1545)) ([ca81c3a](https://github.com/Esri/hub.js/commit/ca81c3acc5f6dc24a766e484574ba68ba7e1fda0))
+- update schema ([#1545](https://github.com/Esri/hub.js/issues/1545)) ([ca81c3a](https://github.com/Esri/hub.js/commit/ca81c3acc5f6dc24a766e484574ba68ba7e1fda0))
 
 ## @esri/hub-common [14.140.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.1...@esri/hub-common@14.140.2) (2024-06-07)
 
-
 ### Bug Fixes
 
-* **hub-common:** add extent, spatialReference, and type to event.loca… ([#1544](https://github.com/Esri/hub.js/issues/1544)) ([a0bf8c3](https://github.com/Esri/hub.js/commit/a0bf8c3b305fff631bf847385ad2cb11cca4486c))
+- **hub-common:** add extent, spatialReference, and type to event.loca… ([#1544](https://github.com/Esri/hub.js/issues/1544)) ([a0bf8c3](https://github.com/Esri/hub.js/commit/a0bf8c3b305fff631bf847385ad2cb11cca4486c))
 
 ## @esri/hub-common [14.140.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.0...@esri/hub-common@14.140.1) (2024-06-06)
 
-
 ### Bug Fixes
 
-* **hub-common:** add canEdit to GetEventsParams ([#1539](https://github.com/Esri/hub.js/issues/1539)) ([e35eba5](https://github.com/Esri/hub.js/commit/e35eba586f29dc1439889dec9ba16e86100fea31))
+- **hub-common:** add canEdit to GetEventsParams ([#1539](https://github.com/Esri/hub.js/issues/1539)) ([e35eba5](https://github.com/Esri/hub.js/commit/e35eba586f29dc1439889dec9ba16e86100fea31))
 
 # @esri/hub-common [14.140.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.2...@esri/hub-common@14.140.0) (2024-06-06)
 
-
 ### Features
 
-* update IUiSchemaElement interface to include rules ([#1538](https://github.com/Esri/hub.js/issues/1538)) ([f2b0125](https://github.com/Esri/hub.js/commit/f2b0125548adaaa3ca83facff2853d62a05d5ea2))
+- update IUiSchemaElement interface to include rules ([#1538](https://github.com/Esri/hub.js/issues/1538)) ([f2b0125](https://github.com/Esri/hub.js/commit/f2b0125548adaaa3ca83facff2853d62a05d5ea2))
 
 ## @esri/hub-common [14.139.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.1...@esri/hub-common@14.139.2) (2024-06-05)
 
-
 ### Bug Fixes
 
-* **hub-common:** events can be viewed by anon user ([#1540](https://github.com/Esri/hub.js/issues/1540)) ([879b221](https://github.com/Esri/hub.js/commit/879b221fa611cb41fdabdcd7b74630a10be3b4f0))
+- **hub-common:** events can be viewed by anon user ([#1540](https://github.com/Esri/hub.js/issues/1540)) ([879b221](https://github.com/Esri/hub.js/commit/879b221fa611cb41fdabdcd7b74630a10be3b4f0))
 
 ## @esri/hub-common [14.139.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.0...@esri/hub-common@14.139.1) (2024-06-04)
 
-
 ### Bug Fixes
 
-* pass optional list of catalogs to getAvailableToRequestAssociati… ([#1530](https://github.com/Esri/hub.js/issues/1530)) ([4284149](https://github.com/Esri/hub.js/commit/4284149a876aaeb144aaebafada74528d1114a4e))
+- pass optional list of catalogs to getAvailableToRequestAssociati… ([#1530](https://github.com/Esri/hub.js/issues/1530)) ([4284149](https://github.com/Esri/hub.js/commit/4284149a876aaeb144aaebafada74528d1114a4e))
 
 # @esri/hub-common [14.139.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.138.0...@esri/hub-common@14.139.0) (2024-06-04)
 
-
 ### Features
 
-* **hub-common:** add register button tooltips ([#1537](https://github.com/Esri/hub.js/issues/1537)) ([e6961bd](https://github.com/Esri/hub.js/commit/e6961bd91226ad6cf24837b7770039da6ac3e3c1))
+- **hub-common:** add register button tooltips ([#1537](https://github.com/Esri/hub.js/issues/1537)) ([e6961bd](https://github.com/Esri/hub.js/commit/e6961bd91226ad6cf24837b7770039da6ac3e3c1))
 
 # @esri/hub-common [14.138.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.137.0...@esri/hub-common@14.138.0) (2024-05-31)
 
-
 ### Features
 
-* **hub-common:** add user entity ([#1529](https://github.com/Esri/hub.js/issues/1529)) ([5db8e1b](https://github.com/Esri/hub.js/commit/5db8e1bab599558295ba0cf6d5e3f9fd414c7885))
+- **hub-common:** add user entity ([#1529](https://github.com/Esri/hub.js/issues/1529)) ([5db8e1b](https://github.com/Esri/hub.js/commit/5db8e1bab599558295ba0cf6d5e3f9fd414c7885))
 
 # @esri/hub-common [14.137.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.136.1...@esri/hub-common@14.137.0) (2024-05-31)
 
-
 ### Bug Fixes
 
-* **hub-common:** survey workspace handles draft surveys ([#1534](https://github.com/Esri/hub.js/issues/1534)) ([27e3930](https://github.com/Esri/hub.js/commit/27e3930643e8a7b85e4ed46dc56336f616508358))
-
+- **hub-common:** survey workspace handles draft surveys ([#1534](https://github.com/Esri/hub.js/issues/1534)) ([27e3930](https://github.com/Esri/hub.js/commit/27e3930643e8a7b85e4ed46dc56336f616508358))
 
 ### Features
 
-* **hub-common:** add register button ([#1527](https://github.com/Esri/hub.js/issues/1527)) ([b64c78b](https://github.com/Esri/hub.js/commit/b64c78bb3a598e3a765db3a7e81f718439d209e2))
+- **hub-common:** add register button ([#1527](https://github.com/Esri/hub.js/issues/1527)) ([b64c78b](https://github.com/Esri/hub.js/commit/b64c78bb3a598e3a765db3a7e81f718439d209e2))
 
 ## @esri/hub-common [14.136.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.136.0...@esri/hub-common@14.136.1) (2024-05-30)
 
-
 ### Bug Fixes
 
-* **hub-common:** remove addresses from event, add more event location… ([#1532](https://github.com/Esri/hub.js/issues/1532)) ([0142d9d](https://github.com/Esri/hub.js/commit/0142d9d979c48a0fa79d7bcb2ddec86ec27d648f))
+- **hub-common:** remove addresses from event, add more event location… ([#1532](https://github.com/Esri/hub.js/issues/1532)) ([0142d9d](https://github.com/Esri/hub.js/commit/0142d9d979c48a0fa79d7bcb2ddec86ec27d648f))
 
 # @esri/hub-common [14.136.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.2...@esri/hub-common@14.136.0) (2024-05-30)
 
-
 ### Features
 
-* update IUiSchemaRule def ([#1528](https://github.com/Esri/hub.js/issues/1528)) ([efdf9fb](https://github.com/Esri/hub.js/commit/efdf9fb7c68e6fb920b7e793e04c316f68eed57c))
+- update IUiSchemaRule def ([#1528](https://github.com/Esri/hub.js/issues/1528)) ([efdf9fb](https://github.com/Esri/hub.js/commit/efdf9fb7c68e6fb920b7e793e04c316f68eed57c))
 
 ## @esri/hub-common [14.135.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.1...@esri/hub-common@14.135.2) (2024-05-29)
 
-
 ### Bug Fixes
 
-* add e2e to verify site + domain removal ([#1531](https://github.com/Esri/hub.js/issues/1531)) ([e8dd093](https://github.com/Esri/hub.js/commit/e8dd09313c9a783b10e1705fd587a8511ee8c8ce))
+- add e2e to verify site + domain removal ([#1531](https://github.com/Esri/hub.js/issues/1531)) ([e8dd093](https://github.com/Esri/hub.js/commit/e8dd09313c9a783b10e1705fd587a8511ee8c8ce))
 
 ## @esri/hub-common [14.135.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.0...@esri/hub-common@14.135.1) (2024-05-24)
 
-
 ### Bug Fixes
 
-* add siteRelativeEntityType link to multiple entities ([#1522](https://github.com/Esri/hub.js/issues/1522)) ([6557279](https://github.com/Esri/hub.js/commit/6557279ab9dfe23dc8a781cda41a48dbc880c5aa))
+- add siteRelativeEntityType link to multiple entities ([#1522](https://github.com/Esri/hub.js/issues/1522)) ([6557279](https://github.com/Esri/hub.js/commit/6557279ab9dfe23dc8a781cda41a48dbc880c5aa))
 
 # @esri/hub-common [14.135.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.134.1...@esri/hub-common@14.135.0) (2024-05-24)
 
-
 ### Features
 
-* add a partners case to well known item catalog ([#1517](https://github.com/Esri/hub.js/issues/1517)) ([0ddf25f](https://github.com/Esri/hub.js/commit/0ddf25fb39d3eac051eaac52f7251ff2dfd75407))
+- add a partners case to well known item catalog ([#1517](https://github.com/Esri/hub.js/issues/1517)) ([0ddf25f](https://github.com/Esri/hub.js/commit/0ddf25fb39d3eac051eaac52f7251ff2dfd75407))
 
 ## @esri/hub-common [14.134.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.134.0...@esri/hub-common@14.134.1) (2024-05-24)
 
-
 ### Bug Fixes
 
-* deepFilter allows for blobs to pass through ([#1524](https://github.com/Esri/hub.js/issues/1524)) ([b689529](https://github.com/Esri/hub.js/commit/b689529242b177124508657f2fc73e64c8469c40))
+- deepFilter allows for blobs to pass through ([#1524](https://github.com/Esri/hub.js/issues/1524)) ([b689529](https://github.com/Esri/hub.js/commit/b689529242b177124508657f2fc73e64c8469c40))
 
 # @esri/hub-common [14.134.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.5...@esri/hub-common@14.134.0) (2024-05-23)
 
-
 ### Features
 
-* alter feature flag for scheduler on content settings ([#1526](https://github.com/Esri/hub.js/issues/1526)) ([0bc522c](https://github.com/Esri/hub.js/commit/0bc522cfd392901d6703e011e3220a96125883e7))
+- alter feature flag for scheduler on content settings ([#1526](https://github.com/Esri/hub.js/issues/1526)) ([0bc522c](https://github.com/Esri/hub.js/commit/0bc522cfd392901d6703e011e3220a96125883e7))
 
 ## @esri/hub-common [14.133.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.4...@esri/hub-common@14.133.5) (2024-05-23)
 
-
 ### Bug Fixes
 
-* limit project content and events to qa alpha ([#1525](https://github.com/Esri/hub.js/issues/1525)) ([ddc32d6](https://github.com/Esri/hub.js/commit/ddc32d61081ed577eb7fe99057ba168255d327fd))
+- limit project content and events to qa alpha ([#1525](https://github.com/Esri/hub.js/issues/1525)) ([ddc32d6](https://github.com/Esri/hub.js/commit/ddc32d61081ed577eb7fe99057ba168255d327fd))
 
 ## @esri/hub-common [14.133.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.3...@esri/hub-common@14.133.4) (2024-05-23)
 
-
 ### Bug Fixes
 
-* remove entityOwner check from template settings permission ([#1520](https://github.com/Esri/hub.js/issues/1520)) ([6d34101](https://github.com/Esri/hub.js/commit/6d34101a20e338e668901343f1537fb3f2cef86d))
+- remove entityOwner check from template settings permission ([#1520](https://github.com/Esri/hub.js/issues/1520)) ([6d34101](https://github.com/Esri/hub.js/commit/6d34101a20e338e668901343f1537fb3f2cef86d))
 
 ## @esri/hub-common [14.133.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.2...@esri/hub-common@14.133.3) (2024-05-23)
 
-
 ### Bug Fixes
 
-* **hub-common:** fixes issue where derived entity location for site o… ([#1523](https://github.com/Esri/hub.js/issues/1523)) ([7b47641](https://github.com/Esri/hub.js/commit/7b476416ffd64d587c36ebabe1fb18dda5f09482))
+- **hub-common:** fixes issue where derived entity location for site o… ([#1523](https://github.com/Esri/hub.js/issues/1523)) ([7b47641](https://github.com/Esri/hub.js/commit/7b476416ffd64d587c36ebabe1fb18dda5f09482))
 
 ## @esri/hub-common [14.133.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.1...@esri/hub-common@14.133.2) (2024-05-23)
 
-
 ### Bug Fixes
 
-* recommended templates should link to template view ([#1519](https://github.com/Esri/hub.js/issues/1519)) ([c1ceb99](https://github.com/Esri/hub.js/commit/c1ceb99c3d958032d4837833725bf6aa32cbcaf7))
+- recommended templates should link to template view ([#1519](https://github.com/Esri/hub.js/issues/1519)) ([c1ceb99](https://github.com/Esri/hub.js/commit/c1ceb99c3d958032d4837833725bf6aa32cbcaf7))
 
 ## @esri/hub-common [14.133.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.0...@esri/hub-common@14.133.1) (2024-05-21)
 
-
 ### Bug Fixes
 
-* **hub-common:** enable editing for past events ([#1521](https://github.com/Esri/hub.js/issues/1521)) ([8d66da4](https://github.com/Esri/hub.js/commit/8d66da4294eb613fd314feb0244ccbf43b9ab8b6))
+- **hub-common:** enable editing for past events ([#1521](https://github.com/Esri/hub.js/issues/1521)) ([8d66da4](https://github.com/Esri/hub.js/commit/8d66da4294eb613fd314feb0244ccbf43b9ab8b6))
 
 # @esri/hub-common [14.133.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.132.0...@esri/hub-common@14.133.0) (2024-05-17)
 
-
 ### Features
 
-* add license permissions ([#1493](https://github.com/Esri/hub.js/issues/1493)) ([53d2bcb](https://github.com/Esri/hub.js/commit/53d2bcb74c9fccdb7ed3d6374d3cbdf7ecfde32d))
+- add license permissions ([#1493](https://github.com/Esri/hub.js/issues/1493)) ([53d2bcb](https://github.com/Esri/hub.js/commit/53d2bcb74c9fccdb7ed3d6374d3cbdf7ecfde32d))
 
 # @esri/hub-common [14.132.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.131.0...@esri/hub-common@14.132.0) (2024-05-16)
 
-
 ### Features
 
-* **hub-common:** add isHubHome prop ([#1518](https://github.com/Esri/hub.js/issues/1518)) ([f0bbf49](https://github.com/Esri/hub.js/commit/f0bbf498dacf14e7348617010d00bb7f8efed1ef))
+- **hub-common:** add isHubHome prop ([#1518](https://github.com/Esri/hub.js/issues/1518)) ([f0bbf49](https://github.com/Esri/hub.js/commit/f0bbf498dacf14e7348617010d00bb7f8efed1ef))
 
 # @esri/hub-common [14.131.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.130.1...@esri/hub-common@14.131.0) (2024-05-14)
 
-
 ### Features
 
-* **hub-common:** show disabled scheduler setting with advisory notice for private items ([#1510](https://github.com/Esri/hub.js/issues/1510)) ([6d856aa](https://github.com/Esri/hub.js/commit/6d856aadd7058e20e04eabb0f484ea13c723b6da))
+- **hub-common:** show disabled scheduler setting with advisory notice for private items ([#1510](https://github.com/Esri/hub.js/issues/1510)) ([6d856aa](https://github.com/Esri/hub.js/commit/6d856aadd7058e20e04eabb0f484ea13c723b6da))
 
 ## @esri/hub-common [14.130.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.130.0...@esri/hub-common@14.130.1) (2024-05-14)
 
-
 ### Bug Fixes
 
-* initiative fromEditor creates new initiatives before attempting … ([#1503](https://github.com/Esri/hub.js/issues/1503)) ([bbef6ab](https://github.com/Esri/hub.js/commit/bbef6ab72e1f71a0cbb81b8ec96ca91f74c525c7))
+- initiative fromEditor creates new initiatives before attempting … ([#1503](https://github.com/Esri/hub.js/issues/1503)) ([bbef6ab](https://github.com/Esri/hub.js/commit/bbef6ab72e1f71a0cbb81b8ec96ca91f74c525c7))
 
 # @esri/hub-common [14.130.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.129.0...@esri/hub-common@14.130.0) (2024-05-13)
 
-
 ### Bug Fixes
 
-* remove alpha gating from templates ([#1514](https://github.com/Esri/hub.js/issues/1514)) ([25fcca6](https://github.com/Esri/hub.js/commit/25fcca6a20a1641b832c5c4f58592c7033be1be7))
-
+- remove alpha gating from templates ([#1514](https://github.com/Esri/hub.js/issues/1514)) ([25fcca6](https://github.com/Esri/hub.js/commit/25fcca6a20a1641b832c5c4f58592c7033be1be7))
 
 ### Features
 
-* **hub-common:** add timezone picker ([#1512](https://github.com/Esri/hub.js/issues/1512)) ([eb10b4c](https://github.com/Esri/hub.js/commit/eb10b4c67e55294006c8bc56ea6965401ca6cf89))
+- **hub-common:** add timezone picker ([#1512](https://github.com/Esri/hub.js/issues/1512)) ([eb10b4c](https://github.com/Esri/hub.js/commit/eb10b4c67e55294006c8bc56ea6965401ca6cf89))
 
 # @esri/hub-common [14.129.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.128.0...@esri/hub-common@14.129.0) (2024-05-13)
 
-
 ### Bug Fixes
 
-* **hub-common:** get events by groupid types ([#1513](https://github.com/Esri/hub.js/issues/1513)) ([b8d46a8](https://github.com/Esri/hub.js/commit/b8d46a81f63e6e6134fe083932a1882fb87ac752))
-
+- **hub-common:** get events by groupid types ([#1513](https://github.com/Esri/hub.js/issues/1513)) ([b8d46a8](https://github.com/Esri/hub.js/commit/b8d46a81f63e6e6134fe083932a1882fb87ac752))
 
 ### Features
 
-* add projectAndInitiative as a new collection ([#1511](https://github.com/Esri/hub.js/issues/1511)) ([fcf48e2](https://github.com/Esri/hub.js/commit/fcf48e2b1853490e5c49409010385572b31dad1b))
+- add projectAndInitiative as a new collection ([#1511](https://github.com/Esri/hub.js/issues/1511)) ([fcf48e2](https://github.com/Esri/hub.js/commit/fcf48e2b1853490e5c49409010385572b31dad1b))
 
 # @esri/hub-common [14.128.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.2...@esri/hub-common@14.128.0) (2024-05-10)
 
-
 ### Features
 
-* **hub-common:** removes hub:feature:gallery:map permission policy ([#1500](https://github.com/Esri/hub.js/issues/1500)) ([3c089e1](https://github.com/Esri/hub.js/commit/3c089e1b2b8ddfb92d1dd1e0bc20541e36817167))
+- **hub-common:** removes hub:feature:gallery:map permission policy ([#1500](https://github.com/Esri/hub.js/issues/1500)) ([3c089e1](https://github.com/Esri/hub.js/commit/3c089e1b2b8ddfb92d1dd1e0bc20541e36817167))
 
 ## @esri/hub-common [14.127.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.1...@esri/hub-common@14.127.2) (2024-05-09)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix force content endpoint ([#1509](https://github.com/Esri/hub.js/issues/1509)) ([f0283f0](https://github.com/Esri/hub.js/commit/f0283f0c087a02faad98cbfdd2dee1264ceacab2))
+- **hub-common:** fix force content endpoint ([#1509](https://github.com/Esri/hub.js/issues/1509)) ([f0283f0](https://github.com/Esri/hub.js/commit/f0283f0c087a02faad98cbfdd2dee1264ceacab2))
 
 ## @esri/hub-common [14.127.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.0...@esri/hub-common@14.127.1) (2024-05-09)
 
-
 ### Bug Fixes
 
-* add content to site propertyMap, allow more props on ICapabilityConfig ([#1508](https://github.com/Esri/hub.js/issues/1508)) ([c947301](https://github.com/Esri/hub.js/commit/c947301d2090e9e3a8a520e92a2026544cf18e15))
+- add content to site propertyMap, allow more props on ICapabilityConfig ([#1508](https://github.com/Esri/hub.js/issues/1508)) ([c947301](https://github.com/Esri/hub.js/commit/c947301d2090e9e3a8a520e92a2026544cf18e15))
 
 # @esri/hub-common [14.127.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.4...@esri/hub-common@14.127.0) (2024-05-09)
 
-
 ### Features
 
-* **hub-common:** add attendees settings pane ([#1475](https://github.com/Esri/hub.js/issues/1475)) ([0c49423](https://github.com/Esri/hub.js/commit/0c49423ff09d9d540f3598c2daddae00ed805c1a))
+- **hub-common:** add attendees settings pane ([#1475](https://github.com/Esri/hub.js/issues/1475)) ([0c49423](https://github.com/Esri/hub.js/commit/0c49423ff09d9d540f3598c2daddae00ed805c1a))
 
 ## @esri/hub-common [14.126.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.3...@esri/hub-common@14.126.4) (2024-05-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** get-events dto enum array types ([#1507](https://github.com/Esri/hub.js/issues/1507)) ([fb2e67a](https://github.com/Esri/hub.js/commit/fb2e67a5eff93773412e3019e5c674e78c93f008))
+- **hub-common:** get-events dto enum array types ([#1507](https://github.com/Esri/hub.js/issues/1507)) ([fb2e67a](https://github.com/Esri/hub.js/commit/fb2e67a5eff93773412e3019e5c674e78c93f008))
 
 ## @esri/hub-common [14.126.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.2...@esri/hub-common@14.126.3) (2024-05-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix undefined token when getting schedule ([#1506](https://github.com/Esri/hub.js/issues/1506)) ([7f8c782](https://github.com/Esri/hub.js/commit/7f8c78214f99401979bcc9c31507f85c2002fff5))
+- **hub-common:** fix undefined token when getting schedule ([#1506](https://github.com/Esri/hub.js/issues/1506)) ([7f8c782](https://github.com/Esri/hub.js/commit/7f8c78214f99401979bcc9c31507f85c2002fff5))
 
 ## @esri/hub-common [14.126.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.1...@esri/hub-common@14.126.2) (2024-05-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix undefined token when getSchedule is called ([#1505](https://github.com/Esri/hub.js/issues/1505)) ([9be1d5f](https://github.com/Esri/hub.js/commit/9be1d5fa13471e3715ea3106f75df042e0e6b1c0))
+- **hub-common:** fix undefined token when getSchedule is called ([#1505](https://github.com/Esri/hub.js/issues/1505)) ([9be1d5f](https://github.com/Esri/hub.js/commit/9be1d5fa13471e3715ea3106f75df042e0e6b1c0))
 
 ## @esri/hub-common [14.126.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.0...@esri/hub-common@14.126.1) (2024-05-08)
 
-
 ### Bug Fixes
 
-* updates well known types to fix gallery query ([#1492](https://github.com/Esri/hub.js/issues/1492)) ([24f0f97](https://github.com/Esri/hub.js/commit/24f0f9710f1392c8942d6ef664cfb7877c39c5d8))
+- updates well known types to fix gallery query ([#1492](https://github.com/Esri/hub.js/issues/1492)) ([24f0f97](https://github.com/Esri/hub.js/commit/24f0f9710f1392c8942d6ef664cfb7877c39c5d8))
 
 # @esri/hub-common [14.126.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.2...@esri/hub-common@14.126.0) (2024-05-07)
 
-
 ### Features
 
-* **hub-common:** add token to schedule api endpoints ([#1502](https://github.com/Esri/hub.js/issues/1502)) ([3206757](https://github.com/Esri/hub.js/commit/32067577788c1142f9f01e611e0abd6e469d5d27))
+- **hub-common:** add token to schedule api endpoints ([#1502](https://github.com/Esri/hub.js/issues/1502)) ([3206757](https://github.com/Esri/hub.js/commit/32067577788c1142f9f01e611e0abd6e469d5d27))
 
 ## @esri/hub-common [14.125.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.1...@esri/hub-common@14.125.2) (2024-05-07)
 
-
 ### Bug Fixes
 
-* **hub-common:** add IAssociation, update IEvent with associations, a… ([#1498](https://github.com/Esri/hub.js/issues/1498)) ([2562bd2](https://github.com/Esri/hub.js/commit/2562bd275740b49307375c6013e590fb5e9c28f9))
+- **hub-common:** add IAssociation, update IEvent with associations, a… ([#1498](https://github.com/Esri/hub.js/issues/1498)) ([2562bd2](https://github.com/Esri/hub.js/commit/2562bd275740b49307375c6013e590fb5e9c28f9))
 
 ## @esri/hub-common [14.125.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.0...@esri/hub-common@14.125.1) (2024-05-06)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix unified list feature flag, format order, and additional resource calculation ([#1501](https://github.com/Esri/hub.js/issues/1501)) ([46d4715](https://github.com/Esri/hub.js/commit/46d4715bc5f330dc15fda57ee12601a62d80d782))
+- **hub-common:** fix unified list feature flag, format order, and additional resource calculation ([#1501](https://github.com/Esri/hub.js/issues/1501)) ([46d4715](https://github.com/Esri/hub.js/commit/46d4715bc5f330dc15fda57ee12601a62d80d782))
 
 # @esri/hub-common [14.125.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.124.0...@esri/hub-common@14.125.0) (2024-05-06)
 
-
 ### Features
 
-* scheduler force update ([#1494](https://github.com/Esri/hub.js/issues/1494)) ([5a8c47b](https://github.com/Esri/hub.js/commit/5a8c47b5499bab2da494003082c38bd8b95aafdf))
+- scheduler force update ([#1494](https://github.com/Esri/hub.js/issues/1494)) ([5a8c47b](https://github.com/Esri/hub.js/commit/5a8c47b5499bab2da494003082c38bd8b95aafdf))
 
 # @esri/hub-common [14.124.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.1...@esri/hub-common@14.124.0) (2024-05-06)
 
-
 ### Features
 
-* remove default groups ([#1483](https://github.com/Esri/hub.js/issues/1483)) ([61a48f4](https://github.com/Esri/hub.js/commit/61a48f4b6082e93862d1e751e482190dfa577044))
+- remove default groups ([#1483](https://github.com/Esri/hub.js/issues/1483)) ([61a48f4](https://github.com/Esri/hub.js/commit/61a48f4b6082e93862d1e751e482190dfa577044))
 
 ## @esri/hub-common [14.123.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.0...@esri/hub-common@14.123.1) (2024-05-03)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix createHubEvent method and property mappings ([#1496](https://github.com/Esri/hub.js/issues/1496)) ([944dcb8](https://github.com/Esri/hub.js/commit/944dcb8de601368e914e2fa1b077ba265f4820c9))
+- **hub-common:** fix createHubEvent method and property mappings ([#1496](https://github.com/Esri/hub.js/issues/1496)) ([944dcb8](https://github.com/Esri/hub.js/commit/944dcb8de601368e914e2fa1b077ba265f4820c9))
 
 # @esri/hub-common [14.123.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.1...@esri/hub-common@14.123.0) (2024-05-02)
 
-
 ### Features
 
-* **hub-common:** add support for searching for Events3 events from h… ([#1476](https://github.com/Esri/hub.js/issues/1476)) ([4afe9a4](https://github.com/Esri/hub.js/commit/4afe9a4e2bf366ebbca39923818cc29ec4121c0f))
+- **hub-common:** add support for searching for Events3 events from h… ([#1476](https://github.com/Esri/hub.js/issues/1476)) ([4afe9a4](https://github.com/Esri/hub.js/commit/4afe9a4e2bf366ebbca39923818cc29ec4121c0f))
 
 ## @esri/hub-common [14.122.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.0...@esri/hub-common@14.122.1) (2024-05-02)
 
-
 ### Bug Fixes
 
-* **hub-common:** restrict temp:hub:content:downloads:unifiedList to be behind a feature flag ([#1495](https://github.com/Esri/hub.js/issues/1495)) ([d53f50f](https://github.com/Esri/hub.js/commit/d53f50fef63edbb63ba3e74a8ccd068799288e54))
+- **hub-common:** restrict temp:hub:content:downloads:unifiedList to be behind a feature flag ([#1495](https://github.com/Esri/hub.js/issues/1495)) ([d53f50f](https://github.com/Esri/hub.js/commit/d53f50fef63edbb63ba3e74a8ccd068799288e54))
 
 # @esri/hub-common [14.122.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.2...@esri/hub-common@14.122.0) (2024-05-01)
 
-
 ### Features
 
-* **hub-common:** add new utils for a unified download flow ([#1482](https://github.com/Esri/hub.js/issues/1482)) ([7f45d61](https://github.com/Esri/hub.js/commit/7f45d61bec8c8b79227834df6ac02ea4ae7f4328))
+- **hub-common:** add new utils for a unified download flow ([#1482](https://github.com/Esri/hub.js/issues/1482)) ([7f45d61](https://github.com/Esri/hub.js/commit/7f45d61bec8c8b79227834df6ac02ea4ae7f4328))
 
 ## @esri/hub-common [14.121.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.1...@esri/hub-common@14.121.2) (2024-04-30)
 
-
 ### Bug Fixes
 
-* **hub-common:** add startDate, startTime, endDate, endTime to create… ([#1480](https://github.com/Esri/hub.js/issues/1480)) ([74b4634](https://github.com/Esri/hub.js/commit/74b463485c9583281ed7a919e8974153bcd0ecd2))
+- **hub-common:** add startDate, startTime, endDate, endTime to create… ([#1480](https://github.com/Esri/hub.js/issues/1480)) ([74b4634](https://github.com/Esri/hub.js/commit/74b463485c9583281ed7a919e8974153bcd0ecd2))
 
 ## @esri/hub-common [14.121.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.0...@esri/hub-common@14.121.1) (2024-04-29)
 
-
 ### Bug Fixes
 
-* export IWithFollowers ([#1489](https://github.com/Esri/hub.js/issues/1489)) ([6455b42](https://github.com/Esri/hub.js/commit/6455b421425995f71b3f8578114deea0033b680c))
+- export IWithFollowers ([#1489](https://github.com/Esri/hub.js/issues/1489)) ([6455b42](https://github.com/Esri/hub.js/commit/6455b421425995f71b3f8578114deea0033b680c))
 
 # @esri/hub-common [14.121.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.120.0...@esri/hub-common@14.121.0) (2024-04-29)
 
-
 ### Features
 
-* add helper text to image ([#1488](https://github.com/Esri/hub.js/issues/1488)) ([58f67ec](https://github.com/Esri/hub.js/commit/58f67eca730ef606fe1e432163f942ccf1c1ec19))
+- add helper text to image ([#1488](https://github.com/Esri/hub.js/issues/1488)) ([58f67ec](https://github.com/Esri/hub.js/commit/58f67eca730ef606fe1e432163f942ccf1c1ec19))
 
 # @esri/hub-common [14.120.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.4...@esri/hub-common@14.120.0) (2024-04-29)
 
-
 ### Features
 
-* initiative workspace gated to alpha, but open to prod ([#1481](https://github.com/Esri/hub.js/issues/1481)) ([46c4f09](https://github.com/Esri/hub.js/commit/46c4f09807b43e7d55b3aa1f9e0e8c14b992498b))
+- initiative workspace gated to alpha, but open to prod ([#1481](https://github.com/Esri/hub.js/issues/1481)) ([46c4f09](https://github.com/Esri/hub.js/commit/46c4f09807b43e7d55b3aa1f9e0e8c14b992498b))
 
 ## @esri/hub-common [14.119.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.3...@esri/hub-common@14.119.4) (2024-04-26)
 
-
 ### Bug Fixes
 
-* update fetchHubGroup ro and follow card permission ([#1484](https://github.com/Esri/hub.js/issues/1484)) ([ef3cabb](https://github.com/Esri/hub.js/commit/ef3cabb9bfa91604585c279acbea294b3a9d983c))
+- update fetchHubGroup ro and follow card permission ([#1484](https://github.com/Esri/hub.js/issues/1484)) ([ef3cabb](https://github.com/Esri/hub.js/commit/ef3cabb9bfa91604585c279acbea294b3a9d983c))
 
 ## @esri/hub-common [14.119.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.2...@esri/hub-common@14.119.3) (2024-04-25)
 
-
 ### Bug Fixes
 
-* broaden check for isDiscussable to handle falsey, not just undefined ([#1487](https://github.com/Esri/hub.js/issues/1487)) ([a298ba3](https://github.com/Esri/hub.js/commit/a298ba3ce8d4bc7f19fb19fb705c9e1b4772661e))
+- broaden check for isDiscussable to handle falsey, not just undefined ([#1487](https://github.com/Esri/hub.js/issues/1487)) ([a298ba3](https://github.com/Esri/hub.js/commit/a298ba3ce8d4bc7f19fb19fb705c9e1b4772661e))
 
 ## @esri/hub-common [14.119.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.1...@esri/hub-common@14.119.2) (2024-04-25)
 
-
 ### Bug Fixes
 
-* isDiscussable handles undefined subject ([#1486](https://github.com/Esri/hub.js/issues/1486)) ([d9ea92a](https://github.com/Esri/hub.js/commit/d9ea92aa7891f812f867769f47682ddd374e65f1))
-* **hub-common:** fix the target api url in getSchedule(), setSchedule(), etc ([#1485](https://github.com/Esri/hub.js/issues/1485)) ([c820942](https://github.com/Esri/hub.js/commit/c820942656f2aec9d0f2a9ac36cf0820f6d1056d))
+- isDiscussable handles undefined subject ([#1486](https://github.com/Esri/hub.js/issues/1486)) ([d9ea92a](https://github.com/Esri/hub.js/commit/d9ea92aa7891f812f867769f47682ddd374e65f1))
+- **hub-common:** fix the target api url in getSchedule(), setSchedule(), etc ([#1485](https://github.com/Esri/hub.js/issues/1485)) ([c820942](https://github.com/Esri/hub.js/commit/c820942656f2aec9d0f2a9ac36cf0820f6d1056d))
 
 ## @esri/hub-common [14.119.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.0...@esri/hub-common@14.119.1) (2024-04-22)
 
-
 ### Bug Fixes
 
-* proper export path for schedule interfaces ([#1478](https://github.com/Esri/hub.js/issues/1478)) ([b0c10bb](https://github.com/Esri/hub.js/commit/b0c10bb9bc6949f69efd9f63d7f4d2bd6374688e))
+- proper export path for schedule interfaces ([#1478](https://github.com/Esri/hub.js/issues/1478)) ([b0c10bb](https://github.com/Esri/hub.js/commit/b0c10bb9bc6949f69efd9f63d7f4d2bd6374688e))
 
 # @esri/hub-common [14.119.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.118.1...@esri/hub-common@14.119.0) (2024-04-22)
 
-
 ### Features
 
-* scheduler added to content uischema ([#1471](https://github.com/Esri/hub.js/issues/1471)) ([217be81](https://github.com/Esri/hub.js/commit/217be819d9aa3f594000045e578d635a01b4d740))
+- scheduler added to content uischema ([#1471](https://github.com/Esri/hub.js/issues/1471)) ([217be81](https://github.com/Esri/hub.js/commit/217be819d9aa3f594000045e578d635a01b4d740))
 
 ## @esri/hub-common [14.118.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.118.0...@esri/hub-common@14.118.1) (2024-04-19)
 
-
 ### Bug Fixes
 
-* add helper texts and remove "Favorite" filter in follow card editor ([#1466](https://github.com/Esri/hub.js/issues/1466)) ([6e928b5](https://github.com/Esri/hub.js/commit/6e928b5dfbf977e519f85f611287884136c21a73))
+- add helper texts and remove "Favorite" filter in follow card editor ([#1466](https://github.com/Esri/hub.js/issues/1466)) ([6e928b5](https://github.com/Esri/hub.js/commit/6e928b5dfbf977e519f85f611287884136c21a73))
 
 # @esri/hub-common [14.118.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.117.0...@esri/hub-common@14.118.0) (2024-04-18)
 
-
 ### Bug Fixes
 
-* update can-edit-event to work in cases where initiative is deleted ([#1474](https://github.com/Esri/hub.js/issues/1474)) ([a07470b](https://github.com/Esri/hub.js/commit/a07470be35fe200afd8135499ef162da747b8243))
-
+- update can-edit-event to work in cases where initiative is deleted ([#1474](https://github.com/Esri/hub.js/issues/1474)) ([a07470b](https://github.com/Esri/hub.js/commit/a07470be35fe200afd8135499ef162da747b8243))
 
 ### Features
 
-* types for entity views ([#1477](https://github.com/Esri/hub.js/issues/1477)) ([89c6365](https://github.com/Esri/hub.js/commit/89c63658d6f88dc434cb9242ad75bf965ca65267))
+- types for entity views ([#1477](https://github.com/Esri/hub.js/issues/1477)) ([89c6365](https://github.com/Esri/hub.js/commit/89c63658d6f88dc434cb9242ad75bf965ca65267))
 
 # @esri/hub-common [14.117.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.116.1...@esri/hub-common@14.117.0) (2024-04-17)
 
-
 ### Features
 
-* add owner permission ([#1473](https://github.com/Esri/hub.js/issues/1473)) ([d539c92](https://github.com/Esri/hub.js/commit/d539c922e6231bb36a518fec827ae1ba7d29609a))
+- add owner permission ([#1473](https://github.com/Esri/hub.js/issues/1473)) ([d539c92](https://github.com/Esri/hub.js/commit/d539c922e6231bb36a518fec827ae1ba7d29609a))
 
 ## @esri/hub-common [14.116.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.116.0...@esri/hub-common@14.116.1) (2024-04-15)
 
-
 ### Bug Fixes
 
-* 9948 stat card editor error messaging ([#1472](https://github.com/Esri/hub.js/issues/1472)) ([02119ee](https://github.com/Esri/hub.js/commit/02119ee37dfe5e76f542e6a0dd9c6e0a133bd5c9))
+- 9948 stat card editor error messaging ([#1472](https://github.com/Esri/hub.js/issues/1472)) ([02119ee](https://github.com/Esri/hub.js/commit/02119ee37dfe5e76f542e6a0dd9c6e0a133bd5c9))
 
 # @esri/hub-common [14.116.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.115.0...@esri/hub-common@14.116.0) (2024-04-12)
 
-
 ### Features
 
-* **hub-common:** add facade methods related to entity sharing and ac… ([#1467](https://github.com/Esri/hub.js/issues/1467)) ([7cfc46b](https://github.com/Esri/hub.js/commit/7cfc46b8d983a28320999d10576d1523d7bd51b5))
+- **hub-common:** add facade methods related to entity sharing and ac… ([#1467](https://github.com/Esri/hub.js/issues/1467)) ([7cfc46b](https://github.com/Esri/hub.js/commit/7cfc46b8d983a28320999d10576d1523d7bd51b5))
 
 # @esri/hub-common [14.115.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.114.0...@esri/hub-common@14.115.0) (2024-04-11)
 
-
 ### Features
 
-* enrich initiatives with correct links ([#1460](https://github.com/Esri/hub.js/issues/1460)) ([488818c](https://github.com/Esri/hub.js/commit/488818cadf2c5215dc6f30c42692fd2236e6e1bc))
+- enrich initiatives with correct links ([#1460](https://github.com/Esri/hub.js/issues/1460)) ([488818c](https://github.com/Esri/hub.js/commit/488818cadf2c5215dc6f30c42692fd2236e6e1bc))
 
 # @esri/hub-common [14.114.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.113.0...@esri/hub-common@14.114.0) (2024-04-10)
 
-
 ### Features
 
-* **hub-common:** add function getRegistrations and fix type for page… ([#1468](https://github.com/Esri/hub.js/issues/1468)) ([33599d3](https://github.com/Esri/hub.js/commit/33599d3ecd889fcdb276ec708ece8f81e6268a69))
+- **hub-common:** add function getRegistrations and fix type for page… ([#1468](https://github.com/Esri/hub.js/issues/1468)) ([33599d3](https://github.com/Esri/hub.js/commit/33599d3ecd889fcdb276ec708ece8f81e6268a69))
 
 # @esri/hub-common [14.113.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.1...@esri/hub-common@14.113.0) (2024-04-10)
 
-
 ### Features
 
-* loosen hub:feature:user:preferences permission  ([#1470](https://github.com/Esri/hub.js/issues/1470)) ([03fad00](https://github.com/Esri/hub.js/commit/03fad00a20e271dc22dbecac279f14ad991d87fa))
+- loosen hub:feature:user:preferences permission ([#1470](https://github.com/Esri/hub.js/issues/1470)) ([03fad00](https://github.com/Esri/hub.js/commit/03fad00a20e271dc22dbecac279f14ad991d87fa))
 
 ## @esri/hub-common [14.112.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.0...@esri/hub-common@14.112.1) (2024-04-10)
 
-
 ### Bug Fixes
 
-* **hub-common:** add status to IUpdateEvent ([#1469](https://github.com/Esri/hub.js/issues/1469)) ([c44b99d](https://github.com/Esri/hub.js/commit/c44b99d3d364006dfedb45bb853c05b95dfea744))
+- **hub-common:** add status to IUpdateEvent ([#1469](https://github.com/Esri/hub.js/issues/1469)) ([c44b99d](https://github.com/Esri/hub.js/commit/c44b99d3d364006dfedb45bb853c05b95dfea744))
 
 # @esri/hub-common [14.112.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.112.0) (2024-04-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** add event icon to getContentTypeIcon method ([#1463](https://github.com/Esri/hub.js/issues/1463)) ([09b675d](https://github.com/Esri/hub.js/commit/09b675d142b8d59c274b400b6fa64aa4ec6eff2e))
-
+- **hub-common:** add event icon to getContentTypeIcon method ([#1463](https://github.com/Esri/hub.js/issues/1463)) ([09b675d](https://github.com/Esri/hub.js/commit/09b675d142b8d59c274b400b6fa64aa4ec6eff2e))
 
 ### Features
 
-* added permission for download errors ([#1465](https://github.com/Esri/hub.js/issues/1465)) ([63351c5](https://github.com/Esri/hub.js/commit/63351c5986dbc1f21c87fa2fd570912e55843b73))
+- added permission for download errors ([#1465](https://github.com/Esri/hub.js/issues/1465)) ([63351c5](https://github.com/Esri/hub.js/commit/63351c5986dbc1f21c87fa2fd570912e55843b73))
 
 ## @esri/hub-common [14.111.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.111.3) (2024-04-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** add event icon to getContentTypeIcon method ([#1463](https://github.com/Esri/hub.js/issues/1463)) ([09b675d](https://github.com/Esri/hub.js/commit/09b675d142b8d59c274b400b6fa64aa4ec6eff2e))
+- **hub-common:** add event icon to getContentTypeIcon method ([#1463](https://github.com/Esri/hub.js/issues/1463)) ([09b675d](https://github.com/Esri/hub.js/commit/09b675d142b8d59c274b400b6fa64aa4ec6eff2e))
 
 ## @esri/hub-common [14.111.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.1...@esri/hub-common@14.111.2) (2024-04-05)
 
-
 ### Bug Fixes
 
-* update unfollow button to outline-fill ([#1462](https://github.com/Esri/hub.js/issues/1462)) ([0427e81](https://github.com/Esri/hub.js/commit/0427e81045fff210f68600adf5d48c6c02b49832))
+- update unfollow button to outline-fill ([#1462](https://github.com/Esri/hub.js/issues/1462)) ([0427e81](https://github.com/Esri/hub.js/commit/0427e81045fff210f68600adf5d48c6c02b49832))
 
 ## @esri/hub-common [14.111.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.0...@esri/hub-common@14.111.1) (2024-04-05)
 
-
 ### Bug Fixes
 
-* metric/stat card schema sourceLink does url validation ([#1461](https://github.com/Esri/hub.js/issues/1461)) ([8e398d0](https://github.com/Esri/hub.js/commit/8e398d038e9e56529f098fd568bd545c10807c56))
+- metric/stat card schema sourceLink does url validation ([#1461](https://github.com/Esri/hub.js/issues/1461)) ([8e398d0](https://github.com/Esri/hub.js/commit/8e398d038e9e56529f098fd568bd545c10807c56))
 
 # @esri/hub-common [14.111.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.110.1...@esri/hub-common@14.111.0) (2024-04-05)
 
-
 ### Features
 
-* **hub-common:** add event entity ([#1457](https://github.com/Esri/hub.js/issues/1457)) ([b76092e](https://github.com/Esri/hub.js/commit/b76092ebb5e1093b140488a5714bfbe66d96c6b8))
+- **hub-common:** add event entity ([#1457](https://github.com/Esri/hub.js/issues/1457)) ([b76092e](https://github.com/Esri/hub.js/commit/b76092ebb5e1093b140488a5714bfbe66d96c6b8))
 
 ## @esri/hub-common [14.110.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.110.0...@esri/hub-common@14.110.1) (2024-04-03)
 
-
 ### Bug Fixes
 
-* update followSchema and followCardUiSchema ([#1455](https://github.com/Esri/hub.js/issues/1455)) ([7da4122](https://github.com/Esri/hub.js/commit/7da41222970e7ca705f3a22deb73b7158bbea41b))
+- update followSchema and followCardUiSchema ([#1455](https://github.com/Esri/hub.js/issues/1455)) ([7da4122](https://github.com/Esri/hub.js/commit/7da41222970e7ca705f3a22deb73b7158bbea41b))
 
 # @esri/hub-common [14.110.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.109.1...@esri/hub-common@14.110.0) (2024-04-01)
 
-
 ### Features
 
-* **hub-common:** add permission to capture download errors ([#1458](https://github.com/Esri/hub.js/issues/1458)) ([f132be4](https://github.com/Esri/hub.js/commit/f132be4376e39598929439af02937eebdab5fa56))
+- **hub-common:** add permission to capture download errors ([#1458](https://github.com/Esri/hub.js/issues/1458)) ([f132be4](https://github.com/Esri/hub.js/commit/f132be4376e39598929439af02937eebdab5fa56))
 
 ## @esri/hub-common [14.109.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.109.0...@esri/hub-common@14.109.1) (2024-03-30)
 
-
 ### Bug Fixes
 
-* add url validator ([#1451](https://github.com/Esri/hub.js/issues/1451)) ([54956d7](https://github.com/Esri/hub.js/commit/54956d75a2379a9d0478ff94d3ecacc5181f625b))
+- add url validator ([#1451](https://github.com/Esri/hub.js/issues/1451)) ([54956d7](https://github.com/Esri/hub.js/commit/54956d75a2379a9d0478ff94d3ecacc5181f625b))
 
 # @esri/hub-common [14.109.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.4...@esri/hub-common@14.109.0) (2024-03-28)
 
-
 ### Features
 
-* **hub-common:** add fetchItemJobRecords function ([#1454](https://github.com/Esri/hub.js/issues/1454)) ([082b847](https://github.com/Esri/hub.js/commit/082b847649f49c0c58afc5fbc336535d5113711a))
-* post with enrichments ([#1447](https://github.com/Esri/hub.js/issues/1447)) ([0a637c0](https://github.com/Esri/hub.js/commit/0a637c0853c059d6ca7c2b0e0ddc81ab3f697cdb))
+- **hub-common:** add fetchItemJobRecords function ([#1454](https://github.com/Esri/hub.js/issues/1454)) ([082b847](https://github.com/Esri/hub.js/commit/082b847649f49c0c58afc5fbc336535d5113711a))
+- post with enrichments ([#1447](https://github.com/Esri/hub.js/issues/1447)) ([0a637c0](https://github.com/Esri/hub.js/commit/0a637c0853c059d6ca7c2b0e0ddc81ab3f697cdb))
 
 ## @esri/hub-common [14.108.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.3...@esri/hub-common@14.108.4) (2024-03-27)
 
-
 ### Bug Fixes
 
-* **hub-common:** add tags and categories to events ([#1452](https://github.com/Esri/hub.js/issues/1452)) ([d0a6284](https://github.com/Esri/hub.js/commit/d0a6284c32403b1f600875f38bde2fcfcd517d5d))
+- **hub-common:** add tags and categories to events ([#1452](https://github.com/Esri/hub.js/issues/1452)) ([d0a6284](https://github.com/Esri/hub.js/commit/d0a6284c32403b1f600875f38bde2fcfcd517d5d))
 
 ## @esri/hub-common [14.108.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.2...@esri/hub-common@14.108.3) (2024-03-26)
 
-
 ### Bug Fixes
 
-* support old web mapping application sites in workspaces ([#1442](https://github.com/Esri/hub.js/issues/1442)) ([ede26c4](https://github.com/Esri/hub.js/commit/ede26c45b67391eb67f0d4bb511c627a82a6ba74))
+- support old web mapping application sites in workspaces ([#1442](https://github.com/Esri/hub.js/issues/1442)) ([ede26c4](https://github.com/Esri/hub.js/commit/ede26c45b67391eb67f0d4bb511c627a82a6ba74))
 
 ## @esri/hub-common [14.108.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.1...@esri/hub-common@14.108.2) (2024-03-26)
 
-
 ### Bug Fixes
 
-* initiatives can be edited by premium and basic users ([#1443](https://github.com/Esri/hub.js/issues/1443)) ([9dce7d0](https://github.com/Esri/hub.js/commit/9dce7d013eab32511cca225a38ffc21b9ecca5b2))
+- initiatives can be edited by premium and basic users ([#1443](https://github.com/Esri/hub.js/issues/1443)) ([9dce7d0](https://github.com/Esri/hub.js/commit/9dce7d013eab32511cca225a38ffc21b9ecca5b2))
 
 ## @esri/hub-common [14.108.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.0...@esri/hub-common@14.108.1) (2024-03-25)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix discussion board and survey permissions ([#1449](https://github.com/Esri/hub.js/issues/1449)) ([2d56088](https://github.com/Esri/hub.js/commit/2d56088af4fb01b9311cb910d8bbc0b077a5bb2a))
+- **hub-common:** fix discussion board and survey permissions ([#1449](https://github.com/Esri/hub.js/issues/1449)) ([2d56088](https://github.com/Esri/hub.js/commit/2d56088af4fb01b9311cb910d8bbc0b077a5bb2a))
 
 # @esri/hub-common [14.108.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.2...@esri/hub-common@14.108.0) (2024-03-25)
 
-
 ### Features
 
-* add canEditAccess permission to all entities ([#1445](https://github.com/Esri/hub.js/issues/1445)) ([d129c15](https://github.com/Esri/hub.js/commit/d129c15514460b65c7326cccd61c6129ffbfa58c))
+- add canEditAccess permission to all entities ([#1445](https://github.com/Esri/hub.js/issues/1445)) ([d129c15](https://github.com/Esri/hub.js/commit/d129c15514460b65c7326cccd61c6129ffbfa58c))
 
 ## @esri/hub-common [14.107.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.1...@esri/hub-common@14.107.2) (2024-03-25)
 
-
 ### Bug Fixes
 
-* **hub-common:** add permission object to IEvent and IRegistration ([#1448](https://github.com/Esri/hub.js/issues/1448)) ([fc32def](https://github.com/Esri/hub.js/commit/fc32def22ad4853f4d95f375e243b06f099a8fd5))
+- **hub-common:** add permission object to IEvent and IRegistration ([#1448](https://github.com/Esri/hub.js/issues/1448)) ([fc32def](https://github.com/Esri/hub.js/commit/fc32def22ad4853f4d95f375e243b06f099a8fd5))
 
 ## @esri/hub-common [14.107.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.0...@esri/hub-common@14.107.1) (2024-03-22)
 
-
 ### Bug Fixes
 
-* permissions for settings pane related to allow all editors ([#1446](https://github.com/Esri/hub.js/issues/1446)) ([f511e50](https://github.com/Esri/hub.js/commit/f511e508e2014810a586a2b584dcea188d2b2bc9))
+- permissions for settings pane related to allow all editors ([#1446](https://github.com/Esri/hub.js/issues/1446)) ([f511e50](https://github.com/Esri/hub.js/commit/f511e508e2014810a586a2b584dcea188d2b2bc9))
 
 # @esri/hub-common [14.107.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.106.0...@esri/hub-common@14.107.0) (2024-03-20)
 
-
 ### Features
 
-* handle association group settings ([#1435](https://github.com/Esri/hub.js/issues/1435)) ([6685e5e](https://github.com/Esri/hub.js/commit/6685e5e87d58892564f76536f70b908b0df5bda9))
+- handle association group settings ([#1435](https://github.com/Esri/hub.js/issues/1435)) ([6685e5e](https://github.com/Esri/hub.js/commit/6685e5e87d58892564f76536f70b908b0df5bda9))
 
 # @esri/hub-common [14.106.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.105.0...@esri/hub-common@14.106.0) (2024-03-13)
 
-
 ### Features
 
-* **hub-common:** add newsletters types and functions ([#1436](https://github.com/Esri/hub.js/issues/1436)) ([35ff6f7](https://github.com/Esri/hub.js/commit/35ff6f7af9969006362ec8f1f63bd454aaf49c9b))
+- **hub-common:** add newsletters types and functions ([#1436](https://github.com/Esri/hub.js/issues/1436)) ([35ff6f7](https://github.com/Esri/hub.js/commit/35ff6f7af9969006362ec8f1f63bd454aaf49c9b))
 
 # @esri/hub-common [14.105.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.104.0...@esri/hub-common@14.105.0) (2024-03-13)
 
-
 ### Features
 
-* 9273 new follow entity and related functionalities ([#1438](https://github.com/Esri/hub.js/issues/1438)) ([f5de4f2](https://github.com/Esri/hub.js/commit/f5de4f2d469735249830c194ef29936e737b96d9))
-* **hub-common:** add get s123 edit url util ([#1440](https://github.com/Esri/hub.js/issues/1440)) ([f7d0dca](https://github.com/Esri/hub.js/commit/f7d0dca38e38fbf80ff83a8217b2d64fb1a4d246))
+- 9273 new follow entity and related functionalities ([#1438](https://github.com/Esri/hub.js/issues/1438)) ([f5de4f2](https://github.com/Esri/hub.js/commit/f5de4f2d469735249830c194ef29936e737b96d9))
+- **hub-common:** add get s123 edit url util ([#1440](https://github.com/Esri/hub.js/issues/1440)) ([f7d0dca](https://github.com/Esri/hub.js/commit/f7d0dca38e38fbf80ff83a8217b2d64fb1a4d246))
 
 # @esri/hub-common [14.104.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.103.0...@esri/hub-common@14.104.0) (2024-03-13)
 
-
 ### Features
 
-* **hub-common:** add s123 url to context ([#1439](https://github.com/Esri/hub.js/issues/1439)) ([be5f99e](https://github.com/Esri/hub.js/commit/be5f99eac174c58794127d83b5b26549d3231eeb))
+- **hub-common:** add s123 url to context ([#1439](https://github.com/Esri/hub.js/issues/1439)) ([be5f99e](https://github.com/Esri/hub.js/commit/be5f99eac174c58794127d83b5b26549d3231eeb))
 
 # @esri/hub-common [14.103.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.102.0...@esri/hub-common@14.103.0) (2024-03-11)
 
-
 ### Features
 
-* scaffold initiative metrics ([#1429](https://github.com/Esri/hub.js/issues/1429)) ([891f80a](https://github.com/Esri/hub.js/commit/891f80a5d0cbc54976ec1ae665e3315b362c5c03))
+- scaffold initiative metrics ([#1429](https://github.com/Esri/hub.js/issues/1429)) ([891f80a](https://github.com/Esri/hub.js/commit/891f80a5d0cbc54976ec1ae665e3315b362c5c03))
 
 # @esri/hub-common [14.102.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.101.0...@esri/hub-common@14.102.0) (2024-03-08)
 
-
 ### Features
 
-* add orgId to IHubGroup ([#1434](https://github.com/Esri/hub.js/issues/1434)) ([66c574d](https://github.com/Esri/hub.js/commit/66c574d3edac0a0ebe0a1600fe3f8f8e7dc980c5))
+- add orgId to IHubGroup ([#1434](https://github.com/Esri/hub.js/issues/1434)) ([66c574d](https://github.com/Esri/hub.js/commit/66c574d3edac0a0ebe0a1600fe3f8f8e7dc980c5))
 
 # @esri/hub-common [14.101.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.100.1...@esri/hub-common@14.101.0) (2024-03-07)
 
-
 ### Features
 
-* **hub-common:** update events types ([#1426](https://github.com/Esri/hub.js/issues/1426)) ([83beb44](https://github.com/Esri/hub.js/commit/83beb44affeac6bced315680d41db63dd512aec9))
+- **hub-common:** update events types ([#1426](https://github.com/Esri/hub.js/issues/1426)) ([83beb44](https://github.com/Esri/hub.js/commit/83beb44affeac6bced315680d41db63dd512aec9))
 
 ## @esri/hub-common [14.100.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.100.0...@esri/hub-common@14.100.1) (2024-03-07)
 
-
 ### Bug Fixes
 
-* remove unused scope on subblock section in stat card editor uiSchema ([#1431](https://github.com/Esri/hub.js/issues/1431)) ([9389cd8](https://github.com/Esri/hub.js/commit/9389cd8c9dfe4c8fdc6231c4ff227f7ff8f062b5))
+- remove unused scope on subblock section in stat card editor uiSchema ([#1431](https://github.com/Esri/hub.js/issues/1431)) ([9389cd8](https://github.com/Esri/hub.js/commit/9389cd8c9dfe4c8fdc6231c4ff227f7ff8f062b5))
 
 # @esri/hub-common [14.100.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.99.0...@esri/hub-common@14.100.0) (2024-03-07)
 
-
 ### Features
 
-* **hub-common:** introduces types and function modifications for discussion post search ([#1425](https://github.com/Esri/hub.js/issues/1425)) ([b0080ff](https://github.com/Esri/hub.js/commit/b0080ff67de8526b40e91e8dd66aeb1074369f36))
-* **hub-common:** update feedback util ([#1433](https://github.com/Esri/hub.js/issues/1433)) ([f71a855](https://github.com/Esri/hub.js/commit/f71a8558e6bc37daccff6e9c38e81a50c6361382))
+- **hub-common:** introduces types and function modifications for discussion post search ([#1425](https://github.com/Esri/hub.js/issues/1425)) ([b0080ff](https://github.com/Esri/hub.js/commit/b0080ff67de8526b40e91e8dd66aeb1074369f36))
+- **hub-common:** update feedback util ([#1433](https://github.com/Esri/hub.js/issues/1433)) ([f71a855](https://github.com/Esri/hub.js/commit/f71a8558e6bc37daccff6e9c38e81a50c6361382))
 
 # @esri/hub-common [14.99.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.1...@esri/hub-common@14.99.0) (2024-03-06)
 
-
 ### Features
 
-* **hub-common:** create feedback entity ([#1414](https://github.com/Esri/hub.js/issues/1414)) ([4a5e61e](https://github.com/Esri/hub.js/commit/4a5e61eca8cda965f9ad0e30a857c429230e0b47))
+- **hub-common:** create feedback entity ([#1414](https://github.com/Esri/hub.js/issues/1414)) ([4a5e61e](https://github.com/Esri/hub.js/commit/4a5e61eca8cda965f9ad0e30a857c429230e0b47))
 
 ## @esri/hub-common [14.98.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.0...@esri/hub-common@14.98.1) (2024-03-06)
 
-
 ### Bug Fixes
 
-* ensure sites have telemetry ([#1430](https://github.com/Esri/hub.js/issues/1430)) ([abc5205](https://github.com/Esri/hub.js/commit/abc5205bd8779d4544ceda042a8a097369b52364))
+- ensure sites have telemetry ([#1430](https://github.com/Esri/hub.js/issues/1430)) ([abc5205](https://github.com/Esri/hub.js/commit/abc5205bd8779d4544ceda042a8a097369b52364))
 
 # @esri/hub-common [14.98.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.97.0...@esri/hub-common@14.98.0) (2024-03-05)
 
-
 ### Bug Fixes
 
-* await uiSchema build ([#1428](https://github.com/Esri/hub.js/issues/1428)) ([8af4f48](https://github.com/Esri/hub.js/commit/8af4f48c55b3867e8d4bf6208c6bfd229f602123))
-
+- await uiSchema build ([#1428](https://github.com/Esri/hub.js/issues/1428)) ([8af4f48](https://github.com/Esri/hub.js/commit/8af4f48c55b3867e8d4bf6208c6bfd229f602123))
 
 ### Features
 
-* org thumbnail ([#1427](https://github.com/Esri/hub.js/issues/1427)) ([2d61161](https://github.com/Esri/hub.js/commit/2d61161d6fa2260181f885153917d42960f42efb))
+- org thumbnail ([#1427](https://github.com/Esri/hub.js/issues/1427)) ([2d61161](https://github.com/Esri/hub.js/commit/2d61161d6fa2260181f885153917d42960f42efb))
 
 # @esri/hub-common [14.97.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.96.0...@esri/hub-common@14.97.0) (2024-03-04)
 
-
 ### Features
 
-* implement assertion conditions ([#1424](https://github.com/Esri/hub.js/issues/1424)) ([bfaeb5a](https://github.com/Esri/hub.js/commit/bfaeb5ad99507d7094ec028df6e96edffe2095b6))
+- implement assertion conditions ([#1424](https://github.com/Esri/hub.js/issues/1424)) ([bfaeb5a](https://github.com/Esri/hub.js/commit/bfaeb5ad99507d7094ec028df6e96edffe2095b6))
 
 # @esri/hub-common [14.96.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.1...@esri/hub-common@14.96.0) (2024-02-29)
 
-
 ### Features
 
-* association group creation form and permission ([#1413](https://github.com/Esri/hub.js/issues/1413)) ([64d01b4](https://github.com/Esri/hub.js/commit/64d01b4eb4b514edefff06fd14c29e600149c92c))
+- association group creation form and permission ([#1413](https://github.com/Esri/hub.js/issues/1413)) ([64d01b4](https://github.com/Esri/hub.js/commit/64d01b4eb4b514edefff06fd14c29e600149c92c))
 
 ## @esri/hub-common [14.95.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.0...@esri/hub-common@14.95.1) (2024-02-27)
 
-
 ### Bug Fixes
 
-* add prod alpha orgs to hub:feature:workspace ([#1423](https://github.com/Esri/hub.js/issues/1423)) ([f1104a2](https://github.com/Esri/hub.js/commit/f1104a2dd332516ee26a323e0a18d38ecb7ff065))
+- add prod alpha orgs to hub:feature:workspace ([#1423](https://github.com/Esri/hub.js/issues/1423)) ([f1104a2](https://github.com/Esri/hub.js/commit/f1104a2dd332516ee26a323e0a18d38ecb7ff065))
 
 # @esri/hub-common [14.95.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.94.0...@esri/hub-common@14.95.0) (2024-02-26)
 
-
 ### Features
 
-* **hub-common:** update events schema for onlineMeetings ([#1421](https://github.com/Esri/hub.js/issues/1421)) ([c81255f](https://github.com/Esri/hub.js/commit/c81255f2f806045299e70771a6649e5f1b4ebed6))
+- **hub-common:** update events schema for onlineMeetings ([#1421](https://github.com/Esri/hub.js/issues/1421)) ([c81255f](https://github.com/Esri/hub.js/commit/c81255f2f806045299e70771a6649e5f1b4ebed6))
 
 # @esri/hub-common [14.94.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.1...@esri/hub-common@14.94.0) (2024-02-23)
 
-
 ### Features
 
-* **hub-common:** remove hostedDownloads beta setting from content schemas / entity calculations ([#1422](https://github.com/Esri/hub.js/issues/1422)) ([28af54f](https://github.com/Esri/hub.js/commit/28af54f923566d437958fa08e769edd41d01bfa4))
+- **hub-common:** remove hostedDownloads beta setting from content schemas / entity calculations ([#1422](https://github.com/Esri/hub.js/issues/1422)) ([28af54f](https://github.com/Esri/hub.js/commit/28af54f923566d437958fa08e769edd41d01bfa4))
 
 ## @esri/hub-common [14.93.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.0...@esri/hub-common@14.93.1) (2024-02-22)
 
-
 ### Bug Fixes
 
-* findItemsBySlug short-circuits to resolve empty array when slug is falsey ([#1420](https://github.com/Esri/hub.js/issues/1420)) ([f255f6e](https://github.com/Esri/hub.js/commit/f255f6ec4ce20598ef9538f208d7f5c1d38f51fe))
+- findItemsBySlug short-circuits to resolve empty array when slug is falsey ([#1420](https://github.com/Esri/hub.js/issues/1420)) ([f255f6e](https://github.com/Esri/hub.js/commit/f255f6ec4ce20598ef9538f208d7f5c1d38f51fe))
 
 # @esri/hub-common [14.93.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.3...@esri/hub-common@14.93.0) (2024-02-21)
 
-
 ### Features
 
-* **hub-common:** add types for event addresses ([#1417](https://github.com/Esri/hub.js/issues/1417)) ([7fe4657](https://github.com/Esri/hub.js/commit/7fe46575ac0c167091907d68ccb2d1cda834ddfe))
+- **hub-common:** add types for event addresses ([#1417](https://github.com/Esri/hub.js/issues/1417)) ([7fe4657](https://github.com/Esri/hub.js/commit/7fe46575ac0c167091907d68ccb2d1cda834ddfe))
 
 ## @esri/hub-common [14.92.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.2...@esri/hub-common@14.92.3) (2024-02-21)
 
-
 ### Bug Fixes
 
-* gate the new follow card behind the feature flag ([#1419](https://github.com/Esri/hub.js/issues/1419)) ([92626e7](https://github.com/Esri/hub.js/commit/92626e72e30af5d113f9f0eb7313262d03f2b253))
+- gate the new follow card behind the feature flag ([#1419](https://github.com/Esri/hub.js/issues/1419)) ([92626e7](https://github.com/Esri/hub.js/commit/92626e72e30af5d113f9f0eb7313262d03f2b253))
 
 ## @esri/hub-common [14.92.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.1...@esri/hub-common@14.92.2) (2024-02-20)
 
-
 ### Bug Fixes
 
-* view edit isviewonly ([#1418](https://github.com/Esri/hub.js/issues/1418)) ([904bd27](https://github.com/Esri/hub.js/commit/904bd27cd0911aa6b9c4be8d645dc06816268b8f))
+- view edit isviewonly ([#1418](https://github.com/Esri/hub.js/issues/1418)) ([904bd27](https://github.com/Esri/hub.js/commit/904bd27cd0911aa6b9c4be8d645dc06816268b8f))
 
 ## @esri/hub-common [14.92.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.0...@esri/hub-common@14.92.1) (2024-02-16)
 
-
 ### Bug Fixes
 
-* checkPermission tolerates context without userHubSettings ([#1416](https://github.com/Esri/hub.js/issues/1416)) ([f9e7669](https://github.com/Esri/hub.js/commit/f9e766948773dc8a24725e8c390f3177f81d4619))
+- checkPermission tolerates context without userHubSettings ([#1416](https://github.com/Esri/hub.js/issues/1416)) ([f9e7669](https://github.com/Esri/hub.js/commit/f9e766948773dc8a24725e8c390f3177f81d4619))
 
 # @esri/hub-common [14.92.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.91.0...@esri/hub-common@14.92.0) (2024-02-16)
 
-
 ### Bug Fixes
 
-* remove group sharing ([#1415](https://github.com/Esri/hub.js/issues/1415)) ([d0bb1c1](https://github.com/Esri/hub.js/commit/d0bb1c189dd78ed65b96ac7c20df5663e31bea47))
-
+- remove group sharing ([#1415](https://github.com/Esri/hub.js/issues/1415)) ([d0bb1c1](https://github.com/Esri/hub.js/commit/d0bb1c189dd78ed65b96ac7c20df5663e31bea47))
 
 ### Features
 
-* new schemas for creating view/edit groups ([#1400](https://github.com/Esri/hub.js/issues/1400)) ([bdb63c8](https://github.com/Esri/hub.js/commit/bdb63c8d71b10ebe0bb27c6eb093a92e1661536e))
+- new schemas for creating view/edit groups ([#1400](https://github.com/Esri/hub.js/issues/1400)) ([bdb63c8](https://github.com/Esri/hub.js/commit/bdb63c8d71b10ebe0bb27c6eb093a92e1661536e))
 
 # @esri/hub-common [14.91.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.90.1...@esri/hub-common@14.91.0) (2024-02-16)
 
-
 ### Features
 
-* context has user history ([#1411](https://github.com/Esri/hub.js/issues/1411)) ([1c350cd](https://github.com/Esri/hub.js/commit/1c350cdf5f22be4c9b136ceab9db7975f7938752))
+- context has user history ([#1411](https://github.com/Esri/hub.js/issues/1411)) ([1c350cd](https://github.com/Esri/hub.js/commit/1c350cdf5f22be4c9b136ceab9db7975f7938752))
 
 ## @esri/hub-common [14.90.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.90.0...@esri/hub-common@14.90.1) (2024-02-14)
 
-
 ### Bug Fixes
 
-* constructSlug accounts for typekeyword max length of 256 chars ([#1410](https://github.com/Esri/hub.js/issues/1410)) ([c7465a0](https://github.com/Esri/hub.js/commit/c7465a00aac743b833ca448e7a0e44ddf4e6c60b))
+- constructSlug accounts for typekeyword max length of 256 chars ([#1410](https://github.com/Esri/hub.js/issues/1410)) ([c7465a0](https://github.com/Esri/hub.js/commit/c7465a00aac743b833ca448e7a0e44ddf4e6c60b))
 
 # @esri/hub-common [14.90.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.89.1...@esri/hub-common@14.90.0) (2024-02-12)
 
-
 ### Features
 
-* **hub-common:** add events 3.0 functions ([#1397](https://github.com/Esri/hub.js/issues/1397)) ([846f579](https://github.com/Esri/hub.js/commit/846f5799671c5181af0e9ded56633ace1c584a1f))
+- **hub-common:** add events 3.0 functions ([#1397](https://github.com/Esri/hub.js/issues/1397)) ([846f579](https://github.com/Esri/hub.js/commit/846f5799671c5181af0e9ded56633ace1c584a1f))
 
 ## @esri/hub-common [14.89.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.89.0...@esri/hub-common@14.89.1) (2024-02-09)
 
-
 ### Bug Fixes
 
-* fix the keyboard permission! ([#1409](https://github.com/Esri/hub.js/issues/1409)) ([078d606](https://github.com/Esri/hub.js/commit/078d60674e2b60056b5427bf6cafa057b52b01b4))
+- fix the keyboard permission! ([#1409](https://github.com/Esri/hub.js/issues/1409)) ([078d606](https://github.com/Esri/hub.js/commit/078d60674e2b60056b5427bf6cafa057b52b01b4))
 
 # @esri/hub-common [14.89.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.88.0...@esri/hub-common@14.89.0) (2024-02-09)
 
-
 ### Features
 
-* add system permission for keyboard shortcuts ([#1408](https://github.com/Esri/hub.js/issues/1408)) ([7d66793](https://github.com/Esri/hub.js/commit/7d66793215384874fb76ce1d00068af7d5512ce2))
+- add system permission for keyboard shortcuts ([#1408](https://github.com/Esri/hub.js/issues/1408)) ([7d66793](https://github.com/Esri/hub.js/commit/7d66793215384874fb76ce1d00068af7d5512ce2))
 
 # @esri/hub-common [14.88.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.2...@esri/hub-common@14.88.0) (2024-02-08)
 
-
 ### Features
 
-* remove temp discussions gating permission ([#1405](https://github.com/Esri/hub.js/issues/1405)) ([fd280e7](https://github.com/Esri/hub.js/commit/fd280e7d6d25a32bb302290627f0d73b94dc6025))
+- remove temp discussions gating permission ([#1405](https://github.com/Esri/hub.js/issues/1405)) ([fd280e7](https://github.com/Esri/hub.js/commit/fd280e7d6d25a32bb302290627f0d73b94dc6025))
 
 ## @esri/hub-common [14.87.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.1...@esri/hub-common@14.87.2) (2024-02-07)
 
-
 ### Bug Fixes
 
-* add permission for project associations ([#1404](https://github.com/Esri/hub.js/issues/1404)) ([ca42602](https://github.com/Esri/hub.js/commit/ca4260271cb489bc638fbd90c2c6f42244d2ac12))
+- add permission for project associations ([#1404](https://github.com/Esri/hub.js/issues/1404)) ([ca42602](https://github.com/Esri/hub.js/commit/ca4260271cb489bc638fbd90c2c6f42244d2ac12))
 
 ## @esri/hub-common [14.87.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.0...@esri/hub-common@14.87.1) (2024-02-07)
 
-
 ### Bug Fixes
 
-* alpha-gate overview and remove extra util ([#1396](https://github.com/Esri/hub.js/issues/1396)) ([b1bc126](https://github.com/Esri/hub.js/commit/b1bc126fae90911d34adc5219c6eec478589afee))
+- alpha-gate overview and remove extra util ([#1396](https://github.com/Esri/hub.js/issues/1396)) ([b1bc126](https://github.com/Esri/hub.js/commit/b1bc126fae90911d34adc5219c6eec478589afee))
 
 # @esri/hub-common [14.87.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.86.1...@esri/hub-common@14.87.0) (2024-02-07)
 
-
 ### Features
 
-* 9161 follow card schema update ([#1406](https://github.com/Esri/hub.js/issues/1406)) ([6b71911](https://github.com/Esri/hub.js/commit/6b719119bbf0183dd82ffc45c5a4008f03e53719))
+- 9161 follow card schema update ([#1406](https://github.com/Esri/hub.js/issues/1406)) ([6b71911](https://github.com/Esri/hub.js/commit/6b719119bbf0183dd82ffc45c5a4008f03e53719))
 
 ## @esri/hub-common [14.86.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.86.0...@esri/hub-common@14.86.1) (2024-02-06)
 
-
 ### Bug Fixes
 
-* **hub-common:** refactor hubSearchChannels for more general use ([#1398](https://github.com/Esri/hub.js/issues/1398)) ([8aba9aa](https://github.com/Esri/hub.js/commit/8aba9aa94f131630b8d8b2862dc5cdf5c6ccd1ee))
+- **hub-common:** refactor hubSearchChannels for more general use ([#1398](https://github.com/Esri/hub.js/issues/1398)) ([8aba9aa](https://github.com/Esri/hub.js/commit/8aba9aa94f131630b8d8b2862dc5cdf5c6ccd1ee))
 
 # @esri/hub-common [14.86.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.85.0...@esri/hub-common@14.86.0) (2024-02-05)
 
-
 ### Features
 
-* add permission to manage on umbrella ([#1403](https://github.com/Esri/hub.js/issues/1403)) ([d438766](https://github.com/Esri/hub.js/commit/d438766da8819750bad982d1655b94599038c478))
+- add permission to manage on umbrella ([#1403](https://github.com/Esri/hub.js/issues/1403)) ([d438766](https://github.com/Esri/hub.js/commit/d438766da8819750bad982d1655b94599038c478))
 
 # @esri/hub-common [14.85.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.84.0...@esri/hub-common@14.85.0) (2024-02-05)
 
-
 ### Features
 
-* add deepDeletePropByValue and deepEqual util functions ([#1401](https://github.com/Esri/hub.js/issues/1401)) ([9671261](https://github.com/Esri/hub.js/commit/96712615113f8ba48a44b1af7bc3466fb572f36f))
+- add deepDeletePropByValue and deepEqual util functions ([#1401](https://github.com/Esri/hub.js/issues/1401)) ([9671261](https://github.com/Esri/hub.js/commit/96712615113f8ba48a44b1af7bc3466fb572f36f))
 
 # @esri/hub-common [14.84.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.83.0...@esri/hub-common@14.84.0) (2024-02-01)
 
-
 ### Features
 
-* enhance associations logic to handle forming associations ([#1395](https://github.com/Esri/hub.js/issues/1395)) ([6eb7e5f](https://github.com/Esri/hub.js/commit/6eb7e5f6548161d28381139e2d3c76cbae175797))
+- enhance associations logic to handle forming associations ([#1395](https://github.com/Esri/hub.js/issues/1395)) ([6eb7e5f](https://github.com/Esri/hub.js/commit/6eb7e5f6548161d28381139e2d3c76cbae175797))
 
 # @esri/hub-common [14.83.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.82.1...@esri/hub-common@14.83.0) (2024-01-29)
 
-
 ### Features
 
-* date option ([#1392](https://github.com/Esri/hub.js/issues/1392)) ([ad8ba53](https://github.com/Esri/hub.js/commit/ad8ba5385ce3bbddc348fcb7d094909aaab9edc8))
+- date option ([#1392](https://github.com/Esri/hub.js/issues/1392)) ([ad8ba53](https://github.com/Esri/hub.js/commit/ad8ba5385ce3bbddc348fcb7d094909aaab9edc8))
 
 ## @esri/hub-common [14.82.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.82.0...@esri/hub-common@14.82.1) (2024-01-29)
 
-
 ### Bug Fixes
 
-* add clearOnHidden to values in metrics ([#1393](https://github.com/Esri/hub.js/issues/1393)) ([311ad2a](https://github.com/Esri/hub.js/commit/311ad2acd15a7bb4bdedf5cf600446299217499d))
+- add clearOnHidden to values in metrics ([#1393](https://github.com/Esri/hub.js/issues/1393)) ([311ad2a](https://github.com/Esri/hub.js/commit/311ad2acd15a7bb4bdedf5cf600446299217499d))
 
 # @esri/hub-common [14.82.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.1...@esri/hub-common@14.82.0) (2024-01-26)
 
-
 ### Features
 
-* follow card permission and editor support ([#1394](https://github.com/Esri/hub.js/issues/1394)) ([23feb30](https://github.com/Esri/hub.js/commit/23feb301229809b9971a56cf234850d88fa4ac52))
+- follow card permission and editor support ([#1394](https://github.com/Esri/hub.js/issues/1394)) ([23feb30](https://github.com/Esri/hub.js/commit/23feb301229809b9971a56cf234850d88fa4ac52))
 
 ## @esri/hub-common [14.81.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.0...@esri/hub-common@14.81.1) (2024-01-24)
 
-
 ### Bug Fixes
 
-* config editor cleanup - update schemas ([#1377](https://github.com/Esri/hub.js/issues/1377)) ([f531ee5](https://github.com/Esri/hub.js/commit/f531ee580f1c728a5fa13c905c83fd51ea2aeb9a))
+- config editor cleanup - update schemas ([#1377](https://github.com/Esri/hub.js/issues/1377)) ([f531ee5](https://github.com/Esri/hub.js/commit/f531ee580f1c728a5fa13c905c83fd51ea2aeb9a))
 
 # @esri/hub-common [14.81.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.2...@esri/hub-common@14.81.0) (2024-01-24)
 
-
 ### Features
 
-* **hub-common:** consolidates entity location construction and depre… ([#1382](https://github.com/Esri/hub.js/issues/1382)) ([d067225](https://github.com/Esri/hub.js/commit/d06722554645eb082ec1f03be323d18a4aceb8b7))
+- **hub-common:** consolidates entity location construction and depre… ([#1382](https://github.com/Esri/hub.js/issues/1382)) ([d067225](https://github.com/Esri/hub.js/commit/d06722554645eb082ec1f03be323d18a4aceb8b7))
 
 ## @esri/hub-common [14.80.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.1...@esri/hub-common@14.80.2) (2024-01-23)
 
-
 ### Bug Fixes
 
-* project/initiatives use upsertResource ([#1388](https://github.com/Esri/hub.js/issues/1388)) ([8e3aabc](https://github.com/Esri/hub.js/commit/8e3aabc6af67cc9655da02959b3e57b9561c422f))
+- project/initiatives use upsertResource ([#1388](https://github.com/Esri/hub.js/issues/1388)) ([8e3aabc](https://github.com/Esri/hub.js/commit/8e3aabc6af67cc9655da02959b3e57b9561c422f))
 
 ## @esri/hub-common [14.80.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.0...@esri/hub-common@14.80.1) (2024-01-18)
 
-
 ### Bug Fixes
 
-* explicitly say control for stat card uiSchema ([#1387](https://github.com/Esri/hub.js/issues/1387)) ([a92acff](https://github.com/Esri/hub.js/commit/a92acff6bdc3600faa05f35b161d3259a32afa72))
+- explicitly say control for stat card uiSchema ([#1387](https://github.com/Esri/hub.js/issues/1387)) ([a92acff](https://github.com/Esri/hub.js/commit/a92acff6bdc3600faa05f35b161d3259a32afa72))
 
 # @esri/hub-common [14.80.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.1...@esri/hub-common@14.80.0) (2024-01-18)
 
-
 ### Features
 
-* expose portal limits on context ([#1385](https://github.com/Esri/hub.js/issues/1385)) ([28b693d](https://github.com/Esri/hub.js/commit/28b693d2de7b6f19c2d63cc8b178d60578c11636))
+- expose portal limits on context ([#1385](https://github.com/Esri/hub.js/issues/1385)) ([28b693d](https://github.com/Esri/hub.js/commit/28b693d2de7b6f19c2d63cc8b178d60578c11636))
 
 ## @esri/hub-common [14.79.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.0...@esri/hub-common@14.79.1) (2024-01-17)
 
-
 ### Bug Fixes
 
-* update subsetSchema ([#1386](https://github.com/Esri/hub.js/issues/1386)) ([b1be3e2](https://github.com/Esri/hub.js/commit/b1be3e2371608f276c3fc1ac14cbd7c6551921be))
+- update subsetSchema ([#1386](https://github.com/Esri/hub.js/issues/1386)) ([b1be3e2](https://github.com/Esri/hub.js/commit/b1be3e2371608f276c3fc1ac14cbd7c6551921be))
 
 # @esri/hub-common [14.79.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.2...@esri/hub-common@14.79.0) (2024-01-16)
 
-
 ### Features
 
-* release project metrics ([#1383](https://github.com/Esri/hub.js/issues/1383)) ([f2c9a55](https://github.com/Esri/hub.js/commit/f2c9a55d52cd48c4ee07d5be0c1f6375a2f213e6))
+- release project metrics ([#1383](https://github.com/Esri/hub.js/issues/1383)) ([f2c9a55](https://github.com/Esri/hub.js/commit/f2c9a55d52cd48c4ee07d5be0c1f6375a2f213e6))
 
 ## @esri/hub-common [14.78.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.1...@esri/hub-common@14.78.2) (2024-01-11)
 
-
 ### Bug Fixes
 
-* require title and require value if static ([#1373](https://github.com/Esri/hub.js/issues/1373)) ([6231438](https://github.com/Esri/hub.js/commit/62314387ec9033e2a390e072f7f60f3f6eef9581))
+- require title and require value if static ([#1373](https://github.com/Esri/hub.js/issues/1373)) ([6231438](https://github.com/Esri/hub.js/commit/62314387ec9033e2a390e072f7f60f3f6eef9581))
 
 ## @esri/hub-common [14.78.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.0...@esri/hub-common@14.78.1) (2024-01-11)
 
-
 ### Bug Fixes
 
-* migrate malformed basemap hash resulting from hub.py bug ([#1381](https://github.com/Esri/hub.js/issues/1381)) ([b68da32](https://github.com/Esri/hub.js/commit/b68da32b9206e45ab3568c026f49d5659af8f05b))
+- migrate malformed basemap hash resulting from hub.py bug ([#1381](https://github.com/Esri/hub.js/issues/1381)) ([b68da32](https://github.com/Esri/hub.js/commit/b68da32b9206e45ab3568c026f49d5659af8f05b))
 
 # @esri/hub-common [14.78.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.1...@esri/hub-common@14.78.0) (2024-01-10)
 
-
 ### Features
 
-* add type for static metric value ([#1371](https://github.com/Esri/hub.js/issues/1371)) ([af404bf](https://github.com/Esri/hub.js/commit/af404bf47686e411f5612f5a3c5a937c97218616))
+- add type for static metric value ([#1371](https://github.com/Esri/hub.js/issues/1371)) ([af404bf](https://github.com/Esri/hub.js/commit/af404bf47686e411f5612f5a3c5a937c97218616))
 
 ## @esri/hub-common [14.77.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.0...@esri/hub-common@14.77.1) (2024-01-10)
 
-
 ### Bug Fixes
 
-* image description in hero title select ([#1380](https://github.com/Esri/hub.js/issues/1380)) ([0693f24](https://github.com/Esri/hub.js/commit/0693f249bc024af69d8b8ec7729c4caa32d03aaa))
+- image description in hero title select ([#1380](https://github.com/Esri/hub.js/issues/1380)) ([0693f24](https://github.com/Esri/hub.js/commit/0693f249bc024af69d8b8ec7729c4caa32d03aaa))
 
 # @esri/hub-common [14.77.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.76.0...@esri/hub-common@14.77.0) (2024-01-09)
 
-
 ### Features
 
-* **hub-common:** adds IHubLocation to IHubSearchResult ([#1376](https://github.com/Esri/hub.js/issues/1376)) ([122d285](https://github.com/Esri/hub.js/commit/122d285f94feb2b5aabeba33bf325ce8edf4f016))
+- **hub-common:** adds IHubLocation to IHubSearchResult ([#1376](https://github.com/Esri/hub.js/issues/1376)) ([122d285](https://github.com/Esri/hub.js/commit/122d285f94feb2b5aabeba33bf325ce8edf4f016))
 
 # @esri/hub-common [14.76.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.75.0...@esri/hub-common@14.76.0) (2024-01-09)
 
-
 ### Features
 
-* **hub-common:** adds character limit to prompt field ([#1375](https://github.com/Esri/hub.js/issues/1375)) ([e6503cd](https://github.com/Esri/hub.js/commit/e6503cdf3ca33e17f143d9eb6b34f268de677dde))
+- **hub-common:** adds character limit to prompt field ([#1375](https://github.com/Esri/hub.js/issues/1375)) ([e6503cd](https://github.com/Esri/hub.js/commit/e6503cdf3ca33e17f143d9eb6b34f268de677dde))
 
 # @esri/hub-common [14.75.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.2...@esri/hub-common@14.75.0) (2024-01-09)
 
-
 ### Features
 
-* add/update associations business logic ([#1370](https://github.com/Esri/hub.js/issues/1370)) ([75abd91](https://github.com/Esri/hub.js/commit/75abd912462cbd4f49e9be859da1ae6270021e89))
+- add/update associations business logic ([#1370](https://github.com/Esri/hub.js/issues/1370)) ([75abd91](https://github.com/Esri/hub.js/commit/75abd912462cbd4f49e9be859da1ae6270021e89))
 
 ## @esri/hub-common [14.74.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.1...@esri/hub-common@14.74.2) (2024-01-08)
 
-
 ### Bug Fixes
 
-* setFeaturedImage can now clear out orphaned featured image resou… ([#1378](https://github.com/Esri/hub.js/issues/1378)) ([910b2ea](https://github.com/Esri/hub.js/commit/910b2ea0480bf5704bfc332e8f98f71f2c8af63a))
+- setFeaturedImage can now clear out orphaned featured image resou… ([#1378](https://github.com/Esri/hub.js/issues/1378)) ([910b2ea](https://github.com/Esri/hub.js/commit/910b2ea0480bf5704bfc332e8f98f71f2c8af63a))
 
 ## @esri/hub-common [14.74.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.0...@esri/hub-common@14.74.1) (2024-01-05)
 
-
 ### Bug Fixes
 
-* add call to action to project edit uiSchema ([#1369](https://github.com/Esri/hub.js/issues/1369)) ([59e2a57](https://github.com/Esri/hub.js/commit/59e2a577cd694b411de927de85ef732f8bc24692))
+- add call to action to project edit uiSchema ([#1369](https://github.com/Esri/hub.js/issues/1369)) ([59e2a57](https://github.com/Esri/hub.js/commit/59e2a577cd694b411de927de85ef732f8bc24692))
 
 # @esri/hub-common [14.74.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.73.0...@esri/hub-common@14.74.0) (2024-01-04)
 
-
 ### Features
 
-* add correct fields for static and dynamic ([#1346](https://github.com/Esri/hub.js/issues/1346)) ([d2bf4c1](https://github.com/Esri/hub.js/commit/d2bf4c118caaae83d233fa2274c1dca54b57f227))
+- add correct fields for static and dynamic ([#1346](https://github.com/Esri/hub.js/issues/1346)) ([d2bf4c1](https://github.com/Esri/hub.js/commit/d2bf4c118caaae83d233fa2274c1dca54b57f227))
 
 # @esri/hub-common [14.73.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.2...@esri/hub-common@14.73.0) (2023-12-29)
 
-
 ### Features
 
-* **hub-common:** enable content settings for admins and add content delete permission ([#1372](https://github.com/Esri/hub.js/issues/1372)) ([00ecba2](https://github.com/Esri/hub.js/commit/00ecba267ca3181fe8e735087ab9df5bcfef72cc))
+- **hub-common:** enable content settings for admins and add content delete permission ([#1372](https://github.com/Esri/hub.js/issues/1372)) ([00ecba2](https://github.com/Esri/hub.js/commit/00ecba267ca3181fe8e735087ab9df5bcfef72cc))
 
 ## @esri/hub-common [14.72.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.1...@esri/hub-common@14.72.2) (2023-12-19)
 
-
 ### Bug Fixes
 
-* **hub-common:** enables discussions settings pane for users with edi… ([#1368](https://github.com/Esri/hub.js/issues/1368)) ([714b979](https://github.com/Esri/hub.js/commit/714b979c7d0db841ad5f5d4664be2a46d402ee44))
+- **hub-common:** enables discussions settings pane for users with edi… ([#1368](https://github.com/Esri/hub.js/issues/1368)) ([714b979](https://github.com/Esri/hub.js/commit/714b979c7d0db841ad5f5d4664be2a46d402ee44))
 
 ## @esri/hub-common [14.72.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.0...@esri/hub-common@14.72.1) (2023-12-19)
 
-
 ### Bug Fixes
 
-* tempoarily remove call to action from project edit uiSchema ([#1367](https://github.com/Esri/hub.js/issues/1367)) ([b8175be](https://github.com/Esri/hub.js/commit/b8175bef0fdfa328b105717d8f3f471072d120c3))
+- tempoarily remove call to action from project edit uiSchema ([#1367](https://github.com/Esri/hub.js/issues/1367)) ([b8175be](https://github.com/Esri/hub.js/commit/b8175bef0fdfa328b105717d8f3f471072d120c3))
 
 # @esri/hub-common [14.72.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.3...@esri/hub-common@14.72.0) (2023-12-18)
 
-
 ### Features
 
-* description fields to rich text ([#1366](https://github.com/Esri/hub.js/issues/1366)) ([1dec16f](https://github.com/Esri/hub.js/commit/1dec16fa404795d683577eaa3a7494e0b8c831e0))
+- description fields to rich text ([#1366](https://github.com/Esri/hub.js/issues/1366)) ([1dec16f](https://github.com/Esri/hub.js/commit/1dec16fa404795d683577eaa3a7494e0b8c831e0))
 
 ## @esri/hub-common [14.71.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.2...@esri/hub-common@14.71.3) (2023-12-18)
 
-
 ### Bug Fixes
 
-* reorder fields in initiative editor, hide featured content for MVP ([#1364](https://github.com/Esri/hub.js/issues/1364)) ([dae8911](https://github.com/Esri/hub.js/commit/dae89116b37535a7f2a62e256eb68a3f6714e0e0))
+- reorder fields in initiative editor, hide featured content for MVP ([#1364](https://github.com/Esri/hub.js/issues/1364)) ([dae8911](https://github.com/Esri/hub.js/commit/dae89116b37535a7f2a62e256eb68a3f6714e0e0))
 
 ## @esri/hub-common [14.71.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.1...@esri/hub-common@14.71.2) (2023-12-14)
 
-
 ### Bug Fixes
 
-* adds label to site telemetry ui schema section ([#1363](https://github.com/Esri/hub.js/issues/1363)) ([6e29ddc](https://github.com/Esri/hub.js/commit/6e29ddc90373275117600ff023a53ed2f064557e))
+- adds label to site telemetry ui schema section ([#1363](https://github.com/Esri/hub.js/issues/1363)) ([6e29ddc](https://github.com/Esri/hub.js/commit/6e29ddc90373275117600ff023a53ed2f064557e))
 
 ## @esri/hub-common [14.71.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.0...@esri/hub-common@14.71.1) (2023-12-14)
 
-
 ### Bug Fixes
 
-* remove undefined from schemas ([#1362](https://github.com/Esri/hub.js/issues/1362)) ([abd493f](https://github.com/Esri/hub.js/commit/abd493f5468d8ac03a9f5f94ef574fd7c775ae8f))
+- remove undefined from schemas ([#1362](https://github.com/Esri/hub.js/issues/1362)) ([abd493f](https://github.com/Esri/hub.js/commit/abd493f5468d8ac03a9f5f94ef574fd7c775ae8f))
 
 # @esri/hub-common [14.71.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.2...@esri/hub-common@14.71.0) (2023-12-11)
 
-
 ### Bug Fixes
 
-* **hub-common:** delete the discussion entity settings before the discussion entity ([#1360](https://github.com/Esri/hub.js/issues/1360)) ([0900a8c](https://github.com/Esri/hub.js/commit/0900a8cee10fef78b6377eada1038912277789c6))
-
+- **hub-common:** delete the discussion entity settings before the discussion entity ([#1360](https://github.com/Esri/hub.js/issues/1360)) ([0900a8c](https://github.com/Esri/hub.js/commit/0900a8cee10fef78b6377eada1038912277789c6))
 
 ### Features
 
-* **hub-common:** adds geometry to search results and new permission policy ([#1348](https://github.com/Esri/hub.js/issues/1348)) ([3c082d5](https://github.com/Esri/hub.js/commit/3c082d5a8b533a8196a12ce4135d40d2ba758ce0))
+- **hub-common:** adds geometry to search results and new permission policy ([#1348](https://github.com/Esri/hub.js/issues/1348)) ([3c082d5](https://github.com/Esri/hub.js/commit/3c082d5a8b533a8196a12ce4135d40d2ba758ce0))
 
 ## @esri/hub-common [14.70.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.1...@esri/hub-common@14.70.2) (2023-12-08)
 
-
 ### Bug Fixes
 
-* initiative UI schema enhancement ([#1359](https://github.com/Esri/hub.js/issues/1359)) ([df303a3](https://github.com/Esri/hub.js/commit/df303a3df0034a959736090ca24b8b9c0d2f6127))
+- initiative UI schema enhancement ([#1359](https://github.com/Esri/hub.js/issues/1359)) ([df303a3](https://github.com/Esri/hub.js/commit/df303a3df0034a959736090ca24b8b9c0d2f6127))
 
 ## @esri/hub-common [14.70.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.0...@esri/hub-common@14.70.1) (2023-12-08)
 
-
 ### Bug Fixes
 
-* checkPermission uses userHubSettings.preview flags ([#1358](https://github.com/Esri/hub.js/issues/1358)) ([e6ee056](https://github.com/Esri/hub.js/commit/e6ee0562656b89424f3b1763cc907a5b83e4ca81))
+- checkPermission uses userHubSettings.preview flags ([#1358](https://github.com/Esri/hub.js/issues/1358)) ([e6ee056](https://github.com/Esri/hub.js/commit/e6ee0562656b89424f3b1763cc907a5b83e4ca81))
 
 # @esri/hub-common [14.70.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.1...@esri/hub-common@14.70.0) (2023-12-08)
 
-
 ### Features
 
-* initiative/project description fields are rich text ([#1355](https://github.com/Esri/hub.js/issues/1355)) ([02bb6bf](https://github.com/Esri/hub.js/commit/02bb6bf34a904d2a0597ccd05a4c387dbe2a2f95))
-* update projects schema ([#1354](https://github.com/Esri/hub.js/issues/1354)) ([8904324](https://github.com/Esri/hub.js/commit/8904324d537650bb4b575f1feea620f809d04bb1))
+- initiative/project description fields are rich text ([#1355](https://github.com/Esri/hub.js/issues/1355)) ([02bb6bf](https://github.com/Esri/hub.js/commit/02bb6bf34a904d2a0597ccd05a4c387dbe2a2f95))
+- update projects schema ([#1354](https://github.com/Esri/hub.js/issues/1354)) ([8904324](https://github.com/Esri/hub.js/commit/8904324d537650bb4b575f1feea620f809d04bb1))
 
 ## @esri/hub-common [14.69.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.0...@esri/hub-common@14.69.1) (2023-12-05)
 
-
 ### Bug Fixes
 
-* enable featured image alt text on hub initiative ([#1350](https://github.com/Esri/hub.js/issues/1350)) ([669f0d8](https://github.com/Esri/hub.js/commit/669f0d8eead34d7237ff5c96e194e8c505b9dbdd))
+- enable featured image alt text on hub initiative ([#1350](https://github.com/Esri/hub.js/issues/1350)) ([669f0d8](https://github.com/Esri/hub.js/commit/669f0d8eead34d7237ff5c96e194e8c505b9dbdd))
 
 # @esri/hub-common [14.69.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.1...@esri/hub-common@14.69.0) (2023-12-05)
 
-
 ### Features
 
-* add notices to IUserHubSettings ([#1351](https://github.com/Esri/hub.js/issues/1351)) ([28e15b0](https://github.com/Esri/hub.js/commit/28e15b0a04e5494e98e18764cf2bc3d11d0dcfd6))
+- add notices to IUserHubSettings ([#1351](https://github.com/Esri/hub.js/issues/1351)) ([28e15b0](https://github.com/Esri/hub.js/commit/28e15b0a04e5494e98e18764cf2bc3d11d0dcfd6))
 
 ## @esri/hub-common [14.68.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.0...@esri/hub-common@14.68.1) (2023-12-05)
 
-
 ### Bug Fixes
 
-* **hub-common:** use only capabilities key to update extract capability service definition ([#1347](https://github.com/Esri/hub.js/issues/1347)) ([9f6e0f3](https://github.com/Esri/hub.js/commit/9f6e0f3d028a3d8d42503bda94b182943768cf55))
+- **hub-common:** use only capabilities key to update extract capability service definition ([#1347](https://github.com/Esri/hub.js/issues/1347)) ([9f6e0f3](https://github.com/Esri/hub.js/commit/9f6e0f3d028a3d8d42503bda94b182943768cf55))
 
 # @esri/hub-common [14.68.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.67.0...@esri/hub-common@14.68.0) (2023-12-04)
 
-
 ### Features
 
-* 8182 initiative creation ([#1343](https://github.com/Esri/hub.js/issues/1343)) ([ac7d48d](https://github.com/Esri/hub.js/commit/ac7d48da59ec8adb18fcaeeaaa78871612088512))
+- 8182 initiative creation ([#1343](https://github.com/Esri/hub.js/issues/1343)) ([ac7d48d](https://github.com/Esri/hub.js/commit/ac7d48da59ec8adb18fcaeeaaa78871612088512))
 
 # @esri/hub-common [14.67.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.66.1...@esri/hub-common@14.67.0) (2023-12-01)
 
-
 ### Features
 
-* add enrichement to refetch item with additional props ([#1345](https://github.com/Esri/hub.js/issues/1345)) ([3d3ac62](https://github.com/Esri/hub.js/commit/3d3ac62eb99c61fbf1577915b59cfa6db4ece907))
+- add enrichement to refetch item with additional props ([#1345](https://github.com/Esri/hub.js/issues/1345)) ([3d3ac62](https://github.com/Esri/hub.js/commit/3d3ac62eb99c61fbf1577915b59cfa6db4ece907))
 
 ## @esri/hub-common [14.66.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.66.0...@esri/hub-common@14.66.1) (2023-12-01)
 
-
 ### Bug Fixes
 
-* update followers group creation strings ([#1344](https://github.com/Esri/hub.js/issues/1344)) ([4523f20](https://github.com/Esri/hub.js/commit/4523f206ec570d98082af5967a2e6cac8a2a0d72))
+- update followers group creation strings ([#1344](https://github.com/Esri/hub.js/issues/1344)) ([4523f20](https://github.com/Esri/hub.js/commit/4523f206ec570d98082af5967a2e6cac8a2a0d72))
 
 # @esri/hub-common [14.66.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.65.1...@esri/hub-common@14.66.0) (2023-11-22)
 
-
 ### Features
 
-* **hub-common:** adds temporary gated permissions for creating new d… ([#1342](https://github.com/Esri/hub.js/issues/1342)) ([2fc2d78](https://github.com/Esri/hub.js/commit/2fc2d78a1dfef9eeabfda84733deb8107223551a))
+- **hub-common:** adds temporary gated permissions for creating new d… ([#1342](https://github.com/Esri/hub.js/issues/1342)) ([2fc2d78](https://github.com/Esri/hub.js/commit/2fc2d78a1dfef9eeabfda84733deb8107223551a))
 
 ## @esri/hub-common [14.65.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.65.0...@esri/hub-common@14.65.1) (2023-11-22)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix reharvest site catalog response interface ([#1339](https://github.com/Esri/hub.js/issues/1339)) ([f6767f4](https://github.com/Esri/hub.js/commit/f6767f47aaff7f7e3f4fb9bc0c4ca42d6a21f7a7))
+- **hub-common:** fix reharvest site catalog response interface ([#1339](https://github.com/Esri/hub.js/issues/1339)) ([f6767f4](https://github.com/Esri/hub.js/commit/f6767f47aaff7f7e3f4fb9bc0c4ca42d6a21f7a7))
 
 # @esri/hub-common [14.65.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.64.1...@esri/hub-common@14.65.0) (2023-11-21)
 
-
 ### Features
 
-* add logic/schema to allow follower group creation ([#1333](https://github.com/Esri/hub.js/issues/1333)) ([9515f8c](https://github.com/Esri/hub.js/commit/9515f8c64b115e3981e98d440276e87c01b8791b))
+- add logic/schema to allow follower group creation ([#1333](https://github.com/Esri/hub.js/issues/1333)) ([9515f8c](https://github.com/Esri/hub.js/commit/9515f8c64b115e3981e98d440276e87c01b8791b))
 
 ## @esri/hub-common [14.64.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.64.0...@esri/hub-common@14.64.1) (2023-11-20)
 
-
 ### Bug Fixes
 
-* **hub-common:** prompt no longer required ([#1337](https://github.com/Esri/hub.js/issues/1337)) ([9376161](https://github.com/Esri/hub.js/commit/9376161346c3e180f7f917d07138310db862aa8d))
+- **hub-common:** prompt no longer required ([#1337](https://github.com/Esri/hub.js/issues/1337)) ([9376161](https://github.com/Esri/hub.js/commit/9376161346c3e180f7f917d07138310db862aa8d))
 
 # @esri/hub-common [14.64.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.63.0...@esri/hub-common@14.64.0) (2023-11-17)
 
-
 ### Features
 
-* search result has rawResult prop ([#1336](https://github.com/Esri/hub.js/issues/1336)) ([c8a41f4](https://github.com/Esri/hub.js/commit/c8a41f47b15c2ca110c7a35811917e93db0ada6b))
+- search result has rawResult prop ([#1336](https://github.com/Esri/hub.js/issues/1336)) ([c8a41f4](https://github.com/Esri/hub.js/commit/c8a41f47b15c2ca110c7a35811917e93db0ada6b))
 
 # @esri/hub-common [14.63.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.62.0...@esri/hub-common@14.63.0) (2023-11-17)
 
-
 ### Features
 
-* add featured metrics limit ([#1334](https://github.com/Esri/hub.js/issues/1334)) ([a662714](https://github.com/Esri/hub.js/commit/a66271423489553f0fbe44df2a13e37cdb189a6c))
+- add featured metrics limit ([#1334](https://github.com/Esri/hub.js/issues/1334)) ([a662714](https://github.com/Esri/hub.js/commit/a66271423489553f0fbe44df2a13e37cdb189a6c))
 
 # @esri/hub-common [14.62.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.61.0...@esri/hub-common@14.62.0) (2023-11-16)
 
-
 ### Features
 
-* **hub-common:** allow workspaces to route to specific panes ([#1332](https://github.com/Esri/hub.js/issues/1332)) ([d126dee](https://github.com/Esri/hub.js/commit/d126deed2cd3d010a6a2f86c5fd30ddb87d28ab3))
+- **hub-common:** allow workspaces to route to specific panes ([#1332](https://github.com/Esri/hub.js/issues/1332)) ([d126dee](https://github.com/Esri/hub.js/commit/d126deed2cd3d010a6a2f86c5fd30ddb87d28ab3))
 
 # @esri/hub-common [14.61.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.60.1...@esri/hub-common@14.61.0) (2023-11-16)
 
-
 ### Features
 
-* add new processActionLinks util ([#1331](https://github.com/Esri/hub.js/issues/1331)) ([166f598](https://github.com/Esri/hub.js/commit/166f59813f80c60a18cb6d6732735db3258148cb))
+- add new processActionLinks util ([#1331](https://github.com/Esri/hub.js/issues/1331)) ([166f598](https://github.com/Esri/hub.js/commit/166f59813f80c60a18cb6d6732735db3258148cb))
 
 ## @esri/hub-common [14.60.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.60.0...@esri/hub-common@14.60.1) (2023-11-16)
 
-
 ### Bug Fixes
 
-* update max size of metrics on an entity to 24 ([#1329](https://github.com/Esri/hub.js/issues/1329)) ([a520118](https://github.com/Esri/hub.js/commit/a52011805ece73fc1b0d5377aa2c7fd6ff942cf7))
+- update max size of metrics on an entity to 24 ([#1329](https://github.com/Esri/hub.js/issues/1329)) ([a520118](https://github.com/Esri/hub.js/commit/a52011805ece73fc1b0d5377aa2c7fd6ff942cf7))
 
 # @esri/hub-common [14.60.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.59.0...@esri/hub-common@14.60.0) (2023-11-15)
 
-
 ### Features
 
-* add refreshUser method to context ([#1330](https://github.com/Esri/hub.js/issues/1330)) ([a970ff8](https://github.com/Esri/hub.js/commit/a970ff86c6aee80ad2758f5c3709e3f2507de075))
+- add refreshUser method to context ([#1330](https://github.com/Esri/hub.js/issues/1330)) ([a970ff8](https://github.com/Esri/hub.js/commit/a970ff86c6aee80ad2758f5c3709e3f2507de075))
 
 # @esri/hub-common [14.59.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.58.0...@esri/hub-common@14.59.0) (2023-11-15)
 
-
 ### Features
 
-* add generic action link interfaces/types ([#1328](https://github.com/Esri/hub.js/issues/1328)) ([1441d28](https://github.com/Esri/hub.js/commit/1441d28a7edd3d5fae90460cadc9419e422e6ecd))
+- add generic action link interfaces/types ([#1328](https://github.com/Esri/hub.js/issues/1328)) ([1441d28](https://github.com/Esri/hub.js/commit/1441d28a7edd3d5fae90460cadc9419e422e6ecd))
 
 # @esri/hub-common [14.58.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.57.0...@esri/hub-common@14.58.0) (2023-11-15)
 
-
 ### Features
 
-* **hub-common:** updates DiscussionUiSchemaEdit schema layout and de… ([#1325](https://github.com/Esri/hub.js/issues/1325)) ([1336de1](https://github.com/Esri/hub.js/commit/1336de1a1e50cbe20d4d32623ecd4858bf136db7))
+- **hub-common:** updates DiscussionUiSchemaEdit schema layout and de… ([#1325](https://github.com/Esri/hub.js/issues/1325)) ([1336de1](https://github.com/Esri/hub.js/commit/1336de1a1e50cbe20d4d32623ecd4858bf136db7))
 
 # @esri/hub-common [14.57.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.56.0...@esri/hub-common@14.57.0) (2023-11-14)
 
-
 ### Features
 
-* update project schema/metricsUiSchema ([#1323](https://github.com/Esri/hub.js/issues/1323)) ([ac3a6fa](https://github.com/Esri/hub.js/commit/ac3a6fadb1bb06f45de23e01aa52794d6a69c196))
+- update project schema/metricsUiSchema ([#1323](https://github.com/Esri/hub.js/issues/1323)) ([ac3a6fa](https://github.com/Esri/hub.js/commit/ac3a6fadb1bb06f45de23e01aa52794d6a69c196))
 
 # @esri/hub-common [14.56.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.55.0...@esri/hub-common@14.56.0) (2023-11-14)
 
-
 ### Features
 
-* **hub-common:** hubSearchItems filters aggregations requests by the provided query ([#1327](https://github.com/Esri/hub.js/issues/1327)) ([df53fb9](https://github.com/Esri/hub.js/commit/df53fb95d1b3d192775ff4db71558556e1910a7c))
+- **hub-common:** hubSearchItems filters aggregations requests by the provided query ([#1327](https://github.com/Esri/hub.js/issues/1327)) ([df53fb9](https://github.com/Esri/hub.js/commit/df53fb95d1b3d192775ff4db71558556e1910a7c))
 
 # @esri/hub-common [14.55.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.54.1...@esri/hub-common@14.55.0) (2023-11-13)
 
-
 ### Features
 
-* add context.OGCApiUrl ([#1326](https://github.com/Esri/hub.js/issues/1326)) ([dc08e2f](https://github.com/Esri/hub.js/commit/dc08e2fed85aef4ca584cb4e9719a351e3a51b0d))
+- add context.OGCApiUrl ([#1326](https://github.com/Esri/hub.js/issues/1326)) ([dc08e2f](https://github.com/Esri/hub.js/commit/dc08e2fed85aef4ca584cb4e9719a351e3a51b0d))
 
 ## @esri/hub-common [14.54.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.54.0...@esri/hub-common@14.54.1) (2023-11-13)
 
-
 ### Bug Fixes
 
-* add guards around excape predicate to avoid exceptions ([#1324](https://github.com/Esri/hub.js/issues/1324)) ([a96f1ad](https://github.com/Esri/hub.js/commit/a96f1adb67c8ad1697b6dc7e392af7af635e1bce))
+- add guards around excape predicate to avoid exceptions ([#1324](https://github.com/Esri/hub.js/issues/1324)) ([a96f1ad](https://github.com/Esri/hub.js/commit/a96f1adb67c8ad1697b6dc7e392af7af635e1bce))
 
 # @esri/hub-common [14.54.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.53.0...@esri/hub-common@14.54.0) (2023-11-08)
 
-
 ### Features
 
-* **hub-common:** persist location onto discussion allowedLocations settings ([#1316](https://github.com/Esri/hub.js/issues/1316)) ([87d17a3](https://github.com/Esri/hub.js/commit/87d17a36698963db8758452f798afb06765fc738))
+- **hub-common:** persist location onto discussion allowedLocations settings ([#1316](https://github.com/Esri/hub.js/issues/1316)) ([87d17a3](https://github.com/Esri/hub.js/commit/87d17a36698963db8758452f798afb06765fc738))
 
 # @esri/hub-common [14.53.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.52.0...@esri/hub-common@14.53.0) (2023-11-08)
 
-
 ### Features
 
-* allow metrics visibility ([#1322](https://github.com/Esri/hub.js/issues/1322)) ([366e369](https://github.com/Esri/hub.js/commit/366e3696bce1ef6407fd604a7e40a3362b84823c))
+- allow metrics visibility ([#1322](https://github.com/Esri/hub.js/issues/1322)) ([366e369](https://github.com/Esri/hub.js/commit/366e3696bce1ef6407fd604a7e40a3362b84823c))
 
 # @esri/hub-common [14.52.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.2...@esri/hub-common@14.52.0) (2023-11-08)
 
-
 ### Features
 
-* add status to hub initiative ([#1319](https://github.com/Esri/hub.js/issues/1319)) ([57662a7](https://github.com/Esri/hub.js/commit/57662a701ba50d9a93206dffff09679e1ce91b62))
+- add status to hub initiative ([#1319](https://github.com/Esri/hub.js/issues/1319)) ([57662a7](https://github.com/Esri/hub.js/commit/57662a701ba50d9a93206dffff09679e1ce91b62))
 
 ## @esri/hub-common [14.51.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.1...@esri/hub-common@14.51.2) (2023-11-07)
 
-
 ### Bug Fixes
 
-* add metrics-coming-soon permission ([#1317](https://github.com/Esri/hub.js/issues/1317)) ([9b505c9](https://github.com/Esri/hub.js/commit/9b505c96a00b32c2873ef42ec51dfb49fb74ba80))
+- add metrics-coming-soon permission ([#1317](https://github.com/Esri/hub.js/issues/1317)) ([9b505c9](https://github.com/Esri/hub.js/commit/9b505c96a00b32c2873ef42ec51dfb49fb74ba80))
 
 ## @esri/hub-common [14.51.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.0...@esri/hub-common@14.51.1) (2023-11-07)
 
-
 ### Bug Fixes
 
-* switch null to empty string for membershipAccess ([#1321](https://github.com/Esri/hub.js/issues/1321)) ([85e85d3](https://github.com/Esri/hub.js/commit/85e85d36736444bffdaae50c236fcec24e0a5c02))
+- switch null to empty string for membershipAccess ([#1321](https://github.com/Esri/hub.js/issues/1321)) ([85e85d3](https://github.com/Esri/hub.js/commit/85e85d36736444bffdaae50c236fcec24e0a5c02))
 
 # @esri/hub-common [14.51.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.50.1...@esri/hub-common@14.51.0) (2023-11-06)
 
-
 ### Features
 
-* **hub-common:** add default predicate for portal search ([#1315](https://github.com/Esri/hub.js/issues/1315)) ([6a42e63](https://github.com/Esri/hub.js/commit/6a42e63eb854c502cbb6b55ccb3b98c07b3934d5))
+- **hub-common:** add default predicate for portal search ([#1315](https://github.com/Esri/hub.js/issues/1315)) ([6a42e63](https://github.com/Esri/hub.js/commit/6a42e63eb854c502cbb6b55ccb3b98c07b3934d5))
 
 ## @esri/hub-common [14.50.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.50.0...@esri/hub-common@14.50.1) (2023-11-02)
 
-
 ### Bug Fixes
 
-* hub:feature:privacy is gated to devext ([#1313](https://github.com/Esri/hub.js/issues/1313)) ([2e1832a](https://github.com/Esri/hub.js/commit/2e1832aba6c8571d6bbaf65d958569a108f0c5b4))
+- hub:feature:privacy is gated to devext ([#1313](https://github.com/Esri/hub.js/issues/1313)) ([2e1832a](https://github.com/Esri/hub.js/commit/2e1832aba6c8571d6bbaf65d958569a108f0c5b4))
 
 # @esri/hub-common [14.50.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.49.1...@esri/hub-common@14.50.0) (2023-11-01)
 
-
 ### Features
 
-* **hub-common:** sets discussion board isDiscussable true by default ([#1309](https://github.com/Esri/hub.js/issues/1309)) ([98f3d28](https://github.com/Esri/hub.js/commit/98f3d282e9d8579565fe61b75719f5b5593ad006))
+- **hub-common:** sets discussion board isDiscussable true by default ([#1309](https://github.com/Esri/hub.js/issues/1309)) ([98f3d28](https://github.com/Esri/hub.js/commit/98f3d282e9d8579565fe61b75719f5b5593ad006))
 
 ## @esri/hub-common [14.49.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.49.0...@esri/hub-common@14.49.1) (2023-11-01)
 
-
 ### Bug Fixes
 
-* update check for metricDisplays to have default ([#1310](https://github.com/Esri/hub.js/issues/1310)) ([ca1701c](https://github.com/Esri/hub.js/commit/ca1701cce07fc7b200c13fbb6ea67534119f442e))
+- update check for metricDisplays to have default ([#1310](https://github.com/Esri/hub.js/issues/1310)) ([ca1701c](https://github.com/Esri/hub.js/commit/ca1701cce07fc7b200c13fbb6ea67534119f442e))
 
 # @esri/hub-common [14.49.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.48.1...@esri/hub-common@14.49.0) (2023-10-31)
 
-
 ### Bug Fixes
 
-* add data.telemetry to site draft include list; redo telemetry config migration ([#1306](https://github.com/Esri/hub.js/issues/1306)) ([a00818b](https://github.com/Esri/hub.js/commit/a00818b75338f3bacfde0da6a6181222d870367b))
-
+- add data.telemetry to site draft include list; redo telemetry config migration ([#1306](https://github.com/Esri/hub.js/issues/1306)) ([a00818b](https://github.com/Esri/hub.js/commit/a00818b75338f3bacfde0da6a6181222d870367b))
 
 ### Features
 
-* implement hub user settings and integrate with context ([#1305](https://github.com/Esri/hub.js/issues/1305)) ([47de708](https://github.com/Esri/hub.js/commit/47de708a5ca1d3051066daf2174eaacd453f7eeb))
+- implement hub user settings and integrate with context ([#1305](https://github.com/Esri/hub.js/issues/1305)) ([47de708](https://github.com/Esri/hub.js/commit/47de708a5ca1d3051066daf2174eaacd453f7eeb))
 
 ## @esri/hub-common [14.48.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.48.0...@esri/hub-common@14.48.1) (2023-10-30)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix catalog filter query ([#1308](https://github.com/Esri/hub.js/issues/1308)) ([12780c1](https://github.com/Esri/hub.js/commit/12780c1ffd785d82bde332fc067fdc86ec43b84d))
+- **hub-common:** fix catalog filter query ([#1308](https://github.com/Esri/hub.js/issues/1308)) ([12780c1](https://github.com/Esri/hub.js/commit/12780c1ffd785d82bde332fc067fdc86ec43b84d))
 
 # @esri/hub-common [14.48.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.47.0...@esri/hub-common@14.48.0) (2023-10-30)
 
-
 ### Features
 
-* add metrics schema and uiSchema to projects ([#1296](https://github.com/Esri/hub.js/issues/1296)) ([156e6f5](https://github.com/Esri/hub.js/commit/156e6f54b65851c4c624021f87a6b813bf75cf30))
+- add metrics schema and uiSchema to projects ([#1296](https://github.com/Esri/hub.js/issues/1296)) ([156e6f5](https://github.com/Esri/hub.js/commit/156e6f54b65851c4c624021f87a6b813bf75cf30))
 
 # @esri/hub-common [14.47.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.2...@esri/hub-common@14.47.0) (2023-10-27)
 
-
 ### Features
 
-* add new deepFilter util ([#1303](https://github.com/Esri/hub.js/issues/1303)) ([c556b3c](https://github.com/Esri/hub.js/commit/c556b3c5dba6c5d5dccc379465efa4e11efc7a46))
+- add new deepFilter util ([#1303](https://github.com/Esri/hub.js/issues/1303)) ([c556b3c](https://github.com/Esri/hub.js/commit/c556b3c5dba6c5d5dccc379465efa4e11efc7a46))
 
 ## @esri/hub-common [14.46.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.1...@esri/hub-common@14.46.2) (2023-10-26)
 
-
 ### Bug Fixes
 
-* **hub-common:** change allowedLocations type from geometry array to … ([#1302](https://github.com/Esri/hub.js/issues/1302)) ([f42c459](https://github.com/Esri/hub.js/commit/f42c45901c42d4af09f21e65d1eccc15b83fd21e))
+- **hub-common:** change allowedLocations type from geometry array to … ([#1302](https://github.com/Esri/hub.js/issues/1302)) ([f42c459](https://github.com/Esri/hub.js/commit/f42c45901c42d4af09f21e65d1eccc15b83fd21e))
 
 ## @esri/hub-common [14.46.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.0...@esri/hub-common@14.46.1) (2023-10-25)
 
-
 ### Bug Fixes
 
-* **hub-common:** corrected error messages for varying inputs on details pane ([#1301](https://github.com/Esri/hub.js/issues/1301)) ([41fc5cd](https://github.com/Esri/hub.js/commit/41fc5cd3a5c616d2295d01c6068423328fe1d68b))
+- **hub-common:** corrected error messages for varying inputs on details pane ([#1301](https://github.com/Esri/hub.js/issues/1301)) ([41fc5cd](https://github.com/Esri/hub.js/commit/41fc5cd3a5c616d2295d01c6068423328fe1d68b))
 
 # @esri/hub-common [14.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.45.0...@esri/hub-common@14.46.0) (2023-10-25)
 
-
 ### Features
 
-* **hub-common:** upgradeCatalogSchema handles "orgId" field in legacy catalogs ([#1299](https://github.com/Esri/hub.js/issues/1299)) ([8e85c47](https://github.com/Esri/hub.js/commit/8e85c47c39047d52464fbcba97a5515b29261c68))
+- **hub-common:** upgradeCatalogSchema handles "orgId" field in legacy catalogs ([#1299](https://github.com/Esri/hub.js/issues/1299)) ([8e85c47](https://github.com/Esri/hub.js/commit/8e85c47c39047d52464fbcba97a5515b29261c68))
 
 # @esri/hub-common [14.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.44.0...@esri/hub-common@14.45.0) (2023-10-24)
 
-
 ### Features
 
-* **hub-common:** add support for discussion settings for entities ([#1284](https://github.com/Esri/hub.js/issues/1284)) ([951c455](https://github.com/Esri/hub.js/commit/951c45549cc4189c1103ede16950fafdedf6eadc))
+- **hub-common:** add support for discussion settings for entities ([#1284](https://github.com/Esri/hub.js/issues/1284)) ([951c455](https://github.com/Esri/hub.js/commit/951c45549cc4189c1103ede16950fafdedf6eadc))
 
 # @esri/hub-common [14.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.43.1...@esri/hub-common@14.44.0) (2023-10-24)
 
-
 ### Features
 
-* max length error messages ([#1295](https://github.com/Esri/hub.js/issues/1295)) ([4d7705e](https://github.com/Esri/hub.js/commit/4d7705e9b7d8fc4c12c1bb04eeeec3c0f89040c9))
+- max length error messages ([#1295](https://github.com/Esri/hub.js/issues/1295)) ([4d7705e](https://github.com/Esri/hub.js/commit/4d7705e9b7d8fc4c12c1bb04eeeec3c0f89040c9))
 
 ## @esri/hub-common [14.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.43.0...@esri/hub-common@14.43.1) (2023-10-24)
 
-
 ### Bug Fixes
 
-* remove scope from uiSchema for stat card ([#1298](https://github.com/Esri/hub.js/issues/1298)) ([e0ef2ee](https://github.com/Esri/hub.js/commit/e0ef2eef99c26303f9e93c86b5710d0d5423a680))
+- remove scope from uiSchema for stat card ([#1298](https://github.com/Esri/hub.js/issues/1298)) ([e0ef2ee](https://github.com/Esri/hub.js/commit/e0ef2eef99c26303f9e93c86b5710d0d5423a680))
 
 # @esri/hub-common [14.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.42.1...@esri/hub-common@14.43.0) (2023-10-20)
 
-
 ### Features
 
-* add structure for getting card editor schemas ([#1277](https://github.com/Esri/hub.js/issues/1277)) ([6b82f03](https://github.com/Esri/hub.js/commit/6b82f03deb4ecbc373df6a00f4de030c56dceb2d))
+- add structure for getting card editor schemas ([#1277](https://github.com/Esri/hub.js/issues/1277)) ([6b82f03](https://github.com/Esri/hub.js/commit/6b82f03deb4ecbc373df6a00f4de030c56dceb2d))
 
 ## @esri/hub-common [14.42.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.42.0...@esri/hub-common@14.42.1) (2023-10-20)
 
-
 ### Bug Fixes
 
-* **hub-common:** page schema missing _thumbnail; caused details pane to crash ([#1294](https://github.com/Esri/hub.js/issues/1294)) ([6502c6b](https://github.com/Esri/hub.js/commit/6502c6b2d0c397220fac33f859be6f5a262df5cf))
+- **hub-common:** page schema missing \_thumbnail; caused details pane to crash ([#1294](https://github.com/Esri/hub.js/issues/1294)) ([6502c6b](https://github.com/Esri/hub.js/commit/6502c6b2d0c397220fac33f859be6f5a262df5cf))
 
 # @esri/hub-common [14.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.41.0...@esri/hub-common@14.42.0) (2023-10-19)
 
-
 ### Features
 
-* **hub-common:** allow boolean predicates for OGC searches, openData flag for OGC aggs requests ([#1292](https://github.com/Esri/hub.js/issues/1292)) ([b15ea86](https://github.com/Esri/hub.js/commit/b15ea861a27bb3a521cc2d848a59d245eb21f5c3))
+- **hub-common:** allow boolean predicates for OGC searches, openData flag for OGC aggs requests ([#1292](https://github.com/Esri/hub.js/issues/1292)) ([b15ea86](https://github.com/Esri/hub.js/commit/b15ea861a27bb3a521cc2d848a59d245eb21f5c3))
 
 # @esri/hub-common [14.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.40.0...@esri/hub-common@14.41.0) (2023-10-19)
 
-
 ### Features
 
-* add permission for privacy; refactor workspace permissions ([#1291](https://github.com/Esri/hub.js/issues/1291)) ([b9639e7](https://github.com/Esri/hub.js/commit/b9639e79c4ee76eba7bdd046212b29e0fde07933))
+- add permission for privacy; refactor workspace permissions ([#1291](https://github.com/Esri/hub.js/issues/1291)) ([b9639e7](https://github.com/Esri/hub.js/commit/b9639e79c4ee76eba7bdd046212b29e0fde07933))
 
 # @esri/hub-common [14.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.39.1...@esri/hub-common@14.40.0) (2023-10-19)
 
-
 ### Features
 
-* add metric display config to hub.js ([#1290](https://github.com/Esri/hub.js/issues/1290)) ([bef629c](https://github.com/Esri/hub.js/commit/bef629c1dfba8c3f1aa6ed43af2f7fd0d0a9408f))
+- add metric display config to hub.js ([#1290](https://github.com/Esri/hub.js/issues/1290)) ([bef629c](https://github.com/Esri/hub.js/commit/bef629c1dfba8c3f1aa6ed43af2f7fd0d0a9408f))
 
 ## @esri/hub-common [14.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.39.0...@esri/hub-common@14.39.1) (2023-10-19)
 
-
 ### Bug Fixes
 
-* address issue importing from a file thats not checked in ([#1289](https://github.com/Esri/hub.js/issues/1289)) ([ead47f4](https://github.com/Esri/hub.js/commit/ead47f424ad46ec0ba71b6fedfdb2b7c49c43e9f))
+- address issue importing from a file thats not checked in ([#1289](https://github.com/Esri/hub.js/issues/1289)) ([ead47f4](https://github.com/Esri/hub.js/commit/ead47f424ad46ec0ba71b6fedfdb2b7c49c43e9f))
 
 # @esri/hub-common [14.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.38.1...@esri/hub-common@14.39.0) (2023-10-17)
 
-
 ### Features
 
-* **hub-discussions:** added paging params to IFetchPost ([#1281](https://github.com/Esri/hub.js/issues/1281)) ([63a405a](https://github.com/Esri/hub.js/commit/63a405a00dc8a3afc3f02cc6f2240a745c0b6427))
+- **hub-discussions:** added paging params to IFetchPost ([#1281](https://github.com/Esri/hub.js/issues/1281)) ([63a405a](https://github.com/Esri/hub.js/commit/63a405a00dc8a3afc3f02cc6f2240a745c0b6427))
 
 ## @esri/hub-common [14.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.38.0...@esri/hub-common@14.38.1) (2023-10-17)
 
-
 ### Bug Fixes
 
-* update recommended templates slightly in initiative template workspace ([#1280](https://github.com/Esri/hub.js/issues/1280)) ([f7fd636](https://github.com/Esri/hub.js/commit/f7fd6366ec097095dcbc9fef31b331a64165d310))
+- update recommended templates slightly in initiative template workspace ([#1280](https://github.com/Esri/hub.js/issues/1280)) ([f7fd636](https://github.com/Esri/hub.js/commit/f7fd6366ec097095dcbc9fef31b331a64165d310))
 
 # @esri/hub-common [14.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.37.0...@esri/hub-common@14.38.0) (2023-10-16)
 
-
 ### Features
 
-* **hub-common:** add "reharvestSiteCatalog" util ([#1279](https://github.com/Esri/hub.js/issues/1279)) ([6bdda94](https://github.com/Esri/hub.js/commit/6bdda94020f437b1e2c94470b0f3dd32cba31572))
+- **hub-common:** add "reharvestSiteCatalog" util ([#1279](https://github.com/Esri/hub.js/issues/1279)) ([6bdda94](https://github.com/Esri/hub.js/commit/6bdda94020f437b1e2c94470b0f3dd32cba31572))
 
 # @esri/hub-common [14.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.1...@esri/hub-common@14.37.0) (2023-10-16)
 
-
 ### Features
 
-* add advancedEditRelative to template links hash ([#1273](https://github.com/Esri/hub.js/issues/1273)) ([cd87479](https://github.com/Esri/hub.js/commit/cd874797faed04a0fe9bc326376fa1342d9bbd0f))
+- add advancedEditRelative to template links hash ([#1273](https://github.com/Esri/hub.js/issues/1273)) ([cd87479](https://github.com/Esri/hub.js/commit/cd874797faed04a0fe9bc326376fa1342d9bbd0f))
 
 ## @esri/hub-common [14.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.0...@esri/hub-common@14.36.1) (2023-10-13)
 
-
 ### Bug Fixes
 
-* update privacy config schema ([#1276](https://github.com/Esri/hub.js/issues/1276)) ([7a3bb3f](https://github.com/Esri/hub.js/commit/7a3bb3f4fa30810c16fbd23aa1e40e03eec1c57f))
+- update privacy config schema ([#1276](https://github.com/Esri/hub.js/issues/1276)) ([7a3bb3f](https://github.com/Esri/hub.js/commit/7a3bb3f4fa30810c16fbd23aa1e40e03eec1c57f))
 
 # @esri/hub-common [14.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.35.1...@esri/hub-common@14.36.0) (2023-10-13)
 
-
 ### Features
 
-* **hub-common:** add section heading for template ui schemas ([#1274](https://github.com/Esri/hub.js/issues/1274)) ([cdabf33](https://github.com/Esri/hub.js/commit/cdabf338c2b884111002189f4b05bcebb9ca56a4))
-* telemetry config ([#1272](https://github.com/Esri/hub.js/issues/1272)) ([7a0a40c](https://github.com/Esri/hub.js/commit/7a0a40cfd9bd2ca5ef4537e65812c3d05eae2dd8))
+- **hub-common:** add section heading for template ui schemas ([#1274](https://github.com/Esri/hub.js/issues/1274)) ([cdabf33](https://github.com/Esri/hub.js/commit/cdabf338c2b884111002189f4b05bcebb9ca56a4))
+- telemetry config ([#1272](https://github.com/Esri/hub.js/issues/1272)) ([7a0a40c](https://github.com/Esri/hub.js/commit/7a0a40cfd9bd2ca5ef4537e65812c3d05eae2dd8))
 
 ## @esri/hub-common [14.35.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.35.0...@esri/hub-common@14.35.1) (2023-10-12)
 
-
 ### Bug Fixes
 
-* **hub-common:** add CRUD functions for entity settings ([#1275](https://github.com/Esri/hub.js/issues/1275)) ([8eabc30](https://github.com/Esri/hub.js/commit/8eabc3005a1fa4786975d993464f7d7500de558b))
+- **hub-common:** add CRUD functions for entity settings ([#1275](https://github.com/Esri/hub.js/issues/1275)) ([8eabc30](https://github.com/Esri/hub.js/commit/8eabc3005a1fa4786975d993464f7d7500de558b))
 
 # @esri/hub-common [14.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.34.0...@esri/hub-common@14.35.0) (2023-10-12)
 
-
 ### Features
 
-* add recommendedTemplates to schema/uiSchema for initiative template workspace ([#1258](https://github.com/Esri/hub.js/issues/1258)) ([339d1e6](https://github.com/Esri/hub.js/commit/339d1e6afddb8124b52362ae3967dfa6a1f6dbe9))
+- add recommendedTemplates to schema/uiSchema for initiative template workspace ([#1258](https://github.com/Esri/hub.js/issues/1258)) ([339d1e6](https://github.com/Esri/hub.js/commit/339d1e6afddb8124b52362ae3967dfa6a1f6dbe9))
 
 # @esri/hub-common [14.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.33.0...@esri/hub-common@14.34.0) (2023-10-12)
 
-
 ### Bug Fixes
 
-* template workspace strings ([#1271](https://github.com/Esri/hub.js/issues/1271)) ([3fa208f](https://github.com/Esri/hub.js/commit/3fa208f55426e9c07a25e2447e5060543c476b76))
-
+- template workspace strings ([#1271](https://github.com/Esri/hub.js/issues/1271)) ([3fa208f](https://github.com/Esri/hub.js/commit/3fa208f55426e9c07a25e2447e5060543c476b76))
 
 ### Features
 
-* polishing details pane for site workspace ([#1270](https://github.com/Esri/hub.js/issues/1270)) ([e1eee40](https://github.com/Esri/hub.js/commit/e1eee40d1e90e3a99571e0dc66bb249d6197ff9e))
+- polishing details pane for site workspace ([#1270](https://github.com/Esri/hub.js/issues/1270)) ([e1eee40](https://github.com/Esri/hub.js/commit/e1eee40d1e90e3a99571e0dc66bb249d6197ff9e))
 
 # @esri/hub-common [14.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.32.1...@esri/hub-common@14.33.0) (2023-10-10)
 
-
 ### Features
 
-* **hub-common:** unify thumbnail ui schema for item-backed entities and add default thumbnail notice ([#1267](https://github.com/Esri/hub.js/issues/1267)) ([30bc262](https://github.com/Esri/hub.js/commit/30bc262ee152345c89a6d771e20cd77f6201605d))
+- **hub-common:** unify thumbnail ui schema for item-backed entities and add default thumbnail notice ([#1267](https://github.com/Esri/hub.js/issues/1267)) ([30bc262](https://github.com/Esri/hub.js/commit/30bc262ee152345c89a6d771e20cd77f6201605d))
 
 ## @esri/hub-common [14.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.32.0...@esri/hub-common@14.32.1) (2023-10-10)
 
-
 ### Bug Fixes
 
-* deployed solution redirects ([#1268](https://github.com/Esri/hub.js/issues/1268)) ([8df3607](https://github.com/Esri/hub.js/commit/8df3607b764a2dbfc743f6d0ece03b634e8924d1))
+- deployed solution redirects ([#1268](https://github.com/Esri/hub.js/issues/1268)) ([8df3607](https://github.com/Esri/hub.js/commit/8df3607b764a2dbfc743f6d0ece03b634e8924d1))
 
 # @esri/hub-common [14.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.31.0...@esri/hub-common@14.32.0) (2023-10-09)
 
-
 ### Features
 
-* support for Site and Hub user app resources ([#1260](https://github.com/Esri/hub.js/issues/1260)) ([4a314e1](https://github.com/Esri/hub.js/commit/4a314e1d62d46374988a49cb1eb202d62a95cdb4))
+- support for Site and Hub user app resources ([#1260](https://github.com/Esri/hub.js/issues/1260)) ([4a314e1](https://github.com/Esri/hub.js/commit/4a314e1d62d46374988a49cb1eb202d62a95cdb4))
 
 # @esri/hub-common [14.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.30.1...@esri/hub-common@14.31.0) (2023-10-09)
 
-
 ### Bug Fixes
 
-* add incremental delay and comments to poll util ([#1266](https://github.com/Esri/hub.js/issues/1266)) ([07be412](https://github.com/Esri/hub.js/commit/07be4127db5d69e3a2cd632927fce8ef4e9c24f5))
-
+- add incremental delay and comments to poll util ([#1266](https://github.com/Esri/hub.js/issues/1266)) ([07be412](https://github.com/Esri/hub.js/commit/07be4127db5d69e3a2cd632927fce8ef4e9c24f5))
 
 ### Features
 
-* **hub-common:** add function to get feed configuration ([#1261](https://github.com/Esri/hub.js/issues/1261)) ([79fcc47](https://github.com/Esri/hub.js/commit/79fcc470d8ab4d366ef8136523501ead2b5d9f70))
+- **hub-common:** add function to get feed configuration ([#1261](https://github.com/Esri/hub.js/issues/1261)) ([79fcc47](https://github.com/Esri/hub.js/commit/79fcc470d8ab4d366ef8136523501ead2b5d9f70))
 
 ## @esri/hub-common [14.30.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.30.0...@esri/hub-common@14.30.1) (2023-10-09)
 
-
 ### Bug Fixes
 
-* **hub-discussions:** rename DiscussionSettings to Settings for types and functions that call the ap ([#1264](https://github.com/Esri/hub.js/issues/1264)) ([d0b77b3](https://github.com/Esri/hub.js/commit/d0b77b3ea7a95c0fd66994f9512357245555cea1))
+- **hub-discussions:** rename DiscussionSettings to Settings for types and functions that call the ap ([#1264](https://github.com/Esri/hub.js/issues/1264)) ([d0b77b3](https://github.com/Esri/hub.js/commit/d0b77b3ea7a95c0fd66994f9512357245555cea1))
 
 # @esri/hub-common [14.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.29.0...@esri/hub-common@14.30.0) (2023-10-08)
 
-
 ### Features
 
-* **hub-common:** adds followers group discussion settings on site wo… ([#1251](https://github.com/Esri/hub.js/issues/1251)) ([e0beb59](https://github.com/Esri/hub.js/commit/e0beb59f91b43795f96a694e55238a6cec83de74))
+- **hub-common:** adds followers group discussion settings on site wo… ([#1251](https://github.com/Esri/hub.js/issues/1251)) ([e0beb59](https://github.com/Esri/hub.js/commit/e0beb59f91b43795f96a694e55238a6cec83de74))
 
 # @esri/hub-common [14.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.28.0...@esri/hub-common@14.29.0) (2023-10-06)
 
-
 ### Bug Fixes
 
-* update groups link from teams to groups ([#1262](https://github.com/Esri/hub.js/issues/1262)) ([26dd47a](https://github.com/Esri/hub.js/commit/26dd47a5f2bfb51096488c3693d458beb6b9b06d))
-
+- update groups link from teams to groups ([#1262](https://github.com/Esri/hub.js/issues/1262)) ([26dd47a](https://github.com/Esri/hub.js/commit/26dd47a5f2bfb51096488c3693d458beb6b9b06d))
 
 ### Features
 
-* add new polling util ([#1265](https://github.com/Esri/hub.js/issues/1265)) ([e36c142](https://github.com/Esri/hub.js/commit/e36c142b9d9ead2f41a323f0debae007d41335ee))
+- add new polling util ([#1265](https://github.com/Esri/hub.js/issues/1265)) ([e36c142](https://github.com/Esri/hub.js/commit/e36c142b9d9ead2f41a323f0debae007d41335ee))
 
 # @esri/hub-common [14.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.27.0...@esri/hub-common@14.28.0) (2023-10-05)
 
-
 ### Features
 
-* collaborator pane for content workspace ([#1259](https://github.com/Esri/hub.js/issues/1259)) ([e00e624](https://github.com/Esri/hub.js/commit/e00e6244f795589b829dad0c4aad48a9eea1d6a4))
+- collaborator pane for content workspace ([#1259](https://github.com/Esri/hub.js/issues/1259)) ([e00e624](https://github.com/Esri/hub.js/commit/e00e6244f795589b829dad0c4aad48a9eea1d6a4))
 
 # @esri/hub-common [14.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.2...@esri/hub-common@14.27.0) (2023-10-05)
 
-
 ### Features
 
-* scaffold solution template entity ([#1253](https://github.com/Esri/hub.js/issues/1253)) ([54d1fe6](https://github.com/Esri/hub.js/commit/54d1fe636bc8bd949a8b275503a2db01eb6cc3ee))
+- scaffold solution template entity ([#1253](https://github.com/Esri/hub.js/issues/1253)) ([54d1fe6](https://github.com/Esri/hub.js/commit/54d1fe636bc8bd949a8b275503a2db01eb6cc3ee))
 
 ## @esri/hub-common [14.26.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.1...@esri/hub-common@14.26.2) (2023-10-04)
 
-
 ### Bug Fixes
 
-* **hub-discussions:** add author and editor to isearchchannels ([#1257](https://github.com/Esri/hub.js/issues/1257)) ([5d22e8b](https://github.com/Esri/hub.js/commit/5d22e8bbe0304296a1d64234c20eb62a173a328f))
+- **hub-discussions:** add author and editor to isearchchannels ([#1257](https://github.com/Esri/hub.js/issues/1257)) ([5d22e8b](https://github.com/Esri/hub.js/commit/5d22e8bbe0304296a1d64234c20eb62a173a328f))
 
 ## @esri/hub-common [14.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.0...@esri/hub-common@14.26.1) (2023-10-04)
 
-
 ### Bug Fixes
 
-* properly deserialize trustedOrgs from context ([#1256](https://github.com/Esri/hub.js/issues/1256)) ([760b4ff](https://github.com/Esri/hub.js/commit/760b4ff15888756484fdbaaa79828e1a3c9b1a17))
+- properly deserialize trustedOrgs from context ([#1256](https://github.com/Esri/hub.js/issues/1256)) ([760b4ff](https://github.com/Esri/hub.js/commit/760b4ff15888756484fdbaaa79828e1a3c9b1a17))
 
 # @esri/hub-common [14.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.25.1...@esri/hub-common@14.26.0) (2023-10-03)
 
-
 ### Features
 
-* initiative template workspace ([#1246](https://github.com/Esri/hub.js/issues/1246)) ([cb385e5](https://github.com/Esri/hub.js/commit/cb385e5315f0583d0337afe3e30664314581c1ee))
+- initiative template workspace ([#1246](https://github.com/Esri/hub.js/issues/1246)) ([cb385e5](https://github.com/Esri/hub.js/commit/cb385e5315f0583d0337afe3e30664314581c1ee))
 
 ## @esri/hub-common [14.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.25.0...@esri/hub-common@14.25.1) (2023-10-03)
 
-
 ### Bug Fixes
 
-* add Project to wellKnownColletions ([#1254](https://github.com/Esri/hub.js/issues/1254)) ([82eb6a1](https://github.com/Esri/hub.js/commit/82eb6a18bf4f750c117349e1b0eb8bdd0f5bde02))
+- add Project to wellKnownColletions ([#1254](https://github.com/Esri/hub.js/issues/1254)) ([82eb6a1](https://github.com/Esri/hub.js/commit/82eb6a18bf4f750c117349e1b0eb8bdd0f5bde02))
 
 # @esri/hub-common [14.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.24.0...@esri/hub-common@14.25.0) (2023-10-03)
 
-
 ### Features
 
-* initiative template entity ([#1229](https://github.com/Esri/hub.js/issues/1229)) ([f5a995a](https://github.com/Esri/hub.js/commit/f5a995aaff7f379f738f4813bdc0e99bb419e9b1))
+- initiative template entity ([#1229](https://github.com/Esri/hub.js/issues/1229)) ([f5a995a](https://github.com/Esri/hub.js/commit/f5a995aaff7f379f738f4813bdc0e99bb419e9b1))
 
 # @esri/hub-common [14.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.23.0...@esri/hub-common@14.24.0) (2023-10-02)
 
-
 ### Features
 
-* adds entity discussion settings ([#1221](https://github.com/Esri/hub.js/issues/1221)) ([5e25a43](https://github.com/Esri/hub.js/commit/5e25a4336316aab18c1b9fd82c9a2b685fce14ef))
+- adds entity discussion settings ([#1221](https://github.com/Esri/hub.js/issues/1221)) ([5e25a43](https://github.com/Esri/hub.js/commit/5e25a4336316aab18c1b9fd82c9a2b685fce14ef))
 
 # @esri/hub-common [14.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.22.0...@esri/hub-common@14.23.0) (2023-09-28)
 
-
 ### Bug Fixes
 
-* **hub-common:** workspace route for content is /workspace/content/:id not /workspace/contents/:id ([#1250](https://github.com/Esri/hub.js/issues/1250)) ([f2c6679](https://github.com/Esri/hub.js/commit/f2c667933c1a9faf4ddf8e4087267f6f6aa22814))
-
+- **hub-common:** workspace route for content is /workspace/content/:id not /workspace/contents/:id ([#1250](https://github.com/Esri/hub.js/issues/1250)) ([f2c6679](https://github.com/Esri/hub.js/commit/f2c667933c1a9faf4ddf8e4087267f6f6aa22814))
 
 ### Features
 
-* add links hash for project, initiative, and group entities ([#1226](https://github.com/Esri/hub.js/issues/1226)) ([aba8f7b](https://github.com/Esri/hub.js/commit/aba8f7b18e2c6da1c4dec022751c1fc897371165))
+- add links hash for project, initiative, and group entities ([#1226](https://github.com/Esri/hub.js/issues/1226)) ([aba8f7b](https://github.com/Esri/hub.js/commit/aba8f7b18e2c6da1c4dec022751c1fc897371165))
 
 # @esri/hub-common [14.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.1...@esri/hub-common@14.22.0) (2023-09-26)
 
-
 ### Features
 
-* addGroupMembers ([#1230](https://github.com/Esri/hub.js/issues/1230)) ([3a7c900](https://github.com/Esri/hub.js/commit/3a7c900b88f540dc3470b02947cb659db95a2255))
+- addGroupMembers ([#1230](https://github.com/Esri/hub.js/issues/1230)) ([3a7c900](https://github.com/Esri/hub.js/commit/3a7c900b88f540dc3470b02947cb659db95a2255))
 
 ## @esri/hub-common [14.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.0...@esri/hub-common@14.21.1) (2023-09-25)
 
-
 ### Bug Fixes
 
-* **hub-common:** content location should be of type extent, not polygon ([#1228](https://github.com/Esri/hub.js/issues/1228)) ([c5539f4](https://github.com/Esri/hub.js/commit/c5539f458060e990ee5f89fad4016ce74c5c5dfc))
-* checkPermission and checkPrivileges first check isAuthenticated ([#1227](https://github.com/Esri/hub.js/issues/1227)) ([b292131](https://github.com/Esri/hub.js/commit/b29213183ef9362a3517dbcaca8ec854b4b80537))
+- **hub-common:** content location should be of type extent, not polygon ([#1228](https://github.com/Esri/hub.js/issues/1228)) ([c5539f4](https://github.com/Esri/hub.js/commit/c5539f458060e990ee5f89fad4016ce74c5c5dfc))
+- checkPermission and checkPrivileges first check isAuthenticated ([#1227](https://github.com/Esri/hub.js/issues/1227)) ([b292131](https://github.com/Esri/hub.js/commit/b29213183ef9362a3517dbcaca8ec854b4b80537))
 
 # @esri/hub-common [14.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.20.0...@esri/hub-common@14.21.0) (2023-09-22)
 
-
 ### Features
 
-* adds getChannelUsersQuery method, bumps to @esri/arcgis-rest-port… ([#1210](https://github.com/Esri/hub.js/issues/1210)) ([320d6d8](https://github.com/Esri/hub.js/commit/320d6d8e4b336955df1d55373b216de3238952b6))
+- adds getChannelUsersQuery method, bumps to @esri/arcgis-rest-port… ([#1210](https://github.com/Esri/hub.js/issues/1210)) ([320d6d8](https://github.com/Esri/hub.js/commit/320d6d8e4b336955df1d55373b216de3238952b6))
 
 # @esri/hub-common [14.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.2...@esri/hub-common@14.20.0) (2023-09-21)
 
-
 ### Bug Fixes
 
-* auto-populating groups in project creation ([#1225](https://github.com/Esri/hub.js/issues/1225)) ([0b9465f](https://github.com/Esri/hub.js/commit/0b9465ff73f6f0e9c0cdbb5f3e06d8a06b47d74f))
-
+- auto-populating groups in project creation ([#1225](https://github.com/Esri/hub.js/issues/1225)) ([0b9465f](https://github.com/Esri/hub.js/commit/0b9465ff73f6f0e9c0cdbb5f3e06d8a06b47d74f))
 
 ### Features
 
-* **hub-common:** add blocked as a possible PostStatus ([#1222](https://github.com/Esri/hub.js/issues/1222)) ([11c8a58](https://github.com/Esri/hub.js/commit/11c8a589569036baa68f9722c503092f3c7e42ec))
+- **hub-common:** add blocked as a possible PostStatus ([#1222](https://github.com/Esri/hub.js/issues/1222)) ([11c8a58](https://github.com/Esri/hub.js/commit/11c8a589569036baa68f9722c503092f3c7e42ec))
 
 ## @esri/hub-common [14.19.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.1...@esri/hub-common@14.19.2) (2023-09-20)
 
-
 ### Bug Fixes
 
-* uiSchema translation keys ([#1224](https://github.com/Esri/hub.js/issues/1224)) ([a55292f](https://github.com/Esri/hub.js/commit/a55292f0d11d993c4f1edf00d9e621beb44459b6))
+- uiSchema translation keys ([#1224](https://github.com/Esri/hub.js/issues/1224)) ([a55292f](https://github.com/Esri/hub.js/commit/a55292f0d11d993c4f1edf00d9e621beb44459b6))
 
 ## @esri/hub-common [14.19.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.0...@esri/hub-common@14.19.1) (2023-09-20)
 
-
 ### Bug Fixes
 
-* **hub-common:** re-adds the discussion permissions to validPermissions array ([#1223](https://github.com/Esri/hub.js/issues/1223)) ([9db7245](https://github.com/Esri/hub.js/commit/9db7245fcfdc78db2700ae21a491e6b91b9e85a2))
+- **hub-common:** re-adds the discussion permissions to validPermissions array ([#1223](https://github.com/Esri/hub.js/issues/1223)) ([9db7245](https://github.com/Esri/hub.js/commit/9db7245fcfdc78db2700ae21a491e6b91b9e85a2))
 
 # @esri/hub-common [14.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.18.0...@esri/hub-common@14.19.0) (2023-09-19)
 
-
 ### Features
 
-* add option to enrich an entity  ([#1220](https://github.com/Esri/hub.js/issues/1220)) ([0b57ff5](https://github.com/Esri/hub.js/commit/0b57ff50d8672bdbe1447676b83e82deee74d9ff))
+- add option to enrich an entity ([#1220](https://github.com/Esri/hub.js/issues/1220)) ([0b57ff5](https://github.com/Esri/hub.js/commit/0b57ff50d8672bdbe1447676b83e82deee74d9ff))
 
 # @esri/hub-common [14.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.17.0...@esri/hub-common@14.18.0) (2023-09-19)
 
-
 ### Features
 
-* **hub-common:** add application type content edit link ([#1217](https://github.com/Esri/hub.js/issues/1217)) ([82ceec4](https://github.com/Esri/hub.js/commit/82ceec4acc2040e483b2a4d422152fd02a62384c))
+- **hub-common:** add application type content edit link ([#1217](https://github.com/Esri/hub.js/issues/1217)) ([82ceec4](https://github.com/Esri/hub.js/commit/82ceec4acc2040e483b2a4d422152fd02a62384c))
 
 # @esri/hub-common [14.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.16.0...@esri/hub-common@14.17.0) (2023-09-18)
 
-
 ### Features
 
-* **hub-discussions:** adding ability to update the groups of a channel ([#1218](https://github.com/Esri/hub.js/issues/1218)) ([7bc2117](https://github.com/Esri/hub.js/commit/7bc21178be864b38be25e5bb5ec6f37e370af5c6))
+- **hub-discussions:** adding ability to update the groups of a channel ([#1218](https://github.com/Esri/hub.js/issues/1218)) ([7bc2117](https://github.com/Esri/hub.js/commit/7bc21178be864b38be25e5bb5ec6f37e370af5c6))
 
 # @esri/hub-common [14.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.15.0...@esri/hub-common@14.16.0) (2023-09-18)
 
-
 ### Features
 
-* Add Initiative and Project Associations ([#1213](https://github.com/Esri/hub.js/issues/1213)) ([7cb0298](https://github.com/Esri/hub.js/commit/7cb0298ab668efd3e1ffaab82946c16a837beb30))
-* item extent now selectable, savable, and reflects in old and new view ([#1212](https://github.com/Esri/hub.js/issues/1212)) ([5dbe3bb](https://github.com/Esri/hub.js/commit/5dbe3bb78bd3e5f6fa66f4ef4ca14c25170eb208))
+- Add Initiative and Project Associations ([#1213](https://github.com/Esri/hub.js/issues/1213)) ([7cb0298](https://github.com/Esri/hub.js/commit/7cb0298ab668efd3e1ffaab82946c16a837beb30))
+- item extent now selectable, savable, and reflects in old and new view ([#1212](https://github.com/Esri/hub.js/issues/1212)) ([5dbe3bb](https://github.com/Esri/hub.js/commit/5dbe3bb78bd3e5f6fa66f4ef4ca14c25170eb208))
 
 # @esri/hub-common [14.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.14.0...@esri/hub-common@14.15.0) (2023-09-18)
 
-
 ### Features
 
-* followers settings schema and behavior ([#1211](https://github.com/Esri/hub.js/issues/1211)) ([a8be73b](https://github.com/Esri/hub.js/commit/a8be73b444c84ac3547d3259d88666a5d92b6d89))
+- followers settings schema and behavior ([#1211](https://github.com/Esri/hub.js/issues/1211)) ([a8be73b](https://github.com/Esri/hub.js/commit/a8be73b444c84ac3547d3259d88666a5d92b6d89))
 
 # @esri/hub-common [14.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.13.1...@esri/hub-common@14.14.0) (2023-09-18)
 
-
 ### Features
 
-* partnered orgs added to context ([#1214](https://github.com/Esri/hub.js/issues/1214)) ([7979571](https://github.com/Esri/hub.js/commit/7979571074cac9a196537b0ffb5950a58a925e79))
+- partnered orgs added to context ([#1214](https://github.com/Esri/hub.js/issues/1214)) ([7979571](https://github.com/Esri/hub.js/commit/7979571074cac9a196537b0ffb5950a58a925e79))
 
 ## @esri/hub-common [14.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.13.0...@esri/hub-common@14.13.1) (2023-09-15)
 
-
 ### Bug Fixes
 
-* **hub-common:** fix fetchHubContent does not support slugs ([#1216](https://github.com/Esri/hub.js/issues/1216)) ([d3a4eba](https://github.com/Esri/hub.js/commit/d3a4ebafcc04994a3a8b0ca670024195e12721bf))
+- **hub-common:** fix fetchHubContent does not support slugs ([#1216](https://github.com/Esri/hub.js/issues/1216)) ([d3a4eba](https://github.com/Esri/hub.js/commit/d3a4ebafcc04994a3a8b0ca670024195e12721bf))
 
 # @esri/hub-common [14.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.12.1...@esri/hub-common@14.13.0) (2023-09-13)
 
-
 ### Features
 
-* **hub-common:** add content settings schemas and derive props from server definitions ([#1209](https://github.com/Esri/hub.js/issues/1209)) ([1721285](https://github.com/Esri/hub.js/commit/17212858812dce3453c3e879fc4d1f3606c9644a))
+- **hub-common:** add content settings schemas and derive props from server definitions ([#1209](https://github.com/Esri/hub.js/issues/1209)) ([1721285](https://github.com/Esri/hub.js/commit/17212858812dce3453c3e879fc4d1f3606c9644a))
 
 ## @esri/hub-common [14.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.12.0...@esri/hub-common@14.12.1) (2023-09-12)
 
-
 ### Bug Fixes
 
-* add featured content to initiatives edit ([#1208](https://github.com/Esri/hub.js/issues/1208)) ([a3f0361](https://github.com/Esri/hub.js/commit/a3f0361423793e326f8d6ea2ef502c4d207e124a))
-* ensure featured content catalogs are returned as an array ([#1207](https://github.com/Esri/hub.js/issues/1207)) ([d28b56f](https://github.com/Esri/hub.js/commit/d28b56fd466d8b8f36beecd1594ed1a448a27bfe))
+- add featured content to initiatives edit ([#1208](https://github.com/Esri/hub.js/issues/1208)) ([a3f0361](https://github.com/Esri/hub.js/commit/a3f0361423793e326f8d6ea2ef502c4d207e124a))
+- ensure featured content catalogs are returned as an array ([#1207](https://github.com/Esri/hub.js/issues/1207)) ([d28b56f](https://github.com/Esri/hub.js/commit/d28b56fd466d8b8f36beecd1594ed1a448a27bfe))
 
 # @esri/hub-common [14.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.11.0...@esri/hub-common@14.12.0) (2023-09-11)
 
-
 ### Features
 
-* add workspaceRelative to enrichGroupSearchResult ([#1206](https://github.com/Esri/hub.js/issues/1206)) ([f6d2016](https://github.com/Esri/hub.js/commit/f6d2016699df1ef62ffbbc9e717bfecb5f2f0731))
+- add workspaceRelative to enrichGroupSearchResult ([#1206](https://github.com/Esri/hub.js/issues/1206)) ([f6d2016](https://github.com/Esri/hub.js/commit/f6d2016699df1ef62ffbbc9e717bfecb5f2f0731))
 
 # @esri/hub-common [14.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.10.0...@esri/hub-common@14.11.0) (2023-09-11)
 
-
 ### Features
 
-* add supporting groups to sites property map ([#1205](https://github.com/Esri/hub.js/issues/1205)) ([2d473d6](https://github.com/Esri/hub.js/commit/2d473d6fc2cb9fa85d4d3bc2e26f869f187fe18c))
+- add supporting groups to sites property map ([#1205](https://github.com/Esri/hub.js/issues/1205)) ([2d473d6](https://github.com/Esri/hub.js/commit/2d473d6fc2cb9fa85d4d3bc2e26f869f187fe18c))
 
 # @esri/hub-common [14.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.1...@esri/hub-common@14.10.0) (2023-09-11)
 
-
 ### Features
 
-* refactor entity schema implementation ([#1203](https://github.com/Esri/hub.js/issues/1203)) ([88cdd2b](https://github.com/Esri/hub.js/commit/88cdd2b482f2c5297e431ad977685c4e84ef6dfa))
+- refactor entity schema implementation ([#1203](https://github.com/Esri/hub.js/issues/1203)) ([88cdd2b](https://github.com/Esri/hub.js/commit/88cdd2b482f2c5297e431ad977685c4e84ef6dfa))
 
 ## @esri/hub-common [14.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.0...@esri/hub-common@14.9.1) (2023-09-08)
 
-
 ### Bug Fixes
 
-* added default empty quotes for computeProps ([#1204](https://github.com/Esri/hub.js/issues/1204)) ([3c83e4a](https://github.com/Esri/hub.js/commit/3c83e4a35b0f8baff604aa27246d2ea21ab0530d))
+- added default empty quotes for computeProps ([#1204](https://github.com/Esri/hub.js/issues/1204)) ([3c83e4a](https://github.com/Esri/hub.js/commit/3c83e4a35b0f8baff604aa27246d2ea21ab0530d))
 
 # @esri/hub-common [14.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.8.0...@esri/hub-common@14.9.0) (2023-09-07)
 
-
 ### Features
 
-* **hub-common:** add hub:[entity]:manage permission for all entities ([#1202](https://github.com/Esri/hub.js/issues/1202)) ([71191b7](https://github.com/Esri/hub.js/commit/71191b7bece6f4dead7e36205e0558a4b9338a3b))
+- **hub-common:** add hub:[entity]:manage permission for all entities ([#1202](https://github.com/Esri/hub.js/issues/1202)) ([71191b7](https://github.com/Esri/hub.js/commit/71191b7bece6f4dead7e36205e0558a4b9338a3b))
 
 # @esri/hub-common [14.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.7.1...@esri/hub-common@14.8.0) (2023-09-06)
 
-
 ### Features
 
-* **hub-common:** add getResultSiteRelativeLink so Hub Page results can have slugs in siteRelative l ([#1200](https://github.com/Esri/hub.js/issues/1200)) ([27e0740](https://github.com/Esri/hub.js/commit/27e0740865a30879fa42f55996479275c6ff4892))
+- **hub-common:** add getResultSiteRelativeLink so Hub Page results can have slugs in siteRelative l ([#1200](https://github.com/Esri/hub.js/issues/1200)) ([27e0740](https://github.com/Esri/hub.js/commit/27e0740865a30879fa42f55996479275c6ff4892))
 
 ## @esri/hub-common [14.7.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.7.0...@esri/hub-common@14.7.1) (2023-09-01)
 
-
 ### Bug Fixes
 
-* add shareContent group permission and minor hub group clean up ([#1194](https://github.com/Esri/hub.js/issues/1194)) ([9a90b6d](https://github.com/Esri/hub.js/commit/9a90b6df4ff8da6c0a4de2a8f92bc1a8c63289dd))
+- add shareContent group permission and minor hub group clean up ([#1194](https://github.com/Esri/hub.js/issues/1194)) ([9a90b6d](https://github.com/Esri/hub.js/commit/9a90b6df4ff8da6c0a4de2a8f92bc1a8c63289dd))
 
 # @esri/hub-common [14.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.6.0...@esri/hub-common@14.7.0) (2023-09-01)
 
-
 ### Features
 
-* **hub-common:** add unified "links" hash as an optional property for all entities ([#1199](https://github.com/Esri/hub.js/issues/1199)) ([ba14502](https://github.com/Esri/hub.js/commit/ba145020400c940c42984389cb8dc3cfd4e5d50f))
+- **hub-common:** add unified "links" hash as an optional property for all entities ([#1199](https://github.com/Esri/hub.js/issues/1199)) ([ba14502](https://github.com/Esri/hub.js/commit/ba145020400c940c42984389cb8dc3cfd4e5d50f))
 
 # @esri/hub-common [14.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.2...@esri/hub-common@14.6.0) (2023-08-31)
 
-
 ### Features
 
-* add invite users to hub group ([#1197](https://github.com/Esri/hub.js/issues/1197)) ([014b2bd](https://github.com/Esri/hub.js/commit/014b2bdc1cb0ed081eb975e63129ed02fbdecc8b))
+- add invite users to hub group ([#1197](https://github.com/Esri/hub.js/issues/1197)) ([014b2bd](https://github.com/Esri/hub.js/commit/014b2bdc1cb0ed081eb975e63129ed02fbdecc8b))
 
 ## @esri/hub-common [14.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.1...@esri/hub-common@14.5.2) (2023-08-30)
 
-
 ### Bug Fixes
 
-* shouldClearEmptyFields now accounts for licenseInfo ([#1198](https://github.com/Esri/hub.js/issues/1198)) ([3f4eb47](https://github.com/Esri/hub.js/commit/3f4eb476e034d399274f7ffd410e8218c905b055))
+- shouldClearEmptyFields now accounts for licenseInfo ([#1198](https://github.com/Esri/hub.js/issues/1198)) ([3f4eb47](https://github.com/Esri/hub.js/commit/3f4eb476e034d399274f7ffd410e8218c905b055))
 
 ## @esri/hub-common [14.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.0...@esri/hub-common@14.5.1) (2023-08-29)
 
-
 ### Bug Fixes
 
-* account for index values that are 0 in card view models ([#1196](https://github.com/Esri/hub.js/issues/1196)) ([bbc1928](https://github.com/Esri/hub.js/commit/bbc19285fd4aefeaef8e06a4c4788a5e90a07d8b))
+- account for index values that are 0 in card view models ([#1196](https://github.com/Esri/hub.js/issues/1196)) ([bbc1928](https://github.com/Esri/hub.js/commit/bbc19285fd4aefeaef8e06a4c4788a5e90a07d8b))
 
 # @esri/hub-common [14.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.4.0...@esri/hub-common@14.5.0) (2023-08-29)
 
-
 ### Features
 
-* adding license picker to content workspace ([#1192](https://github.com/Esri/hub.js/issues/1192)) ([312b333](https://github.com/Esri/hub.js/commit/312b3333a010022b34704b9a9480e0f153666858))
+- adding license picker to content workspace ([#1192](https://github.com/Esri/hub.js/issues/1192)) ([312b333](https://github.com/Esri/hub.js/commit/312b3333a010022b34704b9a9480e0f153666858))
 
 # @esri/hub-common [14.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.1...@esri/hub-common@14.4.0) (2023-08-29)
 
-
 ### Features
 
-* add member role badges to user card model ([#1195](https://github.com/Esri/hub.js/issues/1195)) ([e09608d](https://github.com/Esri/hub.js/commit/e09608d73921e6563f808ff3b8575304b3cd26b3))
+- add member role badges to user card model ([#1195](https://github.com/Esri/hub.js/issues/1195)) ([e09608d](https://github.com/Esri/hub.js/commit/e09608d73921e6563f808ff3b8575304b3cd26b3))
 
 ## @esri/hub-common [14.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.0...@esri/hub-common@14.3.1) (2023-08-28)
 
-
 ### Bug Fixes
 
-* rollback stat migration ([#1193](https://github.com/Esri/hub.js/issues/1193)) ([8465e15](https://github.com/Esri/hub.js/commit/8465e155903053b0f4078b2ecf24c42aff149cf9))
+- rollback stat migration ([#1193](https://github.com/Esri/hub.js/issues/1193)) ([8465e15](https://github.com/Esri/hub.js/commit/8465e155903053b0f4078b2ecf24c42aff149cf9))
 
 # @esri/hub-common [14.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.2.0...@esri/hub-common@14.3.0) (2023-08-25)
 
-
 ### Features
 
-*  add feature and entity flagging into checkPermission ([#1187](https://github.com/Esri/hub.js/issues/1187)) ([b040283](https://github.com/Esri/hub.js/commit/b04028305a385bd9426edec71e4aaaef199bcc5a))
+- add feature and entity flagging into checkPermission ([#1187](https://github.com/Esri/hub.js/issues/1187)) ([b040283](https://github.com/Esri/hub.js/commit/b04028305a385bd9426edec71e4aaaef199bcc5a))
 
 # @esri/hub-common [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.1.0...@esri/hub-common@14.2.0) (2023-08-25)
 
-
 ### Features
 
-* ungate dashboard from projects ([#1188](https://github.com/Esri/hub.js/issues/1188)) ([658b936](https://github.com/Esri/hub.js/commit/658b9366bbd3d48243b9be8aa66ba3d2c769a84a))
+- ungate dashboard from projects ([#1188](https://github.com/Esri/hub.js/issues/1188)) ([658b936](https://github.com/Esri/hub.js/commit/658b9366bbd3d48243b9be8aa66ba3d2c769a84a))
 
 # @esri/hub-common [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.0.0...@esri/hub-common@14.1.0) (2023-08-24)
 
-
 ### Features
 
-* site's followers pane permissions ([#1186](https://github.com/Esri/hub.js/issues/1186)) ([90feec7](https://github.com/Esri/hub.js/commit/90feec7e32bdc69e6a03a0e4f2c82e661f50c937))
-* **hub-common:** add icon for Discussion content type ([#1185](https://github.com/Esri/hub.js/issues/1185)) ([7ae927a](https://github.com/Esri/hub.js/commit/7ae927ac9d1b7488c1f9357876fa0515997ca300))
+- site's followers pane permissions ([#1186](https://github.com/Esri/hub.js/issues/1186)) ([90feec7](https://github.com/Esri/hub.js/commit/90feec7e32bdc69e6a03a0e4f2c82e661f50c937))
+- **hub-common:** add icon for Discussion content type ([#1185](https://github.com/Esri/hub.js/issues/1185)) ([7ae927a](https://github.com/Esri/hub.js/commit/7ae927ac9d1b7488c1f9357876fa0515997ca300))
 
 # @esri/hub-common [14.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.2...@esri/hub-common@14.0.0) (2023-08-23)
 
-
 ### Features
 
-* remove capabilities, add featureFlags to Context ([#1184](https://github.com/Esri/hub.js/issues/1184)) ([394c60c](https://github.com/Esri/hub.js/commit/394c60c75d101ede29e1c1392c1ad50d4b7787bb))
-
+- remove capabilities, add featureFlags to Context ([#1184](https://github.com/Esri/hub.js/issues/1184)) ([394c60c](https://github.com/Esri/hub.js/commit/394c60c75d101ede29e1c1392c1ad50d4b7787bb))
 
 ### BREAKING CHANGES
 
-* HubSubsystem, HubSystemStatus, isSubsystem removed
+- HubSubsystem, HubSystemStatus, isSubsystem removed
 
-* fix: remove capabilities
-* Remove all capability related functions, props, fix tests
+- fix: remove capabilities
+- Remove all capability related functions, props, fix tests
 
-* feat: context holds feature flags
+- feat: context holds feature flags
 
-* refactor: ensure .features persisted for S/I/P only
+- refactor: ensure .features persisted for S/I/P only
 
-* refactor: update version test to account for settings.features being included
+- refactor: update version test to account for settings.features being included
 
-* fix: remove IEntityFeature type
-* IEntityFeature type replaced with IFeatureFlag
+- fix: remove IEntityFeature type
+- IEntityFeature type replaced with IFeatureFlag
 
 ## @esri/hub-common [13.46.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.1...@esri/hub-common@13.46.2) (2023-08-23)
 
-
 ### Bug Fixes
 
-* enrichUserSearchResult will return a summary of undefined if the search result had no desc ([#1182](https://github.com/Esri/hub.js/issues/1182)) ([8672d3c](https://github.com/Esri/hub.js/commit/8672d3cdec216a25c7d14f9f2a987a8fc113b307))
-* ungate group settings pane from being only owner ([#1183](https://github.com/Esri/hub.js/issues/1183)) ([68533c0](https://github.com/Esri/hub.js/commit/68533c0dfc2b224b085a35e373c604b14dfd0f2e))
+- enrichUserSearchResult will return a summary of undefined if the search result had no desc ([#1182](https://github.com/Esri/hub.js/issues/1182)) ([8672d3c](https://github.com/Esri/hub.js/commit/8672d3cdec216a25c7d14f9f2a987a8fc113b307))
+- ungate group settings pane from being only owner ([#1183](https://github.com/Esri/hub.js/issues/1183)) ([68533c0](https://github.com/Esri/hub.js/commit/68533c0dfc2b224b085a35e373c604b14dfd0f2e))
 
 ## @esri/hub-common [13.46.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.0...@esri/hub-common@13.46.1) (2023-08-22)
 
-
 ### Bug Fixes
 
-* properly translate radio button labels ([#1181](https://github.com/Esri/hub.js/issues/1181)) ([54610c8](https://github.com/Esri/hub.js/commit/54610c8887411695ce56cee12e9d57ed763988c0))
+- properly translate radio button labels ([#1181](https://github.com/Esri/hub.js/issues/1181)) ([54610c8](https://github.com/Esri/hub.js/commit/54610c8887411695ce56cee12e9d57ed763988c0))
 
 # @esri/hub-common [13.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.45.0...@esri/hub-common@13.46.0) (2023-08-22)
 
-
 ### Features
 
-* migrate summary stat function ([#1165](https://github.com/Esri/hub.js/issues/1165)) ([53e34de](https://github.com/Esri/hub.js/commit/53e34de0b903380538e3cee0e5f152121c30286e))
+- migrate summary stat function ([#1165](https://github.com/Esri/hub.js/issues/1165)) ([53e34de](https://github.com/Esri/hub.js/commit/53e34de0b903380538e3cee0e5f152121c30286e))
 
 # @esri/hub-common [13.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.44.0...@esri/hub-common@13.45.0) (2023-08-22)
 
-
 ### Features
 
-* add group settings schema ([#1180](https://github.com/Esri/hub.js/issues/1180)) ([768f432](https://github.com/Esri/hub.js/commit/768f432cc0462a509538f44a1ad748832652a211))
+- add group settings schema ([#1180](https://github.com/Esri/hub.js/issues/1180)) ([768f432](https://github.com/Esri/hub.js/commit/768f432cc0462a509538f44a1ad748832652a211))
 
 # @esri/hub-common [13.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.3...@esri/hub-common@13.44.0) (2023-08-21)
 
-
 ### Features
 
-* **hub-common:** enriches channel with groups via hub search includes ([#1178](https://github.com/Esri/hub.js/issues/1178)) ([f38271d](https://github.com/Esri/hub.js/commit/f38271dccdb38f6c7de1e0dbf5491166dc90bf72)), closes [#7405](https://github.com/Esri/hub.js/issues/7405)
+- **hub-common:** enriches channel with groups via hub search includes ([#1178](https://github.com/Esri/hub.js/issues/1178)) ([f38271d](https://github.com/Esri/hub.js/commit/f38271dccdb38f6c7de1e0dbf5491166dc90bf72)), closes [#7405](https://github.com/Esri/hub.js/issues/7405)
 
 ## @esri/hub-common [13.43.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.2...@esri/hub-common@13.43.3) (2023-08-21)
 
-
 ### Bug Fixes
 
-* group permissions ([#1179](https://github.com/Esri/hub.js/issues/1179)) ([7e4775f](https://github.com/Esri/hub.js/commit/7e4775f9571bd2b1de11f345fc7692366254967e))
+- group permissions ([#1179](https://github.com/Esri/hub.js/issues/1179)) ([7e4775f](https://github.com/Esri/hub.js/commit/7e4775f9571bd2b1de11f345fc7692366254967e))
 
 ## @esri/hub-common [13.43.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.1...@esri/hub-common@13.43.2) (2023-08-21)
 
-
 ### Bug Fixes
 
-* add memberType to SortOption ([#1177](https://github.com/Esri/hub.js/issues/1177)) ([6480a8c](https://github.com/Esri/hub.js/commit/6480a8c3168c7877207261004afa7d09b2dba2db))
+- add memberType to SortOption ([#1177](https://github.com/Esri/hub.js/issues/1177)) ([6480a8c](https://github.com/Esri/hub.js/commit/6480a8c3168c7877207261004afa7d09b2dba2db))
 
 ## @esri/hub-common [13.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.0...@esri/hub-common@13.43.1) (2023-08-18)
 
-
 ### Bug Fixes
 
-* add new SortOption type ([#1175](https://github.com/Esri/hub.js/issues/1175)) ([11a74b3](https://github.com/Esri/hub.js/commit/11a74b3fafbcbf06d9fa22876d1d9fd08f608fd7))
-* ensure getNextFunction handles requestOptions.authentication cleanly ([#1176](https://github.com/Esri/hub.js/issues/1176)) ([3c19e16](https://github.com/Esri/hub.js/commit/3c19e16e3ccf8ee13679454e2e0721de4e88a938))
+- add new SortOption type ([#1175](https://github.com/Esri/hub.js/issues/1175)) ([11a74b3](https://github.com/Esri/hub.js/commit/11a74b3fafbcbf06d9fa22876d1d9fd08f608fd7))
+- ensure getNextFunction handles requestOptions.authentication cleanly ([#1176](https://github.com/Esri/hub.js/issues/1176)) ([3c19e16](https://github.com/Esri/hub.js/commit/3c19e16e3ccf8ee13679454e2e0721de4e88a938))
 
 # @esri/hub-common [13.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.42.1...@esri/hub-common@13.43.0) (2023-08-18)
 
-
 ### Features
 
-* **hub-common:** include discussion routes ([#1168](https://github.com/Esri/hub.js/issues/1168)) ([04feaaf](https://github.com/Esri/hub.js/commit/04feaaf258d7cc649f916ad17af1f4ea7dcaaabd))
+- **hub-common:** include discussion routes ([#1168](https://github.com/Esri/hub.js/issues/1168)) ([04feaaf](https://github.com/Esri/hub.js/commit/04feaaf258d7cc649f916ad17af1f4ea7dcaaabd))
 
 ## @esri/hub-common [13.42.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.42.0...@esri/hub-common@13.42.1) (2023-08-18)
 
-
 ### Bug Fixes
 
-* add missing permissions ([#1174](https://github.com/Esri/hub.js/issues/1174)) ([1213e00](https://github.com/Esri/hub.js/commit/1213e0049f06b5119cac6a19f5bca21745f39094))
+- add missing permissions ([#1174](https://github.com/Esri/hub.js/issues/1174)) ([1213e00](https://github.com/Esri/hub.js/commit/1213e0049f06b5119cac6a19f5bca21745f39094))
 
 # @esri/hub-common [13.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.41.0...@esri/hub-common@13.42.0) (2023-08-18)
 
-
 ### Features
 
-* **hub-common:** add user membership enrichment and have updateSite persist catalog changes ([#1166](https://github.com/Esri/hub.js/issues/1166)) ([607cfe9](https://github.com/Esri/hub.js/commit/607cfe938cc5f451b2086c676b138a8489ee7863))
+- **hub-common:** add user membership enrichment and have updateSite persist catalog changes ([#1166](https://github.com/Esri/hub.js/issues/1166)) ([607cfe9](https://github.com/Esri/hub.js/commit/607cfe938cc5f451b2086c676b138a8489ee7863))
 
 # @esri/hub-common [13.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.40.1...@esri/hub-common@13.41.0) (2023-08-18)
 
-
 ### Features
 
-* convertModelToPage and update temp:workspace:released permission ([#1173](https://github.com/Esri/hub.js/issues/1173)) ([0283ff3](https://github.com/Esri/hub.js/commit/0283ff3de3a084854f30dd0397ec6090e71cc00b))
+- convertModelToPage and update temp:workspace:released permission ([#1173](https://github.com/Esri/hub.js/issues/1173)) ([0283ff3](https://github.com/Esri/hub.js/commit/0283ff3de3a084854f30dd0397ec6090e71cc00b))
 
 ## @esri/hub-common [13.40.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.40.0...@esri/hub-common@13.40.1) (2023-08-18)
 
-
 ### Bug Fixes
 
-* await save in classes ([#1172](https://github.com/Esri/hub.js/issues/1172)) ([aa8299d](https://github.com/Esri/hub.js/commit/aa8299d30dbc75c75bc87943b39e2cff2c5ecfc1))
+- await save in classes ([#1172](https://github.com/Esri/hub.js/issues/1172)) ([aa8299d](https://github.com/Esri/hub.js/commit/aa8299d30dbc75c75bc87943b39e2cff2c5ecfc1))
 
 # @esri/hub-common [13.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.3...@esri/hub-common@13.40.0) (2023-08-18)
 
-
 ### Features
 
-* add workspace pane permissions for all entities ([#1171](https://github.com/Esri/hub.js/issues/1171)) ([8cb94f6](https://github.com/Esri/hub.js/commit/8cb94f61c7fbe892c580f3b76551974495be5c52))
+- add workspace pane permissions for all entities ([#1171](https://github.com/Esri/hub.js/issues/1171)) ([8cb94f6](https://github.com/Esri/hub.js/commit/8cb94f61c7fbe892c580f3b76551974495be5c52))
 
 ## @esri/hub-common [13.39.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.2...@esri/hub-common@13.39.3) (2023-08-18)
 
-
 ### Bug Fixes
 
-* small updates to group details schemas ([#1170](https://github.com/Esri/hub.js/issues/1170)) ([17b19bd](https://github.com/Esri/hub.js/commit/17b19bdde95c73a09e00776002d91b2f8025a5b7))
+- small updates to group details schemas ([#1170](https://github.com/Esri/hub.js/issues/1170)) ([17b19bd](https://github.com/Esri/hub.js/commit/17b19bdde95c73a09e00776002d91b2f8025a5b7))
 
 ## @esri/hub-common [13.39.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.1...@esri/hub-common@13.39.2) (2023-08-18)
 
-
 ### Bug Fixes
 
-* log checkPermission output if access not granted ([#1169](https://github.com/Esri/hub.js/issues/1169)) ([8c9f396](https://github.com/Esri/hub.js/commit/8c9f3966fd2b721f6d58fa7c2ac854326c3df612))
-* revert and update content location picker ([#1164](https://github.com/Esri/hub.js/issues/1164)) ([c11c019](https://github.com/Esri/hub.js/commit/c11c0195b06d3fa2b7ba18ea708652066fcfc600))
+- log checkPermission output if access not granted ([#1169](https://github.com/Esri/hub.js/issues/1169)) ([8c9f396](https://github.com/Esri/hub.js/commit/8c9f3966fd2b721f6d58fa7c2ac854326c3df612))
+- revert and update content location picker ([#1164](https://github.com/Esri/hub.js/issues/1164)) ([c11c019](https://github.com/Esri/hub.js/commit/c11c0195b06d3fa2b7ba18ea708652066fcfc600))
 
 ## @esri/hub-common [13.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.0...@esri/hub-common@13.39.1) (2023-08-17)
 
-
 ### Bug Fixes
 
-* add support for group members "joined" field ([#1167](https://github.com/Esri/hub.js/issues/1167)) ([fecea60](https://github.com/Esri/hub.js/commit/fecea606d67d919d06b3219f37777f3268c0bc51))
+- add support for group members "joined" field ([#1167](https://github.com/Esri/hub.js/issues/1167)) ([fecea60](https://github.com/Esri/hub.js/commit/fecea606d67d919d06b3219f37777f3268c0bc51))
 
 # @esri/hub-common [13.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.2...@esri/hub-common@13.39.0) (2023-08-17)
 
-
 ### Features
 
-* search by channel name and multi access ([#1161](https://github.com/Esri/hub.js/issues/1161)) ([fcd71ac](https://github.com/Esri/hub.js/commit/fcd71ac92117a495eb7372818ae250b038746d0c))
+- search by channel name and multi access ([#1161](https://github.com/Esri/hub.js/issues/1161)) ([fcd71ac](https://github.com/Esri/hub.js/commit/fcd71ac92117a495eb7372818ae250b038746d0c))
 
 ## @esri/hub-common [13.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.1...@esri/hub-common@13.38.2) (2023-08-16)
 
-
 ### Bug Fixes
 
-* ensure requestOptions.authentication is UserSession instance in next() ([#1163](https://github.com/Esri/hub.js/issues/1163)) ([31b6143](https://github.com/Esri/hub.js/commit/31b61434305fe726a3f4939497db573a5b5f7f84))
+- ensure requestOptions.authentication is UserSession instance in next() ([#1163](https://github.com/Esri/hub.js/issues/1163)) ([31b6143](https://github.com/Esri/hub.js/commit/31b61434305fe726a3f4939497db573a5b5f7f84))
 
 ## @esri/hub-common [13.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.0...@esri/hub-common@13.38.1) (2023-08-16)
 
-
 ### Bug Fixes
 
-* remove additionalInfo from userResultToCardModel ([#1162](https://github.com/Esri/hub.js/issues/1162)) ([c4c72c8](https://github.com/Esri/hub.js/commit/c4c72c8fd4a8f92fdd6e4400f0d4f923c06d0293))
+- remove additionalInfo from userResultToCardModel ([#1162](https://github.com/Esri/hub.js/issues/1162)) ([c4c72c8](https://github.com/Esri/hub.js/commit/c4c72c8fd4a8f92fdd6e4400f0d4f923c06d0293))
 
 # @esri/hub-common [13.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.3...@esri/hub-common@13.38.0) (2023-08-15)
 
-
 ### Bug Fixes
 
-* export ihubgroup ([#1160](https://github.com/Esri/hub.js/issues/1160)) ([0d29518](https://github.com/Esri/hub.js/commit/0d2951875adc7331e2f93058b3fb2356a427a1eb))
-
+- export ihubgroup ([#1160](https://github.com/Esri/hub.js/issues/1160)) ([0d29518](https://github.com/Esri/hub.js/commit/0d2951875adc7331e2f93058b3fb2356a427a1eb))
 
 ### Features
 
-* permission parents, deprecations for Capabilities ([#1158](https://github.com/Esri/hub.js/issues/1158)) ([83659b1](https://github.com/Esri/hub.js/commit/83659b1c42d73ebf4504d4b160b449565767161c))
+- permission parents, deprecations for Capabilities ([#1158](https://github.com/Esri/hub.js/issues/1158)) ([83659b1](https://github.com/Esri/hub.js/commit/83659b1c42d73ebf4504d4b160b449565767161c))
 
 ## @esri/hub-common [13.37.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.2...@esri/hub-common@13.37.3) (2023-08-14)
 
-
 ### Bug Fixes
 
-* add GroupSchema, GroupUiSchema and other support for groups details pane ([#1154](https://github.com/Esri/hub.js/issues/1154)) ([e82d49c](https://github.com/Esri/hub.js/commit/e82d49cbe75e1286407450d0f7b3aa6e5ec1e8cf))
+- add GroupSchema, GroupUiSchema and other support for groups details pane ([#1154](https://github.com/Esri/hub.js/issues/1154)) ([e82d49c](https://github.com/Esri/hub.js/commit/e82d49cbe75e1286407450d0f7b3aa6e5ec1e8cf))
 
 ## @esri/hub-common [13.37.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.1...@esri/hub-common@13.37.2) (2023-08-14)
 
-
 ### Bug Fixes
 
-* user selects none; location disappears correctly ([#1155](https://github.com/Esri/hub.js/issues/1155)) ([3a13434](https://github.com/Esri/hub.js/commit/3a13434ee28e1c524ea0213ac30ff83cf6b5f079))
+- user selects none; location disappears correctly ([#1155](https://github.com/Esri/hub.js/issues/1155)) ([3a13434](https://github.com/Esri/hub.js/commit/3a13434ee28e1c524ea0213ac30ff83cf6b5f079))
 
 ## @esri/hub-common [13.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.0...@esri/hub-common@13.37.1) (2023-08-11)
 
-
 ### Bug Fixes
 
-* update clientKey to empty string in updateDomain/addDomain ([#1157](https://github.com/Esri/hub.js/issues/1157)) ([84ae619](https://github.com/Esri/hub.js/commit/84ae619b8d18941a9142d1edab5766be0413a213))
+- update clientKey to empty string in updateDomain/addDomain ([#1157](https://github.com/Esri/hub.js/issues/1157)) ([84ae619](https://github.com/Esri/hub.js/commit/84ae619b8d18941a9142d1edab5766be0413a213))
 
 # @esri/hub-common [13.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.1...@esri/hub-common@13.37.0) (2023-08-11)
 
-
 ### Features
 
-* explain search result ([#1156](https://github.com/Esri/hub.js/issues/1156)) ([d469907](https://github.com/Esri/hub.js/commit/d469907658a068d360ce30578a153223da2dc7f1))
+- explain search result ([#1156](https://github.com/Esri/hub.js/issues/1156)) ([d469907](https://github.com/Esri/hub.js/commit/d469907658a068d360ce30578a153223da2dc7f1))
 
 ## @esri/hub-common [13.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.0...@esri/hub-common@13.36.1) (2023-08-09)
 
-
 ### Bug Fixes
 
-* alpha permissions ([#1153](https://github.com/Esri/hub.js/issues/1153)) ([5f2df0c](https://github.com/Esri/hub.js/commit/5f2df0c73dc072eb76f1b407b321c774cea94ff0))
+- alpha permissions ([#1153](https://github.com/Esri/hub.js/issues/1153)) ([5f2df0c](https://github.com/Esri/hub.js/commit/5f2df0c73dc072eb76f1b407b321c774cea94ff0))
 
 # @esri/hub-common [13.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.35.0...@esri/hub-common@13.36.0) (2023-08-08)
 
-
 ### Features
 
-* constrain temp:workspace:released permission to alpha orgs ([#1152](https://github.com/Esri/hub.js/issues/1152)) ([5500dcc](https://github.com/Esri/hub.js/commit/5500dcc75b495427c0ce50b255b9d0e30a2e97e4))
+- constrain temp:workspace:released permission to alpha orgs ([#1152](https://github.com/Esri/hub.js/issues/1152)) ([5500dcc](https://github.com/Esri/hub.js/commit/5500dcc75b495427c0ce50b255b9d0e30a2e97e4))
 
 # @esri/hub-common [13.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.34.0...@esri/hub-common@13.35.0) (2023-08-08)
 
-
 ### Features
 
-* workspace gating ([#1151](https://github.com/Esri/hub.js/issues/1151)) ([68fedd1](https://github.com/Esri/hub.js/commit/68fedd172fde53f11f49011acb8d132077ecd1e4))
+- workspace gating ([#1151](https://github.com/Esri/hub.js/issues/1151)) ([68fedd1](https://github.com/Esri/hub.js/commit/68fedd172fde53f11f49011acb8d132077ecd1e4))
 
 # @esri/hub-common [13.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.2...@esri/hub-common@13.34.0) (2023-08-07)
 
-
 ### Features
 
-* added location picker to content details ([#1150](https://github.com/Esri/hub.js/issues/1150)) ([f6317b4](https://github.com/Esri/hub.js/commit/f6317b4e788a6a9a2f4d3d38b5de1fac1ddbf7ab))
+- added location picker to content details ([#1150](https://github.com/Esri/hub.js/issues/1150)) ([f6317b4](https://github.com/Esri/hub.js/commit/f6317b4e788a6a9a2f4d3d38b5de1fac1ddbf7ab))
 
 ## @esri/hub-common [13.33.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.1...@esri/hub-common@13.33.2) (2023-08-07)
 
-
 ### Bug Fixes
 
-* reshuffle project edit schema ([#1149](https://github.com/Esri/hub.js/issues/1149)) ([13cb7ab](https://github.com/Esri/hub.js/commit/13cb7ab720eb495620f1f666e2f10d15c103a802))
+- reshuffle project edit schema ([#1149](https://github.com/Esri/hub.js/issues/1149)) ([13cb7ab](https://github.com/Esri/hub.js/commit/13cb7ab720eb495620f1f666e2f10d15c103a802))
 
 ## @esri/hub-common [13.33.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.0...@esri/hub-common@13.33.1) (2023-08-07)
 
-
 ### Bug Fixes
 
-* handle new discussion entity ([#1146](https://github.com/Esri/hub.js/issues/1146)) ([2f395bc](https://github.com/Esri/hub.js/commit/2f395bccd94ca5f26cb82b8cbcd766de5b8752b8))
+- handle new discussion entity ([#1146](https://github.com/Esri/hub.js/issues/1146)) ([2f395bc](https://github.com/Esri/hub.js/commit/2f395bccd94ca5f26cb82b8cbcd766de5b8752b8))
 
 # @esri/hub-common [13.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.2...@esri/hub-common@13.33.0) (2023-08-07)
 
-
 ### Features
 
-* add more support and props for Hub Group ([#1143](https://github.com/Esri/hub.js/issues/1143)) ([bbdc300](https://github.com/Esri/hub.js/commit/bbdc300a8c74641929d6e4e68869866ef2401ee8))
+- add more support and props for Hub Group ([#1143](https://github.com/Esri/hub.js/issues/1143)) ([bbdc300](https://github.com/Esri/hub.js/commit/bbdc300a8c74641929d6e4e68869866ef2401ee8))
 
 ## @esri/hub-common [13.32.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.1...@esri/hub-common@13.32.2) (2023-08-04)
 
-
 ### Bug Fixes
 
-* remove name/title string as it is not wanted ([#1148](https://github.com/Esri/hub.js/issues/1148)) ([01018c9](https://github.com/Esri/hub.js/commit/01018c9a621db305d1e899631f8b3290cfa9f886))
+- remove name/title string as it is not wanted ([#1148](https://github.com/Esri/hub.js/issues/1148)) ([01018c9](https://github.com/Esri/hub.js/commit/01018c9a621db305d1e899631f8b3290cfa9f886))
 
 ## @esri/hub-common [13.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.0...@esri/hub-common@13.32.1) (2023-08-04)
 
-
 ### Bug Fixes
 
-* actually export new function from index ([#1147](https://github.com/Esri/hub.js/issues/1147)) ([5d515d4](https://github.com/Esri/hub.js/commit/5d515d451a84dbe2d86c6070a0c97fb4b7ecee9e))
+- actually export new function from index ([#1147](https://github.com/Esri/hub.js/issues/1147)) ([5d515d4](https://github.com/Esri/hub.js/commit/5d515d451a84dbe2d86c6070a0c97fb4b7ecee9e))
 
 # @esri/hub-common [13.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.31.0...@esri/hub-common@13.32.0) (2023-08-03)
 
-
 ### Features
 
-* **hub-common:** persist modifications to site collections via updateSite ([#1139](https://github.com/Esri/hub.js/issues/1139)) ([147b7fc](https://github.com/Esri/hub.js/commit/147b7fce1856aec3c6c830b6196d0856d8458626))
+- **hub-common:** persist modifications to site collections via updateSite ([#1139](https://github.com/Esri/hub.js/issues/1139)) ([147b7fc](https://github.com/Esri/hub.js/commit/147b7fce1856aec3c6c830b6196d0856d8458626))
 
 # @esri/hub-common [13.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.30.0...@esri/hub-common@13.31.0) (2023-08-03)
 
-
 ### Features
 
-* user card result to card ([#1144](https://github.com/Esri/hub.js/issues/1144)) ([866fbe7](https://github.com/Esri/hub.js/commit/866fbe7104bb7362b36265df32238219f2fc09ab))
+- user card result to card ([#1144](https://github.com/Esri/hub.js/issues/1144)) ([866fbe7](https://github.com/Esri/hub.js/commit/866fbe7104bb7362b36265df32238219f2fc09ab))
 
 # @esri/hub-common [13.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.29.1...@esri/hub-common@13.30.0) (2023-08-02)
 
-
 ### Features
 
-* add card section type ([#1142](https://github.com/Esri/hub.js/issues/1142)) ([41618a4](https://github.com/Esri/hub.js/commit/41618a415b5339cb64ab8909639bce213de46dd8))
+- add card section type ([#1142](https://github.com/Esri/hub.js/issues/1142)) ([41618a4](https://github.com/Esri/hub.js/commit/41618a415b5339cb64ab8909639bce213de46dd8))
 
 ## @esri/hub-common [13.29.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.29.0...@esri/hub-common@13.29.1) (2023-08-02)
 
-
 ### Bug Fixes
 
-* gracefully handles cases where portal prop might not exist on ([#1137](https://github.com/Esri/hub.js/issues/1137)) ([fa09ecf](https://github.com/Esri/hub.js/commit/fa09ecf9890604f91a3eb118e4cf82598214acbb))
+- gracefully handles cases where portal prop might not exist on ([#1137](https://github.com/Esri/hub.js/issues/1137)) ([fa09ecf](https://github.com/Esri/hub.js/commit/fa09ecf9890604f91a3eb118e4cf82598214acbb))
 
 # @esri/hub-common [13.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.28.0...@esri/hub-common@13.29.0) (2023-08-02)
 
-
 ### Features
 
-* **hub-common:** add name to interface ISearchChannels ([#1140](https://github.com/Esri/hub.js/issues/1140)) ([674dd12](https://github.com/Esri/hub.js/commit/674dd12e759e114b3acca69e87d2b0220c318e7c))
+- **hub-common:** add name to interface ISearchChannels ([#1140](https://github.com/Esri/hub.js/issues/1140)) ([674dd12](https://github.com/Esri/hub.js/commit/674dd12e759e114b3acca69e87d2b0220c318e7c))
 
 # @esri/hub-common [13.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.27.1...@esri/hub-common@13.28.0) (2023-08-01)
 
-
 ### Features
 
-* move and refactor entity editor abstractions into hub.js ([#1135](https://github.com/Esri/hub.js/issues/1135)) ([0ea3d92](https://github.com/Esri/hub.js/commit/0ea3d9229ef9f3f3a7ede7651244941f51265998))
+- move and refactor entity editor abstractions into hub.js ([#1135](https://github.com/Esri/hub.js/issues/1135)) ([0ea3d92](https://github.com/Esri/hub.js/commit/0ea3d9229ef9f3f3a7ede7651244941f51265998))
 
 ## @esri/hub-common [13.27.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.27.0...@esri/hub-common@13.27.1) (2023-07-31)
 
-
 ### Bug Fixes
 
-* add page capability permissions to capability permissions list ([#1136](https://github.com/Esri/hub.js/issues/1136)) ([4ab99df](https://github.com/Esri/hub.js/commit/4ab99dfcf9e89f1120bb96cab80f5b4f54814440))
+- add page capability permissions to capability permissions list ([#1136](https://github.com/Esri/hub.js/issues/1136)) ([4ab99df](https://github.com/Esri/hub.js/commit/4ab99dfcf9e89f1120bb96cab80f5b4f54814440))
 
 # @esri/hub-common [13.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.26.0...@esri/hub-common@13.27.0) (2023-07-31)
 
-
 ### Features
 
-* 7109 scaffold new HubGroup entity ([#1113](https://github.com/Esri/hub.js/issues/1113)) ([ccf9ec6](https://github.com/Esri/hub.js/commit/ccf9ec6a8a1ca5e6d2a820031f3f35328c734c2d))
+- 7109 scaffold new HubGroup entity ([#1113](https://github.com/Esri/hub.js/issues/1113)) ([ccf9ec6](https://github.com/Esri/hub.js/commit/ccf9ec6a8a1ca5e6d2a820031f3f35328c734c2d))
 
 # @esri/hub-common [13.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.25.2...@esri/hub-common@13.26.0) (2023-07-31)
 
-
 ### Features
 
-* **hub-discussions:** add function updateDiscussionSetting ([#1133](https://github.com/Esri/hub.js/issues/1133)) ([a594859](https://github.com/Esri/hub.js/commit/a5948599db645fbaec730ab0c453ed5c4ad6a35e))
+- **hub-discussions:** add function updateDiscussionSetting ([#1133](https://github.com/Esri/hub.js/issues/1133)) ([a594859](https://github.com/Esri/hub.js/commit/a5948599db645fbaec730ab0c453ed5c4ad6a35e))
 
 ## @esri/hub-common [13.25.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.25.1...@esri/hub-common@13.25.2) (2023-07-28)
 
-
 ### Bug Fixes
 
-* **hub-common:** have convertModelToSite handle invalid search categories ([#1134](https://github.com/Esri/hub.js/issues/1134)) ([9dde16b](https://github.com/Esri/hub.js/commit/9dde16b74a38077a23797b648fac8b3d9349b8f8))
+- **hub-common:** have convertModelToSite handle invalid search categories ([#1134](https://github.com/Esri/hub.js/issues/1134)) ([9dde16b](https://github.com/Esri/hub.js/commit/9dde16b74a38077a23797b648fac8b3d9349b8f8))
 
 ## @esri/hub-common [13.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.25.0...@esri/hub-common@13.25.1) (2023-07-28)
 
-
 ### Bug Fixes
 
-* modify project permissions so it is excluded from enterprise ([#1131](https://github.com/Esri/hub.js/issues/1131)) ([5872d01](https://github.com/Esri/hub.js/commit/5872d0116e1afd4e868f561507d9b138b87eaf37))
+- modify project permissions so it is excluded from enterprise ([#1131](https://github.com/Esri/hub.js/issues/1131)) ([5872d01](https://github.com/Esri/hub.js/commit/5872d0116e1afd4e868f561507d9b138b87eaf37))
 
 # @esri/hub-common [13.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.24.0...@esri/hub-common@13.25.0) (2023-07-27)
 
-
 ### Features
 
-* add dashboard capability to content, discussions,initiatives ([#1132](https://github.com/Esri/hub.js/issues/1132)) ([c3e6a98](https://github.com/Esri/hub.js/commit/c3e6a98432601ea838bb80bd859b9e5bfd7186dd))
-* **hub-common:** workspace edit content details ([#1128](https://github.com/Esri/hub.js/issues/1128)) ([aa47afa](https://github.com/Esri/hub.js/commit/aa47afaa8909195d40af994f20807ad69c4da09a))
+- add dashboard capability to content, discussions,initiatives ([#1132](https://github.com/Esri/hub.js/issues/1132)) ([c3e6a98](https://github.com/Esri/hub.js/commit/c3e6a98432601ea838bb80bd859b9e5bfd7186dd))
+- **hub-common:** workspace edit content details ([#1128](https://github.com/Esri/hub.js/issues/1128)) ([aa47afa](https://github.com/Esri/hub.js/commit/aa47afaa8909195d40af994f20807ad69c4da09a))
 
 # @esri/hub-common [13.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.23.0...@esri/hub-common@13.24.0) (2023-07-25)
 
-
 ### Features
 
-* add dashboard capability to site/project/page ([#1126](https://github.com/Esri/hub.js/issues/1126)) ([cada5d3](https://github.com/Esri/hub.js/commit/cada5d39b466b6f51663122cb377e9b1d84a2f41))
+- add dashboard capability to site/project/page ([#1126](https://github.com/Esri/hub.js/issues/1126)) ([cada5d3](https://github.com/Esri/hub.js/commit/cada5d39b466b6f51663122cb377e9b1d84a2f41))
 
 # @esri/hub-common [13.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.1...@esri/hub-common@13.23.0) (2023-07-24)
 
-
 ### Bug Fixes
 
-* **hub-common:** saving sites guarantees a unique slug and prevents field loss in site data ([#1130](https://github.com/Esri/hub.js/issues/1130)) ([16a25b6](https://github.com/Esri/hub.js/commit/16a25b6b4bd7161ad7bf59ef716c873011ad1f6c))
-
+- **hub-common:** saving sites guarantees a unique slug and prevents field loss in site data ([#1130](https://github.com/Esri/hub.js/issues/1130)) ([16a25b6](https://github.com/Esri/hub.js/commit/16a25b6b4bd7161ad7bf59ef716c873011ad1f6c))
 
 ### Features
 
-* EntityEditor class  ([#1127](https://github.com/Esri/hub.js/issues/1127)) ([3f3beac](https://github.com/Esri/hub.js/commit/3f3beac2ea380ee27700b348ac00e43172d1ee01))
+- EntityEditor class ([#1127](https://github.com/Esri/hub.js/issues/1127)) ([3f3beac](https://github.com/Esri/hub.js/commit/3f3beac2ea380ee27700b348ac00e43172d1ee01))
 
 ## @esri/hub-common [13.22.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.0...@esri/hub-common@13.22.1) (2023-07-21)
 
-
 ### Bug Fixes
 
-* include owner with setAccess ([#1129](https://github.com/Esri/hub.js/issues/1129)) ([3c7ab72](https://github.com/Esri/hub.js/commit/3c7ab72b65543d6e23d4a530abab8dfe5888603a))
+- include owner with setAccess ([#1129](https://github.com/Esri/hub.js/issues/1129)) ([3c7ab72](https://github.com/Esri/hub.js/commit/3c7ab72b65543d6e23d4a530abab8dfe5888603a))
 
 # @esri/hub-common [13.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.21.1...@esri/hub-common@13.22.0) (2023-07-21)
 
-
 ### Features
 
-* teach hubSearch channels ([#1111](https://github.com/Esri/hub.js/issues/1111)) ([82d0492](https://github.com/Esri/hub.js/commit/82d04927b644a7b9c219568887a83dd4cd1426d4))
+- teach hubSearch channels ([#1111](https://github.com/Esri/hub.js/issues/1111)) ([82d0492](https://github.com/Esri/hub.js/commit/82d04927b644a7b9c219568887a83dd4cd1426d4))
 
 ## @esri/hub-common [13.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.21.0...@esri/hub-common@13.21.1) (2023-07-19)
 
-
 ### Bug Fixes
 
-* update hub search result to view model signature ([#1124](https://github.com/Esri/hub.js/issues/1124)) ([46290dc](https://github.com/Esri/hub.js/commit/46290dc131d14ce026e7a2e6be87412751220868))
+- update hub search result to view model signature ([#1124](https://github.com/Esri/hub.js/issues/1124)) ([46290dc](https://github.com/Esri/hub.js/commit/46290dc131d14ce026e7a2e6be87412751220868))
 
 # @esri/hub-common [13.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.20.0...@esri/hub-common@13.21.0) (2023-07-19)
 
-
 ### Features
 
-* page permission policy is included ([#1125](https://github.com/Esri/hub.js/issues/1125)) ([6d5c559](https://github.com/Esri/hub.js/commit/6d5c55961773e9fe1a059255abdc86cfbdcc5137))
+- page permission policy is included ([#1125](https://github.com/Esri/hub.js/issues/1125)) ([6d5c559](https://github.com/Esri/hub.js/commit/6d5c55961773e9fe1a059255abdc86cfbdcc5137))
 
 # @esri/hub-common [13.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.19.0...@esri/hub-common@13.20.0) (2023-07-18)
 
-
 ### Features
 
-* **hub-common:** add content capability and define default collections to entity catalogs ([#1120](https://github.com/Esri/hub.js/issues/1120)) ([7aa7f0e](https://github.com/Esri/hub.js/commit/7aa7f0ecd6cbd8e6b160a38ff9641eac88ca0a6d))
+- **hub-common:** add content capability and define default collections to entity catalogs ([#1120](https://github.com/Esri/hub.js/issues/1120)) ([7aa7f0e](https://github.com/Esri/hub.js/commit/7aa7f0ecd6cbd8e6b160a38ff9641eac88ca0a6d))
 
 # @esri/hub-common [13.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.18.0...@esri/hub-common@13.19.0) (2023-07-17)
 
-
 ### Features
 
-* page entity ([#1112](https://github.com/Esri/hub.js/issues/1112)) ([50e7280](https://github.com/Esri/hub.js/commit/50e7280486cecc82d39170e8f625e702900b9f04))
+- page entity ([#1112](https://github.com/Esri/hub.js/issues/1112)) ([50e7280](https://github.com/Esri/hub.js/commit/50e7280486cecc82d39170e8f625e702900b9f04))
 
 # @esri/hub-common [13.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.3...@esri/hub-common@13.18.0) (2023-07-17)
 
-
 ### Features
 
-* 7162 initiative card funcs ([#1121](https://github.com/Esri/hub.js/issues/1121)) ([567cfc3](https://github.com/Esri/hub.js/commit/567cfc307fd127d04a29ce8cb2e85998b3ea728e))
+- 7162 initiative card funcs ([#1121](https://github.com/Esri/hub.js/issues/1121)) ([567cfc3](https://github.com/Esri/hub.js/commit/567cfc307fd127d04a29ce8cb2e85998b3ea728e))
 
 ## @esri/hub-common [13.17.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.2...@esri/hub-common@13.17.3) (2023-07-11)
 
-
 ### Bug Fixes
 
-* rename term to name for groupMember queries ([#1110](https://github.com/Esri/hub.js/issues/1110)) ([8fdeca4](https://github.com/Esri/hub.js/commit/8fdeca4f8dbe8fcdd50b9355781fc73149348d99))
+- rename term to name for groupMember queries ([#1110](https://github.com/Esri/hub.js/issues/1110)) ([8fdeca4](https://github.com/Esri/hub.js/commit/8fdeca4f8dbe8fcdd50b9355781fc73149348d99))
 
 ## @esri/hub-common [13.17.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.1...@esri/hub-common@13.17.2) (2023-07-11)
 
-
 ### Bug Fixes
 
-* get group from predicate not query.properties ([#1107](https://github.com/Esri/hub.js/issues/1107)) ([138af9c](https://github.com/Esri/hub.js/commit/138af9c18c1c193c770f23c1f7991bc3b0e59a0c))
+- get group from predicate not query.properties ([#1107](https://github.com/Esri/hub.js/issues/1107)) ([138af9c](https://github.com/Esri/hub.js/commit/138af9c18c1c193c770f23c1f7991bc3b0e59a0c))
 
 ## @esri/hub-common [13.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.0...@esri/hub-common@13.17.1) (2023-07-11)
 
-
 ### Bug Fixes
 
-* add actionLinks arg to project view model functions ([#1109](https://github.com/Esri/hub.js/issues/1109)) ([cef335d](https://github.com/Esri/hub.js/commit/cef335d7eb2bf37fba6485bf1df137c17e90952a))
+- add actionLinks arg to project view model functions ([#1109](https://github.com/Esri/hub.js/issues/1109)) ([cef335d](https://github.com/Esri/hub.js/commit/cef335d7eb2bf37fba6485bf1df137c17e90952a))
 
 # @esri/hub-common [13.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.16.0...@esri/hub-common@13.17.0) (2023-07-11)
 
-
 ### Features
 
-* add a base item entity schema ([#1106](https://github.com/Esri/hub.js/issues/1106)) ([7b4606b](https://github.com/Esri/hub.js/commit/7b4606b4ad9db407e04501422679e7968b42ca65))
+- add a base item entity schema ([#1106](https://github.com/Esri/hub.js/issues/1106)) ([7b4606b](https://github.com/Esri/hub.js/commit/7b4606b4ad9db407e04501422679e7968b42ca65))
 
 # @esri/hub-common [13.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.1...@esri/hub-common@13.16.0) (2023-07-07)
 
-
 ### Features
 
-* add project card view model functionality  ([#1101](https://github.com/Esri/hub.js/issues/1101)) ([85a8201](https://github.com/Esri/hub.js/commit/85a82015d15e0363aea631ca563742822794cb08))
+- add project card view model functionality ([#1101](https://github.com/Esri/hub.js/issues/1101)) ([85a8201](https://github.com/Esri/hub.js/commit/85a82015d15e0363aea631ca563742822794cb08))
 
 ## @esri/hub-common [13.15.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.0...@esri/hub-common@13.15.1) (2023-07-05)
 
-
 ### Bug Fixes
 
-* defaultHostname and customHostname editing on site entity ([#1102](https://github.com/Esri/hub.js/issues/1102)) ([9e1496d](https://github.com/Esri/hub.js/commit/9e1496d2c655e9410b7f8722565cec8efb2cdc42))
+- defaultHostname and customHostname editing on site entity ([#1102](https://github.com/Esri/hub.js/issues/1102)) ([9e1496d](https://github.com/Esri/hub.js/commit/9e1496d2c655e9410b7f8722565cec8efb2cdc42))
 
 # @esri/hub-common [13.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.14.0...@esri/hub-common@13.15.0) (2023-07-05)
 
-
 ### Features
 
-* Generic property mapper  ([#1100](https://github.com/Esri/hub.js/issues/1100)) ([1f58fa9](https://github.com/Esri/hub.js/commit/1f58fa9b235d0f988f9a7eb79a937f8a75f5f6e8))
+- Generic property mapper ([#1100](https://github.com/Esri/hub.js/issues/1100)) ([1f58fa9](https://github.com/Esri/hub.js/commit/1f58fa9b235d0f988f9a7eb79a937f8a75f5f6e8))
 
 # @esri/hub-common [13.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.13.1...@esri/hub-common@13.14.0) (2023-07-05)
 
-
 ### Features
 
-* make propertyMapper more generic ([#1098](https://github.com/Esri/hub.js/issues/1098)) ([09a8d3f](https://github.com/Esri/hub.js/commit/09a8d3fa3d9629072cce4ad9021a63e7104e1cdf))
-
+- make propertyMapper more generic ([#1098](https://github.com/Esri/hub.js/issues/1098)) ([09a8d3f](https://github.com/Esri/hub.js/commit/09a8d3fa3d9629072cce4ad9021a63e7104e1cdf))
 
 ### Reverts
 
-* Revert "feat: make propertyMapper more generic (#1098)" (#1099) ([272c645](https://github.com/Esri/hub.js/commit/272c6455fa95d0f0e58e86299b3a02c8a51affb0)), closes [#1098](https://github.com/Esri/hub.js/issues/1098) [#1099](https://github.com/Esri/hub.js/issues/1099)
+- Revert "feat: make propertyMapper more generic (#1098)" (#1099) ([272c645](https://github.com/Esri/hub.js/commit/272c6455fa95d0f0e58e86299b3a02c8a51affb0)), closes [#1098](https://github.com/Esri/hub.js/issues/1098) [#1099](https://github.com/Esri/hub.js/issues/1099)
 
 ## @esri/hub-common [13.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.13.0...@esri/hub-common@13.13.1) (2023-06-28)
 
-
 ### Bug Fixes
 
-* make scope optional for IUiSchemaRule ([#1097](https://github.com/Esri/hub.js/issues/1097)) ([1cef34b](https://github.com/Esri/hub.js/commit/1cef34bcb547bbc2d75d9283fc74eb8a765966e6))
+- make scope optional for IUiSchemaRule ([#1097](https://github.com/Esri/hub.js/issues/1097)) ([1cef34b](https://github.com/Esri/hub.js/commit/1cef34bcb547bbc2d75d9283fc74eb8a765966e6))
 
 # @esri/hub-common [13.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.12.0...@esri/hub-common@13.13.0) (2023-06-28)
 
-
 ### Features
 
-* hubSearch supports groupMember entity type ([#1096](https://github.com/Esri/hub.js/issues/1096)) ([2327cce](https://github.com/Esri/hub.js/commit/2327ccef4295e1416043241f8c155e69b4fe9cb1))
+- hubSearch supports groupMember entity type ([#1096](https://github.com/Esri/hub.js/issues/1096)) ([2327cce](https://github.com/Esri/hub.js/commit/2327ccef4295e1416043241f8c155e69b4fe9cb1))
 
 # @esri/hub-common [13.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.11.1...@esri/hub-common@13.12.0) (2023-06-26)
 
-
 ### Features
 
-* **hub-common:** add unicodeToBase64 and base64ToUnicode utils ([#1095](https://github.com/Esri/hub.js/issues/1095)) ([82bd6e9](https://github.com/Esri/hub.js/commit/82bd6e9ecfcacb7d8c4e56d6cecfb956dfc7cbdf))
+- **hub-common:** add unicodeToBase64 and base64ToUnicode utils ([#1095](https://github.com/Esri/hub.js/issues/1095)) ([82bd6e9](https://github.com/Esri/hub.js/commit/82bd6e9ecfcacb7d8c4e56d6cecfb956dfc7cbdf))
 
 ## @esri/hub-common [13.11.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.11.0...@esri/hub-common@13.11.1) (2023-06-26)
 
-
 ### Bug Fixes
 
-* add default to project schema for location ([#1093](https://github.com/Esri/hub.js/issues/1093)) ([439a317](https://github.com/Esri/hub.js/commit/439a317e8d2ec8906983a1e8b1910f30aca92a2e))
+- add default to project schema for location ([#1093](https://github.com/Esri/hub.js/issues/1093)) ([439a317](https://github.com/Esri/hub.js/commit/439a317e8d2ec8906983a1e8b1910f30aca92a2e))
 
 # @esri/hub-common [13.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.10.1...@esri/hub-common@13.11.0) (2023-06-21)
 
-
 ### Features
 
-* **hub-common:** add isDiscussable mapping ([#1089](https://github.com/Esri/hub.js/issues/1089)) ([0f4a84a](https://github.com/Esri/hub.js/commit/0f4a84a04458f159efdd270d66a0075d980e800c))
+- **hub-common:** add isDiscussable mapping ([#1089](https://github.com/Esri/hub.js/issues/1089)) ([0f4a84a](https://github.com/Esri/hub.js/commit/0f4a84a04458f159efdd270d66a0075d980e800c))
 
 ## @esri/hub-common [13.10.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.10.0...@esri/hub-common@13.10.1) (2023-06-15)
 
-
 ### Bug Fixes
 
-* limit project summary (purpose) to 2048 chars and abstract as reusable subschema ([#1090](https://github.com/Esri/hub.js/issues/1090)) ([83c7a61](https://github.com/Esri/hub.js/commit/83c7a61730a29b29589a1049988f82830fd3a629))
+- limit project summary (purpose) to 2048 chars and abstract as reusable subschema ([#1090](https://github.com/Esri/hub.js/issues/1090)) ([83c7a61](https://github.com/Esri/hub.js/commit/83c7a61730a29b29589a1049988f82830fd3a629))
 
 # @esri/hub-common [13.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.9.0...@esri/hub-common@13.10.0) (2023-06-15)
 
-
 ### Features
 
-* context manager serialize / deserialize ([#1088](https://github.com/Esri/hub.js/issues/1088)) ([f972516](https://github.com/Esri/hub.js/commit/f972516f39432e477c2f4b999d5b25e5278fd339))
+- context manager serialize / deserialize ([#1088](https://github.com/Esri/hub.js/issues/1088)) ([f972516](https://github.com/Esri/hub.js/commit/f972516f39432e477c2f4b999d5b25e5278fd339))
 
 # @esri/hub-common [13.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.8.0...@esri/hub-common@13.9.0) (2023-06-13)
 
-
 ### Features
 
-* **hub-discussions:** expanded enum ([#1080](https://github.com/Esri/hub.js/issues/1080)) ([2a121b4](https://github.com/Esri/hub.js/commit/2a121b49e36f07f326918a5b67b1da2d73e7841f))
+- **hub-discussions:** expanded enum ([#1080](https://github.com/Esri/hub.js/issues/1080)) ([2a121b4](https://github.com/Esri/hub.js/commit/2a121b49e36f07f326918a5b67b1da2d73e7841f))
 
 # @esri/hub-common [13.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.7.0...@esri/hub-common@13.8.0) (2023-06-12)
 
-
 ### Features
 
-* **hub-common:** remove required property prompt ([#1087](https://github.com/Esri/hub.js/issues/1087)) ([6b7c28e](https://github.com/Esri/hub.js/commit/6b7c28e94df2f6975fd7600fd5e9c1012e5afa9c))
+- **hub-common:** remove required property prompt ([#1087](https://github.com/Esri/hub.js/issues/1087)) ([6b7c28e](https://github.com/Esri/hub.js/commit/6b7c28e94df2f6975fd7600fd5e9c1012e5afa9c))
 
 # @esri/hub-common [13.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.6.0...@esri/hub-common@13.7.0) (2023-06-12)
 
-
 ### Features
 
-* **hub-common:** add Discussion entity schemas ([#1076](https://github.com/Esri/hub.js/issues/1076)) ([5b6b704](https://github.com/Esri/hub.js/commit/5b6b704d5a0ae825977b5368c39eef7f77a4234c))
+- **hub-common:** add Discussion entity schemas ([#1076](https://github.com/Esri/hub.js/issues/1076)) ([5b6b704](https://github.com/Esri/hub.js/commit/5b6b704d5a0ae825977b5368c39eef7f77a4234c))
 
 # @esri/hub-common [13.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.5.0...@esri/hub-common@13.6.0) (2023-06-09)
 
-
 ### Features
 
-* add metrics to project capability permissions ([#1086](https://github.com/Esri/hub.js/issues/1086)) ([f67c836](https://github.com/Esri/hub.js/commit/f67c8368b3593bb06a38aefb471ff93a37e80983))
+- add metrics to project capability permissions ([#1086](https://github.com/Esri/hub.js/issues/1086)) ([f67c836](https://github.com/Esri/hub.js/commit/f67c8368b3593bb06a38aefb471ff93a37e80983))
 
 # @esri/hub-common [13.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.2...@esri/hub-common@13.5.0) (2023-06-09)
 
-
 ### Features
 
-* **hub-common:** create an array of valid item types ([#1083](https://github.com/Esri/hub.js/issues/1083)) ([ed1d509](https://github.com/Esri/hub.js/commit/ed1d509dd21645cfb07cb0eaa0dcce853a90a8bb))
+- **hub-common:** create an array of valid item types ([#1083](https://github.com/Esri/hub.js/issues/1083)) ([ed1d509](https://github.com/Esri/hub.js/commit/ed1d509dd21645cfb07cb0eaa0dcce853a90a8bb))
 
 ## @esri/hub-common [13.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.1...@esri/hub-common@13.4.2) (2023-06-09)
 
-
 ### Bug Fixes
 
-* **hub-common:** have capitalize() handle the empty string, change titlelize() to stop stripping whi ([#1084](https://github.com/Esri/hub.js/issues/1084)) ([9a16208](https://github.com/Esri/hub.js/commit/9a162084a7e75523a09247f2147499cfde9aa0da))
+- **hub-common:** have capitalize() handle the empty string, change titlelize() to stop stripping whi ([#1084](https://github.com/Esri/hub.js/issues/1084)) ([9a16208](https://github.com/Esri/hub.js/commit/9a162084a7e75523a09247f2147499cfde9aa0da))
 
 ## @esri/hub-common [13.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.0...@esri/hub-common@13.4.1) (2023-06-08)
 
-
 ### Bug Fixes
 
-* address issue creating sites on portal ([#1085](https://github.com/Esri/hub.js/issues/1085)) ([7243db8](https://github.com/Esri/hub.js/commit/7243db889c33d318e03471045539dd2988cd910a))
+- address issue creating sites on portal ([#1085](https://github.com/Esri/hub.js/issues/1085)) ([7243db8](https://github.com/Esri/hub.js/commit/7243db889c33d318e03471045539dd2988cd910a))
 
 # @esri/hub-common [13.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.3.1...@esri/hub-common@13.4.0) (2023-06-07)
 
-
 ### Features
 
-* adds discussion create ui schema ([#1082](https://github.com/Esri/hub.js/issues/1082)) ([e463998](https://github.com/Esri/hub.js/commit/e4639987d391fca36d709d888a724afae042dcbf)), closes [#6876](https://github.com/Esri/hub.js/issues/6876)
+- adds discussion create ui schema ([#1082](https://github.com/Esri/hub.js/issues/1082)) ([e463998](https://github.com/Esri/hub.js/commit/e4639987d391fca36d709d888a724afae042dcbf)), closes [#6876](https://github.com/Esri/hub.js/issues/6876)
 
 ## @esri/hub-common [13.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.3.0...@esri/hub-common@13.3.1) (2023-06-05)
 
-
 ### Bug Fixes
 
-* remove license checks on view and edit project permission policies ([#1077](https://github.com/Esri/hub.js/issues/1077)) ([76918b7](https://github.com/Esri/hub.js/commit/76918b7b9cd3b2cca73cf0a48d35038653412002))
+- remove license checks on view and edit project permission policies ([#1077](https://github.com/Esri/hub.js/issues/1077)) ([76918b7](https://github.com/Esri/hub.js/commit/76918b7b9cd3b2cca73cf0a48d35038653412002))
 
 # @esri/hub-common [13.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.2.0...@esri/hub-common@13.3.0) (2023-06-01)
 
-
 ### Features
 
-* small project enhancements ([#1074](https://github.com/Esri/hub.js/issues/1074)) ([3085a6b](https://github.com/Esri/hub.js/commit/3085a6bc85af9045cf989f15c5ac446eff2a29a5))
+- small project enhancements ([#1074](https://github.com/Esri/hub.js/issues/1074)) ([3085a6b](https://github.com/Esri/hub.js/commit/3085a6bc85af9045cf989f15c5ac446eff2a29a5))
 
 # @esri/hub-common [13.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.1.0...@esri/hub-common@13.2.0) (2023-06-01)
 
-
 ### Features
 
-* add slug uri conversion functions and use in getItemBySlug ([#1073](https://github.com/Esri/hub.js/issues/1073)) ([db9addb](https://github.com/Esri/hub.js/commit/db9addb3347fae587ffc5ce35cfa44eb720cb1f7))
+- add slug uri conversion functions and use in getItemBySlug ([#1073](https://github.com/Esri/hub.js/issues/1073)) ([db9addb](https://github.com/Esri/hub.js/commit/db9addb3347fae587ffc5ce35cfa44eb720cb1f7))
 
 # @esri/hub-common [13.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.0.0...@esri/hub-common@13.1.0) (2023-05-31)
 
-
 ### Features
 
-* **hub-common:** return "license" and "source" as part of results from hubSearchItems ([#1072](https://github.com/Esri/hub.js/issues/1072)) ([9d086ed](https://github.com/Esri/hub.js/commit/9d086ed518db0d7d95b58971bf9e3d3768baf04e))
+- **hub-common:** return "license" and "source" as part of results from hubSearchItems ([#1072](https://github.com/Esri/hub.js/issues/1072)) ([9d086ed](https://github.com/Esri/hub.js/commit/9d086ed518db0d7d95b58971bf9e3d3768baf04e))
 
 # @esri/hub-common [13.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.43.0...@esri/hub-common@13.0.0) (2023-05-26)
 
-
 ### Features
 
-* remove calls to register or update app ([#1069](https://github.com/Esri/hub.js/issues/1069)) ([1aa361f](https://github.com/Esri/hub.js/commit/1aa361ff75d1bb5017871de2470d3381bfe27c5d))
-
+- remove calls to register or update app ([#1069](https://github.com/Esri/hub.js/issues/1069)) ([1aa361f](https://github.com/Esri/hub.js/commit/1aa361ff75d1bb5017871de2470d3381bfe27c5d))
 
 ### BREAKING CHANGES
 
-* Client code no longer makes calls to
-register site as application or to update application redirect
-uris. This is all expected to be handled server-side by the Hub Domain
-service.
-* remove deprecated destroySite()
+- Client code no longer makes calls to
+  register site as application or to update application redirect
+  uris. This is all expected to be handled server-side by the Hub Domain
+  service.
+- remove deprecated destroySite()
 
-* fix: update peerDeps'
+- fix: update peerDeps'
 
 # @esri/hub-common [12.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.42.0...@esri/hub-common@12.43.0) (2023-05-23)
 
-
 ### Features
 
-* project featured image alt text ([#1067](https://github.com/Esri/hub.js/issues/1067)) ([7405550](https://github.com/Esri/hub.js/commit/7405550b77c8d3f855daba35d31e077a51678db0))
+- project featured image alt text ([#1067](https://github.com/Esri/hub.js/issues/1067)) ([7405550](https://github.com/Esri/hub.js/commit/7405550b77c8d3f855daba35d31e077a51678db0))
 
 # @esri/hub-common [12.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.41.0...@esri/hub-common@12.42.0) (2023-05-22)
 
-
 ### Features
 
-* add Site Edit Schema ([#1065](https://github.com/Esri/hub.js/issues/1065)) ([80b2a4e](https://github.com/Esri/hub.js/commit/80b2a4e66585f05d7da99ce2459d1e845ff65921))
+- add Site Edit Schema ([#1065](https://github.com/Esri/hub.js/issues/1065)) ([80b2a4e](https://github.com/Esri/hub.js/commit/80b2a4e66585f05d7da99ce2459d1e845ff65921))
 
 # @esri/hub-common [12.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.40.0...@esri/hub-common@12.41.0) (2023-05-16)
 
-
 ### Features
 
-* ensure catalogs on entity fetch ([#1064](https://github.com/Esri/hub.js/issues/1064)) ([b9fc6e3](https://github.com/Esri/hub.js/commit/b9fc6e344b8c3fc2675616340838d47975673ab1))
+- ensure catalogs on entity fetch ([#1064](https://github.com/Esri/hub.js/issues/1064)) ([b9fc6e3](https://github.com/Esri/hub.js/commit/b9fc6e344b8c3fc2675616340838d47975673ab1))
 
 # @esri/hub-common [12.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.39.1...@esri/hub-common@12.40.0) (2023-05-15)
 
-
 ### Features
 
-* **hub-common:** support bbox serialization when querying the OGC API via hubSearch ([#1063](https://github.com/Esri/hub.js/issues/1063)) ([52af191](https://github.com/Esri/hub.js/commit/52af1912546d964a1722941f104990ff1bd40e1d))
+- **hub-common:** support bbox serialization when querying the OGC API via hubSearch ([#1063](https://github.com/Esri/hub.js/issues/1063)) ([52af191](https://github.com/Esri/hub.js/commit/52af1912546d964a1722941f104990ff1bd40e1d))
 
 ## @esri/hub-common [12.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.39.0...@esri/hub-common@12.39.1) (2023-05-15)
 
-
 ### Bug Fixes
 
-* updateVersionMetadata takes item owner ([#1062](https://github.com/Esri/hub.js/issues/1062)) ([2833903](https://github.com/Esri/hub.js/commit/2833903034596988769ff762b4bbbee91caf62a3))
+- updateVersionMetadata takes item owner ([#1062](https://github.com/Esri/hub.js/issues/1062)) ([2833903](https://github.com/Esri/hub.js/commit/2833903034596988769ff762b4bbbee91caf62a3))
 
 # @esri/hub-common [12.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.2...@esri/hub-common@12.39.0) (2023-05-12)
 
-
 ### Features
 
-* **hub-common:** add migrateToCollectionKey helper ([ab2aa0c](https://github.com/Esri/hub.js/commit/ab2aa0c4388803aac4500fdf4eaaaec603e71065))
-* **hub-common:** add utils for detecting and transforming legacy search categories ([34de91b](https://github.com/Esri/hub.js/commit/34de91bbe2d2dd44a83e4543a5a745b1b2295339))
-* **hub-common:** change ogcApiRequest to target the umbrella domain, not the opendata root domain ([1dada4c](https://github.com/Esri/hub.js/commit/1dada4c21360638f2f69440e3f7424388a190716))
-* **hub-common:** have hubSearchItems hit the OGC API of the root opendata domain ([c4f9411](https://github.com/Esri/hub.js/commit/c4f9411e555d96dae1f8ee1ef8dde18ca59e301f))
-* **hub-common:** move isLegacySearchCategory and toCollectionKey into internal helper folders ([26feb67](https://github.com/Esri/hub.js/commit/26feb67e2fcc6d7da47965b82afc2bd76f645715))
-* **hub-common:** omit ?target when item.site matches url (not requestOptions.hubApiUrl), fix tests ([8c5d8c7](https://github.com/Esri/hub.js/commit/8c5d8c789236d70ad6a72d51c3a509956a23788f))
+- **hub-common:** add migrateToCollectionKey helper ([ab2aa0c](https://github.com/Esri/hub.js/commit/ab2aa0c4388803aac4500fdf4eaaaec603e71065))
+- **hub-common:** add utils for detecting and transforming legacy search categories ([34de91b](https://github.com/Esri/hub.js/commit/34de91bbe2d2dd44a83e4543a5a745b1b2295339))
+- **hub-common:** change ogcApiRequest to target the umbrella domain, not the opendata root domain ([1dada4c](https://github.com/Esri/hub.js/commit/1dada4c21360638f2f69440e3f7424388a190716))
+- **hub-common:** have hubSearchItems hit the OGC API of the root opendata domain ([c4f9411](https://github.com/Esri/hub.js/commit/c4f9411e555d96dae1f8ee1ef8dde18ca59e301f))
+- **hub-common:** move isLegacySearchCategory and toCollectionKey into internal helper folders ([26feb67](https://github.com/Esri/hub.js/commit/26feb67e2fcc6d7da47965b82afc2bd76f645715))
+- **hub-common:** omit ?target when item.site matches url (not requestOptions.hubApiUrl), fix tests ([8c5d8c7](https://github.com/Esri/hub.js/commit/8c5d8c789236d70ad6a72d51c3a509956a23788f))
 
 ## @esri/hub-common [12.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.1...@esri/hub-common@12.38.2) (2023-05-12)
 
-
 ### Bug Fixes
 
-* update project uiSchemas for translation purposes ([dc5fbdd](https://github.com/Esri/hub.js/commit/dc5fbdd1ed24575557f376996582e9a21ae31127))
+- update project uiSchemas for translation purposes ([dc5fbdd](https://github.com/Esri/hub.js/commit/dc5fbdd1ed24575557f376996582e9a21ae31127))
 
 ## @esri/hub-common [12.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.0...@esri/hub-common@12.38.1) (2023-05-11)
 
-
 ### Bug Fixes
 
-* **hub-common:** make sure error gets caught when unshare an item from groups ([48a1bc7](https://github.com/Esri/hub.js/commit/48a1bc79bf618b650bcad4f5706b5d154eb7866d))
+- **hub-common:** make sure error gets caught when unshare an item from groups ([48a1bc7](https://github.com/Esri/hub.js/commit/48a1bc79bf618b650bcad4f5706b5d154eb7866d))
 
 # @esri/hub-common [12.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.37.1...@esri/hub-common@12.38.0) (2023-05-10)
 
-
 ### Features
 
-* add status as a typekeyword on project creation ([cde7417](https://github.com/Esri/hub.js/commit/cde741753e69d68528cae9457f6a64462166c66f))
-* update status typekeyword on project edit ([e0961b1](https://github.com/Esri/hub.js/commit/e0961b175dcc25259d27328bc2ba36b2ce89b61d))
+- add status as a typekeyword on project creation ([cde7417](https://github.com/Esri/hub.js/commit/cde741753e69d68528cae9457f6a64462166c66f))
+- update status typekeyword on project edit ([e0961b1](https://github.com/Esri/hub.js/commit/e0961b175dcc25259d27328bc2ba36b2ce89b61d))
 
 ## @esri/hub-common [12.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.37.0...@esri/hub-common@12.37.1) (2023-05-09)
 
-
 ### Bug Fixes
 
-* remove showMap from project schema/uiSchema ([36586c5](https://github.com/Esri/hub.js/commit/36586c5f9983dd3a1152c5ee605f30939b5e1d1a))
+- remove showMap from project schema/uiSchema ([36586c5](https://github.com/Esri/hub.js/commit/36586c5f9983dd3a1152c5ee605f30939b5e1d1a))
 
 # @esri/hub-common [12.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.36.0...@esri/hub-common@12.37.0) (2023-05-09)
 
-
 ### Features
 
-* **hub-common:** add serialization support for sorting in hubSearchItems ([1f150e4](https://github.com/Esri/hub.js/commit/1f150e48829b7cdac5bb3c1101666265e51c1bdf))
-* **hub-common:** encode query param values for all OGC API requests ([227901f](https://github.com/Esri/hub.js/commit/227901f82eb257d6e8d85cfb1885f8eba8822d11))
-* **hub-common:** remove beta gating previously needed for using hubSearchItems ([eb64aa2](https://github.com/Esri/hub.js/commit/eb64aa21e2e9a0ede9aff8efc1739d20ed265f49))
+- **hub-common:** add serialization support for sorting in hubSearchItems ([1f150e4](https://github.com/Esri/hub.js/commit/1f150e48829b7cdac5bb3c1101666265e51c1bdf))
+- **hub-common:** encode query param values for all OGC API requests ([227901f](https://github.com/Esri/hub.js/commit/227901f82eb257d6e8d85cfb1885f8eba8822d11))
+- **hub-common:** remove beta gating previously needed for using hubSearchItems ([eb64aa2](https://github.com/Esri/hub.js/commit/eb64aa21e2e9a0ede9aff8efc1739d20ed265f49))
 
 # @esri/hub-common [12.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.35.0...@esri/hub-common@12.36.0) (2023-05-09)
 
-
 ### Features
 
-* add data enrichment to feature layers ([0e5da8d](https://github.com/Esri/hub.js/commit/0e5da8d91ebf37282f418597f97ed79fe7b679ec))
-* pr feedback ([9b57f26](https://github.com/Esri/hub.js/commit/9b57f2638e4d876a8d2627f8881891b7432a0d7a))
+- add data enrichment to feature layers ([0e5da8d](https://github.com/Esri/hub.js/commit/0e5da8d91ebf37282f418597f97ed79fe7b679ec))
+- pr feedback ([9b57f26](https://github.com/Esri/hub.js/commit/9b57f2638e4d876a8d2627f8881891b7432a0d7a))
 
 # @esri/hub-common [12.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.2...@esri/hub-common@12.35.0) (2023-05-03)
 
-
 ### Features
 
-* **hub-common:** enable isviewonly to be able to added to the q for portal ([9fad647](https://github.com/Esri/hub.js/commit/9fad64721149f59009f897769c88d4b01d9f7a05))
+- **hub-common:** enable isviewonly to be able to added to the q for portal ([9fad647](https://github.com/Esri/hub.js/commit/9fad64721149f59009f897769c88d4b01d9f7a05))
 
 ## @esri/hub-common [12.34.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.1...@esri/hub-common@12.34.2) (2023-05-02)
 
-
 ### Bug Fixes
 
-* update resolveMetric to return IResolvedMetric ([#1049](https://github.com/Esri/hub.js/issues/1049)) ([0bb5145](https://github.com/Esri/hub.js/commit/0bb5145478aec702f3133900efff7285172ceebf))
+- update resolveMetric to return IResolvedMetric ([#1049](https://github.com/Esri/hub.js/issues/1049)) ([0bb5145](https://github.com/Esri/hub.js/commit/0bb5145478aec702f3133900efff7285172ceebf))
 
 ## @esri/hub-common [12.34.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.0...@esri/hub-common@12.34.1) (2023-05-02)
 
-
 ### Bug Fixes
 
-* problem with updateVersionMetadata implementation ([04b66cd](https://github.com/Esri/hub.js/commit/04b66cd761c36fa5c53099bd28b5027cf40f2a85))
+- problem with updateVersionMetadata implementation ([04b66cd](https://github.com/Esri/hub.js/commit/04b66cd761c36fa5c53099bd28b5027cf40f2a85))
 
 # @esri/hub-common [12.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.33.0...@esri/hub-common@12.34.0) (2023-05-02)
 
-
 ### Features
 
-* add access and groups to project create uiSchema ([7cfa4e0](https://github.com/Esri/hub.js/commit/7cfa4e08c034118b351cafa5a5e01a6aa27b76ba))
-* add access and groups to project schema ([6571df9](https://github.com/Esri/hub.js/commit/6571df9c483a0080b566ea2eee21bad0f3750f25))
+- add access and groups to project create uiSchema ([7cfa4e0](https://github.com/Esri/hub.js/commit/7cfa4e08c034118b351cafa5a5e01a6aa27b76ba))
+- add access and groups to project schema ([6571df9](https://github.com/Esri/hub.js/commit/6571df9c483a0080b566ea2eee21bad0f3750f25))
 
 # @esri/hub-common [12.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.32.0...@esri/hub-common@12.33.0) (2023-04-27)
 
-
 ### Features
 
-* **hub-common:** handle viewGroups in getWellknownGroupCatalog ([1d53fdc](https://github.com/Esri/hub.js/commit/1d53fdca64e592c47a1c8a6fb174d7beebc58333))
+- **hub-common:** handle viewGroups in getWellknownGroupCatalog ([1d53fdc](https://github.com/Esri/hub.js/commit/1d53fdca64e592c47a1c8a6fb174d7beebc58333))
 
 # @esri/hub-common [12.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.31.1...@esri/hub-common@12.32.0) (2023-04-26)
 
-
 ### Features
 
-* fix tests ([e386aa3](https://github.com/Esri/hub.js/commit/e386aa3b23ba39bdfa4a008b0c6aa750ba4ee55e))
-* name change ([4334299](https://github.com/Esri/hub.js/commit/43342995e97f6f0c42626d017e3cf529b88682cd))
-* update the predicates for allGroups ([0e7a8c6](https://github.com/Esri/hub.js/commit/0e7a8c69c587bad3cadf21d81e49817afe706008))
-* **hub-common:** add getWellknownGroupCatalog function to get well known group catalogs ([2925d9f](https://github.com/Esri/hub.js/commit/2925d9fa705e9f0c181bee8eaa62b239ad146991))
+- fix tests ([e386aa3](https://github.com/Esri/hub.js/commit/e386aa3b23ba39bdfa4a008b0c6aa750ba4ee55e))
+- name change ([4334299](https://github.com/Esri/hub.js/commit/43342995e97f6f0c42626d017e3cf529b88682cd))
+- update the predicates for allGroups ([0e7a8c6](https://github.com/Esri/hub.js/commit/0e7a8c69c587bad3cadf21d81e49817afe706008))
+- **hub-common:** add getWellknownGroupCatalog function to get well known group catalogs ([2925d9f](https://github.com/Esri/hub.js/commit/2925d9fa705e9f0c181bee8eaa62b239ad146991))
 
 ## @esri/hub-common [12.31.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.31.0...@esri/hub-common@12.31.1) (2023-04-24)
 
-
 ### Bug Fixes
 
-* **hub-common:** stop cloning authentication object in hubSearch as it breaks downstream functions ([4c48ec8](https://github.com/Esri/hub.js/commit/4c48ec8ce96b79690922b7d55b99dd1b499c4a9b))
+- **hub-common:** stop cloning authentication object in hubSearch as it breaks downstream functions ([4c48ec8](https://github.com/Esri/hub.js/commit/4c48ec8ce96b79690922b7d55b99dd1b499c4a9b))
 
 # @esri/hub-common [12.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.30.1...@esri/hub-common@12.31.0) (2023-04-21)
 
-
 ### Features
 
-* **hub-common:** add support for wellKnown collections in hubSearch and add automatic api detection ([8e45163](https://github.com/Esri/hub.js/commit/8e451635eabdf41f6dc8e2930a23690a9e6d556b))
-* **hub-common:** change how we pass api info to hubSearch ([6c0cee9](https://github.com/Esri/hub.js/commit/6c0cee9570daa2dd62e70b3114d7513e1269bbba))
+- **hub-common:** add support for wellKnown collections in hubSearch and add automatic api detection ([8e45163](https://github.com/Esri/hub.js/commit/8e451635eabdf41f6dc8e2930a23690a9e6d556b))
+- **hub-common:** change how we pass api info to hubSearch ([6c0cee9](https://github.com/Esri/hub.js/commit/6c0cee9570daa2dd62e70b3114d7513e1269bbba))
 
 ## @esri/hub-common [12.30.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.30.0...@esri/hub-common@12.30.1) (2023-04-19)
 
-
 ### Bug Fixes
 
-* updateVersionMetadata sends owner param ([065807d](https://github.com/Esri/hub.js/commit/065807de1541dd62597e8872de54474a82f06071))
+- updateVersionMetadata sends owner param ([065807d](https://github.com/Esri/hub.js/commit/065807de1541dd62597e8872de54474a82f06071))
 
 # @esri/hub-common [12.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.29.0...@esri/hub-common@12.30.0) (2023-04-18)
 
-
 ### Features
 
-* implement metrics ([#1028](https://github.com/Esri/hub.js/issues/1028)) ([695493d](https://github.com/Esri/hub.js/commit/695493d34e3c05474250642fa13a726eeac5ea2d))
+- implement metrics ([#1028](https://github.com/Esri/hub.js/issues/1028)) ([695493d](https://github.com/Esri/hub.js/commit/695493d34e3c05474250642fa13a726eeac5ea2d))
 
 # @esri/hub-common [12.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.28.0...@esri/hub-common@12.29.0) (2023-04-18)
 
-
 ### Features
 
-* add new hub:project:owner permission and update project settings with it ([97a0b7f](https://github.com/Esri/hub.js/commit/97a0b7fb583c87d041986b7f7cc61d65d0ebface))
+- add new hub:project:owner permission and update project settings with it ([97a0b7f](https://github.com/Esri/hub.js/commit/97a0b7fb583c87d041986b7f7cc61d65d0ebface))
 
 # @esri/hub-common [12.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.27.1...@esri/hub-common@12.28.0) (2023-04-18)
 
-
 ### Features
 
-* deepSet and setProp support replace for objects ([#1031](https://github.com/Esri/hub.js/issues/1031)) ([bf9a6a3](https://github.com/Esri/hub.js/commit/bf9a6a33a3afc631c7d581a869d53ed2a7c119da))
+- deepSet and setProp support replace for objects ([#1031](https://github.com/Esri/hub.js/issues/1031)) ([bf9a6a3](https://github.com/Esri/hub.js/commit/bf9a6a33a3afc631c7d581a869d53ed2a7c119da))
 
 ## @esri/hub-common [12.27.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.27.0...@esri/hub-common@12.27.1) (2023-04-17)
 
-
 ### Bug Fixes
 
-* remove access lines and update tests ([e1db890](https://github.com/Esri/hub.js/commit/e1db89012f7a43574d4f1de5309219baffbeb2bc))
+- remove access lines and update tests ([e1db890](https://github.com/Esri/hub.js/commit/e1db89012f7a43574d4f1de5309219baffbeb2bc))
 
 # @esri/hub-common [12.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.26.0...@esri/hub-common@12.27.0) (2023-04-17)
 
-
 ### Features
 
-* add resolveReferences function ([#1027](https://github.com/Esri/hub.js/issues/1027)) ([d973238](https://github.com/Esri/hub.js/commit/d973238d1119cb12d8b774b82798de5d3926e298))
+- add resolveReferences function ([#1027](https://github.com/Esri/hub.js/issues/1027)) ([d973238](https://github.com/Esri/hub.js/commit/d973238d1119cb12d8b774b82798de5d3926e298))
 
 # @esri/hub-common [12.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.25.0...@esri/hub-common@12.26.0) (2023-04-12)
 
-
 ### Bug Fixes
 
-* fix tests ([0c21983](https://github.com/Esri/hub.js/commit/0c219834110e08e7a6c1bd73407fb294cbc48f1a))
-* fix tests ([e081cee](https://github.com/Esri/hub.js/commit/e081cee3d9c9f116f7feda29a732992c9cdb614b))
-* tests ([21016d3](https://github.com/Esri/hub.js/commit/21016d3725fbea76cd5697b1c8baba1a12fc3998))
-
+- fix tests ([0c21983](https://github.com/Esri/hub.js/commit/0c219834110e08e7a6c1bd73407fb294cbc48f1a))
+- fix tests ([e081cee](https://github.com/Esri/hub.js/commit/e081cee3d9c9f116f7feda29a732992c9cdb614b))
+- tests ([21016d3](https://github.com/Esri/hub.js/commit/21016d3725fbea76cd5697b1c8baba1a12fc3998))
 
 ### Features
 
-* **hub-common:** add default categories to project and handlers for clearing tags and categories ([816ff81](https://github.com/Esri/hub.js/commit/816ff818582998515a7e933d155012b9da1ff245))
+- **hub-common:** add default categories to project and handlers for clearing tags and categories ([816ff81](https://github.com/Esri/hub.js/commit/816ff818582998515a7e933d155012b9da1ff245))
 
 # @esri/hub-common [12.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.24.0...@esri/hub-common@12.25.0) (2023-04-12)
 
-
 ### Features
 
-* project.location is stored in item.properties.location ([#1023](https://github.com/Esri/hub.js/issues/1023)) ([3a8a35b](https://github.com/Esri/hub.js/commit/3a8a35b395c548d3a4cd90acb1675c737d809aa0))
+- project.location is stored in item.properties.location ([#1023](https://github.com/Esri/hub.js/issues/1023)) ([3a8a35b](https://github.com/Esri/hub.js/commit/3a8a35b395c548d3a4cd90acb1675c737d809aa0))
 
 # @esri/hub-common [12.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.23.1...@esri/hub-common@12.24.0) (2023-04-12)
 
-
 ### Bug Fixes
 
-* resolve failing tests ([18be524](https://github.com/Esri/hub.js/commit/18be524f78f70c057a6451ecb0c47a1c203facad))
-* update imports in test ([a54a047](https://github.com/Esri/hub.js/commit/a54a047b9e128fb88ff6cc6765239c323325929f))
-
+- resolve failing tests ([18be524](https://github.com/Esri/hub.js/commit/18be524f78f70c057a6451ecb0c47a1c203facad))
+- update imports in test ([a54a047](https://github.com/Esri/hub.js/commit/a54a047b9e128fb88ff6cc6765239c323325929f))
 
 ### Features
 
-* add centralized updateHubEntity function ([a89fecf](https://github.com/Esri/hub.js/commit/a89fecf4316e1fc052f8af60cddca30845cb89af))
+- add centralized updateHubEntity function ([a89fecf](https://github.com/Esri/hub.js/commit/a89fecf4316e1fc052f8af60cddca30845cb89af))
 
 ## @esri/hub-common [12.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.23.0...@esri/hub-common@12.23.1) (2023-04-07)
 
-
 ### Bug Fixes
 
-* **hub-common:** adjust event list card migration to work with alternative site models ([20700a3](https://github.com/Esri/hub.js/commit/20700a35f88c4518a07c4f5ae32c5dd883842de3))
+- **hub-common:** adjust event list card migration to work with alternative site models ([20700a3](https://github.com/Esri/hub.js/commit/20700a35f88c4518a07c4f5ae32c5dd883842de3))
 
 # @esri/hub-common [12.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.22.0...@esri/hub-common@12.23.0) (2023-04-06)
 
-
 ### Features
 
-* **hub-common:** add optional categories prop to IHubItemEntity ([49db9e9](https://github.com/Esri/hub.js/commit/49db9e9876870b873547e15cc92f5b482db102e8))
-* **hub-common:** add tags and categories to ProjectSchema and ProjectUiSchemaEdit ([8aa1d35](https://github.com/Esri/hub.js/commit/8aa1d351b75155d26f681d284ba486ab50ccee48))
+- **hub-common:** add optional categories prop to IHubItemEntity ([49db9e9](https://github.com/Esri/hub.js/commit/49db9e9876870b873547e15cc92f5b482db102e8))
+- **hub-common:** add tags and categories to ProjectSchema and ProjectUiSchemaEdit ([8aa1d35](https://github.com/Esri/hub.js/commit/8aa1d351b75155d26f681d284ba486ab50ccee48))
 
 # @esri/hub-common [12.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.21.0...@esri/hub-common@12.22.0) (2023-04-06)
 
-
 ### Features
 
-* updateVersionMetadata ([bfe2f01](https://github.com/Esri/hub.js/commit/bfe2f01795794ef8474cc61f908393578f6c87c2))
+- updateVersionMetadata ([bfe2f01](https://github.com/Esri/hub.js/commit/bfe2f01795794ef8474cc61f908393578f6c87c2))
 
 # @esri/hub-common [12.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.20.0...@esri/hub-common@12.21.0) (2023-04-05)
 
-
 ### Features
 
-* versions have descriptions ([5cc83f3](https://github.com/Esri/hub.js/commit/5cc83f3600427f0546f77cb910fa87b26ba45c9a))
+- versions have descriptions ([5cc83f3](https://github.com/Esri/hub.js/commit/5cc83f3600427f0546f77cb910fa87b26ba45c9a))
 
 # @esri/hub-common [12.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.19.0...@esri/hub-common@12.20.0) (2023-03-31)
 
-
 ### Features
 
-* dynamic value implementation ([#1011](https://github.com/Esri/hub.js/issues/1011)) ([e637968](https://github.com/Esri/hub.js/commit/e63796852397585abbb723f3710294bc3bc4a277))
+- dynamic value implementation ([#1011](https://github.com/Esri/hub.js/issues/1011)) ([e637968](https://github.com/Esri/hub.js/commit/e63796852397585abbb723f3710294bc3bc4a277))
 
 # @esri/hub-common [12.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.18.0...@esri/hub-common@12.19.0) (2023-03-30)
 
-
 ### Features
 
-* add portalSearchItemsAsItems function ([#1009](https://github.com/Esri/hub.js/issues/1009)) ([519e3e0](https://github.com/Esri/hub.js/commit/519e3e01ef7912f482f449662c0bcf4a2a450c5a))
+- add portalSearchItemsAsItems function ([#1009](https://github.com/Esri/hub.js/issues/1009)) ([519e3e0](https://github.com/Esri/hub.js/commit/519e3e01ef7912f482f449662c0bcf4a2a450c5a))
 
 # @esri/hub-common [12.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.17.0...@esri/hub-common@12.18.0) (2023-03-30)
 
-
 ### Features
 
-* update getProp to support array indexing, find and $use ([#1008](https://github.com/Esri/hub.js/issues/1008)) ([3644d1c](https://github.com/Esri/hub.js/commit/3644d1c9ffc3a7e7c58e86ca6da58c4e33ab83d6))
+- update getProp to support array indexing, find and $use ([#1008](https://github.com/Esri/hub.js/issues/1008)) ([3644d1c](https://github.com/Esri/hub.js/commit/3644d1c9ffc3a7e7c58e86ca6da58c4e33ab83d6))
 
 # @esri/hub-common [12.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.16.0...@esri/hub-common@12.17.0) (2023-03-30)
 
-
 ### Features
 
-* **hub-common:** add min viable HubContent class and supporting functions ([6ed4fc5](https://github.com/Esri/hub.js/commit/6ed4fc50c80967b802d7255ffc07a79786f2980c))
+- **hub-common:** add min viable HubContent class and supporting functions ([6ed4fc5](https://github.com/Esri/hub.js/commit/6ed4fc50c80967b802d7255ffc07a79786f2980c))
 
 # @esri/hub-common [12.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.15.0...@esri/hub-common@12.16.0) (2023-03-29)
 
-
 ### Features
 
-* add servicesDirectoryDisabled property to content server object ([#1005](https://github.com/Esri/hub.js/issues/1005)) ([aa16f54](https://github.com/Esri/hub.js/commit/aa16f5428e6fde181631ad8548a418e5451049d0))
+- add servicesDirectoryDisabled property to content server object ([#1005](https://github.com/Esri/hub.js/issues/1005)) ([aa16f54](https://github.com/Esri/hub.js/commit/aa16f5428e6fde181631ad8548a418e5451049d0))
 
 # @esri/hub-common [12.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.14.0...@esri/hub-common@12.15.0) (2023-03-27)
 
-
 ### Bug Fixes
 
-* add entity-specific editor config types ([0cc9148](https://github.com/Esri/hub.js/commit/0cc9148c9a3d0211c554ed83be0ea8d8716e76f2))
-* export initiatives schema ([d645cf4](https://github.com/Esri/hub.js/commit/d645cf442d8113353421254d57aed74a7c3990ab))
-* export named uiSchemas - resolves project getEditorConfig test ([7624c01](https://github.com/Esri/hub.js/commit/7624c013ab45c1f75b861cc4ea3a6682dba0a1d5))
-* failing tests ([58088eb](https://github.com/Esri/hub.js/commit/58088eb96adca403693f67b1503874b9ad99de36))
-* remove change ([fa52bef](https://github.com/Esri/hub.js/commit/fa52befb1f3311057d1c166269d88002a9597624))
-* remove timeline as top-level property of IHubProject ([d4395f4](https://github.com/Esri/hub.js/commit/d4395f44ca32c1d60c119415aa285aea7544fe98))
-* rename and move getEditorConfig out of internal directory and export for external consumption ([df24114](https://github.com/Esri/hub.js/commit/df24114fdf9d8281d7f0076b53ad95d6868c41fb))
-* replace getHubProjectEditorConfig and mark as deprecated ([2a62c0c](https://github.com/Esri/hub.js/commit/2a62c0c8c0b0172c4c15386bbe07981620ac9e5f))
-* schema dynamic import ([1e6f5e5](https://github.com/Esri/hub.js/commit/1e6f5e55f60f1c288eae032aba31ec8ee73c51ab))
-* temporarily remove description from initiative schema ([cfd6004](https://github.com/Esri/hub.js/commit/cfd6004d1aced90dca3eb0f1a15c310c42336559))
-* update existing tests ([65ad791](https://github.com/Esri/hub.js/commit/65ad79141bce81f0175a404794d223f1efa1a911))
-* update IWithEditorBehavior interface ([9788502](https://github.com/Esri/hub.js/commit/97885027f920740f3872d8207717f50939ba7023))
-
+- add entity-specific editor config types ([0cc9148](https://github.com/Esri/hub.js/commit/0cc9148c9a3d0211c554ed83be0ea8d8716e76f2))
+- export initiatives schema ([d645cf4](https://github.com/Esri/hub.js/commit/d645cf442d8113353421254d57aed74a7c3990ab))
+- export named uiSchemas - resolves project getEditorConfig test ([7624c01](https://github.com/Esri/hub.js/commit/7624c013ab45c1f75b861cc4ea3a6682dba0a1d5))
+- failing tests ([58088eb](https://github.com/Esri/hub.js/commit/58088eb96adca403693f67b1503874b9ad99de36))
+- remove change ([fa52bef](https://github.com/Esri/hub.js/commit/fa52befb1f3311057d1c166269d88002a9597624))
+- remove timeline as top-level property of IHubProject ([d4395f4](https://github.com/Esri/hub.js/commit/d4395f44ca32c1d60c119415aa285aea7544fe98))
+- rename and move getEditorConfig out of internal directory and export for external consumption ([df24114](https://github.com/Esri/hub.js/commit/df24114fdf9d8281d7f0076b53ad95d6868c41fb))
+- replace getHubProjectEditorConfig and mark as deprecated ([2a62c0c](https://github.com/Esri/hub.js/commit/2a62c0c8c0b0172c4c15386bbe07981620ac9e5f))
+- schema dynamic import ([1e6f5e5](https://github.com/Esri/hub.js/commit/1e6f5e55f60f1c288eae032aba31ec8ee73c51ab))
+- temporarily remove description from initiative schema ([cfd6004](https://github.com/Esri/hub.js/commit/cfd6004d1aced90dca3eb0f1a15c310c42336559))
+- update existing tests ([65ad791](https://github.com/Esri/hub.js/commit/65ad79141bce81f0175a404794d223f1efa1a911))
+- update IWithEditorBehavior interface ([9788502](https://github.com/Esri/hub.js/commit/97885027f920740f3872d8207717f50939ba7023))
 
 ### Features
 
-* add basic schema and edit uiSchema for initiatives ([d220df3](https://github.com/Esri/hub.js/commit/d220df37ef1b719d2a46eb6a9618ebfc886094d6))
-* add static getEditorConfig method to HubInitiative class ([9d3606b](https://github.com/Esri/hub.js/commit/9d3606bfe9b9234cb3ffae073c0d075c428fa7ce))
-* create directory and separate files for project schemas ([bb64522](https://github.com/Esri/hub.js/commit/bb64522d636cf0a87d1d5d4a883f5d38557aa2b3))
-* create generic shared getEditorConfig function ([da47f5e](https://github.com/Esri/hub.js/commit/da47f5e6a67c91898c25f57b09cc36d923af76ed))
-* dynamically import uiSchema based on type passed into getHubProjectEditorConfig ([4dfa995](https://github.com/Esri/hub.js/commit/4dfa99521646298e91fbe77b889d589234fdee0c))
-* implement the getHubInitiativeEditorConfig functionality ([c505ec5](https://github.com/Esri/hub.js/commit/c505ec54c07bb1273c6349e6bbb50c08b1615bd8))
-* leverage dynamic imports in getEntityEditorSchemas function ([a05eae7](https://github.com/Esri/hub.js/commit/a05eae74a0016e7ab937b00cbe207f572c2a4dcf))
+- add basic schema and edit uiSchema for initiatives ([d220df3](https://github.com/Esri/hub.js/commit/d220df37ef1b719d2a46eb6a9618ebfc886094d6))
+- add static getEditorConfig method to HubInitiative class ([9d3606b](https://github.com/Esri/hub.js/commit/9d3606bfe9b9234cb3ffae073c0d075c428fa7ce))
+- create directory and separate files for project schemas ([bb64522](https://github.com/Esri/hub.js/commit/bb64522d636cf0a87d1d5d4a883f5d38557aa2b3))
+- create generic shared getEditorConfig function ([da47f5e](https://github.com/Esri/hub.js/commit/da47f5e6a67c91898c25f57b09cc36d923af76ed))
+- dynamically import uiSchema based on type passed into getHubProjectEditorConfig ([4dfa995](https://github.com/Esri/hub.js/commit/4dfa99521646298e91fbe77b889d589234fdee0c))
+- implement the getHubInitiativeEditorConfig functionality ([c505ec5](https://github.com/Esri/hub.js/commit/c505ec54c07bb1273c6349e6bbb50c08b1615bd8))
+- leverage dynamic imports in getEntityEditorSchemas function ([a05eae7](https://github.com/Esri/hub.js/commit/a05eae74a0016e7ab937b00cbe207f572c2a4dcf))
 
 # @esri/hub-common [12.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.13.1...@esri/hub-common@12.14.0) (2023-03-24)
 
-
 ### Features
 
-* **hub-common:** add bbox as option for portal-based searches of hubSearch ([5eed36c](https://github.com/Esri/hub.js/commit/5eed36cd4f50a4602f23c12384c2d44b31620637))
+- **hub-common:** add bbox as option for portal-based searches of hubSearch ([5eed36c](https://github.com/Esri/hub.js/commit/5eed36cd4f50a4602f23c12384c2d44b31620637))
 
 ## @esri/hub-common [12.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.13.0...@esri/hub-common@12.13.1) (2023-03-21)
 
-
 ### Bug Fixes
 
-* getItemBySlug returns full item via getItem ([#999](https://github.com/Esri/hub.js/issues/999)) ([7deae8b](https://github.com/Esri/hub.js/commit/7deae8b9a8ef3f78fa7d518a92ee6616286c7661))
+- getItemBySlug returns full item via getItem ([#999](https://github.com/Esri/hub.js/issues/999)) ([7deae8b](https://github.com/Esri/hub.js/commit/7deae8b9a8ef3f78fa7d518a92ee6616286c7661))
 
 # @esri/hub-common [12.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.12.0...@esri/hub-common@12.13.0) (2023-03-21)
 
-
 ### Features
 
-* throw error when attempting to update a stale version ([a36460b](https://github.com/Esri/hub.js/commit/a36460b7f189d390002dc8a067eadb073a0d1a22))
+- throw error when attempting to update a stale version ([a36460b](https://github.com/Esri/hub.js/commit/a36460b7f189d390002dc8a067eadb073a0d1a22))
 
 # @esri/hub-common [12.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.11.0...@esri/hub-common@12.12.0) (2023-03-20)
 
-
 ### Features
 
-* add support for Discussions entity ([#997](https://github.com/Esri/hub.js/issues/997)) ([23b11c0](https://github.com/Esri/hub.js/commit/23b11c0380f106fd9488d49ca0fa068731e65ac9))
+- add support for Discussions entity ([#997](https://github.com/Esri/hub.js/issues/997)) ([23b11c0](https://github.com/Esri/hub.js/commit/23b11c0380f106fd9488d49ca0fa068731e65ac9))
 
 # @esri/hub-common [12.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.10.0...@esri/hub-common@12.11.0) (2023-03-14)
 
-
 ### Features
 
-* add arcgis-js-api typings to repo & change IHubLocation interfa… ([#995](https://github.com/Esri/hub.js/issues/995)) ([47e6c52](https://github.com/Esri/hub.js/commit/47e6c52f7673745e87a08aa9070530bbce9c58a4))
+- add arcgis-js-api typings to repo & change IHubLocation interfa… ([#995](https://github.com/Esri/hub.js/issues/995)) ([47e6c52](https://github.com/Esri/hub.js/commit/47e6c52f7673745e87a08aa9070530bbce9c58a4))
 
 # @esri/hub-common [12.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.9.0...@esri/hub-common@12.10.0) (2023-03-08)
 
-
 ### Features
 
-* **hub-common:** modify getFamilyTypes to return "Feature Service" as part of the "Dataset" family ([75e3dd4](https://github.com/Esri/hub.js/commit/75e3dd457eab48d4c1305e08c514aeae88389c6b))
+- **hub-common:** modify getFamilyTypes to return "Feature Service" as part of the "Dataset" family ([75e3dd4](https://github.com/Esri/hub.js/commit/75e3dd457eab48d4c1305e08c514aeae88389c6b))
 
 # @esri/hub-common [12.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.8.0...@esri/hub-common@12.9.0) (2023-03-07)
 
-
 ### Features
 
-* add feed migration ([8e3d3cf](https://github.com/Esri/hub.js/commit/8e3d3cf190c1ba3b209e0840d1f82be6932d7caf))
-* draft schema migration update ([8bf0e26](https://github.com/Esri/hub.js/commit/8bf0e264388d8bd0ddbd8d13b21ab2fe031e2d4e))
+- add feed migration ([8e3d3cf](https://github.com/Esri/hub.js/commit/8e3d3cf190c1ba3b209e0840d1f82be6932d7caf))
+- draft schema migration update ([8bf0e26](https://github.com/Esri/hub.js/commit/8bf0e264388d8bd0ddbd8d13b21ab2fe031e2d4e))
 
 # @esri/hub-common [12.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.7.0...@esri/hub-common@12.8.0) (2023-03-06)
 
-
 ### Features
 
-* **hub-common:** add migration for event list card ([41c6c0a](https://github.com/Esri/hub.js/commit/41c6c0a3f66c1985a8cb36fc49fe58797e8c2b9d))
-* **hub-common:** pr feedback ([e3a9636](https://github.com/Esri/hub.js/commit/e3a96369cce343a201dea19fa0d6820ee5d7aba6))
+- **hub-common:** add migration for event list card ([41c6c0a](https://github.com/Esri/hub.js/commit/41c6c0a3f66c1985a8cb36fc49fe58797e8c2b9d))
+- **hub-common:** pr feedback ([e3a9636](https://github.com/Esri/hub.js/commit/e3a96369cce343a201dea19fa0d6820ee5d7aba6))
 
 # @esri/hub-common [12.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.6.1...@esri/hub-common@12.7.0) (2023-02-23)
 
-
 ### Features
 
-* entity versioning ([063ab71](https://github.com/Esri/hub.js/commit/063ab7146e0b266ad7689c4f8dee68283287dc21))
-* first pass at entity versioning ([46a43e9](https://github.com/Esri/hub.js/commit/46a43e9f311e765033d14b798d709c8069abefca))
+- entity versioning ([063ab71](https://github.com/Esri/hub.js/commit/063ab7146e0b266ad7689c4f8dee68283287dc21))
+- first pass at entity versioning ([46a43e9](https://github.com/Esri/hub.js/commit/46a43e9f311e765033d14b798d709c8069abefca))
 
 ## @esri/hub-common [12.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.6.0...@esri/hub-common@12.6.1) (2023-02-15)
 
-
 ### Bug Fixes
 
-* refactor fetchModelResources to failSafe ([#983](https://github.com/Esri/hub.js/issues/983)) ([708f0a5](https://github.com/Esri/hub.js/commit/708f0a54eadb17b124d690238d251a8f59c03c1b))
+- refactor fetchModelResources to failSafe ([#983](https://github.com/Esri/hub.js/issues/983)) ([708f0a5](https://github.com/Esri/hub.js/commit/708f0a54eadb17b124d690238d251a8f59c03c1b))
 
 # @esri/hub-common [12.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.2...@esri/hub-common@12.6.0) (2023-02-14)
 
-
 ### Features
 
-* resources added to project ([#980](https://github.com/Esri/hub.js/issues/980)) ([c271356](https://github.com/Esri/hub.js/commit/c2713560e8613dfbd0f51e638c3c0b8f319da9b6))
+- resources added to project ([#980](https://github.com/Esri/hub.js/issues/980)) ([c271356](https://github.com/Esri/hub.js/commit/c2713560e8613dfbd0f51e638c3c0b8f319da9b6))
 
 ## @esri/hub-common [12.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.1...@esri/hub-common@12.5.2) (2023-02-09)
 
-
 ### Bug Fixes
 
-* **hub-common:** add tests for dotifyString ([330a2e6](https://github.com/Esri/hub.js/commit/330a2e69b35b764b243f422be66b0c65eb772edd))
-* **hub-common:** fix what dotifyString returns when i18nScope is defined and ending with '.' ([7eea9df](https://github.com/Esri/hub.js/commit/7eea9df3f8832304a54f6954285eee5000e94e5f))
+- **hub-common:** add tests for dotifyString ([330a2e6](https://github.com/Esri/hub.js/commit/330a2e69b35b764b243f422be66b0c65eb772edd))
+- **hub-common:** fix what dotifyString returns when i18nScope is defined and ending with '.' ([7eea9df](https://github.com/Esri/hub.js/commit/7eea9df3f8832304a54f6954285eee5000e94e5f))
 
 ## @esri/hub-common [12.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.0...@esri/hub-common@12.5.1) (2023-02-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** take care when i18nScope is undefined case in dotifyString ([d3a1054](https://github.com/Esri/hub.js/commit/d3a1054407569b5e489a83731b3dbba38e30a6f6))
+- **hub-common:** take care when i18nScope is undefined case in dotifyString ([d3a1054](https://github.com/Esri/hub.js/commit/d3a1054407569b5e489a83731b3dbba38e30a6f6))
 
 # @esri/hub-common [12.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.4.0...@esri/hub-common@12.5.0) (2023-02-08)
 
-
 ### Bug Fixes
 
-* **hub-common:** comments ([3d15dc9](https://github.com/Esri/hub.js/commit/3d15dc9bde036dcfb7fc9a3f92ee8840ae7a8aea))
-* **hub-common:** i18n and tests ([948dc7a](https://github.com/Esri/hub.js/commit/948dc7a4961cc6c8e2b5f314d03e8e6ab4cd6af6))
-* **hub-common:** mooore cleanups ([aed770b](https://github.com/Esri/hub.js/commit/aed770ba3a46f3aeb30891701ff504fc084843f5))
-* **hub-common:** moore cleanups ([8aeb22b](https://github.com/Esri/hub.js/commit/8aeb22b5ea032225d377dfc8f8d667a4f1e6656a))
-* **hub-common:** more cleanups ([bfa1ba7](https://github.com/Esri/hub.js/commit/bfa1ba7a7a3fbce0ed50c0de857858ff148c79c3))
-* **hub-common:** more tests ([a84a7f2](https://github.com/Esri/hub.js/commit/a84a7f24de4eec50428719b24c3415a2795ff364))
-* **hub-common:** naming, refactor and fix tests ([b1408af](https://github.com/Esri/hub.js/commit/b1408afbe46d064481d6ca8238005f3d92da9e50))
-* **hub-common:** refactor ([180a2de](https://github.com/Esri/hub.js/commit/180a2de817ae5543a3ca08bc252f6aa68168be60))
-* update default collections ([37747a3](https://github.com/Esri/hub.js/commit/37747a35f2098dcc814add048a4979a2454692e8))
-
+- **hub-common:** comments ([3d15dc9](https://github.com/Esri/hub.js/commit/3d15dc9bde036dcfb7fc9a3f92ee8840ae7a8aea))
+- **hub-common:** i18n and tests ([948dc7a](https://github.com/Esri/hub.js/commit/948dc7a4961cc6c8e2b5f314d03e8e6ab4cd6af6))
+- **hub-common:** mooore cleanups ([aed770b](https://github.com/Esri/hub.js/commit/aed770ba3a46f3aeb30891701ff504fc084843f5))
+- **hub-common:** moore cleanups ([8aeb22b](https://github.com/Esri/hub.js/commit/8aeb22b5ea032225d377dfc8f8d667a4f1e6656a))
+- **hub-common:** more cleanups ([bfa1ba7](https://github.com/Esri/hub.js/commit/bfa1ba7a7a3fbce0ed50c0de857858ff148c79c3))
+- **hub-common:** more tests ([a84a7f2](https://github.com/Esri/hub.js/commit/a84a7f24de4eec50428719b24c3415a2795ff364))
+- **hub-common:** naming, refactor and fix tests ([b1408af](https://github.com/Esri/hub.js/commit/b1408afbe46d064481d6ca8238005f3d92da9e50))
+- **hub-common:** refactor ([180a2de](https://github.com/Esri/hub.js/commit/180a2de817ae5543a3ca08bc252f6aa68168be60))
+- update default collections ([37747a3](https://github.com/Esri/hub.js/commit/37747a35f2098dcc814add048a4979a2454692e8))
 
 ### Features
 
-* **hub-common:** add getWellknownCollection and other comments ([a71eb35](https://github.com/Esri/hub.js/commit/a71eb350a805df618b10d5ecbb61ffb97d95d7ac))
-* add new getWellknownCatalog and getWellknownCollections ([ae74019](https://github.com/Esri/hub.js/commit/ae7401935dd6fba86cfc81f979232e39c1097bec))
-* add wellKnownCatalog ([c5a5143](https://github.com/Esri/hub.js/commit/c5a514364546a2d69faab580bcc56b7e2f95d153))
+- **hub-common:** add getWellknownCollection and other comments ([a71eb35](https://github.com/Esri/hub.js/commit/a71eb350a805df618b10d5ecbb61ffb97d95d7ac))
+- add new getWellknownCatalog and getWellknownCollections ([ae74019](https://github.com/Esri/hub.js/commit/ae7401935dd6fba86cfc81f979232e39c1097bec))
+- add wellKnownCatalog ([c5a5143](https://github.com/Esri/hub.js/commit/c5a514364546a2d69faab580bcc56b7e2f95d153))
 
 # @esri/hub-common [12.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.2...@esri/hub-common@12.4.0) (2023-02-06)
 
-
 ### Bug Fixes
 
-* interpolate uiSchema i18nScope after dynamic options are applied ([0f7edd7](https://github.com/Esri/hub.js/commit/0f7edd7895b01fc81bcc01a3fa25880121957c8c))
-* update and add comments to IWithViewSettings ([d26237f](https://github.com/Esri/hub.js/commit/d26237fd3a0740a05025a4de8aee092cfb789907))
-* update project create schema/uiSchema ([77bd7f9](https://github.com/Esri/hub.js/commit/77bd7f91255ea4d93eafa092f7e08598efd8bcfb))
-* update project edit schema/uiSchema ([4b29672](https://github.com/Esri/hub.js/commit/4b2967249de790e215519eeb7d890305c1089c44))
-* **hub-common:** add support for date-range predicates ([83b8877](https://github.com/Esri/hub.js/commit/83b8877b38af7f6da9ff979d583b998b3c9d98a5))
-* **hub-common:** fix error where result urls were not being generated properly ([3b2f3eb](https://github.com/Esri/hub.js/commit/3b2f3ebb0358e758452d37d767ca16ce16563d54))
-* **hub-common:** fix incorrect interface for ogc aggregations responses ([2e71f21](https://github.com/Esri/hub.js/commit/2e71f211ba717c4c56dcc51efd1f8f1d709248ea))
-* **hub-common:** handle cases where any / all / not is a string and not an array ([195aa3a](https://github.com/Esri/hub.js/commit/195aa3a2efc75fbdf783f5521b4657d77066a749))
-* **hub-common:** remove "term" from being used in the filter string as it is invalid ([e0826a2](https://github.com/Esri/hub.js/commit/e0826a2bd535433d3257eb403088ad2065ee81d3))
-* **hub-common:** remove unnecessary branch and add tests for 100% coverage ([ef66bfb](https://github.com/Esri/hub.js/commit/ef66bfb44ba6465e1932bb6ec4df44f6315d2322))
-* **hub-common:** wrap multi-word values in single quotes ([36ff80c](https://github.com/Esri/hub.js/commit/36ff80c177fdb32372746f1ac89012b20dbfd6ba))
-
+- interpolate uiSchema i18nScope after dynamic options are applied ([0f7edd7](https://github.com/Esri/hub.js/commit/0f7edd7895b01fc81bcc01a3fa25880121957c8c))
+- update and add comments to IWithViewSettings ([d26237f](https://github.com/Esri/hub.js/commit/d26237fd3a0740a05025a4de8aee092cfb789907))
+- update project create schema/uiSchema ([77bd7f9](https://github.com/Esri/hub.js/commit/77bd7f91255ea4d93eafa092f7e08598efd8bcfb))
+- update project edit schema/uiSchema ([4b29672](https://github.com/Esri/hub.js/commit/4b2967249de790e215519eeb7d890305c1089c44))
+- **hub-common:** add support for date-range predicates ([83b8877](https://github.com/Esri/hub.js/commit/83b8877b38af7f6da9ff979d583b998b3c9d98a5))
+- **hub-common:** fix error where result urls were not being generated properly ([3b2f3eb](https://github.com/Esri/hub.js/commit/3b2f3ebb0358e758452d37d767ca16ce16563d54))
+- **hub-common:** fix incorrect interface for ogc aggregations responses ([2e71f21](https://github.com/Esri/hub.js/commit/2e71f211ba717c4c56dcc51efd1f8f1d709248ea))
+- **hub-common:** handle cases where any / all / not is a string and not an array ([195aa3a](https://github.com/Esri/hub.js/commit/195aa3a2efc75fbdf783f5521b4657d77066a749))
+- **hub-common:** remove "term" from being used in the filter string as it is invalid ([e0826a2](https://github.com/Esri/hub.js/commit/e0826a2bd535433d3257eb403088ad2065ee81d3))
+- **hub-common:** remove unnecessary branch and add tests for 100% coverage ([ef66bfb](https://github.com/Esri/hub.js/commit/ef66bfb44ba6465e1932bb6ec4df44f6315d2322))
+- **hub-common:** wrap multi-word values in single quotes ([36ff80c](https://github.com/Esri/hub.js/commit/36ff80c177fdb32372746f1ac89012b20dbfd6ba))
 
 ### Features
 
-* hubitementity can add/clear resources ([#965](https://github.com/Esri/hub.js/issues/965)) ([0b6b909](https://github.com/Esri/hub.js/commit/0b6b90991bd4e5070542077b6bf4b7fe407c4b5e))
-* **hub-common:** add beta flag to IHubSearchOptions that must be enabled for hubSearchItems to work ([ce47916](https://github.com/Esri/hub.js/commit/ce47916561a5c276977777942e2427a5066a0d65))
-* **hub-common:** add first pass helper functions to integrate with the OGC Api ([15d020b](https://github.com/Esri/hub.js/commit/15d020b3a869ac638915320618f10aae275ce0ea))
-* **hub-common:** add temporary logic to move term predicates into the q parameter ([f925242](https://github.com/Esri/hub.js/commit/f9252425947ca47982324e3477a1f3f8c8199cfb))
+- hubitementity can add/clear resources ([#965](https://github.com/Esri/hub.js/issues/965)) ([0b6b909](https://github.com/Esri/hub.js/commit/0b6b90991bd4e5070542077b6bf4b7fe407c4b5e))
+- **hub-common:** add beta flag to IHubSearchOptions that must be enabled for hubSearchItems to work ([ce47916](https://github.com/Esri/hub.js/commit/ce47916561a5c276977777942e2427a5066a0d65))
+- **hub-common:** add first pass helper functions to integrate with the OGC Api ([15d020b](https://github.com/Esri/hub.js/commit/15d020b3a869ac638915320618f10aae275ce0ea))
+- **hub-common:** add temporary logic to move term predicates into the q parameter ([f925242](https://github.com/Esri/hub.js/commit/f9252425947ca47982324e3477a1f3f8c8199cfb))
 
 ## @esri/hub-common [12.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.1...@esri/hub-common@12.3.2) (2023-01-25)
 
-
 ### Bug Fixes
 
-* rename relatedItem to featuredContent in project ([27b7086](https://github.com/Esri/hub.js/commit/27b70865905eaa0403591f13ce61336f73c7f79e))
+- rename relatedItem to featuredContent in project ([27b7086](https://github.com/Esri/hub.js/commit/27b70865905eaa0403591f13ce61336f73c7f79e))
 
 ## @esri/hub-common [12.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.0...@esri/hub-common@12.3.1) (2023-01-19)
 
-
 ### Bug Fixes
 
-* resolve issue with node imports ([#962](https://github.com/Esri/hub.js/issues/962)) ([79abe87](https://github.com/Esri/hub.js/commit/79abe872c28b4259906c65e3d72fd2a651f6a83b))
-* resolve issues with node imports ([649e5da](https://github.com/Esri/hub.js/commit/649e5da76021038cd1c4ac79bd7eaf7db34fa76a))
-* resolve node import issues... take 3 ([0ee1260](https://github.com/Esri/hub.js/commit/0ee1260fbfc8e4e9ef3ad281db1132cefd2fdf05))
+- resolve issue with node imports ([#962](https://github.com/Esri/hub.js/issues/962)) ([79abe87](https://github.com/Esri/hub.js/commit/79abe872c28b4259906c65e3d72fd2a651f6a83b))
+- resolve issues with node imports ([649e5da](https://github.com/Esri/hub.js/commit/649e5da76021038cd1c4ac79bd7eaf7db34fa76a))
+- resolve node import issues... take 3 ([0ee1260](https://github.com/Esri/hub.js/commit/0ee1260fbfc8e4e9ef3ad281db1132cefd2fdf05))
 
 # @esri/hub-common [12.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.2.1...@esri/hub-common@12.3.0) (2023-01-18)
 

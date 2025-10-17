@@ -1,5 +1,5 @@
 import * as req from "../../../src/discussions/api/discussions-api-request";
-import { Geometry } from "geojson";
+import type { Geometry } from "geojson";
 import {
   EntitySettingType,
   ICreateSetting,

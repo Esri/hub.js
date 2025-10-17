@@ -12,6 +12,7 @@ import { IHubInitiativeTemplate } from "../core/types/IHubInitiativeTemplate";
 import { fetchModelFromItem } from "../models/fetchModelFromItem";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { isGuid } from "../utils/is-guid";
+import { AccessLevel } from "../core/types/types";
 
 export async function fetchInitiativeTemplate(
   identifier: string,
@@ -56,7 +57,7 @@ export function enrichInitiativeTemplateSearchResult(
   requestOptions: IHubRequestOptions
 ): IHubSearchResult {
   const result: IHubSearchResult = {
-    access: item.access,
+    access: item.access as AccessLevel,
     id: item.id,
     type: item.type,
     name: item.title,

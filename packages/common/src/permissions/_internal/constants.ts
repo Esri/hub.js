@@ -39,6 +39,7 @@ export const SystemPermissions = [
   "hub:feature:gallery-card:enterprise",
   "hub:feature:inline-workspace",
   "hub:feature:pagescatalog",
+  "hub:feature:discussions:subscription",
   "hub:license:hub-premium",
   "hub:license:hub-basic",
   "hub:license:enterprise-sites",
