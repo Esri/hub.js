@@ -11,6 +11,7 @@ import {
   IHubCatalog,
   IHubCollection,
 } from "./types/IHubCatalog";
+import { getCOrgOrEOrgId } from "./getCOrgOrEOrgId";
 
 /** well-known item catalogs */
 export const WELL_KNOWN_ITEM_CATALOGS = [
@@ -237,7 +238,7 @@ function getWellknownItemCatalog(
       const trustedOrgIds = context.trustedOrgIds.filter((orgId: string) => {
         return (
           orgId !== context.currentUser.orgId &&
-          orgId !== _getCOrgOrEOrgId(context)
+          orgId !== getCOrgOrEOrgId(context)
         );
       });
       // only build the catalog if there are trusted orgs
@@ -263,7 +264,7 @@ function getWellknownItemCatalog(
       break;
     case "community":
       // eslint-disable-next-line no-case-declarations
-      const communityOrgId = _getCOrgOrEOrgId(context);
+      const communityOrgId = getCOrgOrEOrgId(context);
       // only build the catalog if there is a community org id
       if (communityOrgId) {
         catalog = buildCatalog(
@@ -304,26 +305,6 @@ function getWellknownItemCatalog(
       break;
   }
   return catalog;
-}
-
-/**
- * Get the c-org or e-org ID. Defaults to the communityOrgId if the user is currently authed into
- * an e-org; otherwise it looks up the trusted org relationship to get the e-org id
- * @param context IArcGISContext
- * @returns orgid of the c-org or e-org
- */
-function _getCOrgOrEOrgId(context: IArcGISContext): string {
-  // extract the c-org / e-org relationship
-  const cOrgEOrgTrustedRelationship = context.trustedOrgs.find(
-    (org: any) => org.from.orgId === context.currentUser.orgId
-  );
-
-  // if we're in a community org, and there is a trusted org
-  // relationship, use the orgId from there (which would be
-  // the e-org id). Otherwise, use the c-org id
-  return context.isCommunityOrg && cOrgEOrgTrustedRelationship
-    ? cOrgEOrgTrustedRelationship.to.orgId
-    : context.communityOrgId;
 }
 
 /**

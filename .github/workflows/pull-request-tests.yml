@@ -36,7 +36,11 @@ jobs:
           cache: npm
 
       - name: Install Dependencies
-        run: npm ci
+        # temporarily using `npm i` b/c `npm ci` was failing
+        # due to a package-lock.json mismatch that 
+        # we haven't been able to track down, example:
+        # https://github.com/Esri/hub.js/actions/runs/18601122095/job/53039558079
+        run: npm i
 
       - name: Lint
         run: npm run lint
