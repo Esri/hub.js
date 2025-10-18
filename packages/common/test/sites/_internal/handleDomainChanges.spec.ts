@@ -1,7 +1,8 @@
 import { handleDomainChanges } from "../../../src/sites/_internal/handleDomainChanges";
 import * as addDomainModule from "../../../src/sites/domains/add-domain";
 import * as removeDomainByHostnameModule from "../../../src/sites/domains/removeDomainByHostname";
-import { MOCK_HUB_REQOPTS } from "../test-helpers.test";
+import { MOCK_HUB_REQOPTS } from "../test-helpers";
+import { vi } from "vitest";
 import { cloneObject } from "../../../src/util";
 import { IModel } from "../../../src/hub-types";
 

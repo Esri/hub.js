@@ -36,10 +36,11 @@ export const migrateLegacyCapabilitiesToFeatures = (model: IModel): IModel => {
     (features: IFeatureFlags, map: ICapabilityToFeatureMap) => {
       // TODO: remove istanbul exception once we include a
       // legacy capability that satisfies the second condition
-      /* istanbul ignore next */
       const capabilityFlag = map.negate
         ? !legacyCapabilityFeatureFlags[map.capability]
-        : legacyCapabilityFeatureFlags[map.capability];
+        : /* istanbul ignore next */ legacyCapabilityFeatureFlags[
+            map.capability
+          ];
 
       return {
         ...features,
