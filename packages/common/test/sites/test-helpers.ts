@@ -1,18 +1,18 @@
 import { IHubRequestOptions } from "../../src/hub-types";
 
-export function expectAllCalled(spys: jasmine.Spy[], expect: any) {
-  expectAll(spys, "toHaveBeenCalled", true, expect);
+export function expectAllCalled(spys: any[], expectFn: any) {
+  expectAll(spys, "toHaveBeenCalled", true, expectFn);
 }
 
 export function expectAll(
   args: any[],
   method: string,
   should: boolean,
-  expect: any
+  expectFn: any
 ) {
   const assertFunc = should
-    ? (arg: any) => expect(arg)[method]()
-    : (arg: any) => expect(arg).not[method]();
+    ? (arg: any) => expectFn(arg)[method]()
+    : (arg: any) => expectFn(arg).not[method]();
   args.forEach(assertFunc);
 }
 

@@ -2,6 +2,7 @@ import * as lookupDomainModule from "../../src/sites/domains/lookup-domain";
 import * as getSiteModule from "../../src/sites/get-site-by-id";
 import { fetchSiteModel } from "../../src/sites/fetchSiteModel";
 import { IHubRequestOptions, IModel } from "../../src/hub-types";
+import { vi } from "vitest";
 
 describe("fetchSiteModel", () => {
   const siteId = "042584cf391c428e995e97eccdebb8f8";
@@ -15,16 +16,16 @@ describe("fetchSiteModel", () => {
 
   const requestOptions = {} as IHubRequestOptions;
 
-  let lookupDomainSpy: jasmine.Spy;
-  let getSiteSpy: jasmine.Spy;
+  let lookupDomainSpy: any;
+  let getSiteSpy: any;
   beforeEach(() => {
-    lookupDomainSpy = spyOn(lookupDomainModule, "lookupDomain").and.returnValue(
-      Promise.resolve(domainRecord)
-    );
+    lookupDomainSpy = vi
+      .spyOn(lookupDomainModule, "lookupDomain")
+      .mockResolvedValue(domainRecord as any);
 
-    getSiteSpy = spyOn(getSiteModule, "getSiteById").and.returnValue(
-      Promise.resolve(site)
-    );
+    getSiteSpy = vi
+      .spyOn(getSiteModule, "getSiteById")
+      .mockResolvedValue(site as any);
   });
 
   it("accepts an item ID", async () => {

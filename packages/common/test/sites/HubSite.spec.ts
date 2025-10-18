@@ -1,4 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { vi } from "vitest";
+
+// Make ESM namespace export spyable if needed.
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+}));
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubSite } from "../../src/sites/HubSite";
@@ -18,9 +23,10 @@ import * as fetchMock from "fetch-mock";
 import { IUserHubSettings } from "../../src/utils/IUserHubSettings";
 import { IHubTrustedOrgsResponse } from "../../src/hub-types";
 import { IHubSite, IHubSiteEditor } from "../../src/core/types/IHubSite";
-import { IDeepCatalogInfo } from "../../src/search/types/types";
+// IDeepCatalogInfo intentionally not imported to keep mocks flexible
 import { IVersion } from "../../src/versioning/types/IVersion";
 import { IVersionMetadata } from "../../src/versioning/types/IVersionMetadata";
+import { IContainsResponse } from "../../src/search/types/types";
 import { getProp } from "../../src/objects/get-prop";
 import { IHubCatalog } from "../../src/search/types/IHubCatalog";
 
@@ -53,14 +59,9 @@ describe("HubSite Class:", () => {
         },
       }
     );
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
     authdCtxMgr = await ArcGISContextManager.create({
       authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
+      currentUser: { username: "casey" } as unknown as PortalModule.IUser,
       portal: {
         name: "DC R&D Center",
         id: "BRXFAKE",
@@ -74,9 +75,7 @@ describe("HubSite Class:", () => {
     });
     portalCtxMgr = await ArcGISContextManager.create({
       authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
+      currentUser: { username: "casey" } as unknown as PortalModule.IUser,
       portal: {
         isPortal: true,
         name: "My Portal Install",
@@ -92,29 +91,30 @@ describe("HubSite Class:", () => {
   });
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
 
   describe("static methods:", () => {
     it("loads from minimal json", () => {
-      const createSpy = spyOn(HubSitesModule, "createSite");
+      const createSpy = vi.spyOn(HubSitesModule, "createSite");
       const chk = HubSite.fromJson({ name: "Test Site" }, authdCtxMgr.context);
 
       expect(createSpy).not.toHaveBeenCalled();
       expect(chk.toJson().name).toEqual("Test Site");
-      // adds empty permissions and catalog
       const json = chk.toJson();
       expect(json.permissions).toEqual([]);
       expect(json.catalog).toEqual({ schemaVersion: 0 });
     });
     it("loads based on identifier", async () => {
-      const fetchSpy = spyOn(HubSitesModule, "fetchSite").and.callFake(
-        (id: string) => {
+      const fetchSpy = vi
+        .spyOn(HubSitesModule, "fetchSite")
+        .mockImplementation((_id: string) => {
           return Promise.resolve({
-            id,
+            id: _id,
             name: "Test Site",
-          });
-        }
-      );
+            pages: [],
+          } as unknown as IHubSite);
+        });
 
       const chk = await HubSite.fetch("3ef", authdCtxMgr.context);
       expect(fetchSpy).toHaveBeenCalledTimes(1);
@@ -123,14 +123,14 @@ describe("HubSite Class:", () => {
     });
 
     it("throws if site not found", async () => {
-      const fetchSpy = spyOn(HubSitesModule, "fetchSite").and.callFake(
-        (id: string) => {
+      const fetchSpy = vi
+        .spyOn(HubSitesModule, "fetchSite")
+        .mockImplementation((_id: string) => {
           const err = new Error(
             "CONT_0001: Item does not exist or is inaccessible."
           );
           return Promise.reject(err);
-        }
-      );
+        });
       try {
         await HubSite.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -140,12 +140,12 @@ describe("HubSite Class:", () => {
     });
 
     it("handle load errors", async () => {
-      const fetchSpy = spyOn(HubSitesModule, "fetchSite").and.callFake(
-        (id: string) => {
+      const fetchSpy = vi
+        .spyOn(HubSitesModule, "fetchSite")
+        .mockImplementation((_id: string) => {
           const err = new Error("ZOMG!");
           return Promise.reject(err);
-        }
-      );
+        });
       try {
         await HubSite.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -156,11 +156,19 @@ describe("HubSite Class:", () => {
   });
 
   it("save calls createSite if object does not have an id", async () => {
-    const createSpy = spyOn(HubSitesModule, "createSite").and.callFake(
-      (p: IHubSite) => {
-        return Promise.resolve(p);
-      }
-    );
+    const createSpy = vi
+      .spyOn(HubSitesModule, "createSite")
+      .mockImplementation((partialSite: Partial<IHubSite>, _ro?: any) => {
+        const created = {
+          ...(partialSite as any),
+          id:
+            partialSite && (partialSite as any).id
+              ? (partialSite as any).id
+              : "generated-id",
+          pages: [],
+        } as IHubSite;
+        return Promise.resolve(created);
+      });
     const chk = HubSite.fromJson({ name: "Test Site" }, authdCtxMgr.context);
     await chk.save();
     expect(createSpy).toHaveBeenCalledTimes(1);
@@ -168,12 +176,12 @@ describe("HubSite Class:", () => {
   });
 
   it("create saves the instance if passed true", async () => {
-    const createSpy = spyOn(HubSitesModule, "createSite").and.callFake(
-      (p: IHubSite) => {
-        p.id = "3ef";
+    const createSpy = vi
+      .spyOn(HubSitesModule, "createSite")
+      .mockImplementation((partialSite: Partial<IHubSite>, _ro?: any) => {
+        const p = { ...(partialSite as any), id: "3ef", pages: [] } as IHubSite;
         return Promise.resolve(p);
-      }
-    );
+      });
     const chk = await HubSite.create(
       { name: "Test Site" },
       authdCtxMgr.context,
@@ -185,7 +193,7 @@ describe("HubSite Class:", () => {
     expect(chk.toJson().type).toEqual("Hub Site Application");
   });
   it("create does not save by default", async () => {
-    const createSpy = spyOn(HubSitesModule, "createSite");
+    const createSpy = vi.spyOn(HubSitesModule, "createSite");
     const chk = await HubSite.create(
       { name: "Test Site", orgUrlKey: "foo" },
       portalCtxMgr.context
@@ -234,17 +242,11 @@ describe("HubSite Class:", () => {
   });
 
   it("save updates if object has id", async () => {
-    const updateSpy = spyOn(HubSitesModule, "updateSite").and.callFake(
-      (p: IHubSite) => {
-        return Promise.resolve(p);
-      }
-    );
+    const updateSpy = vi
+      .spyOn(HubSitesModule, "updateSite")
+      .mockImplementation((p: IHubSite) => Promise.resolve(p));
     const chk = HubSite.fromJson(
-      {
-        id: "bc3",
-        name: "Test Site",
-        catalog: { schemaVersion: 0 },
-      },
+      { id: "bc3", name: "Test Site", catalog: { schemaVersion: 0 } },
       authdCtxMgr.context
     );
     await chk.save();
@@ -252,28 +254,21 @@ describe("HubSite Class:", () => {
   });
 
   it("delete", async () => {
-    const deleteSpy = spyOn(HubSitesModule, "deleteSite").and.callFake(() => {
-      return Promise.resolve();
-    });
+    const deleteSpy = vi
+      .spyOn(HubSitesModule, "deleteSite")
+      .mockResolvedValue(undefined as any);
     const chk = HubSite.fromJson({ name: "Test Site" }, authdCtxMgr.context);
     await chk.delete();
     expect(deleteSpy).toHaveBeenCalledTimes(1);
-    // all fns should now throw an error
-    expect(() => {
-      chk.toJson();
-    }).toThrowError("Entity is already destroyed.");
-
-    expect(() => {
-      chk.update({ name: "Test Site 2" } as IHubSite);
-    }).toThrowError("HubSite is already destroyed.");
-
-    // async calls
+    expect(() => chk.toJson()).toThrowError("Entity is already destroyed.");
+    expect(() => chk.update({ name: "Test Site 2" } as IHubSite)).toThrowError(
+      "HubSite is already destroyed."
+    );
     try {
       await chk.delete();
     } catch (e) {
       expect((e as Error).message).toEqual("HubSite is already destroyed.");
     }
-
     try {
       await chk.save();
     } catch (e) {
@@ -286,7 +281,6 @@ describe("HubSite Class:", () => {
       { name: "Test Site", catalog: { schemaVersion: 0 } },
       authdCtxMgr.context
     );
-
     expect(chk.catalog instanceof Catalog).toBeTruthy();
   });
 
@@ -299,27 +293,27 @@ describe("HubSite Class:", () => {
     expect(chk.toJson().catalog).toEqual({ schemaVersion: 2 });
     expect(chk.catalog.schemaVersion).toEqual(2);
   });
+
   describe(" contains:", () => {
     it("checks site catalog by default", async () => {
-      const containsSpy = spyOn(ContainsModule, "deepContains").and.callFake(
-        (id: string, et: string, h: IDeepCatalogInfo[]) => {
-          return Promise.resolve({
+      const containsSpy: any = vi
+        .spyOn(ContainsModule, "deepContains")
+        .mockImplementation((..._args: any[]) => {
+          const id = _args[0];
+          const resp: IContainsResponse = {
             identifier: id,
             isContained: true,
             catalogInfo: {},
-          });
-        }
-      );
+          };
+          return Promise.resolve(resp);
+        });
       const chk = HubSite.fromJson(
-        {
-          id: "3ef",
-          catalog: createCatalog("00a"),
-        },
+        { id: "3ef", catalog: createCatalog("00a") },
         authdCtxMgr.context
       );
       const result = await chk.contains("cc0");
       expect(containsSpy).toHaveBeenCalledTimes(1);
-      const hiearchy = containsSpy.calls.argsFor(0)[2];
+      const hiearchy = containsSpy.mock.calls[0][2];
       expect(hiearchy.length).toBe(1);
       expect(hiearchy[0].catalog).toEqual(
         createCatalog("00a"),
@@ -333,28 +327,26 @@ describe("HubSite Class:", () => {
     });
 
     it("adds site catalog to others", async () => {
-      const containsSpy = spyOn(ContainsModule, "deepContains").and.callFake(
-        (id: string, h: IDeepCatalogInfo[]) => {
-          return Promise.resolve({
+      const containsSpy: any = vi
+        .spyOn(ContainsModule, "deepContains")
+        .mockImplementation((..._args: any[]) => {
+          const id = _args[0];
+          const resp: IContainsResponse = {
             identifier: id,
             isContained: true,
             catalogInfo: {},
-          });
-        }
-      );
+          };
+          return Promise.resolve(resp);
+        });
       const chk = HubSite.fromJson(
-        {
-          id: "3ef",
-          catalog: createCatalog("00a"),
-        },
+        { id: "3ef", catalog: createCatalog("00a") },
         authdCtxMgr.context
       );
-      // pass in a project catalog
       const result = await chk.contains("cc0", [
         { id: "4ef", hubEntityType: "project", catalog: createCatalog("00b") },
       ]);
       expect(containsSpy).toHaveBeenCalledTimes(1);
-      const hiearchy = containsSpy.calls.argsFor(0)[2];
+      const hiearchy = containsSpy.mock.calls[0][2];
       expect(hiearchy.length).toBe(2);
       expect(hiearchy[0].catalog).toEqual(
         createCatalog("00b"),
@@ -372,44 +364,35 @@ describe("HubSite Class:", () => {
     });
 
     it("caches catalogs", async () => {
-      const containsSpy = spyOn(ContainsModule, "deepContains").and.callFake(
-        (id: string, h: IDeepCatalogInfo[]) => {
-          return Promise.resolve({
+      const containsSpy: any = vi
+        .spyOn(ContainsModule, "deepContains")
+        .mockImplementation((..._args: any[]) => {
+          const id = _args[0];
+          const resp: IContainsResponse = {
             identifier: id,
             isContained: true,
             catalogInfo: {
-              "3ef": {
-                catalog: createCatalog("00a"),
-              },
-              "4ef": {
-                catalog: createCatalog("00b"),
-              },
+              "3ef": { catalog: createCatalog("00a") } as any,
+              "4ef": { catalog: createCatalog("00b") } as any,
             },
-          });
-        }
-      );
+          };
+          return Promise.resolve(resp);
+        });
       const chk = HubSite.fromJson(
-        {
-          id: "3ef",
-          catalog: createCatalog("00a"),
-        },
+        { id: "3ef", catalog: createCatalog("00a") },
         authdCtxMgr.context
       );
-      // First call will warm the cache
       await chk.contains("cc0", [{ id: "4ef", hubEntityType: "project" }]);
-      // second call will use the cache
       await chk.contains("cc1", [{ id: "4ef", hubEntityType: "project" }]);
       expect(containsSpy).toHaveBeenCalledTimes(2);
-      // verify first call does not send the 4ef catalog
-      const hiearchy = containsSpy.calls.argsFor(0)[2];
+      const hiearchy = containsSpy.mock.calls[0][2];
       expect(hiearchy.length).toBe(2);
       expect(hiearchy[0].catalog).not.toBeDefined();
       expect(hiearchy[1].catalog).toEqual(
         createCatalog("00a"),
         "should pass the site catalog"
       );
-      // verify second call does send the 4ef catalog
-      const hiearchy2 = containsSpy.calls.argsFor(1)[2];
+      const hiearchy2 = containsSpy.mock.calls[1][2];
       expect(hiearchy2.length).toBe(2);
       expect(hiearchy2[0].catalog).toEqual(
         createCatalog("00b"),
@@ -426,9 +409,7 @@ describe("HubSite Class:", () => {
     let chk: HubSite;
     const model: any = {
       data: {
-        catalog: {
-          schemaVersion: 0,
-        },
+        catalog: { schemaVersion: 0 },
         permissions: [],
         settings: {
           features: {
@@ -444,10 +425,7 @@ describe("HubSite Class:", () => {
       item: {
         id: "bc3",
         owner: "casey",
-        properties: {
-          orgUrlKey: "fake-org",
-          schemaVersion: 1,
-        },
+        properties: { orgUrlKey: "fake-org", schemaVersion: 1 },
         tags: [],
         title: "Test Site",
         type: "Hub Site Application",
@@ -466,15 +444,10 @@ describe("HubSite Class:", () => {
       );
     });
     it("searches versions", async () => {
-      const searchVersionsSpy = spyOn(
-        searchVersionsModule,
-        "searchVersions"
-      ).and.callFake(() => {
-        return Promise.resolve([{}, {}]);
-      });
-
+      const searchVersionsSpy = vi
+        .spyOn(searchVersionsModule, "searchVersions")
+        .mockResolvedValue([{}, {}] as any);
       const result = await chk.searchVersions();
-
       expect(searchVersionsSpy).toHaveBeenCalledTimes(1);
       expect(searchVersionsSpy).toHaveBeenCalledWith(
         chk.id,
@@ -483,14 +456,10 @@ describe("HubSite Class:", () => {
       expect(result.length).toBe(2);
     });
     it("gets a version", async () => {
-      const getVersionSpy = spyOn(getVersionModule, "getVersion").and.callFake(
-        () => {
-          return Promise.resolve({});
-        }
-      );
-
+      const getVersionSpy = vi
+        .spyOn(getVersionModule, "getVersion")
+        .mockResolvedValue({} as any);
       await chk.getVersion("abc123");
-
       expect(getVersionSpy).toHaveBeenCalledTimes(1);
       expect(getVersionSpy).toHaveBeenCalledWith(
         chk.id,
@@ -499,31 +468,22 @@ describe("HubSite Class:", () => {
       );
     });
     it("creates a version", async () => {
-      const createVersionSpy = spyOn(
-        createVersionModule,
-        "createVersion"
-      ).and.callFake(() => {
-        return Promise.resolve({});
-      });
-
+      const createVersionSpy = vi
+        .spyOn(createVersionModule, "createVersion")
+        .mockResolvedValue({} as any);
       const createVersionOptions = { name: "my special version" };
       await chk.createVersion(createVersionOptions);
-
       expect(createVersionSpy).toHaveBeenCalledTimes(1);
-      const args = createVersionSpy.calls.argsFor(0);
+      const args = createVersionSpy.mock.calls[0];
       const modelArg = args[0];
       expect(modelArg.item).toEqual(model.item);
       expect(args[1]).toEqual(authdCtxMgr.context.userRequestOptions);
       expect(args[2]).toEqual(createVersionOptions);
     });
     it("updates a version", async () => {
-      const updateVersionSpy = spyOn(
-        updateVersionModule,
-        "updateVersion"
-      ).and.callFake(() => {
-        return Promise.resolve({});
-      });
-
+      const updateVersionSpy = vi
+        .spyOn(updateVersionModule, "updateVersion")
+        .mockResolvedValue({} as any);
       const version: IVersion = {
         created: 123456,
         creator: "paige_pa",
@@ -543,11 +503,9 @@ describe("HubSite Class:", () => {
         path: "",
         updated: 123456,
       };
-
       await chk.updateVersion(version);
-
       expect(updateVersionSpy).toHaveBeenCalledTimes(1);
-      const args = updateVersionSpy.calls.argsFor(0);
+      const args = updateVersionSpy.mock.calls[0];
       const modelArg = args[0];
       expect(modelArg.item).toEqual(model.item);
       expect(args[2]).toEqual(authdCtxMgr.context.userRequestOptions);
@@ -555,13 +513,9 @@ describe("HubSite Class:", () => {
     });
 
     it("updates version metadata", async () => {
-      const updateVersionMetadataSpy = spyOn(
-        updateVersionMetadataModule,
-        "updateVersionMetadata"
-      ).and.callFake(() => {
-        return Promise.resolve({});
-      });
-
+      const updateVersionMetadataSpy = vi
+        .spyOn(updateVersionMetadataModule, "updateVersionMetadata")
+        .mockResolvedValue({} as any);
       const version: IVersionMetadata = {
         created: 123456,
         creator: "paige_pa",
@@ -570,9 +524,7 @@ describe("HubSite Class:", () => {
         path: "",
         updated: 123456,
       };
-
       await chk.updateVersionMetadata(version);
-
       expect(updateVersionMetadataSpy).toHaveBeenCalledTimes(1);
       expect(updateVersionMetadataSpy).toHaveBeenCalledWith(
         model.item.id,
@@ -583,15 +535,10 @@ describe("HubSite Class:", () => {
     });
 
     it("deletes a version", async () => {
-      const deleteVersionSpy = spyOn(
-        deleteVersionModule,
-        "deleteVersion"
-      ).and.callFake(() => {
-        return Promise.resolve({ success: true });
-      });
-
+      const deleteVersionSpy = vi
+        .spyOn(deleteVersionModule, "deleteVersion")
+        .mockResolvedValue({ success: true } as any);
       await chk.deleteVersion("def456");
-
       expect(deleteVersionSpy).toHaveBeenCalledTimes(1);
       expect(deleteVersionSpy).toHaveBeenCalledWith(
         "bc3",
@@ -604,16 +551,11 @@ describe("HubSite Class:", () => {
 
   describe("IWithEditorBehavior:", () => {
     it("getEditorConfig delegates to helper", async () => {
-      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({ fake: "config" });
-        }
-      );
+      const spy = vi
+        .spyOn(EditConfigModule, "getEditorConfig")
+        .mockResolvedValue({ fake: "config" } as any);
       const chk = HubSite.fromJson(
-        {
-          id: "bc3",
-          name: "Test Entity",
-        },
+        { id: "bc3", name: "Test Entity" },
         authdCtxMgr.context
       );
       const result = await chk.getEditorConfig("i18n.Scope", "hub:site:edit");
@@ -630,7 +572,6 @@ describe("HubSite Class:", () => {
     describe("toEditor:", () => {
       let chk: HubSite;
       let getFollowersGroupSpy: any;
-
       beforeEach(async () => {
         chk = HubSite.fromJson(
           {
@@ -644,15 +585,13 @@ describe("HubSite Class:", () => {
       });
 
       it("optionally enriches the entity", async () => {
-        getFollowersGroupSpy = spyOn(chk, "getFollowersGroup").and.returnValue(
-          Promise.resolve({})
-        );
-        const enrichEntitySpy = spyOn(
-          EnrichEntityModule,
-          "enrichEntity"
-        ).and.returnValue(Promise.resolve({}));
-        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
-
+        getFollowersGroupSpy = vi
+          .spyOn(chk, "getFollowersGroup")
+          .mockResolvedValue({} as any);
+        const enrichEntitySpy = vi
+          .spyOn(EnrichEntityModule, "enrichEntity")
+          .mockResolvedValue({} as any);
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"] as any);
         expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
         expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
@@ -661,51 +600,43 @@ describe("HubSite Class:", () => {
           {
             id: "bc3",
             name: "Test Entity",
-            _urlInfo: {
-              subdomain: "my-subdomain",
-            },
+            _urlInfo: { subdomain: "my-subdomain" },
           },
           authdCtxMgr.context
         );
-        getFollowersGroupSpy = spyOn(site, "getFollowersGroup").and.returnValue(
-          Promise.resolve({ typeKeywords: ["cannotDiscuss"] })
-        );
+        getFollowersGroupSpy = vi
+          .spyOn(site, "getFollowersGroup")
+          .mockResolvedValue({ typeKeywords: ["cannotDiscuss"] } as any);
         const result = await site.toEditor();
         expect(result._urlInfo.subdomain).toEqual("my-subdomain");
       });
       describe("entity transforms", () => {
         it("sets the _followers.showFollowAction property based on the presence of the hub:site:feature:follow feature", async () => {
-          getFollowersGroupSpy = spyOn(
-            chk,
-            "getFollowersGroup"
-          ).and.returnValue(Promise.resolve({}));
+          getFollowersGroupSpy = vi
+            .spyOn(chk, "getFollowersGroup")
+            .mockResolvedValue({} as any);
           const result = await chk.toEditor();
           expect(result._followers?.showFollowAction).toBe(true);
         });
         describe("_followers.isDiscussable", () => {
           it("set to false by default (when no followers group is returned)", async () => {
-            getFollowersGroupSpy = spyOn(
-              chk,
-              "getFollowersGroup"
-            ).and.returnValue(Promise.resolve(null));
+            getFollowersGroupSpy = vi
+              .spyOn(chk, "getFollowersGroup")
+              .mockResolvedValue(null as any);
             const result = await chk.toEditor();
             expect(result._followers?.isDiscussable).toBe(false);
           });
           it("set to true when the followers group is discussable", async () => {
-            getFollowersGroupSpy = spyOn(
-              chk,
-              "getFollowersGroup"
-            ).and.returnValue(Promise.resolve({ typeKeywords: [] }));
+            getFollowersGroupSpy = vi
+              .spyOn(chk, "getFollowersGroup")
+              .mockResolvedValue({ typeKeywords: [] } as any);
             const result = await chk.toEditor();
             expect(result._followers?.isDiscussable).toBe(true);
           });
           it("set to false when the followers group is not discussable", async () => {
-            getFollowersGroupSpy = spyOn(
-              chk,
-              "getFollowersGroup"
-            ).and.returnValue(
-              Promise.resolve({ typeKeywords: ["cannotDiscuss"] })
-            );
+            getFollowersGroupSpy = vi
+              .spyOn(chk, "getFollowersGroup")
+              .mockResolvedValue({ typeKeywords: ["cannotDiscuss"] } as any);
             const result = await chk.toEditor();
             expect(result._followers?.isDiscussable).toBe(false);
           });
@@ -716,7 +647,6 @@ describe("HubSite Class:", () => {
     describe("fromEditor:", () => {
       let chk: HubSite;
       let getFollowersGroupSpy: any;
-
       beforeEach(async () => {
         chk = HubSite.fromJson(
           {
@@ -726,68 +656,58 @@ describe("HubSite Class:", () => {
           },
           authdCtxMgr.context
         );
-        getFollowersGroupSpy = spyOn(chk, "getFollowersGroup").and.callFake(
-          () => {
-            return Promise.resolve({
+        getFollowersGroupSpy = vi
+          .spyOn(chk, "getFollowersGroup")
+          .mockImplementation(() =>
+            Promise.resolve({
               id: "followers00c",
               typeKeywords: [],
-            });
-          }
-        );
+            } as unknown as PortalModule.IGroup)
+          );
       });
       it("handles simple prop change", async () => {
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
         editor.name = "new name";
         (editor._followers as any).isDiscussable = undefined;
-        // call fromEditor
         const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
-        // expect the name to have been updated
         expect(result.name).toEqual("new name");
         expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
       it("handles thumbnail change", async () => {
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
         editor.name = "new name";
         (editor._followers as any).isDiscussable = undefined;
         editor._thumbnail = {
           blob: "fake blob",
           filename: "thumbnail.png",
-        };
-        // call fromEditor
+        } as any;
         const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
-        // since thumbnailCache is protected we can't really test that it's set
-        // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
         expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
 
       it("handles thumbnail clear", async () => {
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
         editor.name = "new name";
         (editor._followers as any).isDiscussable = undefined;
-        editor._thumbnail = {};
-        // call fromEditor
+        editor._thumbnail = {} as any;
         const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
-        // since thumbnailCache is protected we can't really test that it's set
-        // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
         expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
+
       describe("followers", () => {
         let _chk: HubSite;
         let saveSpy: any;
@@ -798,52 +718,44 @@ describe("HubSite Class:", () => {
 
         beforeEach(async () => {
           _chk = HubSite.fromJson(
-            {
-              id: "bc3",
-              name: "Test Entity",
-            },
+            { id: "bc3", name: "Test Entity" },
             authdCtxMgr.context
           );
-          saveSpy = spyOn(_chk, "save").and.returnValue(Promise.resolve());
-          setFollowersGroupAccessSpy = spyOn(
-            _chk,
-            "setFollowersGroupAccess"
-          ).and.returnValue(Promise.resolve());
-          setFollowersGroupIsDiscussableSpy = spyOn(
-            _chk,
-            "setFollowersGroupIsDiscussable"
-          ).and.returnValue(Promise.resolve());
-          _getFollowersGroupSpy = spyOn(_chk, "getFollowersGroup").and.callFake(
-            () => {
-              return Promise.resolve({
+          saveSpy = vi.spyOn(_chk, "save").mockResolvedValue(undefined as any);
+          setFollowersGroupAccessSpy = vi
+            .spyOn(_chk, "setFollowersGroupAccess")
+            .mockResolvedValue(undefined as any);
+          setFollowersGroupIsDiscussableSpy = vi
+            .spyOn(_chk, "setFollowersGroupIsDiscussable")
+            .mockResolvedValue(undefined as any);
+          _getFollowersGroupSpy = vi
+            .spyOn(_chk, "getFollowersGroup")
+            .mockImplementation(() =>
+              Promise.resolve({
                 id: "followers00c",
                 typeKeywords: [],
-              });
-            }
-          );
+              } as unknown as PortalModule.IGroup)
+            );
           editor = await _chk.toEditor();
         });
         it("does nothing if followers information is not present on the editor values", async () => {
-          editor._followers = undefined;
+          editor._followers = undefined as any;
           await _chk.fromEditor(editor);
-
           expect(saveSpy).toHaveBeenCalledTimes(1);
           expect(setFollowersGroupAccessSpy).not.toHaveBeenCalled();
           expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
         });
         it("handles setting the followers group access", async () => {
-          editor._followers = { groupAccess: "public" };
+          editor._followers = { groupAccess: "public" } as any;
           await _chk.fromEditor(editor);
-
           expect(saveSpy).toHaveBeenCalledTimes(1);
           expect(setFollowersGroupAccessSpy).toHaveBeenCalledTimes(1);
           expect(setFollowersGroupAccessSpy).toHaveBeenCalledWith("public");
           expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
         });
         it("handles setting followers group isDiscussable", async () => {
-          editor._followers = { isDiscussable: true };
+          editor._followers = { isDiscussable: true } as any;
           await _chk.fromEditor(editor);
-
           expect(saveSpy).toHaveBeenCalledTimes(1);
           expect(setFollowersGroupAccessSpy).not.toHaveBeenCalled();
           expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
@@ -858,22 +770,20 @@ describe("HubSite Class:", () => {
           },
           authdCtxMgr.context
         );
-        const _getFollowersGroupSpy = spyOn(
-          _chk,
-          "getFollowersGroup"
-        ).and.callFake(() => {
-          return Promise.resolve({
-            id: "followers00c",
-            typeKeywords: [],
-          });
-        });
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(_chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
+        const _getFollowersGroupSpy = vi
+          .spyOn(_chk, "getFollowersGroup")
+          .mockImplementation(() =>
+            Promise.resolve({
+              id: "followers00c",
+              typeKeywords: [],
+            } as unknown as PortalModule.IGroup)
+          );
+        const saveSpy = vi
+          .spyOn(_chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await _chk.toEditor();
         editor.name = "new name";
         (editor._followers as any).isDiscussable = undefined;
-        // call fromEditor
         try {
           await _chk.fromEditor(editor);
         } catch (ex) {
@@ -899,25 +809,21 @@ describe("HubSite Class:", () => {
                 collaborationId: "3ef",
               },
             ],
-            assistant: {
-              schemaVersion: 1,
-              accessGroups: ["group1", "group2"],
-            },
+            assistant: { schemaVersion: 1, accessGroups: ["group1", "group2"] },
           },
           authdCtxMgr.context
         );
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
-        // Call fromEditor
         const result = await chk.fromEditor(editor);
-        // Should remove old assistant:access and add new ones
         const assistantPerms = result.permissions.filter(
           (p: any) => p.permission === "hub:site:assistant:access"
         );
         expect(assistantPerms.length).toBe(2);
         expect(assistantPerms[0].collaborationId).toBe("group1");
         expect(assistantPerms[1].collaborationId).toBe("group2");
-        // Should preserve other permissions
         const projectPerms = result.permissions.filter(
           (p: any) => p.permission === "hub:site:create"
         );
@@ -925,29 +831,28 @@ describe("HubSite Class:", () => {
         expect(saveSpy).toHaveBeenCalledTimes(1);
       });
       it("handles assistant group permissions in fromEditor with no existing site with no permissions or assistant", async () => {
-        const fetchSpy = spyOn(HubSitesModule, "fetchSite").and.callFake(
-          (id: string) => {
-            return Promise.resolve({
-              id,
+        const fetchSpy = vi
+          .spyOn(HubSitesModule, "fetchSite")
+          .mockImplementation((_id: string) =>
+            Promise.resolve({
+              id: _id,
               name: "Test Site",
-            });
-          }
-        );
-
+              pages: [],
+            } as IHubSite)
+          );
         const chk = await HubSite.fetch("3ef", authdCtxMgr.context);
         expect(fetchSpy).toHaveBeenCalledTimes(1);
         expect(chk.toJson().id).toBe("3ef");
         expect(chk.toJson().name).toBe("Test Site");
-        console.log(chk.toJson());
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
         const result = await chk.fromEditor(editor);
-        // Should remove old assistant:access and add new ones
         const assistantPerms = result.permissions.filter(
           (p: any) => p.permission === "hub:site:assistant:access"
         );
         expect(assistantPerms.length).toBe(0);
-        // Should preserve other permissions
         const projectPerms = result.permissions.filter(
           (p: any) => p.permission !== "hub:site:assistant:access"
         );

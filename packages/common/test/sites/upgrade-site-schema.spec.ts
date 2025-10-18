@@ -13,84 +13,83 @@ import * as ensureBaseTelemetry from "../../src/sites/_internal/ensureBaseTeleme
 import * as _migrateToV2CatalogModule from "../../src/sites/_internal/_migrate-to-v2-catalog";
 import * as ensureLowercaseOrgUrlKeySlugAndKeywordModule from "../../src/sites/_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
-import { expectAllCalled, expectAll } from "./test-helpers.test";
+import { expectAllCalled, expectAll } from "./test-helpers";
 import { IModel } from "../../src/hub-types";
 import { upgradeSiteSchema } from "../../src/sites/upgrade-site-schema";
+import { vi } from "vitest";
 
 describe("upgradeSiteSchema", () => {
-  let applySpy: jasmine.Spy;
-  let enforceLowercaseSpy: jasmine.Spy;
-  let ensureCatalogSpy: jasmine.Spy;
-  let purgeNonGuidsSpy: jasmine.Spy;
-  let ensureTelemetrySpy: jasmine.Spy;
-  let migrateFeedConfigSpy: jasmine.Spy;
-  let migrateEventListCardConfigsSpy: jasmine.Spy;
-  let migrateLegacyCapabilitiesToFeaturesSpy: jasmine.Spy;
-  let migrateTelemetryConfigSpy: jasmine.Spy;
-  let migrateLinkUnderlinesCapabilitySpy: jasmine.Spy;
-  let migrateBadBasemapSpy: jasmine.Spy;
-  let ensureBaseTelemetrySpy: jasmine.Spy;
-  let migrateToV2CatalogSpy: jasmine.Spy;
-  let slugFixSpy: jasmine.Spy;
+  let applySpy: any;
+  let enforceLowercaseSpy: any;
+  let ensureCatalogSpy: any;
+  let purgeNonGuidsSpy: any;
+  let ensureTelemetrySpy: any;
+  let migrateFeedConfigSpy: any;
+  let migrateEventListCardConfigsSpy: any;
+  let migrateLegacyCapabilitiesToFeaturesSpy: any;
+  let migrateTelemetryConfigSpy: any;
+  let migrateLinkUnderlinesCapabilitySpy: any;
+  let migrateBadBasemapSpy: any;
+  let ensureBaseTelemetrySpy: any;
+  let migrateToV2CatalogSpy: any;
+  let slugFixSpy: any;
 
   beforeEach(() => {
-    applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
-      (model: IModel) => model
-    );
-    enforceLowercaseSpy = spyOn(
-      _enforceLowercaseDomainsModule,
-      "_enforceLowercaseDomains"
-    ).and.callFake((model: IModel) => model);
-    ensureCatalogSpy = spyOn(
-      _ensureCatalogModule,
-      "_ensureCatalog"
-    ).and.callFake((model: IModel) => model);
-    purgeNonGuidsSpy = spyOn(
-      _purgeNonGuidsFromCatalogModule,
-      "_purgeNonGuidsFromCatalog"
-    ).and.callFake((model: IModel) => model);
-    ensureTelemetrySpy = spyOn(
-      _ensureTelemetryModule,
-      "_ensureTelemetry"
-    ).and.callFake((model: IModel) => model);
-    migrateFeedConfigSpy = spyOn(
-      _migrateFeedConfigModule,
-      "_migrateFeedConfig"
-    ).and.callFake((model: IModel) => model);
-    migrateEventListCardConfigsSpy = spyOn(
-      _migrateEventListCardConfigs,
-      "_migrateEventListCardConfigs"
-    ).and.callFake((model: IModel) => model);
-    migrateLegacyCapabilitiesToFeaturesSpy = spyOn(
-      migrateLegacyCapabilitiesToFeatures,
-      "migrateLegacyCapabilitiesToFeatures"
-    ).and.callFake((model: IModel) => model);
-    migrateTelemetryConfigSpy = spyOn(
-      _migrateTelemetryConfig,
-      "_migrateTelemetryConfig"
-    ).and.callFake((model: IModel) => model);
-    migrateLinkUnderlinesCapabilitySpy = spyOn(
-      _migrateLinkUnderlinesCapability,
-      "_migrateLinkUnderlinesCapability"
-    ).and.callFake((model: IModel) => model);
-    migrateBadBasemapSpy = spyOn(
-      migrateBadBasemapModule,
-      "migrateBadBasemap"
-    ).and.callFake((model: IModel) => model);
-    ensureBaseTelemetrySpy = spyOn(
-      ensureBaseTelemetry,
-      "ensureBaseTelemetry"
-    ).and.callFake((model: IModel) => model);
-    migrateToV2CatalogSpy = spyOn(
-      _migrateToV2CatalogModule,
-      "_migrateToV2Catalog"
-    ).and.callFake((model: IModel) => model);
+    applySpy = vi
+      .spyOn(_applySiteSchemaModule, "_applySiteSchema")
+      .mockImplementation((model: IModel) => model);
+    enforceLowercaseSpy = vi
+      .spyOn(_enforceLowercaseDomainsModule, "_enforceLowercaseDomains")
+      .mockImplementation((model: IModel) => model);
+    ensureCatalogSpy = vi
+      .spyOn(_ensureCatalogModule, "_ensureCatalog")
+      .mockImplementation((model: IModel) => model);
+    purgeNonGuidsSpy = vi
+      .spyOn(_purgeNonGuidsFromCatalogModule, "_purgeNonGuidsFromCatalog")
+      .mockImplementation((model: IModel) => model);
+    ensureTelemetrySpy = vi
+      .spyOn(_ensureTelemetryModule, "_ensureTelemetry")
+      .mockImplementation((model: IModel) => model);
+    migrateFeedConfigSpy = vi
+      .spyOn(_migrateFeedConfigModule, "_migrateFeedConfig")
+      .mockImplementation((model: IModel) => model);
+    migrateEventListCardConfigsSpy = vi
+      .spyOn(_migrateEventListCardConfigs, "_migrateEventListCardConfigs")
+      .mockImplementation((model: IModel) => model);
+    migrateLegacyCapabilitiesToFeaturesSpy = vi
+      .spyOn(
+        migrateLegacyCapabilitiesToFeatures,
+        "migrateLegacyCapabilitiesToFeatures"
+      )
+      .mockImplementation((model: IModel) => model);
+    migrateTelemetryConfigSpy = vi
+      .spyOn(_migrateTelemetryConfig, "_migrateTelemetryConfig")
+      .mockImplementation((model: IModel) => model);
+    migrateLinkUnderlinesCapabilitySpy = vi
+      .spyOn(
+        _migrateLinkUnderlinesCapability,
+        "_migrateLinkUnderlinesCapability"
+      )
+      .mockImplementation((model: IModel) => model);
+    migrateBadBasemapSpy = vi
+      .spyOn(migrateBadBasemapModule, "migrateBadBasemap")
+      .mockImplementation((model: IModel) => model);
+    ensureBaseTelemetrySpy = vi
+      .spyOn(ensureBaseTelemetry, "ensureBaseTelemetry")
+      .mockImplementation((model: IModel) => model);
+    migrateToV2CatalogSpy = vi
+      .spyOn(_migrateToV2CatalogModule, "_migrateToV2Catalog")
+      .mockImplementation((model: IModel) => model);
 
-    slugFixSpy = spyOn(
-      ensureLowercaseOrgUrlKeySlugAndKeywordModule,
-      "ensureLowercaseOrgUrlKeySlugAndKeyword"
-    ).and.callFake((model: IModel) => model);
+    slugFixSpy = vi
+      .spyOn(
+        ensureLowercaseOrgUrlKeySlugAndKeywordModule,
+        "ensureLowercaseOrgUrlKeySlugAndKeyword"
+      )
+      .mockImplementation((model: IModel) => model);
   });
+
+  afterEach(() => vi.restoreAllMocks());
 
   it("runs schema upgrades", async () => {
     const model = {

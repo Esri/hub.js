@@ -1,13 +1,13 @@
 import { registerSiteAsApplication } from "../../src/sites/registerSiteAsApplication";
 import * as regiserBrowserAppModule from "../../src/items/registerBrowserApp";
 import { IHubRequestOptions, IModel } from "../../src/hub-types";
+import { vi } from "vitest";
 
 describe("registerSiteAsApplication", () => {
   it("registers the site", async () => {
-    const registerSpy = spyOn(
-      regiserBrowserAppModule,
-      "registerBrowserApp"
-    ).and.returnValue({});
+    const registerSpy: any = vi
+      .spyOn(regiserBrowserAppModule, "registerBrowserApp")
+      .mockResolvedValue({});
 
     const model = {
       item: {
@@ -23,7 +23,7 @@ describe("registerSiteAsApplication", () => {
     await registerSiteAsApplication(model, {} as IHubRequestOptions);
 
     expect(registerSpy).toHaveBeenCalledTimes(1);
-    const redirectUris = registerSpy.calls.argsFor(0)[1];
+    const redirectUris = registerSpy.mock.calls[0][1];
     expect(redirectUris.length).toBe(
       2,
       "registers default hostname as redirect uri"
@@ -39,10 +39,9 @@ describe("registerSiteAsApplication", () => {
   });
 
   it("registers the site", async () => {
-    const registerSpy = spyOn(
-      regiserBrowserAppModule,
-      "registerBrowserApp"
-    ).and.returnValue({});
+    const registerSpy: any = vi
+      .spyOn(regiserBrowserAppModule, "registerBrowserApp")
+      .mockResolvedValue({});
 
     const model = {
       item: {
@@ -59,7 +58,7 @@ describe("registerSiteAsApplication", () => {
     await registerSiteAsApplication(model, {} as IHubRequestOptions);
 
     expect(registerSpy).toHaveBeenCalledTimes(1);
-    const redirectUris = registerSpy.calls.argsFor(0)[1];
+    const redirectUris = registerSpy.mock.calls[0][1];
     expect(redirectUris.length).toBe(
       4,
       "includes custom hostname as redirect uri present"
@@ -75,10 +74,9 @@ describe("registerSiteAsApplication", () => {
   });
 
   it("does nothing on portal", async () => {
-    const registerSpy = spyOn(
-      regiserBrowserAppModule,
-      "registerBrowserApp"
-    ).and.returnValue({});
+    const registerSpy: any = vi
+      .spyOn(regiserBrowserAppModule, "registerBrowserApp")
+      .mockResolvedValue({});
 
     const model = {
       item: {

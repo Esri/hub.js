@@ -1,3 +1,11 @@
+import { vi } from "vitest";
+
+// Ensure the ESM namespace is mockable: merge original exports and override `request`
+vi.mock("@esri/arcgis-rest-request", async (importOriginal) => ({
+  ...(await importOriginal()),
+  request: vi.fn(),
+}));
+
 import { registerBrowserApp } from "../../src/items/registerBrowserApp";
 import * as requestModule from "@esri/arcgis-rest-request";
 
@@ -12,20 +20,18 @@ describe("registerBrowserApp", () => {
     const uris = ["foo", "bar"];
     const itemId = "item-id";
 
-    // NOTE: this spy will work on the first test run when running test:chrome:debug
-    // but will subsequently fail if you modify this file or the file under test
-    const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({})
-    );
+    const requestSpy: any = vi
+      .spyOn(requestModule, "request")
+      .mockResolvedValue({});
 
     await registerBrowserApp(itemId, uris, ro);
 
     expect(requestSpy).toHaveBeenCalled();
-    expect(requestSpy.calls.argsFor(0)[0]).toContain(
+    expect(requestSpy.mock.calls[0][0]).toContain(
       "oauth2/registerApp",
       "sent to the correct url"
     );
-    expect(requestSpy.calls.argsFor(0)[1]).toEqual(
+    expect(requestSpy.mock.calls[0][1]).toEqual(
       {
         method: "POST",
         authentication: ro.authentication,

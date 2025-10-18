@@ -1,22 +1,22 @@
 import * as getCatalogFromSiteModelModule from "../../../src/sites/get-catalog-from-site-model";
 import { _migrateToV2Catalog } from "../../../src/sites/_internal/_migrate-to-v2-catalog";
 import { IModel } from "../../../src/hub-types";
+import { vi } from "vitest";
 
 describe("_migrateToV2Catalog", () => {
-  let getCatalogFromSiteModelSpy: jasmine.Spy;
+  let getCatalogFromSiteModelSpy: any;
   const mockedCatalog: any = {
     mocked: "catalog",
   };
 
   beforeEach(() => {
-    getCatalogFromSiteModelSpy = spyOn(
-      getCatalogFromSiteModelModule,
-      "getCatalogFromSiteModel"
-    ).and.returnValue(mockedCatalog);
+    getCatalogFromSiteModelSpy = vi
+      .spyOn(getCatalogFromSiteModelModule, "getCatalogFromSiteModel")
+      .mockReturnValue(mockedCatalog);
   });
 
   afterEach(() => {
-    getCatalogFromSiteModelSpy.calls.reset();
+    getCatalogFromSiteModelSpy.mockReset?.();
   });
 
   it("Bumps schema and adds catalogV2", () => {
@@ -27,7 +27,7 @@ describe("_migrateToV2Catalog", () => {
 
     const result = _migrateToV2Catalog(siteModel);
 
-    expect(getCatalogFromSiteModelSpy.calls.count()).toBe(1);
+    expect(getCatalogFromSiteModelSpy.mock.calls.length).toBe(1);
     expect(result.item.properties.schemaVersion).toEqual(
       1.9,
       "site.item.properties.schemaVersion should be 1.9"
@@ -51,7 +51,7 @@ describe("_migrateToV2Catalog", () => {
     } as unknown as IModel;
 
     const result = _migrateToV2Catalog(siteModel);
-    expect(getCatalogFromSiteModelSpy.calls.count()).toBe(0);
+    expect(getCatalogFromSiteModelSpy.mock.calls.length).toBe(0);
     expect(result.data.catalogV2).toEqual(
       { different: "catalog" },
       "The catalogV2 object should be unchanged."

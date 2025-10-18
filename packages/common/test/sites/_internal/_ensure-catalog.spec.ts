@@ -38,12 +38,8 @@ describe("_ensureCatalog", () => {
         // no catalog
       },
     } as unknown as IModel;
-    try {
-      const chk = _ensureCatalog(model);
-      expect(chk).toBeDefined();
-    } catch (err) {
-      fail("shouldnt throw");
-    }
+    const chk = _ensureCatalog(model);
+    expect(chk).toBeDefined();
   });
 
   it("skips templates greater than 1.2 schema version", function () {

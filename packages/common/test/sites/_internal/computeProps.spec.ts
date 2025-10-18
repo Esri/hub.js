@@ -1,4 +1,5 @@
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
+import { vi } from "vitest";
 import { computeProps } from "../../../src/sites/_internal/computeProps";
 import { SiteDefaultFeatures } from "../../../src/sites/_internal/SiteBusinessRules";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
@@ -9,25 +10,24 @@ import { IHubSite } from "../../../src/core/types/IHubSite";
 
 describe("sites: computeProps:", () => {
   let requestOptions: IHubRequestOptions;
-  let computeLinksSpy: jasmine.Spy;
+  let computeLinksSpy: any;
 
   beforeEach(async () => {
     requestOptions = cloneObject(MOCK_HUB_REQOPTS);
-    computeLinksSpy = spyOn(computeLinksModule, "computeLinks").and.returnValue(
-      { self: "some-link" }
-    );
+    computeLinksSpy = vi
+      .spyOn(computeLinksModule, "computeLinks")
+      .mockReturnValue({ self: "some-link" } as any);
   });
   describe("features:", () => {
-    let spy: jasmine.Spy;
+    let spy: any;
     beforeEach(() => {
-      spy = spyOn(
-        processEntitiesModule,
-        "processEntityFeatures"
-      ).and.returnValue({ details: true, settings: false });
+      spy = vi
+        .spyOn(processEntitiesModule, "processEntityFeatures")
+        .mockReturnValue({ details: true, settings: false } as any);
     });
     afterEach(() => {
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy.calls.argsFor(0)[1]).toEqual(SiteDefaultFeatures);
+      expect(spy.mock.calls[0][1]).toEqual(SiteDefaultFeatures);
     });
     it("handles missing settings hash", () => {
       const model: IModel = {
@@ -41,7 +41,7 @@ describe("sites: computeProps:", () => {
       const chk = computeProps(model, init, requestOptions);
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
-      expect(spy.calls.argsFor(0)[0]).toEqual({});
+      expect(spy.mock.calls[0][0]).toEqual({});
     });
     it("handles missing capabilities hash", () => {
       const model: IModel = {
@@ -60,7 +60,7 @@ describe("sites: computeProps:", () => {
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
-      expect(spy.calls.argsFor(0)[0]).toEqual({});
+      expect(spy.mock.calls[0][0]).toEqual({});
     });
     it("passes features hash", () => {
       const model: IModel = {
@@ -83,7 +83,7 @@ describe("sites: computeProps:", () => {
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
-      expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
+      expect(spy.mock.calls[0][0]).toEqual({ details: true });
     });
   });
   it("generates a links hash", () => {

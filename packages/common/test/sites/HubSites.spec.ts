@@ -1,3 +1,12 @@
+import { vi } from "vitest";
+
+// Make ESM namespace export spyable by merging original exports and overriding
+// the specific function we need to spy on. This must be registered before the
+// module is imported.
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  removeItem: vi.fn(),
+}));
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
@@ -149,14 +158,10 @@ const SITE_ITEM_ENRICH: portalModule.IItem = {
     "Web Map",
     "Registered App",
   ],
-  // description: null,
   tags: ["Hub Site"],
-  // snippet: null,
   thumbnail: "thumbnail/bar.png",
-  // documentation: null,
   extent: [],
   categories: ["category"],
-  // spatialReference: null,
   accessInformation: null,
   licenseInfo: null,
   culture: "en-us",
@@ -193,25 +198,27 @@ const SITE_ITEM_ENRICH: portalModule.IItem = {
 };
 
 describe("HubSites:", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   describe("fetchSite:", () => {
     it("gets by id, if passed a guid", async () => {
-      const fetchSpy = spyOn(
-        fetchSiteModelModule,
-        "fetchSiteModel"
-      ).and.returnValue(Promise.resolve(SITE_MODEL));
+      const fetchSpy: any = vi
+        .spyOn(fetchSiteModelModule, "fetchSiteModel")
+        .mockResolvedValue(SITE_MODEL as any);
 
       const chk = await fetchSite(GUID, {
         authentication: MOCK_AUTH,
       });
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
-      expect(fetchSpy.calls.count()).toBe(1);
-      expect(fetchSpy.calls.argsFor(0)[0]).toBe(GUID);
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(fetchSpy.mock.calls[0][0]).toBe(GUID);
     });
 
     it("applies catalog migration", async () => {
-      spyOn(fetchSiteModelModule, "fetchSiteModel").and.returnValue(
-        Promise.resolve(SITE_MODEL)
+      vi.spyOn(fetchSiteModelModule, "fetchSiteModel").mockResolvedValue(
+        SITE_MODEL as any
       );
 
       const chk = await fetchSite(GUID, {
@@ -232,9 +239,9 @@ describe("HubSites:", () => {
         { key: "components.search.category_tabs.apps_and_maps" },
       ];
       const borkedSite = cloneObject(SITE_MODEL);
-      borkedSite.data.values.searchCategories = borkedSearchCategories;
-      spyOn(fetchSiteModelModule, "fetchSiteModel").and.returnValue(
-        Promise.resolve(borkedSite)
+      (borkedSite as any).data.values.searchCategories = borkedSearchCategories;
+      vi.spyOn(fetchSiteModelModule, "fetchSiteModel").mockResolvedValue(
+        borkedSite as any
       );
 
       const chk = await fetchSite(GUID, {
@@ -249,10 +256,9 @@ describe("HubSites:", () => {
     });
 
     it("gets by domain, without auth", async () => {
-      const fetchSpy = spyOn(
-        fetchSiteModelModule,
-        "fetchSiteModel"
-      ).and.returnValue(Promise.resolve(SITE_MODEL));
+      const fetchSpy: any = vi
+        .spyOn(fetchSiteModelModule, "fetchSiteModel")
+        .mockResolvedValue(SITE_MODEL as any);
 
       const ro: IHubRequestOptions = {
         portal: "https://gis.myserver.com/portal/sharing/rest",
@@ -263,83 +269,79 @@ describe("HubSites:", () => {
       expect(chk.thumbnailUrl).toBe(
         `https://gis.myserver.com/portal/sharing/rest/content/items/${GUID}/info/vader.png`
       );
-      expect(fetchSpy.calls.count()).toBe(1);
-      expect(fetchSpy.calls.argsFor(0)[0]).toBe("mysite.com");
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(fetchSpy.mock.calls[0][0]).toBe("mysite.com");
     });
   });
   describe("converItemToSite:", () => {
     it("fetches model and converts to site with auth", async () => {
-      const fetchModelSpy = spyOn(
-        fetchModelFromItemModule,
-        "fetchModelFromItem"
-      ).and.returnValue(Promise.resolve(SITE_MODEL));
+      const fetchModelSpy: any = vi
+        .spyOn(fetchModelFromItemModule, "fetchModelFromItem")
+        .mockResolvedValue(SITE_MODEL as any);
       const site = await convertItemToSite(SITE_ITEM, MOCK_HUB_REQOPTS);
-      expect(fetchModelSpy.calls.count()).toBe(1);
+      expect(fetchModelSpy).toHaveBeenCalledTimes(1);
       expect(site.name).toBe(SITE_ITEM.title);
     });
     it("fetches model and converts to site without auth", async () => {
-      const fetchModelSpy = spyOn(
-        fetchModelFromItemModule,
-        "fetchModelFromItem"
-      ).and.returnValue(Promise.resolve(SITE_MODEL));
+      const fetchModelSpy: any = vi
+        .spyOn(fetchModelFromItemModule, "fetchModelFromItem")
+        .mockResolvedValue(SITE_MODEL as any);
       const site = await convertItemToSite(SITE_ITEM, MOCK_NOAUTH_HUB_REQOPTS);
-      expect(fetchModelSpy.calls.count()).toBe(1);
+      expect(fetchModelSpy).toHaveBeenCalledTimes(1);
       expect(site.name).toBe(SITE_ITEM.title);
     });
   });
 
   describe("deleteSite:", () => {
     it("removes item and domains in AGO", async () => {
-      const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
-        Promise.resolve({ success: true })
-      );
+      const removeSpy: any = vi
+        .spyOn(portalModule, "removeItem")
+        .mockResolvedValue({ success: true } as any);
 
-      const removeDomainSpy = spyOn(
-        removeDomainsBySiteIdModule,
-        "removeDomainsBySiteId"
-      ).and.returnValue(Promise.resolve());
+      const removeDomainSpy: any = vi
+        .spyOn(removeDomainsBySiteIdModule, "removeDomainsBySiteId")
+        .mockResolvedValue(undefined as any);
 
       const result = await deleteSite("3ef", {
         authentication: MOCK_AUTH,
       });
       expect(result).toBeUndefined();
-      expect(removeSpy.calls.count()).toBe(1);
-      expect(removeSpy.calls.argsFor(0)[0].authentication).toBe(MOCK_AUTH);
-      expect(removeSpy.calls.argsFor(0)[0].id).toBe("3ef");
-      expect(removeDomainSpy.calls.count()).toBe(1);
-      expect(removeDomainSpy.calls.argsFor(0)[0]).toBe("3ef");
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+      expect(removeSpy.mock.calls[0][0].authentication).toBe(MOCK_AUTH);
+      expect(removeSpy.mock.calls[0][0].id).toBe("3ef");
+      expect(removeDomainSpy).toHaveBeenCalledTimes(1);
+      expect(removeDomainSpy.mock.calls[0][0]).toBe("3ef");
     });
     it("removes item in portal", async () => {
-      const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
-        Promise.resolve({ success: true })
-      );
+      const removeSpy: any = vi
+        .spyOn(portalModule, "removeItem")
+        .mockResolvedValue({ success: true } as any);
 
       const result = await deleteSite("3ef", MOCK_ENTERPRISE_REQOPTS);
       expect(result).toBeUndefined();
-      expect(removeSpy.calls.count()).toBe(1);
-      expect(removeSpy.calls.argsFor(0)[0].authentication).toBe(
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+      expect(removeSpy.mock.calls[0][0].authentication).toBe(
         MOCK_ENTERPRISE_REQOPTS.authentication
       );
-      expect(removeSpy.calls.argsFor(0)[0].id).toBe("3ef");
+      expect(removeSpy.mock.calls[0][0].id).toBe("3ef");
     });
   });
   describe("updateSite removes properties:", () => {
-    let updateModelSpy: jasmine.Spy;
-    let fetchSiteModelSpy: jasmine.Spy;
+    let updateModelSpy: any;
+    let fetchSiteModelSpy: any;
 
     beforeEach(() => {
-      spyOn(handleDomainChangesModule, "handleDomainChanges").and.returnValue(
-        Promise.resolve()
-      );
+      vi.spyOn(
+        handleDomainChangesModule,
+        "handleDomainChanges"
+      ).mockResolvedValue(undefined as any);
 
-      updateModelSpy = spyOn(updateModelModule, "updateModel").and.callFake(
-        (m: IModel) => {
+      updateModelSpy = vi
+        .spyOn(updateModelModule, "updateModel")
+        .mockImplementation((m: IModel) => {
           return Promise.resolve(m);
-        }
-      );
+        });
 
-      // We need to add some extra props to the site_model
-      // which will be removed by updateSite
       const SiteModelWithExtraProps = cloneObject(SITE_MODEL);
       setProp(
         "data.values.map.baseMapLayers",
@@ -357,7 +359,6 @@ describe("HubSites:", () => {
         { fake: "props.telemetry" },
         SiteModelWithExtraProps
       );
-      // emulate a site that has slug set
       setProp(
         "item.properties.slug",
         "dcdev-wat-blarg",
@@ -369,14 +370,15 @@ describe("HubSites:", () => {
         SiteModelWithExtraProps
       );
 
-      fetchSiteModelSpy = spyOn(
-        fetchSiteModelModule,
-        "fetchSiteModel"
-      ).and.returnValue(Promise.resolve(SiteModelWithExtraProps));
+      fetchSiteModelSpy = vi
+        .spyOn(fetchSiteModelModule, "fetchSiteModel")
+        .mockResolvedValue(SiteModelWithExtraProps as any);
 
-      spyOn(slugUtils, "getUniqueSlug").and.callFake(({ slug }: any) => {
-        return Promise.resolve(slug as string);
-      });
+      vi.spyOn(slugUtils, "getUniqueSlug").mockImplementation(
+        ({ slug }: any) => {
+          return Promise.resolve(slug as string);
+        }
+      );
     });
     it("removes props", async () => {
       const updatedSite = cloneObject(SITE);
@@ -384,13 +386,12 @@ describe("HubSites:", () => {
 
       expect(chk.id).toBe(GUID);
       expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.data.values.map.baseMapLayers).not.toBeDefined();
       expect(modelToUpdate.data.values.map.basemaps.primary).toBeDefined();
       expect(modelToUpdate.data.values.map.title).not.toBeDefined();
       expect(modelToUpdate.item.properties?.telemetry).not.toBeDefined();
       expect(modelToUpdate.data.values.telemetry).not.toBeDefined();
-      // old slug
       expect(modelToUpdate.item.properties?.slug).not.toBeDefined();
       const hasSlugKeyword = (modelToUpdate.item.typeKeywords as string[]).some(
         (kw) => kw.startsWith("slug|")
@@ -399,30 +400,30 @@ describe("HubSites:", () => {
     });
   });
   describe("updateSite:", () => {
-    let domainChangeSpy: jasmine.Spy;
-    let updateModelSpy: jasmine.Spy;
-    let fetchSiteModelSpy: jasmine.Spy;
+    let domainChangeSpy: any;
+    let updateModelSpy: any;
+    let fetchSiteModelSpy: any;
 
     beforeEach(() => {
-      domainChangeSpy = spyOn(
-        handleDomainChangesModule,
-        "handleDomainChanges"
-      ).and.returnValue(Promise.resolve());
+      domainChangeSpy = vi
+        .spyOn(handleDomainChangesModule, "handleDomainChanges")
+        .mockResolvedValue(undefined as any);
 
-      updateModelSpy = spyOn(updateModelModule, "updateModel").and.callFake(
-        (m: IModel) => {
+      updateModelSpy = vi
+        .spyOn(updateModelModule, "updateModel")
+        .mockImplementation((m: IModel) => {
           return Promise.resolve(m);
+        });
+
+      fetchSiteModelSpy = vi
+        .spyOn(fetchSiteModelModule, "fetchSiteModel")
+        .mockResolvedValue(SITE_MODEL as any);
+
+      vi.spyOn(slugUtils, "getUniqueSlug").mockImplementation(
+        ({ slug }: any) => {
+          return Promise.resolve(slug as string);
         }
       );
-
-      fetchSiteModelSpy = spyOn(
-        fetchSiteModelModule,
-        "fetchSiteModel"
-      ).and.returnValue(Promise.resolve(SITE_MODEL));
-
-      spyOn(slugUtils, "getUniqueSlug").and.callFake(({ slug }: any) => {
-        return Promise.resolve(slug as string);
-      });
     });
     it("updates the backing model", async () => {
       const updatedSite = cloneObject(SITE);
@@ -433,13 +434,13 @@ describe("HubSites:", () => {
       expect(chk.name).toBe("Updated Name");
       expect(chk.description).toBe("Some longer description");
 
-      expect(domainChangeSpy.calls.count()).toBe(1);
+      expect(domainChangeSpy).toHaveBeenCalledTimes(1);
 
-      expect(domainChangeSpy.calls.argsFor(0)[1]).toEqual(SITE_MODEL);
+      expect(domainChangeSpy.mock.calls[0][1]).toEqual(SITE_MODEL);
 
-      expect(fetchSiteModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
     });
 
@@ -452,12 +453,11 @@ describe("HubSites:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.subdomain).toBe("updated-subdomain");
 
-      // should not have made add/remove domain calls
-      expect(domainChangeSpy.calls.count()).toBe(0);
+      expect(domainChangeSpy).toHaveBeenCalledTimes(0);
 
-      expect(fetchSiteModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.item.typeKeywords).toContain(
         `hubsubdomain|${updatedSite.subdomain}`.toLowerCase()
       );
@@ -472,18 +472,18 @@ describe("HubSites:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.customHostname).toBe(updatedHostname);
 
-      expect(domainChangeSpy.calls.count()).toBe(1);
+      expect(domainChangeSpy).toHaveBeenCalledTimes(1);
 
-      const domainChangeArg0 = domainChangeSpy.calls.argsFor(0)[0];
-      const domainChangeArg1 = domainChangeSpy.calls.argsFor(0)[1];
+      const domainChangeArg0 = domainChangeSpy.mock.calls[0][0];
+      const domainChangeArg1 = domainChangeSpy.mock.calls[0][1];
       expect(domainChangeArg0.data.values.customHostname).toEqual(
         updatedHostname
       );
       expect(domainChangeArg1).toEqual(SITE_MODEL);
 
-      expect(fetchSiteModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
     });
     it("reflects collection changes to searchCategories", async () => {
@@ -506,7 +506,7 @@ describe("HubSites:", () => {
       const chk = await updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.data.values.searchCategories).toEqual([
         {
           overrideText: "My Datasets",
@@ -543,76 +543,69 @@ describe("HubSites:", () => {
 
       expect(chk.id).toBe(GUID);
       expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.data.catalog).toEqual({ groups: ["9001"] });
       expect(modelToUpdate.data.catalogV2).toEqual(expectedCatalogV2);
     });
   });
   describe("createSite:", () => {
-    let uniqueDomainSpy: jasmine.Spy;
-    let createModelSpy: jasmine.Spy;
-    let updateModelSpy: jasmine.Spy;
-    let ensureUniqueEntitySlugSpy: jasmine.Spy;
+    let uniqueDomainSpy: any;
+    let createModelSpy: any;
+    let updateModelSpy: any;
+    let ensureUniqueEntitySlugSpy: any;
 
-    let addDomainsSpy: jasmine.Spy;
+    let addDomainsSpy: any;
     beforeEach(() => {
-      uniqueDomainSpy = spyOn(
-        ensureUniqueDomainNameModule,
-        "ensureUniqueDomainName"
-      ).and.callFake((subdomain: string) => {
-        return subdomain;
-      });
-      createModelSpy = spyOn(createModelModule, "createModel").and.callFake(
-        (m: IModel) => {
+      uniqueDomainSpy = vi
+        .spyOn(ensureUniqueDomainNameModule, "ensureUniqueDomainName")
+        .mockImplementation((subdomain: string, _ro?: any) => {
+          return Promise.resolve(subdomain);
+        });
+      createModelSpy = vi
+        .spyOn(createModelModule, "createModel")
+        .mockImplementation((m: IModel) => {
           const newModel = cloneObject(m);
-          newModel.item.id = GUID;
+          (newModel.item as any).id = GUID;
           return Promise.resolve(newModel);
-        }
-      );
-      updateModelSpy = spyOn(updateModelModule, "updateModel").and.callFake(
-        (m: IModel) => {
+        });
+      updateModelSpy = vi
+        .spyOn(updateModelModule, "updateModel")
+        .mockImplementation((m: IModel) => {
           const newModel = cloneObject(m);
           return Promise.resolve(newModel);
-        }
-      );
-      ensureUniqueEntitySlugSpy = spyOn(
-        ensureUniqueEntitySlugModule,
-        "ensureUniqueEntitySlug"
-      ).and.callFake((site: IHubSite) => {
-        return Promise.resolve(site);
-      });
+        });
+      ensureUniqueEntitySlugSpy = vi
+        .spyOn(ensureUniqueEntitySlugModule, "ensureUniqueEntitySlug")
+        .mockResolvedValue({} as any);
     });
     describe("online: ", () => {
       beforeEach(() => {
-        addDomainsSpy = spyOn(
-          addSiteDomainsModule,
-          "addSiteDomains"
-        ).and.returnValue(Promise.resolve([{ clientKey: "FAKE_CLIENT_KEY" }]));
+        addDomainsSpy = vi
+          .spyOn(addSiteDomainsModule, "addSiteDomains")
+          .mockResolvedValue([{ clientKey: "FAKE_CLIENT_KEY" }] as any);
       });
       it("works with a sparse IHubSite", async () => {
         const sparseSite: Partial<IHubSite> = {
           name: "my site",
-          orgUrlKey: "DCdev", // this is intentionally overwritten by portalself.urlKey
+          orgUrlKey: "DCdev",
         };
 
         const chk = await createSite(sparseSite, MOCK_HUB_REQOPTS);
 
-        // sites don't have slugs
-        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
-        expect(uniqueDomainSpy.calls.count()).toBe(1);
-        expect(createModelSpy.calls.count()).toBe(1);
-        expect(updateModelSpy.calls.count()).toBe(1);
+        expect(ensureUniqueEntitySlugSpy).toHaveBeenCalledTimes(0);
+        expect(uniqueDomainSpy).toHaveBeenCalledTimes(1);
+        expect(createModelSpy).toHaveBeenCalledTimes(1);
+        expect(updateModelSpy).toHaveBeenCalledTimes(1);
 
-        expect(addDomainsSpy.calls.count()).toBe(1);
+        expect(addDomainsSpy).toHaveBeenCalledTimes(1);
 
-        const modelToCreate = createModelSpy.calls.argsFor(0)[0];
+        const modelToCreate = createModelSpy.mock.calls[0][0];
         expect(modelToCreate.item.title).toBe("my site");
         expect(modelToCreate.item.type).toBe("Hub Site Application");
-        // orgUrlKey is pulled from portalSelf.urlKey, which is "org"
         expect(modelToCreate.item.properties.slug).toBeUndefined();
         expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
 
-        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        const modelToUpdate = updateModelSpy.mock.calls[0][0];
         expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
 
         expect(chk.name).toBe("my site");
@@ -624,26 +617,23 @@ describe("HubSites:", () => {
         };
 
         const hubRO = cloneObject(MOCK_HUB_REQOPTS);
-        // mixed case is intentional
         hubRO.portalSelf.urlKey = "DCdev";
 
         const chk = await createSite(sparseSite, hubRO);
 
-        // sites don't have slugs
-        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
-        expect(uniqueDomainSpy.calls.count()).toBe(1);
-        expect(createModelSpy.calls.count()).toBe(1);
-        expect(updateModelSpy.calls.count()).toBe(1);
+        expect(ensureUniqueEntitySlugSpy).toHaveBeenCalledTimes(0);
+        expect(uniqueDomainSpy).toHaveBeenCalledTimes(1);
+        expect(createModelSpy).toHaveBeenCalledTimes(1);
+        expect(updateModelSpy).toHaveBeenCalledTimes(1);
 
-        expect(addDomainsSpy.calls.count()).toBe(1);
+        expect(addDomainsSpy).toHaveBeenCalledTimes(1);
 
-        const modelToCreate = createModelSpy.calls.argsFor(0)[0];
+        const modelToCreate = createModelSpy.mock.calls[0][0];
         expect(modelToCreate.item.title).toBe("my site");
         expect(modelToCreate.item.type).toBe("Hub Site Application");
         expect(modelToCreate.item.properties.slug).toBeUndefined();
-        // does not match sparse sight
         expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
-        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        const modelToUpdate = updateModelSpy.mock.calls[0][0];
         expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
 
         expect(chk.name).toBe("my site");
@@ -708,15 +698,14 @@ describe("HubSites:", () => {
 
         const chk = await createSite(site, MOCK_HUB_REQOPTS);
 
-        // sites don't have slugs
-        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
-        expect(uniqueDomainSpy.calls.count()).toBe(1);
-        expect(createModelSpy.calls.count()).toBe(1);
-        expect(updateModelSpy.calls.count()).toBe(1);
+        expect(ensureUniqueEntitySlugSpy).toHaveBeenCalledTimes(0);
+        expect(uniqueDomainSpy).toHaveBeenCalledTimes(1);
+        expect(createModelSpy).toHaveBeenCalledTimes(1);
+        expect(updateModelSpy).toHaveBeenCalledTimes(1);
 
-        expect(addDomainsSpy.calls.count()).toBe(1);
+        expect(addDomainsSpy).toHaveBeenCalledTimes(1);
 
-        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        const modelToUpdate = updateModelSpy.mock.calls[0][0];
         expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
         expect(modelToUpdate.data.catalog.groups).toContain("9001");
         expect(chk.name).toBe("Special Site");
@@ -731,23 +720,21 @@ describe("HubSites:", () => {
       it("works in portal", async () => {
         const sparseSite: Partial<IHubSite> = {
           name: "my site",
-          // orgUrlKey: "dcdev", this is undefined in Enterpris
         };
 
         const chk = await createSite(sparseSite, MOCK_ENTERPRISE_REQOPTS);
 
-        // sites don't have slugs
-        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
-        expect(uniqueDomainSpy.calls.count()).toBe(1);
-        expect(createModelSpy.calls.count()).toBe(1);
-        expect(updateModelSpy.calls.count()).toBe(1);
+        expect(ensureUniqueEntitySlugSpy).toHaveBeenCalledTimes(0);
+        expect(uniqueDomainSpy).toHaveBeenCalledTimes(1);
+        expect(createModelSpy).toHaveBeenCalledTimes(1);
+        expect(updateModelSpy).toHaveBeenCalledTimes(1);
 
-        const modelToCreate = createModelSpy.calls.argsFor(0)[0];
+        const modelToCreate = createModelSpy.mock.calls[0][0];
         expect(modelToCreate.item.title).toBe("my site");
         expect(modelToCreate.item.type).toBe("Site Application");
         expect(modelToCreate.item.properties.slug).toBeUndefined();
         expect(modelToCreate.item.properties.orgUrlKey).toEqual("");
-        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        const modelToUpdate = updateModelSpy.mock.calls[0][0];
         expect(modelToUpdate.data.values.clientId).toBe("arcgisonline");
         expect(chk.url).toBe(
           "https://my-server.com/portal/apps/sites/#/my-site"
@@ -758,22 +745,20 @@ describe("HubSites:", () => {
     });
   });
   describe("enrichments:", () => {
-    let enrichmentSpy: jasmine.Spy;
+    let enrichmentSpy: any;
     let hubRo: IHubRequestOptions;
     beforeEach(() => {
-      enrichmentSpy = spyOn(
-        FetchEnrichments,
-        "fetchItemEnrichments"
-      ).and.callFake(() => {
-        return Promise.resolve({
+      enrichmentSpy = vi
+        .spyOn(FetchEnrichments, "fetchItemEnrichments")
+        .mockResolvedValue({
+          item: cloneObject(SITE_ITEM_ENRICH),
           data: {
             pages: [{ id: 1 }, { id: 2 }],
           },
-        });
-      });
+        } as any);
       hubRo = {
         portal: "https://some-server.com/gis/sharing/rest",
-      };
+      } as IHubRequestOptions;
     });
     it("converts item to search result", async () => {
       const chk = await enrichSiteSearchResult(
@@ -782,12 +767,8 @@ describe("HubSites:", () => {
         hubRo
       );
 
-      expect(enrichmentSpy.calls.count()).toBe(
-        0,
-        "should not fetch enrichments"
-      );
+      expect(enrichmentSpy).toHaveBeenCalledTimes(0);
 
-      // verify expected output
       const ITM = cloneObject(SITE_ITEM_ENRICH);
       expect(chk.access).toEqual(ITM.access);
       expect(chk.id).toEqual(ITM.id);
@@ -804,14 +785,15 @@ describe("HubSites:", () => {
       expect(chk.categories).toEqual(ITM.categories);
       expect(chk.links?.self).toEqual(ITM.url);
       expect(chk.links?.siteRelative).toEqual(`/content/${ITM.id}`);
+      const portalStr: string = hubRo.portal as unknown as string;
+      const thumbName: string = ITM.thumbnail as unknown as string;
       expect(chk.links?.thumbnail).toEqual(
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+        `${portalStr}/content/items/${ITM.id}/info/${thumbName}`
       );
     });
     it("uses snippet if defined", async () => {
       const itm = cloneObject(SITE_ITEM_ENRICH);
-      itm.snippet = "This should be used";
+      (itm as any).snippet = "This should be used";
       const chk = await enrichSiteSearchResult(itm, [], hubRo);
       expect(chk.summary).toEqual(itm.snippet);
     });
@@ -822,15 +804,37 @@ describe("HubSites:", () => {
         hubRo
       );
 
-      // verify the response
       expect(chk.pageCount).toBe(2);
 
-      // verify the spy
-      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
-      const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
+      expect(enrichmentSpy).toHaveBeenCalledTimes(1);
+      const [item, enrichments, ro] = enrichmentSpy.mock.calls[0];
       expect(item).toEqual(SITE_ITEM_ENRICH);
       expect(enrichments).toEqual(["data"]);
       expect(ro).toBe(hubRo);
     });
+  });
+});
+
+// Consolidated minimal cover test (was in HubSites-cover.spec.ts)
+describe("HubSites.enrichSiteSearchResult minimal", () => {
+  it("converts Web Mapping Application type to Hub Site Application and maps basic fields", async () => {
+    const item: any = {
+      id: "1",
+      type: "Web Mapping Application",
+      title: "T",
+      owner: "o",
+      typeKeywords: [],
+      tags: [],
+      categories: [],
+      snippet: "s",
+      description: "d",
+      created: Date.now(),
+      modified: Date.now(),
+      access: "public",
+    };
+    const res = await enrichSiteSearchResult(item, [], {} as unknown as any);
+    expect(res.type).toBe("Hub Site Application");
+    expect(res.id).toBe("1");
+    expect(res.name).toBe("T");
   });
 });
