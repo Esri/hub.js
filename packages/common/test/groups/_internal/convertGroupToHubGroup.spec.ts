@@ -1,5 +1,5 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { convertGroupToHubGroup } from "../../../src/groups/_internal/convertGroupToHubGroup";
@@ -30,18 +30,20 @@ describe("groups: convertGroupToHubGroup:", () => {
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
-    const authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://myserver.com",
-    });
+    const authdCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as PortalModule.IUser,
+        portalSelf: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://myserver.com",
+      }),
+    } as unknown as ArcGISContextManager;
     const chk = convertGroupToHubGroup(
       group,
       settings,

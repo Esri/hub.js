@@ -8,8 +8,7 @@ vi.mock("../../../src/search/_internal/portalSearchItems", () => ({
 }));
 
 import * as resolveModule from "../../../src/utils/internal/resolveDynamicValues";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 import { clearMemoizedCache } from "../../../src/utils/memoize";
 
 describe("resolveDynamicValues - defaults for query and scope", () => {
@@ -17,7 +16,7 @@ describe("resolveDynamicValues - defaults for query and scope", () => {
 
   beforeEach(async () => {
     clearMemoizedCache("portalSearchItemsAsItems");
-    ctxMgr = await ArcGISContextManager.create(MOCK_AUTH);
+    ctxMgr = { context: createMockContext(MOCK_AUTH) } as unknown as any;
   });
 
   it("uses defaults when query and scope are not provided", async () => {

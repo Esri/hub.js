@@ -1,18 +1,18 @@
 import type { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { computeLinks } from "../../../src/groups/_internal/computeLinks";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("computeLinks", () => {
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: any;
   let group: IGroup;
 
   beforeEach(async () => {
     group = {
       id: "00c",
     } as IGroup;
-    authdCtxMgr = await ArcGISContextManager.create({
+    const contextOptions = {
       authentication: MOCK_AUTH,
       currentUser: {} as IUser,
       portal: {
@@ -24,7 +24,15 @@ describe("computeLinks", () => {
         },
       } as unknown as IPortal,
       portalUrl: "https://org.maps.arcgis.com",
-    });
+    };
+    authdCtxMgr = {
+      context: createMockContext(contextOptions),
+    } as unknown as any;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.resetAllMocks();
   });
 
   it("generates a links hash", () => {

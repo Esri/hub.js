@@ -1,9 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 // import { resolveDynamicValue } from "../../../src/utils/internal/resolveDynamicValue";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 import { DynamicValueDefinition } from "../../../src/core/types/DynamicValues";
 import * as resolveDynamicValuesModule from "../../../src/utils/internal/resolveDynamicValues";
 import * as resolvePortalValuesModule from "../../../src/utils/internal/resolvePortalValues";
@@ -18,24 +17,26 @@ describe("resolveDynamicValue:", () => {
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
-    const authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        privileges: ["portal:user:createItem"],
-      } as unknown as IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-        properties: {
-          hub: {
-            enabled: true,
+    const authdCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+          privileges: ["portal:user:createItem"],
+        } as unknown as IUser,
+        portalSelf: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+          properties: {
+            hub: {
+              enabled: true,
+            },
           },
-        },
-      } as unknown as IPortal,
-      portalUrl: "https://org.maps.arcgis.com",
-    });
+        } as unknown as IPortal,
+        portalUrl: "https://org.maps.arcgis.com",
+      }),
+    } as unknown as any;
     context = authdCtxMgr.context;
 
     itemQrySpy = vi

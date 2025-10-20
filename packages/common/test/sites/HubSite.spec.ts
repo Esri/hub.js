@@ -6,6 +6,7 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
 }));
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { createMockContext } from "../mocks/mock-auth";
 import { HubSite } from "../../src/sites/HubSite";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubSitesModule from "../../src/sites/HubSites";
@@ -59,35 +60,39 @@ describe("HubSite Class:", () => {
         },
       }
     );
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: { username: "casey" } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://fake-org.maps.arcgis.com",
-      portalSettings: {} as PortalModule.IPortalSettings,
-      userHubSettings: {} as IUserHubSettings,
-      trustedOrgIds: ["BRXFAKE"],
-      trustedOrgs: [] as IHubTrustedOrgsResponse[],
-    });
-    portalCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: { username: "casey" } as unknown as PortalModule.IUser,
-      portal: {
-        isPortal: true,
-        name: "My Portal Install",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://myserver.com",
-      portalSettings: {} as PortalModule.IPortalSettings,
-      userHubSettings: {} as IUserHubSettings,
-      trustedOrgIds: ["BRXFAKE"],
-      trustedOrgs: [] as IHubTrustedOrgsResponse[],
-    });
+    authdCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: { username: "casey" } as unknown as PortalModule.IUser,
+        portalSelf: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://fake-org.maps.arcgis.com",
+        portalSettings: {} as PortalModule.IPortalSettings,
+        userHubSettings: {} as IUserHubSettings,
+        trustedOrgIds: ["BRXFAKE"],
+        trustedOrgs: [] as IHubTrustedOrgsResponse[],
+      }),
+    } as unknown as ArcGISContextManager;
+    portalCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: { username: "casey" } as unknown as PortalModule.IUser,
+        portalSelf: {
+          isPortal: true,
+          name: "My Portal Install",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://myserver.com",
+        portalSettings: {} as PortalModule.IPortalSettings,
+        userHubSettings: {} as IUserHubSettings,
+        trustedOrgIds: ["BRXFAKE"],
+        trustedOrgs: [] as IHubTrustedOrgsResponse[],
+      }),
+    } as unknown as ArcGISContextManager;
   });
   afterEach(() => {
     fetchMock.restore();

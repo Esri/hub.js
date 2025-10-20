@@ -1,16 +1,13 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../../../mocks/mock-auth";
+import { MOCK_AUTH, createMockContext } from "../../../mocks/mock-auth";
 import { getAuthedImageUrl } from "../../../../src/core/_internal/getAuthedImageUrl";
-import { ArcGISContextManager } from "../../../../src/ArcGISContextManager";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { IHubProject } from "../../../../src/core/types/IHubProject";
 
 describe("getAuthedImageUrl:", () => {
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: any;
   beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
+    const contextOptions = {
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
@@ -26,7 +23,15 @@ describe("getAuthedImageUrl:", () => {
         urlKey: "fake-org",
         customBaseUrl: "fakemaps.arcgis.com",
       } as unknown as IPortal,
-    });
+    };
+    authdCtxMgr = {
+      context: createMockContext(contextOptions),
+    } as unknown as any;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.resetAllMocks();
   });
   it("adds token and cache bust", () => {
     const entity = {

@@ -6,15 +6,14 @@ vi.mock("@esri/arcgis-rest-feature-service", () => ({
 }));
 
 import * as svcModule from "../../../src/utils/internal/resolveServiceQueryValues";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 import * as fs from "@esri/arcgis-rest-feature-service";
 
 describe("resolveServiceQueryValues", () => {
   let ctxMgr: any;
 
   beforeEach(async () => {
-    ctxMgr = await ArcGISContextManager.create(MOCK_AUTH);
+    ctxMgr = { context: createMockContext(MOCK_AUTH) } as unknown as any;
   });
 
   afterEach(() => {
