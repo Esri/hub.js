@@ -1,31 +1,39 @@
+import { vi } from "vitest";
+
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  addItemResource: vi.fn(),
+  updateItemResource: vi.fn(),
+  getItemResources: vi.fn(),
+}));
+
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { upsertResource } from "../../src/resources/upsertResource";
 
 describe("createResource:", () => {
+  afterEach(() => vi.restoreAllMocks());
+
   it("calls addItemResource with expected params", async () => {
-    const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.resolve({ success: true })
-    );
-    const getResourcesSpy = spyOn(
-      portalModule,
-      "getItemResources"
-    ).and.returnValues(Promise.resolve({ resources: [] }));
+    const addSpy = vi
+      .spyOn(portalModule, "addItemResource")
+      .mockResolvedValue({ success: true } as any);
+    const getResourcesSpy = vi
+      .spyOn(portalModule, "getItemResources")
+      .mockResolvedValue({ resources: [] } as any);
     const resp = await upsertResource(
       "3ef",
       "bob",
       "fakeFile",
       "featuredImage.png",
-      {
-        authentication: MOCK_AUTH,
-      }
+      { authentication: MOCK_AUTH }
     );
     expect(resp).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
     );
-    expect(getResourcesSpy.calls.count()).toBe(1);
-    expect(addSpy.calls.count()).toBe(1);
-    const args = addSpy.calls.argsFor(0)[0];
+    expect(getResourcesSpy).toHaveBeenCalledTimes(1);
+    expect(addSpy).toHaveBeenCalledTimes(1);
+    const args = (addSpy as any).mock.calls[0][0];
     expect(args.id).toBe("3ef");
     expect(args.owner).toEqual("bob");
     expect(args.resource).toEqual("fakeFile");
@@ -34,36 +42,30 @@ describe("createResource:", () => {
   });
 
   it("calls updateItemResource with expected params", async () => {
-    const updateSpy = spyOn(
-      portalModule,
-      "updateItemResource"
-    ).and.returnValues(Promise.resolve({ success: true }));
-    const getResourcesSpy = spyOn(
-      portalModule,
-      "getItemResources"
-    ).and.returnValues(
-      Promise.resolve({
+    const updateSpy = vi
+      .spyOn(portalModule, "updateItemResource")
+      .mockResolvedValue({ success: true } as any);
+    const getResourcesSpy = vi
+      .spyOn(portalModule, "getItemResources")
+      .mockResolvedValue({
         resources: [
           { resource: "featuredImage.png" },
           { resource: "test.txt" },
         ],
-      })
-    );
+      } as any);
     const resp = await upsertResource(
       "3ef",
       "bob",
       "fakeFile",
       "featuredImage.png",
-      {
-        authentication: MOCK_AUTH,
-      }
+      { authentication: MOCK_AUTH }
     );
     expect(resp).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
     );
-    expect(getResourcesSpy.calls.count()).toBe(1);
-    expect(updateSpy.calls.count()).toBe(1);
-    const args = updateSpy.calls.argsFor(0)[0];
+    expect(getResourcesSpy).toHaveBeenCalledTimes(1);
+    expect(updateSpy).toHaveBeenCalledTimes(1);
+    const args = (updateSpy as any).mock.calls[0][0];
     expect(args.id).toBe("3ef");
     expect(args.owner).toEqual("bob");
     expect(args.resource).toEqual("fakeFile");
@@ -72,29 +74,26 @@ describe("createResource:", () => {
   });
 
   it("Properly constructs url when a prefix is passed", async () => {
-    const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.resolve({ success: true })
-    );
-    const getResourcesSpy = spyOn(
-      portalModule,
-      "getItemResources"
-    ).and.returnValues(Promise.resolve({ resources: [] }));
+    const addSpy = vi
+      .spyOn(portalModule, "addItemResource")
+      .mockResolvedValue({ success: true } as any);
+    const getResourcesSpy = vi
+      .spyOn(portalModule, "getItemResources")
+      .mockResolvedValue({ resources: [] } as any);
     const resp = await upsertResource(
       "3ef",
       "bob",
       "fakeFile",
       "featuredImage.png",
-      {
-        authentication: MOCK_AUTH,
-      },
+      { authentication: MOCK_AUTH },
       "images"
     );
     expect(resp).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/images/featuredImage.png"
     );
-    expect(getResourcesSpy.calls.count()).toBe(1);
-    expect(addSpy.calls.count()).toBe(1);
-    const args = addSpy.calls.argsFor(0)[0];
+    expect(getResourcesSpy).toHaveBeenCalledTimes(1);
+    expect(addSpy).toHaveBeenCalledTimes(1);
+    const args = (addSpy as any).mock.calls[0][0];
     expect(args.id).toBe("3ef");
     expect(args.owner).toEqual("bob");
     expect(args.resource).toEqual("fakeFile");
@@ -105,28 +104,25 @@ describe("createResource:", () => {
 
   it("Properly converts json to blob", async () => {
     try {
-      const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
-        Promise.resolve({ success: true })
-      );
-      const getResourcesSpy = spyOn(
-        portalModule,
-        "getItemResources"
-      ).and.returnValues(Promise.resolve({ resources: [] }));
+      const addSpy = vi
+        .spyOn(portalModule, "addItemResource")
+        .mockResolvedValue({ success: true } as any);
+      const getResourcesSpy = vi
+        .spyOn(portalModule, "getItemResources")
+        .mockResolvedValue({ resources: [] } as any);
       const resp = await upsertResource(
         "3ef",
         "bob",
         { foo: "bar" },
         "location.json",
-        {
-          authentication: MOCK_AUTH,
-        }
+        { authentication: MOCK_AUTH }
       );
       expect(resp).toEqual(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/location.json"
       );
-      expect(getResourcesSpy.calls.count()).toBe(1);
-      expect(addSpy.calls.count()).toBe(1);
-      const args = addSpy.calls.argsFor(0)[0];
+      expect(getResourcesSpy).toHaveBeenCalledTimes(1);
+      expect(addSpy).toHaveBeenCalledTimes(1);
+      const args = (addSpy as any).mock.calls[0][0];
       expect(args.id).toBe("3ef");
       expect(args.owner).toEqual("bob");
       expect(args.resource).toEqual(
@@ -145,28 +141,25 @@ describe("createResource:", () => {
 
   it("Properly converts text to blob", async () => {
     try {
-      const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
-        Promise.resolve({ success: true })
-      );
-      const getResourcesSpy = spyOn(
-        portalModule,
-        "getItemResources"
-      ).and.returnValues(Promise.resolve({ resources: [] }));
+      const addSpy = vi
+        .spyOn(portalModule, "addItemResource")
+        .mockResolvedValue({ success: true } as any);
+      const getResourcesSpy = vi
+        .spyOn(portalModule, "getItemResources")
+        .mockResolvedValue({ resources: [] } as any);
       const resp = await upsertResource(
         "3ef",
         "bob",
         "some text",
         "location.txt",
-        {
-          authentication: MOCK_AUTH,
-        }
+        { authentication: MOCK_AUTH }
       );
       expect(resp).toEqual(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/location.txt"
       );
-      expect(getResourcesSpy.calls.count()).toBe(1);
-      expect(addSpy.calls.count()).toBe(1);
-      const args = addSpy.calls.argsFor(0)[0];
+      expect(getResourcesSpy).toHaveBeenCalledTimes(1);
+      expect(addSpy).toHaveBeenCalledTimes(1);
+      const args = (addSpy as any).mock.calls[0][0];
       expect(args.id).toBe("3ef");
       expect(args.owner).toEqual("bob");
       expect(args.resource).toEqual(
@@ -184,51 +177,51 @@ describe("createResource:", () => {
   });
 
   it("throws hub error if add fails", async () => {
-    spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.resolve({ success: false })
-    );
-    const getResourcesSpy = spyOn(
-      portalModule,
-      "getItemResources"
-    ).and.returnValues(Promise.resolve({ resources: [] }));
+    vi.spyOn(portalModule, "addItemResource").mockResolvedValue({
+      success: false,
+    } as any);
+    vi.spyOn(portalModule, "getItemResources").mockResolvedValue({
+      resources: [],
+    } as any);
     try {
       await upsertResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
       });
+      throw new Error("should have thrown");
     } catch (err) {
       expect((err as Error).name).toBe("HubError");
     }
   });
 
   it("throws hub error if add rejects with error", async () => {
-    spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.reject(new Error("Fake Rejection"))
+    vi.spyOn(portalModule, "addItemResource").mockRejectedValue(
+      new Error("Fake Rejection")
     );
-    const getResourcesSpy = spyOn(
-      portalModule,
-      "getItemResources"
-    ).and.returnValues(Promise.resolve({ resources: [] }));
+    vi.spyOn(portalModule, "getItemResources").mockResolvedValue({
+      resources: [],
+    } as any);
     try {
       await upsertResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
       });
+      throw new Error("should have thrown");
     } catch (err) {
       expect((err as Error).name).toBe("HubError");
     }
   });
 
   it("throws hub error if add rejects with non-error", async () => {
-    spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.reject("Fake Rejection")
+    vi.spyOn(portalModule, "addItemResource").mockRejectedValue(
+      "Fake Rejection" as any
     );
-    const getResourcesSpy = spyOn(
-      portalModule,
-      "getItemResources"
-    ).and.returnValues(Promise.resolve({ resources: [] }));
+    vi.spyOn(portalModule, "getItemResources").mockResolvedValue({
+      resources: [],
+    } as any);
     try {
       await upsertResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
       });
+      throw new Error("should have thrown");
     } catch (err) {
       expect((err as Error).name).toBe("HubError");
     }

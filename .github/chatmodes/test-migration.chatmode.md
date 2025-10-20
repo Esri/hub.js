@@ -15,6 +15,7 @@ Primary responsibilities
 - Find Jasmine `.test.ts` files and convert them to Vitest `.spec.ts` using the repository's conventions.
 - Replace Jasmine APIs with Vitest equivalents and fix TypeScript lint errors introduced by conversions.
 - Stabilize tests that need to spy/mock ESM namespace modules (notably `@esri/arcgis-rest-*`) by registering async `vi.mock` factories that merge `importOriginal()` and override only specific exports.
+- Add `-- @preserve` to istanbul ignore comments to preserve them during code formatting.
 - Run fast, per-folder test runs (coverage disabled) while iterating; run the full package test suite with coverage only when the folder is green.
 - Ensure the package `packages/common` passes the repo coverage thresholds (100%) before marking migration complete.
 
