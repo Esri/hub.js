@@ -368,7 +368,7 @@ const buildInitialLayout = (project: IHubProject): IHubProject => {
                                             showThumbnail: "hide",
                                           },
                                           query:
-                                            "{{entity.view._layoutInterpolationProps.associatedInitiativesQuery}}",
+                                            "{{entity.view._layoutInterpolationProps.associatedEntitiesQuery}}",
                                         },
                                       },
                                     },
