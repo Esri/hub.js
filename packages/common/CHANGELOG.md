@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.19.3
+
+### Patch Changes
+
+- 02a0612: Assistant access org list
+
 ## 20.19.2
 
 ### Patch Changes
