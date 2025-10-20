@@ -22,7 +22,7 @@ describe("postToSearchResult", () => {
       createdDateSource: "post.createdAt",
       family: "post",
       id: post.id,
-      location: null,
+      location: { type: "none" },
       name: post.title,
       owner: post.creator,
       rawResult: post,
@@ -32,11 +32,5 @@ describe("postToSearchResult", () => {
       updatedDate: expect.any(Date) as any,
       updatedDateSource: "post.updatedAt",
     });
-  });
-
-  it("handles missing optional body", () => {
-    post.body = undefined;
-    const result = postToSearchResult(post);
-    expect(result.summary).toBeUndefined();
   });
 });

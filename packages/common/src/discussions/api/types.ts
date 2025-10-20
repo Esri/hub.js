@@ -598,6 +598,7 @@ export interface ISearchPosts
   relations?: PostRelation[];
   status?: PostStatus[];
   title?: string;
+  term?: string;
 }
 
 /**
