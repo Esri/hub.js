@@ -3,7 +3,7 @@ import type {
   IFeatureServiceDefinition,
   ILayerDefinition,
 } from "@esri/arcgis-rest-feature-service";
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 import {
   shouldHaveDataUrl,
   getFileName,
@@ -30,26 +30,20 @@ describe("_validate-url-helpers", () => {
   });
 
   it("getFileName", () => {
-    // If the URL does not have a pathname then it returns hostname.
     let url = "https://hubqa.arcgis.com";
     expect(getFileName(url)).toBe("hubqa.arcgis.com");
-    // Otherwise it does return the pathname.
+
     url = "https://hubqa.arcgis.com/item-test/test.csv";
     expect(getFileName(url)).toBe("test.csv");
-    // Throws error
-    try {
-      getFileName("test");
-    } catch (e) {
-      expect((e as Error).message).toBe(
-        "Error getting file name from data url"
-      );
-    }
+
+    expect(() => getFileName("test")).toThrow(
+      "Error getting file name from data url"
+    );
   });
 
   it("isUrl", () => {
-    expect(isUrl("https://hubqa.arcgis.com")).toBeTruthy("valid url passes");
-    // invalid url
-    expect(isUrl("test")).toBeFalsy("Invalid url returns false");
+    expect(isUrl("https://hubqa.arcgis.com")).toBeTruthy();
+    expect(isUrl("test")).toBeFalsy();
   });
 
   it("isFeatureService", () => {
@@ -57,19 +51,19 @@ describe("_validate-url-helpers", () => {
       isFeatureService(
         "https://test.com/test/arcgis/rest/services/2016_Crashes_Florida_view/FeatureServer"
       )
-    ).toBeTruthy("valid FS returns true");
-    // Image server fails.
+    ).toBeTruthy();
+
     expect(
       isFeatureService(
         "https://test.com/test/arcgis/rest/services/2016_Crashes_Florida_view/ImageServer"
       )
-    ).toBeFalsy("Image server rejects");
-    // Map server fails
+    ).toBeFalsy();
+
     expect(
       isFeatureService(
         "https://test.com/test/arcgis/rest/services/2016_Crashes_Florida_view/MapServer"
       )
-    ).toBeFalsy("Map server rejects");
+    ).toBeFalsy();
   });
 
   it("isService", () => {
@@ -79,11 +73,9 @@ describe("_validate-url-helpers", () => {
       "https://test.com/ImageServer",
     ];
     servers.forEach((server) => {
-      expect(isService(server)).toBeTruthy("Servers pass");
+      expect(isService(server)).toBeTruthy();
     });
-    expect(isService("https://test.com/test")).toBeFalsy(
-      "non server does not pass"
-    );
+    expect(isService("https://test.com/test")).toBeFalsy();
   });
 
   it("isFeatureLayer", () => {
@@ -91,19 +83,19 @@ describe("_validate-url-helpers", () => {
       isFeatureLayer(
         "https://test.com/test/arcgis/rest/services/2016_Crashes_Florida_view/FeatureServer/0"
       )
-    ).toBeTruthy("It has a layer");
-    // no layer
+    ).toBeTruthy();
+
     expect(
       isFeatureLayer(
         "https://test.com/test/arcgis/rest/services/2016_Crashes_Florida_view/FeatureServer"
       )
-    ).toBeFalsy("It does not have a layer");
-    // Not feature service
+    ).toBeFalsy();
+
     expect(
       isFeatureLayer(
         "https://test.com/test/arcgis/rest/services/2016_Crashes_Florida_view/MapServer/0"
       )
-    ).toBeFalsy("It is not a FeatureSErvice");
+    ).toBeFalsy();
   });
 
   it("getFeatureServiceTitle", () => {
@@ -118,7 +110,6 @@ describe("_validate-url-helpers", () => {
     const url =
       "https://test.com/test/arcgis/rest/services/2016_Crashes_Florida_view/FeatureServer/0";
     const extent: IExtent = {
-      // autocasts as new Extent()
       xmin: -9177811,
       ymin: 4247000,
       xmax: -9176791,
@@ -145,7 +136,6 @@ describe("_validate-url-helpers", () => {
     const url =
       "https://test.com/test/arcgis/rest/services/2016_Crashes_Florida_view/FeatureServer/0";
     const extent: IExtent = {
-      // autocasts as new Extent()
       xmin: -9177811,
       ymin: 4247000,
       xmax: -9176791,
@@ -179,10 +169,9 @@ describe("_validate-url-helpers", () => {
   });
 
   it("detectDataTypeFromheader", () => {
-    // if there's no content type....
     const noContentTypeHeaders = new Headers();
     expect(detectDataTypeFromHeader(noContentTypeHeaders)).toBeFalsy();
-    // run through expected types.
+
     const types = [
       "text/csv",
       "application/vnd.ms-excel",
@@ -216,7 +205,6 @@ describe("_validate-url-helpers", () => {
     urls.forEach((url) => {
       expect(detectDataTypeFromExtension(url)).toBeTruthy();
     });
-    // ensure one not in the list doesn't get through
     expect(
       detectDataTypeFromExtension("https://notrealurl.com/test.kml")
     ).toBeFalsy();
@@ -257,7 +245,6 @@ describe("_validate-url-helpers", () => {
     it("pingFeatureService works for feature layers", async () => {
       const url = "https://notrealurl.com/services/test/FeatureServer/0";
       const extent: IExtent = {
-        // autocasts as new Extent()
         xmin: -9177811,
         ymin: 4247000,
         xmax: -9176791,
@@ -287,7 +274,6 @@ describe("_validate-url-helpers", () => {
     it("pingFeatureService works for feature servers", async () => {
       const url = "https://notrealurl.com/services/test/FeatureServer";
       const extent: IExtent = {
-        // autocasts as new Extent()
         xmin: -9177811,
         ymin: 4247000,
         xmax: -9176791,

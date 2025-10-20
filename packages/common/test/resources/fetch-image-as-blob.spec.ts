@@ -1,29 +1,28 @@
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 import { fetchImageAsBlob } from "../../src/resources/fetch-image-as-blob";
 
-describe("fetchImageAsBlob", function () {
+describe("fetchImageAsBlob", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  // These tests create a blob
+
   if (typeof Blob !== "undefined") {
-    it("fetches an image as a blob", async function () {
+    it("fetches an image as a blob", async () => {
       fetchMock.getOnce("image-url", {
         body: new Blob(["a"], { type: "image/png" }),
         sendAsJson: false,
       });
 
-      const res = await fetchImageAsBlob("image-url", { credentials: "omit" });
+      const res = await fetchImageAsBlob("image-url", {
+        credentials: "omit",
+      } as any);
 
       expect(fetchMock.done()).toBeTruthy();
-      expect(fetchMock.lastCall()[1].credentials).toBe(
-        "omit",
-        "called with specified credential"
-      );
+      expect((fetchMock.lastCall() as any)[1].credentials).toBe("omit");
       expect(res.size).toBeGreaterThan(0);
     });
 
-    it("has sensible defaults", async function () {
+    it("has sensible defaults", async () => {
       fetchMock.getOnce("image-url", {
         body: new Blob(["a"], { type: "image/png" }),
         sendAsJson: false,
@@ -32,10 +31,7 @@ describe("fetchImageAsBlob", function () {
       const res = await fetchImageAsBlob("image-url");
 
       expect(fetchMock.done()).toBeTruthy();
-      expect(fetchMock.lastCall()[1].credentials).toBe(
-        "same-origin",
-        "Defaults credentials to same-origin"
-      );
+      expect((fetchMock.lastCall() as any)[1].credentials).toBe("same-origin");
       expect(res.size).toBeGreaterThan(0);
     });
   } else {

@@ -23,6 +23,7 @@ export default defineConfig({
         "src/content/**/*.ts",
         "src/core/_internal/sharedWith.ts",
         // TW working below this line
+        "src/resources/**/*.ts",
         "src/sites/**/*.ts",
         "src/sites/domains/**/*.ts",
         "src/sites/drafts/**/*.ts",
