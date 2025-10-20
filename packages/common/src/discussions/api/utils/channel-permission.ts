@@ -415,7 +415,7 @@ export class ChannelPermission {
 
   // for now user permissions are disabled on channel create
   // since users are not notified and cannot opt out
-  private userCanAddUsersToAcl(user: IDiscussionsUser) {
+  private userCanAddUsersToAcl(_user: IDiscussionsUser) {
     const userPermissions = this.permissionsByCategory[AclCategory.USER];
     return !userPermissions;
   }

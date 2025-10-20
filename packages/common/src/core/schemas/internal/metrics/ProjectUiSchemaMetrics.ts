@@ -21,12 +21,12 @@ import {
  * @param context
  * @returns
  */
-export const buildUiSchema = async (
-  i18nScope: string,
-  config: EntityEditorOptions,
-  context: IArcGISContext
+export const buildUiSchema = (
+  _i18nScope: string,
+  _config: EntityEditorOptions,
+  _context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -269,7 +269,7 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };
 
 /**
@@ -283,14 +283,14 @@ export const buildUiSchema = async (
  * @param context
  * @returns
  */
-export const buildDefaults = async (
-  i18nScope: string,
-  options: EntityEditorOptions,
-  context: IArcGISContext
+export const buildDefaults = (
+  _i18nScope: string,
+  _options: EntityEditorOptions,
+  _context: IArcGISContext
 ): Promise<IConfigurationValues> => {
-  return {
+  return Promise.resolve({
     _metric: {
       cardTitle: `{{shared.fields.metrics.cardTitle.label:translate}}`,
     },
-  };
+  });
 };

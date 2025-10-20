@@ -16,7 +16,7 @@ export function getUniqueDomainNamePortal(
   let combinedName = subdomain;
 
   if (step) {
-    combinedName = subdomain + "-" + step;
+    combinedName = [subdomain, step].join("-");
   }
   // now we search for existing items w/ this...
   return domainExistsPortal(combinedName, hubRequestOptions).then((exists) => {

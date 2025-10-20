@@ -28,10 +28,7 @@ export function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
   const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
     getPropertyMap()
   );
-  const group = mapper.entityToStore(
-    hubGroup,
-    {} as unknown as IGroup
-  ) as IGroup;
+  const group = mapper.entityToStore(hubGroup, {} as unknown as IGroup);
   // convert isSharedUpdate to the updateitemcontrol capability
   if (hubGroup.isSharedUpdate) {
     group.capabilities = "updateitemcontrol";

@@ -14,12 +14,12 @@ import { checkPermission } from "../../permissions/checkPermission";
  * group. This defines how the schema properties should be
  * rendered in the association group creation experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -147,7 +147,7 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };
 
 /**
@@ -160,12 +160,12 @@ export const buildUiSchema = async (
  * @param context
  * @returns
  */
-export const buildDefaults = async (
+export const buildDefaults = (
   i18nScope: string,
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IConfigurationValues> => {
-  return {
+  return Promise.resolve({
     ...getWellKnownGroup("hubAssociationsGroup", context),
-  };
+  });
 };

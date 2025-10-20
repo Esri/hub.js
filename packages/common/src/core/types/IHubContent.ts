@@ -134,7 +134,7 @@ export interface IHubContent
   actionLinks?: IActionLink[];
 
   /** Configure which Hub application actions (i.e. create web map) are available for this content */
-  hubActions?: object;
+  hubActions?: Record<string, unknown>;
 
   /** Information about the layer referenced by this content (geometryType, fields, etc) */
   layer?: Partial<ILayerDefinition>;

@@ -188,4 +188,5 @@ export interface IHubEvent
   timeZone: string;
 }
 
-export type IHubEventEditor = IHubItemEntityEditor<IHubEvent> & {};
+export type IHubEventEditor = IHubItemEntityEditor<IHubEvent> &
+  Record<string, unknown>;
