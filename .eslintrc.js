@@ -37,6 +37,18 @@ module.exports = {
         ]
       }
     ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        selector:
+          'ExportNamedDeclaration[source] :not([parent.id.name="index.ts"])', // Named exports with a source (re-exports)
+        message: "Re-exports are only allowed from the root index.ts file.",
+      },
+      {
+        selector: 'ExportAllDeclaration :not([parent.id.name="index.ts"])', // All exports (re-exports)
+        message: "Re-exports are only allowed from the root index.ts file.",
+      },
+    ],
     "@typescript-eslint/no-var-requires": "error",
   },
   overrides: [
@@ -53,5 +65,16 @@ module.exports = {
         // ...
       },
     },
+    {
+      files: [
+        "packages/common/src/index.ts",
+        "packages/common/src/newsletters/api/**/*.ts",
+        "packages/common/src/newsletters-scheduler/api/**/*.ts",
+        "packages/common/src/events/api/**/*.ts",
+      ],
+      rules: {
+        "no-restricted-syntax": "off"
+      }
+    }
   ],
 };
