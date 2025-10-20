@@ -5,6 +5,8 @@ import {
   PostType,
 } from "../../../../src/discussions/api/types";
 import { IFilter } from "../../../../src/search/types/IHubCatalog";
+import * as bboxStringToGeoJSONPolygonModule from "../../../../src/search/_internal/bboxStringToGeoJSONPolygon";
+import { BBOX, GEOMETRY_FIXTURE } from "../fixtures";
 
 describe("processPostFilters", () => {
   it("should return empty object for empty filters", () => {
@@ -44,6 +46,18 @@ describe("processPostFilters", () => {
     expect(result.title).toBe("bar");
   });
 
+  it("should ignore title and body when term is provided", () => {
+    const filters: IFilter[] = [
+      {
+        predicates: [{ body: "foo" }, { title: "bar" }, { term: "hello" }],
+      },
+    ];
+    const result = processPostFilters(filters);
+    expect(result.body).toBeUndefined();
+    expect(result.title).toBeUndefined();
+    expect(result.term).toBe("hello");
+  });
+
   it("should process channels and parents arrays", () => {
     const filters: IFilter[] = [
       { predicates: [{ channel: "c1" }, { parentId: "p1" }] },
@@ -57,6 +71,17 @@ describe("processPostFilters", () => {
     const filters: IFilter[] = [{ predicates: [{ groups: ["g1", "g2"] }] }];
     const result = processPostFilters(filters);
     expect(result.groups).toEqual(["g1", "g2"]);
+  });
+
+  it("should process bbox", () => {
+    const bboxStringToGeoJSONPolygonSpy = spyOn(
+      bboxStringToGeoJSONPolygonModule,
+      "bboxStringToGeoJSONPolygon"
+    ).and.returnValue(GEOMETRY_FIXTURE);
+    const result = processPostFilters([{ predicates: [{ bbox: BBOX }] }]);
+    expect(bboxStringToGeoJSONPolygonSpy).toHaveBeenCalledTimes(1);
+    expect(bboxStringToGeoJSONPolygonSpy).toHaveBeenCalledWith(BBOX);
+    expect(result.geometry).toEqual(GEOMETRY_FIXTURE);
   });
 
   it("should process postType", () => {

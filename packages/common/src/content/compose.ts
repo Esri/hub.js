@@ -309,6 +309,7 @@ export const getContentTypeIcon = (contentType: string) => {
     orthoMappingProject: "file",
     orthoMappingTemplate: "file",
     pdf: "file-pdf",
+    post: "speech-bubble",
     quickcaptureProject: "mobile",
     rasterFunctionTemplate: "file",
     rasterLayer: "map",
