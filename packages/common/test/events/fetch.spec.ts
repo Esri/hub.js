@@ -1,6 +1,6 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { MOCK_AUTH, createMockContext } from "../mocks/mock-auth";
 import * as eventModule from "../../src/events/api/events";
 import {
   EventAccess,
@@ -13,7 +13,7 @@ import { fetchEvent } from "../../src/events/fetch";
 describe("HubEvent fetch module:", () => {
   describe("fetchEvent", () => {
     it("should fetch the event by id", async () => {
-      const authdCtxMgr = await ArcGISContextManager.create({
+      const contextOptions = {
         authentication: MOCK_AUTH,
         currentUser: {
           username: "casey",
@@ -24,7 +24,10 @@ describe("HubEvent fetch module:", () => {
           urlKey: "fake-org",
         } as unknown as PortalModule.IPortal,
         portalUrl: "https://myserver.com",
-      });
+      };
+      const authdCtxMgr = {
+        context: createMockContext(contextOptions),
+      } as unknown as any;
       const event = {
         id: "123",
         access: EventAccess.PRIVATE,
@@ -74,7 +77,7 @@ describe("HubEvent fetch module:", () => {
       expect(res.name).toEqual("my event");
     });
     it("should fetch the event by slug", async () => {
-      const authdCtxMgr = await ArcGISContextManager.create({
+      const contextOptions = {
         authentication: MOCK_AUTH,
         currentUser: {
           username: "casey",
@@ -85,7 +88,10 @@ describe("HubEvent fetch module:", () => {
           urlKey: "fake-org",
         } as unknown as PortalModule.IPortal,
         portalUrl: "https://myserver.com",
-      });
+      };
+      const authdCtxMgr = {
+        context: createMockContext(contextOptions),
+      } as unknown as any;
       const event = {
         id: "123",
         access: EventAccess.PRIVATE,
@@ -135,7 +141,7 @@ describe("HubEvent fetch module:", () => {
       expect(res.name).toEqual("my event");
     });
     it("should throw when an error occurs", async () => {
-      const authdCtxMgr = await ArcGISContextManager.create({
+      const contextOptions = {
         authentication: MOCK_AUTH,
         currentUser: {
           username: "casey",
@@ -146,7 +152,10 @@ describe("HubEvent fetch module:", () => {
           urlKey: "fake-org",
         } as unknown as PortalModule.IPortal,
         portalUrl: "https://myserver.com",
-      });
+      };
+      const authdCtxMgr = {
+        context: createMockContext(contextOptions),
+      } as unknown as any;
       vi.spyOn(eventModule, "getEvent").mockReturnValue(
         new Promise((resolve, reject) => reject(new Error("fail")))
       );
@@ -158,5 +167,10 @@ describe("HubEvent fetch module:", () => {
         expect(error.message).toEqual("Failed to fetch event.");
       }
     });
+  });
+  afterEach(() => {
+    // restore spies/mocks to avoid cross-test leakage
+    vi.restoreAllMocks();
+    vi.resetAllMocks();
   });
 });

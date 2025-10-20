@@ -24,14 +24,13 @@ vi.mock("../../../src/search/_internal/portalSearchItems", () => ({
 }));
 
 import * as resolveModule from "../../../src/utils/internal/resolveDynamicValues";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 
 describe("resolveDynamicValues - nested item-query", () => {
   let ctxMgr: any;
 
   beforeEach(async () => {
-    ctxMgr = await ArcGISContextManager.create(MOCK_AUTH);
+    ctxMgr = { context: createMockContext(MOCK_AUTH) } as unknown as any;
   });
 
   it("resolves nested item-query dynamic values", async () => {

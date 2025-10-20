@@ -6,8 +6,7 @@ vi.mock("../../../src/search/_internal/portalSearchItems", () => ({
 }));
 
 import * as resolveModule from "../../../src/utils/internal/resolveDynamicValues";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 import { clearMemoizedCache } from "../../../src/utils/memoize";
 
 describe("resolveDynamicValues - empty results", () => {
@@ -16,7 +15,7 @@ describe("resolveDynamicValues - empty results", () => {
   beforeEach(async () => {
     // Clear memoize cache so the mock is wrapped fresh for this spec
     clearMemoizedCache("portalSearchItemsAsItems");
-    ctxMgr = await ArcGISContextManager.create(MOCK_AUTH);
+    ctxMgr = { context: createMockContext(MOCK_AUTH) } as unknown as any;
   });
 
   it("returns zero aggregate when no values are found", async () => {
