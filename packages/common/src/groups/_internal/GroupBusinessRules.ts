@@ -77,33 +77,44 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group"],
     authenticated: true,
     assertions: [
-      // if the user is not a group admin, they must
-      // have the portal:admin:updateGroups privilege
       {
+        // user is a group manager (owner or admin)
+        property: "entity:userMembership.memberType",
+        type: "included-in",
+        value: ["owner", "admin"],
         conditions: [
+          // Only use this check if user is owner or admin
+          // This is a weird construct, but it's needed to
+          // implement "OR" with the next assertion
           {
-            property: "context:currentUser",
-            type: "is-not-group-admin",
-            value: "entity:id",
+            property: "entity:userMembership.memberType",
+            type: "included-in",
+            value: ["owner", "admin"],
           },
         ],
-        property: "context:currentUser.privileges",
-        type: "contains",
-        value: ["portal:admin:updateGroups"],
       },
-      // if the user does not have the portal:admin:updateGroups
-      // privilege, they must be a group admin
+      // user is a member AND entity:orgId === context:portal.id AND user has portal:admin:updateGroups
       {
+        // Dont run this check unless user is member or none
+        // and has updateGroups privilege
         conditions: [
+          // user is not owner or admin
+          {
+            property: "entity:userMembership.memberType",
+            type: "included-in",
+            value: ["member", "none"],
+          },
+          // user has admin priv
           {
             property: "context:currentUser.privileges",
-            type: "without",
+            type: "contains",
             value: ["portal:admin:updateGroups"],
           },
         ],
-        property: "context:currentUser",
-        type: "is-group-admin",
-        value: "entity:id",
+        // then check if the group belongs to the user's org
+        property: "context:portal.id",
+        type: "eq",
+        value: "entity:orgId",
       },
     ],
   },
@@ -148,48 +159,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   // note: pane actions are further gated individually
   {
     permission: "hub:group:manage",
-    assertions: [
-      // if the user is not a group admin,
-      // they must have one of the necessary
-      // privileges
-      {
-        conditions: [
-          {
-            property: "context:currentUser",
-            type: "is-not-group-admin",
-            value: "entity:id",
-          },
-        ],
-        property: "context:currentUser.privileges",
-        type: "contains-some",
-        value: [
-          "portal:admin:updateGroups",
-          "portal:admin:deleteGroups",
-          "portal:admin:assignToGroups",
-          "portal:admin:shareToGroup",
-        ],
-      },
-      // if the user does not have one of the
-      // necessary privileges, they must be a
-      // group admin
-      {
-        conditions: [
-          {
-            property: "context:currentUser.privileges",
-            type: "without",
-            value: [
-              "portal:admin:updateGroups",
-              "portal:admin:deleteGroups",
-              "portal:admin:assignToGroups",
-              "portal:admin:shareToGroup",
-            ],
-          },
-        ],
-        property: "context:currentUser",
-        type: "is-group-admin",
-        value: "entity:id",
-      },
-    ],
+    dependencies: ["hub:group:edit"],
   },
   {
     permission: "hub:group:owner",
