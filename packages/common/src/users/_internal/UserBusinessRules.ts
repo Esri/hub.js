@@ -59,7 +59,7 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:user:workspace:members",
     dependencies: ["hub:user:workspace"],
     licenses: ["hub-premium"],
-    environments: ["qaext"], // as per issue 14442, this should NOT be available in Enterprise
+    environments: ["qaext"],
     // Starting with full org admin as there are not specific privileges for messaging users
     assertions: [
       {
