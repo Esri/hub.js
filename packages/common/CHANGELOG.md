@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.19.2
+
+### Patch Changes
+
+- 696581e: rework group workspace permission to ensure only owners and admins can access it
+
 ## 20.19.1
 
 ### Patch Changes
