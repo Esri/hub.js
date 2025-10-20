@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.19.0
+
+### Minor Changes
+
+- cf25b6d: remaining updates to enable searching for posts within galleries
+
 ## 20.18.0
 
 ### Minor Changes
