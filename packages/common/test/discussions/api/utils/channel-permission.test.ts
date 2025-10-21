@@ -1,17 +1,17 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import {
-  AclCategory,
-  AclSubCategory,
   IChannel,
   IChannelAclPermission,
   IDiscussionsUser,
-  IUpdateChannel,
-  PostReaction,
-  PostStatus,
-  Role,
+  IUpdateChannelV2,
 } from "../../../../src/discussions/api/types";
 import { ChannelPermission } from "../../../../src/discussions/api/utils/channel-permission";
 import { CANNOT_DISCUSS } from "../../../../src/discussions/constants";
+import { Role } from "../../../../src/discussions/api/enums/role";
+import { AclCategory } from "../../../../src/discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../../../src/discussions/api/enums/aclSubCategory";
+import { PostReaction } from "../../../../src/discussions/api/enums/postReaction";
+import { PostStatus } from "../../../../src/discussions/api/enums/postStatus";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 const ADMIN_GROUP_MEMBER_TYPES = Object.freeze(["owner", "admin"]);
@@ -36,7 +36,7 @@ const ALLOWED_ROLES_FOR_MODERATION = Object.freeze([
   Role.MANAGE,
   Role.OWNER,
 ]);
-const ALLOWED_ROLES_FOR_CHANNEL_DELETE = Object.freeze([Role.OWNER]);
+// const ALLOWED_ROLES_FOR_CHANNEL_DELETE = Object.freeze([Role.OWNER]);
 
 const orgId1 = "3ef";
 const groupId1 = "aaa";
@@ -100,7 +100,7 @@ describe("ChannelPermission class", () => {
     it("throws error if channel.channelAcl is undefined", () => {
       try {
         const channel = {} as IChannel;
-        const a = new ChannelPermission(channel);
+        new ChannelPermission(channel);
         throw new Error("should have thrown");
       } catch (error) {
         expect((error as Error).message).toBe(
@@ -1288,7 +1288,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {};
+        const updates: IUpdateChannelV2 = {};
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
       });
@@ -1323,7 +1323,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReply: true,
         };
 
@@ -1343,7 +1343,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReply: undefined,
         };
 
@@ -1367,7 +1367,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReply: true,
         };
 
@@ -1387,7 +1387,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReply: true,
         };
 
@@ -1407,7 +1407,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReply: true,
         };
 
@@ -1431,7 +1431,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReply: true,
         };
 
@@ -1455,7 +1455,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReaction: true,
         };
 
@@ -1475,7 +1475,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReaction: undefined,
         };
 
@@ -1499,7 +1499,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReaction: true,
         };
 
@@ -1519,7 +1519,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReaction: true,
         };
 
@@ -1539,7 +1539,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReaction: true,
         };
 
@@ -1563,7 +1563,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowReaction: true,
         };
 
@@ -1587,7 +1587,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowAsAnonymous: true,
         };
 
@@ -1607,7 +1607,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowAsAnonymous: undefined,
         };
 
@@ -1631,7 +1631,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowAsAnonymous: true,
         };
 
@@ -1651,7 +1651,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowAsAnonymous: true,
         };
 
@@ -1671,7 +1671,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowAsAnonymous: true,
         };
 
@@ -1695,7 +1695,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowAsAnonymous: true,
         };
 
@@ -1719,7 +1719,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowedReactions: [PostReaction.THUMBS_UP],
         };
 
@@ -1739,7 +1739,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowedReactions: [PostReaction.LAUGH, PostReaction.THUMBS_UP],
         };
 
@@ -1759,7 +1759,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowedReactions: [PostReaction.THUMBS_UP],
         };
 
@@ -1779,7 +1779,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowedReactions: [PostReaction.THUMBS_UP, PostReaction.LAUGH],
         };
 
@@ -1799,7 +1799,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowedReactions: [PostReaction.LAUGH],
         };
 
@@ -1823,7 +1823,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           allowedReactions: [PostReaction.LAUGH],
         };
 
@@ -1842,9 +1842,7 @@ describe("ChannelPermission class", () => {
           const channel = { channelAcl, creator: "foo" } as IChannel;
           const channelPermission = new ChannelPermission(channel);
 
-          const updates: IUpdateChannel = {
-            // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-            // @ts-ignore
+          const updates: IUpdateChannelV2 = {
             channelAclDefinition: buildCompleteAcl(),
           };
 
@@ -1916,9 +1914,7 @@ describe("ChannelPermission class", () => {
           const channel = { channelAcl, creator: "foo" } as IChannel;
           const channelPermission = new ChannelPermission(channel);
 
-          const updates: IUpdateChannel = {
-            // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-            // @ts-ignore
+          const updates: IUpdateChannelV2 = {
             channelAclDefinition: updatedAcl,
           };
 
@@ -1961,9 +1957,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -1994,9 +1988,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2033,9 +2025,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2068,9 +2058,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2101,9 +2089,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2146,9 +2132,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2179,9 +2163,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2218,9 +2200,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2253,9 +2233,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2286,9 +2264,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2331,9 +2307,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2364,9 +2338,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2403,9 +2375,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2438,9 +2408,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2471,9 +2439,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2529,9 +2495,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2594,9 +2558,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2651,9 +2613,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2699,9 +2659,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2764,9 +2722,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2821,9 +2777,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2879,9 +2833,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -2944,9 +2896,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3001,9 +2951,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3049,9 +2997,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3114,9 +3060,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3171,9 +3115,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3216,9 +3158,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3249,9 +3189,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3283,9 +3221,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3318,9 +3254,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3351,9 +3285,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3385,9 +3317,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3430,9 +3360,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3463,9 +3391,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3500,9 +3426,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3535,9 +3459,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3568,9 +3490,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3605,9 +3525,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3650,9 +3568,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3683,9 +3599,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3717,9 +3631,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3752,9 +3664,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3785,9 +3695,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3819,9 +3727,7 @@ describe("ChannelPermission class", () => {
             const channel = { channelAcl, creator: "foo" } as IChannel;
             const channelPermission = new ChannelPermission(channel);
 
-            const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
+            const updates: IUpdateChannelV2 = {
               channelAclDefinition: updatedAcl,
             };
 
@@ -3847,7 +3753,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           defaultPostStatus: PostStatus.APPROVED,
         };
 
@@ -3867,7 +3773,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           defaultPostStatus: undefined,
         };
 
@@ -3891,7 +3797,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           defaultPostStatus: PostStatus.APPROVED,
         };
 
@@ -3911,7 +3817,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           defaultPostStatus: PostStatus.APPROVED,
         };
 
@@ -3931,7 +3837,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           defaultPostStatus: PostStatus.APPROVED,
         };
 
@@ -3955,7 +3861,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           defaultPostStatus: PostStatus.APPROVED,
         };
 
@@ -3979,7 +3885,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           blockWords: ["burrito"],
         };
 
@@ -3999,7 +3905,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           blockWords: ["taco", "burrito"],
         };
 
@@ -4023,7 +3929,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           blockWords: ["burrito"],
         };
 
@@ -4047,7 +3953,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           blockWords: ["burrito", "taco", "flan"],
         };
 
@@ -4067,7 +3973,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           blockWords: ["taco"],
         };
 
@@ -4087,7 +3993,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           blockWords: ["taco"],
         };
 
@@ -4111,7 +4017,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           blockWords: ["taco"],
         };
 
@@ -4135,7 +4041,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           softDelete: true,
         };
 
@@ -4155,7 +4061,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           softDelete: undefined,
         };
 
@@ -4175,7 +4081,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           softDelete: true,
         };
 
@@ -4195,7 +4101,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           softDelete: true,
         };
 
@@ -4219,7 +4125,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           softDelete: true,
         };
 
@@ -4243,7 +4149,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           name: "burrito",
         };
 
@@ -4263,7 +4169,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           name: undefined,
         };
 
@@ -4283,7 +4189,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           name: "foo",
         };
 
@@ -4303,7 +4209,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           name: "foo",
         };
 
@@ -4327,7 +4233,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates: IUpdateChannel = {
+        const updates: IUpdateChannelV2 = {
           name: "foo",
         };
 

@@ -1,12 +1,12 @@
 import {
-  AclCategory,
   IChannel,
   IDiscussionsUser,
-  Role,
 } from "../../../../../src/discussions/api//types";
 import { canEditPostStatusV2 } from "../../../../../src/discussions/api//utils/posts/can-edit-post-status-v2";
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
+import { AclCategory } from "../../../../../src/discussions/api/enums/aclCategory";
+import { Role } from "../../../../../src/discussions/api/enums/role";
 
 describe("canEditPostStatusV2", () => {
   describe("With channelAcl Permissions", () => {

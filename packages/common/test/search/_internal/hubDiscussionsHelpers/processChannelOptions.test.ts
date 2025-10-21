@@ -1,8 +1,6 @@
-import {
-  ChannelRelation,
-  ChannelSort,
-  SortOrder,
-} from "../../../../src/discussions/api/types";
+import { ChannelRelation } from "../../../../src/discussions/api/enums/channelRelation";
+import { ChannelSort } from "../../../../src/discussions/api/enums/channelSort";
+import { SortOrder } from "../../../../src/newsletters/api/orval/api/orval-newsletters";
 import { processChannelOptions } from "../../../../src/search/_internal/hubDiscussionsHelpers/processChannelOptions";
 
 describe("processChannelOptions", () => {

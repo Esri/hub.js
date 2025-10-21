@@ -1,31 +1,32 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
 import {
-  AclCategory,
-  AclSubCategory,
   IChannel,
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
   IDiscussionsUser,
   IUpdateChannelV2,
-  Role,
 } from "../types";
 import { isOrgAdmin, userHasPrivilege } from "./platform";
 import { dtoToChannel } from "./channels/channel-to-dto-map";
 import { CANNOT_DISCUSS } from "../../constants";
+import { AclCategory } from "../enums/aclCategory";
+import { Role } from "../enums/role";
+import { AclSubCategory } from "../enums/aclSubCategory";
 
 type PermissionsByAclCategoryMap = {
   [key in AclCategory]?: IChannelAclPermission[];
 };
 
-enum ChannelAction {
-  READ_POSTS = "readPosts",
-  WRITE_POSTS = "writePosts",
-  MODERATE_CHANNEL = "moderateChannel",
-  DELETE_CHANNEL = "deleteChannel",
-  IS_MODERATOR = "isModerator",
-  IS_MANAGER = "isManager",
-  IS_OWNER = "isOwner",
-}
+const CHANNEL_ACTION = {
+  READ_POSTS: "readPosts",
+  WRITE_POSTS: "writePosts",
+  MODERATE_CHANNEL: "moderateChannel",
+  DELETE_CHANNEL: "deleteChannel",
+  IS_MODERATOR: "isModerator",
+  IS_MANAGER: "isManager",
+  IS_OWNER: "isOwner",
+} as const;
+type ChannelAction = (typeof CHANNEL_ACTION)[keyof typeof CHANNEL_ACTION];
 
 /**
  * A map of update operations & ACL roles where the key is the update operation
@@ -87,7 +88,7 @@ export class ChannelPermission {
   }
 
   canPostToChannel(user: IDiscussionsUser): boolean {
-    if (this.canAnyUser(ChannelAction.WRITE_POSTS)) {
+    if (this.canAnyUser(CHANNEL_ACTION.WRITE_POSTS)) {
       return true;
     }
 
@@ -96,10 +97,10 @@ export class ChannelPermission {
     }
 
     return (
-      this.canAnyAuthenticatedUser(ChannelAction.WRITE_POSTS) ||
-      this.canSomeUser(ChannelAction.WRITE_POSTS, user) ||
-      this.canSomeUserGroup(ChannelAction.WRITE_POSTS, user) ||
-      this.canSomeUserOrg(ChannelAction.WRITE_POSTS, user)
+      this.canAnyAuthenticatedUser(CHANNEL_ACTION.WRITE_POSTS) ||
+      this.canSomeUser(CHANNEL_ACTION.WRITE_POSTS, user) ||
+      this.canSomeUserGroup(CHANNEL_ACTION.WRITE_POSTS, user) ||
+      this.canSomeUserOrg(CHANNEL_ACTION.WRITE_POSTS, user)
     );
   }
 
@@ -123,14 +124,14 @@ export class ChannelPermission {
     }
 
     return (
-      this.canSomeUser(ChannelAction.MODERATE_CHANNEL, user) ||
-      this.canSomeUserGroup(ChannelAction.MODERATE_CHANNEL, user) ||
-      this.canSomeUserOrg(ChannelAction.MODERATE_CHANNEL, user)
+      this.canSomeUser(CHANNEL_ACTION.MODERATE_CHANNEL, user) ||
+      this.canSomeUserGroup(CHANNEL_ACTION.MODERATE_CHANNEL, user) ||
+      this.canSomeUserOrg(CHANNEL_ACTION.MODERATE_CHANNEL, user)
     );
   }
 
   canReadChannel(user: IDiscussionsUser): boolean {
-    if (this.canAnyUser(ChannelAction.READ_POSTS)) {
+    if (this.canAnyUser(CHANNEL_ACTION.READ_POSTS)) {
       return true;
     }
 
@@ -139,10 +140,10 @@ export class ChannelPermission {
     }
 
     return (
-      this.canAnyAuthenticatedUser(ChannelAction.READ_POSTS) ||
-      this.canSomeUser(ChannelAction.READ_POSTS, user) ||
-      this.canSomeUserGroup(ChannelAction.READ_POSTS, user) ||
-      this.canSomeUserOrg(ChannelAction.READ_POSTS, user)
+      this.canAnyAuthenticatedUser(CHANNEL_ACTION.READ_POSTS) ||
+      this.canSomeUser(CHANNEL_ACTION.READ_POSTS, user) ||
+      this.canSomeUserGroup(CHANNEL_ACTION.READ_POSTS, user) ||
+      this.canSomeUserOrg(CHANNEL_ACTION.READ_POSTS, user)
     );
   }
 
@@ -152,9 +153,9 @@ export class ChannelPermission {
     }
 
     return (
-      this.canSomeUser(ChannelAction.DELETE_CHANNEL, user) ||
-      this.canSomeUserGroup(ChannelAction.DELETE_CHANNEL, user) ||
-      this.canSomeUserOrg(ChannelAction.DELETE_CHANNEL, user)
+      this.canSomeUser(CHANNEL_ACTION.DELETE_CHANNEL, user) ||
+      this.canSomeUserGroup(CHANNEL_ACTION.DELETE_CHANNEL, user) ||
+      this.canSomeUserOrg(CHANNEL_ACTION.DELETE_CHANNEL, user)
     );
   }
 
@@ -315,7 +316,7 @@ export class ChannelPermission {
     return groupAccessControls.some((permission) => {
       const group = userGroupsById[permission.key];
 
-      if (action === ChannelAction.READ_POSTS) {
+      if (action === CHANNEL_ACTION.READ_POSTS) {
         if (!group) {
           return false;
         }
@@ -452,25 +453,25 @@ export class ChannelPermission {
 
   private isOwner(user: IDiscussionsUser): boolean {
     return (
-      this.canSomeUser(ChannelAction.IS_OWNER, user) ||
-      this.canSomeUserGroup(ChannelAction.IS_OWNER, user) ||
-      this.canSomeUserOrg(ChannelAction.IS_OWNER, user)
+      this.canSomeUser(CHANNEL_ACTION.IS_OWNER, user) ||
+      this.canSomeUserGroup(CHANNEL_ACTION.IS_OWNER, user) ||
+      this.canSomeUserOrg(CHANNEL_ACTION.IS_OWNER, user)
     );
   }
 
   private isManager(user: IDiscussionsUser): boolean {
     return (
-      this.canSomeUser(ChannelAction.IS_MANAGER, user) ||
-      this.canSomeUserGroup(ChannelAction.IS_MANAGER, user) ||
-      this.canSomeUserOrg(ChannelAction.IS_MANAGER, user)
+      this.canSomeUser(CHANNEL_ACTION.IS_MANAGER, user) ||
+      this.canSomeUserGroup(CHANNEL_ACTION.IS_MANAGER, user) ||
+      this.canSomeUserOrg(CHANNEL_ACTION.IS_MANAGER, user)
     );
   }
 
   private isModerator(user: IDiscussionsUser): boolean {
     return (
-      this.canSomeUser(ChannelAction.IS_MODERATOR, user) ||
-      this.canSomeUserGroup(ChannelAction.IS_MODERATOR, user) ||
-      this.canSomeUserOrg(ChannelAction.IS_MODERATOR, user)
+      this.canSomeUser(CHANNEL_ACTION.IS_MODERATOR, user) ||
+      this.canSomeUserGroup(CHANNEL_ACTION.IS_MODERATOR, user) ||
+      this.canSomeUserOrg(CHANNEL_ACTION.IS_MODERATOR, user)
     );
   }
 }
@@ -512,28 +513,28 @@ function doesPermissionAllowOrgRole(
 
 function channelActionLookup(action: ChannelAction): Role[] {
   // channel actions
-  if (action === ChannelAction.WRITE_POSTS) {
+  if (action === CHANNEL_ACTION.WRITE_POSTS) {
     return [Role.WRITE, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
   }
 
-  if (action === ChannelAction.MODERATE_CHANNEL) {
+  if (action === CHANNEL_ACTION.MODERATE_CHANNEL) {
     return [Role.MODERATE, Role.MANAGE, Role.OWNER];
   }
 
-  if (action === ChannelAction.DELETE_CHANNEL) {
+  if (action === CHANNEL_ACTION.DELETE_CHANNEL) {
     return [Role.OWNER];
   }
 
   // channel update actions
-  if (action === ChannelAction.IS_MODERATOR) {
+  if (action === CHANNEL_ACTION.IS_MODERATOR) {
     return [Role.MODERATE];
   }
 
-  if (action === ChannelAction.IS_MANAGER) {
+  if (action === CHANNEL_ACTION.IS_MANAGER) {
     return [Role.MANAGE];
   }
 
-  if (action === ChannelAction.IS_OWNER) {
+  if (action === CHANNEL_ACTION.IS_OWNER) {
     return [Role.OWNER];
   }
 

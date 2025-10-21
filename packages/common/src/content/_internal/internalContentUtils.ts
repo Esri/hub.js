@@ -44,6 +44,7 @@ import { IHubContent, PublisherSource } from "../../core/types/IHubContent";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IGeometryInstance } from "../../core/types/IGeometryInstance";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
+import { DatePrecision } from "./enums/datePrecision";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -376,16 +377,6 @@ export function getValueFromMetadata(
 ) {
   const path = getMetadataPath(identifier);
   return path && getProp(metadata, path);
-}
-
-/**
- * Date precisions
- */
-export enum DatePrecision {
-  Year = "year",
-  Month = "month",
-  Day = "day",
-  Time = "time",
 }
 
 /**

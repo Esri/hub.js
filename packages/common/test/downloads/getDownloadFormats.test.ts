@@ -1,12 +1,10 @@
 import { getDownloadFormats } from "../../src/downloads/getDownloadFormats";
-import {
-  IFetchDownloadFormatsOptions,
-  ServiceDownloadFormat,
-} from "../../src/downloads/types";
+import { IFetchDownloadFormatsOptions } from "../../src/downloads/types";
 import * as CanUseExportImageFlowModule from "../../src/downloads/_internal/canUseExportImageFlow";
 import * as CanUseHubDownloadApiModule from "../../src/downloads/canUseHubDownloadApi";
 import * as GetHubDownloadApiFormatsModule from "../../src/downloads/getHubDownloadApiFormats";
 import * as GetExportImageFormatsModule from "../../src/downloads/_internal/format-fetchers/getExportImageFormats";
+import { ServiceDownloadFormat } from "../../src/downloads/enums/serviceDownloadFormat";
 
 describe("getDownloadFormats", () => {
   it("should return empty array", () => {

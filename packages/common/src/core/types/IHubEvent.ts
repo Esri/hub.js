@@ -1,7 +1,5 @@
-import {
-  HubEventAttendanceType,
-  HubEventCapacityType,
-} from "../../events/types";
+import { HubEventAttendanceType } from "../../events/enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../../events/enums/hubEventCapacityType";
 import { IWithCatalog } from "../traits/IWithCatalog";
 import { IWithPermissions } from "../traits/IWithPermissions";
 import { IWithSlug } from "../traits/IWithSlug";

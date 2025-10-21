@@ -1,13 +1,13 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
 import {
-  AclCategory,
   IChannel,
   IDiscussionsUser,
   IPost,
-  Role,
 } from "../../../../../src/discussions/api//types";
 import { canDeletePost } from "../../../../../src/discussions/api//utils/posts/can-delete-post";
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
+import { AclCategory } from "../../../../../src/discussions/api/enums/aclCategory";
+import { Role } from "../../../../../src/discussions/api/enums/role";
 
 describe("canDeletePost", () => {
   it("returns true when the user created the post", () => {

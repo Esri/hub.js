@@ -4,7 +4,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as settingUtils from "../../../src/discussions/api/settings/settings";
 import * as getDefaultEntitySettingsUtils from "../../../src/discussions/api/settings/getDefaultEntitySettings";
 import { IHubDiscussion } from "../../../src/core/types/IHubDiscussion";
-import { EntitySettingType } from "../../../src/discussions/api/types";
+import { EntitySettingType } from "../../../src/discussions/api/enums/entitySettingsType";
 
 describe("createOrUpdateEntitySettings", () => {
   const MOCK_REQUEST_OPTIONS = { authentication: MOCK_AUTH };

@@ -2,12 +2,10 @@ import { IUser } from "@esri/arcgis-rest-portal";
 import { IChannel } from "../../../../../src/discussions/api/types";
 import * as canCreatePostV2Module from "../../../../../src/discussions/api/utils/posts/can-create-post-v2";
 import { cannotCreatePostGroupsBlockedV2 } from "../../../../../src/discussions/api/utils/posts/cannot-create-post-groups-blocked-v2";
-import {
-  AclCategory,
-  AclSubCategory,
-  Role,
-} from "../../../../../src/discussions/api/types";
 import { CANNOT_DISCUSS } from "../../../../../src/discussions/constants";
+import { AclCategory } from "../../../../../src/discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../../../../src/discussions/api/enums/aclSubCategory";
+import { Role } from "../../../../../src/discussions/api/enums/role";
 
 describe("cannotCreatePostGroupsBlockedV2", () => {
   let canCreatePostV2Spy: jasmine.Spy;

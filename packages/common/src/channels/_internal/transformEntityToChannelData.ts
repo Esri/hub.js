@@ -1,8 +1,8 @@
 import { IHubChannel } from "../../core/types/IHubChannel";
+import { AclCategory } from "../../discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../discussions/api/enums/aclSubCategory";
+import { Role } from "../../discussions/api/enums/role";
 import {
-  AclCategory,
-  AclSubCategory,
-  Role,
   IUpdateChannelV2,
   IChannelAclPermissionDefinition,
   ICreateChannelV2,

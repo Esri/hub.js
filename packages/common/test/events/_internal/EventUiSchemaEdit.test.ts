@@ -3,7 +3,7 @@ import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaEdit";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { HubEventAttendanceType } from "../../../src/events/types";
+import { HubEventAttendanceType } from "../../../src/events/enums/hubEventAttendanceType";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";

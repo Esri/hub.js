@@ -3,7 +3,7 @@ import type {
   IFeatureServiceDefinition,
   ILayerDefinition,
 } from "@esri/arcgis-rest-feature-service";
-import { ItemType } from "../../hub-types";
+import { ItemType } from "../../enums/itemType";
 import { Logger } from "../../utils/logger";
 import {
   isNoCorsRequestRequired,

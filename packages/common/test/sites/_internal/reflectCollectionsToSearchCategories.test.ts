@@ -1,7 +1,7 @@
 import { IHubCollection } from "../../../src/search/types/IHubCatalog";
 import { WellKnownCollection } from "../../../src/search/wellKnownCatalog";
 import { reflectCollectionsToSearchCategories } from "../../../src/sites/_internal/reflectCollectionsToSearchCategories";
-import { SearchCategories } from "../../../src/sites/_internal/types";
+import { SearchCategories } from "../../../src/sites/_internal/enums/searchCategories";
 import { IModel } from "../../../src/hub-types";
 import { cloneObject } from "../../../src/util";
 

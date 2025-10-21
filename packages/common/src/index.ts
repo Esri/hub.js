@@ -77,7 +77,6 @@ export {
   isLayerView,
   normalizeItemType,
   parseItemCategories,
-  UpdateFrequency,
 } from "./content/compose";
 export { composeHubContent } from "./content/composeHubContent";
 export {
@@ -99,6 +98,7 @@ export {
   editorToContent,
   updateContent,
 } from "./content/edit";
+export { UpdateFrequency } from "./content/enums/updateFrequency";
 export { fetchContent, IFetchContentOptions } from "./content/fetchContent";
 export {
   convertItemToContent,
@@ -314,10 +314,10 @@ export {
   IEntityEditorContext,
 } from "./core/types/HubEntityEditor";
 export {
-  HubEntityType,
-  HubItemEntityType,
   HUB_ENTITY_TYPES,
   HUB_ITEM_ENTITY_TYPES,
+  HubEntityType,
+  HubItemEntityType,
 } from "./core/types/HubEntityType";
 export { IGeometryInstance } from "./core/types/IGeometryInstance";
 export {
@@ -471,6 +471,25 @@ export {
   discussionsApiRequest,
   discussionsApiRequestV2,
 } from "./discussions/api/discussions-api-request";
+export { AclCategory } from "./discussions/api/enums/aclCategory";
+export { AclSubCategory } from "./discussions/api/enums/aclSubCategory";
+export { ChannelFilter } from "./discussions/api/enums/channelFilter";
+export { ChannelRelation } from "./discussions/api/enums/channelRelation";
+export { ChannelSort } from "./discussions/api/enums/channelSort";
+export { CommonSort } from "./discussions/api/enums/commonSort";
+export { DiscussionSource } from "./discussions/api/enums/discussionSource";
+export { DiscussionType } from "./discussions/api/enums/discussionType";
+export { EntitySettingType } from "./discussions/api/enums/entitySettingsType";
+export { PostReaction } from "./discussions/api/enums/postReaction";
+export { PostRelation } from "./discussions/api/enums/postRelation";
+export { PostSort } from "./discussions/api/enums/postSort";
+export { PostStatus } from "./discussions/api/enums/postStatus";
+export { PostType } from "./discussions/api/enums/postType";
+export { ReactionRelation } from "./discussions/api/enums/reactionRelation";
+export { Role } from "./discussions/api/enums/role";
+export { SearchPostsFormat } from "./discussions/api/enums/searchPostsFormat";
+export { SharingAccess } from "./discussions/api/enums/sharingAccess";
+export { SortOrder } from "./discussions/api/enums/sortOrder";
 export {
   createPost,
   createPostV2,
@@ -507,15 +526,6 @@ export {
   updateSettingV2,
 } from "./discussions/api/settings/settings";
 export {
-  AclCategory,
-  AclSubCategory,
-  ChannelFilter,
-  ChannelRelation,
-  ChannelSort,
-  CommonSort,
-  DiscussionSource,
-  DiscussionType,
-  EntitySettingType,
   IChannel,
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
@@ -595,16 +605,6 @@ export {
   IWithSorting,
   IWithTimeQueries,
   IWithTimestamps,
-  PostReaction,
-  PostRelation,
-  PostSort,
-  PostStatus,
-  PostType,
-  ReactionRelation,
-  Role,
-  SearchPostsFormat,
-  SharingAccess,
-  SortOrder,
 } from "./discussions/api/types";
 export { canCreateChannel } from "./discussions/api/utils/channels/can-create-channel";
 export { canCreateChannelV2 } from "./discussions/api/utils/channels/can-create-channel-v2";
@@ -681,6 +681,8 @@ export {
 export { canUseCreateReplica } from "./downloads/canUseCreateReplica";
 export { canUseHubDownloadApi } from "./downloads/canUseHubDownloadApi";
 export { canUseHubDownloadSystem } from "./downloads/canUseHubDownloadSystem";
+export { DownloadOperationStatus } from "./downloads/enums/downloadOperationStatus";
+export { ServiceDownloadFormat } from "./downloads/enums/serviceDownloadFormat";
 export { fetchDownloadFile } from "./downloads/fetchDownloadFile";
 export { getDownloadConfiguration } from "./downloads/getDownloadConfiguration";
 export { getDownloadFormats } from "./downloads/getDownloadFormats";
@@ -689,7 +691,6 @@ export {
   ArcgisHubDownloadError,
   ArcgisHubDownloadFileTooLargeError,
   DownloadCacheStatus,
-  DownloadOperationStatus,
   downloadProgressCallback,
   IDownloadFormat,
   IDynamicDownloadFormat,
@@ -701,7 +702,6 @@ export {
   IStaticDownloadFormat,
   LegacyExportItemFormat,
   PORTAL_EXPORT_TYPES,
-  ServiceDownloadFormat,
 } from "./downloads/types";
 export { IEvent, IRegistration } from "./events/api/types";
 export {
@@ -712,10 +712,11 @@ export {
   IHubCreateEventRegistration,
   updateHubEvent,
 } from "./events/edit";
+export { HubEventAttendanceType } from "./events/enums/hubEventAttendanceType";
+export { HubEventCapacityType } from "./events/enums/hubEventCapacityType";
 export { convertClientEventToHubEvent, fetchEvent } from "./events/fetch";
 export { getEventGroups } from "./events/getEventGroups";
 export { HubEvent } from "./events/HubEvent";
-export { HubEventAttendanceType, HubEventCapacityType } from "./events/types";
 export {
   allCoordinatesPossiblyWGS84,
   bBoxToExtent,
@@ -772,16 +773,17 @@ export {
   IEmail,
 } from "./groups/types/types";
 // TODO: end
+export { FileExtension } from "./enums/fileExtension";
+export { HubEntityHero } from "./enums/hubEntityHero";
+export { HubEntityStatus } from "./enums/hubEntityStatus";
+export { ItemType } from "./enums/itemType";
 export { _unprotectAndRemoveGroup } from "./groups/_unprotect-and-remove-group";
 export {
   AccessControl,
   addCreateItemTypes,
   BBox,
-  FileExtension,
   GenericAsyncFunc,
   GeographyProvenance,
-  HubEntityHero,
-  HubEntityStatus,
   HubFamilies,
   HubFamily,
   IActionLink,
@@ -817,7 +819,6 @@ export {
   ISerializedOperationStack,
   ISolutionTemplate,
   ITemplateAsset,
-  ItemType,
   IUpdatePageOptions,
   IUpdateSiteOptions,
   SearchableType,
@@ -858,6 +859,7 @@ export {
   initiativeResultToCardModel,
   initiativeToCardModel,
 } from "./initiatives/view";
+export { _unprotectAndRemoveItem } from "./items/_unprotect-and-remove-item";
 export { applyPropertiesToItems } from "./items/apply-properties-to-items";
 export { createItemFromFile } from "./items/create-item-from-file";
 export { createItemFromUrl } from "./items/create-item-from-url";
@@ -903,7 +905,6 @@ export {
 export { unprotectModel } from "./items/unprotect-model";
 export { unshareItemFromGroups } from "./items/unshare-item-from-groups";
 export { uploadImageResource } from "./items/uploadImageResource";
-export { _unprotectAndRemoveItem } from "./items/_unprotect-and-remove-item";
 export { aggregateMetrics } from "./metrics/aggregateMetrics";
 export { buildWhereClause, editorToMetric } from "./metrics/editorToMetric";
 export { getEntityMetrics } from "./metrics/getEntityMetrics";
@@ -968,6 +969,15 @@ export {
   getUser,
   updateUser,
 } from "./newsletters/api/users";
+export {
+  _deepMapValues,
+  _isDate,
+  _isFunction,
+  _isObject,
+  _isRegExp,
+  _isString,
+} from "./objects/_deep-map-values";
+export { _mapValues } from "./objects/_map-values";
 export { deepSet } from "./objects/deep-set";
 export { deepStringReplace } from "./objects/deep-string-replace";
 export { deepDeletePropByValue } from "./objects/deepDeletePropByValue";
@@ -983,15 +993,6 @@ export { pickProps } from "./objects/pickProps";
 export { removeEmptyProps } from "./objects/remove-empty-props";
 export { resolveReferences } from "./objects/resolveReferences";
 export { setProp } from "./objects/set-prop";
-export {
-  _deepMapValues,
-  _isDate,
-  _isFunction,
-  _isObject,
-  _isRegExp,
-  _isString,
-} from "./objects/_deep-map-values";
-export { _mapValues } from "./objects/_map-values";
 export {
   fetchOrganization,
   portalToOrganization,
@@ -1025,8 +1026,8 @@ export {
 export { isPermission } from "./permissions/isPermission";
 export { HubLicense } from "./permissions/types/HubLicense";
 export {
-  CollaborationType,
   COLLABORATION_TYPES,
+  CollaborationType,
   IEntityPermissionPolicy,
 } from "./permissions/types/IEntityPermissionPolicy";
 export { IPermissionAccessResponse } from "./permissions/types/IPermissionAccessResponse";
@@ -1057,6 +1058,7 @@ export {
 export { HubProject } from "./projects/HubProject";
 export { projectResultToCardModel, projectToCardModel } from "./projects/view";
 export { hubApiRequest, RemoteServerError } from "./request";
+export { _addTokenToResourceUrl } from "./resources/_add-token-to-resource-url";
 export { addSolutionResourceUrlToAssets } from "./resources/add-solution-resource-url-to-assets";
 export { convertSolutionTemplateResourcesToAssets } from "./resources/convert-solution-template-resources-to-assets";
 export { doesResourceExist } from "./resources/doesResourceExist";
@@ -1076,7 +1078,6 @@ export { stringToBlob } from "./resources/string-to-blob";
 export { uploadResourcesFromUrl } from "./resources/upload-resources-from-url";
 export { upsertResource } from "./resources/upsertResource";
 export { validateUrl } from "./resources/validate-url";
-export { _addTokenToResourceUrl } from "./resources/_add-token-to-resource-url";
 export {
   commitItemUpload,
   createItem,
@@ -1125,8 +1126,8 @@ export { ISearchResponseHash } from "./search/types/IHubSearchResponseHash";
 export { IHubSearchResult } from "./search/types/IHubSearchResult";
 export {
   ApiTarget,
-  CatalogSetupType,
   CATALOG_SETUP_TYPES,
+  CatalogSetupType,
   GenericResult,
   ICatalogInfo,
   ICatalogSetup,
@@ -1169,16 +1170,23 @@ export {
   getWellknownCollection,
   getWellknownCollections,
   IGetWellKnownCatalogOptions,
+  WELL_KNOWN_EVENT_CATALOGS,
+  WELL_KNOWN_GROUP_CATALOGS,
+  WELL_KNOWN_ITEM_CATALOGS,
   WellKnownCatalog,
   WellKnownCollection,
   WellKnownEventCatalog,
   WellKnownGroupCatalog,
   WellKnownItemCatalog,
-  WELL_KNOWN_EVENT_CATALOGS,
-  WELL_KNOWN_GROUP_CATALOGS,
-  WELL_KNOWN_ITEM_CATALOGS,
 } from "./search/wellKnownCatalog";
+export { migrateBadBasemap } from "./sites/_internal/migrateBadBasemap";
+export { migrateWebMappingApplicationSites } from "./sites/_internal/migrateWebMappingApplicationSites";
 export { defaultSiteCollectionKeys } from "./sites/defaultSiteCollectionKeys";
+export { _checkStatusAndParseJson } from "./sites/domains/_check-status-and-parse-json";
+export { _ensureSafeDomainLength } from "./sites/domains/_ensure-safe-domain-length";
+export { _getAuthHeader } from "./sites/domains/_get-auth-header";
+export { _getDomainServiceUrl } from "./sites/domains/_get-domain-service-url";
+export { _lookupPortal } from "./sites/domains/_lookup-portal";
 export { addDomain } from "./sites/domains/add-domain";
 export { addSiteDomains } from "./sites/domains/addSiteDomains";
 export { domainExists } from "./sites/domains/domain-exists";
@@ -1195,11 +1203,6 @@ export { removeDomain } from "./sites/domains/remove-domain";
 export { removeDomainsBySiteId } from "./sites/domains/remove-domains-by-site-id";
 export { removeDomainByHostname } from "./sites/domains/removeDomainByHostname";
 export { updateDomain } from "./sites/domains/update-domain";
-export { _checkStatusAndParseJson } from "./sites/domains/_check-status-and-parse-json";
-export { _ensureSafeDomainLength } from "./sites/domains/_ensure-safe-domain-length";
-export { _getAuthHeader } from "./sites/domains/_get-auth-header";
-export { _getDomainServiceUrl } from "./sites/domains/_get-domain-service-url";
-export { _lookupPortal } from "./sites/domains/_lookup-portal";
 export { buildDraft } from "./sites/drafts/build-draft";
 export {
   getFeedConfiguration,
@@ -1235,8 +1238,6 @@ export { searchCategoriesToCollections } from "./sites/searchCategoriesToCollect
 export { SITE_SCHEMA_VERSION } from "./sites/site-schema-version";
 export { DEFAULT_THEME, getOrgDefaultTheme } from "./sites/themes";
 export { upgradeSiteSchema } from "./sites/upgrade-site-schema";
-export { migrateBadBasemap } from "./sites/_internal/migrateBadBasemap";
-export { migrateWebMappingApplicationSites } from "./sites/_internal/migrateWebMappingApplicationSites";
 // Exporting these keys to access in the catalog builder so
 // we can apply translated labels to default site collections
 export { _ensureTelemetry } from "./sites/_internal/_ensure-telemetry";
@@ -1275,6 +1276,8 @@ export { IArcGISContextOptions } from "./types/IArcGISContextOptions";
 export { IMessage } from "./types/IMessage";
 export { IUserResourceConfig } from "./types/IUserResourceConfig";
 export { IUserResourceToken } from "./types/IUserResourceToken";
+export { _getHttpAndHttpsUris } from "./urls/_get-http-and-https-uris";
+export { _getLocation } from "./urls/_get-location";
 export { buildUrl, IQueryParams } from "./urls/build-url";
 export { cacheBustUrl } from "./urls/cacheBustUrl";
 export { convertUrlsToAnchorTags } from "./urls/convert-urls-to-anchor-tags";
@@ -1306,8 +1309,6 @@ export { isSafeRedirectUrl } from "./urls/is-safe-redirect-url";
 export { isEnterprisePortalUrl } from "./urls/isEnterprisePortalUrl";
 export { stripProtocol } from "./urls/strip-protocol";
 export { upgradeProtocol } from "./urls/upgrade-protocol";
-export { _getHttpAndHttpsUris } from "./urls/_get-http-and-https-uris";
-export { _getLocation } from "./urls/_get-location";
 export {
   convertUserToHubUser,
   enrichUserSearchResult,

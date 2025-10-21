@@ -9,10 +9,8 @@ import {
   buildDefaultEventEntity,
   buildDefaultEventRecord,
 } from "../../src/events/defaults";
-import {
-  HubEventAttendanceType,
-  HubEventCapacityType,
-} from "../../src/events/types";
+import { HubEventAttendanceType } from "../../src/events/enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../../src/events/enums/hubEventCapacityType";
 
 describe("HubEvent defaults:", () => {
   describe("buildDefaultEventEntity", () => {

@@ -1,4 +1,5 @@
-import { EntitySettingType, IEntitySetting, IEntitySettings } from "../types";
+import { IEntitySetting, IEntitySettings } from "../types";
+import { EntitySettingType } from "../enums/entitySettingsType";
 import { HubEntityType } from "../../../core/types/HubEntityType";
 
 const DISCUSSION_SETTINGS: IEntitySettings = {

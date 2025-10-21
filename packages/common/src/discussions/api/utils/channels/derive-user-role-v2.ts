@@ -1,5 +1,6 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { IChannel, IDiscussionsUser, Role } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
+import { Role } from "../../enums/role";
 import { ChannelPermission } from "../channel-permission";
 
 /**

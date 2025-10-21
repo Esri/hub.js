@@ -2,7 +2,7 @@ import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
 import { CANNOT_DISCUSS } from "../../discussions/constants";
 import { ChannelNonePermission } from "./ChannelBusinessRules";
-import { Role } from "../../discussions/api/types";
+import { Role } from "../../discussions/api/enums/role";
 import { deriveUserRoleV2 } from "../../discussions/api/utils/channels/derive-user-role-v2";
 import { CHANNEL_ACTION_PRIVS } from "../../discussions/api/utils/channel-permission";
 import { IHubChannel } from "../../core/types/IHubChannel";

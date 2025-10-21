@@ -7,7 +7,7 @@ import {
   MOCK_NOAUTH_HUB_REQOPTS,
 } from "../mocks/mock-auth";
 import * as slugUtils from "../../src/items/slugs";
-import { SearchCategories } from "../../src/sites/_internal/types";
+import { SearchCategories } from "../../src/sites/_internal/enums/searchCategories";
 import { IHubSite } from "../../src/core/types/IHubSite";
 import { IHubRequestOptions, IModel } from "../../src/hub-types";
 import * as fetchSiteModelModule from "../../src/sites/fetchSiteModel";

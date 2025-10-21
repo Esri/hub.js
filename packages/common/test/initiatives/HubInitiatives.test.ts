@@ -7,11 +7,8 @@ import * as getModelUtils from "../../src/models/getModel";
 import * as updateModelUtils from "../../src/models/updateModel";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import {
-  HubEntityStatus,
-  IHubRequestOptions,
-  IModel,
-} from "../../src/hub-types";
+import { IHubRequestOptions, IModel } from "../../src/hub-types";
+import { HubEntityStatus } from "../../src/enums/hubEntityStatus";
 import {
   createInitiative,
   enrichInitiativeSearchResult,

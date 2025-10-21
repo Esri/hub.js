@@ -1,9 +1,10 @@
-import { ChannelRelation, IChannel } from "../../src/discussions/api/types";
+import { IChannel } from "../../src/discussions/api/types";
 import * as fetchChannelV2Module from "../../src/discussions/api/channels/channels";
 import * as transformChannelToEntityModule from "../../src/channels/_internal/transformChannelToEntity";
 import { IHubChannel } from "../../src/core/types/IHubChannel";
 import { fetchHubChannel } from "../../src/channels/fetch";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { ChannelRelation } from "../../src/discussions/api/enums/channelRelation";
 
 describe("fetchHubChannel", () => {
   it("should call fetchChannelV2 and resolve an IHubChannel object", async () => {

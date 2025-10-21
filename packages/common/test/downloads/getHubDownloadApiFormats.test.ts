@@ -5,7 +5,7 @@ import * as getCreateReplicaFormatsModule from "../../src/downloads/_internal/fo
 import * as getPagingJobFormatsModule from "../../src/downloads/_internal/format-fetchers/getPagingJobFormats";
 import * as getFgdbJobFormatsModule from "../../src/downloads/_internal/format-fetchers/getFgdbJobFormats";
 import { getHubDownloadApiFormats } from "../../src/downloads/getHubDownloadApiFormats";
-import { ServiceDownloadFormat } from "../../src/downloads/types";
+import { ServiceDownloadFormat } from "../../src/downloads/enums/serviceDownloadFormat";
 describe("getHubDownloadApiFormats", () => {
   it("should return create replica formats if supported by entity", () => {
     const entity = {

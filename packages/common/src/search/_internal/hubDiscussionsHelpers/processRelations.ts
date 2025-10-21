@@ -1,4 +1,4 @@
-import { PostRelation } from "../../../discussions/api/types";
+import { PostRelation } from "../../../discussions/api/enums/postRelation";
 
 const RELATIONS_MAP: Record<string, PostRelation> = {
   channel: PostRelation.CHANNEL,

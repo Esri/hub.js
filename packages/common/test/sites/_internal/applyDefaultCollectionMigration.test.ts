@@ -3,7 +3,7 @@ import {
   IHubCollection,
 } from "../../../src/search/types/IHubCatalog";
 import { applyDefaultCollectionMigration } from "../../../src/sites/_internal/applyDefaultCollectionMigration";
-import { SearchCategories } from "../../../src/sites/_internal/types";
+import { SearchCategories } from "../../../src/sites/_internal/enums/searchCategories";
 import { IModel } from "../../../src/hub-types";
 import { cloneObject } from "../../../src/util";
 
