@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from "vitest";
 import * as AssertionModule from "../../../src/permissions/_internal/checkAssertion";
 import { checkAssertions } from "../../../src/permissions/_internal/checkAssertions";
 import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
@@ -17,6 +18,7 @@ describe("checkAssertions:", () => {
     const checks = checkAssertions(policy, ctx, entity);
     expect(checks.length).toBe(0);
   });
+
   it("maps over assertions", () => {
     const policy: IPermissionPolicy = {
       permission: "hub:project:create",
@@ -42,15 +44,16 @@ describe("checkAssertions:", () => {
         id: "123",
       },
     };
-    const spy = spyOn(AssertionModule, "checkAssertion").and.callFake(() => {
-      return {
-        response: "granted",
-      } as IPolicyCheck;
-    });
+
+    const spy = vi
+      .spyOn(AssertionModule as any, "checkAssertion")
+      .mockImplementation(() => ({ response: "granted" } as IPolicyCheck));
+
     const checks = checkAssertions(policy, ctx, entity);
     expect(checks.length).toBe(2);
-    expect(spy.calls.count()).toBe(2);
+    expect(spy).toHaveBeenCalledTimes(2);
   });
+
   it("checks conditions", () => {
     const policy: IPermissionPolicy = {
       permission: "hub:group:shareContent",
@@ -91,20 +94,14 @@ describe("checkAssertions:", () => {
       },
     };
 
-    const spy = spyOn(AssertionModule, "checkAssertion").and.returnValues(
-      {
-        response: "granted",
-      },
-      {
-        response: "granted",
-      },
-      {
-        response: "assertion-failed",
-      }
-    );
+    const spy = vi
+      .spyOn(AssertionModule as any, "checkAssertion")
+      .mockReturnValueOnce({ response: "granted" } as IPolicyCheck)
+      .mockReturnValueOnce({ response: "granted" } as IPolicyCheck)
+      .mockReturnValueOnce({ response: "assertion-failed" } as IPolicyCheck);
 
     const checks = checkAssertions(policy, ctx, entity);
     expect(checks.length).toBe(1);
-    expect(spy.calls.count()).toBe(3);
+    expect(spy).toHaveBeenCalledTimes(3);
   });
 });

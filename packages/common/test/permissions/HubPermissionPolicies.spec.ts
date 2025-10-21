@@ -4,6 +4,7 @@ import {
 } from "../../src/permissions/HubPermissionPolicies";
 import { isPermission } from "../../src/permissions/isPermission";
 import { Permission } from "../../src/permissions/types/Permission";
+import { describe, it, expect } from "vitest";
 
 describe("HubPermissionPolicies:", () => {
   it("returns true for valid permission policy", () => {
@@ -14,12 +15,9 @@ describe("HubPermissionPolicies:", () => {
     expect(getPermissionPolicy("WAT" as Permission)).toBeFalsy();
   });
 
-  // verify that all HubPermissionPolicies are valid permissions
   it("verifies all HubPermissionPolicies are valid permissions", () => {
     HubPermissionsPolicies.forEach((policy) => {
-      expect(isPermission(policy.permission)).toBeTruthy(
-        `Permission ${policy.permission} is not included in HubPermissions`
-      );
+      expect(isPermission(policy.permission)).toBeTruthy();
     });
   });
 });

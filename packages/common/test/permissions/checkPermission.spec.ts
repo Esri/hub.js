@@ -1,5 +1,4 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as GetPolicyModule from "../../src/permissions/HubPermissionPolicies";
 import * as IsPermissionModule from "../../src/permissions/isPermission";
@@ -9,28 +8,19 @@ import { IUserHubSettings } from "../../src/utils/IUserHubSettings";
 import { checkPermission } from "../../src/permissions/checkPermission";
 import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
 import { cloneObject } from "../../src/util";
-// In order to have stable tests over time, we define some policies just
-// for the purposes of testing. We then spy on getPermissionPolicy
-// and use these test-only structures instead of current businessrules
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
-// NOTE: The `permission` MUST BE VALID
-
-// THIS USES PROJECT PERMISSIONS BUT THE POLICIES ARE JUST FOR TESTING
 const TestPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:feature:workspace",
     dependencies: ["hub:gating:workspace:released"],
   },
   {
-    // Feature that gates the workspace release
-    // when removed, the workspace feature will be available to all users
     permission: "hub:gating:workspace:released",
     availability: ["alpha"],
     environments: ["devext", "qaext", "production"],
   },
   {
-    // Present to verify that the gating is opened when
-    // the conditions are removed
     permission: "hub:gating:subscriptions:released",
   },
   {
@@ -49,7 +39,6 @@ const TestPermissionPolicies: IPermissionPolicy[] = [
     privileges: ["portal:user:createItem"],
   },
   {
-    // Anyone can view a project
     permission: "hub:project:view",
     services: ["portal"],
   },
@@ -93,27 +82,8 @@ const TestPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:project:workspace:hierarchy2",
     dependencies: ["hub:project:workspace"],
   },
-  // More permissions that can be used to create more test scenarios
-  // {
-  //   permission: "hub:project:workspace:settings",
-  //   dependencies: ["hub:project:edit"],
-  //   entityOwner: true,
-  // },
-  // {
-  //   permission: "hub:project:workspace:collaborators",
-  //   dependencies: ["hub:project:edit"],
-  // },
-  // {
-  //   permission: "hub:project:workspace:metrics",
-  //   dependencies: ["hub:project:edit"],
-  // },
 ] as IPermissionPolicy[];
 
-/**
- * FAKE IMPLEMENTATION SO WE DON'T TIE TESTS TO REAL PERMISSIONS
- * @param permission
- * @returns
- */
 function getPermissionPolicy(permission: Permission): IPermissionPolicy {
   return TestPermissionPolicies.find(
     (p) => p.permission === permission
@@ -122,27 +92,38 @@ function getPermissionPolicy(permission: Permission): IPermissionPolicy {
 
 function isPermission(permission: Permission): boolean {
   const permissions = TestPermissionPolicies.map((p) => p.permission);
-  // Add one to flex a missing policy condition
   permissions.push("hub:missing:policy" as Permission);
   return permissions.includes(permission);
 }
 
-describe("checkPermission:", () => {
-  let basicCtxMgr: ArcGISContextManager;
-  let gatingOptOutCtxMgr: ArcGISContextManager;
-  let gatingOptInCtxMgr: ArcGISContextManager;
-  let premiumCtxMgr: ArcGISContextManager;
+type ContextManagerType = {
+  context: any;
+};
 
-  beforeEach(async () => {
-    spyOn(GetPolicyModule, "getPermissionPolicy").and.callFake(
+function createMockContextManager(context: any): ContextManagerType {
+  // Ensure tests are running with an authenticated context by default
+  if (typeof context.isAuthenticated === "undefined") {
+    context.isAuthenticated = true;
+  }
+  return { context };
+}
+
+describe("checkPermission:", () => {
+  let basicCtxMgr: ContextManagerType;
+  let gatingOptOutCtxMgr: ContextManagerType;
+  let gatingOptInCtxMgr: ContextManagerType;
+  let premiumCtxMgr: ContextManagerType;
+
+  beforeEach(() => {
+    vi.spyOn(GetPolicyModule, "getPermissionPolicy").mockImplementation(
       getPermissionPolicy
     );
-    spyOn(IsPermissionModule, "isPermission").and.callFake(isPermission);
+    // isPermission is typed to a union of Permission strings; cast to any to satisfy vi.spyOn typing
+    vi.spyOn(IsPermissionModule, "isPermission").mockImplementation(
+      isPermission as any
+    );
 
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    basicCtxMgr = await ArcGISContextManager.create({
+    basicCtxMgr = createMockContextManager({
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
@@ -159,12 +140,13 @@ describe("checkPermission:", () => {
         },
       } as unknown as IPortal,
       portalUrl: "https://org.maps.arcgis.com",
+      serviceStatus: { portal: "online" },
+      hubLicense: "hub-basic",
       featureFlags: {
-        // will not grant access b/c license is basic
         "hub:project:workspace:details": true,
       },
     });
-    gatingOptOutCtxMgr = await ArcGISContextManager.create({
+    gatingOptOutCtxMgr = createMockContextManager({
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
@@ -181,20 +163,18 @@ describe("checkPermission:", () => {
         },
       } as unknown as IPortal,
       portalUrl: "https://org.maps.arcgis.com",
+      serviceStatus: { portal: "online" },
+      hubLicense: "hub-basic",
       featureFlags: {},
       userHubSettings: {
         features: {
-          // this feature depends on a gating policy, which has no conditions, meaning it's released
-          // but setting this to false will opt the user out of the feature. In the future, to remove
-          // this opt-out, we will apply a migration that will remove this setting when we
-          // remove the ability to opt out
           subscriptions: false,
         } as unknown as IUserHubSettings["features"],
         schemaVersion: 1.1,
         username: "casey",
       },
     });
-    gatingOptInCtxMgr = await ArcGISContextManager.create({
+    gatingOptInCtxMgr = createMockContextManager({
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
@@ -211,18 +191,18 @@ describe("checkPermission:", () => {
         },
       } as unknown as IPortal,
       portalUrl: "https://org.maps.arcgis.com",
+      serviceStatus: { portal: "online" },
+      hubLicense: "hub-basic",
       featureFlags: {},
       userHubSettings: {
         features: {
-          // this feature depends on a gating policy, which has conditions, meaning it's not released
-          // but this user has opted in to the feature, which overrides the gating
           workspace: true,
         } as unknown as IUserHubSettings["features"],
         schemaVersion: 1.1,
         username: "casey",
       },
     });
-    premiumCtxMgr = await ArcGISContextManager.create({
+    premiumCtxMgr = createMockContextManager({
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
@@ -239,14 +219,12 @@ describe("checkPermission:", () => {
         },
       } as unknown as IPortal,
       portalUrl: "https://org.maps.arcgis.com",
+      serviceStatus: { portal: "online" },
+      hubLicense: "hub-premium",
       featureFlags: {
-        // will override alpha + qa
         "hub:project:workspace:dashboard": true,
-        // forces details to be unavailable
         "hub:project:workspace:details": false,
-        // force content to be enabled, even if entity turned it off
         "hub:project:content": true,
-        // enable hub:project:workspace:hiearchy by enabling hub:feature:workspace
         "hub:feature:workspace": true,
       },
       userHubSettings: {
@@ -258,6 +236,7 @@ describe("checkPermission:", () => {
       },
     });
   });
+  // ...existing code...
   it("returns invalid permission if its invalid", () => {
     const chk = checkPermission(
       "foo:site:create" as Permission,
@@ -285,7 +264,6 @@ describe("checkPermission:", () => {
     expect(chk.access).toBe(true);
     expect(chk.response).toBe("granted");
     expect(chk.checks.length).toBe(4);
-    // verify that the service check is run
     expect(chk.checks[0].name).toBe("service portal online");
   });
 
@@ -374,9 +352,6 @@ describe("checkPermission:", () => {
       expect(chk.access).toBe(false);
       expect(chk.response).toBe("not-granted");
       expect(chk.checks.length).toBe(5);
-      // expect(consoleInfoSpy.calls.argsFor(0)[0]).toContain(
-      //   "checkPermission: YODA"
-      // );
     });
   });
 
@@ -428,7 +403,6 @@ describe("checkPermission:", () => {
     });
   });
   describe("feature flags:", () => {
-    // Feature Flags are passed on Context create ^^
     it("enabled feature flag overrides availability and env", () => {
       const chk = checkPermission(
         "hub:project:workspace:dashboard",

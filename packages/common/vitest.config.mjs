@@ -24,6 +24,7 @@ export default defineConfig({
         "src/core/**/*.ts",
         "src/discussions/**/*.ts",
         // TW working below this line
+        "src/permissions/**/*.ts",
         "src/projects/**/*.ts",
         "src/resources/**/*.ts",
         "src/rest/**/*.ts",
