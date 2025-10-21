@@ -22,6 +22,7 @@ export default defineConfig({
         "src/channels/**/*.ts",
         "src/content/**/*.ts",
         "src/core/**/*.ts",
+        "src/discussions/**/*.ts",
         // TW working below this line
         "src/resources/**/*.ts",
         "src/sites/**/*.ts",

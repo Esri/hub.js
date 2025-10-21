@@ -1,10 +1,11 @@
+import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import {
   AclCategory,
   IChannel,
   IDiscussionsUser,
   Role,
-} from "../../../../../src/discussions/api//types";
+} from "../../../../../src/discussions/api/types";
 import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
 import { canCreateChannelV2 } from "../../../../../src/discussions/api/utils/channels/can-create-channel-v2";
 
@@ -12,7 +13,7 @@ const orgId1 = "3ef";
 const groupId1 = "aaa";
 const groupId2 = "bbb";
 
-function buildUser(overrides = {}) {
+function buildUser(overrides = {}): IDiscussionsUser {
   const defaultUser = {
     username: "john",
     orgId: orgId1,
@@ -23,7 +24,11 @@ function buildUser(overrides = {}) {
   return { ...defaultUser, ...overrides } as IDiscussionsUser;
 }
 
-function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
+function buildGroup(
+  id: string,
+  memberType: string,
+  typeKeywords?: string[]
+): IGroup {
   return {
     id,
     userMembership: { memberType },
@@ -33,17 +38,18 @@ function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
 
 describe("canCreateChannelV2", () => {
   describe("with channelAcl", () => {
-    let canCreateChannelSpy: jasmine.Spy;
+    let canCreateChannelSpy: ReturnType<typeof vi.spyOn>;
 
-    beforeAll(() => {
-      canCreateChannelSpy = spyOn(
+    beforeEach(() => {
+      canCreateChannelSpy = vi.spyOn(
         ChannelPermission.prototype,
         "canCreateChannel"
       );
     });
 
-    beforeEach(() => {
-      canCreateChannelSpy.calls.reset();
+    afterEach(() => {
+      // restore any mocks to avoid cross-test leakage
+      vi.restoreAllMocks();
     });
 
     it("throws error if channel.channelAcl is undefined", async () => {
@@ -58,7 +64,7 @@ describe("canCreateChannelV2", () => {
     });
 
     it("return true if channelPermission.canCreateChannel is true", () => {
-      canCreateChannelSpy.and.callFake(() => true);
+      canCreateChannelSpy.mockImplementation(() => true);
 
       const user = buildUser();
       const channel = {
@@ -67,13 +73,13 @@ describe("canCreateChannelV2", () => {
 
       expect(canCreateChannelV2(channel, user)).toBe(true);
 
-      expect(canCreateChannelSpy.calls.count()).toBe(1);
-      const [arg] = canCreateChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(canCreateChannelSpy).toHaveBeenCalledTimes(1);
+      const [arg] = canCreateChannelSpy.mock.calls[0]; // arg for 1st call
       expect(arg).toBe(user);
     });
 
     it("return false if channelPermission.canCreateChannel is false", () => {
-      canCreateChannelSpy.and.callFake(() => false);
+      canCreateChannelSpy.mockImplementation(() => false);
 
       const user = buildUser();
       const channel = {
@@ -82,13 +88,13 @@ describe("canCreateChannelV2", () => {
 
       expect(canCreateChannelV2(channel, user)).toBe(false);
 
-      expect(canCreateChannelSpy.calls.count()).toBe(1);
-      const [arg] = canCreateChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(canCreateChannelSpy).toHaveBeenCalledTimes(1);
+      const [arg] = canCreateChannelSpy.mock.calls[0]; // arg for 1st call
       expect(arg).toBe(user);
     });
 
     it("return false if user is undefined", () => {
-      canCreateChannelSpy.and.callFake(() => false);
+      canCreateChannelSpy.mockImplementation(() => false);
 
       const user = undefined as IDiscussionsUser;
       const channel = {
@@ -97,8 +103,8 @@ describe("canCreateChannelV2", () => {
 
       expect(canCreateChannelV2(channel, user)).toBe(false);
 
-      expect(canCreateChannelSpy.calls.count()).toBe(1);
-      const [arg] = canCreateChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(canCreateChannelSpy).toHaveBeenCalledTimes(1);
+      const [arg] = canCreateChannelSpy.mock.calls[0]; // arg for 1st call
       expect(arg).toEqual({});
     });
   });
