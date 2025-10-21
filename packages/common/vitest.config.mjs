@@ -31,7 +31,7 @@ export default defineConfig({
         "src/newsletters-scheduler/**/*.ts",
         "src/objects/**/*.ts",
         "src/org/**/*.ts",
-        // TODO: "src/pages/**/*.ts",
+        "src/pages/**/*.ts",
         "src/permissions/**/*.ts",
         "src/projects/**/*.ts",
         "src/resources/**/*.ts",

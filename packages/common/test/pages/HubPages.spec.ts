@@ -1,3 +1,12 @@
+import { vi } from "vitest";
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const original = await importOriginal();
+  return {
+    ...(original as any),
+    removeItem: vi.fn(),
+    getItemData: vi.fn(),
+  } ;
+});
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -86,16 +95,16 @@ const PAGE_MODEL = {
 describe("HubPages Module", () => {
   describe("createPage:", () => {
     it("works with very limited structure", async () => {
-      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|hello-world")
-      );
-      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
-        (m: IModel) => {
+      const slugSpy = vi
+        .spyOn(slugUtils, "getUniqueSlug")
+        .mockResolvedValue("dcdev|hello-world");
+      const createSpy = vi
+        .spyOn(createModelUtils, "createModel")
+        .mockImplementation((m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
           return Promise.resolve(newModel);
-        }
-      );
+        });
       const chk = await createPage(
         { name: "Hello World", orgUrlKey: "dcdev" },
         { authentication: MOCK_AUTH }
@@ -104,14 +113,14 @@ describe("HubPages Module", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       // should ensure unique slug
-      expect(slugSpy.calls.count()).toBe(1);
-      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
+      expect(slugSpy).toHaveBeenCalledTimes(1);
+      expect(slugSpy.mock.calls[0][0]).toEqual(
         { slug: "dcdev|hello-world" },
         "should recieve slug"
       );
       // should create the item
-      expect(createSpy.calls.count()).toBe(1);
-      const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(createSpy).toHaveBeenCalledTimes(1);
+      const modelToCreate = createSpy.mock.calls[0][0] ;
       expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.type).toBe("Hub Page");
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
@@ -119,20 +128,20 @@ describe("HubPages Module", () => {
     });
     it("works with more complete object", async () => {
       // Note: this covers a branch when a slug is passed in
-      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|hello-world")
-      );
-      const createSpy = spyOn(createModelUtils, "createModel").and.callFake(
-        (m: IModel) => {
+      const slugSpy = vi
+        .spyOn(slugUtils, "getUniqueSlug")
+        .mockResolvedValue("dcdev|hello-world");
+      const createSpy = vi
+        .spyOn(createModelUtils, "createModel")
+        .mockImplementation((m: IModel) => {
           const newModel = cloneObject(m);
           newModel.item.id = GUID;
           return Promise.resolve(newModel);
-        }
-      );
+        });
       const chk = await createPage(
         {
           name: "Hello World",
-          slug: "dcdev|hello-world", // important for coverage
+          slug: "dcdev|hello-world",
           description: "my desc",
           orgUrlKey: "dcdev",
         },
@@ -142,14 +151,14 @@ describe("HubPages Module", () => {
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("my desc");
       // should ensure unique slug
-      expect(slugSpy.calls.count()).toBe(1);
-      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
+      expect(slugSpy).toHaveBeenCalledTimes(1);
+      expect(slugSpy.mock.calls[0][0]).toEqual(
         { slug: "dcdev|hello-world" },
         "should recieve slug"
       );
       // should create the item
-      expect(createSpy.calls.count()).toBe(1);
-      const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(createSpy).toHaveBeenCalledTimes(1);
+      const modelToCreate = createSpy.mock.calls[0][0] ;
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
@@ -157,18 +166,15 @@ describe("HubPages Module", () => {
 
   describe("updatePage: ", () => {
     it("updates backing model", async () => {
-      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|dcdev-wat-blarg-1")
-      );
-      const getModelSpy = spyOn(getModelUtils, "getModel").and.returnValue(
-        Promise.resolve(PAGE_MODEL)
-      );
-      const updateModelSpy = spyOn(
-        updateModelUtils,
-        "updateModel"
-      ).and.callFake((m: IModel) => {
-        return Promise.resolve(m);
-      });
+      const slugSpy = vi
+        .spyOn(slugUtils, "getUniqueSlug")
+        .mockResolvedValue("dcdev|dcdev-wat-blarg-1");
+      const getModelSpy = vi
+        .spyOn(getModelUtils, "getModel")
+        .mockResolvedValue(PAGE_MODEL as any);
+      const updateModelSpy = vi
+        .spyOn(updateModelUtils, "updateModel")
+        .mockImplementation((m: IModel) => Promise.resolve(m));
       const page: IHubPage = {
         itemControl: "edit",
         id: GUID,
@@ -195,14 +201,14 @@ describe("HubPages Module", () => {
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
       // should ensure unique slug
-      expect(slugSpy.calls.count()).toBe(1);
-      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
+      expect(slugSpy).toHaveBeenCalledTimes(1);
+      expect(slugSpy.mock.calls[0][0]).toEqual(
         { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
         "should recieve slug"
       );
-      expect(getModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(getModelSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.mock.calls[0][0] ;
       expect(modelToUpdate.item.description).toBe(page.description);
       expect(modelToUpdate.item.properties.slug).toBe(
         "dcdev|dcdev-wat-blarg-1"
@@ -212,77 +218,73 @@ describe("HubPages Module", () => {
 
   describe("deletePage:", () => {
     it("deletes the item", async () => {
-      const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
-        Promise.resolve({ success: true })
-      );
+      const removeSpy = vi
+        .spyOn(portalModule, "removeItem")
+        .mockResolvedValue({ success: true } as any);
 
-      const result = await deletePage("3ef", {
-        authentication: MOCK_AUTH,
-      });
+      const result = await deletePage("3ef", { authentication: MOCK_AUTH });
       expect(result).toBeUndefined();
-      expect(removeSpy.calls.count()).toBe(1);
-      expect(removeSpy.calls.argsFor(0)[0].authentication).toBe(MOCK_AUTH);
-      expect(removeSpy.calls.argsFor(0)[0].id).toBe("3ef");
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+      expect((removeSpy.mock.calls[0][0] as any).authentication).toBe(
+        MOCK_AUTH
+      );
+      expect((removeSpy.mock.calls[0][0] as any).id).toBe("3ef");
     });
   });
 
   describe("fetchPage:", () => {
-    const requestOptions = {
-      authentication: MOCK_AUTH,
-    };
+    const requestOptions = { authentication: MOCK_AUTH };
 
     it("converts item to page if found", async () => {
-      const fetchItemSpy = spyOn(fetchModule, "fetchItem").and.returnValue(
-        Promise.resolve(PAGE_ITEM)
-      );
+      const fetchItemSpy = vi
+        .spyOn(fetchModule, "fetchItem")
+        .mockResolvedValue(PAGE_ITEM as any);
       // NOTE: this should probably just spy on convertItemToPage instead
-      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve(PAGE_DATA)
-      );
+      const getItemDataSpy = vi
+        .spyOn(portalModule, "getItemData")
+        .mockResolvedValue(PAGE_DATA as any);
 
       const result = await fetchPage(GUID, requestOptions);
 
       expect(result.id).toBe(GUID);
       expect(result.owner).toBe("vader");
-      expect(fetchItemSpy.calls.count()).toBe(1);
-      expect(fetchItemSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemDataSpy.calls.count()).toBe(1);
-      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
+      expect(fetchItemSpy).toHaveBeenCalledTimes(1);
+      expect(fetchItemSpy.mock.calls[0][0]).toBe(GUID);
+      expect(getItemDataSpy).toHaveBeenCalledTimes(1);
+      expect(getItemDataSpy.mock.calls[0][0]).toBe(GUID);
     });
 
     it("returns null if item not found", async () => {
-      const fetchItemSpy = spyOn(fetchModule, "fetchItem").and.returnValue(
-        Promise.resolve(null)
-      );
+      const fetchItemSpy = vi
+        .spyOn(fetchModule, "fetchItem")
+        .mockResolvedValue(null as any);
       // NOTE: this should probably just spy on convertItemToPage instead
-      const getItemDataSpy = spyOn(portalModule, "getItemData");
+      const getItemDataSpy = vi.spyOn(portalModule, "getItemData");
 
       const result = await fetchPage(GUID, requestOptions);
 
       expect(result).toBeNull();
-      expect(fetchItemSpy.calls.count()).toBe(1);
-      expect(fetchItemSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemDataSpy.calls.count()).toBe(0);
+      expect(fetchItemSpy).toHaveBeenCalledTimes(1);
+      expect(fetchItemSpy.mock.calls[0][0]).toBe(GUID);
+      expect(getItemDataSpy).toHaveBeenCalledTimes(0);
     });
   });
 
   describe("enrichments:", () => {
-    let enrichmentSpy: jasmine.Spy;
+    let enrichmentSpy: any;
     let hubRo: IHubRequestOptions;
     beforeEach(() => {
-      enrichmentSpy = spyOn(
-        FetchEnrichments,
-        "fetchItemEnrichments"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          data: {
-            sites: [{ id: 1 }],
-          },
-        });
-      });
+      enrichmentSpy = vi
+        .spyOn(FetchEnrichments, "fetchItemEnrichments")
+        .mockImplementation(() =>
+          Promise.resolve({
+            item: PAGE_ITEM as any,
+            data: { sites: [{ id: 1 }] },
+          } as any)
+        );
       hubRo = {
         portal: "https://some-server.com/gis/sharing/rest",
-      };
+      } as IHubRequestOptions;
     });
 
     it("converts item to search result", async () => {
@@ -292,10 +294,7 @@ describe("HubPages Module", () => {
         hubRo
       );
 
-      expect(enrichmentSpy.calls.count()).toBe(
-        0,
-        "should not fetch enrichments"
-      );
+      expect(enrichmentSpy).toHaveBeenCalledTimes(0);
 
       // verify expected output
       const ITM = cloneObject(PAGE_ITEM);
@@ -340,8 +339,8 @@ describe("HubPages Module", () => {
       expect(chk.siteCount).toBe(1);
 
       // verify the spy
-      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
-      const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
+      expect(enrichmentSpy).toHaveBeenCalledTimes(1);
+      const [item, enrichments, ro] = enrichmentSpy.mock.calls[0];
       expect(item).toEqual(PAGE_ITEM);
       expect(enrichments).toEqual(["data"]);
       expect(ro).toBe(hubRo);

@@ -1,69 +1,65 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { createMockContext, MOCK_AUTH } from "../mocks/mock-auth";
 import { HubPage } from "../../src/pages/HubPage";
-import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubPagesModule from "../../src/pages/HubPages";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import { IHubPage } from "../../src/core/types/IHubPage";
 import { getProp } from "../../src/objects/get-prop";
+import { vi } from "vitest";
 
 describe("HubPage Class:", () => {
-  let authdCtxMgr: ArcGISContextManager;
-  let portalCtxMgr: ArcGISContextManager;
-  // let unauthdCtxMgr: ArcGISContextManager;
-  beforeEach(async () => {
-    // unauthdCtxMgr = await ArcGISContextManager.create();
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://fake-org.maps.arcgis.com",
-    });
-    portalCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
-      portal: {
-        isPortal: true,
-        name: "My Portal Install",
-        id: "BRXFAKE",
-        // urlKey is undefined in Enterprise, so it's intentionally not set
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://myserver.com",
-    });
+  let authdCtxMgr: any;
+  let portalCtxMgr: any;
+  beforeEach(() => {
+    authdCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: { username: "casey" } as unknown as PortalModule.IUser,
+        portalSelf: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://fake-org.maps.arcgis.com",
+      }),
+    };
+
+    portalCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: { username: "casey" } as unknown as PortalModule.IUser,
+        portalSelf: {
+          isPortal: true,
+          name: "My Portal Install",
+          id: "BRXFAKE",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://myserver.com",
+      }),
+    };
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("static methods:", () => {
     it("loads from minimal json", () => {
-      const createSpy = spyOn(HubPagesModule, "createPage");
+      const createSpy = vi.spyOn(HubPagesModule, "createPage");
       const chk = HubPage.fromJson({ name: "Test Page" }, authdCtxMgr.context);
 
       expect(createSpy).not.toHaveBeenCalled();
       expect(chk.toJson().name).toEqual("Test Page");
-      // adds empty permissions and catalog
       const json = chk.toJson();
       expect(json.permissions).toEqual([]);
     });
+
     it("loads based on identifier", async () => {
-      const fetchSpy = spyOn(HubPagesModule, "fetchPage").and.callFake(
-        (id: string) => {
-          return Promise.resolve({
-            id,
-            name: "Test Page",
-          });
-        }
-      );
+      const fetchSpy = vi
+        .spyOn(HubPagesModule, "fetchPage")
+        .mockImplementation((id: string) =>
+          Promise.resolve({ id, name: "Test Page" } as unknown as IHubPage)
+        );
 
       const chk = await HubPage.fetch("3ef", authdCtxMgr.context);
       expect(fetchSpy).toHaveBeenCalledTimes(1);
@@ -72,14 +68,13 @@ describe("HubPage Class:", () => {
     });
 
     it("throws if page not found", async () => {
-      const fetchSpy = spyOn(HubPagesModule, "fetchPage").and.callFake(
-        (_id: string) => {
-          const err = new Error(
-            "CONT_0001: Item does not exist or is inaccessible."
-          );
-          return Promise.reject(err);
-        }
-      );
+      const fetchSpy = vi
+        .spyOn(HubPagesModule, "fetchPage")
+        .mockImplementation((_id: string) =>
+          Promise.reject(
+            new Error("CONT_0001: Item does not exist or is inaccessible.")
+          )
+        );
       try {
         await HubPage.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -90,12 +85,11 @@ describe("HubPage Class:", () => {
     });
 
     it("handle load errors", async () => {
-      const fetchSpy = spyOn(HubPagesModule, "fetchPage").and.callFake(
-        (_id: string) => {
-          const err = new Error("ZOMG!");
-          return Promise.reject(err);
-        }
-      );
+      const fetchSpy = vi
+        .spyOn(HubPagesModule, "fetchPage")
+        .mockImplementation((_id: string) =>
+          Promise.reject(new Error("ZOMG!"))
+        );
       try {
         await HubPage.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -107,11 +101,11 @@ describe("HubPage Class:", () => {
   });
 
   it("save calls createPage if object does not have an id", async () => {
-    const createSpy = spyOn(HubPagesModule, "createPage").and.callFake(
-      (p: IHubPage) => {
-        return Promise.resolve(p);
-      }
-    );
+    const createSpy = vi
+      .spyOn(HubPagesModule, "createPage")
+      .mockImplementation((p: Partial<IHubPage>, _ro?: any) =>
+        Promise.resolve(p as IHubPage)
+      );
     const chk = HubPage.fromJson({ name: "Test Page" }, authdCtxMgr.context);
     await chk.save();
     expect(createSpy).toHaveBeenCalledTimes(1);
@@ -119,12 +113,12 @@ describe("HubPage Class:", () => {
   });
 
   it("create saves the instance if passed true", async () => {
-    const createSpy = spyOn(HubPagesModule, "createPage").and.callFake(
-      (p: IHubPage) => {
-        p.id = "3ef";
-        return Promise.resolve(p);
-      }
-    );
+    const createSpy = vi
+      .spyOn(HubPagesModule, "createPage")
+      .mockImplementation((p: Partial<IHubPage>, _ro?: any) => {
+        const out = { ...(p as any), id: "3ef" } as IHubPage;
+        return Promise.resolve(out);
+      });
     const chk = await HubPage.create(
       { name: "Test Page" },
       authdCtxMgr.context,
@@ -135,9 +129,10 @@ describe("HubPage Class:", () => {
     expect(chk.toJson().name).toEqual("Test Page");
     expect(chk.toJson().type).toEqual("Hub Page");
   });
+
   describe("Enterprise", () => {
     it("create does not save by default", async () => {
-      const createSpy = spyOn(HubPagesModule, "createPage");
+      const createSpy = vi.spyOn(HubPagesModule, "createPage");
       const chk = await HubPage.create(
         { name: "Test Page", orgUrlKey: "foo" },
         portalCtxMgr.context
@@ -149,7 +144,7 @@ describe("HubPage Class:", () => {
     });
 
     it("handles undefined orgUrlKey", async () => {
-      const createSpy = spyOn(HubPagesModule, "createPage");
+      const createSpy = vi.spyOn(HubPagesModule, "createPage");
       const chk = HubPage.fromJson({ name: "Test Page" }, portalCtxMgr.context);
       const editor = await chk.toEditor();
       expect(editor.orgUrlKey).toEqual("");
@@ -160,9 +155,7 @@ describe("HubPage Class:", () => {
 
   it("update applies partial changes to internal state", () => {
     const chk = HubPage.fromJson({ name: "Test Page" }, authdCtxMgr.context);
-    chk.update({
-      name: "Test Page 2",
-    });
+    chk.update({ name: "Test Page 2" });
     expect(chk.toJson().name).toEqual("Test Page 2");
 
     chk.update({ tags: ["one", "two"] });
@@ -170,16 +163,13 @@ describe("HubPage Class:", () => {
   });
 
   it("save updates if object has id", async () => {
-    const updateSpy = spyOn(HubPagesModule, "updatePage").and.callFake(
-      (p: IHubPage) => {
-        return Promise.resolve(p);
-      }
-    );
+    const updateSpy = vi
+      .spyOn(HubPagesModule, "updatePage")
+      .mockImplementation((p: Partial<IHubPage>, _ro?: any) =>
+        Promise.resolve(p as IHubPage)
+      );
     const chk = HubPage.fromJson(
-      {
-        id: "bc3",
-        name: "Test Page",
-      },
+      { id: "bc3", name: "Test Page" },
       authdCtxMgr.context
     );
     await chk.save();
@@ -187,29 +177,22 @@ describe("HubPage Class:", () => {
   });
 
   it("delete", async () => {
-    const deleteSpy = spyOn(HubPagesModule, "deletePage").and.callFake(() => {
-      return Promise.resolve();
-    });
+    const deleteSpy = vi
+      .spyOn(HubPagesModule, "deletePage")
+      .mockResolvedValue(undefined as any);
     const chk = HubPage.fromJson({ name: "Test Page" }, authdCtxMgr.context);
     await chk.delete();
     expect(deleteSpy).toHaveBeenCalledTimes(1);
-    // all fns should now throw an error
-    expect(() => {
-      chk.toJson();
-    }).toThrowError("Entity is already destroyed.");
-
-    expect(() => {
-      chk.update({ name: "Test Page 2" } as IHubPage);
-    }).toThrowError("HubPage is already destroyed.");
-
-    // async calls
+    expect(() => chk.toJson()).toThrowError("Entity is already destroyed.");
+    expect(() => chk.update({ name: "Test Page 2" } as IHubPage)).toThrowError(
+      "HubPage is already destroyed."
+    );
     try {
       await chk.delete();
     } catch (e) {
       const error = e as { message?: string };
       expect(error.message).toEqual("HubPage is already destroyed.");
     }
-
     try {
       await chk.save();
     } catch (e) {
@@ -220,16 +203,11 @@ describe("HubPage Class:", () => {
 
   describe("IWithEditorBehavior:", () => {
     it("getEditorConfig delegates to helper", async () => {
-      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({ fake: "config" });
-        }
-      );
+      const spy = vi
+        .spyOn(EditConfigModule, "getEditorConfig")
+        .mockResolvedValue({ fake: "config" } as any);
       const chk = HubPage.fromJson(
-        {
-          id: "bc3",
-          name: "Test Entity",
-        },
+        { id: "bc3", name: "Test Entity" },
         authdCtxMgr.context
       );
       const result = await chk.getEditorConfig("i18n.Scope", "hub:page:edit");
@@ -245,15 +223,14 @@ describe("HubPage Class:", () => {
 
     describe("toEditor:", () => {
       it("optionally enriches the entity", async () => {
-        const enrichEntitySpy = spyOn(
-          EnrichEntityModule,
-          "enrichEntity"
-        ).and.returnValue(Promise.resolve({}));
+        const enrichEntitySpy = vi
+          .spyOn(EnrichEntityModule, "enrichEntity")
+          .mockResolvedValue({} as any);
         const chk = HubPage.fromJson({ id: "bc3" }, authdCtxMgr.context);
-        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
-
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"] as any);
         expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
       });
+
       it("toEditor converst entity to correct structure", async () => {
         const chk = HubPage.fromJson(
           {
@@ -264,7 +241,6 @@ describe("HubPage Class:", () => {
           authdCtxMgr.context
         );
         const result = await chk.toEditor();
-        // NOTE: If additional transforms are added in the class they should have tests here
         expect(result.id).toEqual("bc3");
         expect(result.name).toEqual("Test Entity");
         expect(result.thumbnailUrl).toEqual(
@@ -283,18 +259,16 @@ describe("HubPage Class:", () => {
           },
           authdCtxMgr.context
         );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
         editor.name = "new name";
-        // call fromEditor
         const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
-        // expect the name to have been updated
         expect(result.name).toEqual("new name");
       });
+
       it("handles thumbnail change", async () => {
         const chk = HubPage.fromJson(
           {
@@ -304,21 +278,17 @@ describe("HubPage Class:", () => {
           },
           authdCtxMgr.context
         );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {
           blob: "fake blob",
           filename: "thumbnail.png",
-        };
-        // call fromEditor
+        } as any;
         const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
-        // since thumbnailCache is protected we can't really test that it's set
-        // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
       });
 
@@ -331,20 +301,17 @@ describe("HubPage Class:", () => {
           },
           authdCtxMgr.context
         );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
         editor.name = "new name";
-        editor._thumbnail = {};
-        // call fromEditor
+        editor._thumbnail = {} as any;
         const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
-        // since thumbnailCache is protected we can't really test that it's set
-        // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
       });
+
       it("throws if creating", async () => {
         const chk = HubPage.fromJson(
           {
@@ -353,12 +320,11 @@ describe("HubPage Class:", () => {
           },
           authdCtxMgr.context
         );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         const editor = await chk.toEditor();
         editor.name = "new name";
-        // call fromEditor
         try {
           await chk.fromEditor(editor);
         } catch (ex) {
