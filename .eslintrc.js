@@ -51,7 +51,7 @@ module.exports = {
       {
         selector: "TSEnumDeclaration", // Enum declarations
         message:
-          "Enums are not allowed. Consider using union types with string literals instead.",
+          "Enums are not allowed. Consider using separate const and type. E.g. const FRUIT = { APPLE: 'apple', BANANA: 'banana' } as const; type Fruit = typeof FRUIT[keyof typeof FRUIT];",
       },
     ],
     "@typescript-eslint/no-var-requires": "error",
@@ -85,16 +85,81 @@ module.exports = {
         "packages/common/src/newsletters-scheduler/api/**/*.ts",
       ],
       rules: {
+        // ignore re-export statements and enums in auto-generated code
         "no-restricted-syntax": "off",
+        // ignore errors caused by not auto-generated code not calling `.toString()` on `URLSearchParams` objects
         "@typescript-eslint/restrict-template-expressions": "off",
       },
     },
     {
-      // existing enums
-      files: ["packages/common/src/**/enums/*.ts"],
+      // existing enums. please do not add additional enums; they cause tree-shaking issues
+      // due to the nature in how they are transpiled to IIFEs and results in unused bytes
+      // being bundled by client libraries and applications. A better alternative to enums
+      // is to define a separate const and type.
+      // e.g.
+      //   const FRUIT = { APPLE: 'Apple', BANANA: 'Banana' } as const;
+      //   type Fruit = typeof FRUIT[keyof typeof FRUIT]; // union type of enum values
+      //   const fruit: Fruit = FRUIT.APPLE;
+      //
+      // we will be removing the below enums in the future to reduce our bundle sizes
+      files: [
+        "packages/common/src/content/_internal/enums/datePrecision.ts",
+        "packages/common/src/content/enums/jobRecordStatus.ts",
+        "packages/common/src/content/enums/jobRecordType.ts",
+        "packages/common/src/content/enums/serviceCapabilities.ts",
+        "packages/common/src/content/enums/updateFrequency.ts",
+        "packages/common/src/core/enums/embedKind.ts",
+        "packages/common/src/core/enums/expressionRelationships.ts",
+        "packages/common/src/core/enums/featureLayerStyle.ts",
+        "packages/common/src/core/enums/metricVisibility.ts",
+        "packages/common/src/core/enums/publisherSource.ts",
+        "packages/common/src/core/enums/timelineStageStatuses.ts",
+        "packages/common/src/core/enums/uiSchemaElementTypes.ts",
+        "packages/common/src/core/enums/uiSchemaMessageTypes.ts",
+        "packages/common/src/core/enums/uiSchemaRuleEffects.ts",
+        "packages/common/src/core/enums/uiSchemaSectionTypes.ts",
+        "packages/common/src/core/schemas/internal/metrics/enums/icons.ts",
+        "packages/common/src/core/schemas/internal/metrics/enums/layouts.ts",
+        "packages/common/src/core/schemas/internal/metrics/enums/scale.ts",
+        "packages/common/src/core/schemas/internal/metrics/enums/source.ts",
+        "packages/common/src/core/schemas/internal/metrics/enums/unitPositions.ts",
+        "packages/common/src/core/schemas/internal/metrics/enums/visualInterest.ts",
+        "packages/common/src/core/schemas/shared/enums/alignments.ts",
+        "packages/common/src/core/schemas/shared/enums/cardTitleTags.ts",
+        "packages/common/src/core/schemas/shared/enums/corners.ts",
+        "packages/common/src/core/schemas/shared/enums/dropShadows.ts",
+        "packages/common/src/discussions/api/enums/aclCategory.ts",
+        "packages/common/src/discussions/api/enums/aclSubCategory.ts",
+        "packages/common/src/discussions/api/enums/channelFilter.ts",
+        "packages/common/src/discussions/api/enums/channelRelation.ts",
+        "packages/common/src/discussions/api/enums/channelSort.ts",
+        "packages/common/src/discussions/api/enums/commonSort.ts",
+        "packages/common/src/discussions/api/enums/discussionSource.ts",
+        "packages/common/src/discussions/api/enums/discussionType.ts",
+        "packages/common/src/discussions/api/enums/entitySettingsType.ts",
+        "packages/common/src/discussions/api/enums/postReaction.ts",
+        "packages/common/src/discussions/api/enums/postRelation.ts",
+        "packages/common/src/discussions/api/enums/postSort.ts",
+        "packages/common/src/discussions/api/enums/postStatus.ts",
+        "packages/common/src/discussions/api/enums/postType.ts",
+        "packages/common/src/discussions/api/enums/reactionRelation.ts",
+        "packages/common/src/discussions/api/enums/role.ts",
+        "packages/common/src/discussions/api/enums/searchPostsFormat.ts",
+        "packages/common/src/discussions/api/enums/sharingAccess.ts",
+        "packages/common/src/discussions/api/enums/sortOrder.ts",
+        "packages/common/src/downloads/enums/downloadOperationStatus.ts",
+        "packages/common/src/downloads/enums/serviceDownloadFormat.ts",
+        "packages/common/src/enums/fileExtension.ts",
+        "packages/common/src/enums/hubEntityHero.ts",
+        "packages/common/src/enums/hubEntityStatus.ts",
+        "packages/common/src/enums/itemType.ts",
+        "packages/common/src/events/enums/hubEventAttendanceType.ts",
+        "packages/common/src/events/enums/hubEventCapacityType.ts",
+        "packages/common/src/sites/_internal/enums/searchCategories.ts",
+      ],
       rules: {
         "no-restricted-syntax": "off",
-      }
-    }
+      },
+    },
   ],
 };
