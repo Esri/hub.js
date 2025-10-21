@@ -1,3 +1,9 @@
+// make arcgis-rest-portal exports configurable for spying in ESM
+import { vi } from "vitest";
+vi.mock("@esri/arcgis-rest-portal", async () => {
+  const original = await vi.importActual("@esri/arcgis-rest-portal");
+  return { ...(original as any) };
+});
 import * as restPortal from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
@@ -261,11 +267,12 @@ describe("discussions utils", () => {
   });
   describe("getChannelUsersQuery", () => {
     const REQUEST_OPTIONS = {} as unknown as IRequestOptions;
-    let getGroupUsersSpy: jasmine.Spy;
+    let getGroupUsersSpy: any;
 
     beforeEach(() => {
-      getGroupUsersSpy = spyOn(restPortal, "getGroupUsers").and.callFake(
-        (groupId: string) => {
+      getGroupUsersSpy = vi
+        .spyOn(restPortal, "getGroupUsers")
+        .mockImplementation((groupId: string) => {
           const lookup: Record<string, restPortal.IGroupUsersResult> = {
             group1: {
               owner: "ownerUser1",
@@ -279,8 +286,7 @@ describe("discussions utils", () => {
             },
           };
           return Promise.resolve(lookup[groupId]);
-        }
-      );
+        });
     });
 
     it("should resolve an IQuery for a public channel (AclCategory.AUTHENTICATED_USER)", async () => {
@@ -604,7 +610,8 @@ describe("discussions utils", () => {
       expect(getGroupUsersSpy).not.toHaveBeenCalled();
     });
     it("should not add group admin predicates for inaccessible groups", async () => {
-      getGroupUsersSpy.and.returnValue(Promise.reject(new Error("404")));
+      // convert jasmine spy to vitest mock rejection
+      getGroupUsersSpy.mockRejectedValue(new Error("404"));
       const res = await getChannelUsersQuery(
         ["user1", "user2"],
         {
@@ -657,12 +664,12 @@ describe("discussions utils", () => {
   });
   describe("getPostCSVFileName", () => {
     beforeAll(() => {
-      jasmine.clock().install();
-      jasmine.clock().mockDate(new Date(1711987200000));
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date(1711987200000));
     });
 
     afterAll(() => {
-      jasmine.clock().uninstall();
+      vi.useRealTimers();
     });
 
     it("constructs file name", () => {
