@@ -1,32 +1,27 @@
 import { describe, it, expect, vi } from "vitest";
 
 // mock internal helpers used by buildUiSchema
+vi.mock("../../src/core/schemas/internal/getTagItems", () => ({
+  getTagItems: vi.fn().mockResolvedValue([]),
+}));
+vi.mock("../../src/core/schemas/internal/getLocationExtent", () => ({
+  getLocationExtent: vi.fn().mockResolvedValue(undefined),
+}));
+vi.mock("../../src/core/schemas/internal/getLocationOptions", () => ({
+  getLocationOptions: vi.fn().mockResolvedValue([]),
+}));
 vi.mock(
-  "/Users/tom6947/code/hub.js/packages/common/src/core/schemas/internal/getTagItems",
-  () => ({ getTagItems: vi.fn().mockResolvedValue([]) })
-);
-vi.mock(
-  "/Users/tom6947/code/hub.js/packages/common/src/core/schemas/internal/getLocationExtent",
-  () => ({ getLocationExtent: vi.fn().mockResolvedValue(undefined) })
-);
-vi.mock(
-  "/Users/tom6947/code/hub.js/packages/common/src/core/schemas/internal/getLocationOptions",
-  () => ({ getLocationOptions: vi.fn().mockResolvedValue([]) })
-);
-vi.mock(
-  "/Users/tom6947/code/hub.js/packages/common/src/core/schemas/internal/fetchCategoriesUiSchemaElement",
+  "../../src/core/schemas/internal/fetchCategoriesUiSchemaElement",
   () => ({ fetchCategoriesUiSchemaElement: vi.fn().mockResolvedValue([]) })
 );
-vi.mock(
-  "/Users/tom6947/code/hub.js/packages/common/src/core/schemas/internal/getThumbnailUiSchemaElement",
-  () => ({ getThumbnailUiSchemaElement: vi.fn().mockReturnValue([]) })
-);
-vi.mock(
-  "/Users/tom6947/code/hub.js/packages/common/src/core/schemas/internal/getTagItems",
-  () => ({ getTagItems: vi.fn().mockResolvedValue([]) })
-);
+vi.mock("../../src/core/schemas/internal/getThumbnailUiSchemaElement", () => ({
+  getThumbnailUiSchemaElement: vi.fn().mockReturnValue([]),
+}));
+vi.mock("../../src/core/schemas/internal/getTagItems", () => ({
+  getTagItems: vi.fn().mockResolvedValue([]),
+}));
 
-import { buildUiSchema } from "/Users/tom6947/code/hub.js/packages/common/src/projects/_internal/ProjectUiSchemaEdit";
+import { buildUiSchema } from "../../src/projects/_internal/ProjectUiSchemaEdit";
 
 describe("ProjectUiSchemaEdit buildUiSchema", () => {
   it("returns a schema with sections and uses mocked helpers", async () => {
