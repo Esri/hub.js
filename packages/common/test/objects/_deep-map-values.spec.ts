@@ -1,7 +1,7 @@
 import { _deepMapValues } from "../../src/objects/_deep-map-values";
 
-describe("_deepMapValues", function () {
-  it("maps through multiple levels of an object", function () {
+describe("_deepMapValues", () => {
+  it("maps through multiple levels of an object", () => {
     const before = {
       foo: {
         bar: "replace",
@@ -14,15 +14,12 @@ describe("_deepMapValues", function () {
       return value === "replace" ? "newval" : value;
     });
 
-    expect(mapped).toEqual(
-      {
-        foo: {
-          bar: "newval",
-        },
-        baz: [{ value: "newval" }, { value: "newval" }, { value: "newval" }],
-        beep: "newval",
+    expect(mapped).toEqual({
+      foo: {
+        bar: "newval",
       },
-      "Replaced deep properties"
-    );
+      baz: [{ value: "newval" }, { value: "newval" }, { value: "newval" }],
+      beep: "newval",
+    });
   });
 });
