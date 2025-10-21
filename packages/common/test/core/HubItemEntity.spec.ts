@@ -9,7 +9,7 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   removeItemResource: vi.fn(),
 }));
 import { HubItemEntity } from "../../src/core/HubItemEntity";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
@@ -108,7 +108,10 @@ describe("HubItemEntity Class: ", () => {
         );
       });
       it("throws if user is not authd", async () => {
-        const unauthdCtxMgr = await ArcGISContextManager.create();
+        const context = createMockContext({ currentUser: undefined });
+        const unauthdCtxMgr = {
+          context,
+        } as unknown as ArcGISContextManager;
         const instance = new TestHarness(
           {
             id: "00c",
