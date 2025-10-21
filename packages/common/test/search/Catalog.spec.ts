@@ -1,3 +1,4 @@
+import { beforeEach, describe, it, expect, vi } from "vitest";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import * as FetchEntityCatalogModule from "../../src/search/fetchEntityCatalog";
@@ -177,41 +178,40 @@ describe("Catalog Class:", () => {
     });
     it("allows null collections", () => {
       const noCollectionsCatalog = cloneObject(catalogJson);
-      delete noCollectionsCatalog.collections;
+      const noCollectionsCatalogAny = noCollectionsCatalog as any;
+      delete noCollectionsCatalogAny.collections;
       const instance = Catalog.fromJson(noCollectionsCatalog, context);
       expect(instance.collections.length).toBe(0);
     });
   });
 
   describe("init:", () => {
-    let fetchCatalogSpy: jasmine.Spy;
+    let fetchCatalogSpy: any;
 
     it("creates default context if not passed", async () => {
-      fetchCatalogSpy = spyOn(
-        FetchEntityCatalogModule,
-        "fetchEntityCatalog"
-      ).and.callFake(() => {
-        return Promise.resolve(cloneObject(catalogJson));
-      });
+      fetchCatalogSpy = vi
+        .spyOn(FetchEntityCatalogModule, "fetchEntityCatalog")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(catalogJson));
+        });
       const instance = await Catalog.init("https://somesite.com");
       expect(instance.toJson()).toEqual(catalogJson);
       const userQuery: IQuery = { targetEntity: "user", filters: [] };
       instance.setScope("user", userQuery);
       expect(instance.getScope("user")).toEqual(userQuery);
 
-      const [id, ctx] = fetchCatalogSpy.calls.argsFor(0);
+      const [id, ctx] = fetchCatalogSpy.mock.calls[0];
       expect(id).toEqual("https://somesite.com");
       expect(ctx.portalUrl).toEqual("https://www.arcgis.com");
       expect(ctx.isPortal).toEqual(false);
       expect(instance.availableScopes).toEqual(["item", "group", "user"]);
     });
     it("throws if no catalog found", async () => {
-      fetchCatalogSpy = spyOn(
-        FetchEntityCatalogModule,
-        "fetchEntityCatalog"
-      ).and.callFake(() => {
-        return Promise.resolve(null);
-      });
+      fetchCatalogSpy = vi
+        .spyOn(FetchEntityCatalogModule, "fetchEntityCatalog")
+        .mockImplementation(() => {
+          return Promise.resolve(null as unknown as IHubCatalog);
+        });
       try {
         await Catalog.init("https://somesite.com", context);
       } catch (err) {
@@ -219,24 +219,23 @@ describe("Catalog Class:", () => {
         expect(getProp(error, "name")).toBe("HubError");
         expect(getProp(error, "message")).toContain("No catalog found");
         // verify the context was used
-        expect(fetchCatalogSpy.calls.argsFor(0)[1]).toBe(context);
+        expect(fetchCatalogSpy.mock.calls[0][1]).toBe(context);
       }
     });
     it("uses context and options if passed", async () => {
-      fetchCatalogSpy = spyOn(
-        FetchEntityCatalogModule,
-        "fetchEntityCatalog"
-      ).and.callFake(() => {
-        return Promise.resolve(cloneObject(catalogJson));
-      });
+      fetchCatalogSpy = vi
+        .spyOn(FetchEntityCatalogModule, "fetchEntityCatalog")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(catalogJson));
+        });
       const instance = await Catalog.init("https://somesite.com", context, {
         hubEntityType: "project",
         prop: "catalog",
       });
       // verify the context was used
-      expect(fetchCatalogSpy.calls.argsFor(0)[1]).toBe(context);
+      expect(fetchCatalogSpy.mock.calls[0][1]).toBe(context);
       // verify the options were used
-      expect(fetchCatalogSpy.calls.argsFor(0)[2]).toEqual({
+      expect(fetchCatalogSpy.mock.calls[0][2]).toEqual({
         hubEntityType: "project",
         prop: "catalog",
       });
@@ -264,7 +263,10 @@ describe("Catalog Class:", () => {
     });
     it("get collection works without catalog scope", () => {
       const cat = cloneObject(catalogJson);
-      delete cat.scopes?.group;
+      const catAny = cat as any;
+      if (catAny.scopes) {
+        delete catAny.scopes.group;
+      }
       const instance = Catalog.fromJson(cat, context);
       const teamsCollection = instance.getCollection("teams");
       expect(teamsCollection.scope.filters.length).toBe(1);
@@ -296,7 +298,9 @@ describe("Catalog Class:", () => {
 
     it("adds a new collection to an empty array of collections", () => {
       const catalogJsonWithNoCollections = cloneObject(catalogJson);
-      delete catalogJsonWithNoCollections.collections;
+      const catalogJsonWithNoCollectionsAny =
+        catalogJsonWithNoCollections as any;
+      delete catalogJsonWithNoCollectionsAny.collections;
 
       const instance = Catalog.fromJson(catalogJsonWithNoCollections, context);
 
@@ -335,7 +339,10 @@ describe("Catalog Class:", () => {
 
     it("if no base scope just uses passed filters", () => {
       const jsonCat = cloneObject(catalogJson);
-      delete jsonCat.scopes?.item;
+      const jsonCatAny = jsonCat as any;
+      if (jsonCatAny.scopes) {
+        delete jsonCatAny.scopes.item;
+      }
       const instance = Catalog.fromJson(jsonCat, context);
       const f: IFilter[] = [{ predicates: [{ type: "Web Map" }] }];
       const collection = instance.getCustomCollection("item", f);
@@ -347,11 +354,15 @@ describe("Catalog Class:", () => {
   });
 
   describe("search:", () => {
-    let hubSearchSpy: jasmine.Spy;
+    let hubSearchSpy: any;
     it("searchItems with string", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchItems("water");
       // ensure the spy was called
@@ -359,15 +370,19 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.mock.calls[0];
       expect(query.targetEntity).toBe("item");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
     });
     it("searchItems with string and options", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchItems("water", { num: 50 });
       // ensure the spy was called
@@ -375,16 +390,20 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.mock.calls[0];
       expect(query.targetEntity).toBe("item");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
     });
 
     it("searchItems with query", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const qry: IQuery = {
         targetEntity: "item",
@@ -403,16 +422,20 @@ describe("Catalog Class:", () => {
       expect(res).toEqual({
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      const [query, opts] = hubSearchSpy.mock.calls[0];
       expect(query.targetEntity).toBe("item");
       expect(query.filters[0].predicates[0].term).toBe("Pine St");
       expect(opts.requestOptions).toEqual(context.hubRequestOptions);
     });
 
     it("searchGroup by term", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchGroups("water");
       // ensure the spy was called
@@ -420,15 +443,19 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.mock.calls[0];
       expect(query.targetEntity).toBe("group");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.group?.filters[0]);
     });
     it("searchGroup by term and options", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchGroups("water", { num: 50 });
       // ensure the spy was called
@@ -436,16 +463,20 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.mock.calls[0];
       expect(query.targetEntity).toBe("group");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.group?.filters[0]);
     });
 
     it("searchUsers by term", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchUsers("water");
       // ensure the spy was called
@@ -453,20 +484,24 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.mock.calls[0];
       expect(query.targetEntity).toBe("user");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.user?.filters[0]);
     });
 
     it("searchScopes by term", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchScopes("water");
       // ensure the spy was called
-      expect(hubSearchSpy.calls.count()).toBe(3);
+      expect(hubSearchSpy.mock.calls.length).toBe(3);
       expect(res.user).toBeDefined();
       expect(res.user).toEqual({
         fake: "response",
@@ -483,7 +518,10 @@ describe("Catalog Class:", () => {
 
     it("returns empty results if item scope does not exist", async () => {
       const cat = cloneObject(catalogJson);
-      delete cat.scopes?.item;
+      const catAny2 = cat as any;
+      if (catAny2.scopes) {
+        delete catAny2.scopes.item;
+      }
       const instance = Catalog.fromJson(cat, context);
 
       const res = await instance.searchItems("water");
@@ -494,7 +532,10 @@ describe("Catalog Class:", () => {
     });
     it("returns empty results if group scope does not exist", async () => {
       const cat = cloneObject(catalogJson);
-      delete cat.scopes?.group;
+      const catAny3 = cat as any;
+      if (catAny3.scopes) {
+        delete catAny3.scopes.group;
+      }
       const instance = Catalog.fromJson(cat, context);
 
       const res = await instance.searchGroups("water");
@@ -505,7 +546,10 @@ describe("Catalog Class:", () => {
     });
     it("returns empty results if user scope does not exist", async () => {
       const cat = cloneObject(catalogJson);
-      delete cat.scopes?.user;
+      const catAny4 = cat as any;
+      if (catAny4.scopes) {
+        delete catAny4.scopes.user;
+      }
       const instance = Catalog.fromJson(cat, context);
 
       const res = await instance.searchUsers("water");
@@ -517,15 +561,19 @@ describe("Catalog Class:", () => {
   });
 
   describe("searchScopes", () => {
-    let hubSearchSpy: jasmine.Spy;
+    let hubSearchSpy: any;
     it("search by term", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchScopes("water");
       // ensure the spy was called
-      expect(hubSearchSpy.calls.count()).toBe(3);
+      expect(hubSearchSpy.mock.calls.length).toBe(3);
       expect(res.item).toBeDefined();
       expect(res.item).toEqual({
         fake: "response",
@@ -540,9 +588,13 @@ describe("Catalog Class:", () => {
       } as unknown as IHubSearchResponse<IHubSearchResult>);
     });
     it("search by IQuery", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const qry: IQuery = {
         targetEntity: "item",
@@ -560,7 +612,7 @@ describe("Catalog Class:", () => {
         "item",
         "group",
       ]);
-      expect(hubSearchSpy.calls.count()).toBe(2);
+      expect(hubSearchSpy.mock.calls.length).toBe(2);
       expect(res.item).toBeDefined();
       expect(res.item).toEqual({
         fake: "response",
@@ -572,22 +624,27 @@ describe("Catalog Class:", () => {
     });
     it("availableScopes works if no scopes defined", () => {
       const scopelessCatalog = cloneObject(catalogJson);
-      delete scopelessCatalog.scopes;
+      const scopelessCatalogAny = scopelessCatalog as any;
+      delete scopelessCatalogAny.scopes;
       const instance = Catalog.fromJson(scopelessCatalog, context);
       expect(instance.availableScopes).toEqual([]);
     });
   });
 
   describe("searchCollections", () => {
-    let hubSearchSpy: jasmine.Spy;
+    let hubSearchSpy: any;
     it("search by term", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchCollections("water");
       // ensure the spy was called
-      expect(hubSearchSpy.calls.count()).toBe(2);
+      expect(hubSearchSpy.mock.calls.length).toBe(2);
       expect(res.teams).toBeDefined();
       expect(res.teams).toEqual({
         fake: "response",
@@ -598,9 +655,13 @@ describe("Catalog Class:", () => {
       } as unknown as IHubSearchResponse<IHubSearchResult>);
     });
     it("search by IQuery", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
+      hubSearchSpy = vi
+        .spyOn(HubSearchModule, "hubSearch")
+        .mockImplementation(() =>
+          Promise.resolve({
+            fake: "response",
+          } as unknown as IHubSearchResponse<IHubSearchResult>)
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const qry: IQuery = {
         targetEntity: "item",
@@ -615,11 +676,11 @@ describe("Catalog Class:", () => {
         ],
       };
       const res = await instance.searchCollections(qry, { num: 50 });
-      expect(hubSearchSpy.calls.count()).toBe(1);
-      const chkQry = hubSearchSpy.calls.argsFor(0)[0];
+      expect(hubSearchSpy.mock.calls.length).toBe(1);
+      const chkQry = hubSearchSpy.mock.calls[0][0];
       expect(chkQry.targetEntity).toBe("item");
       expect(chkQry.filters[0].predicates[0].term).toBe("water");
-      const chkOpts = hubSearchSpy.calls.argsFor(0)[1];
+      const chkOpts = hubSearchSpy.mock.calls[0][1];
       expect(chkOpts.num).toBe(50);
       expect(res.environment).toBeDefined();
       expect(res.environment).toEqual({
@@ -629,17 +690,16 @@ describe("Catalog Class:", () => {
   });
 
   describe("contains:", () => {
-    let containsSpy: jasmine.Spy;
+    let containsSpy: any;
     it("delegates to catalogContains:", async () => {
-      containsSpy = spyOn(
-        CatalogContainsModule,
-        "catalogContains"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          identifier: "1950189b18a64ab78fc478d97ea502e0",
-          isContained: true,
-        });
-      });
+      containsSpy = vi
+        .spyOn(CatalogContainsModule, "catalogContains")
+        .mockImplementation(() =>
+          Promise.resolve({
+            identifier: "1950189b18a64ab78fc478d97ea502e0",
+            isContained: true,
+          })
+        );
 
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.contains(
@@ -653,15 +713,14 @@ describe("Catalog Class:", () => {
     });
 
     it("subsequent calls use a cache", async () => {
-      containsSpy = spyOn(
-        CatalogContainsModule,
-        "catalogContains"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          identifier: "1950189b18a64ab78fc478d97ea502e0",
-          isContained: true,
-        });
-      });
+      containsSpy = vi
+        .spyOn(CatalogContainsModule, "catalogContains")
+        .mockImplementation(() =>
+          Promise.resolve({
+            identifier: "1950189b18a64ab78fc478d97ea502e0",
+            isContained: true,
+          })
+        );
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.contains("1950189b18a64ab78fc478d97ea502e0", {
         entityType: "item",

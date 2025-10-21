@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { serializeQueryForPortal } from "../../src/search/serializeQueryForPortal";
 import { IPredicate, IQuery } from "../../src/search/types/IHubCatalog";
 
@@ -386,6 +387,27 @@ describe("ifilter-utils:", () => {
       expect(chk.searchUserAccess).toEqual("groupMember");
       expect(chk.searchUserName).toEqual("dave");
       expect(chk.joined).toEqual("1691478000000,1692255599999");
+    });
+
+    it("sets bbox param when top-level bbox predicate present", () => {
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                bbox: "-122,37,-121,38",
+              },
+            ],
+          },
+        ],
+      };
+
+      const chk = serializeQueryForPortal(query);
+      // the bbox should be moved into params.bbox
+      expect(chk.params && (chk.params as any).bbox).toEqual("-122,37,-121,38");
+      // ensure q still serializes (even if empty)
+      expect(typeof chk.q).toBe("string");
     });
   });
   describe("verify matchOption serialization", () => {

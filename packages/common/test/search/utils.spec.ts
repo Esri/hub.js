@@ -4,6 +4,7 @@ import {
   getGroupThumbnailUrl,
   migrateToCollectionKey,
   getResultSiteRelativeLink,
+  getScopeGroupPredicate,
   getGroupPredicate,
   getKilobyteSizeOfQuery,
 } from "../../src/search/utils";
@@ -184,6 +185,18 @@ describe("Search Utils:", () => {
     it("returns a converted value if the key is a legacy search category", () => {
       const result = migrateToCollectionKey("App,Map");
       expect(result).toBe("appAndMap");
+    });
+
+    it("getScopeGroupPredicate handles missing group predicate gracefully", () => {
+      const scope: any = { filters: [{ predicates: [{ id: "00c" }] }] };
+      const chk = getScopeGroupPredicate(scope);
+      expect(chk).toBeUndefined();
+    });
+
+    it("getScopeGroupPredicate returns the group predicate when present", () => {
+      const scope: any = { filters: [{ predicates: [{ group: ["00c"] }] }] };
+      const chk = getScopeGroupPredicate(scope);
+      expect(chk).toEqual({ group: ["00c"] });
     });
   });
 
