@@ -2,23 +2,22 @@ import {
   IChannel,
   IDiscussionsUser,
   IPost,
-} from "../../../../../src/discussions/api//types";
-import { canEditPostV2 } from "../../../../../src/discussions/api//utils/posts/can-edit-post-v2";
-import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
+} from "../../../../../src/discussions/api/types";
+import { canEditPostV2 } from "../../../../../src/discussions/api/utils/posts/can-edit-post-v2";
+import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
+import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
 
 describe("canEditPostV2", () => {
-  let canPostToChannelSpy: jasmine.Spy;
+  let canPostToChannelSpy: ReturnType<typeof vi.spyOn>;
 
-  beforeAll(() => {
-    canPostToChannelSpy = spyOn(
+  beforeEach(() => {
+    canPostToChannelSpy = vi.spyOn(
       ChannelPermission.prototype,
       "canPostToChannel"
     );
   });
 
-  beforeEach(() => {
-    canPostToChannelSpy.calls.reset();
-  });
+  afterEach(() => vi.restoreAllMocks());
 
   describe("POST", () => {
     it("returns false if the user did not create the post", () => {
@@ -31,7 +30,7 @@ describe("canEditPostV2", () => {
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canPostToChannelSpy.mock.calls.length).toBe(0);
     });
 
     it("returns false if the user is not logged in", () => {
@@ -44,7 +43,7 @@ describe("canEditPostV2", () => {
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canPostToChannelSpy.mock.calls.length).toBe(0);
     });
 
     it("returns false if the user undefined", () => {
@@ -57,11 +56,11 @@ describe("canEditPostV2", () => {
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canPostToChannelSpy.mock.calls.length).toBe(0);
     });
 
     it("returns false if user created the post but channel.allowPost is false", () => {
-      canPostToChannelSpy.and.callFake(() => true);
+      canPostToChannelSpy.mockImplementation(() => true);
 
       const post = { id: "postId", creator: "john" } as IPost;
       const user = { username: "john" } as IDiscussionsUser;
@@ -72,11 +71,11 @@ describe("canEditPostV2", () => {
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canPostToChannelSpy.mock.calls.length).toBe(0);
     });
 
     it("returns false if the user created the post and canPostToChannel returns false", () => {
-      canPostToChannelSpy.and.callFake(() => false);
+      canPostToChannelSpy.mockImplementation(() => false);
 
       const post = { id: "postId", creator: "john" } as IPost;
       const user = { username: "john" } as IDiscussionsUser;
@@ -87,13 +86,13 @@ describe("canEditPostV2", () => {
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(canPostToChannelSpy.mock.calls.length).toBe(1);
+      const [arg] = canPostToChannelSpy.mock.calls[0]; // arg for 1st call
       expect(arg).toBe(user);
     });
 
     it("returns true if the user created the post and canPostToChannel returns false", () => {
-      canPostToChannelSpy.and.callFake(() => true);
+      canPostToChannelSpy.mockImplementation(() => true);
 
       const post = { id: "postId", creator: "john" } as IPost;
       const user = { username: "john" } as IDiscussionsUser;
@@ -105,8 +104,8 @@ describe("canEditPostV2", () => {
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(true);
 
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(canPostToChannelSpy.mock.calls.length).toBe(1);
+      const [arg] = canPostToChannelSpy.mock.calls[0]; // arg for 1st call
       expect(arg).toBe(user);
     });
   });
@@ -122,7 +121,7 @@ describe("canEditPostV2", () => {
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canPostToChannelSpy.mock.calls.length).toBe(0);
     });
 
     it("returns false if the user is not logged in", () => {
@@ -135,7 +134,7 @@ describe("canEditPostV2", () => {
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canPostToChannelSpy.mock.calls.length).toBe(0);
     });
 
     it("returns false if the user undefined", () => {
@@ -148,11 +147,11 @@ describe("canEditPostV2", () => {
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canPostToChannelSpy.mock.calls.length).toBe(0);
     });
 
     it("returns false if user created the reply but channel.allowReply is false", () => {
-      canPostToChannelSpy.and.callFake(() => true);
+      canPostToChannelSpy.mockImplementation(() => true);
 
       const post = { id: "postId", creator: "john", parentId: "aaa" } as IPost;
       const user = { username: "john" } as IDiscussionsUser;
@@ -164,11 +163,11 @@ describe("canEditPostV2", () => {
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
 
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canPostToChannelSpy.mock.calls.length).toBe(0);
     });
 
     it("returns false if the user created the reply and canPostToChannel returns false", () => {
-      canPostToChannelSpy.and.callFake(() => false);
+      canPostToChannelSpy.mockImplementation(() => false);
 
       const post = { id: "postId", creator: "john", parentId: "aaa" } as IPost;
       const user = { username: "john" } as IDiscussionsUser;
@@ -180,13 +179,13 @@ describe("canEditPostV2", () => {
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
 
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(canPostToChannelSpy.mock.calls.length).toBe(1);
+      const [arg] = canPostToChannelSpy.mock.calls[0]; // arg for 1st call
       expect(arg).toBe(user);
     });
 
     it("returns true if the user created the reply and canPostToChannel returns true", () => {
-      canPostToChannelSpy.and.callFake(() => true);
+      canPostToChannelSpy.mockImplementation(() => true);
 
       const post = { id: "postId", creator: "john", parentId: "aaa" } as IPost;
       const user = { username: "john" } as IDiscussionsUser;
@@ -198,8 +197,8 @@ describe("canEditPostV2", () => {
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(true);
 
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(canPostToChannelSpy.mock.calls.length).toBe(1);
+      const [arg] = canPostToChannelSpy.mock.calls[0]; // arg for 1st call
       expect(arg).toBe(user);
     });
   });

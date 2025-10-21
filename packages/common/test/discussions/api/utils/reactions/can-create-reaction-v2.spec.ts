@@ -1,25 +1,22 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { canCreateReactionV2 } from "../../../../../src/discussions/api//utils/reactions/can-create-reaction-v2";
+import { canCreateReactionV2 } from "../../../../../src/discussions/api/utils/reactions/can-create-reaction-v2";
 import {
   PostReaction,
   IChannel,
-} from "../../../../../src/discussions/api//types";
-import * as canReadChannelV2Module from "../../../../../src/discussions/api//utils/channels/can-read-channel-v2";
+} from "../../../../../src/discussions/api/types";
+import * as canReadChannelV2Module from "../../../../../src/discussions/api/utils/channels/can-read-channel-v2";
+import { vi, afterEach, describe, it, expect } from "vitest";
 
 describe("canCreateReactionV2", () => {
-  let canReadChannelV2Spy: jasmine.Spy;
-  const user: IUser = { username: "bob" };
-
-  beforeAll(() => {
-    canReadChannelV2Spy = spyOn(canReadChannelV2Module, "canReadChannelV2");
-  });
-
-  beforeEach(() => {
-    canReadChannelV2Spy.calls.reset();
-  });
+  afterEach(() => vi.restoreAllMocks());
+  const user: IUser = { username: "bob" } as IUser;
 
   it("returns true if channel allows all reactions and canReadChannel returns true", () => {
-    canReadChannelV2Spy.and.returnValue(true);
+    const canReadChannelV2Spy = vi.spyOn(
+      canReadChannelV2Module,
+      "canReadChannelV2"
+    );
+    canReadChannelV2Spy.mockReturnValue(true);
 
     const channel = {
       allowReaction: true,
@@ -34,7 +31,11 @@ describe("canCreateReactionV2", () => {
   });
 
   it("returns true if user is undefined, channel allows all reactions, and canReadChannel returns true", () => {
-    canReadChannelV2Spy.and.returnValue(true);
+    const canReadChannelV2Spy = vi.spyOn(
+      canReadChannelV2Module,
+      "canReadChannelV2"
+    );
+    canReadChannelV2Spy.mockReturnValue(true);
 
     const channel = {
       allowReaction: true,
@@ -47,7 +48,11 @@ describe("canCreateReactionV2", () => {
   });
 
   it("returns false if channel allows all reactions and canReadChannel returns false", () => {
-    canReadChannelV2Spy.and.returnValue(false);
+    const canReadChannelV2Spy = vi.spyOn(
+      canReadChannelV2Module,
+      "canReadChannelV2"
+    );
+    canReadChannelV2Spy.mockReturnValue(false);
 
     const channel = {
       allowReaction: true,
@@ -62,7 +67,11 @@ describe("canCreateReactionV2", () => {
   });
 
   it("returns true if channel allows reaction, value included in allowed reactions, and canReadChannel returns true", () => {
-    canReadChannelV2Spy.and.returnValue(true);
+    const canReadChannelV2Spy = vi.spyOn(
+      canReadChannelV2Module,
+      "canReadChannelV2"
+    );
+    canReadChannelV2Spy.mockReturnValue(true);
 
     const channel = {
       allowReaction: true,
@@ -77,7 +86,11 @@ describe("canCreateReactionV2", () => {
   });
 
   it("returns false if channel allows reaction and value not included in allowed reactions", () => {
-    canReadChannelV2Spy.and.returnValue(true);
+    const canReadChannelV2Spy = vi.spyOn(
+      canReadChannelV2Module,
+      "canReadChannelV2"
+    );
+    canReadChannelV2Spy.mockReturnValue(true);
 
     const channel = {
       allowReaction: true,
@@ -91,7 +104,11 @@ describe("canCreateReactionV2", () => {
   });
 
   it("returns false if channel does not allow reaction", () => {
-    canReadChannelV2Spy.and.returnValue(true);
+    const canReadChannelV2Spy = vi.spyOn(
+      canReadChannelV2Module,
+      "canReadChannelV2"
+    );
+    canReadChannelV2Spy.mockReturnValue(true);
 
     const channel = { allowReaction: false } as IChannel;
 
