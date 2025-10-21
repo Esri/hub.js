@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.20.0
+
+### Minor Changes
+
+- 10ba96f: Add layout related types
+
 ## 20.19.3
 
 ### Patch Changes
