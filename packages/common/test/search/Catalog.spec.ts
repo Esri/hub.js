@@ -1,6 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from "vitest";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import * as FetchEntityCatalogModule from "../../src/search/fetchEntityCatalog";
 import * as HubSearchModule from "../../src/search/hubSearch";
 import * as CatalogContainsModule from "../../src/core/catalogContains";
@@ -138,20 +137,21 @@ const noScopeCatalog: IHubCatalog = {
 
 describe("Catalog Class:", () => {
   let context: IArcGISContext;
-  beforeEach(async () => {
-    const authdCtxMgr = await ArcGISContextManager.create({
+  beforeEach(() => {
+    // Use a plain mock context to avoid async ArcGISContextManager.create() calls in tests
+    context = {
       authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as IUser,
+      currentUser: { username: "casey" } as unknown as IUser,
       portal: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
       } as unknown as IPortal,
+      portalSettings: {} as any,
       portalUrl: "https://myserver.com",
-    });
-    context = authdCtxMgr.context;
+      // hubRequestOptions is expected by some tests
+      hubRequestOptions: { authentication: MOCK_AUTH },
+    } as unknown as IArcGISContext;
   });
   describe("fromJson", () => {
     it("verify properties", () => {
