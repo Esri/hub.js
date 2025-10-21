@@ -2,9 +2,9 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
 // For node jasmine tests to work, contextmanager needs to be
 // imported with a full path
-import { ArcGISContextManager } from "../src/ArcGISContextManager";
+import type { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { Hub } from "../src/Hub";
-import { MOCK_AUTH } from "./mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "./mocks/mock-auth";
 import { IArcGISContextManagerOptions } from "../src/types/IArcGISContextManagerOptions";
 // import * as ProjectsModule from "../src/projects/HubProjects";
 
@@ -30,7 +30,14 @@ const managerOptions: IArcGISContextManagerOptions = {
 describe("Hub:", () => {
   describe("static factory and context:", () => {
     it("uses passed in context manager", async () => {
-      const contextManager = await ArcGISContextManager.create(managerOptions);
+      const contextOptions = {
+        ...managerOptions,
+        portalSelf: managerOptions.portal,
+      };
+      const context = createMockContext(contextOptions);
+      const contextManager = {
+        context,
+      } as unknown as ArcGISContextManager;
       const chk = await Hub.create({ contextManager });
       expect(chk.context.portalUrl).toBe("https://dcdev.maps.arcgis.com");
     });

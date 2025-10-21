@@ -1,7 +1,7 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { checkEntityPolicy } from "../../../src/permissions/_internal/checkEntityPolicy";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
 import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityPermissionPolicy";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
@@ -12,39 +12,41 @@ describe("checkEntityPolicy:", () => {
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        orgId: "BRXFAKE",
-        privileges: ["portal:user:createItem"],
-        groups: [
-          {
-            id: "group1",
-            userMembership: { memberType: "admin" },
+    authdCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+          orgId: "BRXFAKE",
+          privileges: ["portal:user:createItem"],
+          groups: [
+            {
+              id: "group1",
+              userMembership: { memberType: "admin" },
+            },
+            {
+              id: "group2",
+              userMembership: { memberType: "member" },
+            },
+            {
+              id: "group3",
+              userMembership: { memberType: "owner" },
+            },
+          ],
+        } as unknown as IUser,
+        portalSelf: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+          properties: {
+            hub: {
+              enabled: false,
+            },
           },
-          {
-            id: "group2",
-            userMembership: { memberType: "member" },
-          },
-          {
-            id: "group3",
-            userMembership: { memberType: "owner" },
-          },
-        ],
-      } as unknown as IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-        properties: {
-          hub: {
-            enabled: false,
-          },
-        },
-      } as unknown as IPortal,
-      portalUrl: "https://org.maps.arcgis.com",
-    });
+        } as unknown as IPortal,
+        portalUrl: "https://org.maps.arcgis.com",
+      }),
+    } as unknown as ArcGISContextManager;
   });
   describe("user checks:", () => {
     it("grants if user matches", () => {

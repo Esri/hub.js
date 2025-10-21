@@ -1,5 +1,5 @@
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import { MOCK_AUTH, createMockContext } from "../mocks/mock-auth";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { IHubCatalog } from "../../src/search/types/IHubCatalog";
@@ -8,51 +8,53 @@ import { getCatalogGroups } from "../../src/search/getCatalogGroups";
 describe("getCatalogGroups:", () => {
   let licensedUserCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    licensedUserCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        orgId: "BRXFAKE",
-        privileges: ["portal:user:createItem", "portal:user:shareToGroup"],
-        groups: [
-          {
-            id: "group1",
-            isViewOnly: false,
-            userMembership: {
-              memberType: "admin",
+    licensedUserCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+          orgId: "BRXFAKE",
+          privileges: ["portal:user:createItem", "portal:user:shareToGroup"],
+          groups: [
+            {
+              id: "group1",
+              isViewOnly: false,
+              userMembership: {
+                memberType: "admin",
+              },
+            } as unknown as IGroup,
+            {
+              id: "group2",
+              isViewOnly: false,
+              userMembership: {
+                memberType: "member",
+              },
+            } as unknown as IGroup,
+            {
+              id: "group3",
+              isViewOnly: true,
+              userMembership: {
+                memberType: "member",
+              },
+            } as unknown as IGroup,
+          ],
+        } as unknown as IUser,
+        portalSelf: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+          portalProperties: {
+            hub: {
+              enabled: true,
             },
-          } as unknown as IGroup,
-          {
-            id: "group2",
-            isViewOnly: false,
-            userMembership: {
-              memberType: "member",
-            },
-          } as unknown as IGroup,
-          {
-            id: "group3",
-            isViewOnly: true,
-            userMembership: {
-              memberType: "member",
-            },
-          } as unknown as IGroup,
-        ],
-      } as unknown as IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-        portalProperties: {
-          hub: {
-            enabled: true,
           },
+        } as unknown as IPortal,
+        portalUrl: "https://org.mapsqa.arcgis.com",
+        properties: {
+          alphaOrgs: ["BRXFAKE"],
         },
-      } as unknown as IPortal,
-      portalUrl: "https://org.mapsqa.arcgis.com",
-      properties: {
-        alphaOrgs: ["BRXFAKE"],
-      },
-    });
+      }),
+    } as unknown as ArcGISContextManager;
   });
   it("returns the content config for a catalog", () => {
     const catalog: IHubCatalog = {

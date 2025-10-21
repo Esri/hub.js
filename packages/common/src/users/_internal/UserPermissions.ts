@@ -15,5 +15,6 @@ export const UserPermissions = [
   "hub:user:workspace:groups",
   "hub:user:workspace:events",
   "hub:user:workspace:shared-with-me",
+  "hub:user:workspace:members",
   "hub:user:manage",
 ] as const;

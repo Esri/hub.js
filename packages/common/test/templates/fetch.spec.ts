@@ -128,6 +128,17 @@ describe("templates: fetch module", () => {
       expect(getDeployedTemplateTypeSpy).toHaveBeenCalledTimes(1);
       expect(chk.deployedType).toBe("StoryMap");
     });
+    it("uses description when snippet is falsy", async () => {
+      const itemNoSnippet = { ...TEMPLATE_ITEM, snippet: "" };
+
+      const chk = await enrichTemplateSearchResult(
+        itemNoSnippet,
+        [],
+        authdCtxMgr.context.hubRequestOptions
+      );
+
+      expect(chk.summary).toBe(itemNoSnippet.description);
+    });
   });
 
   describe("convertItemToTemplate", () => {

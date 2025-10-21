@@ -1,8 +1,8 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaCreate";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { HubEventAttendanceType } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
@@ -20,7 +20,7 @@ describe("EventUiSchemaCreate", () => {
   });
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
-      const authdCtxMgr = await ArcGISContextManager.create({
+      const contextOptions = {
         authentication: MOCK_AUTH,
         currentUser: {
           username: "casey",
@@ -31,7 +31,10 @@ describe("EventUiSchemaCreate", () => {
           urlKey: "fake-org",
         } as unknown as PortalModule.IPortal,
         portalUrl: "https://myserver.com",
-      });
+      };
+      const authdCtxMgr = {
+        context: createMockContext(contextOptions),
+      } as unknown as any;
       const datesAndTimes = {
         startDate: "2024-03-31",
         startDateTime: new Date(),
@@ -187,5 +190,9 @@ describe("EventUiSchemaCreate", () => {
         ],
       });
     });
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.resetAllMocks();
   });
 });

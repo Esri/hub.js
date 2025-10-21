@@ -19,7 +19,6 @@ describe("HubContent class", () => {
   });
   // let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    // Instead of calling ArcGISContextManager.create(), use a mocked context object
     authdCtxMgr = {
       context: {
         authentication: MOCK_AUTH,

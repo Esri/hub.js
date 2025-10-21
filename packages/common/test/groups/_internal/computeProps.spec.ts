@@ -1,6 +1,6 @@
 import { IGroup, IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
+import { vi } from "vitest";
 import { computeProps } from "../../../src/groups/_internal/computeProps";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import * as computeLinksModule from "../../../src/groups/_internal/computeLinks";
@@ -9,7 +9,7 @@ import { EntitySettingType } from "../../../src/discussions/api/types";
 describe("groups: computeProps:", () => {
   let group: IGroup;
   let hubGroup: Partial<IHubGroup>;
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: any;
   beforeEach(async () => {
     group = {
       id: "3ef",
@@ -26,16 +26,13 @@ describe("groups: computeProps:", () => {
       id: "3ef",
       name: "Test group",
     };
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
+    const contextOptions = {
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
         privileges: ["portal:user:createGroup"],
       } as unknown as IUser,
-      portal: {
+      portalSelf: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
@@ -46,7 +43,10 @@ describe("groups: computeProps:", () => {
         },
       } as unknown as IPortal,
       portalUrl: "https://org.maps.arcgis.com",
-    });
+    };
+    authdCtxMgr = {
+      context: createMockContext(contextOptions),
+    } as unknown as any;
   });
   describe("computeProps:", () => {
     describe("computed props", () => {
@@ -71,24 +71,26 @@ describe("groups: computeProps:", () => {
           "https://fake-org.undefined/sharing/rest/community/groups/3ef/info/group.jpg?token=fake-token"
         );
         expect(chk.membershipAccess).toBe("collaborators");
-        authdCtxMgr = await ArcGISContextManager.create({
-          authentication: undefined,
-          currentUser: {
-            username: "casey",
-            privileges: ["portal:user:createGroup"],
-          } as unknown as IUser,
-          portal: {
-            name: "DC R&D Center",
-            id: "BRXFAKE",
-            urlKey: "fake-org",
-            properties: {
-              hub: {
-                enabled: true,
+        authdCtxMgr = {
+          context: createMockContext({
+            authentication: undefined,
+            currentUser: {
+              username: "casey",
+              privileges: ["portal:user:createGroup"],
+            } as unknown as IUser,
+            portalSelf: {
+              name: "DC R&D Center",
+              id: "BRXFAKE",
+              urlKey: "fake-org",
+              properties: {
+                hub: {
+                  enabled: true,
+                },
               },
-            },
-          } as unknown as IPortal,
-          portalUrl: "https://org.maps.arcgis.com",
-        });
+            } as unknown as IPortal,
+            portalUrl: "https://org.maps.arcgis.com",
+          }),
+        } as unknown as any;
         chk = computeProps(
           group,
           hubGroup,
@@ -138,5 +140,9 @@ describe("groups: computeProps:", () => {
         expect(chk.canDelete).toBeFalsy();
       });
     });
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.resetAllMocks();
   });
 });

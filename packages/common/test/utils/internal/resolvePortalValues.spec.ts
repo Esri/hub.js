@@ -4,15 +4,14 @@ vi.mock("@esri/arcgis-rest-portal", () => ({
 }));
 
 import * as portalModule from "../../../src/utils/internal/resolvePortalValues";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 import * as arcgisPortal from "@esri/arcgis-rest-portal";
 
 describe("resolvePortalValues", () => {
   let ctxMgr: any;
 
   beforeEach(async () => {
-    ctxMgr = await ArcGISContextManager.create(MOCK_AUTH);
+    ctxMgr = { context: createMockContext(MOCK_AUTH) } as unknown as any;
   });
 
   afterEach(() => {

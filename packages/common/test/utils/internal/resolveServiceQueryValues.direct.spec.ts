@@ -9,14 +9,13 @@ vi.mock("@esri/arcgis-rest-feature-service", () => ({
 }));
 
 import * as svcModule from "../../../src/utils/internal/resolveServiceQueryValues";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 
 describe("resolveServiceQueryValues - direct branch coverage", () => {
   let ctxMgr: any;
 
   beforeEach(async () => {
-    ctxMgr = await ArcGISContextManager.create(MOCK_AUTH);
+    ctxMgr = { context: createMockContext(MOCK_AUTH) } as unknown as any;
   });
 
   it("covers both branches for features presence", async () => {
