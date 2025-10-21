@@ -1,7 +1,20 @@
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as PortalModule from "@esri/arcgis-rest-portal";
+import { vi, expect } from "vitest";
+// ESM-safe mock for feature-service so we can spy on queryFeatures
+vi.mock(
+  "@esri/arcgis-rest-feature-service",
+  async (importOriginal: () => Promise<any>) => {
+    const orig = await importOriginal();
+    return {
+      ...orig,
+      queryFeatures: vi.fn(),
+    } ;
+  }
+);
+
 import * as FLModule from "@esri/arcgis-rest-feature-service";
 import * as PSModule from "../../src/search/_internal/portalSearchItems";
+import * as PortalModule from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
@@ -33,6 +46,8 @@ describe("resolveMetric:", () => {
       portalUrl: "https://myserver.com",
     });
     ctx = authdCtxMgr.context;
+    // restore mocks between tests
+    vi.restoreAllMocks();
   });
 
   describe("throws:", () => {
@@ -45,12 +60,11 @@ describe("resolveMetric:", () => {
           value: 100000,
         } as unknown as IItemQueryMetricSource,
       };
-      try {
-        await resolveMetric(metric, ctx);
-      } catch (ex) {
-        const error = ex as { message?: string };
-        expect(error.message).toBe("Unknown metric type passed in.");
-      }
+      await expect(
+        resolveMetric(metric, ctx) as Promise<any>
+      ).rejects.toMatchObject({
+        message: "Unknown metric type passed in.",
+      });
     });
   });
 
@@ -106,16 +120,16 @@ describe("resolveMetric:", () => {
       },
     };
     it("creates a query and calls queryFeatures ", async () => {
-      const querySpy = spyOn(FLModule, "queryFeatures").and.callFake(() => {
-        return Promise.resolve({
+      const querySpy = vi
+        .spyOn(FLModule as any, "queryFeatures")
+        .mockResolvedValue({
           features: [{ attributes: { budget: 1230 } }],
         });
-      });
 
       const chk = await resolveMetric(serviceMetric, ctx);
       expect(querySpy).toHaveBeenCalledTimes(1);
       // inspect the options passed to queryFeatures
-      const opts = querySpy.calls.mostRecent().args[0];
+      const opts = (querySpy as unknown as any).mock.calls[0][0];
       expect(opts.url).toEqual(
         "https://services.arcgis.com/abc/arcgis/rest/services/a/FeatureServer/0"
       );
@@ -138,11 +152,11 @@ describe("resolveMetric:", () => {
       });
     });
     it("uses default where if not passed ", async () => {
-      const querySpy = spyOn(FLModule, "queryFeatures").and.callFake(() => {
-        return Promise.resolve({
+      const querySpy = vi
+        .spyOn(FLModule as any, "queryFeatures")
+        .mockResolvedValue({
           features: [{ attributes: { budget: 1230 } }],
         });
-      });
 
       const metricWithoutWhere = cloneObject(serviceMetric);
       delete (metricWithoutWhere.source as IServiceQueryMetricSource).where;
@@ -150,7 +164,7 @@ describe("resolveMetric:", () => {
       await resolveMetric(metricWithoutWhere, ctx);
       expect(querySpy).toHaveBeenCalledTimes(1);
       // inspect the options passed to queryFeatures
-      const opts = querySpy.calls.mostRecent().args[0];
+      const opts = (querySpy as unknown as any).mock.calls[0][0];
 
       expect(opts.where).toEqual("1=1");
     });
@@ -189,16 +203,14 @@ describe("resolveMetric:", () => {
       ],
     };
     describe("without recursion:", () => {
-      let querySpy: jasmine.Spy;
+      let querySpy: any;
       beforeEach(() => {
         // since spies don't have a `.name` property the
-        // memoization cache just have an entry for ``
+        // memoization cache just have an entry for `"
         clearMemoizedCache();
-        querySpy = spyOn(PSModule, "portalSearchItemsAsItems").and.callFake(
-          () => {
-            return Promise.resolve(MockResponse);
-          }
-        );
+        querySpy = vi
+          .spyOn(PSModule as any, "portalSearchItemsAsItems")
+          .mockResolvedValue(MockResponse);
       });
       it("return simple property", async () => {
         const chk = await resolveMetric(itemMetricWithScope, ctx);
@@ -206,7 +218,7 @@ describe("resolveMetric:", () => {
         // call counts out, even though we're clearing the cache
         expect(querySpy).toHaveBeenCalledTimes(1);
         // inspect the options passed to queryFeatures
-        const query: IQuery = querySpy.calls.mostRecent().args[0];
+        const query: IQuery = (querySpy as unknown as any).mock.calls[0][0];
         expect(query.targetEntity).toEqual("item");
         expect(query.filters.length).toEqual(2);
 
@@ -253,7 +265,7 @@ describe("resolveMetric:", () => {
         // Since this is using memoization, we can't get reliable
         // call counts out, even though we're clearing the cache
         expect(querySpy).toHaveBeenCalledTimes(1);
-        const query: IQuery = querySpy.calls.mostRecent().args[0];
+        const query: IQuery = (querySpy as unknown as any).mock.calls[0][0];
         expect(query.targetEntity).toEqual("item");
         expect(query.filters.length).toEqual(2);
 
@@ -288,16 +300,14 @@ describe("resolveMetric:", () => {
           },
         ],
       };
-      let querySpy: jasmine.Spy;
+      let querySpy: any;
       beforeEach(() => {
         // since spies don't have a `.name` property the
-        // memoization cache just have an entry for ``
+        // memoization cache just have an entry for `"
         clearMemoizedCache();
-        querySpy = spyOn(PSModule, "portalSearchItemsAsItems").and.callFake(
-          () => {
-            return Promise.resolve(ResponseWithStaticValue);
-          }
-        );
+        querySpy = vi
+          .spyOn(PSModule as any, "portalSearchItemsAsItems")
+          .mockResolvedValue(ResponseWithStaticValue);
       });
       it("recurses when static value is returned", async () => {
         const changed = cloneObject(itemMetricWithScope);
