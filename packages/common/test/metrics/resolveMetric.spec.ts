@@ -8,7 +8,7 @@ vi.mock(
     return {
       ...orig,
       queryFeatures: vi.fn(),
-    } ;
+    };
   }
 );
 
@@ -16,7 +16,6 @@ import * as FLModule from "@esri/arcgis-rest-feature-service";
 import * as PSModule from "../../src/search/_internal/portalSearchItems";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   IItemQueryMetricSource,
   IMetric,
@@ -29,23 +28,23 @@ import { IQuery } from "../../src/search/types/IHubCatalog";
 
 describe("resolveMetric:", () => {
   let ctx: IArcGISContext;
-  beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    const authdCtxMgr = await ArcGISContextManager.create({
+  beforeEach(() => {
+    // Provide a plain mock context so tests don't call out to ArcGIS
+    ctx = {
       authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
+      currentUser: { username: "casey" } as unknown as PortalModule.IUser,
       portal: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
       } as unknown as PortalModule.IPortal,
+      portalSettings: {} as any,
       portalUrl: "https://myserver.com",
-    });
-    ctx = authdCtxMgr.context;
+      hubRequestOptions: { authentication: MOCK_AUTH },
+      // some code paths expect requestOptions.authentication
+      requestOptions: { authentication: MOCK_AUTH },
+      isPortal: false,
+    } as unknown as IArcGISContext;
     // restore mocks between tests
     vi.restoreAllMocks();
   });
