@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import * as sharedMigrations from "../../../src/core/_internal/sharedMigrations";
 import { IHubProject } from "../../../src/core/types/IHubProject";
 import { migrateProjectSlugAndOrgUrlKey } from "../../../src/projects/_internal/migrateProjectSlugAndOrgUrlKey";
@@ -11,7 +12,6 @@ describe("migrateProjectSlugAndOrgUrlKey", () => {
       slug: "Test-Slug",
       orgUrlKey: "ORGKEY",
       typeKeywords: ["keyword1"],
-      // other required properties...
     } as IHubProject;
   });
   it("returns project unchanged if schemaVersion >= 1.1", () => {
@@ -31,14 +31,13 @@ describe("migrateProjectSlugAndOrgUrlKey", () => {
     expect(migrated.typeKeywords).toContain("slug|orgkey|test-slug");
   });
   it("migrates slug and orgUrlKey and sets schemaVersion to 1.1", () => {
-    const migrateSpy = spyOn(
-      sharedMigrations,
-      "migrateSlugAndOrgUrlKey"
-    ).and.callFake((..._args: string[]) => ({
-      slug: "new-slug",
-      orgUrlKey: "new-orgurlkey",
-      typeKeywords: ["new-keyword"],
-    }));
+    const migrateSpy = vi
+      .spyOn(sharedMigrations, "migrateSlugAndOrgUrlKey")
+      .mockImplementation((..._args: any[]) => ({
+        slug: "new-slug",
+        orgUrlKey: "new-orgurlkey",
+        typeKeywords: ["new-keyword"],
+      }));
     const migrated = migrateProjectSlugAndOrgUrlKey(project);
     expect(migrateSpy).toHaveBeenCalledWith(
       project.slug,
