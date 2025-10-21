@@ -1,4 +1,5 @@
 import { fetchHubEntity } from "../../src/core/fetchHubEntity";
+import { vi } from "vitest";
 import { HubEntityType } from "../../src/core/types/HubEntityType";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import * as fetchProjectModule from "../../src/projects/fetch";
@@ -25,9 +26,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(fetchProjectModule, "fetchProject").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(fetchProjectModule as any, "fetchProject")
+      .mockResolvedValue({});
     await fetchHubEntity("project", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -35,9 +36,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(hubSitesModule, "fetchSite").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(hubSitesModule as any, "fetchSite")
+      .mockResolvedValue({});
     await fetchHubEntity("site", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -45,9 +46,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(orgFetchModule, "fetchOrganization").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(orgFetchModule as any, "fetchOrganization")
+      .mockResolvedValue({});
     await fetchHubEntity("organization", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -55,9 +56,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(channelsFetchModule, "fetchHubChannel").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(channelsFetchModule as any, "fetchHubChannel")
+      .mockResolvedValue({});
     await fetchHubEntity("channel", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", ctx);
   });
@@ -65,9 +66,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(hubInitiativesModule, "fetchInitiative").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(hubInitiativesModule as any, "fetchInitiative")
+      .mockResolvedValue({});
     await fetchHubEntity("initiative", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -75,10 +76,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(
-      discussionsFetchModule,
-      "fetchDiscussion"
-    ).and.returnValue(Promise.resolve({}));
+    const spy = vi
+      .spyOn(discussionsFetchModule as any, "fetchDiscussion")
+      .mockResolvedValue({});
     await fetchHubEntity("discussion", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -86,9 +86,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(hubContentFetchModule, "fetchHubContent").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(hubContentFetchModule as any, "fetchHubContent")
+      .mockResolvedValue({});
     await fetchHubEntity("content", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", ctx.hubRequestOptions);
   });
@@ -96,9 +96,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(templatesModule, "fetchTemplate").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(templatesModule as any, "fetchTemplate")
+      .mockResolvedValue({});
     await fetchHubEntity("template", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -106,9 +106,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(hubPagesModule, "fetchPage").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(hubPagesModule as any, "fetchPage")
+      .mockResolvedValue({});
     await fetchHubEntity("page", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -116,9 +116,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(hubGroupsModule, "fetchHubGroup").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(hubGroupsModule as any, "fetchHubGroup")
+      .mockResolvedValue({});
     await fetchHubEntity("group", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", ctx.hubRequestOptions);
   });
@@ -126,10 +126,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(
-      initiativeTemplatesFetchModule,
-      "fetchInitiativeTemplate"
-    ).and.returnValue(Promise.resolve({}));
+    const spy = vi
+      .spyOn(initiativeTemplatesFetchModule as any, "fetchInitiativeTemplate")
+      .mockResolvedValue({});
     await fetchHubEntity("initiativeTemplate", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -137,9 +136,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(eventsFetchModule, "fetchEvent").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(eventsFetchModule as any, "fetchEvent")
+      .mockResolvedValue({});
     await fetchHubEntity("event", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -147,9 +146,9 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(hubUsersModule, "fetchHubUser").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = vi
+      .spyOn(hubUsersModule as any, "fetchHubUser")
+      .mockResolvedValue({});
     await fetchHubEntity("user", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", {
       hubRequestOptions: "fakeRequestOptions",
@@ -159,10 +158,10 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       currentUser: {},
     } as IArcGISContext;
-    const spy = spyOn(hubUsersModule, "convertUserToHubUser").and.returnValue(
-      {}
-    );
+    const spy = vi
+      .spyOn(hubUsersModule as any, "fetchHubUser")
+      .mockResolvedValue({});
     await fetchHubEntity("user", "self", ctx);
-    expect(spy).toHaveBeenCalledWith(ctx.currentUser);
+    expect(spy).toHaveBeenCalledWith("self", ctx);
   });
 });

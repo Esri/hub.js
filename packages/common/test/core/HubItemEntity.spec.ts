@@ -1,6 +1,15 @@
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { vi } from "vitest";
+// make ESM namespace functions spyable by mocking the module and merging the original
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  setItemAccess: vi.fn(),
+  getGroup: vi.fn(),
+  updateGroup: vi.fn(),
+  removeItemResource: vi.fn(),
+}));
 import { HubItemEntity } from "../../src/core/HubItemEntity";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import { createMockContext, MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
@@ -86,10 +95,9 @@ describe("HubItemEntity Class: ", () => {
     });
     describe("shareWithGroup", () => {
       it("calls shareItemToGroups", async () => {
-        const shareItemToGroupsSpy = spyOn(
-          shareItemToGroupsModule,
-          "shareItemToGroups"
-        ).and.returnValue(Promise.resolve(undefined));
+        const shareItemToGroupsSpy = vi
+          .spyOn(shareItemToGroupsModule as any, "shareItemToGroups")
+          .mockResolvedValue(undefined as any);
         await harness.shareWithGroup("31c");
         expect(shareItemToGroupsSpy).toHaveBeenCalledTimes(1);
         expect(shareItemToGroupsSpy).toHaveBeenCalledWith(
@@ -100,7 +108,10 @@ describe("HubItemEntity Class: ", () => {
         );
       });
       it("throws if user is not authd", async () => {
-        const unauthdCtxMgr = await ArcGISContextManager.create();
+        const context = createMockContext({ currentUser: undefined });
+        const unauthdCtxMgr = {
+          context,
+        } as unknown as ArcGISContextManager;
         const instance = new TestHarness(
           {
             id: "00c",
@@ -119,10 +130,9 @@ describe("HubItemEntity Class: ", () => {
     });
     describe("shareWithGroups", () => {
       it("calls shareItemToGroups", async () => {
-        const shareItemToGroupsSpy = spyOn(
-          shareItemToGroupsModule,
-          "shareItemToGroups"
-        ).and.returnValue(Promise.resolve(undefined));
+        const shareItemToGroupsSpy = vi
+          .spyOn(shareItemToGroupsModule as any, "shareItemToGroups")
+          .mockResolvedValue(undefined as any);
         await harness.shareWithGroups(["31c", "5n6"]);
         expect(shareItemToGroupsSpy).toHaveBeenCalledTimes(1);
         expect(shareItemToGroupsSpy).toHaveBeenCalledWith(
@@ -135,10 +145,9 @@ describe("HubItemEntity Class: ", () => {
     });
     describe("unshareWithGroup", () => {
       it("calls unshareItemFromGroups", async () => {
-        const unshareItemFromGroupsSpy = spyOn(
-          unshareItemFromGroupsModule,
-          "unshareItemFromGroups"
-        ).and.returnValue(Promise.resolve(undefined));
+        const unshareItemFromGroupsSpy = vi
+          .spyOn(unshareItemFromGroupsModule as any, "unshareItemFromGroups")
+          .mockResolvedValue(undefined as any);
         await harness.unshareWithGroup("31c");
         expect(unshareItemFromGroupsSpy).toHaveBeenCalledTimes(1);
         expect(unshareItemFromGroupsSpy).toHaveBeenCalledWith(
@@ -151,10 +160,9 @@ describe("HubItemEntity Class: ", () => {
     });
     describe("unshareWithGroups", () => {
       it("calls unshareItemFromGroups", async () => {
-        const unshareItemFromGroupsSpy = spyOn(
-          unshareItemFromGroupsModule,
-          "unshareItemFromGroups"
-        ).and.returnValue(Promise.resolve(undefined));
+        const unshareItemFromGroupsSpy = vi
+          .spyOn(unshareItemFromGroupsModule as any, "unshareItemFromGroups")
+          .mockResolvedValue(undefined as any);
         await harness.unshareWithGroups(["31c", "5n6"]);
         expect(unshareItemFromGroupsSpy).toHaveBeenCalledTimes(1);
         expect(unshareItemFromGroupsSpy).toHaveBeenCalledWith(
@@ -167,10 +175,9 @@ describe("HubItemEntity Class: ", () => {
     });
     describe("setAccess", () => {
       it("calls setItemAccess", async () => {
-        const setItemAccessSpy = spyOn(
-          PortalModule,
-          "setItemAccess"
-        ).and.returnValue(Promise.resolve(undefined));
+        const setItemAccessSpy = (
+          PortalModule as any
+        ).setItemAccess.mockResolvedValue(undefined as any);
         await harness.setAccess("org");
         expect(setItemAccessSpy).toHaveBeenCalledTimes(1);
         expect(setItemAccessSpy).toHaveBeenCalledWith({
@@ -190,10 +197,9 @@ describe("HubItemEntity Class: ", () => {
             capabilities: ["updateitemcontrol"],
           } as unknown as PortalModule.IGroup,
         ];
-        const sharedWithSpy = spyOn(
-          SharedWithModule,
-          "sharedWith"
-        ).and.returnValue(Promise.resolve(groups));
+        const sharedWithSpy = vi
+          .spyOn(SharedWithModule as any, "sharedWith")
+          .mockResolvedValue(groups as any);
         const res = await harness.sharedWith();
         expect(sharedWithSpy).toHaveBeenCalledTimes(1);
         expect(sharedWithSpy).toHaveBeenCalledWith(
@@ -264,9 +270,13 @@ describe("HubItemEntity Class: ", () => {
     });
     describe("getFollowersGroup", () => {
       it("fetches the followers group when a followersGroupId exists on the entity", async () => {
-        const getGroupSpy = spyOn(PortalModule, "getGroup").and.callFake(() => {
-          return Promise.resolve();
-        });
+        const getGroupSpy = (PortalModule as any).getGroup.mockImplementation(
+          () => {
+            return Promise.resolve();
+          }
+        );
+        // reset mock call history before invoking the method under test
+        (PortalModule as any).getGroup.mockClear();
 
         await harness.getFollowersGroup();
         expect(getGroupSpy).toHaveBeenCalledTimes(1);
@@ -288,9 +298,13 @@ describe("HubItemEntity Class: ", () => {
         expect(resp).toBeUndefined();
       });
       it("returns null when there is an error fetching the followers group", async () => {
-        const getGroupSpy = spyOn(PortalModule, "getGroup").and.callFake(() => {
-          return Promise.reject();
-        });
+        const getGroupSpy = (PortalModule as any).getGroup.mockImplementation(
+          () => {
+            return Promise.reject();
+          }
+        );
+        // reset mock call history before invoking the method under test
+        (PortalModule as any).getGroup.mockClear();
 
         const resp = await harness.getFollowersGroup();
         expect(getGroupSpy).toHaveBeenCalledTimes(1);
@@ -302,11 +316,11 @@ describe("HubItemEntity Class: ", () => {
       });
     });
     it("sets the followers group access", async () => {
-      const updateGroupSpy = spyOn(PortalModule, "updateGroup").and.callFake(
-        () => {
-          return Promise.resolve();
-        }
-      );
+      const updateGroupSpy = (
+        PortalModule as any
+      ).updateGroup.mockImplementation(() => {
+        return Promise.resolve();
+      });
 
       await harness.setFollowersGroupAccess("public");
       expect(updateGroupSpy).toHaveBeenCalledTimes(1);
@@ -319,24 +333,23 @@ describe("HubItemEntity Class: ", () => {
       });
     });
     it("sets whether or not the followers group is discussable", async () => {
-      const getFollowersGroupSpy = spyOn(
-        harness,
-        "getFollowersGroup"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          id: "followers00c",
-          typeKeywords: [],
+      const getFollowersGroupSpy = vi
+        .spyOn(harness as any, "getFollowersGroup")
+        .mockImplementation(() => {
+          return Promise.resolve({
+            id: "followers00c",
+            typeKeywords: [],
+          });
         });
-      });
-      const setDiscussableKeywordSpy = spyOn(
-        discussionsUtilsModule,
+      const setDiscussableKeywordSpy = vi.spyOn(
+        discussionsUtilsModule as any,
         "setDiscussableKeyword"
-      ).and.callThrough();
-      const updateGroupSpy = spyOn(PortalModule, "updateGroup").and.callFake(
-        () => {
-          return Promise.resolve();
-        }
       );
+      const updateGroupSpy = vi
+        .spyOn(PortalModule as any, "updateGroup")
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
       await harness.setFollowersGroupIsDiscussable(false);
       expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       expect(setDiscussableKeywordSpy).toHaveBeenCalledWith([], false);
@@ -394,12 +407,9 @@ describe("HubItemEntity Class: ", () => {
       expect(thumbnail).toBeNull();
     });
     it("should set thumbnail but not save it to the item", () => {
-      const spy = spyOn(
-        setItemThumbnailModule,
-        "setItemThumbnail"
-      ).and.callFake(() => {
-        return Promise.resolve();
-      });
+      const spy = vi
+        .spyOn(setItemThumbnailModule as any, "setItemThumbnail")
+        .mockResolvedValue(undefined as any);
       const instance = new TestHarness(
         {
           id: "00c",
@@ -411,12 +421,9 @@ describe("HubItemEntity Class: ", () => {
       expect(spy).toHaveBeenCalledTimes(0);
     });
     it("should save thumbnail when save is called, only if the cache is present", async () => {
-      const spy = spyOn(
-        setItemThumbnailModule,
-        "setItemThumbnail"
-      ).and.callFake(() => {
-        return Promise.resolve();
-      });
+      const spy = vi
+        .spyOn(setItemThumbnailModule as any, "setItemThumbnail")
+        .mockResolvedValue(undefined as any);
       const instance = new TestHarness(
         {
           id: "00c",
@@ -431,12 +438,9 @@ describe("HubItemEntity Class: ", () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
     it("can clear thumbnail", async () => {
-      const deleteSpy = spyOn(
-        deleteItemThumbnailModule,
-        "deleteItemThumbnail"
-      ).and.callFake(() => {
-        return Promise.resolve();
-      });
+      const deleteSpy = vi
+        .spyOn(deleteItemThumbnailModule as any, "deleteItemThumbnail")
+        .mockResolvedValue(undefined as any);
       const instance = new TestHarness(
         {
           id: "00c",
@@ -452,10 +456,9 @@ describe("HubItemEntity Class: ", () => {
 
   describe("featured image behavior:", () => {
     it("should clear featured image", async () => {
-      const clearImageSpy = spyOn(
-        PortalModule,
-        "removeItemResource"
-      ).and.returnValue(Promise.resolve({ success: true }));
+      const clearImageSpy = vi
+        .spyOn(PortalModule as any, "removeItemResource")
+        .mockResolvedValue({ success: true } as any);
 
       const instance = new TestHarness(
         {
@@ -474,10 +477,9 @@ describe("HubItemEntity Class: ", () => {
     });
 
     it("should throw hub error if clear featured image fails", async () => {
-      const clearImageSpy = spyOn(
-        PortalModule,
-        "removeItemResource"
-      ).and.returnValue(Promise.resolve({ success: false }));
+      const clearImageSpy = vi
+        .spyOn(PortalModule as any, "removeItemResource")
+        .mockResolvedValue({ success: false } as any);
 
       const instance = new TestHarness(
         {
@@ -502,10 +504,9 @@ describe("HubItemEntity Class: ", () => {
     });
 
     it("throws hub error if removeItemResource rejects with error", async () => {
-      const clearImageSpy = spyOn(
-        PortalModule,
-        "removeItemResource"
-      ).and.returnValue(Promise.reject(new Error("fake error")));
+      const clearImageSpy = vi
+        .spyOn(PortalModule as any, "removeItemResource")
+        .mockRejectedValue(new Error("fake error"));
 
       const instance = new TestHarness(
         {
@@ -530,10 +531,9 @@ describe("HubItemEntity Class: ", () => {
     });
 
     it("throws hub error if remove rejects", async () => {
-      const clearImageSpy = spyOn(
-        PortalModule,
-        "removeItemResource"
-      ).and.returnValue(Promise.reject("fake error"));
+      const clearImageSpy = vi
+        .spyOn(PortalModule as any, "removeItemResource")
+        .mockRejectedValue("fake error");
 
       const instance = new TestHarness(
         {
@@ -558,14 +558,11 @@ describe("HubItemEntity Class: ", () => {
     });
 
     it("should set featured image", async () => {
-      const setImageSpy = spyOn(
-        uploadImageResourceModule,
-        "uploadImageResource"
-      ).and.callFake(() => {
-        return Promise.resolve(
-          "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+      const setImageSpy = vi
+        .spyOn(uploadImageResourceModule as any, "uploadImageResource")
+        .mockResolvedValue(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png" as any
         );
-      });
 
       const instance = new TestHarness(
         {
@@ -583,19 +580,15 @@ describe("HubItemEntity Class: ", () => {
     });
 
     it("should remove existing featured image when setting a new one", async () => {
-      const clearImageSpy = spyOn(
-        PortalModule,
-        "removeItemResource"
-      ).and.returnValue(Promise.resolve({ success: true }));
+      const clearImageSpy = vi
+        .spyOn(PortalModule as any, "removeItemResource")
+        .mockResolvedValue({ success: true } as any);
 
-      const setImageSpy = spyOn(
-        uploadImageResourceModule,
-        "uploadImageResource"
-      ).and.callFake(() => {
-        return Promise.resolve(
-          "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+      const setImageSpy = vi
+        .spyOn(uploadImageResourceModule as any, "uploadImageResource")
+        .mockResolvedValue(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png" as any
         );
-      });
 
       const instance = new TestHarness(
         {
@@ -618,25 +611,23 @@ describe("HubItemEntity Class: ", () => {
 
     it("should call itself if resource is already present but there is no featuredImageUrl", async () => {
       let count = 1;
-      const clearImageSpy = spyOn(
-        PortalModule,
-        "removeItemResource"
-      ).and.returnValue(Promise.resolve({ success: true }));
+      const clearImageSpy = vi
+        .spyOn(PortalModule as any, "removeItemResource")
+        .mockResolvedValue({ success: true } as any);
 
-      const setImageSpy = spyOn(
-        uploadImageResourceModule,
-        "uploadImageResource"
-      ).and.callFake(() => {
-        if (count === 1) {
-          count += 1;
-          const err = new Error("CONT_00942: Resource already present");
-          return Promise.reject(err);
-        } else {
-          return Promise.resolve(
-            "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
-          );
-        }
-      });
+      const setImageSpy = vi
+        .spyOn(uploadImageResourceModule as any, "uploadImageResource")
+        .mockImplementation(() => {
+          if (count === 1) {
+            count += 1;
+            const err = new Error("CONT_00942: Resource already present");
+            return Promise.reject(err);
+          } else {
+            return Promise.resolve(
+              "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+            );
+          }
+        });
 
       const instance = new TestHarness(
         {
@@ -657,17 +648,13 @@ describe("HubItemEntity Class: ", () => {
   });
 
   it("should throw an err if applicable", async () => {
-    const clearImageSpy = spyOn(
-      PortalModule,
-      "removeItemResource"
-    ).and.returnValue(Promise.resolve({ success: true }));
+    const clearImageSpy = vi
+      .spyOn(PortalModule as any, "removeItemResource")
+      .mockResolvedValue({ success: true } as any);
 
-    const setImageSpy = spyOn(
-      uploadImageResourceModule,
-      "uploadImageResource"
-    ).and.callFake(() => {
-      return Promise.reject(new Error("fake error"));
-    });
+    const setImageSpy = vi
+      .spyOn(uploadImageResourceModule as any, "uploadImageResource")
+      .mockRejectedValue(new Error("fake error"));
 
     const instance = new TestHarness(
       {
@@ -740,10 +727,9 @@ describe("HubItemEntity Class: ", () => {
         permissions: [policy],
       } as IHubItemEntity;
       const instance = new TestHarness(entity, authdCtxMgr.context);
-      const checkPermissionSpy = spyOn(
-        checkPermissionsModule,
-        "checkPermission"
-      ).and.returnValue({ access: true });
+      const checkPermissionSpy = vi
+        .spyOn(checkPermissionsModule as any, "checkPermission")
+        .mockReturnValue({ access: true } as any);
       const chk = instance.checkPermission("hub:project:create");
       expect(chk.access).toBeTruthy();
       expect(checkPermissionSpy).toHaveBeenCalledWith(
@@ -765,7 +751,9 @@ describe("HubItemEntity Class: ", () => {
         },
         authdCtxMgr.context
       );
-      const updateSpy = spyOn(instance, "update").and.returnValue(null);
+      const updateSpy = vi
+        .spyOn(instance as any, "update")
+        .mockReturnValue(null as any);
       instance.updateIsDiscussable(true);
       expect(updateSpy).toHaveBeenCalledTimes(1);
       expect(updateSpy).toHaveBeenCalledWith({
@@ -783,7 +771,9 @@ describe("HubItemEntity Class: ", () => {
         },
         authdCtxMgr.context
       );
-      const updateSpy = spyOn(instance, "update").and.returnValue(null);
+      const updateSpy = vi
+        .spyOn(instance as any, "update")
+        .mockReturnValue(null as any);
       instance.updateIsDiscussable(false);
       expect(updateSpy).toHaveBeenCalledTimes(1);
       expect(updateSpy).toHaveBeenCalledWith({

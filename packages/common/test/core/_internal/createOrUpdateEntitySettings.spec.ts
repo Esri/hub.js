@@ -1,4 +1,5 @@
 import type { Polygon } from "geojson";
+import { vi } from "vitest";
 import { createOrUpdateEntitySettings } from "../../../src/core/_internal/createOrUpdateEntitySettings";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as settingUtils from "../../../src/discussions/api/settings/settings";
@@ -10,8 +11,8 @@ describe("createOrUpdateEntitySettings", () => {
   const MOCK_REQUEST_OPTIONS = { authentication: MOCK_AUTH };
   const DEFAULT_SETTINGS =
     getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion");
-  let createSettingsSpy: jasmine.Spy;
-  let updateSettingsSpy: jasmine.Spy;
+  let createSettingsSpy: any;
+  let updateSettingsSpy: any;
   const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
   const MOCK_POLYGONS: Polygon[] = [
     {
@@ -28,18 +29,16 @@ describe("createOrUpdateEntitySettings", () => {
   ];
 
   beforeEach(() => {
-    createSettingsSpy = spyOn(settingUtils, "createSettingV2").and.returnValue(
-      Promise.resolve({
-        id: GUID,
-        ...DEFAULT_SETTINGS,
-      })
-    );
-    updateSettingsSpy = spyOn(settingUtils, "updateSettingV2").and.returnValue(
-      Promise.resolve({
-        id: GUID,
-        ...DEFAULT_SETTINGS,
-      })
-    );
+    createSettingsSpy = vi
+      .spyOn(settingUtils, "createSettingV2")
+      .mockResolvedValue({ id: GUID, ...DEFAULT_SETTINGS } as any);
+    updateSettingsSpy = vi
+      .spyOn(settingUtils, "updateSettingV2")
+      .mockResolvedValue({ id: GUID, ...DEFAULT_SETTINGS } as any);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("creates settings when entitySettingsId is undefined", async () => {

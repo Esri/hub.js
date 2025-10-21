@@ -73,15 +73,14 @@ import * as UserBuildUiSchemaSettings from "../../../../src/users/_internal/User
 
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
-describe("getEditorSchemas: ", () => {
-  let uiSchemaBuildFnSpy: jasmine.Spy;
-  let defaultsFnSpy: jasmine.Spy;
-  afterEach(() => {
-    uiSchemaBuildFnSpy.calls.reset();
+import { vi } from "vitest";
 
-    if (defaultsFnSpy) {
-      defaultsFnSpy.calls.reset();
-    }
+describe("getEditorSchemas: ", () => {
+  let uiSchemaBuildFnSpy: any;
+  let defaultsFnSpy: any;
+  afterEach(() => {
+    // restore any vi spies/mocks
+    vi.restoreAllMocks();
   });
   const modules: Array<{ type: EditorType; module: IEditorModuleType }> = [
     { type: ProjectEditorTypes[0], module: ProjectBuildCreateUiSchema },
@@ -174,18 +173,22 @@ describe("getEditorSchemas: ", () => {
 
   modules.forEach(({ type, module }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {
-      uiSchemaBuildFnSpy = spyOn(module, "buildUiSchema").and.returnValue(
-        Promise.resolve({})
-      );
+      uiSchemaBuildFnSpy = vi
+        .spyOn(module, "buildUiSchema")
+        .mockResolvedValue({} as any);
       if (module.buildDefaults) {
-        defaultsFnSpy = spyOn(module, "buildDefaults").and.returnValue(
-          Promise.resolve({})
-        );
+        defaultsFnSpy = vi
+          .spyOn(module, "buildDefaults")
+          .mockResolvedValue({} as any);
       }
 
-      spyOn(checkPermissionModule, "checkPermission").and.returnValue({
+      vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
         access: true,
-      });
+        policy: undefined,
+        checks: [],
+        code: 200,
+        response: undefined,
+      } as any);
 
       const { schema, uiSchema, defaults } = await getEditorSchemas(
         "some.scope",
@@ -204,15 +207,12 @@ describe("getEditorSchemas: ", () => {
     });
   });
   it("filters the schemas to the uiSchema elements before returning", async () => {
-    const filterSchemaToUiSchemaSpy = spyOn(
-      filterSchemaModule,
-      "filterSchemaToUiSchema"
-    ).and.callThrough();
-    uiSchemaBuildFnSpy = spyOn(
-      ProjectBuildEditUiSchema,
-      "buildUiSchema"
-    ).and.returnValue({});
-
+    const filterSchemaToUiSchemaSpy = vi
+      .spyOn(filterSchemaModule, "filterSchemaToUiSchema")
+      .mockImplementation((s: any) => s);
+    uiSchemaBuildFnSpy = vi
+      .spyOn(ProjectBuildEditUiSchema, "buildUiSchema")
+      .mockReturnValue({} as any);
     await getEditorSchemas(
       "some.scope",
       "hub:project:edit",

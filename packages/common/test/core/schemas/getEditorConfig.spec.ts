@@ -4,15 +4,17 @@ import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOp
 import * as GetEntitySchemasModule from "../../../src/core/schemas/internal/getEditorSchemas";
 import * as SiteSchemaModule from "../../../src/sites/_internal/SiteSchema";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import { vi } from "vitest";
 
 describe("getEditorConfig:", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("delegates to getEditorSchemas with entity", async () => {
-    const getEditorSchemas = spyOn(
-      GetEntitySchemasModule,
-      "getEditorSchemas"
-    ).and.callFake(() => {
-      return Promise.resolve({ schema: {} } as any);
-    });
+    const getEditorSchemas = vi
+      .spyOn(GetEntitySchemasModule, "getEditorSchemas")
+      .mockImplementation(() => Promise.resolve({ schema: {} } as any));
 
     const chk = await getEditorConfig(
       "someScope",
@@ -34,15 +36,21 @@ describe("getEditorConfig:", () => {
   });
 
   it("gets site schemas", async () => {
-    const getEditorSchemas = spyOn(
-      GetEntitySchemasModule,
-      "getEditorSchemas"
-    ).and.callThrough();
+    // spy but call through to the real implementation so that getSiteSchema is
+    // invoked as in the original Jasmine test
+    const originalGetEditorSchemas = GetEntitySchemasModule.getEditorSchemas;
+    const getEditorSchemas = vi
+      .spyOn(GetEntitySchemasModule, "getEditorSchemas")
+      .mockImplementation((...args: any[]) =>
+        originalGetEditorSchemas.apply(GetEntitySchemasModule, args)
+      );
 
-    const getSiteSchema = spyOn(
-      SiteSchemaModule,
-      "getSiteSchema"
-    ).and.callThrough();
+    const originalGetSiteSchema = SiteSchemaModule.getSiteSchema;
+    const getSiteSchema = vi
+      .spyOn(SiteSchemaModule, "getSiteSchema")
+      .mockImplementation((...args: any[]) =>
+        originalGetSiteSchema.apply(SiteSchemaModule, args)
+      );
 
     const chk = await getEditorConfig(
       "someScope",
@@ -66,12 +74,9 @@ describe("getEditorConfig:", () => {
   });
 
   it("delegates to getEditorSchemas with card", async () => {
-    const getEditorSchemas = spyOn(
-      GetEntitySchemasModule,
-      "getEditorSchemas"
-    ).and.callFake(() => {
-      return Promise.resolve({ schema: {} } as any);
-    });
+    const getEditorSchemas = vi
+      .spyOn(GetEntitySchemasModule, "getEditorSchemas")
+      .mockImplementation(() => Promise.resolve({ schema: {} } as any));
 
     const chk = await getEditorConfig(
       "someScope",

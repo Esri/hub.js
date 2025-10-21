@@ -1,15 +1,21 @@
-import { getTagItems } from "../../../../src/core/schemas/internal/getTagItems";
+import { vi } from "vitest";
+
+// Mock the arcgis-rest-portal namespace so its exported functions are spyable/mutable.
+// Must register this mock before importing the module-under-test.
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  searchItems: vi.fn(),
+}));
+
 import * as SearchModule from "@esri/arcgis-rest-portal";
+import { getTagItems } from "../../../../src/core/schemas/internal/getTagItems";
 import { IHubProject } from "../../../../src/core/types/IHubProject";
 import { IHubRequestOptions } from "../../../../src/hub-types";
 
 describe("getTagItems:", () => {
   it("aggregates tags:", async () => {
-    const searchSpy = spyOn(SearchModule, "searchItems").and.callFake(() => {
-      // Leaving so we can quickly swap back to using hubSearch
-      // return Promise.resolve({ aggregations: HubSearchAggs });
-      return Promise.resolve(SearchItemsResponse);
-    });
+    const searchSpy = SearchModule.searchItems as unknown as vi.Mock;
+    searchSpy.mockResolvedValue(SearchItemsResponse as any);
     const entity = {
       tags: ["a", "b", "c"],
     } as IHubProject;
@@ -23,11 +29,8 @@ describe("getTagItems:", () => {
     expect(chk.find((e) => e.value === "test-tag")).toBeTruthy();
   });
   it("handles entity without tags:", async () => {
-    const searchSpy = spyOn(SearchModule, "searchItems").and.callFake(() => {
-      // Leaving so we can quickly swap back to using hubSearch
-      // return Promise.resolve({ aggregations: HubSearchAggs });
-      return Promise.resolve(SearchItemsResponse);
-    });
+    const searchSpy = SearchModule.searchItems as unknown as vi.Mock;
+    searchSpy.mockResolvedValue(SearchItemsResponse as any);
     const entity = {} as IHubProject;
     const orgId = "some-org-id";
     const ro = {} as IHubRequestOptions;
@@ -39,9 +42,8 @@ describe("getTagItems:", () => {
     expect(chk.find((e) => e.value === "test-tag")).toBeTruthy();
   });
   it("swallows error from search", async () => {
-    spyOn(SearchModule, "searchItems").and.callFake(() => {
-      return Promise.reject();
-    });
+    const searchSpy = SearchModule.searchItems as unknown as vi.Mock;
+    searchSpy.mockRejectedValue(new Error("boom"));
     const entity = {} as IHubProject;
     const orgId = "some-org-id";
     const ro = {} as IHubRequestOptions;

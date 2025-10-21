@@ -3,11 +3,16 @@ import { shareEntityWithGroups } from "../../src/core/shareEntityWithGroups";
 import * as shareEventWithGroupsModule from "../../src/events/_internal/shareEventWithGroups";
 import * as shareItemToGroupsModule from "../../src/items/share-item-to-groups";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { vi } from "vitest";
 
 describe("shareEntityWithGroups", () => {
   let entity: IHubItemEntity;
   let updatedEntity: IHubItemEntity;
   let context: IArcGISContext;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   beforeEach(() => {
     entity = { id: "9c3", type: "Content", owner: "jdoe" } as IHubItemEntity;
@@ -30,10 +35,9 @@ describe("shareEntityWithGroups", () => {
 
   it("should call shareEventWithGroups for an event", async () => {
     entity.type = "Event";
-    const shareEventWithGroupsSpy = spyOn(
-      shareEventWithGroupsModule,
-      "shareEventWithGroups"
-    ).and.returnValue(Promise.resolve(updatedEntity));
+    const shareEventWithGroupsSpy = vi
+      .spyOn(shareEventWithGroupsModule as any, "shareEventWithGroups")
+      .mockResolvedValue(updatedEntity as any);
     const res = await shareEntityWithGroups(entity, ["31c", "5n6"], context);
     expect(shareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
     expect(shareEventWithGroupsSpy).toHaveBeenCalledWith(
@@ -46,10 +50,9 @@ describe("shareEntityWithGroups", () => {
 
   it("should call shareItemToGroups for an item", async () => {
     entity.type = "Content";
-    const shareItemToGroupsSpy = spyOn(
-      shareItemToGroupsModule,
-      "shareItemToGroups"
-    ).and.returnValue(Promise.resolve(undefined));
+    const shareItemToGroupsSpy = vi
+      .spyOn(shareItemToGroupsModule as any, "shareItemToGroups")
+      .mockResolvedValue(undefined as any);
     const res = await shareEntityWithGroups(entity, ["31c", "5n6"], context);
     expect(shareItemToGroupsSpy).toHaveBeenCalledTimes(1);
     expect(shareItemToGroupsSpy).toHaveBeenCalledWith(

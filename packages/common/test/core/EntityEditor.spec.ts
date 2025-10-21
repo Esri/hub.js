@@ -1,4 +1,5 @@
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { vi } from "vitest";
 import { HubChannel } from "../../src/channels/HubChannel";
 import { HubContent } from "../../src/content/HubContent";
 import { EntityEditor } from "../../src/core/EntityEditor";
@@ -66,24 +67,19 @@ describe("EntityEditor:", () => {
     }
   });
   describe("supports projects:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubProject, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(
-        HubProject.prototype,
-        "getEditorConfig"
-      ).and.callFake(() => {
-        return Promise.resolve({} as any);
-      });
-      toEditorSpy = spyOn(HubProject.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubProject.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubProject as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubProject.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubProject.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubProject.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Project", async () => {
@@ -103,23 +99,19 @@ describe("EntityEditor:", () => {
     });
   });
   describe("supports pages:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubPage, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(HubPage.prototype, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
-      toEditorSpy = spyOn(HubPage.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubPage.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubPage as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubPage.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubPage.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubPage.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Page", async () => {
@@ -137,27 +129,19 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports discussions:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubDiscussion, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(
-        HubDiscussion.prototype,
-        "getEditorConfig"
-      ).and.callFake(() => {
-        return Promise.resolve({} as any);
-      });
-      toEditorSpy = spyOn(
-        HubDiscussion.prototype,
-        "toEditor"
-      ).and.callThrough();
-      fromEditorSpy = spyOn(HubDiscussion.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubDiscussion as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubDiscussion.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubDiscussion.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubDiscussion.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Discussion", async () => {
@@ -181,24 +165,19 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports channels:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubChannel, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(
-        HubChannel.prototype,
-        "getEditorConfig"
-      ).and.callFake(() => {
-        return Promise.resolve({} as any);
-      });
-      toEditorSpy = spyOn(HubChannel.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubChannel.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubChannel as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubChannel.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubChannel.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubChannel.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Channel", async () => {
@@ -222,34 +201,26 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports sites:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
-    let getFollowersGroupSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
+    let getFollowersGroupSpy: any;
 
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubSite, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(HubSite.prototype, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
-      toEditorSpy = spyOn(HubSite.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubSite.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
-      getFollowersGroupSpy = spyOn(
-        HubSite.prototype,
-        "getFollowersGroup"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          id: "followers00c",
-          typeKeywords: [],
-        });
-      });
+      fromJsonSpy = vi.spyOn(HubSite as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubSite.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubSite.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubSite.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
+      getFollowersGroupSpy = vi
+        .spyOn(HubSite.prototype as any, "getFollowersGroup")
+        .mockImplementation(() =>
+          Promise.resolve({ id: "followers00c", typeKeywords: [] })
+        );
     });
 
     it("verify EntityEditor with Site", async () => {
@@ -271,24 +242,19 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports content:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubContent, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(
-        HubContent.prototype,
-        "getEditorConfig"
-      ).and.callFake(() => {
-        return Promise.resolve({} as any);
-      });
-      toEditorSpy = spyOn(HubContent.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubContent.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubContent as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubContent.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubContent.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubContent.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Content", async () => {
@@ -312,27 +278,19 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports initiatives:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubInitiative, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(
-        HubInitiative.prototype,
-        "getEditorConfig"
-      ).and.callFake(() => {
-        return Promise.resolve({} as any);
-      });
-      toEditorSpy = spyOn(
-        HubInitiative.prototype,
-        "toEditor"
-      ).and.callThrough();
-      fromEditorSpy = spyOn(HubInitiative.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubInitiative as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubInitiative.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubInitiative.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubInitiative.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Initiative", async () => {
@@ -356,21 +314,20 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports templates:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
 
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubTemplate, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(
-        HubTemplate.prototype,
-        "getEditorConfig"
-      ).and.callFake(() => Promise.resolve({} as any));
-      toEditorSpy = spyOn(HubTemplate.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubTemplate.prototype, "fromEditor").and.callFake(
-        () => Promise.resolve({} as any)
-      );
+      fromJsonSpy = vi.spyOn(HubTemplate as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubTemplate.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubTemplate.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubTemplate.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Template", async () => {
@@ -394,23 +351,19 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports groups:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubGroup, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(HubGroup.prototype, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
-      toEditorSpy = spyOn(HubGroup.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubGroup.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubGroup as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubGroup.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubGroup.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubGroup.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Group", async () => {
@@ -431,29 +384,23 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports initiative templates:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
 
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubInitiativeTemplate, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(
-        HubInitiativeTemplate.prototype,
-        "getEditorConfig"
-      ).and.callFake(() => {
-        return Promise.resolve({} as any);
-      });
-      toEditorSpy = spyOn(
-        HubInitiativeTemplate.prototype,
+      fromJsonSpy = vi.spyOn(HubInitiativeTemplate as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubInitiativeTemplate.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(
+        HubInitiativeTemplate.prototype as any,
         "toEditor"
-      ).and.callThrough();
-      fromEditorSpy = spyOn(
-        HubInitiativeTemplate.prototype,
-        "fromEditor"
-      ).and.callFake(() => {
-        return Promise.resolve({} as any);
-      });
+      );
+      fromEditorSpy = vi
+        .spyOn(HubInitiativeTemplate.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Initiative Template", async () => {
@@ -477,23 +424,19 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports events:", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubEvent, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(HubEvent.prototype, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
-      toEditorSpy = spyOn(HubEvent.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubEvent.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubEvent as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubEvent.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubEvent.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubEvent.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
 
     it("verify EntityEditor with Event", async () => {
@@ -517,24 +460,20 @@ describe("EntityEditor:", () => {
   });
 
   describe("supports users: ", () => {
-    let fromJsonSpy: jasmine.Spy;
-    let getConfigSpy: jasmine.Spy;
-    let toEditorSpy: jasmine.Spy;
-    let fromEditorSpy: jasmine.Spy;
+    let fromJsonSpy: any;
+    let getConfigSpy: any;
+    let toEditorSpy: any;
+    let fromEditorSpy: any;
 
     beforeEach(() => {
-      fromJsonSpy = spyOn(HubUser, "fromJson").and.callThrough();
-      getConfigSpy = spyOn(HubUser.prototype, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
-      toEditorSpy = spyOn(HubUser.prototype, "toEditor").and.callThrough();
-      fromEditorSpy = spyOn(HubUser.prototype, "fromEditor").and.callFake(
-        () => {
-          return Promise.resolve({} as any);
-        }
-      );
+      fromJsonSpy = vi.spyOn(HubUser as any, "fromJson");
+      getConfigSpy = vi
+        .spyOn(HubUser.prototype as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({} as any));
+      toEditorSpy = vi.spyOn(HubUser.prototype as any, "toEditor");
+      fromEditorSpy = vi
+        .spyOn(HubUser.prototype as any, "fromEditor")
+        .mockImplementation(() => Promise.resolve({} as any));
     });
     it("verify EntityEditor with User", async () => {
       const u: IHubUser = {
