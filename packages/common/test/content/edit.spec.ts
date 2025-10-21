@@ -4,20 +4,20 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 // Return only the specific functions we need typed to avoid spreading unknown
 // module shapes which causes TS "spread types" errors.
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  // Merge the original ESM namespace and override only the functions we need.
   const actual = await importOriginal();
   return {
-    // preserve helpers needed by internal code
-    getPortalUrl: (actual as any).getPortalUrl,
-    // mock the remote calls we control in tests
+    ...(actual as any),
+    // override only the remote calls we control in tests
     getItem: vi.fn(),
     removeItem: vi.fn(),
   } as Partial<typeof import("@esri/arcgis-rest-portal")>;
 });
 vi.mock("@esri/arcgis-rest-feature-service", async (importOriginal) => {
+  // Merge the original ESM namespace and override only the functions we need.
   const actual = await importOriginal();
   return {
-    // preserve parsing helpers
-    parseServiceUrl: (actual as any).parseServiceUrl,
+    ...(actual as any),
     // mock the remote calls we control in tests
     getService: vi.fn(),
     updateServiceDefinition: vi.fn(),
@@ -77,6 +77,12 @@ describe("content editing:", () => {
   afterEach(() => {
     // ensure module-level mocks do not leak call history between tests
     vi.resetAllMocks();
+  });
+
+  // Restore any spied module state after each top-level describe run to avoid
+  // cross-test leakage for ESM namespace spies/mocks.
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
   describe("create content:", () => {
     it("converts to a model and creates the item", async () => {
