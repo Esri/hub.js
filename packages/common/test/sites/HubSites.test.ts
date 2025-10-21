@@ -58,6 +58,7 @@ const SITE_DATA = {
         primary: {},
       },
     },
+    searchCategories: [{ key: "components.search.category_tabs.data" }],
   },
 };
 const SITE_MODEL = {
@@ -486,8 +487,9 @@ describe("HubSites:", () => {
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
     });
-    it("reflects collection changes to searchCategories", async () => {
+    it("if isCatalogV1Enabled, reflects collection changes to searchCategories", async () => {
       const updatedSite = cloneObject(SITE);
+      updatedSite.isCatalogV1Enabled = true;
       updatedSite.catalog.collections = [
         {
           label: "My Datasets",
@@ -518,8 +520,9 @@ describe("HubSites:", () => {
         },
       ]);
     });
-    it("converts catalog group changes to the old catalog format and stores the new catalog in data.catalogv2", async () => {
+    it("stores the new catalog in data.catalogv2 and (if isCatalogV1Enabled) converts catalog group changes to the old catalog format ", async () => {
       const updatedSite = cloneObject(SITE);
+      updatedSite.isCatalogV1Enabled = true;
       updatedSite.catalog.scopes.item.filters = [
         {
           predicates: [
@@ -545,6 +548,39 @@ describe("HubSites:", () => {
       expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.data.catalog).toEqual({ groups: ["9001"] });
+      expect(modelToUpdate.data.catalogV2).toEqual(expectedCatalogV2);
+    });
+
+    it("deletes old catalog and search categories if upgraded to the v2 catalog", async () => {
+      const updatedSite = cloneObject(SITE);
+      updatedSite.isCatalogV1Enabled = false;
+      updatedSite.catalog.scopes.item.filters = [
+        {
+          predicates: [
+            {
+              group: ["9001"],
+            },
+          ],
+        },
+      ];
+      updatedSite.catalog.scopes.event.filters = [
+        {
+          predicates: [
+            {
+              group: ["1006"],
+            },
+          ],
+        },
+      ];
+      const expectedCatalogV2 = cloneObject(updatedSite.catalog);
+      const chk = await updateSite(updatedSite, MOCK_HUB_REQOPTS);
+
+      expect(chk.id).toBe(GUID);
+      expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.data.catalog).toBeUndefined();
+      expect(modelToUpdate.data.values.searchCategories).toBeUndefined();
+      expect(modelToUpdate.data.useCatalogV2).toBe(true);
       expect(modelToUpdate.data.catalogV2).toEqual(expectedCatalogV2);
     });
   });
@@ -718,7 +754,10 @@ describe("HubSites:", () => {
 
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
-        expect(modelToUpdate.data.catalog.groups).toContain("9001");
+        expect(modelToUpdate.data.useCatalogV2).toBe(true);
+        expect(modelToUpdate.data.catalogV2).toBeDefined();
+        expect(modelToUpdate.data.catalogV2.collections.length).toBe(0);
+        expect(modelToUpdate.data.catalog).toBeUndefined();
         expect(chk.name).toBe("Special Site");
         expect(chk.url).toBe("https://site.myorg.com");
         expect(chk.culture).toBe("fr-ca");

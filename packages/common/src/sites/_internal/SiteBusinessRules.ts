@@ -152,7 +152,13 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace:catalog:upgrade",
     dependencies: ["hub:site:workspace:catalog"],
-    availability: ["flag"],
+    assertions: [
+      {
+        property: "entity:isCatalogV1Enabled",
+        type: "eq",
+        value: true,
+      },
+    ],
   },
   {
     permission: "hub:site:workspace:pages",
