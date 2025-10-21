@@ -1396,3 +1396,34 @@ export { updateVersion } from "./versioning/updateVersion";
 export { updateVersionMetadata } from "./versioning/updateVersionMetadata";
 export { applyVersion, checkForStaleVersion } from "./versioning/utils";
 export { HubError, OperationError, OperationStack };
+export {
+  IMigratableSchema,
+  MigratableSchemaTransformMap,
+} from "./migrations/types";
+export {
+  Breakpoint,
+  ColumnWidth,
+  HTMLConfigurableLayoutNodeElement,
+  IColumn,
+  IColumnProps,
+  IConfigurableLayoutNode,
+  ITranslationMap,
+  ILayoutNode,
+  ILayoutNodeChangeEventDetail,
+  ILayoutNodeConfig,
+  IProcessLayoutOptions,
+  IRow,
+  IRowProps,
+  ISection,
+  ISectionProps,
+  LayoutColumnChild,
+  LayoutNodeTag,
+  layoutNodeTags,
+  LayoutNode,
+  Ref,
+  SectionOrRef,
+  ResponsiveValue,
+} from "./layouts/layout-shared-types";
+export { ILayout, Layout, LayoutUtils } from "./layouts/types";
+export { ILayoutV1 } from "./layouts/migrations/types/ILayoutV1";
+export { ILayoutV2 } from "./layouts/migrations/types/ILayoutV2";
