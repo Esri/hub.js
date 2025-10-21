@@ -26,6 +26,7 @@ export default defineConfig({
         // TW working below this line
         "src/search/**/*.ts",
         "src/resources/**/*.ts",
+        "src/rest/**/*.ts",
         "src/sites/**/*.ts",
         "src/sites/domains/**/*.ts",
         "src/sites/drafts/**/*.ts",
