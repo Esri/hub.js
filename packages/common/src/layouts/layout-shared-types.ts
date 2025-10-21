@@ -448,6 +448,7 @@ export interface IProcessLayoutOptions {
   entity?: HubEntity;
   site?: IHubSite;
   variables?: Record<string, unknown>;
+  translations?: Record<string, string>;
 }
 
 /**
