@@ -1,6 +1,8 @@
 import { EntityType, targetEntities } from "../../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../types";
-import { CARD_TITLE_TAGS, CORNERS, DROP_SHADOWS } from "./enums";
+import { CARD_TITLE_TAGS } from "./enums/cardTitleTags";
+import { CORNERS } from "./enums/corners";
+import { DROP_SHADOWS } from "./enums/dropShadows";
 
 /**
  * JSON schema for the appearance of a gallery display

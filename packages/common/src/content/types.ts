@@ -1,5 +1,7 @@
 import { ResourceObject } from "jsonapi-typescript";
 import type { IArcGISContext } from "../types/IArcGISContext";
+import { JobRecordType } from "./enums/jobRecordType";
+import { JobRecordStatus } from "./enums/jobRecordStatus";
 
 /**
  * JSONAPI dataset resource returned by the Hub API
@@ -13,18 +15,6 @@ export type DatasetResource = ResourceObject<
     [k: string]: any;
   }
 >;
-
-export enum JobRecordType {
-  DOWNLOAD = "download",
-  UPDATE = "update",
-}
-
-export enum JobRecordStatus {
-  SUCCESS = "success",
-  ERROR = "error",
-  WARNING = "warning",
-  INFO = "info",
-}
 
 /**
  * Represents a job record from the Hub API

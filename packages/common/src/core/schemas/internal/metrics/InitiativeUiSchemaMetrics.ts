@@ -1,9 +1,6 @@
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
-import {
-  IConfigurationValues,
-  IUiSchema,
-  UiSchemaRuleEffects,
-} from "../../types";
+import { UiSchemaRuleEffects } from "../../../enums/uiSchemaRuleEffects";
+import { IConfigurationValues, IUiSchema } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
 import {
   SHOW_FOR_STATIC_RULE_ENTITY,

@@ -6,10 +6,10 @@ import { IArcGISContext } from "../../../../../src/types/IArcGISContext";
 import {
   IUiSchemaComboboxItem,
   IUiSchemaElement,
-  UiSchemaRuleEffects,
 } from "../../../../../src/core/schemas/types";
 import { cloneObject } from "../../../../../src/util";
 import { IHubCatalog } from "../../../../../src/search/types/IHubCatalog";
+import { UiSchemaRuleEffects } from "../../../../../src/core/enums/uiSchemaRuleEffects";
 
 describe("EventGalleryCardUiSchema", () => {
   describe("buildUiSchema", () => {

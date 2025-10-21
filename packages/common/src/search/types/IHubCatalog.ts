@@ -1,8 +1,6 @@
-import {
-  CARD_TITLE_TAGS,
-  CORNERS,
-  DROP_SHADOWS,
-} from "../../core/schemas/shared/enums";
+import { CARD_TITLE_TAGS } from "../../core/schemas/shared/enums/cardTitleTags";
+import { CORNERS } from "../../core/schemas/shared/enums/corners";
+import { DROP_SHADOWS } from "../../core/schemas/shared/enums/dropShadows";
 
 export type CatalogType = "content" | "exclusion";
 

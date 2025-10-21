@@ -1,4 +1,5 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IUiSchema } from "../../core/schemas/types";
+import { UiSchemaRuleEffects } from "../../core/enums/uiSchemaRuleEffects";
 import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
 import { CANNOT_DISCUSS } from "../../discussions/constants";
 import { ChannelNonePermission } from "./ChannelBusinessRules";

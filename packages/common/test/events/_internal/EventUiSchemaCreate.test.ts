@@ -4,7 +4,7 @@ import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaCreate";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { HubEventAttendanceType } from "../../../src/events/enums/hubEventAttendanceType";
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
 import * as buildCatalogModule from "../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";
 

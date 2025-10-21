@@ -5,7 +5,7 @@ import * as getAuthedImageUrlModule from "../../../src/core/_internal/getAuthedI
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import * as fetchCategoriesUiSchemaElementModule from "../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
 
 const CATEGORIES_ELEMENTS = [

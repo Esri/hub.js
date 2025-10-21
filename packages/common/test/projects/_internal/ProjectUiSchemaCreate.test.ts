@@ -4,7 +4,7 @@ import * as getLocationExtentModule from "../../../src/core/schemas/internal/get
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getSharableGroupsComboBoxItemsModule from "../../../src/core/schemas/internal/getSharableGroupsComboBoxItems";
 import * as checkPermissionModule from "../../../src/permissions/checkPermission";
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 
 describe("buildUiSchema: project create", () => {
   it("returns the full project create uiSchema", async () => {

@@ -1,6 +1,6 @@
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { FollowCardEditorOptions } from "../EditorOptions";
-import { IUiSchema, UiSchemaRuleEffects } from "../../types";
+import { IUiSchema } from "../../types";
 import {
   WellKnownCatalog,
   WellKnownCollection,
@@ -8,6 +8,7 @@ import {
 } from "../../../../search/wellKnownCatalog";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { IHubCatalog } from "../../../../search/types/IHubCatalog";
+import { UiSchemaRuleEffects } from "../../../enums/uiSchemaRuleEffects";
 
 // Get the catalogs for the entity gallery picker
 function getCatalogs(user: IUser): IHubCatalog[] {

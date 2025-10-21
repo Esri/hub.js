@@ -1,10 +1,10 @@
+import { ExpressionRelationships } from "../../src/core/enums/expressionRelationships";
+import { MetricVisibility } from "../../src/core/enums/metricVisibility";
 import {
-  ExpressionRelationships,
   IExpression,
   IMetricEditorValues,
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
-  MetricVisibility,
 } from "../../src/core/types/Metrics";
 import * as EditorToMetric from "../../src/metrics/editorToMetric";
 

@@ -98,6 +98,9 @@ export {
   editorToContent,
   updateContent,
 } from "./content/edit";
+export { JobRecordType } from "./content/enums/jobRecordType";
+export { JobRecordStatus } from "./content/enums/jobRecordStatus";
+export { ServiceCapabilities } from "./content/enums/serviceCapabilities";
 export { UpdateFrequency } from "./content/enums/updateFrequency";
 export { fetchContent, IFetchContentOptions } from "./content/fetchContent";
 export {
@@ -112,7 +115,6 @@ export {
   isHostedFeatureServiceMainEntity,
   isHostedFeatureServiceMainItem,
   isSecureProxyServiceUrl,
-  ServiceCapabilities,
   toggleServiceCapability,
 } from "./content/hostedServiceUtils";
 export { HubContent } from "./content/HubContent";
@@ -137,8 +139,6 @@ export {
   IHubJobRecordRequestOptions,
   IHubOtherContentStatus,
   IHubServiceBackedContentStatus,
-  JobRecordStatus,
-  JobRecordType,
 } from "./content/types";
 export { IWithCardBehavior } from "./core/behaviors/IWithCardBehavior";
 export { IWithCatalogBehavior } from "./core/behaviors/IWithCatalogBehavior";
@@ -151,6 +151,10 @@ export { IWithVersioningBehavior } from "./core/behaviors/IWithVersioningBehavio
 export { catalogContains } from "./core/catalogContains";
 export { deepCatalogContains } from "./core/deepCatalogContains";
 export { EntityEditor } from "./core/EntityEditor";
+export { ExpressionRelationships } from "./core/enums/expressionRelationships";
+export { FeatureLayerStyle } from "./core/enums/featureLayerStyle";
+export { MetricVisibility } from "./core/enums/metricVisibility";
+export { TIMELINE_STAGE_STATUSES } from "./core/enums/timelineStageStatuses";
 export { fetchHubEntity } from "./core/fetchHubEntity";
 export { getEntityGroups } from "./core/getEntityGroups";
 export { getEntityThumbnailUrl } from "./core/getEntityThumbnailUrl";
@@ -191,7 +195,7 @@ export {
   PredicateSchema,
   QuerySchema,
 } from "./core/schemas/shared/CatalogSchema";
-export { CARD_TITLE_TAGS } from "./core/schemas/shared/enums";
+export { CARD_TITLE_TAGS } from "./core/schemas/shared/enums/cardTitleTags";
 export {
   DISCUSSION_SETTINGS_SCHEMA,
   ENTERPRISE_SITE_ENTITY_NAME_SCHEMA,
@@ -237,10 +241,6 @@ export {
   IUiSchemaRule,
   StatCardEditorType,
   UiSchemaElementOptions,
-  UiSchemaElementTypes,
-  UiSchemaMessageTypes,
-  UiSchemaRuleEffects,
-  UiSchemaSectionTypes,
   validCardEditorTypes,
   validDiscussionSettingsEditorTypes,
   validEditorTypes,
@@ -250,6 +250,10 @@ export {
   validFollowCardEditorTypes,
   validStatCardEditorTypes,
 } from "./core/schemas/types";
+export { UiSchemaMessageTypes } from "./core/enums/uiSchemaMessageTypes";
+export { UiSchemaSectionTypes } from "./core/enums/uiSchemaSectionTypes";
+export { UiSchemaElementTypes } from "./core/enums/uiSchemaElementTypes";
+export { UiSchemaRuleEffects } from "./core/enums/uiSchemaRuleEffects";
 export { setEntityAccess } from "./core/setEntityAccess";
 export { shareEntityWithGroups } from "./core/shareEntityWithGroups";
 export {
@@ -300,7 +304,6 @@ export {
   IStaticValueDefinition,
 } from "./core/types/DynamicValues";
 export {
-  EmbedKind,
   HubEmbed,
   IHubEmbed,
   IHubEmbedApp,
@@ -308,6 +311,7 @@ export {
   IHubEmbedMap,
   IHubEmbedSurvey,
 } from "./core/types/Embeds";
+export { EmbedKind } from "./core/enums/embedKind";
 export { HubEntity } from "./core/types/HubEntity";
 export {
   HubEntityEditor,
@@ -335,7 +339,8 @@ export {
   IHubChannelEditor,
   IHubRoleConfigValue,
 } from "./core/types/IHubChannel";
-export { IHubContent, PublisherSource } from "./core/types/IHubContent";
+export { IHubContent } from "./core/types/IHubContent";
+export { PublisherSource } from "./core/enums/publisherSource";
 export { IHubContentEnrichments } from "./core/types/IHubContentEnrichments";
 export {
   IHubDiscussion,
@@ -375,10 +380,7 @@ export {
 } from "./core/types/IHubItemEntity";
 export { IHubLayout } from "./core/types/IHubLayout";
 export { IHubLocation, IHubLocationOption } from "./core/types/IHubLocation";
-export {
-  FeatureLayerStyle,
-  IHubMapSettings,
-} from "./core/types/IHubMapSettings";
+export { IHubMapSettings } from "./core/types/IHubMapSettings";
 export { IHubOrganization } from "./core/types/IHubOrganization";
 export { IHubPage, IHubPageEditor } from "./core/types/IHubPage";
 export { IHubProject, IHubProjectEditor } from "./core/types/IHubProject";
@@ -401,7 +403,6 @@ export {
   IHubStage,
   IHubStageLink,
   IHubTimeline,
-  TIMELINE_STAGE_STATUSES,
 } from "./core/types/IHubTimeline";
 export { IHubUser, IHubUserOrgSettings } from "./core/types/IHubUser";
 export { IItemEnrichments } from "./core/types/IItemEnrichments";
@@ -416,7 +417,6 @@ export {
 } from "./core/types/ISystemStatus";
 export { MaybeTranslate, Translatable } from "./core/types/MaybeTranslate";
 export {
-  ExpressionRelationships,
   IDynamicMetricValues,
   IEntityInfo,
   IExpression,
@@ -433,7 +433,6 @@ export {
   MAX_ENTITY_METRICS_ALLOWED,
   MAX_FEATURED_METRICS_ALLOWED,
   MetricSource,
-  MetricVisibility,
 } from "./core/types/Metrics";
 export {
   AccessLevel,

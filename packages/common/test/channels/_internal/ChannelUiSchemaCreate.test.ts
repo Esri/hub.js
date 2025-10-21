@@ -1,10 +1,8 @@
 import { buildUiSchema } from "../../../src/channels/_internal/ChannelUiSchemaCreate";
 import { IChannel } from "../../../src/discussions/api/types";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
-import {
-  IUiSchema,
-  UiSchemaRuleEffects,
-} from "../../../src/core/schemas/types";
+import { IUiSchema } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import * as getWellKnownCatalogModule from "../../../src/search/wellKnownCatalog";
 import { IHubCatalog } from "../../../src/search/types/IHubCatalog";
 import { CANNOT_DISCUSS } from "../../../src/discussions/constants";

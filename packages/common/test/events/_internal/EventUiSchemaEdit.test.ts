@@ -4,7 +4,7 @@ import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaEdit";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { HubEventAttendanceType } from "../../../src/events/enums/hubEventAttendanceType";
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
