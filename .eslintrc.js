@@ -54,7 +54,7 @@ module.exports = {
           "Enums are not allowed. Consider using separate const and type. E.g. const FRUIT = { APPLE: 'apple', BANANA: 'banana' } as const; type Fruit = typeof FRUIT[keyof typeof FRUIT];",
       },
     ],
-    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/no-require-imports": "error",
   },
   overrides: [
     {
