@@ -28,6 +28,28 @@ describe("getCardEditorSchemas", () => {
     vi.restoreAllMocks();
   });
 
+  it("executes buildDefaults when present for stat card", async () => {
+    uiSchemaBuildFnSpy = vi
+      .spyOn(statUiSchemaModule, "buildUiSchema")
+      .mockResolvedValue({ type: "Layout" } as unknown as IUiSchema);
+
+    // add buildDefaults to the module to exercise the branch
+    (statUiSchemaModule as any).buildDefaults = vi
+      .fn()
+      .mockResolvedValue({ someDefault: true });
+
+    const results = await getCardEditorSchemas(
+      "scope",
+      "hub:card:stat",
+      {} as any,
+      context
+    );
+
+    expect(uiSchemaBuildFnSpy).toHaveBeenCalledTimes(1);
+    expect((statUiSchemaModule as any).buildDefaults).toHaveBeenCalled();
+    expect(results.defaults).toBeDefined();
+  });
+
   [{ type: "hub:card:stat", buildFn: statUiSchemaModule }].forEach(
     ({ type, buildFn }) => {
       it("returns a schema & uiSchema for a given card and card type", async () => {
