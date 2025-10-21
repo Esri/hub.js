@@ -1,34 +1,28 @@
+import { vi, afterEach, describe, it, expect } from "vitest";
 import {
   IChannel,
   IDiscussionsUser,
-} from "../../../../../src/discussions/api//types";
-import { canPostToChannel } from "../../../../../src/discussions/api//utils/channels/can-post-to-channel";
-import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
+} from "../../../../../src/discussions/api/types";
+import { canPostToChannel } from "../../../../../src/discussions/api/utils/channels/can-post-to-channel";
+import * as portalPrivModule from "../../../../../src/discussions/api/utils/portal-privilege";
 
 describe("canPostToChannel", () => {
-  let hasOrgAdminUpdateRightsSpy: jasmine.Spy;
-
-  beforeAll(() => {
-    hasOrgAdminUpdateRightsSpy = spyOn(
-      portalPrivModule,
-      "hasOrgAdminUpdateRights"
-    );
-  });
-
-  beforeEach(() => {
-    hasOrgAdminUpdateRightsSpy.calls.reset();
-  });
+  afterEach(() => vi.restoreAllMocks());
 
   describe("With Org Admin", () => {
     it("return true if hasOrgAdminUpdateRights returns true", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => true);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => true);
       const user = {} as IDiscussionsUser;
       const channel = { orgId: "aaa" } as IChannel;
 
       expect(canPostToChannel(channel, user)).toBe(true);
 
-      expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
-      const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.calls.allArgs()[0]; // args for 1st call
+      expect(hasOrgAdminUpdateRightsSpy).toHaveBeenCalledTimes(1);
+      const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.mock.calls[0]; // args for 1st call
       expect(arg1).toBe(user);
       expect(arg2).toBe(channel.orgId);
     });
@@ -36,7 +30,11 @@ describe("canPostToChannel", () => {
 
   describe("with legacy permissions", () => {
     it("returns true if undefined user attempts to create post in allowAnonymous === true channel", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
       const channel = {
         allowAnonymous: true,
       } as IChannel;
@@ -45,8 +43,12 @@ describe("canPostToChannel", () => {
     });
 
     it("returns true if anonymous user attempts to create post in allowAnonymous === true channel", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-      const user: IDiscussionsUser = { username: null };
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
+      const user: IDiscussionsUser = { username: null } as any;
       const channel = {
         allowAnonymous: true,
       } as IChannel;
@@ -55,8 +57,12 @@ describe("canPostToChannel", () => {
     });
 
     it("returns false if anonymous user attempts to create post in allowAnonymous === false channel", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-      const user: IDiscussionsUser = { username: null };
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
+      const user: IDiscussionsUser = { username: null } as any;
       const channel = {
         allowAnonymous: false,
       } as IChannel;
@@ -65,8 +71,12 @@ describe("canPostToChannel", () => {
     });
 
     it("returns true if authenticated user attempts to create post in public-access channel", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-      const user: IDiscussionsUser = { username: "Slughorn" };
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
+      const user: IDiscussionsUser = { username: "Slughorn" } as any;
       const channel = {
         access: "public",
         allowAnonymous: false,
@@ -76,7 +86,11 @@ describe("canPostToChannel", () => {
     });
 
     it("returns true if group authorized user attempts to create post in private-access channel", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
       const user: IDiscussionsUser = {
         username: "Slughorn",
         groups: [
@@ -97,7 +111,11 @@ describe("canPostToChannel", () => {
     });
 
     it("returns true if a group authorized user attempts to create post in private-access channel, but at least one group is NOT marked cannotDiscuss", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
       const user: IDiscussionsUser = {
         username: "Slughorn",
         groups: [
@@ -123,7 +141,11 @@ describe("canPostToChannel", () => {
     });
 
     it("returns false if group authorized user attempts to create post in private-access channel, but the only group is marked cannotDiscuss", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
       const user: IDiscussionsUser = {
         username: "Slughorn",
         groups: [
@@ -144,7 +166,11 @@ describe("canPostToChannel", () => {
     });
 
     it("returns false if group unauthorized user attempts to create post in private-access channel", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
       const user: IDiscussionsUser = {
         username: "Slughorn",
         groups: [
@@ -166,7 +192,11 @@ describe("canPostToChannel", () => {
     });
 
     it("handles missing user/channel groups", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
       const user: IDiscussionsUser = {
         username: "Slughorn",
       } as any;
@@ -179,7 +209,11 @@ describe("canPostToChannel", () => {
     });
 
     it("returns true if org authorized user attempts to create post in org-access channel", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
       const user: IDiscussionsUser = {
         username: "Slughorn",
         orgId: "abc",
@@ -194,7 +228,11 @@ describe("canPostToChannel", () => {
     });
 
     it("returns false if unknown access value", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+        portalPrivModule,
+        "hasOrgAdminUpdateRights"
+      );
+      hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
       const user: IDiscussionsUser = {
         username: "Slughorn",
         orgId: "abc",

@@ -8,18 +8,15 @@ import {
   Role,
 } from "../../../../../src/discussions/api/types";
 import { CANNOT_DISCUSS } from "../../../../../src/discussions/constants";
+import { vi, afterEach, describe, it, expect } from "vitest";
 
 describe("cannotCreatePostGroupsBlockedV2", () => {
-  let canCreatePostV2Spy: jasmine.Spy;
-
-  beforeEach(() => {
-    canCreatePostV2Spy = spyOn(
-      canCreatePostV2Module,
-      "canCreatePostV2"
-    ).and.returnValue(false);
-  });
+  afterEach(() => vi.restoreAllMocks());
 
   it("should return false when no user", () => {
+    const canCreatePostV2Spy = vi
+      .spyOn(canCreatePostV2Module, "canCreatePostV2")
+      .mockReturnValue(false);
     const channel: IChannel = {
       id: "c1",
       channelAcl: [
@@ -61,7 +58,7 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
         },
       ],
     } as unknown as IChannel;
-    canCreatePostV2Spy.and.returnValue(false);
+    canCreatePostV2Spy.mockReturnValue(false);
     const result = cannotCreatePostGroupsBlockedV2(channel);
     expect(canCreatePostV2Spy).toHaveBeenCalledTimes(1);
     expect(canCreatePostV2Spy).toHaveBeenCalledWith(channel, {});
@@ -69,9 +66,11 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
   });
 
   it("should return false when user.groups is not set", () => {
+    const canCreatePostV2Spy = vi
+      .spyOn(canCreatePostV2Module, "canCreatePostV2")
+      .mockReturnValue(true);
     const channel: IChannel = { id: "c1" } as unknown as IChannel;
     const user: IUser = { id: "u1" } as unknown as IUser;
-    canCreatePostV2Spy.and.returnValue(true);
     const result = cannotCreatePostGroupsBlockedV2(channel, user);
     expect(canCreatePostV2Spy).toHaveBeenCalledTimes(1);
     expect(canCreatePostV2Spy).toHaveBeenCalledWith(channel, user);
@@ -79,9 +78,11 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
   });
 
   it("should return false when the user can post", () => {
+    const canCreatePostV2Spy = vi
+      .spyOn(canCreatePostV2Module, "canCreatePostV2")
+      .mockReturnValue(true);
     const channel: IChannel = { id: "c1" } as unknown as IChannel;
     const user: IUser = { id: "u1" } as unknown as IUser;
-    canCreatePostV2Spy.and.returnValue(true);
     const result = cannotCreatePostGroupsBlockedV2(channel, user);
     expect(canCreatePostV2Spy).toHaveBeenCalledTimes(1);
     expect(canCreatePostV2Spy).toHaveBeenCalledWith(channel, user);
@@ -89,6 +90,9 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
   });
 
   it("should return false when the user is not a member of any channel groups", () => {
+    const canCreatePostV2Spy = vi
+      .spyOn(canCreatePostV2Module, "canCreatePostV2")
+      .mockReturnValue(false);
     const channel: IChannel = {
       id: "c1",
       channelAcl: [
@@ -130,10 +134,7 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
         },
       ],
     } as unknown as IChannel;
-    const user: IUser = {
-      id: "u123",
-      groups: [],
-    } as unknown as IUser;
+    const user: IUser = { id: "u123", groups: [] } as unknown as IUser;
     const result = cannotCreatePostGroupsBlockedV2(channel, user);
     expect(canCreatePostV2Spy).toHaveBeenCalledTimes(1);
     expect(canCreatePostV2Spy).toHaveBeenCalledWith(channel, user);
@@ -141,6 +142,9 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
   });
 
   it("should return false when one or more of the channel groups the user has write+ membership to are discussable", () => {
+    const canCreatePostV2Spy = vi
+      .spyOn(canCreatePostV2Module, "canCreatePostV2")
+      .mockReturnValue(false);
     const channel: IChannel = {
       id: "c1",
       channelAcl: [
@@ -185,14 +189,8 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
     const user: IUser = {
       id: "u123",
       groups: [
-        {
-          id: "g3",
-          typeKeywords: [CANNOT_DISCUSS],
-        },
-        {
-          id: "g4",
-          typeKeywords: [],
-        },
+        { id: "g3", typeKeywords: [CANNOT_DISCUSS] },
+        { id: "g4", typeKeywords: [] },
       ],
     } as unknown as IUser;
     const result = cannotCreatePostGroupsBlockedV2(channel, user);
@@ -202,6 +200,9 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
   });
 
   it("should return true when all of the channel groups the user has write+ membership to are not discussable", () => {
+    const canCreatePostV2Spy = vi
+      .spyOn(canCreatePostV2Module, "canCreatePostV2")
+      .mockReturnValue(false);
     const channel: IChannel = {
       id: "c1",
       channelAcl: [
@@ -246,14 +247,8 @@ describe("cannotCreatePostGroupsBlockedV2", () => {
     const user: IUser = {
       id: "u123",
       groups: [
-        {
-          id: "g2",
-          typeKeywords: [CANNOT_DISCUSS],
-        },
-        {
-          id: "g3",
-          typeKeywords: [CANNOT_DISCUSS],
-        },
+        { id: "g2", typeKeywords: [CANNOT_DISCUSS] },
+        { id: "g3", typeKeywords: [CANNOT_DISCUSS] },
       ],
     } as unknown as IUser;
     const result = cannotCreatePostGroupsBlockedV2(channel, user);

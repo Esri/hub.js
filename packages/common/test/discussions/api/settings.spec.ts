@@ -1,3 +1,4 @@
+import { vi, afterEach, beforeEach } from "vitest";
 import * as req from "../../../src/discussions/api/discussions-api-request";
 import type { Geometry } from "geojson";
 import {
@@ -45,13 +46,15 @@ describe("settings", () => {
   };
 
   beforeEach(() => {
-    requestSpy = spyOn(req, "discussionsApiRequest").and.returnValue(
-      Promise.resolve(response)
-    );
-    requestSpyV2 = spyOn(req, "discussionsApiRequestV2").and.returnValue(
-      Promise.resolve(response)
-    );
+    requestSpy = vi
+      .spyOn(req, "discussionsApiRequest")
+      .mockReturnValue(Promise.resolve(response));
+    requestSpyV2 = vi
+      .spyOn(req, "discussionsApiRequestV2")
+      .mockReturnValue(Promise.resolve(response));
   });
+
+  afterEach(() => vi.restoreAllMocks());
 
   it("createSetting", async () => {
     const body: ICreateSetting = {
@@ -68,8 +71,8 @@ describe("settings", () => {
 
     await createSetting(options);
 
-    expect(requestSpy.calls.count()).toEqual(1);
-    const [url, opts] = requestSpy.calls.argsFor(0);
+    expect(requestSpy.mock.calls.length).toEqual(1);
+    const [url, opts] = requestSpy.mock.calls[0];
     expect(url).toEqual(`/settings`);
     expect(opts).toEqual({ ...options, httpMethod: "POST" });
   });
@@ -80,8 +83,8 @@ describe("settings", () => {
 
     await fetchSetting(options);
 
-    expect(requestSpy.calls.count()).toEqual(1);
-    const [url, opts] = requestSpy.calls.argsFor(0);
+    expect(requestSpy.mock.calls.length).toEqual(1);
+    const [url, opts] = requestSpy.mock.calls[0];
     expect(url).toEqual(`/settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "GET" });
   });
@@ -104,8 +107,8 @@ describe("settings", () => {
 
     await updateSetting(options);
 
-    expect(requestSpy.calls.count()).toEqual(1);
-    const [url, opts] = requestSpy.calls.argsFor(0);
+    expect(requestSpy.mock.calls.length).toEqual(1);
+    const [url, opts] = requestSpy.mock.calls[0];
     expect(url).toEqual(`/settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "PATCH" });
   });
@@ -116,8 +119,8 @@ describe("settings", () => {
 
     await removeSetting(options);
 
-    expect(requestSpy.calls.count()).toEqual(1);
-    const [url, opts] = requestSpy.calls.argsFor(0);
+    expect(requestSpy.mock.calls.length).toEqual(1);
+    const [url, opts] = requestSpy.mock.calls[0];
     expect(url).toEqual(`/settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
   });
@@ -137,8 +140,8 @@ describe("settings", () => {
 
     await createSettingV2(options);
 
-    expect(requestSpyV2.calls.count()).toEqual(1);
-    const [url, opts] = requestSpyV2.calls.argsFor(0);
+    expect(requestSpyV2.mock.calls.length).toEqual(1);
+    const [url, opts] = requestSpyV2.mock.calls[0];
     expect(url).toEqual(`/settings`);
     expect(opts).toEqual({ ...options, httpMethod: "POST" });
   });
@@ -149,8 +152,8 @@ describe("settings", () => {
 
     await fetchSettingV2(options);
 
-    expect(requestSpyV2.calls.count()).toEqual(1);
-    const [url, opts] = requestSpyV2.calls.argsFor(0);
+    expect(requestSpyV2.mock.calls.length).toEqual(1);
+    const [url, opts] = requestSpyV2.mock.calls[0];
     expect(url).toEqual(`/settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "GET" });
   });
@@ -173,8 +176,8 @@ describe("settings", () => {
 
     await updateSettingV2(options);
 
-    expect(requestSpyV2.calls.count()).toEqual(1);
-    const [url, opts] = requestSpyV2.calls.argsFor(0);
+    expect(requestSpyV2.mock.calls.length).toEqual(1);
+    const [url, opts] = requestSpyV2.mock.calls[0];
     expect(url).toEqual(`/settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "PATCH" });
   });
@@ -185,8 +188,8 @@ describe("settings", () => {
 
     await removeSettingV2(options);
 
-    expect(requestSpyV2.calls.count()).toEqual(1);
-    const [url, opts] = requestSpyV2.calls.argsFor(0);
+    expect(requestSpyV2.mock.calls.length).toEqual(1);
+    const [url, opts] = requestSpyV2.mock.calls[0];
     expect(url).toEqual(`/settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
   });

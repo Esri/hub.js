@@ -1,3 +1,4 @@
+import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
 import type { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import {
   IChannel,
@@ -22,26 +23,29 @@ const fakeGroup = (id: string, memberType: string) =>
 const fakeChannel = (props: any) => props as IChannel;
 
 describe("canReadChannel", () => {
-  let hasOrgAdminViewRightsSpy: jasmine.Spy;
-
-  beforeAll(() => {
-    hasOrgAdminViewRightsSpy = spyOn(portalPrivModule, "hasOrgAdminViewRights");
-  });
+  let hasOrgAdminViewRightsSpy: any;
 
   beforeEach(() => {
-    hasOrgAdminViewRightsSpy.calls.reset();
+    hasOrgAdminViewRightsSpy = vi.spyOn(
+      portalPrivModule,
+      "hasOrgAdminViewRights"
+    );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("With Org Admin", () => {
     it("return true if hasOrgAdminUpdateRights returns true", () => {
-      hasOrgAdminViewRightsSpy.and.callFake(() => true);
+      hasOrgAdminViewRightsSpy.mockImplementation(() => true);
       const user = {} as IDiscussionsUser;
       const channel = { orgId: "aaa" } as IChannel;
 
       expect(canReadChannel(channel, user)).toBe(true);
 
-      expect(hasOrgAdminViewRightsSpy.calls.count()).toBe(1);
-      const [arg1, arg2] = hasOrgAdminViewRightsSpy.calls.allArgs()[0]; // args for 1st call
+      expect(hasOrgAdminViewRightsSpy).toHaveBeenCalledTimes(1);
+      const [arg1, arg2] = hasOrgAdminViewRightsSpy.mock.calls[0]; // args for 1st call
       expect(arg1).toBe(user);
       expect(arg2).toBe(channel.orgId);
     });
@@ -76,7 +80,7 @@ describe("canReadChannel", () => {
     });
     describe("Private channel", () => {
       it("returns true for user that is member of channel group", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.PRIVATE,
           orgs: [orgId1],
@@ -85,7 +89,7 @@ describe("canReadChannel", () => {
         expect(canReadChannel(channel, user)).toBeTruthy();
       });
       it("returns true for user that is admin of channel group", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.PRIVATE,
           orgs: [orgId1],
@@ -94,7 +98,7 @@ describe("canReadChannel", () => {
         expect(canReadChannel(channel, user)).toBeTruthy();
       });
       it("returns true for user that is owner of channel group", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.PRIVATE,
           orgs: [orgId1],
@@ -103,7 +107,7 @@ describe("canReadChannel", () => {
         expect(canReadChannel(channel, user)).toBeTruthy();
       });
       it("returns false for user that is not in channel group", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.PRIVATE,
           orgs: [orgId1],
@@ -112,7 +116,7 @@ describe("canReadChannel", () => {
         expect(canReadChannel(channel, user)).toBeFalsy();
       });
       it("returns false undefined user", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.PRIVATE,
           orgs: [orgId1],
@@ -121,7 +125,7 @@ describe("canReadChannel", () => {
         expect(canReadChannel(channel)).toBeFalsy();
       });
       it("returns false for user that has no groups", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const userNoGroups = fakeUser();
         const channel = fakeChannel({
           access: SharingAccess.PRIVATE,
@@ -134,7 +138,7 @@ describe("canReadChannel", () => {
 
     describe("Org channel", () => {
       it("returns true for user that is member of channel group but not in org", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.ORG,
           orgs: [orgId1], // user3 not in this org
@@ -143,7 +147,7 @@ describe("canReadChannel", () => {
         expect(canReadChannel(channel, user3)).toBeTruthy();
       });
       it("returns true for user that is admin of channel group but not in org", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.ORG,
           orgs: [orgId1], // user3 not in this org
@@ -152,7 +156,7 @@ describe("canReadChannel", () => {
         expect(canReadChannel(channel, user3)).toBeTruthy();
       });
       it("returns true for user that is owner of channel group but not in org", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.ORG,
           orgs: [orgId1], // user3 not in this org
@@ -162,7 +166,7 @@ describe("canReadChannel", () => {
       });
 
       it("returns true for user that not in channel groups but is member of channel org", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.ORG,
           orgs: [orgId1],
@@ -170,7 +174,7 @@ describe("canReadChannel", () => {
         expect(canReadChannel(channel, user)).toBeTruthy();
       });
       it("returns false for user that is not in channel groups and not member of channel org", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.ORG,
           orgs: [orgId2], // user not in this org
@@ -181,7 +185,7 @@ describe("canReadChannel", () => {
 
     describe("Public channel", () => {
       it("returns true for public channel access", () => {
-        hasOrgAdminViewRightsSpy.and.callFake(() => false);
+        hasOrgAdminViewRightsSpy.mockImplementation(() => false);
         const channel = fakeChannel({
           access: SharingAccess.PUBLIC,
           orgs: [orgId2],

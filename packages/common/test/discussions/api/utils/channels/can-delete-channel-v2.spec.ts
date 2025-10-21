@@ -1,3 +1,4 @@
+import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import {
   AclCategory,
@@ -10,46 +11,44 @@ import { ChannelPermission } from "../../../../../src/discussions/api//utils/cha
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
 
 describe("canDeleteChannelV2", () => {
-  let hasOrgAdminDeleteRightsSpy: jasmine.Spy;
-  let canDeleteChannelSpy: jasmine.Spy;
+  let hasOrgAdminDeleteRightsSpy: any;
+  let canDeleteChannelSpy: any;
 
-  beforeAll(() => {
-    hasOrgAdminDeleteRightsSpy = spyOn(
+  beforeEach(() => {
+    hasOrgAdminDeleteRightsSpy = vi.spyOn(
       portalPrivModule,
       "hasOrgAdminDeleteRights"
     );
-    canDeleteChannelSpy = spyOn(
+    canDeleteChannelSpy = vi.spyOn(
       ChannelPermission.prototype,
       "canDeleteChannel"
     );
   });
 
-  beforeEach(() => {
-    hasOrgAdminDeleteRightsSpy.calls.reset();
-    canDeleteChannelSpy.calls.reset();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("With Org Admin", () => {
     it("return true if hasOrgAdminDeleteRights returns true", () => {
-      hasOrgAdminDeleteRightsSpy.and.callFake(() => true);
+      hasOrgAdminDeleteRightsSpy.mockImplementation(() => true);
       const user = {} as IDiscussionsUser;
       const channel = { orgId: "aaa" } as IChannel;
 
       expect(canDeleteChannelV2(channel, user)).toBe(true);
 
-      expect(hasOrgAdminDeleteRightsSpy.calls.count()).toBe(1);
-      const [arg1, arg2] = hasOrgAdminDeleteRightsSpy.calls.allArgs()[0]; // args for 1st call
+      expect(hasOrgAdminDeleteRightsSpy).toHaveBeenCalledTimes(1);
+      const [arg1, arg2] = hasOrgAdminDeleteRightsSpy.mock.calls[0]; // args for 1st call
       expect(arg1).toBe(user);
       expect(arg2).toBe(channel.orgId);
 
-      expect(canDeleteChannelSpy.calls.count()).toBe(0);
+      expect(canDeleteChannelSpy).toHaveBeenCalledTimes(0);
     });
   });
 
   describe("With channelAcl Permissions", () => {
     it("throws error if channel.channelAcl is undefined", async () => {
-      hasOrgAdminDeleteRightsSpy.and.callFake(() => false);
-
+      hasOrgAdminDeleteRightsSpy.mockImplementation(() => false);
       const user = {} as IDiscussionsUser;
       const channel = {
         channelAcl: undefined,
@@ -61,8 +60,8 @@ describe("canDeleteChannelV2", () => {
     });
 
     it("return true if channelPermission.canModerateChannel is true", () => {
-      hasOrgAdminDeleteRightsSpy.and.callFake(() => false);
-      canDeleteChannelSpy.and.callFake(() => true);
+      hasOrgAdminDeleteRightsSpy.mockImplementation(() => false);
+      canDeleteChannelSpy.mockImplementation(() => true);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -72,14 +71,14 @@ describe("canDeleteChannelV2", () => {
 
       expect(canDeleteChannelV2(channel, user)).toBe(true);
 
-      expect(canDeleteChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canDeleteChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canDeleteChannelSpy).toHaveBeenCalledTimes(1);
+      const [arg1] = canDeleteChannelSpy.mock.calls[0]; // args for 1st call
       expect(arg1).toBe(user);
     });
 
     it("return false if channelPermission.canModerateChannel is false", () => {
-      hasOrgAdminDeleteRightsSpy.and.callFake(() => false);
-      canDeleteChannelSpy.and.callFake(() => false);
+      hasOrgAdminDeleteRightsSpy.mockImplementation(() => false);
+      canDeleteChannelSpy.mockImplementation(() => false);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -89,14 +88,14 @@ describe("canDeleteChannelV2", () => {
 
       expect(canDeleteChannelV2(channel, user)).toBe(false);
 
-      expect(canDeleteChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canDeleteChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canDeleteChannelSpy).toHaveBeenCalledTimes(1);
+      const [arg1] = canDeleteChannelSpy.mock.calls[0]; // args for 1st call
       expect(arg1).toBe(user);
     });
 
     it("return false if channelPermission.canModerateChannel is false and user is undefined", () => {
-      hasOrgAdminDeleteRightsSpy.and.callFake(() => false);
-      canDeleteChannelSpy.and.callFake(() => false);
+      hasOrgAdminDeleteRightsSpy.mockImplementation(() => false);
+      canDeleteChannelSpy.mockImplementation(() => false);
 
       const user = undefined as unknown as IUser;
       const channel = {
@@ -106,8 +105,8 @@ describe("canDeleteChannelV2", () => {
 
       expect(canDeleteChannelV2(channel, user)).toBe(false);
 
-      expect(canDeleteChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canDeleteChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canDeleteChannelSpy).toHaveBeenCalledTimes(1);
+      const [arg1] = canDeleteChannelSpy.mock.calls[0]; // args for 1st call
       expect(arg1).toEqual({});
     });
   });

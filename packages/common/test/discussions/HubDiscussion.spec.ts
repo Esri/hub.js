@@ -1,4 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
+import { vi, afterEach } from "vitest";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubDiscussion } from "../../src/discussions/HubDiscussion";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -13,6 +14,7 @@ import {
 } from "../../src/core/types/IHubDiscussion";
 
 describe("HubDiscussion Class:", () => {
+  afterEach(() => vi.restoreAllMocks());
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
     // When we pass in all this information, the context
@@ -34,7 +36,7 @@ describe("HubDiscussion Class:", () => {
 
   describe("ctor:", () => {
     it("loads from minimal json", () => {
-      const createSpy = spyOn(discussionsEditModule, "createDiscussion");
+      const createSpy = vi.spyOn(discussionsEditModule, "createDiscussion");
       const chk = HubDiscussion.fromJson(
         { name: "Test Discussion" },
         authdCtxMgr.context
@@ -47,15 +49,12 @@ describe("HubDiscussion Class:", () => {
       expect(json.permissions).toEqual([]);
     });
     it("loads based on identifier", async () => {
-      const fetchSpy = spyOn(
-        discussionsFetchModule,
-        "fetchDiscussion"
-      ).and.callFake((id: string) => {
-        return Promise.resolve({
+      const fetchSpy = vi
+        .spyOn(discussionsFetchModule, "fetchDiscussion")
+        .mockImplementation(async (id: string) => ({
           id,
           name: "Test Discussion",
-        });
-      });
+        }));
 
       const chk = await HubDiscussion.fetch("3ef", authdCtxMgr.context);
       expect(fetchSpy).toHaveBeenCalledTimes(1);
@@ -64,15 +63,11 @@ describe("HubDiscussion Class:", () => {
     });
 
     it("handle load missing Discussions", async () => {
-      const fetchSpy = spyOn(
-        discussionsFetchModule,
-        "fetchDiscussion"
-      ).and.callFake(() => {
-        const err = new Error(
-          "CONT_0001: Item does not exist or is inaccessible."
+      const fetchSpy = vi
+        .spyOn(discussionsFetchModule, "fetchDiscussion")
+        .mockRejectedValue(
+          new Error("CONT_0001: Item does not exist or is inaccessible.")
         );
-        return Promise.reject(err);
-      });
       try {
         await HubDiscussion.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -82,13 +77,9 @@ describe("HubDiscussion Class:", () => {
     });
 
     it("handle load errors", async () => {
-      const fetchSpy = spyOn(
-        discussionsFetchModule,
-        "fetchDiscussion"
-      ).and.callFake(() => {
-        const err = new Error("ZOMG!");
-        return Promise.reject(err);
-      });
+      const fetchSpy = vi
+        .spyOn(discussionsFetchModule, "fetchDiscussion")
+        .mockRejectedValue(new Error("ZOMG!"));
       try {
         await HubDiscussion.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -99,12 +90,9 @@ describe("HubDiscussion Class:", () => {
   });
 
   it("save call createDiscussion if object does not have an id", async () => {
-    const createSpy = spyOn(
-      discussionsEditModule,
-      "createDiscussion"
-    ).and.callFake((p: IHubDiscussion) => {
-      return Promise.resolve(p);
-    });
+    const createSpy = vi
+      .spyOn(discussionsEditModule, "createDiscussion")
+      .mockImplementation(async (p: IHubDiscussion) => p);
     const chk = HubDiscussion.fromJson(
       { name: "Test Discussion" },
       authdCtxMgr.context
@@ -114,13 +102,12 @@ describe("HubDiscussion Class:", () => {
     expect(chk.toJson().name).toEqual("Test Discussion");
   });
   it("create saves the instance if passed true", async () => {
-    const createSpy = spyOn(
-      discussionsEditModule,
-      "createDiscussion"
-    ).and.callFake((p: IHubDiscussion) => {
-      p.id = "3ef";
-      return Promise.resolve(p);
-    });
+    const createSpy = vi
+      .spyOn(discussionsEditModule, "createDiscussion")
+      .mockImplementation(async (p: IHubDiscussion) => {
+        p.id = "3ef";
+        return p;
+      });
     const chk = await HubDiscussion.create(
       { name: "Test Discussion" },
       authdCtxMgr.context,
@@ -131,7 +118,7 @@ describe("HubDiscussion Class:", () => {
     expect(chk.toJson().name).toEqual("Test Discussion");
   });
   it("create does not save by default", async () => {
-    const createSpy = spyOn(discussionsEditModule, "createDiscussion");
+    const createSpy = vi.spyOn(discussionsEditModule, "createDiscussion");
     const chk = await HubDiscussion.create(
       { name: "Test Discussion" },
       authdCtxMgr.context
@@ -163,12 +150,9 @@ describe("HubDiscussion Class:", () => {
   });
 
   it("save updates if object has id", async () => {
-    const updateSpy = spyOn(
-      discussionsEditModule,
-      "updateDiscussion"
-    ).and.callFake((p: IHubDiscussion) => {
-      return Promise.resolve(p);
-    });
+    const updateSpy = vi
+      .spyOn(discussionsEditModule, "updateDiscussion")
+      .mockImplementation(async (p: IHubDiscussion) => p);
     const chk = HubDiscussion.fromJson(
       {
         id: "bc3",
@@ -181,12 +165,9 @@ describe("HubDiscussion Class:", () => {
   });
 
   it("delete", async () => {
-    const deleteSpy = spyOn(
-      discussionsEditModule,
-      "deleteDiscussion"
-    ).and.callFake(() => {
-      return Promise.resolve();
-    });
+    const deleteSpy = vi
+      .spyOn(discussionsEditModule, "deleteDiscussion")
+      .mockResolvedValue(undefined);
     const chk = HubDiscussion.fromJson(
       { name: "Test Discussion" },
       authdCtxMgr.context
@@ -221,11 +202,9 @@ describe("HubDiscussion Class:", () => {
   });
   describe("IWithEditorBehavior:", () => {
     it("getEditorConfig delegates to helper", async () => {
-      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({ fake: "config" });
-        }
-      );
+      const spy = vi
+        .spyOn(EditConfigModule, "getEditorConfig")
+        .mockResolvedValue({ fake: "config" });
       const chk = HubDiscussion.fromJson(
         {
           id: "bc3",
@@ -249,10 +228,9 @@ describe("HubDiscussion Class:", () => {
 
     describe("toEditor:", () => {
       it("optionally enriches the entity", async () => {
-        const enrichEntitySpy = spyOn(
-          EnrichEntityModule,
-          "enrichEntity"
-        ).and.returnValue(Promise.resolve({}));
+        const enrichEntitySpy = vi
+          .spyOn(EnrichEntityModule, "enrichEntity")
+          .mockResolvedValue({});
         const chk = HubDiscussion.fromJson({ id: "bc3" }, authdCtxMgr.context);
         await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
 
@@ -290,7 +268,7 @@ describe("HubDiscussion Class:", () => {
           },
           authdCtxMgr.context
         );
-        saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        saveSpy = vi.spyOn(chk, "save").mockResolvedValue(undefined) as any;
         editor = await chk.toEditor();
       });
       it("handles simple prop change", async () => {
@@ -315,9 +293,9 @@ describe("HubDiscussion Class:", () => {
       });
 
       it("handles slug truncation and empty slug", async () => {
-        const truncateSpy = spyOn(slugsModule, "truncateSlug").and.returnValue(
-          "truncated"
-        );
+        const truncateSpy = vi
+          .spyOn(slugsModule, "truncateSlug")
+          .mockReturnValue("truncated");
         const result = await chk.fromEditor({
           ...editor,
           _slug: "slug",
@@ -355,7 +333,7 @@ describe("HubDiscussion Class:", () => {
           },
           contextWithoutUrlKey as any
         );
-        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        vi.spyOn(chk, "save").mockResolvedValue(undefined);
         const editor = await chk.toEditor();
         // Remove orgUrlKey from editor to simulate missing value
         delete editor.orgUrlKey;

@@ -1,5 +1,6 @@
 import { buildUiSchema } from "../../../src/discussions/_internal/DiscussionUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import { vi } from "vitest";
 import * as fetchCategoriesUiSchemaElementModule from "../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
@@ -72,21 +73,26 @@ const CATEGORIES_ELEMENTS = [
 ];
 
 describe("buildUiSchema: discussion edit", () => {
-  let fetchCategoriesUiSchemaElementSpy: jasmine.Spy;
+  let fetchCategoriesUiSchemaElementSpy: any;
   beforeEach(() => {
-    fetchCategoriesUiSchemaElementSpy = spyOn(
-      fetchCategoriesUiSchemaElementModule,
-      "fetchCategoriesUiSchemaElement"
-    ).and.returnValue(Promise.resolve(CATEGORIES_ELEMENTS));
-    spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
-      Promise.resolve([])
+    fetchCategoriesUiSchemaElementSpy = vi
+      .spyOn(
+        fetchCategoriesUiSchemaElementModule,
+        "fetchCategoriesUiSchemaElement"
+      )
+      .mockReturnValue(Promise.resolve(CATEGORIES_ELEMENTS) as any);
+    vi.spyOn(getLocationExtentModule, "getLocationExtent").mockReturnValue(
+      Promise.resolve([]) as any
     );
-    spyOn(getLocationOptionsModule, "getLocationOptions").and.returnValue(
-      Promise.resolve([])
+    vi.spyOn(getLocationOptionsModule, "getLocationOptions").mockReturnValue(
+      Promise.resolve([]) as any
     );
-    spyOn(getTagItemsModule, "getTagItems").and.returnValue(
-      Promise.resolve([])
+    vi.spyOn(getTagItemsModule, "getTagItems").mockReturnValue(
+      Promise.resolve([]) as any
     );
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
   it("returns the full discussion edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(

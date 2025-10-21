@@ -1,3 +1,4 @@
+import { vi, afterEach } from "vitest";
 import {
   discussionsApiRequest,
   discussionsApiRequestV2,
@@ -10,48 +11,45 @@ import {
   SearchPostsFormat,
 } from "../../../src/discussions/api/types";
 
+afterEach(() => vi.restoreAllMocks());
+
 describe("discussionsApiRequest", () => {
   const url = "foo";
   const options = { params: { foo: "bar" } };
-  it("resolves token before making api request", (done) => {
+  it("resolves token before making api request", () => {
     const token = "thisisatoken";
-    const authenticateRequestSpy = spyOn(
-      utils,
-      "authenticateRequest"
-    ).and.callFake(async () => token);
-    const apiRequestSpy = spyOn(utils, "apiRequest");
-
-    discussionsApiRequest(url, options as unknown as IDiscussionsRequestOptions)
-      .then(() => {
-        expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
-        expect(apiRequestSpy).toHaveBeenCalledWith(url, options, "v1", token);
-        done();
-      })
-      .catch(() => fail());
+    const authenticateRequestSpy = vi
+      .spyOn(utils, "authenticateRequest")
+      .mockImplementation(async () => token);
+    const apiRequestSpy = vi.spyOn(utils, "apiRequest");
+    apiRequestSpy.mockReturnValue(Promise.resolve({} as any));
+    return discussionsApiRequest(
+      url,
+      options as unknown as IDiscussionsRequestOptions
+    ).then(() => {
+      expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
+      expect(apiRequestSpy).toHaveBeenCalledWith(url, options, "v1", token);
+    });
   });
 });
 
 describe("discussionsApiRequestV2", () => {
   const url = "foo";
   const options = { params: { foo: "bar" } };
-  it("resolves token before making api request", (done) => {
+  it("resolves token before making api request", () => {
     const token = "thisisatoken";
-    const authenticateRequestSpy = spyOn(
-      utils,
-      "authenticateRequest"
-    ).and.callFake(async () => token);
-    const apiRequestSpy = spyOn(utils, "apiRequest");
-
-    discussionsApiRequestV2(
+    const authenticateRequestSpy = vi
+      .spyOn(utils, "authenticateRequest")
+      .mockImplementation(async () => token);
+    const apiRequestSpy = vi.spyOn(utils, "apiRequest");
+    apiRequestSpy.mockReturnValue(Promise.resolve({} as any));
+    return discussionsApiRequestV2(
       url,
       options as unknown as IDiscussionsRequestOptions
-    )
-      .then(() => {
-        expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
-        expect(apiRequestSpy).toHaveBeenCalledWith(url, options, "v2", token);
-        done();
-      })
-      .catch(() => fail());
+    ).then(() => {
+      expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
+      expect(apiRequestSpy).toHaveBeenCalledWith(url, options, "v2", token);
+    });
   });
 });
 
@@ -67,29 +65,25 @@ describe("authenticateRequest", () => {
 
   let getTokenSpy: any;
   beforeEach(() => {
-    getTokenSpy = spyOn(authentication, "getToken").and.callThrough();
+    getTokenSpy = vi.spyOn(authentication, "getToken");
   });
 
-  it("returns promise resolving token if token provided in request options", (done) => {
+  it("returns promise resolving token if token provided in request options", () => {
     const options = { token };
-    utils
+    return utils
       .authenticateRequest(options as IDiscussionsRequestOptions)
       .then(() => {
         expect(getTokenSpy).not.toHaveBeenCalled();
-        done();
-      })
-      .catch(() => fail());
+      });
   });
 
-  it("resolves token from authentication", (done) => {
+  it("resolves token from authentication", () => {
     const options = { authentication };
-    utils
+    return utils
       .authenticateRequest(options as IDiscussionsRequestOptions)
       .then(() => {
         expect(getTokenSpy).toHaveBeenCalledWith(portal);
-        done();
-      })
-      .catch(() => fail());
+      });
   });
 });
 
@@ -120,21 +114,27 @@ describe("apiRequest", () => {
     opts = { hubApiUrlV2 } as IDiscussionsRequestOptions;
   });
 
-  afterEach(fetchMock.restore);
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
-  it("handles failed requests", (done) => {
+  it("handles failed requests", () => {
     const status = 400;
     const message = ["go do this", "go do that"];
     fetchMock.reset();
     fetchMock.mock("*", { status, body: { message } });
 
-    utils.apiRequest(url, opts, "v2").catch((e) => {
-      expect(e.message).toBe("Bad Request");
-      expect(e.status).toBe(status);
-      expect(e.url).toBe(`${hubApiUrlV2}/${url}`);
-      expect(e.error).toBe(JSON.stringify(message));
-      done();
-    });
+    return utils
+      .apiRequest(url, opts, "v2")
+      .then(() => {
+        throw new Error("expected request to fail");
+      })
+      .catch((e) => {
+        expect(e.message).toBe("Bad Request");
+        expect(e.status).toBe(status);
+        expect(e.url).toBe(`${hubApiUrlV2}/${url}`);
+        expect(e.error).toBe(JSON.stringify(message));
+      });
   });
 
   it("appends headers to request options", async () => {
@@ -171,8 +171,7 @@ describe("apiRequest", () => {
   });
 
   it(`appends token header to request options if supplied`, async () => {
-    const token = "bar";
-
+    const token = "thisisatoken";
     const result = await utils.apiRequest(url, opts, "v2", token);
 
     const headers = new Headers();
