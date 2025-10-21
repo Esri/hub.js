@@ -46,8 +46,9 @@ const DEFAULT_SETTINGS =
 
 describe("discussions fetch:", () => {
   describe("fetchDiscussion:", () => {
+    afterEach(() => vi.restoreAllMocks());
+
     it("gets by id, if passed a guid", async () => {
-      afterEach(() => vi.restoreAllMocks());
       const getItemSpy = vi
         .spyOn(portalModule, "getItem")
         .mockResolvedValue(DISCUSSION_ITEM as any);

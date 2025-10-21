@@ -147,7 +147,6 @@ describe("apiRequest", () => {
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  // Additional tests omitted for brevity
   it("appends additional headers to request options", async () => {
     const expectedHeaders = new Headers(expectedOpts.headers);
     expectedHeaders.append("mention-url", "https://some.hub.arcgis.com");
