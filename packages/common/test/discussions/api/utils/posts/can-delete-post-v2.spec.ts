@@ -4,34 +4,26 @@ import {
   IChannel,
   IPost,
   Role,
-} from "../../../../../src/discussions/api//types";
-import { canDeletePostV2 } from "../../../../../src/discussions/api//utils/posts/can-delete-post-v2";
-import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
-import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
+} from "../../../../../src/discussions/api/types";
+import { canDeletePostV2 } from "../../../../../src/discussions/api/utils/posts/can-delete-post-v2";
+import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
+import * as portalPrivModule from "../../../../../src/discussions/api/utils/portal-privilege";
+import { vi, afterEach, describe, it, expect } from "vitest";
 
 describe("canDeletePostV2", () => {
-  let hasOrgAdminUpdateRightsSpy: jasmine.Spy;
-  let canModerateChannelSpy: jasmine.Spy;
+  afterEach(() => vi.restoreAllMocks());
 
-  beforeAll(() => {
-    hasOrgAdminUpdateRightsSpy = spyOn(
+  it("returns true when the user created the post", () => {
+    const hasOrgAdminUpdateRightsSpy = vi.spyOn(
       portalPrivModule,
       "hasOrgAdminUpdateRights"
     );
-    canModerateChannelSpy = spyOn(
+    const canModerateChannelSpy = vi.spyOn(
       ChannelPermission.prototype,
       "canModerateChannel"
     );
-  });
-
-  beforeEach(() => {
-    hasOrgAdminUpdateRightsSpy.calls.reset();
-    canModerateChannelSpy.calls.reset();
-  });
-
-  it("returns true when the user created the post", () => {
-    hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-    canModerateChannelSpy.and.returnValue(false);
+    hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
+    canModerateChannelSpy.mockReturnValue(false);
 
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user1" } as IUser;
@@ -40,12 +32,16 @@ describe("canDeletePostV2", () => {
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(true);
 
-    expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(0);
+    expect(hasOrgAdminUpdateRightsSpy).toHaveBeenCalledTimes(0);
     expect(canModerateChannelSpy).not.toHaveBeenCalled();
   });
 
   it("throws error if user did not create the post and channel.channelAcl is undefined", async () => {
-    hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+    const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+      portalPrivModule,
+      "hasOrgAdminUpdateRights"
+    );
+    hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
 
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = {} as IUser;
@@ -59,8 +55,16 @@ describe("canDeletePostV2", () => {
   });
 
   it("returns true when user did not create the post but user is org_admin", () => {
-    hasOrgAdminUpdateRightsSpy.and.callFake(() => true);
-    canModerateChannelSpy.and.returnValue(false);
+    const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+      portalPrivModule,
+      "hasOrgAdminUpdateRights"
+    );
+    const canModerateChannelSpy = vi.spyOn(
+      ChannelPermission.prototype,
+      "canModerateChannel"
+    );
+    hasOrgAdminUpdateRightsSpy.mockImplementation(() => true);
+    canModerateChannelSpy.mockReturnValue(false);
 
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user2", role: "org_admin" } as IUser;
@@ -72,8 +76,8 @@ describe("canDeletePostV2", () => {
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(true);
 
-    expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
-    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.calls.allArgs()[0]; // args for 1st call
+    expect(hasOrgAdminUpdateRightsSpy).toHaveBeenCalledTimes(1);
+    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.mock.calls[0]; // args for 1st call
     expect(arg1).toBe(user);
     expect(arg2).toBe(channel.orgId);
 
@@ -81,8 +85,16 @@ describe("canDeletePostV2", () => {
   });
 
   it("returns true when user did not create the post and canModerateChannel returns true", () => {
-    hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-    canModerateChannelSpy.and.returnValue(true);
+    const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+      portalPrivModule,
+      "hasOrgAdminUpdateRights"
+    );
+    const canModerateChannelSpy = vi.spyOn(
+      ChannelPermission.prototype,
+      "canModerateChannel"
+    );
+    hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
+    canModerateChannelSpy.mockReturnValue(true);
 
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user2" } as IUser;
@@ -94,8 +106,8 @@ describe("canDeletePostV2", () => {
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(true);
 
-    expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
-    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.calls.allArgs()[0]; // args for 1st call
+    expect(hasOrgAdminUpdateRightsSpy).toHaveBeenCalledTimes(1);
+    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.mock.calls[0]; // args for 1st call
     expect(arg1).toBe(user);
     expect(arg2).toBe(channel.orgId);
 
@@ -104,8 +116,16 @@ describe("canDeletePostV2", () => {
   });
 
   it("returns false when user did not create the post and canModerateChannel returns false", () => {
-    hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-    canModerateChannelSpy.and.returnValue(false);
+    const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+      portalPrivModule,
+      "hasOrgAdminUpdateRights"
+    );
+    const canModerateChannelSpy = vi.spyOn(
+      ChannelPermission.prototype,
+      "canModerateChannel"
+    );
+    hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
+    canModerateChannelSpy.mockReturnValue(false);
 
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user2" } as IUser;
@@ -117,8 +137,8 @@ describe("canDeletePostV2", () => {
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(false);
 
-    expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
-    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.calls.allArgs()[0]; // args for 1st call
+    expect(hasOrgAdminUpdateRightsSpy).toHaveBeenCalledTimes(1);
+    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.mock.calls[0]; // args for 1st call
     expect(arg1).toBe(user);
     expect(arg2).toBe(channel.orgId);
 
@@ -127,8 +147,16 @@ describe("canDeletePostV2", () => {
   });
 
   it("returns false when user is undefined", () => {
-    hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-    canModerateChannelSpy.and.returnValue(false);
+    const hasOrgAdminUpdateRightsSpy = vi.spyOn(
+      portalPrivModule,
+      "hasOrgAdminUpdateRights"
+    );
+    const canModerateChannelSpy = vi.spyOn(
+      ChannelPermission.prototype,
+      "canModerateChannel"
+    );
+    hasOrgAdminUpdateRightsSpy.mockImplementation(() => false);
+    canModerateChannelSpy.mockReturnValue(false);
 
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = undefined as IUser;
@@ -141,12 +169,13 @@ describe("canDeletePostV2", () => {
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(false);
 
-    expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
-    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.calls.allArgs()[0]; // args for 1st call
+    expect(hasOrgAdminUpdateRightsSpy).toHaveBeenCalledTimes(1);
+    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.mock.calls[0]; // args for 1st call
     expect(arg1).toEqual({});
     expect(arg2).toBe(channel.orgId);
 
     expect(canModerateChannelSpy).toHaveBeenCalledTimes(1);
-    expect(canModerateChannelSpy).toHaveBeenCalledWith({});
+    const [canModerateArg1] = canModerateChannelSpy.mock.calls[0]; // args for 1st call
+    expect(canModerateArg1).toEqual({});
   });
 });
