@@ -40,6 +40,7 @@
     "build": "npm run build:node && npm run build:esm",
     "build:esm": "tsc --outDir ./dist/esm  --declaration --declarationDir ./dist/types",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
+    "ci:test": "npm run test",
     "dev:esm": "npm run build:esm -- -w",
     "dev:node": "npm run build:node -- -w",
     "format": "prettier --write ./{src,test}/**/*.ts",
