@@ -1,3 +1,24 @@
+import { vi } from "vitest";
+
+// Make @esri/arcgis-rest-portal and @esri/arcgis-rest-request exports spyable in ESM
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  return {
+    ...(await importOriginal()),
+    getSelf: vi.fn(),
+    getUser: vi.fn(),
+    // default getPortalSettings to return a resolved promise so
+    // failSafe(getPortalSettings, {}) won't call .catch on undefined
+    getPortalSettings: vi.fn(() => Promise.resolve({})),
+  };
+});
+vi.mock("@esri/arcgis-rest-request", async (importOriginal) => {
+  return {
+    ...(await importOriginal()),
+    request: vi.fn(),
+    exchangeToken: vi.fn(),
+  };
+});
+
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   ALPHA_ORGS,
@@ -135,7 +156,7 @@ const portalLimitsResponse = {
   type: "Groups",
   name: "MaxNumUserGroups",
   limitValue: 100,
-};
+} as unknown as import("../src/org/fetchOrgLimits").IOrgLimit;
 
 const enterprisePortalSelfResponse = {
   id: "FAKEID",
@@ -460,18 +481,20 @@ describe("ArcGISContextManager:", () => {
 
     it("verify props when passed session", async () => {
       const t = new Date().getTime();
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(() => {
-        return Promise.resolve(portalLimitsResponse);
-      });
+      vi.spyOn(orgLimitsModule as any, "fetchOrgLimits").mockImplementation(
+        () => {
+          return Promise.resolve(portalLimitsResponse);
+        }
+      );
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
@@ -480,7 +503,7 @@ describe("ArcGISContextManager:", () => {
       // assertions
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
       expect(mgr.context.portalUrl).toBe(
-        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
 
       expect(mgr.context.sharingApiUrl).toBe(MOCK_AUTH.portal);
@@ -555,24 +578,24 @@ describe("ArcGISContextManager:", () => {
     });
     it("verify tokens when passed session", async () => {
       const t = new Date().getTime();
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      spyOn(permissionsModule, "checkPermission").and.callFake(() => {
+      vi.spyOn(permissionsModule, "checkPermission").mockImplementation(() => {
         return { access: true } as IPermissionAccessResponse;
       });
 
-      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
-        (_: string, clientId: string) => {
+      const exchangeTokenSpy = vi
+        .spyOn(authModule, "exchangeToken")
+        .mockImplementation((_: string, clientId: string) => {
           return Promise.resolve(`FAKE-${clientId}-TOKEN`);
-        }
-      );
+        });
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
@@ -588,7 +611,7 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
       // verify exchange token call
       expect(exchangeTokenSpy).toHaveBeenCalled();
-      const args = exchangeTokenSpy.calls.argsFor(0);
+      const args = exchangeTokenSpy.mock.calls[0];
       expect(args[0]).toBe(MOCK_AUTH.token);
       expect(args[1]).toBe("hubforarcgis");
 
@@ -607,31 +630,30 @@ describe("ArcGISContextManager:", () => {
       ]);
     });
     it("verify flags when passed session", async () => {
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      const fetchSettingsSpy = spyOn(
-        userResourcesModule,
-        "getUserResource"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          schemaVersion: 1.1,
-          features: {
-            workspace: true,
-          },
+      const fetchSettingsSpy = vi
+        .spyOn(userResourcesModule, "getUserResource")
+        .mockImplementation(() => {
+          return Promise.resolve({
+            schemaVersion: 1.1,
+            features: {
+              workspace: true,
+            },
+          });
         });
-      });
-      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
-        (_: string, clientId: string) => {
+      const exchangeTokenSpy = vi
+        .spyOn(authModule, "exchangeToken")
+        .mockImplementation((_: string, clientId: string) => {
           return Promise.resolve(`FAKE-${clientId}-TOKEN`);
-        }
-      );
+        });
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
@@ -661,32 +683,30 @@ describe("ArcGISContextManager:", () => {
     });
 
     it("verify flags not set if feature false when passed session", async () => {
-      // const t = new Date().getTime();
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      const fetchSettingsSpy = spyOn(
-        userResourcesModule,
-        "getUserResource"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          schemaVersion: 1,
-          features: {
-            workspace: false,
-          },
+      const fetchSettingsSpy = vi
+        .spyOn(userResourcesModule, "getUserResource")
+        .mockImplementation(() => {
+          return Promise.resolve({
+            schemaVersion: 1,
+            features: {
+              workspace: false,
+            },
+          });
         });
-      });
-      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
-        (_: string, clientId: string) => {
+      const exchangeTokenSpy = vi
+        .spyOn(authModule, "exchangeToken")
+        .mockImplementation((_: string, clientId: string) => {
           return Promise.resolve(`FAKE-${clientId}-TOKEN`);
-        }
-      );
+        });
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
@@ -715,13 +735,19 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeFalsy();
     });
     it("verify props when passed session, portalSelf, User, and serviceStatus", async () => {
-      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
-      });
-      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlineUserResponse));
-      });
-      spyOn(requestModule, "request").and.callFake(() => {
+      const selfSpy = vi
+        .spyOn(portalModule, "getSelf")
+        .mockImplementation(() => {
+          return Promise.resolve(
+            cloneObject(onlinePortalSelfWithLimitsResponse)
+          );
+        });
+      const userSpy = vi
+        .spyOn(portalModule, "getUser")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(onlineUserResponse));
+        });
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
 
@@ -735,8 +761,8 @@ describe("ArcGISContextManager:", () => {
           betaOrgs: ["FAKEID"],
         },
       });
-      expect(selfSpy.calls.count()).toBe(0);
-      expect(userSpy.calls.count()).toBe(0);
+      expect(selfSpy.mock.calls.length).toBe(0);
+      expect(userSpy.mock.calls.length).toBe(0);
       expect(mgr.context.currentUser).toEqual(onlineUserResponse);
       expect(mgr.context.portal).toEqual(onlinePortalSelfWithLimitsResponse);
       expect(mgr.context.session).toBe(MOCK_AUTH);
@@ -752,13 +778,13 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.survey123Url).toEqual("https://survey123.arcgis.com");
     });
     it("verify props update setting session after", async () => {
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
 
@@ -766,17 +792,17 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
       await mgr.setAuthentication(MOCK_AUTH);
       expect(mgr.context.portalUrl).toBe(
-        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
     });
     it("verify props after clearing session", async () => {
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
 
@@ -784,7 +810,7 @@ describe("ArcGISContextManager:", () => {
         authentication: MOCK_AUTH,
       });
       expect(mgr.context.portalUrl).toBe(
-        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
       mgr.clearAuthentication();
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
@@ -793,31 +819,38 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.session).toBeUndefined();
     });
     it("verify does not fetch additional info if passed in", async () => {
-      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
-      });
-      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlineUserResponse));
-      });
-      const portalSettingsSpy = spyOn(
-        portalModule,
-        "getPortalSettings"
-      ).and.callFake(() => {
-        return Promise.resolve({} as portalModule.IPortalSettings);
-      });
-      const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
-      });
-      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
-        (_: string, cid: string) => {
+      const selfSpy = vi
+        .spyOn(portalModule, "getSelf")
+        .mockImplementation(() => {
+          return Promise.resolve(
+            cloneObject(onlinePortalSelfWithLimitsResponse)
+          );
+        });
+      const userSpy = vi
+        .spyOn(portalModule, "getUser")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(onlineUserResponse));
+        });
+      const portalSettingsSpy = vi
+        .spyOn(portalModule, "getPortalSettings")
+        .mockImplementation(() => {
+          return Promise.resolve({} as portalModule.IPortalSettings);
+        });
+      const trustedSpy = vi
+        .spyOn(requestModule, "request")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+        });
+      const exchangeSpy = vi
+        .spyOn(authModule, "exchangeToken")
+        .mockImplementation((_: string, cid: string) => {
           return Promise.resolve(`FAKE-TOKEN-FOR-${cid}`);
-        }
-      );
-      const orgLimitSpy = spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(
-        () => {
-          return Promise.resolve(portalLimitsResponse);
-        }
-      );
+        });
+      const orgLimitSpy = vi
+        .spyOn(orgLimitsModule, "fetchOrgLimits")
+        .mockImplementation((): any => {
+          return Promise.resolve(portalLimitsResponse as unknown as any);
+        });
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
@@ -841,20 +874,28 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.tokenFor("arcgisonline")).toBeUndefined();
     });
     it("verify fetches additional info if not passed in", async () => {
-      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
-      });
-      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlineUserResponse));
-      });
-      const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
-      });
-      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
-        (_: string, cid: string) => {
+      const selfSpy = vi
+        .spyOn(portalModule, "getSelf")
+        .mockImplementation(() => {
+          return Promise.resolve(
+            cloneObject(onlinePortalSelfWithLimitsResponse)
+          );
+        });
+      const userSpy = vi
+        .spyOn(portalModule, "getUser")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(onlineUserResponse));
+        });
+      const trustedSpy = vi
+        .spyOn(requestModule, "request")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+        });
+      const exchangeSpy = vi
+        .spyOn(authModule, "exchangeToken")
+        .mockImplementation((_: string, cid: string) => {
           return Promise.resolve(`FAKE-TOKEN-FOR-${cid}`);
-        }
-      );
+        });
       await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         // we only exchange tokens if resource configs are passed in
@@ -868,20 +909,28 @@ describe("ArcGISContextManager:", () => {
       expect(exchangeSpy).toHaveBeenCalled();
     });
     it("handles throw from exchangeToken", async () => {
-      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
-      });
-      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlineUserResponse));
-      });
-      const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
-      });
-      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
-        () => {
+      const selfSpy = vi
+        .spyOn(portalModule, "getSelf")
+        .mockImplementation(() => {
+          return Promise.resolve(
+            cloneObject(onlinePortalSelfWithLimitsResponse)
+          );
+        });
+      const userSpy = vi
+        .spyOn(portalModule, "getUser")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(onlineUserResponse));
+        });
+      const trustedSpy = vi
+        .spyOn(requestModule, "request")
+        .mockImplementation(() => {
+          return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+        });
+      const exchangeSpy = vi
+        .spyOn(authModule, "exchangeToken")
+        .mockImplementation(() => {
           return Promise.reject("FAIL");
-        }
-      );
+        });
       // flex case where auth does not have clientId
       const token = "fake-token";
       const MOCK_AUTH_NO_CLIENTID = {
@@ -911,13 +960,13 @@ describe("ArcGISContextManager:", () => {
     });
     it("throws if fetch fails", async () => {
       const invalidToken = ExceptionFactory.createInvalidTokenError();
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.reject(invalidToken);
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
 
@@ -940,18 +989,20 @@ describe("ArcGISContextManager:", () => {
     });
     it("serializes all props to encoded string", async () => {
       // const t = new Date().getTime();
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(() => {
-        return Promise.resolve(portalLimitsResponse);
-      });
+      vi.spyOn(orgLimitsModule, "fetchOrgLimits").mockImplementation(
+        (): any => {
+          return Promise.resolve(portalLimitsResponse as unknown as any);
+        }
+      );
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
@@ -961,7 +1012,7 @@ describe("ArcGISContextManager:", () => {
       // verify that the serialized session is encoded by decoding it
       // and converting back into json
       const decoded = JSON.parse(base64ToUnicode(serialized));
-      expect(decoded.session).toEqual(MOCK_AUTH.serialize());
+      expect(decoded.session).toEqual((MOCK_AUTH ).serialize());
       expect(decoded.portal).toEqual(onlinePortalSelfWithLimitsResponse);
       expect(decoded.currentUser).toEqual(onlineUserResponse);
       expect(decoded.properties.foo).toEqual("bar");
@@ -988,27 +1039,29 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.featureFlags).toEqual({ "hub:project:create": false });
     });
     it("can deserialize full, valid context", async () => {
-      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(() => {
-        return Promise.resolve(portalLimitsResponse);
-      });
+      vi.spyOn(orgLimitsModule, "fetchOrgLimits").mockImplementation(
+        (): any => {
+          return Promise.resolve(portalLimitsResponse as unknown as any);
+        }
+      );
       const serialized = unicodeToBase64(
         JSON.stringify(validSerializedContext)
       );
 
       const mgr = await ArcGISContextManager.deserialize(serialized);
-      expect(selfSpy.calls.count()).toBe(0);
-      expect(userSpy.calls.count()).toBe(0);
+      expect((portalModule.getSelf as any).mock.calls.length).toBe(0);
+      expect((portalModule.getUser as any).mock.calls.length).toBe(0);
       expect(mgr.context.portalUrl).toBe(
-        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
       expect(mgr.context.isAuthenticated).toBeTruthy();
       expect(mgr.context.currentUser).toEqual(
@@ -1028,16 +1081,16 @@ describe("ArcGISContextManager:", () => {
       );
     });
     it("can deserialize sparse, valid context", async () => {
-      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(() => {
+      vi.spyOn(orgLimitsModule, "fetchOrgLimits").mockImplementation(() => {
         return Promise.resolve(portalLimitsResponse);
       });
       const sparseValidContext = cloneObject(validSerializedContext) as any;
@@ -1049,10 +1102,10 @@ describe("ArcGISContextManager:", () => {
 
       const serialized = unicodeToBase64(JSON.stringify(sparseValidContext));
       const mgr = await ArcGISContextManager.deserialize(serialized);
-      expect(selfSpy.calls.count()).toBe(1);
-      expect(userSpy.calls.count()).toBe(1);
+      expect((portalModule.getSelf as any).mock.calls.length).toBe(1);
+      expect((portalModule.getUser as any).mock.calls.length).toBe(1);
       expect(mgr.context.portalUrl).toBe(
-        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
       expect(mgr.context.isAuthenticated).toBeTruthy();
       expect(mgr.context.currentUser).toEqual(onlineUserResponse);
@@ -1060,23 +1113,23 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.session.token).toEqual(validSession.token);
     });
     it("can deserialize full, expired context", async () => {
-      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
-      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
       const serialized = unicodeToBase64(
         JSON.stringify(expiredSerializedContext)
       );
       const mgr = await ArcGISContextManager.deserialize(serialized);
-      expect(selfSpy.calls.count()).toBe(0);
-      expect(userSpy.calls.count()).toBe(0);
+      expect((portalModule.getSelf as any).mock.calls.length).toBe(0);
+      expect((portalModule.getUser as any).mock.calls.length).toBe(0);
       expect(mgr.context.portalUrl).toBe(
-        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
       expect(mgr.context.isAuthenticated).toBeFalsy();
       expect(mgr.context.currentUser).not.toBeDefined();
@@ -1091,14 +1144,31 @@ describe("ArcGISContextManager:", () => {
         expect(ex).toBeDefined();
       }
     });
+    it("sets userHubSettings when passed in constructor", async () => {
+      const userHubSettings: IUserHubSettings = {
+        schemaVersion: 1.1,
+        features: {
+          workspace: true,
+        },
+      };
+      const mgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        serviceStatus: {} as unknown as HubServiceStatus,
+        portal: { fake: "portal" } as unknown as IPortal,
+        currentUser: { username: "fakeuser" } as unknown as portalModule.IUser,
+        resourceTokens: [{ app: "self", clientId: "bar", token: "FAKETOKEN" }],
+        userHubSettings,
+      });
+
+      expect(mgr.context.userHubSettings).toEqual(userHubSettings);
+    });
     it("updating userHubSettings updates flags", async () => {
       // spy on updateUserHubSettings
-      const uarSpy = spyOn(
-        appResourcesModule,
-        "updateUserHubSettings"
-      ).and.callFake(() => {
-        return Promise.resolve(null);
-      });
+      const uarSpy = vi
+        .spyOn(appResourcesModule, "updateUserHubSettings")
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         serviceStatus: {} as unknown as HubServiceStatus,
@@ -1130,7 +1200,7 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeFalsy();
     });
     it("can refresh user", async () => {
-      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const updatedUserResponse = cloneObject(onlineUserResponse);
@@ -1143,10 +1213,10 @@ describe("ArcGISContextManager:", () => {
           applications: 0,
         },
       } as portalModule.IGroup);
-      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(updatedUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
       const serialized = unicodeToBase64(
@@ -1154,10 +1224,10 @@ describe("ArcGISContextManager:", () => {
       );
 
       const mgr = await ArcGISContextManager.deserialize(serialized);
-      expect(selfSpy.calls.count()).toBe(0);
-      expect(userSpy.calls.count()).toBe(0);
+      expect((portalModule.getSelf as any).mock.calls.length).toBe(0);
+      expect((portalModule.getUser as any).mock.calls.length).toBe(0);
       expect(mgr.context.portalUrl).toBe(
-        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
       expect(mgr.context.isAuthenticated).toBeTruthy();
       expect(mgr.context.currentUser).toEqual(
@@ -1166,7 +1236,7 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.currentUser.groups?.length).toEqual(1);
       // call refresh user
       await mgr.context.refreshUser();
-      expect(userSpy.calls.count()).toBe(1);
+      expect((portalModule.getUser as any).mock.calls.length).toBe(1);
       expect(mgr.context.currentUser.groups?.length).toEqual(2);
       expect(mgr.context.currentUser).toEqual(updatedUserResponse);
     });
@@ -1197,13 +1267,13 @@ describe("ArcGISContextManager:", () => {
     });
     it("verify props when passed session", async () => {
       const t = new Date().getTime();
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(enterprisePortalSelfResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(enterpriseUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.reject(cloneObject(enterprisePartneredOrgResponse));
       });
 
@@ -1214,7 +1284,7 @@ describe("ArcGISContextManager:", () => {
       // assertions
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
       expect(mgr.context.portalUrl).toBe(
-        MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_ENTERPRISE_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
       expect(mgr.context.sharingApiUrl).toBe(MOCK_ENTERPRISE_AUTH.portal);
       expect(mgr.context.survey123Url).toEqual("https://survey123.arcgis.com");
@@ -1224,13 +1294,13 @@ describe("ArcGISContextManager:", () => {
     });
     it("verify props after clearing session", async () => {
       const t = new Date().getTime();
-      spyOn(portalModule, "getSelf").and.callFake(() => {
+      vi.spyOn(portalModule, "getSelf").mockImplementation(() => {
         return Promise.resolve(cloneObject(enterprisePortalSelfResponse));
       });
-      spyOn(portalModule, "getUser").and.callFake(() => {
+      vi.spyOn(portalModule, "getUser").mockImplementation(() => {
         return Promise.resolve(cloneObject(enterpriseUserResponse));
       });
-      spyOn(requestModule, "request").and.callFake(() => {
+      vi.spyOn(requestModule, "request").mockImplementation(() => {
         return Promise.reject(cloneObject(enterprisePartneredOrgResponse));
       });
 
@@ -1241,11 +1311,11 @@ describe("ArcGISContextManager:", () => {
       // assertions
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
       expect(mgr.context.portalUrl).toBe(
-        MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_ENTERPRISE_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
       mgr.clearAuthentication();
       expect(mgr.context.portalUrl).toBe(
-        MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
+        (MOCK_ENTERPRISE_AUTH.portal as string).replace(`/sharing/rest`, "")
       );
       expect(mgr.context.survey123Url).toEqual("https://survey123.arcgis.com");
     });

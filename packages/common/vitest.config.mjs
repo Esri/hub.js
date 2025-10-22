@@ -13,48 +13,7 @@ export default defineConfig({
     coverage: {
       enabled: true,
       include: [
-        // ultimately we want all the src files to be covered
-        // "src/**/*.ts"
-        // but for now we are just getting started converting to vitest
-        // so we list the src files that correspond to the specs we have converted so far
-        "src/{api,util}.ts",
-        "src/access/*.ts",
-        "src/associations/**/*.ts",
-        "src/channels/**/*.ts",
-        "src/content/**/*.ts",
-        "src/core/**/*.ts",
-        "src/discussions/**/*.ts",
-        "src/downloads/**/*.ts",
-        "src/events/**/*.ts",
-        "src/extent/**/*.ts",
-        "src/groups/**/*.ts",
-        "src/i18n/**/*.ts",
-        // TW working below this line
-        "src/initiative-templates/**/*.ts",
-        "src/initiatives/**/*.ts",
-        "src/items/**/*.ts",
-        "src/metrics/**/*.ts",
-        "src/models/**/*.ts",
-        "src/newsletters/**/*.ts",
-        "src/newsletters-scheduler/**/*.ts",
-        "src/objects/**/*.ts",
-        "src/org/**/*.ts",
-        "src/pages/**/*.ts",
-        "src/permissions/**/*.ts",
-        "src/projects/**/*.ts",
-        "src/resources/**/*.ts",
-        "src/rest/**/*.ts",
-        "src/search/**/*.ts",
-        "src/sites/**/*.ts",
-        "src/sites/domains/**/*.ts",
-        "src/sites/drafts/**/*.ts",
-        "src/sites/feeds/**/*.ts",
-        "src/surveys/**/*.ts",
-        "src/templates/**/*.ts",
-        "src/urls/*.ts",
-        "src/users/*.ts",
-        "src/utils/**/*.ts",
-        "src/versioning/**/*.ts",
+        "src/**/*.ts"
       ],
       exclude: [
         ...coverageConfigDefaults.exclude,
