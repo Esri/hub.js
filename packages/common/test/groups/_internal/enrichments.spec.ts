@@ -1,3 +1,16 @@
+import { vi, afterEach, describe, it, expect } from "vitest";
+
+// Mock the ESM namespace module so its exports are spyable/mocked functions.
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const original = await importOriginal();
+  return {
+    ...(original as any),
+    searchGroupUsers: vi.fn(),
+    searchGroupContent: vi.fn(),
+    getGroup: vi.fn(),
+  };
+});
+
 import { fetchGroupEnrichments } from "../../../src/groups/_internal/enrichments";
 import * as Portal from "@esri/arcgis-rest-portal";
 import * as SimpleGroupContentResponse from "../../mocks/portal-groups-search/simple-response.json";
@@ -8,13 +21,18 @@ import {
   IEnrichmentErrorInfo,
   IHubRequestOptions,
 } from "../../../src/hub-types";
+import { vi, afterEach, describe, it, expect } from "vitest";
 
 describe("group enrichments:", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("memberCount enrichment", async () => {
-    const groupMemberSearchSpy = spyOn(Portal, "searchGroupUsers").and.callFake(
-      () => {
-        return Promise.resolve(cloneObject(SimpleGroupUserResponse));
-      }
+    const groupMemberSearchSpy =
+      Portal.searchGroupUsers as unknown as ReturnType<typeof vi.fn>;
+    groupMemberSearchSpy.mockResolvedValue(
+      cloneObject(SimpleGroupUserResponse) as any
     );
 
     const grp = { id: "3ef" } as unknown as Portal.IGroup;
@@ -28,23 +46,20 @@ describe("group enrichments:", () => {
     expect(chk.membershipSummary.users.length).toBe(1);
 
     // spy args
-    expect(groupMemberSearchSpy.calls.count()).toBe(
-      1,
-      "should call searchGroupUsers"
-    );
-    const [groupId, expectedParams] = groupMemberSearchSpy.calls.argsFor(0);
+    expect(groupMemberSearchSpy).toHaveBeenCalledTimes(1);
+    const [groupId, expectedParams] = (groupMemberSearchSpy as any).mock
+      .calls[0];
     expect(groupId).toBe("3ef");
     expect(expectedParams.num).toBe(3);
     expect(expectedParams.portal).toBe(ro.portal);
   });
 
   it("contentCount enrichment", async () => {
-    const groupContentSearchSpy = spyOn(
-      Portal,
-      "searchGroupContent"
-    ).and.callFake(() => {
-      return Promise.resolve(cloneObject(SimpleGroupContentResponse));
-    });
+    const groupContentSearchSpy =
+      Portal.searchGroupContent as unknown as ReturnType<typeof vi.fn>;
+    groupContentSearchSpy.mockResolvedValue(
+      cloneObject(SimpleGroupContentResponse) as any
+    );
 
     const grp = { id: "3ef" } as unknown as Portal.IGroup;
     const ro = {
@@ -53,20 +68,16 @@ describe("group enrichments:", () => {
     const chk = await fetchGroupEnrichments(grp, ["contentCount"], ro);
 
     expect(chk.contentCount).toBeDefined();
-    expect(groupContentSearchSpy.calls.count()).toBe(
-      1,
-      "should call searchGroupContent"
-    );
-    const [expectedParams] = groupContentSearchSpy.calls.argsFor(0);
+    expect(groupContentSearchSpy).toHaveBeenCalledTimes(1);
+    const [expectedParams] = (groupContentSearchSpy as any).mock.calls[0];
     expect(expectedParams.groupId).toBe("3ef");
     expect(expectedParams.num).toBe(1);
     expect(expectedParams.portal).toBe(ro.portal);
   });
 
   it("userMembership enrichment", async () => {
-    const getGroupSpy = spyOn(Portal, "getGroup").and.callFake(() => {
-      return Promise.resolve(cloneObject(SimpleGroupResponse));
-    });
+    const getGroupSpy = Portal.getGroup as unknown as ReturnType<typeof vi.fn>;
+    getGroupSpy.mockResolvedValue(cloneObject(SimpleGroupResponse) as any);
 
     const grp = { id: "3ef" } as unknown as Portal.IGroup;
     const ro = {
@@ -78,17 +89,17 @@ describe("group enrichments:", () => {
     expect(chk.membershipAccess).toEqual("org");
 
     // spy args
-    expect(getGroupSpy.calls.count()).toBe(1, "should call getGroup");
-    const [groupId, expectedParams] = getGroupSpy.calls.argsFor(0);
+    expect(getGroupSpy).toHaveBeenCalledTimes(1);
+    const [groupId, expectedParams] = (getGroupSpy as any).mock.calls[0];
     expect(groupId).toBe("3ef");
     expect(expectedParams.portal).toBe(ro.portal);
   });
 
   describe("errors:", () => {
     it("memberCount enrichment", async () => {
-      spyOn(Portal, "searchGroupUsers").and.callFake(() => {
-        return Promise.reject(new Error("group member search failed"));
-      });
+      (
+        Portal.searchGroupUsers as unknown as ReturnType<typeof vi.fn>
+      ).mockRejectedValue(new Error("group member search failed"));
 
       const grp = { id: "3ef" } as unknown as Portal.IGroup;
       const ro = {
@@ -106,9 +117,9 @@ describe("group enrichments:", () => {
     });
 
     it("contentCount enrichment", async () => {
-      spyOn(Portal, "searchGroupContent").and.callFake(() => {
-        return Promise.reject(new Error("group content search failed"));
-      });
+      (
+        Portal.searchGroupContent as unknown as ReturnType<typeof vi.fn>
+      ).mockRejectedValue(new Error("group content search failed"));
 
       const grp = { id: "3ef" } as unknown as Portal.IGroup;
       const ro = {
@@ -125,9 +136,9 @@ describe("group enrichments:", () => {
     });
 
     it("userMembership enrichment", async () => {
-      spyOn(Portal, "getGroup").and.callFake(() => {
-        return Promise.reject(new Error("get group failed"));
-      });
+      (
+        Portal.getGroup as unknown as ReturnType<typeof vi.fn>
+      ).mockRejectedValue(new Error("get group failed"));
 
       const grp = { id: "3ef" } as unknown as Portal.IGroup;
       const ro = {
