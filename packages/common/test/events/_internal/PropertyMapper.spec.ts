@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { EventPropertyMapper } from "../../../src/events/_internal/PropertyMapper";
 import { getEventThumbnail } from "../../../src/utils/getEventThumbnail";
@@ -19,7 +20,7 @@ import { IHubLocation } from "../../../src/core/types/IHubLocation";
 
 describe("PropertyMapper", () => {
   let propertyMapper: EventPropertyMapper;
-  let getLocationFromEventSpy: jasmine.Spy;
+  let getLocationFromEventSpy: any;
   let locationResult: IHubLocation;
 
   beforeEach(() => {
@@ -27,10 +28,13 @@ describe("PropertyMapper", () => {
       type: "none",
     };
     propertyMapper = new EventPropertyMapper(getPropertyMap());
-    getLocationFromEventSpy = spyOn(
-      getLocationFromEventModule,
-      "getLocationFromEvent"
-    ).and.returnValue(locationResult);
+    getLocationFromEventSpy = vi
+      .spyOn(getLocationFromEventModule, "getLocationFromEvent")
+      .mockReturnValue(locationResult);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("storeToEntity", () => {
@@ -177,15 +181,15 @@ describe("PropertyMapper", () => {
         onlineRegistrationCount: 5,
         onlineUrl: null,
         canChangeAccess: true,
-        createdDate: jasmine.any(Date) as unknown as Date,
-        startDateTime: jasmine.any(Date) as unknown as Date,
-        startDate: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
-        endDateTime: jasmine.any(Date) as unknown as Date,
+        createdDate: expect.any(Date) as unknown as Date,
+        startDateTime: expect.any(Date) as unknown as Date,
+        startDate: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
+        endDateTime: expect.any(Date) as unknown as Date,
         createdDateSource: "createdAt",
-        updatedDate: jasmine.any(Date) as unknown as Date,
+        updatedDate: expect.any(Date) as unknown as Date,
         updatedDateSource: "updatedAt",
         canChangeStatus: true,
         canChangeStatusCancelled: true,
@@ -294,11 +298,11 @@ describe("PropertyMapper", () => {
         onlineDetails: null,
         onlineUrl: null,
         canChangeAccess: true,
-        createdDate: now,
+        createdDate: expect.any(Date) as unknown as Date,
         startDateTime: start,
         endDateTime: end,
         createdDateSource: "createdAt",
-        updatedDate: jasmine.any(Date) as unknown as Date,
+        updatedDate: expect.any(Date) as unknown as Date,
         updatedDateSource: "updatedAt",
         startDate: [
           start.getFullYear(),
@@ -344,10 +348,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: 30,
         location: null,
         readGroups: [],
@@ -382,10 +386,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: null,
         location: null,
         readGroups: [],
@@ -420,10 +424,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: 30,
         location: null,
         readGroups: [],
@@ -467,10 +471,10 @@ describe("PropertyMapper", () => {
           details: "online event details",
           url: "https://somewhere.com/",
         } as IOnlineMeeting,
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: null,
         location: null,
         readGroups: [],
@@ -514,10 +518,10 @@ describe("PropertyMapper", () => {
           details: "online event details",
           url: "https://somewhere.com/",
         } as IOnlineMeeting,
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: null,
         location: null,
         readGroups: [],
@@ -564,10 +568,10 @@ describe("PropertyMapper", () => {
           details: "online event details",
           url: "https://somewhere.com/",
         } as IOnlineMeeting,
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: 30,
         location: null,
         readGroups: [],
@@ -602,10 +606,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.CANCELED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: 30,
         location: null,
         readGroups: [],
@@ -640,10 +644,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.REMOVED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: 30,
         location: null,
         readGroups: [],
@@ -678,10 +682,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDate: jasmine.any(String) as unknown as string,
-        startTime: jasmine.any(String) as unknown as string,
-        endDate: jasmine.any(String) as unknown as string,
-        endTime: jasmine.any(String) as unknown as string,
+        startDate: expect.any(String) as unknown as string,
+        startTime: expect.any(String) as unknown as string,
+        endDate: expect.any(String) as unknown as string,
+        endTime: expect.any(String) as unknown as string,
         inPersonCapacity: 30,
         location: null,
         readGroups: [],

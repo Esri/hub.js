@@ -1,8 +1,8 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaEdit";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { HubEventAttendanceType } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
@@ -77,39 +77,52 @@ const CATEGORIES_ELEMENTS = [
   },
 ];
 
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  afterAll,
+  afterEach,
+  vi,
+} from "vitest";
+
 describe("EventUiSchemaEdit", () => {
   beforeAll(() => {
-    jasmine.clock().uninstall();
-    jasmine.clock().mockDate(new Date("2024-04-03T16:30:00.000Z"));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2024-04-03T16:30:00.000Z"));
   });
 
   afterAll(() => {
-    jasmine.clock().uninstall();
+    vi.useRealTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
-      const getLocationExtentSpy = spyOn(
-        getLocationExtentModule,
-        "getLocationExtent"
-      ).and.returnValue(Promise.resolve([]));
-      const getLocationOptionsSpy = spyOn(
-        getLocationOptionsModule,
-        "getLocationOptions"
-      ).and.returnValue(Promise.resolve([]));
-      const authdCtxMgr = await ArcGISContextManager.create({
+      const getLocationExtentSpy = vi
+        .spyOn(getLocationExtentModule, "getLocationExtent")
+        .mockResolvedValue([] as any);
+      const getLocationOptionsSpy = vi
+        .spyOn(getLocationOptionsModule, "getLocationOptions")
+        .mockResolvedValue([] as any);
+      const ctx = createMockContext({
         authentication: MOCK_AUTH,
         currentUser: {
           username: "casey",
           orgId: "9y2",
         } as unknown as PortalModule.IUser,
-        portal: {
+        portalSelf: {
           name: "DC R&D Center",
           id: "BRXFAKE",
           urlKey: "fake-org",
         } as unknown as PortalModule.IPortal,
         portalUrl: "https://myserver.com",
       });
+      const authdCtxMgr = { context: ctx } as unknown as ArcGISContextManager;
       const datesAndTimes = {
         startDate: "2024-03-31",
         startDateTime: new Date(),
@@ -145,14 +158,15 @@ describe("EventUiSchemaEdit", () => {
         ...datesAndTimes,
       } as unknown as IHubEvent;
       const tags = [{ value: "tag1" }, { value: "tag2" }];
-      const getTagItemsSpy = spyOn(
-        getTagItemsModule,
-        "getTagItems"
-      ).and.returnValue(Promise.resolve(tags));
-      const fetchCategoriesUiSchemaElementSpy = spyOn(
-        fetchCategoriesUiSchemaElementModule,
-        "fetchCategoriesUiSchemaElement"
-      ).and.returnValue(Promise.resolve(CATEGORIES_ELEMENTS));
+      const getTagItemsSpy = vi
+        .spyOn(getTagItemsModule, "getTagItems")
+        .mockResolvedValue(tags as any);
+      const fetchCategoriesUiSchemaElementSpy = vi
+        .spyOn(
+          fetchCategoriesUiSchemaElementModule,
+          "fetchCategoriesUiSchemaElement"
+        )
+        .mockResolvedValue(CATEGORIES_ELEMENTS as any);
       const res = await buildUiSchema(
         "myI18nScope",
         entity,

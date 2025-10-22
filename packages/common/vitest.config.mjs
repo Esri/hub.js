@@ -24,6 +24,7 @@ export default defineConfig({
         "src/content/**/*.ts",
         "src/core/**/*.ts",
         "src/discussions/**/*.ts",
+        "src/events/**/*.ts",
         // TW working below this line
         "src/initiatives/**/*.ts",
         "src/items/**/*.ts",

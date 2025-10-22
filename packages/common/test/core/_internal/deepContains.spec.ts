@@ -3,8 +3,7 @@ import {
   deepContains,
   pathToCatalogInfo,
 } from "../../../src/core/_internal/deepContains";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import * as FetchEntityCatalogModule from "../../../src/search/fetchEntityCatalog";
 import * as HubSearchModule from "../../../src/search/hubSearch";
@@ -18,19 +17,20 @@ const AppItemId = "63c765456d23439e8faf0e4172fc9b23";
 describe("deepContains:", () => {
   let context: IArcGISContext;
   beforeEach(async () => {
-    const authdCtxMgr = await ArcGISContextManager.create({
+    // Use the shared test mock to create a minimal ArcGISContext for tests.
+    const ctx = createMockContext({
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
       } as unknown as IUser,
-      portal: {
+      portalSelf: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
       } as unknown as IPortal,
       portalUrl: "https://myserver.com",
     });
-    context = authdCtxMgr.context;
+    context = ctx as unknown as IArcGISContext;
   });
   it("returns false if no hiearchy passed", async () => {
     const response = await deepContains(

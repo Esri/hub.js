@@ -44,10 +44,10 @@ class TestHarness extends HubItemEntity<any> {
 describe("HubItemEntity Class: ", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
+    // Use a mocked context instead of calling ArcGISContextManager.create()
+    // which can perform async network operations. createMockContext returns
+    // the minimal context shape required by these tests.
+    const ctx = createMockContext({
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
@@ -56,13 +56,15 @@ describe("HubItemEntity Class: ", () => {
           { id: "efUpdate", capabilities: ["updateitemcontrol"] },
         ],
       } as unknown as PortalModule.IUser,
-      portal: {
+      portalSelf: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
         customBaseUrl: "fakemaps.arcgis.com",
       } as unknown as PortalModule.IPortal,
+      portalUrl: "https://fake-org.fakemaps.arcgis.com",
     });
+    authdCtxMgr = { context: ctx } as unknown as ArcGISContextManager;
   });
 
   describe("base properties", () => {

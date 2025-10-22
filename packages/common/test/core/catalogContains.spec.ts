@@ -1,4 +1,5 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { vi } from "vitest";
 
 import * as HubSearchModule from "../../src/search/hubSearch";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -120,19 +121,25 @@ const noScopeCatalog: IHubCatalog = {
 describe("catalogContains:", () => {
   let hubSearchSpy: any;
   let context: IArcGISContext;
-  beforeEach(async () => {
-    const authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as IPortal,
-      portalUrl: "https://myserver.com",
-    });
+  beforeEach(() => {
+    // Use a mocked ArcGISContextManager-like object to avoid async create and network calls
+    const authdCtxMgr = {
+      context: {
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as IPortal,
+        portalUrl: "https://myserver.com",
+        hubRequestOptions: {
+          authentication: MOCK_AUTH,
+        },
+      },
+    } as unknown as ArcGISContextManager;
     context = authdCtxMgr.context;
   });
 

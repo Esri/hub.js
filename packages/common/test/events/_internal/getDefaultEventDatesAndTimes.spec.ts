@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 import { getDefaultEventDatesAndTimes } from "../../../src/events/_internal/getDefaultEventDatesAndTimes";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
 import * as getTimePickerTimeUtils from "../../../src/utils/date/getTimePickerTime";
@@ -5,29 +6,30 @@ import * as guessTimeZoneUtils from "../../../src/utils/date/guessTimeZone";
 
 describe("getDefaultEventDatesAndTimes", () => {
   beforeAll(() => {
-    jasmine.clock().install();
-    jasmine.clock().mockDate(new Date(1711987200000));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(1711987200000));
   });
 
   afterAll(() => {
-    jasmine.clock().uninstall();
+    vi.useRealTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should return an object containing start & end dates & times and the timeZone", () => {
-    const guessTimeZoneSpy = spyOn(
-      guessTimeZoneUtils,
-      "guessTimeZone"
-    ).and.returnValue("America/New_York");
-    const getDatePickerDateSpy = spyOn(
-      getDatePickerDateUtils,
-      "getDatePickerDate"
-    ).and.returnValue("2024-04-01");
-    const getTimePickerTimeUtilsSpy = spyOn(
-      getTimePickerTimeUtils,
-      "getTimePickerTime"
-    ).and.callFake((arg: string) =>
-      arg === "2024-04-01T17:00:00.000Z" ? "13:00:00" : "14:00:00"
-    );
+    const guessTimeZoneSpy = vi
+      .spyOn(guessTimeZoneUtils, "guessTimeZone")
+      .mockReturnValue("America/New_York");
+    const getDatePickerDateSpy = vi
+      .spyOn(getDatePickerDateUtils, "getDatePickerDate")
+      .mockReturnValue("2024-04-01");
+    const getTimePickerTimeUtilsSpy = vi
+      .spyOn(getTimePickerTimeUtils, "getTimePickerTime")
+      .mockImplementation((...args: any[]) =>
+        args[0] === "2024-04-01T17:00:00.000Z" ? "13:00:00" : "14:00:00"
+      );
     expect(getDefaultEventDatesAndTimes()).toEqual({
       startDate: "2024-04-01",
       endDate: "2024-04-01",
