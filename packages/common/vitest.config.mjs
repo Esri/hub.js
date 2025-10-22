@@ -27,6 +27,7 @@ export default defineConfig({
         "src/extent/**/*.ts",
         "src/events/**/*.ts",
         "src/groups/**/*.ts",
+        "src/i18n/**/*.ts",
         // TW working below this line
         "src/initiative-templates/**/*.ts",
         "src/initiatives/**/*.ts",
