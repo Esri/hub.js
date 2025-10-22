@@ -17,22 +17,26 @@ import { afterEach, vi } from "vitest";
 describe("HubEvent Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   afterEach(() => vi.restoreAllMocks());
-  beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as portalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-Org",
-      } as unknown as portalModule.IPortal,
-      portalUrl: "https://myserver.com",
-    });
+  beforeEach(() => {
+    // Use a mocked context object instead of creating a real ArcGISContextManager
+    // This avoids network or fetch behavior during tests.
+    authdCtxMgr = {
+      context: {
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as portalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-Org",
+        } as unknown as portalModule.IPortal,
+        portalUrl: "https://myserver.com",
+        hubRequestOptions: {
+          authentication: MOCK_AUTH,
+        },
+      },
+    } as unknown as ArcGISContextManager;
   });
 
   it("update applies partial changes to internal state", () => {
@@ -187,12 +191,14 @@ describe("HubEvent Class:", () => {
         // capture the original implementation so the spy can call through
         const original = (hubItemEntityFromEditorModule as any)
           .hubItemEntityFromEditor;
+        // cast original to Function to avoid unsafe any call in strict TS
+        const originalFn = original as (...args: any[]) => any;
         hubItemEntityFromEditorSpy = vi
           .spyOn(
             hubItemEntityFromEditorModule as any,
             "hubItemEntityFromEditor"
           )
-          .mockImplementation((...args: any[]) => original(...args));
+          .mockImplementation((...args: any[]) => originalFn(...args));
       });
       it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const chk = HubEvent.fromJson(
@@ -311,15 +317,20 @@ describe("HubEvent Class:", () => {
 
   describe("shareWithGroup", () => {
     it("should reject when user not authenticated", async () => {
-      authdCtxMgr = await ArcGISContextManager.create({
-        currentUser: undefined,
-        portal: {
-          name: "DC R&D Center",
-          id: "BRXFAKE",
-          urlKey: "fake-org",
-        } as unknown as portalModule.IPortal,
-        portalUrl: "https://myserver.com",
-      });
+      // Create a mocked context manager with no currentUser to simulate anonymous
+      authdCtxMgr = {
+        context: {
+          authentication: undefined,
+          currentUser: undefined,
+          portal: {
+            name: "DC R&D Center",
+            id: "BRXFAKE",
+            urlKey: "fake-org",
+          } as unknown as portalModule.IPortal,
+          portalUrl: "https://myserver.com",
+          hubRequestOptions: {},
+        },
+      } as unknown as ArcGISContextManager;
       const chk = HubEvent.fromJson(
         {
           name: "Test Entity",

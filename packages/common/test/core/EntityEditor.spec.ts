@@ -31,27 +31,30 @@ import * as PortalModule from "@esri/arcgis-rest-portal";
 
 describe("EntityEditor:", () => {
   let authdCtxMgr: ArcGISContextManager;
-  beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        groups: [
-          { id: "efView", capabilities: [] },
-          { id: "efUpdate", capabilities: ["updateitemcontrol"] },
-        ],
-        privileges: [],
-      } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-        customBaseUrl: "fakemaps.arcgis.com",
-      } as unknown as PortalModule.IPortal,
-    });
+  beforeEach(() => {
+    // Use a mocked ArcGISContextManager-like object to avoid async create and network calls
+    authdCtxMgr = {
+      context: {
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+          groups: [
+            { id: "efView", capabilities: [] },
+            { id: "efUpdate", capabilities: ["updateitemcontrol"] },
+          ],
+          privileges: [],
+        } as unknown as PortalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+          customBaseUrl: "fakemaps.arcgis.com",
+        } as unknown as PortalModule.IPortal,
+        hubRequestOptions: {
+          authentication: MOCK_AUTH,
+        },
+      },
+    } as unknown as ArcGISContextManager;
   });
   it("throws if entity is not supported", () => {
     const s: IHubSite = {

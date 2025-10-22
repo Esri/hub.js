@@ -1,8 +1,8 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { createMockContext, MOCK_AUTH } from "../../mocks/mock-auth";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaEdit";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { HubEventAttendanceType } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
@@ -109,19 +109,20 @@ describe("EventUiSchemaEdit", () => {
       const getLocationOptionsSpy = vi
         .spyOn(getLocationOptionsModule, "getLocationOptions")
         .mockResolvedValue([] as any);
-      const authdCtxMgr = await ArcGISContextManager.create({
+      const ctx = createMockContext({
         authentication: MOCK_AUTH,
         currentUser: {
           username: "casey",
           orgId: "9y2",
         } as unknown as PortalModule.IUser,
-        portal: {
+        portalSelf: {
           name: "DC R&D Center",
           id: "BRXFAKE",
           urlKey: "fake-org",
         } as unknown as PortalModule.IPortal,
         portalUrl: "https://myserver.com",
       });
+      const authdCtxMgr = { context: ctx } as unknown as ArcGISContextManager;
       const datesAndTimes = {
         startDate: "2024-03-31",
         startDateTime: new Date(),
