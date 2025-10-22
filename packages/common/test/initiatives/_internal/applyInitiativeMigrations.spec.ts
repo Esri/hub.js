@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import { applyInitiativeMigrations } from "../../../src/initiatives/_internal/applyInitiativeMigrations";
 import { HUB_INITIATIVE_CURRENT_SCHEMA_VERSION } from "../../../src/initiatives/defaults";
 import * as migrations from "../../../src/initiatives/_internal/migrateInitiativeSlugAndOrgUrlKey";
@@ -7,25 +8,26 @@ import { IHubInitiative } from "../../../src/core/types/IHubInitiative";
 import { IHubStage } from "../../../src/core/types/IHubTimeline";
 
 describe("applyInitiativeMigrations function", () => {
-  let slugAndOrgUrlKeySpy: jasmine.Spy;
-  let addDefaultCatalogSpy: jasmine.Spy;
+  let slugAndOrgUrlKeySpy: any;
+  let addDefaultCatalogSpy: any;
 
   beforeEach(() => {
-    slugAndOrgUrlKeySpy = spyOn(
+    slugAndOrgUrlKeySpy = vi.spyOn(
       migrations,
       "migrateInitiativeSlugAndOrgUrlKey"
-    ).and.callThrough();
-    addDefaultCatalogSpy = spyOn(
+    );
+    addDefaultCatalogSpy = vi.spyOn(
       defaultCatalogMigration,
       "migrateInitiativeAddDefaultCatalog"
-    ).and.callThrough();
+    );
   });
+
+  afterEach(() => vi.restoreAllMocks());
 
   it("calls migration functions when schemaVersion is not current", () => {
     const initiative: IHubInitiative = {
       schemaVersion: 1.0,
-      // other required properties
-    } as IHubInitiative;
+    } as any;
 
     applyInitiativeMigrations(initiative);
 
@@ -36,8 +38,7 @@ describe("applyInitiativeMigrations function", () => {
   it("does not call migration functions when schemaVersion is current", () => {
     const initiative: IHubInitiative = {
       schemaVersion: HUB_INITIATIVE_CURRENT_SCHEMA_VERSION,
-      // other required properties
-    } as IHubInitiative;
+    } as any;
 
     applyInitiativeMigrations(initiative);
 
@@ -48,18 +49,22 @@ describe("applyInitiativeMigrations function", () => {
   it("calls migration functions in correct order", () => {
     const initiative: IHubInitiative = {
       schemaVersion: 1.0,
-    } as IHubInitiative;
+    } as any;
 
     applyInitiativeMigrations(initiative);
 
-    expect(addDefaultCatalogSpy).toHaveBeenCalledBefore(slugAndOrgUrlKeySpy);
+    const firstCallOrder = (addDefaultCatalogSpy ).mock
+      .invocationCallOrder[0];
+    const secondCallOrder = (slugAndOrgUrlKeySpy ).mock
+      .invocationCallOrder[0];
+    expect(firstCallOrder).toBeLessThan(secondCallOrder);
   });
 
   it("calls migrateInvalidTimelineStages and removes invalid stages", () => {
-    const timelineMigrationSpy = spyOn(
+    const timelineMigrationSpy = vi.spyOn(
       timelineMigration,
       "migrateInvalidTimelineStages"
-    ).and.callThrough();
+    );
 
     const initiative: IHubInitiative = {
       schemaVersion: 2.1,
@@ -78,8 +83,7 @@ describe("applyInitiativeMigrations function", () => {
           ] as IHubStage[],
         },
       },
-      // other required properties
-    } as IHubInitiative;
+    } as any;
 
     const result = applyInitiativeMigrations(initiative);
 
