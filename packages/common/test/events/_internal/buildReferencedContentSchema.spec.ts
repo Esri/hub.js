@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { buildReferencedContentSchema } from "../../../src/events/_internal/buildReferencedContentSchema";
 import * as wellKnownCatalogModule from "../../../src/search/wellKnownCatalog";
+import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
 
 describe("buildReferencedContentSchema", () => {
   const catalog = { catalog: true };
@@ -12,13 +13,16 @@ describe("buildReferencedContentSchema", () => {
     },
   } as unknown as IArcGISContext;
 
-  let getWellKnownCatalogSpy: jasmine.Spy;
+  let getWellKnownCatalogSpy: any;
 
   beforeEach(() => {
-    getWellKnownCatalogSpy = spyOn(
-      wellKnownCatalogModule,
-      "getWellKnownCatalog"
-    ).and.returnValue(catalog);
+    getWellKnownCatalogSpy = vi
+      .spyOn(wellKnownCatalogModule, "getWellKnownCatalog")
+      .mockReturnValue(catalog as any);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should return the schema element for referenced content without a label", () => {

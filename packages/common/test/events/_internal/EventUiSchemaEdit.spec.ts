@@ -77,26 +77,38 @@ const CATEGORIES_ELEMENTS = [
   },
 ];
 
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  afterAll,
+  afterEach,
+  vi,
+} from "vitest";
+
 describe("EventUiSchemaEdit", () => {
   beforeAll(() => {
-    jasmine.clock().uninstall();
-    jasmine.clock().mockDate(new Date("2024-04-03T16:30:00.000Z"));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2024-04-03T16:30:00.000Z"));
   });
 
   afterAll(() => {
-    jasmine.clock().uninstall();
+    vi.useRealTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
-      const getLocationExtentSpy = spyOn(
-        getLocationExtentModule,
-        "getLocationExtent"
-      ).and.returnValue(Promise.resolve([]));
-      const getLocationOptionsSpy = spyOn(
-        getLocationOptionsModule,
-        "getLocationOptions"
-      ).and.returnValue(Promise.resolve([]));
+      const getLocationExtentSpy = vi
+        .spyOn(getLocationExtentModule, "getLocationExtent")
+        .mockResolvedValue([] as any);
+      const getLocationOptionsSpy = vi
+        .spyOn(getLocationOptionsModule, "getLocationOptions")
+        .mockResolvedValue([] as any);
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
@@ -145,14 +157,15 @@ describe("EventUiSchemaEdit", () => {
         ...datesAndTimes,
       } as unknown as IHubEvent;
       const tags = [{ value: "tag1" }, { value: "tag2" }];
-      const getTagItemsSpy = spyOn(
-        getTagItemsModule,
-        "getTagItems"
-      ).and.returnValue(Promise.resolve(tags));
-      const fetchCategoriesUiSchemaElementSpy = spyOn(
-        fetchCategoriesUiSchemaElementModule,
-        "fetchCategoriesUiSchemaElement"
-      ).and.returnValue(Promise.resolve(CATEGORIES_ELEMENTS));
+      const getTagItemsSpy = vi
+        .spyOn(getTagItemsModule, "getTagItems")
+        .mockResolvedValue(tags as any);
+      const fetchCategoriesUiSchemaElementSpy = vi
+        .spyOn(
+          fetchCategoriesUiSchemaElementModule,
+          "fetchCategoriesUiSchemaElement"
+        )
+        .mockResolvedValue(CATEGORIES_ELEMENTS as any);
       const res = await buildUiSchema(
         "myI18nScope",
         entity,

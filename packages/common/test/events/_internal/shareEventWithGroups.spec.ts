@@ -1,3 +1,9 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+// make @esri/arcgis-rest-portal spyable by merging the original module and
+// overriding specific exports in an async mock before importing the module-under-test
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+}));
 import { shareEventWithGroups } from "../../../src/events/_internal/shareEventWithGroups";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
@@ -6,9 +12,9 @@ import * as pollModule from "../../../src/utils/poll";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("shareEventWithGroups", () => {
-  let searchGroupsSpy: jasmine.Spy;
-  let pollSpy: jasmine.Spy;
-  let updateEventSpy: jasmine.Spy;
+  let searchGroupsSpy: any;
+  let pollSpy: any;
+  let updateEventSpy: any;
   let groups: portalModule.IGroup[];
   let context: IArcGISContext;
   let entity: IHubEvent;
@@ -46,30 +52,28 @@ describe("shareEventWithGroups", () => {
       readGroupIds: [groups[0].id, groups[1].id],
       editGroupIds: [groups[2].id],
     } as IHubEvent;
-    pollSpy = spyOn(pollModule, "poll").and.returnValue(
-      Promise.resolve({
-        results: [groups[3], groups[4]],
-      } as portalModule.ISearchResult<portalModule.IGroup>)
-    );
-    searchGroupsSpy = spyOn(portalModule, "searchGroups").and.returnValue(
-      Promise.resolve({
-        results: [groups[3], groups[4]],
-      } as portalModule.ISearchResult<portalModule.IGroup>)
-    );
-    updateEventSpy = spyOn(eventsModule, "updateEvent").and.returnValue(
-      Promise.resolve({
-        readGroups: [groups[0].id, groups[1].id, groups[3].id],
-        editGroups: [groups[2].id, groups[4].id],
-      })
-    );
+    pollSpy = vi.spyOn(pollModule, "poll").mockResolvedValue({
+      results: [groups[3], groups[4]],
+    } as any);
+    searchGroupsSpy = vi.spyOn(portalModule, "searchGroups").mockResolvedValue({
+      results: [groups[3], groups[4]],
+    } as any);
+    updateEventSpy = vi.spyOn(eventsModule, "updateEvent").mockResolvedValue({
+      readGroups: [groups[0].id, groups[1].id, groups[3].id],
+      editGroups: [groups[2].id, groups[4].id],
+    } as any);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should share the event with groups", async () => {
     const res = await shareEventWithGroups(["abc", "def"], entity, context);
     expect(pollSpy).toHaveBeenCalledTimes(1);
     expect(pollSpy).toHaveBeenCalledWith(
-      jasmine.any(Function),
-      jasmine.any(Function)
+      expect.any(Function),
+      expect.any(Function)
     );
     expect(updateEventSpy).toHaveBeenCalledTimes(1);
     expect(updateEventSpy).toHaveBeenCalledWith({
@@ -85,7 +89,9 @@ describe("shareEventWithGroups", () => {
       readGroupIds: [...entity.readGroupIds, "abc"],
       editGroupIds: [...entity.editGroupIds, "def"],
     });
-    const fnResults = await pollSpy.calls.argsFor(0)[0]();
+    const fnResults = await (
+      pollSpy.mock.calls[0][0] as (...args: any[]) => any
+    )();
     expect(fnResults).toEqual({ results: [groups[3], groups[4]] });
     expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
     expect(searchGroupsSpy).toHaveBeenCalledWith({
@@ -93,27 +99,23 @@ describe("shareEventWithGroups", () => {
       num: 2,
       ...context.requestOptions,
     });
-    const validatorResults = await pollSpy.calls.argsFor(0)[1]({
+    const validatorResults = await (
+      pollSpy.mock.calls[0][1] as (...args: any[]) => any
+    )({
       results: [groups[3], groups[4]],
-    } as portalModule.ISearchResult<portalModule.IGroup>);
+    } as any);
     expect(validatorResults).toEqual(true);
   });
 
   it("should reject when an error occurs", async () => {
-    pollSpy.and.returnValue(Promise.reject(new Error("fail")));
-    try {
-      await shareEventWithGroups(["abc", "def"], entity, context);
-      fail("did not reject");
-    } catch (e) {
-      const error = e as { message?: string };
-      expect(error.message).toEqual(
-        "Entity: 62p could not be shared with groups: abc, def"
-      );
-    }
+    pollSpy.mockRejectedValue(new Error("fail"));
+    await expect(
+      shareEventWithGroups(["abc", "def"], entity, context)
+    ).rejects.toThrow("Entity: 62p could not be shared with groups: abc, def");
     expect(pollSpy).toHaveBeenCalledTimes(1);
     expect(pollSpy).toHaveBeenCalledWith(
-      jasmine.any(Function),
-      jasmine.any(Function)
+      expect.any(Function),
+      expect.any(Function)
     );
   });
 
