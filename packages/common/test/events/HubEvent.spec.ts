@@ -12,9 +12,11 @@ import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import * as eventsModule from "../../src/events/api/events";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
+import { afterEach, vi } from "vitest";
 
 describe("HubEvent Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
+  afterEach(() => vi.restoreAllMocks());
   beforeEach(async () => {
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
@@ -53,12 +55,12 @@ describe("HubEvent Class:", () => {
   });
 
   it("save updates if object has id", async () => {
-    const createSpy = spyOn(eventEditModule, "createHubEvent");
-    const updateSpy = spyOn(eventEditModule, "updateHubEvent").and.callFake(
-      (p: IHubEvent) => {
-        return Promise.resolve(p);
-      }
-    );
+    const createSpy = vi
+      .spyOn(eventEditModule as any, "createHubEvent")
+      .mockResolvedValue(undefined as any);
+    const updateSpy = vi
+      .spyOn(eventEditModule as any, "updateHubEvent")
+      .mockImplementation((p: any) => Promise.resolve(p));
     const chk = HubEvent.fromJson(
       {
         id: "bc3",
@@ -73,8 +75,10 @@ describe("HubEvent Class:", () => {
   });
 
   it("creates if no id", async () => {
-    const updateSpy = spyOn(eventEditModule, "updateHubEvent");
-    const createSpy = spyOn(eventEditModule, "createHubEvent");
+    const updateSpy = vi.spyOn(eventEditModule as any, "updateHubEvent");
+    const createSpy = vi
+      .spyOn(eventEditModule as any, "createHubEvent")
+      .mockResolvedValue({ id: "new-id" } as any);
     const chk = HubEvent.fromJson(
       {
         name: "Test Event",
@@ -88,11 +92,9 @@ describe("HubEvent Class:", () => {
   });
 
   it("delete", async () => {
-    const deleteSpy = spyOn(eventEditModule, "deleteHubEvent").and.callFake(
-      () => {
-        return Promise.resolve();
-      }
-    );
+    const deleteSpy = vi
+      .spyOn(eventEditModule as any, "deleteHubEvent")
+      .mockImplementation(() => Promise.resolve());
     const chk = HubEvent.fromJson({ name: "Test Event" }, authdCtxMgr.context);
     await chk.delete();
     expect(deleteSpy).toHaveBeenCalledTimes(1);
@@ -135,11 +137,9 @@ describe("HubEvent Class:", () => {
 
   describe("IWithEditorBehavior:", () => {
     it("getEditorConfig delegates to helper", async () => {
-      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({ fake: "config" });
-        }
-      );
+      const spy = vi
+        .spyOn(EditConfigModule as any, "getEditorConfig")
+        .mockImplementation(() => Promise.resolve({ fake: "config" }));
       const chk = HubEvent.fromJson(
         {
           id: "bc3",
@@ -182,12 +182,17 @@ describe("HubEvent Class:", () => {
     });
 
     describe("fromEditor:", () => {
-      let hubItemEntityFromEditorSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: any;
       beforeEach(() => {
-        hubItemEntityFromEditorSpy = spyOn(
-          hubItemEntityFromEditorModule,
-          "hubItemEntityFromEditor"
-        ).and.callThrough();
+        // capture the original implementation so the spy can call through
+        const original = (hubItemEntityFromEditorModule as any)
+          .hubItemEntityFromEditor;
+        hubItemEntityFromEditorSpy = vi
+          .spyOn(
+            hubItemEntityFromEditorModule as any,
+            "hubItemEntityFromEditor"
+          )
+          .mockImplementation((...args: any[]) => original(...args));
       });
       it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const chk = HubEvent.fromJson(
@@ -198,7 +203,7 @@ describe("HubEvent Class:", () => {
           },
           authdCtxMgr.context
         );
-        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        vi.spyOn(chk as any, "save").mockReturnValue(Promise.resolve());
         const editor = await chk.toEditor();
         await chk.fromEditor(editor);
         expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
@@ -213,7 +218,9 @@ describe("HubEvent Class:", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk as any, "save")
+          .mockReturnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -235,7 +242,9 @@ describe("HubEvent Class:", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk as any, "save")
+          .mockReturnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -258,7 +267,9 @@ describe("HubEvent Class:", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk as any, "save")
+          .mockReturnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -280,7 +291,9 @@ describe("HubEvent Class:", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk as any, "save")
+          .mockReturnValue(Promise.resolve() as any);
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -330,11 +343,9 @@ describe("HubEvent Class:", () => {
         thumbnailUrl: "https://myserver.com/thumbnail.png",
       };
       const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
-      const shareEventWithGroupsSpy = spyOn(
-        shareEventWithGroupsModule,
-        "shareEventWithGroups"
-        /* tslint:disable-next-line */
-      ).and.returnValue(chk["entity"]);
+      const shareEventWithGroupsSpy = vi
+        .spyOn(shareEventWithGroupsModule as any, "shareEventWithGroups")
+        .mockReturnValue(chk["entity"] as any);
       await chk.shareWithGroup("123");
       expect(shareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
       expect(shareEventWithGroupsSpy).toHaveBeenCalledWith(
@@ -353,11 +364,9 @@ describe("HubEvent Class:", () => {
         thumbnailUrl: "https://myserver.com/thumbnail.png",
       };
       const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
-      const shareEventWithGroupsSpy = spyOn(
-        shareEventWithGroupsModule,
-        "shareEventWithGroups"
-        /* tslint:disable-next-line */
-      ).and.returnValue(chk["entity"]);
+      const shareEventWithGroupsSpy = vi
+        .spyOn(shareEventWithGroupsModule as any, "shareEventWithGroups")
+        .mockReturnValue(chk["entity"] as any);
       await chk.shareWithGroups(["123", "456"]);
       expect(shareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
       expect(shareEventWithGroupsSpy).toHaveBeenCalledWith(
@@ -376,11 +385,9 @@ describe("HubEvent Class:", () => {
         thumbnailUrl: "https://myserver.com/thumbnail.png",
       };
       const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
-      const unshareEventWithGroupsSpy = spyOn(
-        unshareEventWithGroupsModule,
-        "unshareEventWithGroups"
-        /* tslint:disable-next-line */
-      ).and.returnValue(chk["entity"]);
+      const unshareEventWithGroupsSpy = vi
+        .spyOn(unshareEventWithGroupsModule as any, "unshareEventWithGroups")
+        .mockReturnValue(chk["entity"] as any);
       await chk.unshareWithGroup("123");
       expect(unshareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
       expect(unshareEventWithGroupsSpy).toHaveBeenCalledWith(
@@ -399,11 +406,9 @@ describe("HubEvent Class:", () => {
         thumbnailUrl: "https://myserver.com/thumbnail.png",
       };
       const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
-      const unshareEventWithGroupsSpy = spyOn(
-        unshareEventWithGroupsModule,
-        "unshareEventWithGroups"
-        /* tslint:disable-next-line */
-      ).and.returnValue(chk["entity"]);
+      const unshareEventWithGroupsSpy = vi
+        .spyOn(unshareEventWithGroupsModule as any, "unshareEventWithGroups")
+        .mockReturnValue(chk["entity"] as any);
       await chk.unshareWithGroups(["123", "456"]);
       expect(unshareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
       expect(unshareEventWithGroupsSpy).toHaveBeenCalledWith(
@@ -423,10 +428,9 @@ describe("HubEvent Class:", () => {
         thumbnailUrl: "https://myserver.com/thumbnail.png",
       };
       const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
-      const updateEventSpy = spyOn(eventsModule, "updateEvent").and.returnValue(
-        /* tslint:disable-next-line */
-        chk["entity"]
-      );
+      const updateEventSpy = vi
+        .spyOn(eventsModule as any, "updateEvent")
+        .mockReturnValue(chk["entity"] as any);
       await chk.setAccess("org");
       expect(updateEventSpy).toHaveBeenCalledTimes(1);
       expect(updateEventSpy).toHaveBeenCalledWith({
@@ -455,10 +459,9 @@ describe("HubEvent Class:", () => {
           capabilities: ["updateitemcontrol"],
         } as unknown as portalModule.IGroup,
       ];
-      const getEventGroupsSpy = spyOn(
-        getEventGroupsModule,
-        "getEventGroups"
-      ).and.returnValue(Promise.resolve(groups));
+      const getEventGroupsSpy = vi
+        .spyOn(getEventGroupsModule as any, "getEventGroups")
+        .mockReturnValue(Promise.resolve(groups));
       const res = await chk.sharedWith();
       expect(getEventGroupsSpy).toHaveBeenCalledTimes(1);
       expect(getEventGroupsSpy).toHaveBeenCalledWith(
@@ -472,12 +475,9 @@ describe("HubEvent Class:", () => {
 
   describe("fetch", () => {
     it("should fetch the event", async () => {
-      const fetchEventSpy = spyOn(
-        eventFetchModule,
-        "fetchEvent"
-      ).and.returnValue(
-        new Promise((resolve) => resolve({ name: "my event" }))
-      );
+      const fetchEventSpy = vi
+        .spyOn(eventFetchModule as any, "fetchEvent")
+        .mockResolvedValue({ name: "my event" } as any);
       const res = await HubEvent.fetch("31c", authdCtxMgr.context);
       expect(fetchEventSpy).toHaveBeenCalledTimes(1);
       expect(fetchEventSpy).toHaveBeenCalledWith(
@@ -487,7 +487,9 @@ describe("HubEvent Class:", () => {
       expect(res instanceof HubEvent).toBe(true);
     });
     it("should reject when an error occurs", async () => {
-      spyOn(eventFetchModule, "fetchEvent").and.throwError("fail");
+      vi.spyOn(eventFetchModule as any, "fetchEvent").mockImplementation(() => {
+        throw new Error("fail");
+      });
       try {
         await HubEvent.fetch("31c", authdCtxMgr.context);
         fail("not rejected");

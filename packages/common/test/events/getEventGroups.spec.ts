@@ -1,3 +1,9 @@
+import { vi } from "vitest";
+// make @esri/arcgis-rest-portal spyable by merging the original module and
+// overriding specific exports in an async mock before importing the module-under-test
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+}));
 import { getEventGroups } from "../../src/events/getEventGroups";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as eventsModule from "../../src/events/api/events";
@@ -6,8 +12,8 @@ import { IArcGISContext } from "../../src/types/IArcGISContext";
 import { IEvent } from "../../src/events/api/orval/api/orval-events";
 
 describe("getEventGroups", () => {
-  let searchGroupsSpy: jasmine.Spy;
-  let getEventSpy: jasmine.Spy;
+  let searchGroupsSpy: any;
+  let getEventSpy: any;
   let groups: portalModule.IGroup[];
   let context: IArcGISContext;
   let entity: IHubEvent;
@@ -44,17 +50,16 @@ describe("getEventGroups", () => {
       readGroups: [groups[0].id, groups[1].id],
       editGroups: [groups[2].id],
     } as IEvent;
-    searchGroupsSpy = spyOn(portalModule, "searchGroups").and.returnValues(
-      Promise.resolve({
-        results: [groups[0], groups[1]],
-      } as portalModule.ISearchResult<portalModule.IGroup>),
-      Promise.resolve({
-        results: [groups[2]],
-      } as portalModule.ISearchResult<portalModule.IGroup>)
-    );
-    getEventSpy = spyOn(eventsModule, "getEvent").and.returnValue(
-      Promise.resolve(record)
-    );
+    // portalModule is mocked above via vi.mock and merged with the original
+    searchGroupsSpy = vi
+      .spyOn(portalModule as any, "searchGroups")
+      .mockReturnValueOnce(
+        Promise.resolve({ results: [groups[0], groups[1]] } as any)
+      )
+      .mockReturnValueOnce(Promise.resolve({ results: [groups[2]] } as any));
+    getEventSpy = vi
+      .spyOn(eventsModule as any, "getEvent")
+      .mockReturnValue(Promise.resolve(record) as any);
   });
 
   it("should fetch the event groups", async () => {
@@ -80,7 +85,7 @@ describe("getEventGroups", () => {
 
   it("should short circuit when event has no groups", async () => {
     record = { ...record, readGroups: [], editGroups: [] };
-    getEventSpy.and.returnValue(Promise.resolve(record));
+    getEventSpy.mockReturnValue(Promise.resolve(record) as any);
     const res = await getEventGroups(entity.id, context);
     expect(getEventSpy).toHaveBeenCalledTimes(1);
     expect(getEventSpy).toHaveBeenCalledWith({
