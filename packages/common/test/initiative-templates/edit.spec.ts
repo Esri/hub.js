@@ -1,3 +1,11 @@
+import { vi } from "vitest";
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const original = await importOriginal();
+  return {
+    ...(original as any),
+    removeItem: vi.fn(),
+  };
+});
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
@@ -17,35 +25,35 @@ import { IHubInitiativeTemplate } from "../../src/core/types/IHubInitiativeTempl
 describe("initiative template edit module:", () => {
   describe("destroyInitiativeTemplate:", () => {
     it("deletes the item", async () => {
-      const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
-        Promise.resolve({ success: true })
-      );
+      const removeSpy = vi
+        .spyOn(portalModule as any, "removeItem")
+        .mockResolvedValue({ success: true } as any);
 
       const result = await deleteInitiativeTemplate("3ef", {
         authentication: MOCK_AUTH,
-      });
+      } as any);
       expect(result).toBeUndefined();
-      expect(removeSpy.calls.count()).toBe(1);
-      expect(removeSpy.calls.argsFor(0)[0].authentication).toBe(MOCK_AUTH);
-      expect(removeSpy.calls.argsFor(0)[0].id).toBe("3ef");
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+      expect(removeSpy.mock.calls[0][0].authentication).toBe(MOCK_AUTH);
+      expect(removeSpy.mock.calls[0][0].id).toBe("3ef");
     });
   });
 
   describe("createInitiativeTemplate:", () => {
     it("works with very limited initial structure", async () => {
-      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|hello-world")
-      );
-      const createSpy = spyOn(createModelModule, "createModel").and.callFake(
-        (m: IModel) => {
-          const newModel = cloneObject(m);
+      const slugSpy = vi
+        .spyOn(slugUtils as any, "getUniqueSlug")
+        .mockResolvedValue("dcdev|hello-world");
+      const createSpy = vi
+        .spyOn(createModelModule as any, "createModel")
+        .mockImplementation((m: IModel) => {
+          const newModel = cloneObject(m as any);
           newModel.item.id = GUID;
           return Promise.resolve(newModel);
-        }
-      );
+        });
       const chk = await createInitiativeTemplate(
-        { name: "Hello World", orgUrlKey: "dcdev" },
-        { authentication: MOCK_AUTH }
+        { name: "Hello World", orgUrlKey: "dcdev" } as any,
+        { authentication: MOCK_AUTH } as any
       );
 
       expect(chk.id).toBe(GUID);
@@ -55,15 +63,10 @@ describe("initiative template edit module:", () => {
         "slug|dcdev|hello-world",
         "cannotDiscuss",
       ]);
-      // should ensure unique slug
-      expect(slugSpy.calls.count()).toBe(1);
-      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev|hello-world" },
-        "should recieve slug"
-      );
-      // should create the item
-      expect(createSpy.calls.count()).toBe(1);
-      const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(slugSpy).toHaveBeenCalledTimes(1);
+      expect(slugSpy.mock.calls[0][0]).toEqual({ slug: "dcdev|hello-world" });
+      expect(createSpy).toHaveBeenCalledTimes(1);
+      const modelToCreate = createSpy.mock.calls[0][0];
       expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.type).toBe("Hub Initiative Template");
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
@@ -71,28 +74,27 @@ describe("initiative template edit module:", () => {
     });
 
     it("works with more complete object", async () => {
-      // Note: this covers a branch when a slug is passed in
-      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|hello-world")
-      );
-      const createSpy = spyOn(createModelModule, "createModel").and.callFake(
-        (m: IModel) => {
-          const newModel = cloneObject(m);
+      const slugSpy = vi
+        .spyOn(slugUtils as any, "getUniqueSlug")
+        .mockResolvedValue("dcdev|hello-world");
+      const createSpy = vi
+        .spyOn(createModelModule as any, "createModel")
+        .mockImplementation((m: IModel) => {
+          const newModel = cloneObject(m as any);
           newModel.item.id = GUID;
           return Promise.resolve(newModel);
-        }
-      );
+        });
       const chk = await createInitiativeTemplate(
         {
           name: "Hello World",
-          slug: "dcdev|hello-world", // important for coverage
+          slug: "dcdev|hello-world",
           description: "my desc",
           orgUrlKey: "dcdev",
           previewUrl: "https://some-preview-url.com",
           siteSolutionId: "c123",
           recommendedTemplates: ["c456"],
-        },
-        { authentication: MOCK_AUTH }
+        } as any,
+        { authentication: MOCK_AUTH } as any
       );
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
@@ -105,15 +107,10 @@ describe("initiative template edit module:", () => {
       expect(chk.previewUrl).toBe("https://some-preview-url.com");
       expect(chk.siteSolutionId).toBe("c123");
       expect(chk.recommendedTemplates).toEqual(["c456"]);
-      // should ensure unique slug
-      expect(slugSpy.calls.count()).toBe(1);
-      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev|hello-world" },
-        "should recieve slug"
-      );
-      // should create the item
-      expect(createSpy.calls.count()).toBe(1);
-      const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(slugSpy).toHaveBeenCalledTimes(1);
+      expect(slugSpy.mock.calls[0][0]).toEqual({ slug: "dcdev|hello-world" });
+      expect(createSpy).toHaveBeenCalledTimes(1);
+      const modelToCreate = createSpy.mock.calls[0][0];
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
@@ -121,18 +118,15 @@ describe("initiative template edit module:", () => {
 
   describe("updateInitiativeTemplate: ", () => {
     it("updates backing model", async () => {
-      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|dcdev-wat-blarg-1")
-      );
-      const getModelSpy = spyOn(getModelModule, "getModel").and.returnValue(
-        Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
-      );
-      const updateModelSpy = spyOn(
-        updateModelModule,
-        "updateModel"
-      ).and.callFake((m: IModel) => {
-        return Promise.resolve(m);
-      });
+      const slugSpy = vi
+        .spyOn(slugUtils as any, "getUniqueSlug")
+        .mockResolvedValue("dcdev|dcdev-wat-blarg-1");
+      const getModelSpy = vi
+        .spyOn(getModelModule as any, "getModel")
+        .mockResolvedValue(INITIATIVE_TEMPLATE_MODEL as any);
+      const updateModelSpy = vi
+        .spyOn(updateModelModule as any, "updateModel")
+        .mockImplementation((m: IModel) => Promise.resolve(m as any));
 
       const it: IHubInitiativeTemplate = {
         itemControl: "edit",
@@ -164,9 +158,12 @@ describe("initiative template edit module:", () => {
         },
         typeKeywords: ["Hub Initiative Template", "slug|dcdev-wat-blarg"],
       };
-      const chk = await updateInitiativeTemplate(it, {
-        authentication: MOCK_AUTH,
-      });
+      const chk = await updateInitiativeTemplate(
+        it as any,
+        {
+          authentication: MOCK_AUTH,
+        } as any
+      );
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
@@ -183,26 +180,25 @@ describe("initiative template edit module:", () => {
       );
       expect(chk.siteSolutionId).toBe("c123");
       expect(chk.recommendedTemplates).toEqual(["c456"]);
-      // should ensure unique slug
-      expect(slugSpy.calls.count()).toBe(1);
-      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
-        "should recieve slug"
-      );
-      expect(getModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(slugSpy).toHaveBeenCalledTimes(1);
+      expect(slugSpy.mock.calls[0][0]).toEqual({
+        slug: "dcdev|dcdev-wat-blarg",
+        existingId: GUID,
+      });
+      expect(getModelSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.item.description).toBe(it.description);
       expect(modelToUpdate.item.properties.slug).toBe(
         "dcdev|dcdev-wat-blarg-1"
       );
     });
     it("sets showMap to true when view.showMap is undefined", async () => {
-      spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|dcdev-wat-blarg-1")
+      vi.spyOn(slugUtils as any, "getUniqueSlug").mockResolvedValue(
+        "dcdev|dcdev-wat-blarg-1"
       );
-      spyOn(getModelModule, "getModel").and.returnValue(
-        Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
+      vi.spyOn(getModelModule as any, "getModel").mockResolvedValue(
+        INITIATIVE_TEMPLATE_MODEL as any
       );
       const it: IHubInitiativeTemplate = {
         itemControl: "edit",
@@ -215,24 +211,25 @@ describe("initiative template edit module:", () => {
         typeKeywords: ["Hub Initiative Template"],
         orgUrlKey: "dcdev",
       } as IHubInitiativeTemplate;
-      const updateModelSpy = spyOn(
-        updateModelModule,
-        "updateModel"
-      ).and.callFake((m: IModel) => Promise.resolve(m));
-      console.log("chk.view:", it);
-      const chk = await updateInitiativeTemplate(it, {
-        authentication: MOCK_AUTH,
-      });
+      const updateModelSpy = vi
+        .spyOn(updateModelModule as any, "updateModel")
+        .mockImplementation((m: IModel) => Promise.resolve(m as any));
+      const chk = await updateInitiativeTemplate(
+        it as any,
+        {
+          authentication: MOCK_AUTH,
+        } as any
+      );
       expect(chk.view.showMap).toBe(true);
-      expect(updateModelSpy.calls.count()).toBe(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
     });
 
     it("does not overwrite showMap when view.showMap is defined", async () => {
-      spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|dcdev-wat-blarg-1")
+      vi.spyOn(slugUtils as any, "getUniqueSlug").mockResolvedValue(
+        "dcdev|dcdev-wat-blarg-1"
       );
-      spyOn(getModelModule, "getModel").and.returnValue(
-        Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
+      vi.spyOn(getModelModule as any, "getModel").mockResolvedValue(
+        INITIATIVE_TEMPLATE_MODEL as any
       );
       const it: IHubInitiativeTemplate = {
         itemControl: "edit",
@@ -246,16 +243,18 @@ describe("initiative template edit module:", () => {
         orgUrlKey: "dcdev",
         view: { showMap: false },
       } as IHubInitiativeTemplate;
-      const updateModelSpy = spyOn(
-        updateModelModule,
-        "updateModel"
-      ).and.callFake((m: IModel) => Promise.resolve(m));
-      const chk = await updateInitiativeTemplate(it, {
-        authentication: MOCK_AUTH,
-      });
+      const updateModelSpy = vi
+        .spyOn(updateModelModule as any, "updateModel")
+        .mockImplementation((m: IModel) => Promise.resolve(m as any));
+      const chk = await updateInitiativeTemplate(
+        it as any,
+        {
+          authentication: MOCK_AUTH,
+        } as any
+      );
       expect(chk.view).toBeDefined();
       expect(chk.view.showMap).toBe(false);
-      expect(updateModelSpy.calls.count()).toBe(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
     });
   });
 });
