@@ -8,6 +8,7 @@ import * as getEmailUsersModule from "../../../src/groups/add-users-workflow/uti
 import * as getInviteUsersModule from "../../../src/groups/add-users-workflow/utils/_get-invite-users";
 
 import { addUsersToGroup } from "../../../src/groups/add-users-workflow/add-users-to-group";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import {
   IAddMemberContext,
   IConsolidatedResult,
@@ -23,14 +24,14 @@ describe("add-users-to-group", () => {
   // Spies
   ////////////////////////////////
 
-  let consolidateSpy: jasmine.Spy;
-  let processAddSpy: jasmine.Spy;
-  let processInviteSpy: jasmine.Spy;
-  let processPESpy: jasmine.Spy;
-  let processSESpy: jasmine.Spy;
-  let getAddUsersSpy: jasmine.Spy;
-  let getEmailUsersSpy: jasmine.Spy;
-  let getInviteUsersSpy: jasmine.Spy;
+  let consolidateSpy: any;
+  let processAddSpy: any;
+  let processInviteSpy: any;
+  let processPESpy: any;
+  let processSESpy: any;
+  let getAddUsersSpy: any;
+  let getEmailUsersSpy: any;
+  let getInviteUsersSpy: any;
 
   ////////////////////////////////
   // Common Values
@@ -162,48 +163,34 @@ describe("add-users-to-group", () => {
   ////////////////////////////////////
 
   beforeEach(() => {
-    consolidateSpy = spyOn(
-      consolidateResultsModule,
-      "_consolidateResults"
-    ).and.callFake(() => Promise.resolve(finalResult));
-    processAddSpy = spyOn(processAutoAddModule, "_processAutoAdd").and.callFake(
-      () => Promise.resolve(autoAddResultContext)
-    );
-    processInviteSpy = spyOn(
-      processInviteModule,
-      "_processInvite"
-    ).and.callFake(() => Promise.resolve(inviteResultContext));
-    processPESpy = spyOn(
-      processPrimaryEmailModule,
-      "_processPrimaryEmail"
-    ).and.callFake(() => Promise.resolve(primaryEmailResultContext));
-    processSESpy = spyOn(
-      processSecondaryEmailModule,
-      "_processSecondaryEmail"
-    ).and.callFake(() => Promise.resolve(secondaryEmailResultContext));
-    getAddUsersSpy = spyOn(
-      getAutoAddUsersModule,
-      "_getAutoAddUsers"
-    ).and.returnValue(usersToAutoAdd);
-    getEmailUsersSpy = spyOn(
-      getEmailUsersModule,
-      "_getEmailUsers"
-    ).and.returnValue(usersToEmail);
-    getInviteUsersSpy = spyOn(
-      getInviteUsersModule,
-      "_getInviteUsers"
-    ).and.returnValue(usersToInvite);
+    consolidateSpy = vi
+      .spyOn(consolidateResultsModule, "_consolidateResults")
+      .mockResolvedValue(finalResult as any);
+    processAddSpy = vi
+      .spyOn(processAutoAddModule, "_processAutoAdd")
+      .mockResolvedValue(autoAddResultContext as any);
+    processInviteSpy = vi
+      .spyOn(processInviteModule, "_processInvite")
+      .mockResolvedValue(inviteResultContext as any);
+    processPESpy = vi
+      .spyOn(processPrimaryEmailModule, "_processPrimaryEmail")
+      .mockResolvedValue(primaryEmailResultContext as any);
+    processSESpy = vi
+      .spyOn(processSecondaryEmailModule, "_processSecondaryEmail")
+      .mockResolvedValue(secondaryEmailResultContext as any);
+    getAddUsersSpy = vi
+      .spyOn(getAutoAddUsersModule, "_getAutoAddUsers")
+      .mockReturnValue(usersToAutoAdd);
+    getEmailUsersSpy = vi
+      .spyOn(getEmailUsersModule, "_getEmailUsers")
+      .mockReturnValue(usersToEmail);
+    getInviteUsersSpy = vi
+      .spyOn(getInviteUsersModule, "_getInviteUsers")
+      .mockReturnValue(usersToInvite);
   });
 
   afterEach(() => {
-    consolidateSpy.calls.reset();
-    processAddSpy.calls.reset();
-    processInviteSpy.calls.reset();
-    processPESpy.calls.reset();
-    processSESpy.calls.reset();
-    getAddUsersSpy.calls.reset();
-    getEmailUsersSpy.calls.reset();
-    getInviteUsersSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   /////////////////////////////////

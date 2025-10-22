@@ -6,6 +6,8 @@ import { IAddMemberContext } from "../../../../src/groups/add-users-workflow/int
 import { cloneObject } from "../../../../src/util";
 import { IEmail } from "../../../../src/groups/types/types";
 import { IHubRequestOptions } from "../../../../src/hub-types";
+import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
+
 describe("_processPrimaryEmail", () => {
   const orgId = "the_swamp";
   const groupId = "The Gang";
@@ -25,20 +27,17 @@ describe("_processPrimaryEmail", () => {
     primaryRO: null,
   };
 
-  let emailSpy: jasmine.Spy;
-  let isOrgAdminSpy: jasmine.Spy;
+  let emailSpy: any;
 
   beforeEach(() => {
-    emailSpy = spyOn(emailModule, "emailOrgUsers");
-    emailSpy.and.callFake(() => Promise.resolve({ success: true }));
-
-    isOrgAdminSpy = spyOn(isAdminModule, "_isOrgAdmin");
-    isOrgAdminSpy.and.returnValue(true);
+    emailSpy = vi.spyOn(emailModule, "emailOrgUsers").mockResolvedValue({
+      success: true,
+    });
+    vi.spyOn(isAdminModule, "_isOrgAdmin").mockReturnValue(true);
   });
 
   afterEach(() => {
-    emailSpy.calls.reset();
-    isOrgAdminSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("Doesn't modify context if no email object provided", async () => {

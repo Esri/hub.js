@@ -9,6 +9,7 @@ import {
 import * as checkPermissionsModule from "../../../src/permissions/checkPermission";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { vi, afterEach, describe, it, expect } from "vitest";
 
 describe("GroupUiSchemaCreate", () => {
   describe("buildUiSchema: create group", () => {
@@ -435,9 +436,17 @@ describe("GroupUiSchemaCreate", () => {
         ],
       });
     });
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
     it("renders the Open data capability tooltip when group access is not public", async () => {
-      spyOn(checkPermissionsModule, "checkPermission").and.returnValue({
+      vi.spyOn(checkPermissionsModule, "checkPermission").mockReturnValue({
         access: true,
+        policy: undefined as any,
+        checks: [],
+        code: "OK",
+        response: undefined as any,
       });
       const uiSchema = await buildUiSchema(
         "some.scope",
@@ -448,9 +457,14 @@ describe("GroupUiSchemaCreate", () => {
         uiSchema.elements[1].elements[2].options.tooltip.labelKey;
       expect(isOpenDataTooltip).toEqual(`some.scope.fields.isOpenData.tooltip`);
     });
+
     it("renders the Open data capability tooltip when user does not have the permission to do so", async () => {
-      spyOn(checkPermissionsModule, "checkPermission").and.returnValue({
+      vi.spyOn(checkPermissionsModule, "checkPermission").mockReturnValue({
         access: false,
+        policy: undefined as any,
+        checks: [],
+        code: "OK",
+        response: undefined as any,
       });
       const uiSchema = await buildUiSchema(
         "some.scope",

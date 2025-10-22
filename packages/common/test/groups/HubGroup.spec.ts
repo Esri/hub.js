@@ -1,7 +1,19 @@
+import { vi } from "vitest";
+
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal: any) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    getGroup: vi.fn(),
+    updateGroup: vi.fn(),
+    removeGroup: vi.fn(),
+  };
+});
+
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubGroup } from "../../src/groups/HubGroup";
 import { IGroup } from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import { MOCK_AUTH, createMockContext } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as setGroupThumbnailModule from "../../src/groups/setGroupThumbnail";
@@ -17,26 +29,29 @@ import * as checkPermissionModule from "../../src/permissions/checkPermission";
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
+    // Use a synchronous mock context so tests don't attempt network calls
+    const ctx = createMockContext({
       authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
-      portal: {
+      portalSelf: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://myserver.com",
+      currentUser: {
+        username: "casey",
+      } as unknown as PortalModule.IUser,
     });
+    authdCtxMgr = { context: ctx } as unknown as ArcGISContextManager;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe("static methods:", () => {
     it("loads from minimal json", async () => {
-      const createSpy = spyOn(HubGroupsModule, "createHubGroup");
+      const createSpy = vi.spyOn(HubGroupsModule, "createHubGroup");
       const chk = HubGroup.fromJson(
         { name: "Test Group" },
         authdCtxMgr.context
@@ -47,14 +62,11 @@ describe("HubGroup class:", () => {
       expect(json.permissions).toEqual([]);
     });
     it("loads based on identifier", async () => {
-      const fetchSpy = spyOn(HubGroupsModule, "fetchHubGroup").and.callFake(
-        (id: string) => {
-          return Promise.resolve({
-            id,
-            name: "Test Group",
-          });
-        }
-      );
+      const fetchSpy = vi
+        .spyOn(HubGroupsModule, "fetchHubGroup")
+        .mockImplementation((id: string) => {
+          return Promise.resolve({ id, name: "Test Group" });
+        });
       const chk = await HubGroup.fetch("3ef", authdCtxMgr.context);
       expect(fetchSpy).toHaveBeenCalledTimes(1);
       expect(chk.toJson().id).toBe("3ef");
@@ -104,14 +116,14 @@ describe("HubGroup class:", () => {
     });
 
     it("handle load missing groups", async () => {
-      const fetchSpy = spyOn(HubGroupsModule, "fetchHubGroup").and.callFake(
-        (_id: string) => {
+      const fetchSpy = vi
+        .spyOn(HubGroupsModule, "fetchHubGroup")
+        .mockImplementation((_id: string) => {
           const err = new Error(
             "COM_0003: Group does not exist or is inaccessible."
           );
           return Promise.reject(err);
-        }
-      );
+        });
       try {
         await HubGroup.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -121,12 +133,12 @@ describe("HubGroup class:", () => {
     });
 
     it("handle load errors", async () => {
-      const fetchSpy = spyOn(HubGroupsModule, "fetchHubGroup").and.callFake(
-        (_id: string) => {
+      const fetchSpy = vi
+        .spyOn(HubGroupsModule, "fetchHubGroup")
+        .mockImplementation((_id: string) => {
           const err = new Error("ZOMG!");
           return Promise.reject(err);
-        }
-      );
+        });
       try {
         await HubGroup.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -138,11 +150,11 @@ describe("HubGroup class:", () => {
 
   describe("CRUD", () => {
     it("save call createHubGroup if object does not have an id", async () => {
-      const createSpy = spyOn(HubGroupsModule, "createHubGroup").and.callFake(
-        (group: IGroup) => {
+      const createSpy = vi
+        .spyOn(HubGroupsModule, "createHubGroup")
+        .mockImplementation((group: IGroup) => {
           return Promise.resolve(group);
-        }
-      );
+        });
       const chk = HubGroup.fromJson(
         { name: "Test Group" },
         authdCtxMgr.context
@@ -153,12 +165,12 @@ describe("HubGroup class:", () => {
     });
 
     it("create saves the instance if passed true", async () => {
-      const createSpy = spyOn(HubGroupsModule, "createHubGroup").and.callFake(
-        (group: IGroup) => {
+      const createSpy = vi
+        .spyOn(HubGroupsModule, "createHubGroup")
+        .mockImplementation((group: IGroup) => {
           group.id = "3ef";
           return Promise.resolve(group);
-        }
-      );
+        });
       const chk = await HubGroup.create(
         { name: "Test Group" },
         authdCtxMgr.context,
@@ -169,12 +181,12 @@ describe("HubGroup class:", () => {
     });
 
     it("create does not save by default", async () => {
-      const createSpy = spyOn(HubGroupsModule, "createHubGroup").and.callFake(
-        (group: IGroup) => {
+      const createSpy = vi
+        .spyOn(HubGroupsModule, "createHubGroup")
+        .mockImplementation((group: IGroup) => {
           group.id = "3ef";
           return Promise.resolve(group);
-        }
-      );
+        });
       const chk = await HubGroup.create(
         { name: "Test Group" },
         authdCtxMgr.context
@@ -197,11 +209,11 @@ describe("HubGroup class:", () => {
     });
 
     it("save updates if object has id", async () => {
-      const updateSpy = spyOn(HubGroupsModule, "updateHubGroup").and.callFake(
-        (group: IGroup) => {
+      const updateSpy = vi
+        .spyOn(HubGroupsModule, "updateHubGroup")
+        .mockImplementation((group: IGroup) => {
           return Promise.resolve(group);
-        }
-      );
+        });
       const chk = HubGroup.fromJson(
         {
           id: "bc3",
@@ -214,11 +226,11 @@ describe("HubGroup class:", () => {
     });
 
     it("delete", async () => {
-      const deleteSpy = spyOn(HubGroupsModule, "deleteHubGroup").and.callFake(
-        () => {
+      const deleteSpy = vi
+        .spyOn(HubGroupsModule, "deleteHubGroup")
+        .mockImplementation(() => {
           return Promise.resolve();
-        }
-      );
+        });
       const chk = HubGroup.fromJson(
         { name: "Test Group" },
         authdCtxMgr.context
@@ -297,10 +309,9 @@ describe("HubGroup class:", () => {
         permissions: [policy],
       } as IHubGroup;
       const instance = HubGroup.fromJson(entity, authdCtxMgr.context);
-      const checkPermissionSpy = spyOn(
-        checkPermissionModule,
-        "checkPermission"
-      ).and.returnValue({ access: true });
+      const checkPermissionSpy = vi
+        .spyOn(checkPermissionModule, "checkPermission")
+        .mockReturnValue({ access: true });
       const chk = instance.checkPermission("hub:group:create");
       expect(chk.access).toBeTruthy();
       expect(checkPermissionSpy).toHaveBeenCalledTimes(1);
@@ -309,11 +320,11 @@ describe("HubGroup class:", () => {
 
   describe("IWithEditorBehavior:", () => {
     it("getEditorConfig delegates to helper", async () => {
-      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
-        () => {
+      const spy = vi
+        .spyOn(EditConfigModule, "getEditorConfig")
+        .mockImplementation(() => {
           return Promise.resolve({ fake: "config" });
-        }
-      );
+        });
       const chk = HubGroup.fromJson(
         {
           id: "bc3",
@@ -334,10 +345,9 @@ describe("HubGroup class:", () => {
 
     describe("toEditor:", () => {
       it("optionally enriches the entity", async () => {
-        const enrichEntitySpy = spyOn(
-          EnrichEntityModule,
-          "enrichEntity"
-        ).and.returnValue(Promise.resolve({}));
+        const enrichEntitySpy = vi
+          .spyOn(EnrichEntityModule, "enrichEntity")
+          .mockResolvedValue({});
         const chk = HubGroup.fromJson({ id: "bc3" }, authdCtxMgr.context);
         await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
 
@@ -373,7 +383,9 @@ describe("HubGroup class:", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -394,16 +406,17 @@ describe("HubGroup class:", () => {
           },
           authdCtxMgr.context
         );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        const getGroupThumbnailUrlSpy = spyOn(
+        // spy on the instance .save method and return void
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
+        const getGroupThumbnailUrlSpy = vi.spyOn(
           SearchUtils,
           "getGroupThumbnailUrl"
         );
-        const setGroupThumbnailSpy = spyOn(
-          setGroupThumbnailModule,
-          "setGroupThumbnail"
-        ).and.returnValue(Promise.resolve({}));
+        const setGroupThumbnailSpy = vi
+          .spyOn(setGroupThumbnailModule, "setGroupThumbnail")
+          .mockResolvedValue({} as any);
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
@@ -434,11 +447,12 @@ describe("HubGroup class:", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        const deleteGroupThumbnailSpy = spyOn(
-          deleteGroupThumbnailModule,
-          "deleteGroupThumbnail"
-        ).and.returnValue(Promise.resolve({}));
+        const saveSpy = vi
+          .spyOn(chk, "save")
+          .mockResolvedValue(undefined as any);
+        const deleteGroupThumbnailSpy = vi
+          .spyOn(deleteGroupThumbnailModule, "deleteGroupThumbnail")
+          .mockResolvedValue({} as any);
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";

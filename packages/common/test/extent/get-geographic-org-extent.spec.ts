@@ -1,3 +1,14 @@
+import { vi, afterEach, describe, it, expect } from "vitest";
+
+// Mock the arcgis-rest-request module so its 'request' export is a mock function
+vi.mock("@esri/arcgis-rest-request", async (importOriginal) => {
+  const original = await importOriginal();
+  return {
+    ...(original as any),
+    request: vi.fn(),
+  };
+});
+
 import * as request from "@esri/arcgis-rest-request";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
@@ -5,6 +16,10 @@ import { IHubRequestOptions } from "../../src/hub-types";
 import { GLOBAL_EXTENT, orgExtent } from "../../src/extent";
 
 describe("orgExtent", function () {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("fetches extent when geometryServiceUrl and orgExtent are provided", async function () {
     const geom = {
       xmin: 132,
@@ -37,59 +52,31 @@ describe("orgExtent", function () {
       authentication: mockUserSession,
     };
 
-    const requestSpy = spyOn(request, "request").and.returnValue(
-      Promise.resolve({
-        geometries: [geom],
-      })
-    );
+    const requestSpy = request.request as unknown as ReturnType<typeof vi.fn>;
+    requestSpy.mockResolvedValue({ geometries: [geom] });
 
     const result = await orgExtent(requestOpts);
 
-    expect(result.xmax).toBe(geom.xmax, "correct xmax");
-    expect(result.ymax).toBe(geom.ymax, "correct ymax");
-    expect(result.xmin).toBe(geom.xmin, "correct xmin");
-    expect(result.ymin).toBe(geom.ymin, "correct ymin");
-    expect(result.spatialReference.wkid).toBe(4326, "Correct WKID");
+    expect(result.xmax).toBe(geom.xmax);
+    expect(result.ymax).toBe(geom.ymax);
+    expect(result.xmin).toBe(geom.xmin);
+    expect(result.ymin).toBe(geom.ymin);
+    expect(result.spatialReference.wkid).toBe(4326);
 
-    // const options: IRequestOptions = {
-    //   httpMethod: 'POST',
-    //   params: {
-    //     geometries: JSON.stringify(geometryParam),
-    //     transformForward: false,
-    //     transformation: '',
-    //     inSR: orgExtent.spatialReference.wkid,
-    //     outSR: 4326,
-    //     f: 'json'
-    //   },
-    // };
-
-    expect(requestSpy.calls.count()).toBe(1, "request called once");
-    const requestArgs = requestSpy.calls.argsFor(0);
+    expect(requestSpy).toHaveBeenCalledTimes(1);
+    const requestArgs = (requestSpy as any).mock.calls[0];
     const requestUrl = requestArgs[0];
     const requestOptions: IRequestOptions = requestArgs[1];
 
     expect(requestUrl).toBe(`${geometryServiceUrl}/project`);
-    expect(requestOptions.httpMethod).toBe("POST", "used post");
-    expect(requestOptions.params.transformForward).toBe(
-      false,
-      "transformForward is false"
-    );
-    expect(requestOptions.params.inSR).toBe(
-      orgWkid,
-      "used correct in-reference"
-    );
-    expect(requestOptions.params.outSR).toBe(
-      4326,
-      "used correct out-reference"
-    );
-    expect(requestOptions.params.f).toBe("json", "requested json format");
-    expect(requestOptions.authentication).toEqual(
-      mockUserSession,
-      "attached auth manager"
-    );
+    expect(requestOptions.httpMethod).toBe("POST");
+    expect(requestOptions.params.transformForward).toBe(false);
+    expect(requestOptions.params.inSR).toBe(orgWkid);
+    expect(requestOptions.params.outSR).toBe(4326);
+    expect(requestOptions.params.f).toBe("json");
+    expect(requestOptions.authentication).toEqual(mockUserSession);
     expect(requestOptions.params.geometries).toEqual(
-      '{"geometryType":"esriGeometryEnvelope","geometries":[{"spatialReference":{"wkid":1423}}]}',
-      "geometries properly serialized"
+      '{"geometryType":"esriGeometryEnvelope","geometries":[{"spatialReference":{"wkid":1423}}]}'
     );
   });
 
@@ -118,18 +105,15 @@ describe("orgExtent", function () {
       authentication: mockUserSession,
     };
 
-    const requestSpy = spyOn(request, "request").and.returnValue(
-      Promise.resolve({
-        geometries: [geom],
-      })
-    );
+    const requestSpy = request.request as unknown as ReturnType<typeof vi.fn>;
+    requestSpy.mockResolvedValue({ geometries: [geom] });
 
     const result = await orgExtent(optsWithoutOrgExtent);
 
-    expect(requestSpy.calls.count()).toBe(0, "request not called");
-    expect(result).toEqual(GLOBAL_EXTENT, "resolved to global extent");
+    expect(requestSpy).toHaveBeenCalledTimes(0);
+    expect(result).toEqual(GLOBAL_EXTENT);
 
-    requestSpy.calls.reset();
+    (requestSpy as any).mockReset?.();
     const optsWithoutGeoUrl: IHubRequestOptions = {
       portalSelf: {
         user: {},
@@ -152,8 +136,8 @@ describe("orgExtent", function () {
 
     const result2 = await orgExtent(optsWithoutGeoUrl);
 
-    expect(requestSpy.calls.count()).toBe(0, "request not called");
-    expect(result2).toEqual(GLOBAL_EXTENT, "resolved to global extent");
+    expect(requestSpy).toHaveBeenCalledTimes(0);
+    expect(result2).toEqual(GLOBAL_EXTENT);
   });
 
   it("returns global extent when network call fails", async function () {
@@ -179,13 +163,12 @@ describe("orgExtent", function () {
       authentication: null,
     };
 
-    const requestSpy = spyOn(request, "request").and.returnValue(
-      Promise.reject(Error("network request failed"))
-    );
+    const requestSpy = request.request as unknown as ReturnType<typeof vi.fn>;
+    requestSpy.mockRejectedValue(Error("network request failed"));
 
     const result = await orgExtent(optsWithoutOrgExtent);
 
-    expect(requestSpy.calls.count()).toBe(1, "request called");
-    expect(result).toEqual(GLOBAL_EXTENT, "resolved to global extent");
+    expect(requestSpy).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(GLOBAL_EXTENT);
   });
 });

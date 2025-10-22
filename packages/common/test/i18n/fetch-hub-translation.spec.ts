@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach } from "vitest";
 import { fetchHubTranslation } from "../../src/i18n/fetch-hub-translation";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import * as fetchMock from "fetch-mock";
@@ -21,13 +22,8 @@ describe("fetchHubTranslation", function () {
 
     const translation = await fetchHubTranslation("es", portal);
 
-    expect(fetchMock.done()).toBeTruthy(
-      "fetch called the expected number of times"
-    );
-    expect(translation.foo.bar).toEqual(
-      "baz",
-      "translation fetched successfully"
-    );
+    expect(fetchMock.done()).toBeTruthy();
+    expect(translation.foo.bar).toEqual("baz");
   });
 
   it("allows you to set mode", async function () {
@@ -45,10 +41,7 @@ describe("fetchHubTranslation", function () {
     const translation = await fetchHubTranslation("es", portal, "same-origin");
 
     expect(fetchMock.calls()[0][1].mode).toBe("same-origin");
-    expect(translation.foo.bar).toEqual(
-      "baz",
-      "translation fetched successfully"
-    );
+    expect(translation.foo.bar).toEqual("baz");
   });
 
   it("throws an error when it fails", async function () {
@@ -63,13 +56,8 @@ describe("fetchHubTranslation", function () {
 
     fetchMock.get(`end:/locales/${locale}.json`, { status: 400 });
 
-    try {
-      await fetchHubTranslation("es", portal);
-      fail(Error("translation fetch should not have succeeded"));
-    } catch (err) {
-      const error = err as { message?: string };
-      expect(error).toBeDefined("threw error");
-      expect(error.message).toContain("Attempt to fetch locale");
-    }
+    await expect(fetchHubTranslation("es", portal)).rejects.toThrow(
+      /Attempt to fetch locale/
+    );
   });
 });
