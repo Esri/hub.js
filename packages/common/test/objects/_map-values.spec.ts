@@ -1,7 +1,7 @@
 import { _mapValues } from "../../src/objects/_map-values";
 
-describe("_mapValues", function () {
-  it("maps over the values of an object", function () {
+describe("_mapValues", () => {
+  it("maps over the values of an object", () => {
     const before = {
       foo: "bar",
       baz: "boop",
@@ -19,13 +19,10 @@ describe("_mapValues", function () {
       counter++;
       return "overwrite";
     });
-    expect(mapped).toEqual(
-      {
-        foo: "overwrite",
-        baz: "overwrite",
-        beep: "overwrite",
-      },
-      "values were overwritten with the return from the callback"
-    );
+    expect(mapped).toEqual({
+      foo: "overwrite",
+      baz: "overwrite",
+      beep: "overwrite",
+    });
   });
 });

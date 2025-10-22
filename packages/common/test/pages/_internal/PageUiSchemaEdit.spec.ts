@@ -5,7 +5,7 @@ import * as getLocationOptionsModule from "../../../src/core/schemas/internal/ge
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as fetchCategoriesUiSchemaElementModule from "../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
-
+import { vi } from "vitest";
 const CATEGORIES_ELEMENTS = [
   {
     labelKey: "shared.fields.categories.label",
@@ -72,21 +72,21 @@ const CATEGORIES_ELEMENTS = [
 ];
 
 describe("buildUiSchema: page edit", () => {
-  let fetchCategoriesUiSchemaElementSpy: jasmine.Spy;
+  let fetchCategoriesUiSchemaElementSpy: any;
   beforeEach(() => {
-    fetchCategoriesUiSchemaElementSpy = spyOn(
-      fetchCategoriesUiSchemaElementModule,
-      "fetchCategoriesUiSchemaElement"
-    ).and.returnValue(Promise.resolve(CATEGORIES_ELEMENTS));
-    spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
-      Promise.resolve([])
+    fetchCategoriesUiSchemaElementSpy = vi
+      .spyOn(
+        fetchCategoriesUiSchemaElementModule,
+        "fetchCategoriesUiSchemaElement"
+      )
+      .mockResolvedValue(CATEGORIES_ELEMENTS as any);
+    vi.spyOn(getLocationExtentModule, "getLocationExtent").mockResolvedValue(
+      [] as any
     );
-    spyOn(getLocationOptionsModule, "getLocationOptions").and.returnValue(
-      Promise.resolve([])
+    vi.spyOn(getLocationOptionsModule, "getLocationOptions").mockResolvedValue(
+      [] as any
     );
-    spyOn(getTagItemsModule, "getTagItems").and.returnValue(
-      Promise.resolve([])
-    );
+    vi.spyOn(getTagItemsModule, "getTagItems").mockResolvedValue([] as any);
   });
   it("returns the full page edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(

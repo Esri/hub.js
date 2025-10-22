@@ -138,7 +138,7 @@ const noScopeCatalog: IHubCatalog = {
 describe("Catalog Class:", () => {
   let context: IArcGISContext;
   beforeEach(() => {
-    // Use a plain mock context to avoid async ArcGISContextManager.create() calls in tests
+    // Provide a plain mock context so tests don't call out to ArcGIS
     context = {
       authentication: MOCK_AUTH,
       currentUser: { username: "casey" } as unknown as IUser,

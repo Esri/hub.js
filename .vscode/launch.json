@@ -50,10 +50,10 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Run test:common",
+      "name": "Debug Vitest, Current File",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "test:common"],
-      "cwd": "${workspaceRoot}",
+      "runtimeArgs": ["run", "test", "--", "--no-coverage", "--testTimeout=0", "--reporter=verbose", "${file}"],
+      "cwd": "${workspaceRoot}/packages/common",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
