@@ -1,5 +1,6 @@
 import {
   ISearchPosts,
+  PostRelation,
   PostStatus,
   PostType,
   SharingAccess,
@@ -119,6 +120,14 @@ export function processPostFilters(filters: IFilter[]): Partial<ISearchPosts> {
     );
     processedFilters.updatedAfter = new Date(
       (flattenedFilters.modified[0] as IDateRange<string | number>).from
+    );
+  }
+
+  // relations
+  if (flattenedFilters.relation?.length) {
+    processedFilters.relations = toEnums(
+      flattenedFilters.relation as string[],
+      PostRelation
     );
   }
 
