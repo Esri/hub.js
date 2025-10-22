@@ -6,20 +6,25 @@ import * as getPagingJobFormatsModule from "../../src/downloads/_internal/format
 import * as getFgdbJobFormatsModule from "../../src/downloads/_internal/format-fetchers/getFgdbJobFormats";
 import { getHubDownloadApiFormats } from "../../src/downloads/getHubDownloadApiFormats";
 import { ServiceDownloadFormat } from "../../src/downloads/types";
+import { describe, it, expect, vi, afterEach } from "vitest";
+
 describe("getHubDownloadApiFormats", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("should return create replica formats if supported by entity", () => {
     const entity = {
       serverExtractCapability: true,
     } as unknown as IHubEditableContent;
     const createReplicaFormats = [{ format: ServiceDownloadFormat.JSON }];
-    spyOn(canUseCreateReplicaModule, "canUseCreateReplica").and.returnValue(
+    vi.spyOn(canUseCreateReplicaModule, "canUseCreateReplica").mockReturnValue(
       true
     );
-    const getCreateReplicaFormatsSpy = spyOn(
-      getCreateReplicaFormatsModule,
-      "getCreateReplicaFormats"
-    ).and.returnValue(createReplicaFormats);
-    const getPagingJobFormatsSpy = spyOn(
+    const getCreateReplicaFormatsSpy = vi
+      .spyOn(getCreateReplicaFormatsModule, "getCreateReplicaFormats")
+      .mockReturnValue(createReplicaFormats as any);
+    const getPagingJobFormatsSpy = vi.spyOn(
       getPagingJobFormatsModule,
       "getPagingJobFormats"
     );
@@ -31,23 +36,23 @@ describe("getHubDownloadApiFormats", () => {
     expect(getCreateReplicaFormatsSpy).toHaveBeenCalledWith(entity);
     expect(getPagingJobFormatsSpy).not.toHaveBeenCalled();
   });
+
   it("else should should return paging job formats if supported by entity", () => {
-    spyOn(canUseCreateReplicaModule, "canUseCreateReplica").and.returnValue(
+    vi.spyOn(canUseCreateReplicaModule, "canUseCreateReplica").mockReturnValue(
       false
     );
-    spyOn(
+    vi.spyOn(
       canUseHubDownloadSystemModule,
       "canUseHubDownloadSystem"
-    ).and.returnValue(true);
+    ).mockReturnValue(true);
     const pagingJobFormats = [{ format: ServiceDownloadFormat.JSON }];
-    const getCreateReplicaFormatsSpy = spyOn(
+    const getCreateReplicaFormatsSpy = vi.spyOn(
       getCreateReplicaFormatsModule,
       "getCreateReplicaFormats"
     );
-    const getPagingJobFormatsSpy = spyOn(
-      getPagingJobFormatsModule,
-      "getPagingJobFormats"
-    ).and.returnValue(pagingJobFormats);
+    const getPagingJobFormatsSpy = vi
+      .spyOn(getPagingJobFormatsModule, "getPagingJobFormats")
+      .mockReturnValue(pagingJobFormats as any);
     const result = getHubDownloadApiFormats(
       {} as unknown as IHubEditableContent
     );
@@ -57,23 +62,23 @@ describe("getHubDownloadApiFormats", () => {
     expect(getCreateReplicaFormatsSpy).not.toHaveBeenCalled();
     expect(getPagingJobFormatsSpy).toHaveBeenCalledTimes(1);
   });
+
   it("else should should return fgdb job formats if supported by entity", () => {
-    spyOn(canUseCreateReplicaModule, "canUseCreateReplica").and.returnValue(
+    vi.spyOn(canUseCreateReplicaModule, "canUseCreateReplica").mockReturnValue(
       false
     );
-    spyOn(
+    vi.spyOn(
       canUseHubDownloadSystemModule,
       "canUseHubDownloadSystem"
-    ).and.returnValue(true);
+    ).mockReturnValue(true);
     const fgdbJobFormats = [{ format: ServiceDownloadFormat.FILE_GDB }];
-    const getCreateReplicaFormatsSpy = spyOn(
+    const getCreateReplicaFormatsSpy = vi.spyOn(
       getCreateReplicaFormatsModule,
       "getCreateReplicaFormats"
     );
-    const getFgdbJobFormatsSpy = spyOn(
-      getFgdbJobFormatsModule,
-      "getFgdbJobFormats"
-    ).and.returnValue(fgdbJobFormats);
+    const getFgdbJobFormatsSpy = vi
+      .spyOn(getFgdbJobFormatsModule, "getFgdbJobFormats")
+      .mockReturnValue(fgdbJobFormats as any);
     const result = getHubDownloadApiFormats({
       extendedProps: {
         serverExtractCapability: true,
@@ -85,19 +90,20 @@ describe("getHubDownloadApiFormats", () => {
     expect(getCreateReplicaFormatsSpy).not.toHaveBeenCalled();
     expect(getFgdbJobFormatsSpy).toHaveBeenCalledTimes(1);
   });
+
   it("returns an empty array if paging and create replica are not supported by entity", () => {
-    spyOn(canUseCreateReplicaModule, "canUseCreateReplica").and.returnValue(
+    vi.spyOn(canUseCreateReplicaModule, "canUseCreateReplica").mockReturnValue(
       false
     );
-    spyOn(
+    vi.spyOn(
       canUseHubDownloadSystemModule,
       "canUseHubDownloadSystem"
-    ).and.returnValue(false);
-    const getCreateReplicaFormatsSpy = spyOn(
+    ).mockReturnValue(false);
+    const getCreateReplicaFormatsSpy = vi.spyOn(
       getCreateReplicaFormatsModule,
       "getCreateReplicaFormats"
     );
-    const getPagingJobFormatsSpy = spyOn(
+    const getPagingJobFormatsSpy = vi.spyOn(
       getPagingJobFormatsModule,
       "getPagingJobFormats"
     );
