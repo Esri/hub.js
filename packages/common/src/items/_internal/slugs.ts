@@ -81,7 +81,7 @@ export const parseIdentifier = (identifier: string): IParsedIdentifier => {
     const match = new RegExp(`^((.*)${SLUG_ORG_SEPARATOR_URI})?(.*)$`).exec(
       slugParts
     );
-    // istanbul ignore next - I think that regex will always match at least the slug
+    // istanbul ignore next - I think that regex will always match at least the slug -- @preserve
     if (match) {
       orgKey = match[2];
       slug = match[3];

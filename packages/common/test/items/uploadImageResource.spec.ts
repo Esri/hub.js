@@ -1,12 +1,19 @@
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  addItemResource: vi.fn(),
+}));
+
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { uploadImageResource } from "../../src/items/uploadImageResource";
 
+afterEach(() => vi.restoreAllMocks());
+
 describe("uploadImageResource:", () => {
   it("calls addItemResource with expected params", async () => {
-    const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.resolve({ success: true })
-    );
+    const addSpy = vi
+      .spyOn(portalModule as any, "addItemResource")
+      .mockResolvedValue({ success: true });
     const resp = await uploadImageResource(
       "3ef",
       "bob",
@@ -19,8 +26,8 @@ describe("uploadImageResource:", () => {
     expect(resp).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
     );
-    expect(addSpy.calls.count()).toBe(1);
-    const args = addSpy.calls.argsFor(0)[0];
+    expect((addSpy as any).mock.calls.length).toBe(1);
+    const args = (addSpy as any).mock.calls[0][0];
     expect(args.id).toBe("3ef");
     expect(args.owner).toEqual("bob");
     expect(args.resource).toEqual("fakeFile");
@@ -29,9 +36,9 @@ describe("uploadImageResource:", () => {
   });
 
   it("Properly constructs url when a prefix is passed", async () => {
-    const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.resolve({ success: true })
-    );
+    const addSpy = vi
+      .spyOn(portalModule as any, "addItemResource")
+      .mockResolvedValue({ success: true });
     const resp = await uploadImageResource(
       "3ef",
       "bob",
@@ -45,8 +52,8 @@ describe("uploadImageResource:", () => {
     expect(resp).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/images/featuredImage.png"
     );
-    expect(addSpy.calls.count()).toBe(1);
-    const args = addSpy.calls.argsFor(0)[0];
+    expect((addSpy as any).mock.calls.length).toBe(1);
+    const args = (addSpy as any).mock.calls[0][0];
     expect(args.id).toBe("3ef");
     expect(args.owner).toEqual("bob");
     expect(args.resource).toEqual("fakeFile");
@@ -56,41 +63,35 @@ describe("uploadImageResource:", () => {
   });
 
   it("throws hub error if add fails", async () => {
-    spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.resolve({ success: false })
-    );
-    try {
-      await uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+    vi.spyOn(portalModule as any, "addItemResource").mockResolvedValue({
+      success: false,
+    });
+    await expect(
+      uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
-      });
-    } catch (err) {
-      expect((err as Error).name).toBe("HubError");
-    }
+      })
+    ).rejects.toHaveProperty("name", "HubError");
   });
 
   it("throws hub error if add rejects with error", async () => {
-    spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.reject(new Error("Fake Rejection"))
+    vi.spyOn(portalModule as any, "addItemResource").mockRejectedValue(
+      new Error("Fake Rejection")
     );
-    try {
-      await uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+    await expect(
+      uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
-      });
-    } catch (err) {
-      expect((err as Error).name).toBe("HubError");
-    }
+      })
+    ).rejects.toHaveProperty("name", "HubError");
   });
 
   it("throws hub error if add rejects with non-error", async () => {
-    spyOn(portalModule, "addItemResource").and.returnValues(
-      Promise.reject("Fake Rejection")
+    vi.spyOn(portalModule as any, "addItemResource").mockRejectedValue(
+      "Fake Rejection"
     );
-    try {
-      await uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+    await expect(
+      uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
-      });
-    } catch (err) {
-      expect((err as Error).name).toBe("HubError");
-    }
+      })
+    ).rejects.toHaveProperty("name", "HubError");
   });
 });

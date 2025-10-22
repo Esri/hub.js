@@ -4,17 +4,25 @@ import { createItemFromUrlOrFile } from "../../src/items/create-item-from-url-or
 import * as createItemFromFileModule from "../../src/items/create-item-from-file";
 import * as createItemFromUrlModule from "../../src/items/create-item-from-url";
 import * as _waitForItemReadyModule from "../../src/items/_internal/_wait-for-item-ready";
+// make portal spyable
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal: any) => {
+  const mod = await importOriginal();
+  return Object.assign({}, mod, {
+    setItemAccess: vi.fn(),
+    shareItemWithGroup: vi.fn(),
+  });
+});
 import * as portal from "@esri/arcgis-rest-portal";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 describe("createItemFromUrlOrFile", () => {
+  afterEach(() => vi.restoreAllMocks());
   it("creates an item from url", async () => {
-    // request options
     const ro = {
       authentication: {
         portal: "http://some-org.mapsqaext.arcgis.com",
       },
     } as IUserRequestOptions;
-    // fake item
     const item = {
       title: "Test.csv",
       type: "csv",
@@ -25,29 +33,21 @@ describe("createItemFromUrlOrFile", () => {
       access: "org",
     } as IItemAdd;
 
-    const createItemFromFileSpy = spyOn(
-      createItemFromFileModule,
-      "createItemFromFile"
-    ).and.returnValue(
-      Promise.resolve({ id: "123abc", success: true, folder: "test" })
-    );
-    const createItemFromUrlSpy = spyOn(
-      createItemFromUrlModule,
-      "createItemFromUrl"
-    ).and.returnValue(
-      Promise.resolve({ id: "123abc", success: true, folder: "test" })
-    );
-    const _waitForItemReadySpy = spyOn(
-      _waitForItemReadyModule,
-      "_waitForItemReady"
-    ).and.callFake(() => Promise.resolve());
-    const setItemAccessSpy = spyOn(portal, "setItemAccess").and.callFake(() =>
-      Promise.resolve()
-    );
-    const shareItemWithGroupSpy = spyOn(
-      portal,
-      "shareItemWithGroup"
-    ).and.callFake(() => Promise.resolve({}));
+    const createItemFromFileSpy = vi
+      .spyOn(createItemFromFileModule as any, "createItemFromFile")
+      .mockResolvedValue({ id: "123abc", success: true, folder: "test" });
+    const createItemFromUrlSpy = vi
+      .spyOn(createItemFromUrlModule as any, "createItemFromUrl")
+      .mockResolvedValue({ id: "123abc", success: true, folder: "test" });
+    const _waitForItemReadySpy = vi
+      .spyOn(_waitForItemReadyModule as any, "_waitForItemReady")
+      .mockResolvedValue(undefined);
+    const setItemAccessSpy = vi
+      .spyOn(portal as any, "setItemAccess")
+      .mockResolvedValue(undefined as any);
+    const shareItemWithGroupSpy = vi
+      .spyOn(portal as any, "shareItemWithGroup")
+      .mockResolvedValue({} as any);
 
     const result = await createItemFromUrlOrFile({
       item,
@@ -58,7 +58,7 @@ describe("createItemFromUrlOrFile", () => {
         { id: "def", capabilities: [] } as unknown as IGroup,
       ],
       ...ro,
-    });
+    } as any);
 
     expect(result.title).toBe("Test.csv");
     expect(result.createdItem).toEqual({
@@ -72,14 +72,13 @@ describe("createItemFromUrlOrFile", () => {
     expect(setItemAccessSpy).toHaveBeenCalledTimes(1);
     expect(shareItemWithGroupSpy).toHaveBeenCalledTimes(4);
   });
+
   it("creates an item from url without dataUrl", async () => {
-    // request options
     const ro = {
       authentication: {
         portal: "http://some-org.mapsqaext.arcgis.com",
       },
     } as IUserRequestOptions;
-    // fake item
     const item = {
       title: "Test.csv",
       type: "csv",
@@ -89,31 +88,27 @@ describe("createItemFromUrlOrFile", () => {
       access: "org",
     } as IItemAdd;
 
-    const createItemFromFileSpy = spyOn(
-      createItemFromFileModule,
-      "createItemFromFile"
-    ).and.returnValue(
-      Promise.resolve({ id: "123abc", success: true, folder: "test" })
-    );
-    const createItemFromUrlSpy = spyOn(
-      createItemFromUrlModule,
-      "createItemFromUrl"
-    ).and.returnValue(
-      Promise.resolve({ id: "123abc", success: true, folder: "test" })
-    );
-    const _waitForItemReadySpy = spyOn(
-      _waitForItemReadyModule,
-      "_waitForItemReady"
-    ).and.callFake(() => Promise.resolve());
-    const setItemAccessSpy = spyOn(portal, "setItemAccess").and.callFake(() =>
-      Promise.resolve()
-    );
-    const shareItemWithGroupSpy = spyOn(
-      portal,
-      "shareItemWithGroup"
-    ).and.callFake(() => Promise.resolve());
+    const createItemFromFileSpy = vi
+      .spyOn(createItemFromFileModule as any, "createItemFromFile")
+      .mockResolvedValue({ id: "123abc", success: true, folder: "test" });
+    const createItemFromUrlSpy = vi
+      .spyOn(createItemFromUrlModule as any, "createItemFromUrl")
+      .mockResolvedValue({ id: "123abc", success: true, folder: "test" });
+    const _waitForItemReadySpy = vi
+      .spyOn(_waitForItemReadyModule as any, "_waitForItemReady")
+      .mockResolvedValue(undefined);
+    const setItemAccessSpy = vi
+      .spyOn(portal as any, "setItemAccess")
+      .mockResolvedValue(undefined as any);
+    const shareItemWithGroupSpy = vi
+      .spyOn(portal as any, "shareItemWithGroup")
+      .mockResolvedValue(undefined as any);
 
-    const result = await createItemFromUrlOrFile({ item, groups: [], ...ro });
+    const result = await createItemFromUrlOrFile({
+      item,
+      groups: [],
+      ...ro,
+    } as any);
 
     expect(result.createdItem).toEqual({
       id: "123abc",
@@ -126,14 +121,13 @@ describe("createItemFromUrlOrFile", () => {
     expect(setItemAccessSpy).toHaveBeenCalledTimes(1);
     expect(shareItemWithGroupSpy).not.toHaveBeenCalled();
   });
+
   it("creates an item from file", async () => {
-    // request options
     const ro = {
       authentication: {
         portal: "http://some-org.mapsqaext.arcgis.com",
       },
     } as IUserRequestOptions;
-    // fake item
     const item = {
       title: "Test.csv",
       type: "csv",
@@ -147,27 +141,20 @@ describe("createItemFromUrlOrFile", () => {
       access: "private",
     } as IItemAdd;
 
-    const createItemFromFileSpy = spyOn(
-      createItemFromFileModule,
-      "createItemFromFile"
-    ).and.returnValue(
-      Promise.resolve({ id: "123abc", success: true, folder: "test" })
-    );
-    const createItemFromUrlSpy = spyOn(
-      createItemFromUrlModule,
-      "createItemFromUrl"
-    ).and.returnValue(
-      Promise.resolve({ id: "123abc", success: true, folder: "test" })
-    );
-    const _waitForItemReadySpy = spyOn(
-      _waitForItemReadyModule,
-      "_waitForItemReady"
-    ).and.callFake(() => Promise.resolve());
-    const setItemAccessSpy = spyOn(portal, "setItemAccess").and.callFake(() =>
-      Promise.resolve()
-    );
+    const createItemFromFileSpy = vi
+      .spyOn(createItemFromFileModule as any, "createItemFromFile")
+      .mockResolvedValue({ id: "123abc", success: true, folder: "test" });
+    const createItemFromUrlSpy = vi
+      .spyOn(createItemFromUrlModule as any, "createItemFromUrl")
+      .mockResolvedValue({ id: "123abc", success: true, folder: "test" });
+    const _waitForItemReadySpy = vi
+      .spyOn(_waitForItemReadyModule as any, "_waitForItemReady")
+      .mockResolvedValue(undefined);
+    const setItemAccessSpy = vi
+      .spyOn(portal as any, "setItemAccess")
+      .mockResolvedValue(undefined as any);
 
-    const result = await createItemFromUrlOrFile({ item, ...ro });
+    const result = await createItemFromUrlOrFile({ item, ...ro } as any);
 
     expect(result.createdItem).toEqual({
       id: "123abc",

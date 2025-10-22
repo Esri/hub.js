@@ -4,8 +4,8 @@ import {
   normalizeSolutionTemplateItem,
 } from "../../src/items/normalize-solution-template-item";
 
-describe("normalizeSolutionTemplateItem", function () {
-  it("removes the right attributes and templatizes extent", function () {
+describe("normalizeSolutionTemplateItem", () => {
+  it("removes the right attributes and templatizes extent", () => {
     const item: IItem = {
       id: "c9929fca0892406da79f38fe4efcc116",
       owner: "dcadminqa",

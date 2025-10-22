@@ -1,6 +1,13 @@
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  searchItems: vi.fn(),
+}));
+
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { doesItemExistWithTitle } from "../../src/items/does-item-exist-with-title";
+
+afterEach(() => vi.restoreAllMocks());
 
 describe("doesItemExistWithTitle", () => {
   const options = {
@@ -10,11 +17,9 @@ describe("doesItemExistWithTitle", () => {
   const authMgr = {} as IAuthenticationManager;
 
   it("should resolve true when item with same name exists", async () => {
-    const spy = spyOn(portalModule, "searchItems").and.returnValue(
-      Promise.resolve({
-        results: [{}],
-      })
-    );
+    const spy = vi
+      .spyOn(portalModule as any, "searchItems")
+      .mockResolvedValue({ results: [{}] });
     const res = await doesItemExistWithTitle("exists", options, authMgr);
     expect(res).toBeTruthy();
 
@@ -22,18 +27,13 @@ describe("doesItemExistWithTitle", () => {
       q: `title:"exists" AND typekeywords:"foo"`,
       authentication: authMgr,
     };
-    expect(spy.calls.argsFor(0)[0]).toEqual(
-      expectedSearchOpts,
-      "searchItems called with correct options"
-    );
+    expect((spy as any).mock.calls[0][0]).toEqual(expectedSearchOpts);
   });
 
   it("should resolve false when item with same name DOES NOT exist", async () => {
-    const spy = spyOn(portalModule, "searchItems").and.returnValue(
-      Promise.resolve({
-        results: [], // empty
-      })
-    );
+    const spy = vi
+      .spyOn(portalModule as any, "searchItems")
+      .mockResolvedValue({ results: [] });
     const res = await doesItemExistWithTitle("not-exists", options, authMgr);
     expect(res).toBeFalsy();
 
@@ -41,21 +41,13 @@ describe("doesItemExistWithTitle", () => {
       q: `title:"not-exists" AND typekeywords:"foo"`,
       authentication: authMgr,
     };
-    expect(spy.calls.argsFor(0)[0]).toEqual(
-      expectedSearchOpts,
-      "searchItems called with correct options"
-    );
+    expect((spy as any).mock.calls[0][0]).toEqual(expectedSearchOpts);
   });
 
   it("should reject if error", async () => {
-    spyOn(portalModule, "searchItems").and.returnValue(Promise.reject());
-
-    try {
-      await doesItemExistWithTitle("not-exists", options, authMgr);
-      fail("should reject");
-    } catch (err) {
-      const error = err as { message?: string };
-      expect(error).toBeDefined();
-    }
+    vi.spyOn(portalModule as any, "searchItems").mockRejectedValue(new Error());
+    await expect(
+      doesItemExistWithTitle("not-exists", options, authMgr)
+    ).rejects.toBeDefined();
   });
 });
