@@ -88,7 +88,6 @@ Then For each test file in the current folder:
 1. Rename the file from `.test.ts` to `.spec.ts`.
 2. Convert the test code from Jasmine to Vitest syntax, ensuring equivalent functionality.Take special care with files that:
   - spy on functions from `@esri/arcgis-rest-*` packages. These will require you to add `vi.mock()` calls to mock the relevant modules at the top of the file.
-  - call `ArcGISContextManager.create()`. This is an invalid pattern and should be replaced with a mock context object.
 3. Resolve TypeScript lint errors - it's ok to use `any` when converting files, but we prefer to use explicit types when practical.
 4. Run the Vitest tests and ensure they pass and that coverage remains at 100%.
   - if tests are passing but coverage is not yet at 100%, pause to allow for checking in the converted tests before attempting to increase coverage.

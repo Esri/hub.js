@@ -43,18 +43,11 @@ jobs:
       - name: Build
         run: npm run ci:build
 
-      # Run Vitest tests then legacy Jasmine/Karma tests
+      # Run Tests
       - name: Run Tests
-        run: npm run test -w @esri/hub-common && npm run ci:test
+        run: npm run ci:test
 
-      # Only run FF on Linux b/c Windows is already really slow
-      - name: Test in Firefox
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            npm run test:firefox:ci
-          fi
-        shell: bash
-
+      # Upload coverage to Codecov
       - uses: codecov/codecov-action@v3
         with:
           directory: ./packages/common/coverage

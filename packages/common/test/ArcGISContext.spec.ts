@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import type { IHubHistory, IHubHistoryEntry } from "../src/core/hubHistory";
 import type { HubEntityType } from "../src/core/types/HubEntityType";
 import { createId } from "../src/util";
@@ -16,16 +17,14 @@ describe("ArcGISContext:", () => {
     describe("addToHistory: ", () => {
       it(" adds entry and updates userHubSettings", async () => {
         const ctx = createMockContext();
-        // We don't flex the limits etc as all that's handled in the util fn
         // create spy on updateUserHubSettings method
-        const updateSettingsSpy = spyOn(
-          ctx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
+        const updateSettingsSpy = vi
+          .spyOn(ctx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
         // ensure checkPermission returns access:true
-        const permissionSpy = spyOn(ctx, "checkPermission").and.returnValue({
-          access: true,
-        } as any);
+        const permissionSpy = vi
+          .spyOn(ctx, "checkPermission")
+          .mockReturnValue({ access: true } as any);
 
         await ctx.addToHistory(createFakeHistoryEntry("site"));
 
@@ -33,20 +32,19 @@ describe("ArcGISContext:", () => {
         expect(updateSettingsSpy).toHaveBeenCalled();
         expect(permissionSpy).toHaveBeenCalled();
         // get the args from the first call
-        const args = updateSettingsSpy.calls.first()
-          .args[0] as unknown as IUserHubSettings;
+        const args = updateSettingsSpy.mock
+          .calls[0][0] as unknown as IUserHubSettings;
         expect(args.history).toEqual(ctx.history);
       });
       it("exits early if user lacks permission", async () => {
         const ctx = createMockContext();
-        const updateSettingsSpy = spyOn(
-          ctx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
-        // ensure checkPermission returns access:true
-        const permissionSpy = spyOn(ctx, "checkPermission").and.returnValue({
-          access: false,
-        } as any);
+        const updateSettingsSpy = vi
+          .spyOn(ctx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
+        // ensure checkPermission returns access:false
+        const permissionSpy = vi
+          .spyOn(ctx, "checkPermission")
+          .mockReturnValue({ access: false } as any);
 
         await ctx.addToHistory(createFakeHistoryEntry("site"));
 
@@ -56,16 +54,13 @@ describe("ArcGISContext:", () => {
       });
       it("early exits if not authd", async () => {
         const anonCtx = createMockAnonContext();
-        const updateSettingsSpy = spyOn(
-          anonCtx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
+        const updateSettingsSpy = vi
+          .spyOn(anonCtx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
 
-        const permissionSpy = spyOn(anonCtx, "checkPermission").and.returnValue(
-          {
-            access: false,
-          } as any
-        );
+        const permissionSpy = vi
+          .spyOn(anonCtx, "checkPermission")
+          .mockReturnValue({ access: false } as any);
 
         await anonCtx.addToHistory(createFakeHistoryEntry("site"));
 
@@ -78,13 +73,12 @@ describe("ArcGISContext:", () => {
       it("removeFromHistory removes entry and updates userHubSettings", async () => {
         const ctx = createMockContext();
         // create spy on updateUserHubSettings method
-        const updateSettingsSpy = spyOn(
-          ctx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
-        const permissionSpy = spyOn(ctx, "checkPermission").and.returnValue({
-          access: true,
-        } as any);
+        const updateSettingsSpy = vi
+          .spyOn(ctx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
+        const permissionSpy = vi
+          .spyOn(ctx, "checkPermission")
+          .mockReturnValue({ access: true } as any);
         const entry = createFakeHistoryEntry("site");
         await ctx.addToHistory(entry);
         expect(ctx.history.entries.length).toBe(1);
@@ -96,16 +90,13 @@ describe("ArcGISContext:", () => {
       });
       it("early exits if not authd", async () => {
         const anonCtx = createMockAnonContext();
-        const updateSettingsSpy = spyOn(
-          anonCtx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
+        const updateSettingsSpy = vi
+          .spyOn(anonCtx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
 
-        const permissionSpy = spyOn(anonCtx, "checkPermission").and.returnValue(
-          {
-            access: false,
-          } as any
-        );
+        const permissionSpy = vi
+          .spyOn(anonCtx, "checkPermission")
+          .mockReturnValue({ access: false } as any);
 
         await anonCtx.removeFromHistory(createFakeHistoryEntry("site"));
 
@@ -116,14 +107,13 @@ describe("ArcGISContext:", () => {
 
       it("exits early if user lacks permission", async () => {
         const ctx = createMockContext();
-        const updateSettingsSpy = spyOn(
-          ctx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
-        // ensure checkPermission returns access:true
-        const permissionSpy = spyOn(ctx, "checkPermission").and.returnValue({
-          access: false,
-        } as any);
+        const updateSettingsSpy = vi
+          .spyOn(ctx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
+        // ensure checkPermission returns access:false
+        const permissionSpy = vi
+          .spyOn(ctx, "checkPermission")
+          .mockReturnValue({ access: false } as any);
 
         await ctx.removeFromHistory(createFakeHistoryEntry("site"));
 
@@ -135,16 +125,14 @@ describe("ArcGISContext:", () => {
     describe("clearHistory:", () => {
       it("clears all entries", async () => {
         const ctx = createMockContext();
-        // We don't flex the limits etc as all that's handled in the util fn
         // create spy on updateUserHubSettings method
-        const updateSettingsSpy = spyOn(
-          ctx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
+        const updateSettingsSpy = vi
+          .spyOn(ctx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
         // ensure checkPermission returns access:true
-        const permissionSpy = spyOn(ctx, "checkPermission").and.returnValue({
-          access: true,
-        } as any);
+        const permissionSpy = vi
+          .spyOn(ctx, "checkPermission")
+          .mockReturnValue({ access: true } as any);
 
         await ctx.addToHistory(createFakeHistoryEntry("site"));
         await ctx.addToHistory(createFakeHistoryEntry("project"));
@@ -157,14 +145,13 @@ describe("ArcGISContext:", () => {
       });
       it("exits early if user lacks permission", async () => {
         const ctx = createMockContext();
-        const updateSettingsSpy = spyOn(
-          ctx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
-        // ensure checkPermission returns access:true
-        const permissionSpy = spyOn(ctx, "checkPermission").and.returnValue({
-          access: false,
-        } as any);
+        const updateSettingsSpy = vi
+          .spyOn(ctx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
+        // ensure checkPermission returns access:false
+        const permissionSpy = vi
+          .spyOn(ctx, "checkPermission")
+          .mockReturnValue({ access: false } as any);
 
         await ctx.clearHistory();
 
@@ -174,16 +161,13 @@ describe("ArcGISContext:", () => {
       });
       it("early exits if not authd", async () => {
         const anonCtx = createMockAnonContext();
-        const updateSettingsSpy = spyOn(
-          anonCtx,
-          "updateUserHubSettings"
-        ).and.callFake(() => Promise.resolve());
+        const updateSettingsSpy = vi
+          .spyOn(anonCtx, "updateUserHubSettings")
+          .mockImplementation(() => Promise.resolve());
 
-        const permissionSpy = spyOn(anonCtx, "checkPermission").and.returnValue(
-          {
-            access: false,
-          } as any
-        );
+        const permissionSpy = vi
+          .spyOn(anonCtx, "checkPermission")
+          .mockReturnValue({ access: false } as any);
 
         await anonCtx.clearHistory();
 
@@ -196,27 +180,21 @@ describe("ArcGISContext:", () => {
   describe("checkPermission:", () => {
     it("delegates to checkPermission", () => {
       const ctx = createMockContext();
-      const permissionSpy = spyOn(
-        PermissionsModule,
-        "checkPermission"
-      ).and.returnValue({
-        access: true,
-      } as any);
+      const permissionSpy = vi
+        .spyOn(PermissionsModule, "checkPermission")
+        .mockReturnValue({ access: true } as any);
       const chk = ctx.checkPermission("hub:feature:workspace");
       expect(chk.access).toEqual(true);
       expect(permissionSpy).toHaveBeenCalled();
       // get the first arg for the first call
-      expect(permissionSpy.calls.first().args[0]).toEqual(
-        "hub:feature:workspace"
-      );
+      expect(permissionSpy.mock.calls[0][0]).toEqual("hub:feature:workspace");
     });
   });
   describe("updateUserHubSettings:", () => {
     it("early exits if not authd", async () => {
-      const uarSpy = spyOn(
-        UserSettingsModule,
-        "updateUserHubSettings"
-      ).and.callFake(() => Promise.resolve());
+      const uarSpy = vi
+        .spyOn(UserSettingsModule, "updateUserHubSettings")
+        .mockImplementation(() => Promise.resolve());
       const anonCtx = createMockAnonContext();
       try {
         await anonCtx.updateUserHubSettings({} as IUserHubSettings);
@@ -229,17 +207,16 @@ describe("ArcGISContext:", () => {
       expect(uarSpy).not.toHaveBeenCalled();
     });
     it("stores settings", async () => {
-      const uarSpy = spyOn(
-        UserSettingsModule,
-        "updateUserHubSettings"
-      ).and.callFake(() => Promise.resolve());
+      const uarSpy = vi
+        .spyOn(UserSettingsModule, "updateUserHubSettings")
+        .mockImplementation(() => Promise.resolve());
       const ctx = createMockContext();
       await ctx.updateUserHubSettings({
         schemaVersion: 1,
         history: { entries: ["WAT"] },
       } as unknown as IUserHubSettings);
       expect(uarSpy).toHaveBeenCalled();
-      expect(uarSpy.calls.first().args[0]).toEqual({
+      expect(uarSpy.mock.calls[0][0]).toEqual({
         schemaVersion: 1,
         history: { entries: ["WAT"] },
       });
@@ -248,10 +225,9 @@ describe("ArcGISContext:", () => {
       } as unknown as IHubHistory);
     });
     it("adds and deletes feature flags", async () => {
-      const uarSpy = spyOn(
-        UserSettingsModule,
-        "updateUserHubSettings"
-      ).and.callFake(() => Promise.resolve());
+      const uarSpy = vi
+        .spyOn(UserSettingsModule, "updateUserHubSettings")
+        .mockImplementation(() => Promise.resolve());
       const ctx = createMockContext();
       await ctx.updateUserHubSettings({
         schemaVersion: 1,

@@ -5,19 +5,21 @@ describe("hubApiRequest", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("handles a server error", (done) => {
+  it("handles a server error", async () => {
     const status = 403;
     const route = "badurl";
     fetchMock.once("*", {
       status,
     });
-    hubApiRequest(route).catch((e) => {
+    try {
+      await hubApiRequest(route);
+      throw new Error("Expected hubApiRequest to throw");
+    } catch (e) {
       const error = e as { message?: string; status?: number; url?: string };
       expect(error.message).toBe("Forbidden");
       expect(error.status).toBe(status);
       expect(error.url).toBe(`https://hub.arcgis.com/api/v3/${route}`);
-      done();
-    });
+    }
   });
   it("stringfies params in the body of POST", async () => {
     fetchMock.once("*", { the: "goods" });
@@ -35,6 +37,4 @@ describe("hubApiRequest", () => {
     expect(options.body).toBe('{"foo":"bar"}');
     expect(response.the).toEqual("goods");
   });
-  // NOTE: additional request cases are covered by tests
-  // of functions in other packages that use hubRequest
 });
