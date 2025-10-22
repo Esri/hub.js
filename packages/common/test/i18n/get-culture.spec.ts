@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { IHubRequestOptions } from "../../src/hub-types";
 import { getCulture } from "../../src/i18n/get-culture";
 import { mockUserSession } from "../test-helpers/fake-user-session";
@@ -9,10 +10,7 @@ describe("getCulture", function () {
       hubApiUrl: "",
       authentication: mockUserSession,
     };
-    expect(getCulture(ro)).toBe(
-      "en-us",
-      "defaults to en-us when user.culture, portal.culture not available"
-    );
+    expect(getCulture(ro)).toBe("en-us");
 
     ro.portalSelf = {
       name: "",
@@ -20,12 +18,9 @@ describe("getCulture", function () {
       isPortal: false,
       culture: "fr",
     };
-    expect(getCulture(ro)).toBe(
-      "fr",
-      "defaults to portal.culture when user.culture not available"
-    );
+    expect(getCulture(ro)).toBe("fr");
 
     ro.portalSelf.user = { culture: "zh" };
-    expect(getCulture(ro)).toBe("zh", "uses user.culture when available");
+    expect(getCulture(ro)).toBe("zh");
   });
 });
