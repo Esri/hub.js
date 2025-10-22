@@ -26,6 +26,7 @@ export default defineConfig({
         "src/discussions/**/*.ts",
         "src/events/**/*.ts",
         // TW working below this line
+        "src/initiative-templates/**/*.ts",
         "src/initiatives/**/*.ts",
         "src/items/**/*.ts",
         "src/metrics/**/*.ts",
