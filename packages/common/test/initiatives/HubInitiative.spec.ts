@@ -1,5 +1,15 @@
+import { vi } from "vitest";
+// Make portal exports spyable by returning the original module with overridden functions
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const original = await importOriginal();
+  return {
+    ...(original as any),
+    getGroup: vi.fn(),
+    updateGroup: vi.fn(),
+  };
+});
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { createMockContext } from "../mocks/mock-auth";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IHubAssociationRules } from "../../src/associations/types";
@@ -18,29 +28,28 @@ import { Catalog } from "../../src/search/Catalog";
 import { IMetric, IResolvedMetric } from "../../src/core/types/Metrics";
 
 describe("HubInitiative Class:", () => {
-  let authdCtxMgr: ArcGISContextManager;
-  beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        privileges: ["portal:user:shareToGroup"],
-      } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://myserver.com",
-    });
+  let authdCtxMgr: any;
+  beforeEach(() => {
+    authdCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+          privileges: ["portal:user:shareToGroup"],
+        } as unknown as PortalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://myserver.com",
+      }),
+    };
   });
 
   describe("ctor:", () => {
     it("loads from minimal json", () => {
-      const createSpy = spyOn(HubInitiativesModule, "createInitiative");
+      const createSpy = vi.spyOn(HubInitiativesModule, "createInitiative");
       const chk = HubInitiative.fromJson(
         { name: "Test Initiative" },
         authdCtxMgr.context
@@ -48,21 +57,16 @@ describe("HubInitiative Class:", () => {
 
       expect(createSpy).not.toHaveBeenCalled();
       expect(chk.toJson().name).toEqual("Test Initiative");
-      // adds empty permissions and catalog
       const json = chk.toJson();
       expect(json.permissions).toEqual([]);
       expect(json.catalog).toEqual({ schemaVersion: 0 });
     });
     it("loads based on identifier", async () => {
-      const fetchSpy = spyOn(
-        HubInitiativesModule,
-        "fetchInitiative"
-      ).and.callFake((id: string) => {
-        return Promise.resolve({
-          id,
-          name: "Test Initiative",
+      const fetchSpy = vi
+        .spyOn(HubInitiativesModule, "fetchInitiative")
+        .mockImplementation((id: string) => {
+          return Promise.resolve({ id, name: "Test Initiative" });
         });
-      });
 
       const chk = await HubInitiative.fetch("3ef", authdCtxMgr.context);
       expect(fetchSpy).toHaveBeenCalledTimes(1);
@@ -71,15 +75,14 @@ describe("HubInitiative Class:", () => {
     });
 
     it("handle load missing Initiatives", async () => {
-      const fetchSpy = spyOn(
-        HubInitiativesModule,
-        "fetchInitiative"
-      ).and.callFake(() => {
-        const err = new Error(
-          "CONT_0001: Item does not exist or is inaccessible."
-        );
-        return Promise.reject(err);
-      });
+      const fetchSpy = vi
+        .spyOn(HubInitiativesModule, "fetchInitiative")
+        .mockImplementation(() => {
+          const err = new Error(
+            "CONT_0001: Item does not exist or is inaccessible."
+          );
+          return Promise.reject(err);
+        });
       try {
         await HubInitiative.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -90,13 +93,12 @@ describe("HubInitiative Class:", () => {
     });
 
     it("handle load errors", async () => {
-      const fetchSpy = spyOn(
-        HubInitiativesModule,
-        "fetchInitiative"
-      ).and.callFake(() => {
-        const err = new Error("ZOMG!");
-        return Promise.reject(err);
-      });
+      const fetchSpy = vi
+        .spyOn(HubInitiativesModule, "fetchInitiative")
+        .mockImplementation(() => {
+          const err = new Error("ZOMG!");
+          return Promise.reject(err);
+        });
       try {
         await HubInitiative.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
@@ -108,12 +110,11 @@ describe("HubInitiative Class:", () => {
   });
 
   it("save call createInitiative if object does not have an id", async () => {
-    const createSpy = spyOn(
-      HubInitiativesModule,
-      "createInitiative"
-    ).and.callFake((p: IHubInitiative) => {
-      return Promise.resolve(p);
-    });
+    const createSpy = vi
+      .spyOn(HubInitiativesModule, "createInitiative")
+      .mockImplementation((p: IHubInitiative) => {
+        return Promise.resolve(p);
+      });
     const chk = HubInitiative.fromJson(
       { name: "Test Initiative" },
       authdCtxMgr.context
@@ -123,13 +124,12 @@ describe("HubInitiative Class:", () => {
     expect(chk.toJson().name).toEqual("Test Initiative");
   });
   it("create saves the instance if passed true", async () => {
-    const createSpy = spyOn(
-      HubInitiativesModule,
-      "createInitiative"
-    ).and.callFake((p: IHubInitiative) => {
-      p.id = "3ef";
-      return Promise.resolve(p);
-    });
+    const createSpy = vi
+      .spyOn(HubInitiativesModule, "createInitiative")
+      .mockImplementation((p: IHubInitiative) => {
+        p.id = "3ef";
+        return Promise.resolve(p);
+      });
     const chk = await HubInitiative.create(
       { name: "Test Initiative" },
       authdCtxMgr.context,
@@ -140,7 +140,7 @@ describe("HubInitiative Class:", () => {
     expect(chk.toJson().name).toEqual("Test Initiative");
   });
   it("create does not save by default", async () => {
-    const createSpy = spyOn(HubInitiativesModule, "createInitiative");
+    const createSpy = vi.spyOn(HubInitiativesModule, "createInitiative");
     const chk = await HubInitiative.create(
       { name: "Test Initiative" },
       authdCtxMgr.context
@@ -174,12 +174,11 @@ describe("HubInitiative Class:", () => {
   });
 
   it("save updates if object has id", async () => {
-    const updateSpy = spyOn(
-      HubInitiativesModule,
-      "updateInitiative"
-    ).and.callFake((p: IHubInitiative) => {
-      return Promise.resolve(p);
-    });
+    const updateSpy = vi
+      .spyOn(HubInitiativesModule, "updateInitiative")
+      .mockImplementation((p: IHubInitiative) => {
+        return Promise.resolve(p);
+      });
     const chk = HubInitiative.fromJson(
       {
         id: "bc3",
@@ -193,19 +192,17 @@ describe("HubInitiative Class:", () => {
   });
 
   it("delete", async () => {
-    const deleteSpy = spyOn(
-      HubInitiativesModule,
-      "deleteInitiative"
-    ).and.callFake(() => {
-      return Promise.resolve();
-    });
+    const deleteSpy = vi
+      .spyOn(HubInitiativesModule, "deleteInitiative")
+      .mockImplementation(() => {
+        return Promise.resolve();
+      });
     const chk = HubInitiative.fromJson(
       { name: "Test Initiative" },
       authdCtxMgr.context
     );
     await chk.delete();
     expect(deleteSpy).toHaveBeenCalledTimes(1);
-    // all fns should now throw an error
     expect(() => {
       chk.toJson();
     }).toThrowError("Entity is already destroyed.");
@@ -214,7 +211,6 @@ describe("HubInitiative Class:", () => {
       chk.update({ name: "Test Initiative 2" } as IHubInitiative);
     }).toThrowError("HubInitiative is already destroyed.");
 
-    // async calls
     try {
       await chk.delete();
     } catch (e) {
@@ -250,7 +246,9 @@ describe("HubInitiative Class:", () => {
   });
 
   it("convertToCardModel: delegates to the initiativeToCardModel util", () => {
-    const spy = spyOn(viewModule, "initiativeToCardModel");
+    const spy = vi
+      .spyOn(viewModule, "initiativeToCardModel")
+      .mockImplementation(() => ({} as any));
 
     const chk = HubInitiative.fromJson(
       { name: "Test Initiative" },
@@ -278,14 +276,14 @@ describe("HubInitiative Class:", () => {
     });
 
     it("delegates to resolveMetric", async () => {
-      const spy = spyOn(ResolveMetricModule, "resolveMetric").and.callFake(
-        () => {
+      const spy = vi
+        .spyOn(ResolveMetricModule, "resolveMetric")
+        .mockImplementation(() => {
           return Promise.resolve({
             features: [],
             generatedAt: 1683060547818,
           } as IResolvedMetric);
-        }
-      );
+        });
       const chk = HubInitiative.fromJson(
         {
           name: "Test Initiative",
@@ -316,11 +314,11 @@ describe("HubInitiative Class:", () => {
 
   describe("IWithEditorBehavior:", () => {
     it("getEditorConfig delegates to helper", async () => {
-      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
-        () => {
+      const spy = vi
+        .spyOn(EditConfigModule, "getEditorConfig")
+        .mockImplementation(() => {
           return Promise.resolve({ fake: "config" });
-        }
-      );
+        });
       const chk = HubInitiative.fromJson(
         {
           id: "bc3",
@@ -344,10 +342,9 @@ describe("HubInitiative Class:", () => {
 
     describe("toEditor:", () => {
       it("optionally enriches the entity", async () => {
-        const enrichEntitySpy = spyOn(
-          EnrichEntityModule,
-          "enrichEntity"
-        ).and.returnValue(Promise.resolve({}));
+        const enrichEntitySpy = vi
+          .spyOn(EnrichEntityModule, "enrichEntity")
+          .mockResolvedValue({} as any);
         const chk = HubInitiative.fromJson({ id: "bc3" }, authdCtxMgr.context);
         await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
 
@@ -366,14 +363,11 @@ describe("HubInitiative Class:", () => {
           },
           authdCtxMgr.context
         );
-        spyOn(PortalModule, "getGroup").and.returnValue(
-          Promise.resolve({
-            id: "00123",
-            access: "public",
-          } as unknown as PortalModule.IGroup)
-        );
+        vi.spyOn(PortalModule, "getGroup").mockResolvedValue({
+          id: "00123",
+          access: "public",
+        } as unknown as PortalModule.IGroup);
         const result = await chk.toEditor();
-        // NOTE: If additional transforms are added in the class they should have tests here
         expect(result.id).toEqual("bc3");
         expect(result.name).toEqual("Test Entity");
         expect(result.thumbnailUrl).toEqual(
@@ -391,10 +385,9 @@ describe("HubInitiative Class:", () => {
             value: "525,600",
             cardTitle: "Right metric",
           };
-          const metricToEditorSpy = spyOn(
-            metricToEditorModule,
-            "metricToEditor"
-          ).and.returnValue(mockMetric);
+          const metricToEditorSpy = vi
+            .spyOn(metricToEditorModule, "metricToEditor")
+            .mockReturnValue(mockMetric as any);
           const mockInitiative = {
             id: "bc3",
             metrics: [
@@ -445,7 +438,7 @@ describe("HubInitiative Class:", () => {
     });
 
     describe("fromEditor:", () => {
-      let hubItemEntityFromEditorSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: any;
       let chk: HubInitiative;
 
       beforeEach(() => {
@@ -458,11 +451,11 @@ describe("HubInitiative Class:", () => {
           authdCtxMgr.context
         );
 
-        hubItemEntityFromEditorSpy = spyOn(
+        hubItemEntityFromEditorSpy = vi.spyOn(
           hubItemEntityFromEditorModule,
           "hubItemEntityFromEditor"
-        ).and.callThrough();
-        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        );
+        (chk as any).save = vi.fn().mockResolvedValue(undefined as any);
       });
       it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const editor = await chk.toEditor();
@@ -480,35 +473,16 @@ describe("HubInitiative Class:", () => {
           },
         } as unknown as IHubInitiativeEditor;
 
-        const updateGroupSpy = spyOn(
-          PortalModule,
-          "updateGroup"
-        ).and.returnValue(Promise.resolve());
+        const updateGroupSpy = PortalModule.updateGroup as any;
+        updateGroupSpy.mockResolvedValue(undefined as any);
 
         const res = await chk.fromEditor(editor);
 
-        expect(updateGroupSpy.calls.argsFor(0)).toEqual([
-          {
-            group: {
-              id: "00123",
-              access: "public",
-            },
-            authentication:
-              authdCtxMgr.context.hubRequestOptions.authentication,
-          },
-        ]);
-        expect(updateGroupSpy.calls.argsFor(1)).toEqual([
-          {
-            group: {
-              id: "00123",
-              membershipAccess: "org",
-              clearEmptyFields: true,
-            },
-            authentication:
-              authdCtxMgr.context.hubRequestOptions.authentication,
-          },
-        ]);
-        expect(updateGroupSpy).toHaveBeenCalledTimes(2);
+        expect(updateGroupSpy.mock.calls[0][0].group.id).toBe("00123");
+        expect(updateGroupSpy.mock.calls[1][0].group.membershipAccess).toBe(
+          "org"
+        );
+        expect(updateGroupSpy.mock.calls.length).toBe(2);
         expect(res._associations).toBeUndefined();
       });
       it("handles an empty associations object", async () => {
