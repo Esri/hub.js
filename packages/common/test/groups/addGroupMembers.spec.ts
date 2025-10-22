@@ -3,23 +3,23 @@ import { addGroupMembers } from "../../src/groups/addGroupMembers";
 import * as autoAddUsersModule from "../../src/groups/autoAddUsers";
 import * as inviteUsersModule from "../../src/groups/inviteUsers";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("addGroupMembers: ", () => {
-  let addGroupUsersSpy: jasmine.Spy;
-  let inviteGroupUsersSpy: jasmine.Spy;
+  let addGroupUsersSpy: any;
+  let inviteGroupUsersSpy: any;
 
   beforeEach(() => {
-    addGroupUsersSpy = spyOn(autoAddUsersModule, "autoAddUsers");
-    inviteGroupUsersSpy = spyOn(inviteUsersModule, "inviteUsers");
+    addGroupUsersSpy = vi.spyOn(autoAddUsersModule, "autoAddUsers");
+    inviteGroupUsersSpy = vi.spyOn(inviteUsersModule, "inviteUsers");
   });
 
   afterEach(() => {
-    addGroupUsersSpy.calls.reset();
-    inviteGroupUsersSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("Adds members to group when autoAdd is true", async () => {
-    addGroupUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
+    addGroupUsersSpy.mockResolvedValue({ success: true });
     const result = await addGroupMembers(
       "abc123",
       ["bob", "frank"],
@@ -36,13 +36,13 @@ describe("addGroupMembers: ", () => {
   });
 
   it("Adds members to group when autoAdd is true and falls back to invite if add fails", async () => {
-    addGroupUsersSpy.and.callFake((groupId: string, users: IUser[]) => {
+    addGroupUsersSpy.mockImplementation((groupId: string, users: IUser[]) => {
       if (users[0].username === "bob") {
         return Promise.resolve({ notAdded: ["bob"] });
       }
       return Promise.resolve({ success: true });
     });
-    inviteGroupUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
+    inviteGroupUsersSpy.mockResolvedValue({ success: true });
     const result = await addGroupMembers(
       "abc123",
       ["bob", "frank"],
@@ -60,12 +60,14 @@ describe("addGroupMembers: ", () => {
   });
 
   it("Invites members to group when autoAdd is false", async () => {
-    inviteGroupUsersSpy.and.callFake((groupId: string, users: IUser[]) => {
-      if (users[0].username === "bob") {
-        return Promise.resolve({ notAdded: ["bob"] });
+    inviteGroupUsersSpy.mockImplementation(
+      (groupId: string, users: IUser[]) => {
+        if (users[0].username === "bob") {
+          return Promise.resolve({ notAdded: ["bob"] });
+        }
+        return Promise.resolve({ success: true });
       }
-      return Promise.resolve({ success: true });
-    });
+    );
     const result = await addGroupMembers(
       "abc123",
       ["bob", "frank"],

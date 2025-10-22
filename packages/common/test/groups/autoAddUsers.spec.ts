@@ -1,9 +1,20 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+
+// Mock the ESM namespace module so we can override its exports safely
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    addGroupUsers: vi.fn(),
+  } as any;
+});
+
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { autoAddUsers } from "../../src/groups/autoAddUsers";
 import { MOCK_AUTH } from "./add-users-workflow/fixtures";
 
 describe("auto-add-users", function () {
-  let addSpy: jasmine.Spy;
+  let addSpy: any;
   const users: restPortalModule.IUser[] = [
     { username: "luke" },
     { username: "leia" },
@@ -12,18 +23,18 @@ describe("auto-add-users", function () {
   const groupId = "rebel_alliance";
 
   beforeEach(() => {
-    addSpy = spyOn(restPortalModule, "addGroupUsers");
+    addSpy = restPortalModule.addGroupUsers as any;
   });
   afterEach(() => {
-    addSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("Properly delegates to addGroupUsers", async () => {
-    addSpy.and.callFake(() => Promise.resolve({ notAdded: [] }));
+    addSpy.mockResolvedValue({ notAdded: [] });
     const result = await autoAddUsers(groupId, users, MOCK_AUTH);
     expect(result).toEqual({ notAdded: [] });
     expect(addSpy).toHaveBeenCalled();
-    const actualArgs = addSpy.calls.first().args;
+    const actualArgs = addSpy.mock.calls[0];
     const expectedArgs = [
       {
         authentication: MOCK_AUTH,
