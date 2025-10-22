@@ -1,9 +1,19 @@
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  return {
+    ...(await importOriginal()),
+    // make searchItems spyable
+    searchItems: vi.fn(),
+  };
+});
+
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import { fetchAllPages } from "../../src/items/fetch-all-pages";
 
-describe("fetchAllPages", function () {
-  it("fetches all the pages", async function () {
+afterEach(() => vi.restoreAllMocks());
+
+describe("fetchAllPages", () => {
+  it("fetches all the pages", async () => {
     const searchResults = [
       {
         total: 230,
@@ -17,11 +27,15 @@ describe("fetchAllPages", function () {
         results: new Array(30).fill(3),
       },
     ];
-    const searchSpy = spyOn(portalModule, "searchItems").and.returnValues(
-      ...searchResults.map((res) => Promise.resolve(res))
-    );
+
+    const searchSpy = vi
+      .spyOn(portalModule as any, "searchItems")
+      .mockReturnValueOnce(Promise.resolve(searchResults[0]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[1]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[2]));
+
     const results = await fetchAllPages(
-      portalModule.searchItems,
+      (portalModule as any).searchItems,
       {} as ISearchOptions
     );
 
@@ -36,7 +50,7 @@ describe("fetchAllPages", function () {
     ]);
   });
 
-  it("works when total is less than page size", async function () {
+  it("works when total is less than page size", async () => {
     const searchResults = [
       {
         total: 30,
@@ -44,10 +58,12 @@ describe("fetchAllPages", function () {
         results: new Array(30).fill(1),
       },
     ];
-    const searchSpy = spyOn(portalModule, "searchItems").and.returnValues(
-      ...searchResults.map((res) => Promise.resolve(res))
-    );
-    const results = await fetchAllPages(portalModule.searchItems, {
+
+    const searchSpy = vi
+      .spyOn(portalModule as any, "searchItems")
+      .mockReturnValueOnce(Promise.resolve(searchResults[0]));
+
+    const results = await fetchAllPages((portalModule as any).searchItems, {
       num: 100,
     } as ISearchOptions);
 
@@ -56,7 +72,7 @@ describe("fetchAllPages", function () {
     expect(results).toEqual(new Array(30).fill(1));
   });
 
-  it("works with custom start and num", async function () {
+  it("works with custom start and num", async () => {
     const searchResults = [
       {
         total: 50,
@@ -70,10 +86,14 @@ describe("fetchAllPages", function () {
         results: new Array(10).fill(3),
       },
     ];
-    const searchSpy = spyOn(portalModule, "searchItems").and.returnValues(
-      ...searchResults.map((res) => Promise.resolve(res))
-    );
-    const results = await fetchAllPages(portalModule.searchItems, {
+
+    const searchSpy = vi
+      .spyOn(portalModule as any, "searchItems")
+      .mockReturnValueOnce(Promise.resolve(searchResults[0]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[1]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[2]));
+
+    const results = await fetchAllPages((portalModule as any).searchItems, {
       num: 10,
       start: 21,
     } as ISearchOptions);
@@ -89,7 +109,7 @@ describe("fetchAllPages", function () {
     ]);
   });
 
-  it("works with a limit", async function () {
+  it("works with a limit", async () => {
     const searchResults = [
       {
         total: 10000,
@@ -115,13 +135,23 @@ describe("fetchAllPages", function () {
         results: new Array(10).fill(7),
       },
     ];
-    const searchSpy = spyOn(portalModule, "searchItems").and.returnValues(
-      ...searchResults.map((res) => Promise.resolve(res))
-    );
+
+    const searchSpy = vi
+      .spyOn(portalModule as any, "searchItems")
+      .mockReturnValueOnce(Promise.resolve(searchResults[0]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[1]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[2]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[3]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[4]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[5]))
+      .mockReturnValueOnce(Promise.resolve(searchResults[6]));
+
     const limit = 44;
     const results = await fetchAllPages(
-      portalModule.searchItems,
-      { num: 10 } as ISearchOptions,
+      (portalModule as any).searchItems,
+      {
+        num: 10,
+      } as ISearchOptions,
       limit
     );
 

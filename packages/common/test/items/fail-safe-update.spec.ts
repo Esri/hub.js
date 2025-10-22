@@ -4,7 +4,9 @@ import * as portal from "../../src/rest/portal/wrappers";
 import { failSafeUpdate } from "../../src/items/fail-safe-update";
 import { IModel } from "../../src/hub-types";
 
-describe("failSafeUpdate", function () {
+afterEach(() => vi.restoreAllMocks());
+
+describe("failSafeUpdate", () => {
   const model: IModel = {
     item: {
       id: "someId",
@@ -21,34 +23,34 @@ describe("failSafeUpdate", function () {
     data: { foo: "bar", baz: { boop: "beep" } },
   };
 
-  it("updates item", async function () {
-    const updateItemSpy = spyOn(portal, "updateItem").and.returnValue(
-      Promise.resolve({ id: model.item.id, success: true })
-    );
+  it("updates item", async () => {
+    const updateItemSpy = vi
+      .spyOn(portal as any, "updateItem")
+      .mockReturnValue(Promise.resolve({ id: model.item.id, success: true }));
 
     const res = await failSafeUpdate(model, {
       authentication: mockUserSession,
     });
 
     expect(res.success).toBeTruthy("returned success");
-    expect(updateItemSpy.calls.count()).toBe(1, "updateItem called");
+    expect((updateItemSpy as any).mock.calls.length).toBe(1);
   });
 
-  it("never fails", async function () {
-    const updateItemSpy = spyOn(portal, "updateItem").and.returnValue(
-      Promise.reject({ success: false })
-    );
+  it("never fails", async () => {
+    const updateItemSpy = vi
+      .spyOn(portal as any, "updateItem")
+      .mockImplementation(() => Promise.reject({ success: false }));
 
-    let res;
+    let res: any;
     try {
       res = await failSafeUpdate(model, {
         authentication: mockUserSession,
       });
     } catch (_) {
-      fail(Error("failSafeUpdate rejected"));
+      throw new Error("failSafeUpdate rejected");
     }
 
     expect(res.success).toBeTruthy("returned success");
-    expect(updateItemSpy.calls.count()).toBe(1, "updateItem called");
+    expect((updateItemSpy as any).mock.calls.length).toBe(1);
   });
 });
