@@ -1,3 +1,17 @@
+import { vi } from "vitest";
+
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal: any) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    getGroup: vi.fn(),
+    createGroup: vi.fn(),
+    protectGroup: vi.fn(),
+    updateGroup: vi.fn(),
+    removeGroup: vi.fn(),
+  };
+});
+
 import { IGroup } from "@esri/arcgis-rest-portal";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -63,18 +77,15 @@ const TEST_HUB_GROUP = {
 
 describe("HubGroups Module:", () => {
   describe("enrichments:", () => {
-    let enrichmentSpy: jasmine.Spy;
+    let enrichmentSpy: ReturnType<typeof vi.spyOn>;
     let hubRo: IHubRequestOptions;
 
     beforeEach(() => {
-      enrichmentSpy = spyOn(
-        FetchEnrichments,
-        "fetchGroupEnrichments"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          contentCount: 23,
+      enrichmentSpy = vi
+        .spyOn(FetchEnrichments, "fetchGroupEnrichments")
+        .mockImplementation(() => {
+          return Promise.resolve({ contentCount: 23 });
         });
-      });
       hubRo = {
         portal: "https://some-server.com/gis/sharing/rest",
       };
@@ -87,10 +98,7 @@ describe("HubGroups Module:", () => {
         hubRo
       );
 
-      expect(enrichmentSpy.calls.count()).toBe(
-        0,
-        "should not fetch enrichments"
-      );
+      expect(enrichmentSpy).toHaveBeenCalledTimes(0);
 
       // verify expected output
       const GRP = cloneObject(TEST_GROUP);
@@ -143,8 +151,8 @@ describe("HubGroups Module:", () => {
       expect(chk.itemCount).toBe(23);
 
       // verify the spy
-      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
-      const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
+      expect(enrichmentSpy).toHaveBeenCalledTimes(1);
+      const [item, enrichments, ro] = enrichmentSpy.mock.calls[0];
       expect(item).toEqual(TEST_GROUP);
       expect(enrichments).toEqual(["contentCount"]);
       expect(ro).toBe(hubRo);
@@ -153,32 +161,29 @@ describe("HubGroups Module:", () => {
 
   describe("createHubGroup", () => {
     it("creates a HubGroup from an IGroup", async () => {
-      const getUniqueGroupTitleSpy = spyOn(
-        GetUniqueGroupTitleModule,
-        "getUniqueGroupTitle"
-      ).and.returnValue(Promise.resolve(TEST_GROUP.title));
-      const createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsModule,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({ id: "abc", settings: { discussions: {} } })
-      );
-      const portalProtectGroupSpy = spyOn(
-        PortalModule,
-        "protectGroup"
-      ).and.returnValue(Promise.resolve({ success: true }));
-      const portalCreateGroupSpy = spyOn(
-        PortalModule,
-        "createGroup"
-      ).and.callFake((group: IGroup) => {
-        group.id = TEST_GROUP.id;
-        group.description = TEST_GROUP.description;
-        group.group.userMembership = {
-          memberType: TEST_GROUP.userMembership?.memberType,
-        };
-        group.protected = false;
-        return Promise.resolve(group);
-      });
+      const getUniqueGroupTitleSpy = vi
+        .spyOn(GetUniqueGroupTitleModule, "getUniqueGroupTitle")
+        .mockResolvedValue(TEST_GROUP.title as any);
+      const createOrUpdateEntitySettingsSpy = vi
+        .spyOn(
+          createOrUpdateEntitySettingsModule,
+          "createOrUpdateEntitySettings"
+        )
+        .mockResolvedValue({ id: "abc", settings: { discussions: {} } } as any);
+      const portalProtectGroupSpy = vi
+        .spyOn(PortalModule, "protectGroup")
+        .mockResolvedValue({ success: true } as any);
+      const portalCreateGroupSpy = vi
+        .spyOn(PortalModule, "createGroup")
+        .mockImplementation((group: any) => {
+          group.id = TEST_GROUP.id;
+          group.description = TEST_GROUP.description;
+          group.group.userMembership = {
+            memberType: TEST_GROUP.userMembership?.memberType,
+          };
+          group.protected = false;
+          return Promise.resolve(group);
+        });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         {
@@ -195,32 +200,29 @@ describe("HubGroups Module:", () => {
     });
 
     it("creates a HubGroup without the protected flag", async () => {
-      const getUniqueGroupTitleSpy = spyOn(
-        GetUniqueGroupTitleModule,
-        "getUniqueGroupTitle"
-      ).and.returnValue(Promise.resolve(TEST_GROUP.title));
-      const createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsModule,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({ id: "abc", settings: { discussions: {} } })
-      );
-      const portalProtectGroupSpy = spyOn(
-        PortalModule,
-        "protectGroup"
-      ).and.returnValue(Promise.resolve({ success: true }));
-      const portalCreateGroupSpy = spyOn(
-        PortalModule,
-        "createGroup"
-      ).and.callFake((group: IGroup) => {
-        group.id = TEST_GROUP.id;
-        group.description = TEST_GROUP.description;
-        group.group.userMembership = {
-          memberType: TEST_GROUP.userMembership?.memberType,
-        };
-        group.protected = false;
-        return Promise.resolve(group);
-      });
+      const getUniqueGroupTitleSpy = vi
+        .spyOn(GetUniqueGroupTitleModule, "getUniqueGroupTitle")
+        .mockResolvedValue(TEST_GROUP.title as any);
+      const createOrUpdateEntitySettingsSpy = vi
+        .spyOn(
+          createOrUpdateEntitySettingsModule,
+          "createOrUpdateEntitySettings"
+        )
+        .mockResolvedValue({ id: "abc", settings: { discussions: {} } } as any);
+      const portalProtectGroupSpy = vi
+        .spyOn(PortalModule, "protectGroup")
+        .mockResolvedValue({ success: true } as any);
+      const portalCreateGroupSpy = vi
+        .spyOn(PortalModule, "createGroup")
+        .mockImplementation((group: any) => {
+          group.id = TEST_GROUP.id;
+          group.description = TEST_GROUP.description;
+          group.group.userMembership = {
+            memberType: TEST_GROUP.userMembership?.memberType,
+          };
+          group.protected = false;
+          return Promise.resolve(group);
+        });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: false },
         {
@@ -237,32 +239,29 @@ describe("HubGroups Module:", () => {
     });
 
     it("does not set the protected flag if the protect call fails", async () => {
-      const getUniqueGroupTitleSpy = spyOn(
-        GetUniqueGroupTitleModule,
-        "getUniqueGroupTitle"
-      ).and.returnValue(Promise.resolve(TEST_GROUP.title));
-      const createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsModule,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({ id: "abc", settings: { discussions: {} } })
-      );
-      const portalProtectGroupSpy = spyOn(
-        PortalModule,
-        "protectGroup"
-      ).and.returnValue(Promise.resolve({ success: false }));
-      const portalCreateGroupSpy = spyOn(
-        PortalModule,
-        "createGroup"
-      ).and.callFake((group: IGroup) => {
-        group.id = TEST_GROUP.id;
-        group.description = TEST_GROUP.description;
-        group.group.userMembership = {
-          memberType: TEST_GROUP.userMembership?.memberType,
-        };
-        group.protected = false;
-        return Promise.resolve(group);
-      });
+      const getUniqueGroupTitleSpy = vi
+        .spyOn(GetUniqueGroupTitleModule, "getUniqueGroupTitle")
+        .mockResolvedValue(TEST_GROUP.title as any);
+      const createOrUpdateEntitySettingsSpy = vi
+        .spyOn(
+          createOrUpdateEntitySettingsModule,
+          "createOrUpdateEntitySettings"
+        )
+        .mockResolvedValue({ id: "abc", settings: { discussions: {} } } as any);
+      const portalProtectGroupSpy = vi
+        .spyOn(PortalModule, "protectGroup")
+        .mockResolvedValue({ success: false } as any);
+      const portalCreateGroupSpy = vi
+        .spyOn(PortalModule, "createGroup")
+        .mockImplementation((group: any) => {
+          group.id = TEST_GROUP.id;
+          group.description = TEST_GROUP.description;
+          group.group.userMembership = {
+            memberType: TEST_GROUP.userMembership?.memberType,
+          };
+          group.protected = false;
+          return Promise.resolve(group);
+        });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         {
@@ -279,26 +278,23 @@ describe("HubGroups Module:", () => {
     });
 
     it("does not set discussion settings if in enterprise", async () => {
-      const getUniqueGroupTitleSpy = spyOn(
-        GetUniqueGroupTitleModule,
-        "getUniqueGroupTitle"
-      ).and.returnValue(Promise.resolve(TEST_GROUP.title));
-      const portalProtectGroupSpy = spyOn(
-        PortalModule,
-        "protectGroup"
-      ).and.returnValue(Promise.resolve({ success: true }));
-      const portalCreateGroupSpy = spyOn(
-        PortalModule,
-        "createGroup"
-      ).and.callFake((group: IGroup) => {
-        group.id = TEST_GROUP.id;
-        group.description = TEST_GROUP.description;
-        group.group.userMembership = {
-          memberType: TEST_GROUP.userMembership?.memberType,
-        };
-        group.protected = false;
-        return Promise.resolve(group);
-      });
+      const getUniqueGroupTitleSpy = vi
+        .spyOn(GetUniqueGroupTitleModule, "getUniqueGroupTitle")
+        .mockResolvedValue(TEST_GROUP.title as any);
+      const portalProtectGroupSpy = vi
+        .spyOn(PortalModule, "protectGroup")
+        .mockResolvedValue({ success: true } as any);
+      const portalCreateGroupSpy = vi
+        .spyOn(PortalModule, "createGroup")
+        .mockImplementation((group: any) => {
+          group.id = TEST_GROUP.id;
+          group.description = TEST_GROUP.description;
+          group.group.userMembership = {
+            memberType: TEST_GROUP.userMembership?.memberType,
+          };
+          group.protected = false;
+          return Promise.resolve(group);
+        });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         {
@@ -316,9 +312,9 @@ describe("HubGroups Module:", () => {
 
   describe("fetchHubGroup", () => {
     it("fetches a HubGroup", async () => {
-      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
-        Promise.resolve(TEST_GROUP)
-      );
+      const portalGetGroupSpy = vi
+        .spyOn(PortalModule, "getGroup")
+        .mockResolvedValue(TEST_GROUP as any);
       const chk = await HubGroupsModule.fetchHubGroup(GUID, {
         authentication: MOCK_AUTH,
         isPortal: false,
@@ -329,9 +325,9 @@ describe("HubGroups Module:", () => {
       expect(portalGetGroupSpy).toHaveBeenCalledTimes(1);
     });
     it("does not fetch settings if permissions invalid", async () => {
-      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
-        Promise.resolve(TEST_GROUP)
-      );
+      const portalGetGroupSpy = vi
+        .spyOn(PortalModule, "getGroup")
+        .mockResolvedValue(TEST_GROUP as any);
       const chk = await HubGroupsModule.fetchHubGroup(GUID, {
         authentication: MOCK_AUTH,
         isPortal: true,
@@ -345,16 +341,15 @@ describe("HubGroups Module:", () => {
 
   describe("updateHubGroup", () => {
     it("updates a HubGroup", async () => {
-      const createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsModule,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({ id: "abc", settings: { discussions: {} } })
-      );
-      const portalUpdateGroupSpy = spyOn(
-        PortalModule,
-        "updateGroup"
-      ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
+      const createOrUpdateEntitySettingsSpy = vi
+        .spyOn(
+          createOrUpdateEntitySettingsModule,
+          "createOrUpdateEntitySettings"
+        )
+        .mockResolvedValue({ id: "abc", settings: { discussions: {} } } as any);
+      const portalUpdateGroupSpy = vi
+        .spyOn(PortalModule, "updateGroup")
+        .mockResolvedValue(TEST_HUB_GROUP as any);
       const chk = await HubGroupsModule.updateHubGroup(
         TEST_HUB_GROUP as IHubGroup,
         {
@@ -367,13 +362,13 @@ describe("HubGroups Module:", () => {
       expect(portalUpdateGroupSpy).toHaveBeenCalledTimes(1);
     });
     it("updates membershipAccess: anyone", async () => {
-      const createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsModule,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({ id: "abc", settings: { discussions: {} } })
-      );
-      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const createOrUpdateEntitySettingsSpy = vi
+        .spyOn(
+          createOrUpdateEntitySettingsModule,
+          "createOrUpdateEntitySettings"
+        )
+        .mockResolvedValue({ id: "abc", settings: { discussions: {} } } as any);
+      const portalUpdateGroupSpy = vi.spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "anyone" } as IHubGroup,
         {
@@ -386,21 +381,18 @@ describe("HubGroups Module:", () => {
       // membershipAccess: null and clearEmptyFields: true
       // to the updateGroup call
       expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
-      expect(
-        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
-      ).toBe("");
-      expect(
-        portalUpdateGroupSpy.calls.argsFor(0)[0].params.clearEmptyFields
-      ).toBeTruthy();
+      const pcall = (portalUpdateGroupSpy as any).mock.calls[0][0];
+      expect(pcall.group.membershipAccess).toBe("");
+      expect(pcall.params.clearEmptyFields).toBeTruthy();
     });
     it("updates membershipAccess: organization", async () => {
-      const createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsModule,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({ id: "abc", settings: { discussions: {} } })
-      );
-      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const createOrUpdateEntitySettingsSpy = vi
+        .spyOn(
+          createOrUpdateEntitySettingsModule,
+          "createOrUpdateEntitySettings"
+        )
+        .mockResolvedValue({ id: "abc", settings: { discussions: {} } } as any);
+      const portalUpdateGroupSpy = vi.spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "organization" } as IHubGroup,
         {
@@ -410,18 +402,17 @@ describe("HubGroups Module:", () => {
       );
       expect(chk.membershipAccess).toBe("organization");
       expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
-      expect(
-        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
-      ).toBe("org");
+      const pcall2 = (portalUpdateGroupSpy as any).mock.calls[0][0];
+      expect(pcall2.group.membershipAccess).toBe("org");
     });
     it("updates membershipAccess: collaborators", async () => {
-      const createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsModule,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({ id: "abc", settings: { discussions: {} } })
-      );
-      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const createOrUpdateEntitySettingsSpy = vi
+        .spyOn(
+          createOrUpdateEntitySettingsModule,
+          "createOrUpdateEntitySettings"
+        )
+        .mockResolvedValue({ id: "abc", settings: { discussions: {} } } as any);
+      const portalUpdateGroupSpy = vi.spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "collaborators" } as IHubGroup,
         {
@@ -431,15 +422,13 @@ describe("HubGroups Module:", () => {
       );
       expect(chk.membershipAccess).toBe("collaborators");
       expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
-      expect(
-        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
-      ).toBe("collaboration");
+      const pcall3 = (portalUpdateGroupSpy as any).mock.calls[0][0];
+      expect(pcall3.group.membershipAccess).toBe("collaboration");
     });
     it("does not set discussion settings if permissions invalid", async () => {
-      const portalUpdateGroupSpy = spyOn(
-        PortalModule,
-        "updateGroup"
-      ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
+      const portalUpdateGroupSpy = vi
+        .spyOn(PortalModule, "updateGroup")
+        .mockResolvedValue(TEST_HUB_GROUP as any);
       const chk = await HubGroupsModule.updateHubGroup(
         TEST_HUB_GROUP as IHubGroup,
         {
@@ -454,10 +443,9 @@ describe("HubGroups Module:", () => {
 
   describe("deleteHubGroup", () => {
     it("delete a HubGroup", async () => {
-      const portalRemoveGroupSpy = spyOn(
-        PortalModule,
-        "removeGroup"
-      ).and.returnValue(Promise.resolve({ success: true }));
+      const portalRemoveGroupSpy = vi
+        .spyOn(PortalModule, "removeGroup")
+        .mockResolvedValue({ success: true } as any);
       await HubGroupsModule.deleteHubGroup(TEST_HUB_GROUP.id, {
         authentication: MOCK_AUTH,
       });

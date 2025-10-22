@@ -1,9 +1,20 @@
+import { vi } from "vitest";
+
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...(actual as any),
+    inviteGroupUsers: vi.fn(),
+  };
+});
+
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { inviteUsers } from "../../src/groups/inviteUsers";
 import { MOCK_AUTH } from "./add-users-workflow/fixtures";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("invite-users", function () {
-  let invitationSpy: jasmine.Spy;
+  let invitationSpy: any;
   const users: restPortalModule.IUser[] = [
     { username: "harry" },
     { username: "ron" },
@@ -12,18 +23,18 @@ describe("invite-users", function () {
   const groupId = "gryffindor";
 
   beforeEach(() => {
-    invitationSpy = spyOn(restPortalModule, "inviteGroupUsers");
+    invitationSpy = restPortalModule.inviteGroupUsers as any;
   });
   afterEach(() => {
-    invitationSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("Properly delegates to inviteGroupUsers", async () => {
-    invitationSpy.and.callFake(() => Promise.resolve({ success: true }));
+    invitationSpy.mockResolvedValue({ success: true });
     const result = await inviteUsers(groupId, users, MOCK_AUTH);
     expect(result).toEqual({ success: true });
     expect(invitationSpy).toHaveBeenCalled();
-    const actualArgs = invitationSpy.calls.first().args;
+    const actualArgs = invitationSpy.mock.calls[0];
     const expectedArgs = [
       {
         authentication: MOCK_AUTH,
@@ -37,11 +48,11 @@ describe("invite-users", function () {
   });
 
   it("Respects expiration overrides", async () => {
-    invitationSpy.and.callFake(() => Promise.resolve({ success: true }));
+    invitationSpy.mockResolvedValue({ success: true });
     const result = await inviteUsers(groupId, users, MOCK_AUTH, 9001);
     expect(result).toEqual({ success: true });
     expect(invitationSpy).toHaveBeenCalled();
-    const actualArgs = invitationSpy.calls.first().args;
+    const actualArgs = invitationSpy.mock.calls[0];
     const expectedArgs = [
       {
         authentication: MOCK_AUTH,

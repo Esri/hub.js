@@ -1,10 +1,22 @@
+import { vi } from "vitest";
+
+// make the ESM namespace mockable so we can override createOrgNotification
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...(actual as any),
+    createOrgNotification: vi.fn(),
+  };
+});
+
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { emailOrgUsers } from "../../src/groups/emailOrgUsers";
 import { MOCK_AUTH } from "./add-users-workflow/fixtures";
 import { IEmail } from "../../src/groups/types/types";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("email-org-users", function () {
-  let notificationSpy: jasmine.Spy;
+  let notificationSpy: any;
   const users: restPortalModule.IUser[] = [
     { username: "huey" },
     { username: "dewey" },
@@ -16,18 +28,18 @@ describe("email-org-users", function () {
   };
 
   beforeEach(() => {
-    notificationSpy = spyOn(restPortalModule, "createOrgNotification");
+    notificationSpy = restPortalModule.createOrgNotification as any;
   });
   afterEach(() => {
-    notificationSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("Properly delegates to createOrgNotification", async () => {
-    notificationSpy.and.callFake(() => Promise.resolve({ success: true }));
+    notificationSpy.mockResolvedValue({ success: true });
     const result = await emailOrgUsers(users, email, MOCK_AUTH, true);
     expect(result).toEqual({ success: true });
     expect(notificationSpy).toHaveBeenCalled();
-    const actualArgs = notificationSpy.calls.first().args;
+    const actualArgs = notificationSpy.mock.calls[0];
     const expectedArgs = [
       {
         authentication: MOCK_AUTH,
@@ -41,11 +53,11 @@ describe("email-org-users", function () {
   });
 
   it("Sets a batch size of 1 when user is not an admin", async () => {
-    notificationSpy.and.callFake(() => Promise.resolve({ success: true }));
+    notificationSpy.mockResolvedValue({ success: true });
     const result = await emailOrgUsers(users, email, MOCK_AUTH, false);
     expect(result).toEqual({ success: true });
     expect(notificationSpy).toHaveBeenCalled();
-    const actualArgs = notificationSpy.calls.first().args;
+    const actualArgs = notificationSpy.mock.calls[0];
     const expectedArgs = [
       {
         authentication: MOCK_AUTH,
