@@ -1,4 +1,4 @@
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import {
   buildUiSchema,

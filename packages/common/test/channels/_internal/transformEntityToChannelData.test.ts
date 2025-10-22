@@ -1,12 +1,10 @@
 import { CHANNEL_PERMISSIONS } from "../../../src/channels/_internal/ChannelBusinessRules";
 import { transformEntityToChannelData } from "../../../src/channels/_internal/transformEntityToChannelData";
 import { IHubChannel } from "../../../src/core/types/IHubChannel";
-import {
-  AclCategory,
-  AclSubCategory,
-  ICreateChannelV2,
-  Role,
-} from "../../../src/discussions/api/types";
+import { AclCategory } from "../../../src/discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../../src/discussions/api/enums/aclSubCategory";
+import { Role } from "../../../src/discussions/api/enums/role";
+import { ICreateChannelV2 } from "../../../src/discussions/api/types";
 import { COLLABORATION_TYPES } from "../../../src/permissions/types/IEntityPermissionPolicy";
 
 describe("transformEntityToChannelData", () => {

@@ -1,7 +1,8 @@
 import { IArcGISContext } from "../../../types/IArcGISContext";
-import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
+import { IUiSchemaElement } from "../types";
 import { checkPermission } from "../../../permissions/checkPermission";
 import { getWellKnownCatalogs } from "../../../search/wellKnownCatalog";
+import { UiSchemaRuleEffects } from "../../enums/uiSchemaRuleEffects";
 
 /**
  * When creating an entity, an editor can elect to initialize

@@ -40,10 +40,12 @@ import { getHubApiUrl } from "../../api";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { isSiteType } from "../isSiteType";
 import { HubEnvironment } from "../../permissions/types/IPermissionPolicy";
-import { IHubContent, PublisherSource } from "../../core/types/IHubContent";
+import { IHubContent } from "../../core/types/IHubContent";
+import { PublisherSource } from "../../core/enums/publisherSource";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IGeometryInstance } from "../../core/types/IGeometryInstance";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
+import { DatePrecision } from "./enums/datePrecision";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -376,16 +378,6 @@ export function getValueFromMetadata(
 ) {
   const path = getMetadataPath(identifier);
   return path && getProp(metadata, path);
-}
-
-/**
- * Date precisions
- */
-export enum DatePrecision {
-  Year = "year",
-  Month = "month",
-  Day = "day",
-  Time = "time",
 }
 
 /**

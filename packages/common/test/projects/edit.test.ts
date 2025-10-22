@@ -10,7 +10,8 @@ import {
   deleteProject,
   updateProject,
 } from "../../src/projects/edit";
-import { HubEntityStatus, IModel } from "../../src/hub-types";
+import { IModel } from "../../src/hub-types";
+import { HubEntityStatus } from "../../src/enums/hubEntityStatus";
 import { cloneObject } from "../../src/util";
 import { IHubProject } from "../../src/core/types/IHubProject";
 

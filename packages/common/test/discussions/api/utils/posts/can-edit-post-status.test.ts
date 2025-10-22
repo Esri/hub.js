@@ -2,12 +2,12 @@ import type { IGroup } from "@esri/arcgis-rest-portal";
 import {
   IChannel,
   IDiscussionsUser,
-  SharingAccess,
 } from "../../../../../src/discussions/api//types";
 import {
   canEditPostStatus,
   canModifyPostStatus,
 } from "../../../../../src/discussions/api/utils/posts/can-edit-post-status";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 describe("canModifyPostStatus", () => {
   describe("With Legacy Permissions", () => {

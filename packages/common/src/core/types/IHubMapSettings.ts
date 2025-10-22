@@ -1,11 +1,4 @@
-/**
- * Enum for describing the feature layer styles.
- */
-export enum FeatureLayerStyle {
-  Hub = "hub",
-  Item = "item",
-  Service = "service",
-}
+import { FeatureLayerStyle } from "../enums/featureLayerStyle";
 
 /**
  * Interface for Hub Map settings.  Used to configure the map for an entity.

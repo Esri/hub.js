@@ -1,16 +1,15 @@
 import { buildUiSchema } from "../../../src/channels/_internal/ChannelUiSchemaCreate";
-import { IChannel, Role } from "../../../src/discussions/api/types";
+import { IChannel } from "../../../src/discussions/api/types";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
-import {
-  IUiSchema,
-  UiSchemaRuleEffects,
-} from "../../../src/core/schemas/types";
+import { IUiSchema } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import * as getWellKnownCatalogModule from "../../../src/search/wellKnownCatalog";
 import { IHubCatalog } from "../../../src/search/types/IHubCatalog";
 import { CANNOT_DISCUSS } from "../../../src/discussions/constants";
 import { ChannelNonePermission } from "../../../src/channels/_internal/ChannelBusinessRules";
 import * as deriveUserRoleV2Module from "../../../src/discussions/api/utils/channels/derive-user-role-v2";
 import { IHubChannel } from "../../../src/core/types/IHubChannel";
+import { Role } from "../../../src/discussions/api/enums/role";
 
 describe("ChannelUiSchemaCreate", () => {
   describe("buildUiSchema", () => {

@@ -1,5 +1,6 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { PostReaction, IChannel, IDiscussionsUser } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
+import { PostReaction } from "../../enums/postReaction";
 import { canReadChannel } from "../channels/can-read-channel";
 
 /**

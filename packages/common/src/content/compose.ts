@@ -17,7 +17,6 @@ import { getItemDataUrl } from "../urls/get-item-data-url";
 import { camelize, isNil } from "../util";
 import { includes } from "../utils/includes";
 import {
-  DatePrecision,
   IMetadataPaths,
   canUseHubApiForItem,
   getContentBoundary,
@@ -36,6 +35,8 @@ import { getFamily } from "./get-family";
 import { isSiteType } from "./isSiteType";
 import { IHubContentEnrichments } from "../core/types/IHubContentEnrichments";
 import { IHubContent } from "../core/types/IHubContent";
+import { DatePrecision } from "./_internal/enums/datePrecision";
+import { UpdateFrequency } from "./enums/updateFrequency";
 
 /**
  * The extent returned by the Hub API
@@ -80,27 +81,6 @@ const getContentName = (
       : item.title || item.name) || ""
   ).replace(/_/g, " ");
 };
-
-/**
- * The possible values for updateFrequency
- *
- * @enum {string}
- */
-export enum UpdateFrequency {
-  Continual = "continual",
-  Daily = "daily",
-  Weekly = "weekly",
-  Fortnightly = "fortnightly",
-  Monthly = "monthly",
-  Quarterly = "quarterly",
-  Biannually = "biannually",
-  Annually = "annually",
-  AsNeeded = "as-needed",
-  Irregular = "irregular",
-  NotPlanned = "not-planned",
-  Unknown = "unknown",
-  Semimonthly = "semimonthly",
-}
 
 const getUpdateFrequencyFromMetadata = (
   metadata: any,

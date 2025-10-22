@@ -1,6 +1,6 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
+import { IUiSchema } from "../../core/schemas/types";
 import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
@@ -9,6 +9,7 @@ import { HubEntity } from "../../core/types/HubEntity";
 import { IHubInitiativeTemplate } from "../../core/types/IHubInitiativeTemplate";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
+import { UiSchemaMessageTypes } from "../../core/enums/uiSchemaMessageTypes";
 
 /**
  * @private

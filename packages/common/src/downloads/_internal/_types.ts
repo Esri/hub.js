@@ -1,4 +1,4 @@
-import { ServiceDownloadFormat } from "../types";
+import { ServiceDownloadFormat } from "../enums/serviceDownloadFormat";
 
 /**
  * Formats supported by the /exportImage endpoint of Image Services.

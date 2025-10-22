@@ -1,10 +1,8 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { canCreateReactionV2 } from "../../../../../src/discussions/api//utils/reactions/can-create-reaction-v2";
-import {
-  PostReaction,
-  IChannel,
-} from "../../../../../src/discussions/api//types";
+import { IChannel } from "../../../../../src/discussions/api//types";
 import * as canReadChannelV2Module from "../../../../../src/discussions/api//utils/channels/can-read-channel-v2";
+import { PostReaction } from "../../../../../src/discussions/api/enums/postReaction";
 
 describe("canCreateReactionV2", () => {
   let canReadChannelV2Spy: jasmine.Spy;

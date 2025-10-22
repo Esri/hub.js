@@ -4,12 +4,9 @@ import { getCategoryTree, ICategoryTree } from "./categories/getCategoryTree";
 import { isFullyQualifiedCategory } from "./categories/isFullyQualifiedCategory";
 import { IQuery } from "../../../search/types/IHubCatalog";
 import type { IArcGISContext } from "../../../types/IArcGISContext";
-import {
-  IUiSchemaComboboxItem,
-  IUiSchemaElement,
-  UiSchemaRuleEffects,
-} from "../types";
+import { IUiSchemaComboboxItem, IUiSchemaElement } from "../types";
 import { Logger } from "../../../utils/logger";
+import { UiSchemaRuleEffects } from "../../enums/uiSchemaRuleEffects";
 
 export type IFetchCategoriesUiSchemaElementOptions =
   | IFromOrgOptions
@@ -18,7 +15,7 @@ export type IFetchCategoriesUiSchemaElementOptions =
 interface IBaseOptions {
   source: "org" | "query";
   currentValues?: string[];
-  elementScope?: string
+  elementScope?: string;
   i18nScope?: string;
   context: IArcGISContext;
 }
@@ -98,13 +95,11 @@ export async function fetchCategoriesUiSchemaElement(
   // Construct groups for the combobox items
   fieldOptions.groups = [
     !!unrecognizedItems.length && {
-      label:
-        `{{${i18nScope}.unrecognizedCategoriesGroup.label:translate}}`,
+      label: `{{${i18nScope}.unrecognizedCategoriesGroup.label:translate}}`,
       items: unrecognizedItems,
     },
     !!recognizedItems.length && {
-      label:
-        `{{${i18nScope}.recognizedCategoriesGroup.label:translate}}`,
+      label: `{{${i18nScope}.recognizedCategoriesGroup.label:translate}}`,
       items: recognizedItems,
     },
   ].filter(Boolean);
@@ -136,13 +131,11 @@ export async function fetchCategoriesUiSchemaElement(
             kind: "warning",
             scale: "m",
           },
-          message:
-            `{{${i18nScope}.noCategoriesNotice.body:translate}}`,
+          message: `{{${i18nScope}.noCategoriesNotice.body:translate}}`,
           autoShow: true,
           actions: [
             {
-              label:
-                `{{${i18nScope}.noCategoriesNotice.link:translate}}`,
+              label: `{{${i18nScope}.noCategoriesNotice.link:translate}}`,
               href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
               target: "_blank",
             },

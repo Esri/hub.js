@@ -1,5 +1,6 @@
+import { PostSort } from "../../../../src/discussions/api/enums/postSort";
+import { SortOrder } from "../../../../src/discussions/api/enums/sortOrder";
 import { processPostOptions } from "../../../../src/search/_internal/hubDiscussionsHelpers/processPostOptions";
-import { PostSort, SortOrder } from "../../../../src/discussions/api/types";
 
 describe("processPostOptions", () => {
   it("should support num", () => {

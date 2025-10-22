@@ -1,6 +1,8 @@
 import { IGeometryInstance } from "../core/types/IGeometryInstance";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 import type { IArcGISContext } from "../types/IArcGISContext";
+import { DownloadOperationStatus } from "./enums/downloadOperationStatus";
+import { ServiceDownloadFormat } from "./enums/serviceDownloadFormat";
 
 /**
  * This hash map was defined to support the previous implementation of the export item flow.
@@ -53,37 +55,6 @@ export const PORTAL_EXPORT_TYPES = {
 
 // Keys that the legacy implementation of the export item flow uses to identify the export format.
 export type LegacyExportItemFormat = keyof typeof PORTAL_EXPORT_TYPES;
-
-/**
- * Comprehensive enum of all the download formats that are supported by service-backed items across the ArcGIS platform.
- */
-export enum ServiceDownloadFormat {
-  // Image Service Formats
-  BMP = "bmp",
-  GIF = "gif",
-  JPG = "jpg",
-  JPG_PNG = "jpgpng",
-  PNG = "png",
-  PNG8 = "png8",
-  PNG24 = "png24",
-  TIFF = "tiff",
-  PNG32 = "png32", // 10.2+
-  BIP = "bip", // 10.3+
-  BSQ = "bsq", // 10.3+
-  LERC = "lerc", // 10.3+
-
-  // Map & Feature Service Formats
-  CSV = "csv",
-  EXCEL = "excel",
-  FEATURE_COLLECTION = "featureCollection",
-  FILE_GDB = "filegdb",
-  GEOJSON = "geojson",
-  GEO_PACKAGE = "geoPackage",
-  JSON = "json",
-  KML = "kml",
-  SHAPEFILE = "shapefile",
-  SQLITE = "sqlite",
-}
 
 /**
  * Represents a file format related to a content entity that can be downloaded.
@@ -193,18 +164,6 @@ export interface IFetchDownloadFileUrlResponse
   extends IBaseFetchDownloadFileResponse {
   type: "url";
   href: string;
-}
-
-/**
- * Human-readable status of a download operation. Operation specific statuses
- * should be converted to one of these statuses before being reported to the user.
- */
-export enum DownloadOperationStatus {
-  PENDING = "pending",
-  PROCESSING = "processing",
-  CONVERTING = "converting",
-  COMPLETED = "completed",
-  FAILED = "failed",
 }
 
 /**

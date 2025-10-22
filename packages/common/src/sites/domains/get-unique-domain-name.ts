@@ -18,7 +18,7 @@ export function getUniqueDomainName(
   let combinedName = subdomain;
 
   if (step) {
-    combinedName = subdomain + "-" + step;
+    combinedName = [subdomain, step].join("-");
   }
   const hostname = `${combinedName}-${baseHostname}`;
   return domainExists(hostname, hubRequestOptions).then((exists) => {

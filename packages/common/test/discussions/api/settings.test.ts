@@ -1,7 +1,6 @@
 import * as req from "../../../src/discussions/api/discussions-api-request";
 import type { Geometry } from "geojson";
 import {
-  EntitySettingType,
   ICreateSetting,
   ICreateSettingParams,
   IDiscussionsRequestOptions,
@@ -21,6 +20,7 @@ import {
   updateSettingV2,
 } from "../../../src/discussions/api/settings/settings";
 import { getDefaultEntitySettings } from "../../../src/discussions/api/settings/getDefaultEntitySettings";
+import { EntitySettingType } from "../../../src/discussions/api/enums/entitySettingsType";
 
 describe("settings", () => {
   let requestSpy: any;

@@ -1,11 +1,11 @@
 import {
   IChannel,
   IDiscussionsUser,
-  SharingAccess,
 } from "../../../../../src/discussions/api//types";
 import { canEditChannel } from "../../../../../src/discussions/api//utils/channels/can-edit-channel";
 import * as isAuthorizedToModifyChannelByLegacyPermissionsModule from "../../../../../src/discussions/api//utils/channels/is-authorized-to-modify-channel-by-legacy-permissions";
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 describe("canEditChannel", () => {
   let hasOrgAdminUpdateRightsSpy: jasmine.Spy;

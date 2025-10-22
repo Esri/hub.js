@@ -1,7 +1,7 @@
+import { Role } from "../../../../../src/discussions/api/enums/role";
 import {
   IChannel,
   IDiscussionsUser,
-  Role,
 } from "../../../../../src/discussions/api/types";
 import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
 import { deriveUserRoleV2 } from "../../../../../src/discussions/api/utils/channels/derive-user-role-v2";

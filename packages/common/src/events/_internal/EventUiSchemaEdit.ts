@@ -1,8 +1,10 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IUiSchema } from "../../core/schemas/types";
+import { UiSchemaRuleEffects } from "../../core/enums/uiSchemaRuleEffects";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
-import { HubEventAttendanceType, HubEventCapacityType } from "../types";
+import { HubEventAttendanceType } from "../enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../enums/hubEventCapacityType";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";

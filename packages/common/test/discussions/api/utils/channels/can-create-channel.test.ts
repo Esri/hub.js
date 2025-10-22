@@ -2,10 +2,10 @@ import type { IGroup } from "@esri/arcgis-rest-portal";
 import {
   IChannel,
   IDiscussionsUser,
-  SharingAccess,
 } from "../../../../../src/discussions/api//types";
 import { canCreateChannel } from "../../../../../src/discussions/api//utils/channels/can-create-channel";
 import { CANNOT_DISCUSS } from "../../../../../src/discussions/constants";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 const orgId1 = "3ef";
 const groupId1 = "aaa";

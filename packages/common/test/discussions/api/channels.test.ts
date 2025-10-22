@@ -19,19 +19,19 @@ import {
   updateChannelV2,
 } from "../../../src/discussions/api/channels/channels";
 import * as discussionsApiRequestModule from "../../../src/discussions/api/discussions-api-request";
+import { AclCategory } from "../../../src/discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../../src/discussions/api/enums/aclSubCategory";
+import { PostReaction } from "../../../src/discussions/api/enums/postReaction";
+import { PostStatus } from "../../../src/discussions/api/enums/postStatus";
+import { Role } from "../../../src/discussions/api/enums/role";
+import { SharingAccess } from "../../../src/discussions/api/enums/sharingAccess";
 import {
-  AclCategory,
-  AclSubCategory,
   IDiscussionsRequestOptions,
   IFetchChannelParams,
   ICreateChannel,
   IUpdateChannel,
   ICreateChannelV2,
   IUpdateChannelV2,
-  PostReaction,
-  PostStatus,
-  Role,
-  SharingAccess,
 } from "../../../src/discussions/api/types";
 
 describe("channels V1", () => {

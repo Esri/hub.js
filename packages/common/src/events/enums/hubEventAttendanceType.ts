@@ -3,8 +3,3 @@ export enum HubEventAttendanceType {
   Online = "online",
   Both = "both",
 }
-
-export enum HubEventCapacityType {
-  Unlimited = "unlimited",
-  Fixed = "fixed",
-}

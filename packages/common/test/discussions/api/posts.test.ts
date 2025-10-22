@@ -1,19 +1,12 @@
 import type { Geometry } from "geojson";
 import * as discussionsApiRequestModule from "../../../src/discussions/api/discussions-api-request";
 import {
-  AclCategory,
-  AclSubCategory,
   IDiscussionsRequestOptions,
   IFetchPostParams,
   ICreatePost,
   ICreateChannelPost,
-  PostStatus,
-  Role,
-  SearchPostsFormat,
-  SharingAccess,
   IPagedResponse,
   IPost,
-  PostRelation,
 } from "../../../src/discussions/api/types";
 import {
   createPost,
@@ -33,6 +26,13 @@ import {
   updatePostStatusV2,
   updatePostV2,
 } from "../../../src/discussions/api/posts/posts";
+import { SharingAccess } from "../../../src/discussions/api/enums/sharingAccess";
+import { PostRelation } from "../../../src/discussions/api/enums/postRelation";
+import { SearchPostsFormat } from "../../../src/discussions/api/enums/searchPostsFormat";
+import { AclCategory } from "../../../src/discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../../src/discussions/api/enums/aclSubCategory";
+import { Role } from "../../../src/discussions/api/enums/role";
+import { PostStatus } from "../../../src/discussions/api/enums/postStatus";
 
 describe("posts V1", () => {
   let requestSpy: any;

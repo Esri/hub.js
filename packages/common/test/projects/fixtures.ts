@@ -4,7 +4,8 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import { IHubLocation } from "../../src/core/types/IHubLocation";
 import { IHubProject } from "../../src/core/types/IHubProject";
 import { IHubCatalog } from "../../src/search/types/IHubCatalog";
-import { HubEntityStatus, IModel } from "../../src/hub-types";
+import { IModel } from "../../src/hub-types";
+import { HubEntityStatus } from "../../src/enums/hubEntityStatus";
 import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
 import { ArcGISContext } from "../../src/ArcGISContext";
 

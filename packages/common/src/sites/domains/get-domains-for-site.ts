@@ -13,7 +13,7 @@ export function getDomainsForSite(
   hubRequestOptions: IHubRequestOptions
 ): Promise<IDomainEntry[]> {
   if (hubRequestOptions.isPortal) {
-    return Promise.resolve([]);
+    return Promise.resolve([] as IDomainEntry[]);
   }
   const url = `${_getDomainServiceUrl(
     hubRequestOptions.hubApiUrl
@@ -23,6 +23,6 @@ export function getDomainsForSite(
   return fetch(url, { method: "GET", headers, mode: "cors" })
     .then(_checkStatusAndParseJson)
     .catch((err) => {
-      throw Error(`Error in getDomainsForSite ${err}`);
-    });
+      throw Error(`Error in getDomainsForSite ${(err as Error).toString()}`);
+    }) as Promise<IDomainEntry[]>;
 }

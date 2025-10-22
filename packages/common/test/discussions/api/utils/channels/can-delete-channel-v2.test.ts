@@ -1,13 +1,13 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
 import {
-  AclCategory,
   IChannel,
   IDiscussionsUser,
-  Role,
 } from "../../../../../src/discussions/api//types";
 import { canDeleteChannelV2 } from "../../../../../src/discussions/api//utils/channels/can-delete-channel-v2";
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
 import * as portalPrivModule from "../../../../../src/discussions/api//utils/portal-privilege";
+import { AclCategory } from "../../../../../src/discussions/api/enums/aclCategory";
+import { Role } from "../../../../../src/discussions/api/enums/role";
 
 describe("canDeleteChannelV2", () => {
   let hasOrgAdminDeleteRightsSpy: jasmine.Spy;

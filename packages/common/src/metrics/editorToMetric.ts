@@ -4,13 +4,13 @@ import {
   IMetric,
   IMetricDisplayConfig,
   MetricSource,
-  ExpressionRelationships,
   IEntityInfo,
   IExpression,
   IMetricEditorValues,
-  MetricVisibility,
 } from "../core/types/Metrics";
 import { ServiceAggregation } from "../core/types/ServiceAggregation";
+import { ExpressionRelationships } from "../core/enums/expressionRelationships";
+import { MetricVisibility } from "../core/enums/metricVisibility";
 
 /**
  * Transforms the IConfigurationValues into an object with IMetric and IMetricDisplayConfig to be saved on an entity or rendered in the ui.

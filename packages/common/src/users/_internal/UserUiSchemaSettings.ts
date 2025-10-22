@@ -1,5 +1,6 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IUiSchema } from "../../core/schemas/types";
+import { UiSchemaRuleEffects } from "../../core/enums/uiSchemaRuleEffects";
 import { fetchOrg } from "../../org/fetch-org";
 import { failSafe } from "../../utils/fail-safe";
 import { getPortalSettings, IPortal } from "@esri/arcgis-rest-portal";

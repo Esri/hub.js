@@ -1,10 +1,8 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { canCreateReaction } from "../../../../../src/discussions/api//utils/reactions/can-create-reaction";
-import {
-  PostReaction,
-  IChannel,
-} from "../../../../../src/discussions/api//types";
+import { IChannel } from "../../../../../src/discussions/api//types";
 import * as canReadChannelModule from "../../../../../src/discussions/api//utils/channels/can-read-channel";
+import { PostReaction } from "../../../../../src/discussions/api/enums/postReaction";
 
 describe("Util: canCreateReaction", () => {
   const user: IUser = { username: "bob" };

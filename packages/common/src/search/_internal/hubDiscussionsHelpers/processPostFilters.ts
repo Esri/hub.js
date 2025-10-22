@@ -1,9 +1,7 @@
-import {
-  ISearchPosts,
-  PostStatus,
-  PostType,
-  SharingAccess,
-} from "../../../discussions/api/types";
+import { ISearchPosts } from "../../../discussions/api/types";
+import { PostStatus } from "../../../discussions/api/enums/postStatus";
+import { PostType } from "../../../discussions/api/enums/postType";
+import { SharingAccess } from "../../../discussions/api/enums/sharingAccess";
 import { IFilter } from "../../types/IHubCatalog";
 import { IDateRange } from "../../types/types";
 import { bboxStringToGeoJSONPolygon } from "../bboxStringToGeoJSONPolygon";

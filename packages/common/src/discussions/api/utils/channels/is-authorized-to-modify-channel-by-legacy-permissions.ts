@@ -1,6 +1,7 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { isOrgAdmin } from "../platform";
-import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
+import { SharingAccess } from "../../enums/sharingAccess";
 
 const AGO_ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 

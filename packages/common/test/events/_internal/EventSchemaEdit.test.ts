@@ -8,10 +8,8 @@ import {
   ENTITY_SUMMARY_SCHEMA,
   ENTITY_TAGS_SCHEMA,
 } from "../../../src/core/schemas/shared/subschemas";
-import {
-  HubEventAttendanceType,
-  HubEventCapacityType,
-} from "../../../src/events/types";
+import { HubEventAttendanceType } from "../../../src/events/enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../../../src/events/enums/hubEventCapacityType";
 import {
   FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS,
   FIXED_ONLINE_ATTENDANCE_VALIDATIONS,

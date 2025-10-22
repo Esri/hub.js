@@ -20,7 +20,7 @@ export function shouldShowDownloadsConfiguration(
   // for multi-layer service entities.
   const isReferenceLayerEntity =
     ["Feature Service", "Map Service"].includes(entity.type) &&
-    /\/\d+$/.test((entity as IHubEditableContent).url);
+    /\/\d+$/.test(entity.url);
   const isSingleLayerEntity =
     getProp(entity, "extendedProps.server.layers.length") === 1;
   const isDownloadableImageService = canUseExportImageFlow(entity);

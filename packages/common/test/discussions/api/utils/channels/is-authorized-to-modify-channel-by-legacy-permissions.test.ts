@@ -2,9 +2,9 @@ import type { IGroup } from "@esri/arcgis-rest-portal";
 import {
   IChannel,
   IDiscussionsUser,
-  SharingAccess,
 } from "../../../../../src/discussions/api/types";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "../../../../../src/discussions/api/utils/channels/is-authorized-to-modify-channel-by-legacy-permissions";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 describe("isAuthorizedToModifyChannelByLegacyPermissions", () => {
   it("returns false if the user is not authenticated", () => {

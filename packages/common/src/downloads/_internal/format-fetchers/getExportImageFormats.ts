@@ -1,6 +1,7 @@
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { getProp } from "../../../objects/get-prop";
-import { IDynamicDownloadFormat, ServiceDownloadFormat } from "../../types";
+import { ServiceDownloadFormat } from "../../enums/serviceDownloadFormat";
+import { IDynamicDownloadFormat } from "../../types";
 import { EXPORT_IMAGE_FORMATS, ExportImageFormat } from "../_types";
 
 /**

@@ -13,17 +13,25 @@ export function aggregateValues(
 ): any {
   switch (aggregation) {
     case "sum":
-      return values.reduce((acc, v) => acc + v, 0);
+      return values.reduce((acc: number, v: number) => acc + v, 0);
     case "count":
       return values.length;
     case "avg":
-      return values.reduce((acc, v) => acc + v, 0) / values.length;
+      return (
+        values.reduce((acc: number, v: number) => acc + v, 0) / values.length
+      );
     case "min":
-      return values.reduce((acc, v) => Math.min(acc, v), Number.MAX_VALUE);
+      return values.reduce(
+        (acc: number, v: number) => Math.min(acc, v),
+        Number.MAX_VALUE
+      );
     case "max":
-      return values.reduce((acc, v) => Math.max(acc, v), Number.MIN_VALUE);
+      return values.reduce(
+        (acc: number, v: number) => Math.max(acc, v),
+        Number.MIN_VALUE
+      );
     case "countByValue": // count for each value as a hash {value: string, count: number}
-      return values.reduce((acc, v) => {
+      return values.reduce<Record<string, number>>((acc, v: number) => {
         if (acc[v]) {
           acc[v] += 1;
         } else {

@@ -5,10 +5,8 @@ import {
 import * as utils from "../../../src/discussions/api/utils/request";
 import * as fetchMock from "fetch-mock";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import {
-  IDiscussionsRequestOptions,
-  SearchPostsFormat,
-} from "../../../src/discussions/api/types";
+import { IDiscussionsRequestOptions } from "../../../src/discussions/api/types";
+import { SearchPostsFormat } from "../../../src/discussions/api/enums/searchPostsFormat";
 
 describe("discussionsApiRequest", () => {
   const url = "foo";
@@ -120,7 +118,9 @@ describe("apiRequest", () => {
     opts = { hubApiUrlV2 } as IDiscussionsRequestOptions;
   });
 
-  afterEach(fetchMock.restore);
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   it("handles failed requests", (done) => {
     const status = 400;

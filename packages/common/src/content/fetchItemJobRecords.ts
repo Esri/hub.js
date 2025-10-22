@@ -1,9 +1,9 @@
 import HubError from "../HubError";
+import { JobRecordType } from "./enums/jobRecordType";
 import {
   IHubDownloadJobRecord,
   IHubJobRecord,
   IHubJobRecordRequestOptions,
-  JobRecordType,
 } from "./types";
 
 /**

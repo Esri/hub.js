@@ -2,7 +2,7 @@ import { fetchCategoriesUiSchemaElement } from "../../../../src/core/schemas/int
 import * as fetchOrgCategoriesModule from "../../../../src/core/schemas/internal/categories/fetchOrgCategories";
 import * as fetchQueryCategoriesModule from "../../../../src/core/schemas/internal/categories/fetchQueryCategories";
 import { IArcGISContext } from "../../../../src/types/IArcGISContext";
-import { UiSchemaRuleEffects } from "../../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../../src/core/enums/uiSchemaRuleEffects";
 import { IQuery } from "../../../../src/search/types/IHubCatalog";
 
 describe("fetchCategoriesUiSchemaElement:", () => {
