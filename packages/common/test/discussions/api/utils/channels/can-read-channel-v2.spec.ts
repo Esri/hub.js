@@ -1,9 +1,9 @@
 import { vi, afterEach, describe, it, expect } from "vitest";
+import { AclCategory } from "../../../../../src/discussions/api/enums/aclCategory";
+import { Role } from "../../../../../src/discussions/api/enums/role";
 import {
-  AclCategory,
   IChannel,
   IDiscussionsUser,
-  Role,
 } from "../../../../../src/discussions/api/types";
 import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
 import { canReadChannelV2 } from "../../../../../src/discussions/api/utils/channels/can-read-channel-v2";

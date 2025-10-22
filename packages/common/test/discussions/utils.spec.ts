@@ -20,13 +20,11 @@ import {
   setDiscussableKeyword,
 } from "../../src/discussions/utils";
 import { CANNOT_DISCUSS } from "../../src/discussions/constants";
-import {
-  AclCategory,
-  AclSubCategory,
-  IChannel,
-  Role,
-  SharingAccess,
-} from "../../src/discussions/api/types";
+import { IChannel } from "../../src/discussions/api/types";
+import { SharingAccess } from "../../src/discussions/api/enums/sharingAccess";
+import { AclCategory } from "../../src/discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../src/discussions/api/enums/aclSubCategory";
+import { Role } from "../../src/discussions/api/enums/role";
 
 describe("discussions utils", () => {
   describe("isDiscussable", () => {

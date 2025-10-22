@@ -1,4 +1,5 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IUiSchema } from "../../core/schemas/types";
+import { UiSchemaRuleEffects } from "../../core/enums/uiSchemaRuleEffects";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
@@ -11,7 +12,7 @@ import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/bu
  * This defines how the schema properties should be
  * rendered in the event creation experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: EntityEditorOptions,
   context: IArcGISContext
@@ -20,7 +21,7 @@ export const buildUiSchema = async (
     new Date(),
     (options as IHubEvent).timeZone
   );
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -135,5 +136,5 @@ export const buildUiSchema = async (
       //   `{{${i18nScope}.fields.referencedContent.label:translate}}`
       // ),
     ],
-  };
+  });
 };

@@ -2,10 +2,10 @@ import { vi, afterEach, describe, it, expect } from "vitest";
 import {
   IChannel,
   IDiscussionsUser,
-  SharingAccess,
 } from "../../../../../src/discussions/api/types";
 import { canModifyChannel } from "../../../../../src/discussions/api/utils/channels/can-modify-channel";
 import * as isAuthorizedToModifyChannelByLegacyPermissionsModule from "../../../../../src/discussions/api/utils/channels/is-authorized-to-modify-channel-by-legacy-permissions";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 describe("canModifyChannel", () => {
   afterEach(() => {

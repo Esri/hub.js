@@ -1,11 +1,9 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import { canCreateReactionV2 } from "../../../../../src/discussions/api/utils/reactions/can-create-reaction-v2";
-import {
-  PostReaction,
-  IChannel,
-} from "../../../../../src/discussions/api/types";
-import * as canReadChannelV2Module from "../../../../../src/discussions/api/utils/channels/can-read-channel-v2";
 import { vi, afterEach, describe, it, expect } from "vitest";
+import { canCreateReactionV2 } from "../../../../../src/discussions/api//utils/reactions/can-create-reaction-v2";
+import { IChannel } from "../../../../../src/discussions/api//types";
+import * as canReadChannelV2Module from "../../../../../src/discussions/api//utils/channels/can-read-channel-v2";
+import { PostReaction } from "../../../../../src/discussions/api/enums/postReaction";
 
 describe("canCreateReactionV2", () => {
   afterEach(() => vi.restoreAllMocks());

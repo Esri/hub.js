@@ -3,8 +3,9 @@ import { MOCK_CONTEXT } from "../mocks/mock-auth";
 import { reharvestSiteCatalog } from "../../src/sites/reharvestSiteCatalog";
 
 describe("reharvestSiteCatalog", () => {
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  afterEach(fetchMock.restore);
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   it("correctly calls the reharvest endpoint", async () => {
     const url = `${MOCK_CONTEXT.hubUrl}/api/v3/jobs/site/some-site-id/harvest`;

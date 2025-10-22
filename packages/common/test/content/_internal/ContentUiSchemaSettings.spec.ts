@@ -4,7 +4,7 @@ import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as hostedServiceUtilsModule from "../../../src/content/hostedServiceUtils";
 import * as checkPermissionModule from "../../../src/permissions/checkPermission";
 import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOptions";
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 
 describe("buildUiSchema: content settings", () => {
   afterEach(() => {

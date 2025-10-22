@@ -56,7 +56,8 @@ import {
   normalizeItemType,
   parseItemCategories,
 } from "../../src/content/compose";
-import { IHubContent, PublisherSource } from "../../src/core/types/IHubContent";
+import { IHubContent } from "../../src/core/types/IHubContent";
+import { PublisherSource } from "../../src/core/enums/publisherSource";
 import {
   addContextToSlug,
   isSlug,

@@ -11,10 +11,8 @@ import {
   IEvent,
   IOnlineMeeting,
 } from "../../../src/events/api/types";
-import {
-  HubEventAttendanceType,
-  HubEventCapacityType,
-} from "../../../src/events/types";
+import { HubEventAttendanceType } from "../../../src/events/enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../../../src/events/enums/hubEventCapacityType";
 import * as getLocationFromEventModule from "../../../src/events/_internal/getLocationFromEvent";
 import { IHubLocation } from "../../../src/core/types/IHubLocation";
 

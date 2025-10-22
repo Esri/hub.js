@@ -3,13 +3,13 @@ import {
   IChannel,
   IDiscussionsUser,
   IPost,
-  SharingAccess,
 } from "../../../../../src/discussions/api//types";
 import { CANNOT_DISCUSS } from "../../../../../src/discussions/constants";
 import {
   canEditPost,
   canModifyPost,
 } from "../../../../../src/discussions/api/utils/posts/can-edit-post";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 describe("canModifyPost", () => {
   describe("Legacy Permissions", () => {

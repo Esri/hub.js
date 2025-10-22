@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import { buildUiSchema } from "../../../src/templates/_internal/TemplateUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as fetchCategoriesUiSchemaElementModule from "../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";

@@ -1,6 +1,6 @@
 import { IHubEditableContent } from "../../../../src/core/types/IHubEditableContent";
 import { getCreateReplicaFormats } from "../../../../src/downloads/_internal/format-fetchers/getCreateReplicaFormats";
-import { ServiceDownloadFormat } from "../../../../src/downloads/types";
+import { ServiceDownloadFormat } from "../../../../src/downloads/enums/serviceDownloadFormat";
 
 describe("getCreateReplicaFormats", () => {
   it("should return an empty array if there are no formats", () => {

@@ -4,7 +4,8 @@ import * as FetchEntityCatalogModule from "../../src/search/fetchEntityCatalog";
 import * as HubSearchModule from "../../src/search/hubSearch";
 import * as CatalogContainsModule from "../../src/core/catalogContains";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { CORNERS, DROP_SHADOWS } from "../../src/core/schemas/shared/enums";
+import { CORNERS } from "../../src/core/schemas/shared/enums/corners";
+import { DROP_SHADOWS } from "../../src/core/schemas/shared/enums/dropShadows";
 import {
   IFilter,
   IHubCatalog,

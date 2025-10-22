@@ -2,11 +2,11 @@ import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
 import {
   IChannel,
   IDiscussionsUser,
-  SharingAccess,
 } from "../../../../../src/discussions/api/types";
 import { canDeleteChannel } from "../../../../../src/discussions/api/utils/channels/can-delete-channel";
 import * as isAuthorizedToModifyChannelByLegacyPermissionsModule from "../../../../../src/discussions/api/utils/channels/is-authorized-to-modify-channel-by-legacy-permissions";
 import * as portalPrivModule from "../../../../../src/discussions/api/utils/portal-privilege";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 describe("canDeleteChannel", () => {
   let hasOrgAdminDeleteRightsSpy: any;

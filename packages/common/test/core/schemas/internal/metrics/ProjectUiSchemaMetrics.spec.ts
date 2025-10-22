@@ -3,7 +3,7 @@ import {
   buildDefaults,
 } from "../../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
-import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../../../src/core/enums/uiSchemaRuleEffects";
 import { EntityEditorOptions } from "../../../../../src/core/schemas/internal/EditorOptions";
 import { IHubProject } from "../../../../../src/core/types/IHubProject";
 

@@ -1,5 +1,6 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-portal";
-import { IChannel, IDiscussionsUser, IPost, SharingAccess } from "../../types";
+import { IChannel, IDiscussionsUser, IPost } from "../../types";
+import { SharingAccess } from "../../enums/sharingAccess";
 import { CANNOT_DISCUSS } from "../../../constants";
 
 type ILegacyChannelPermissions = Pick<

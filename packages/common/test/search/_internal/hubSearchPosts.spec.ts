@@ -1,11 +1,8 @@
 import { IQuery } from "../../../src/search/types/IHubCatalog";
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 import { IHubSearchResult } from "../../../src/search/types/IHubSearchResult";
-import {
-  IPagedResponse,
-  IPost,
-  PostRelation,
-} from "../../../src/discussions/api/types";
+import { IPagedResponse, IPost } from "../../../src/discussions/api/types";
+import { PostRelation } from "../../../src/discussions/api/enums/postRelation";
 import { hubSearchPosts } from "../../../src/search/_internal/hubSearchPosts";
 import * as processPostFiltersModule from "../../../src/search/_internal/hubDiscussionsHelpers/processPostFilters";
 import * as processPostOptionsModule from "../../../src/search/_internal/hubDiscussionsHelpers/processPostOptions";

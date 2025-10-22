@@ -1,12 +1,12 @@
 import HubError from "../HubError";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
+import { ServiceDownloadFormat } from "./enums/serviceDownloadFormat";
 import { getDownloadFormats } from "./getDownloadFormats";
 import {
   IDynamicDownloadFormat,
   IFetchDownloadFileOptions,
   IFetchDownloadFileResponse,
-  ServiceDownloadFormat,
 } from "./types";
 
 /**

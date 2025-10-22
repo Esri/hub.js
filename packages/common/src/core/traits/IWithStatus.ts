@@ -1,4 +1,4 @@
-import { HubEntityStatus } from "../../hub-types";
+import { HubEntityStatus } from "../../enums/hubEntityStatus";
 
 export interface IWithStatus {
   status: HubEntityStatus;

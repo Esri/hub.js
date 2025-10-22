@@ -30,11 +30,11 @@ export interface ICapabilityConfig {
  * as they are used to determine if a capability can be enabled
  */
 /* tslint:disable: no-empty-interface */
-export interface IEventsConfig extends ICapabilityConfig {}
-export interface IProjectsConfig extends ICapabilityConfig {}
-export interface IInitiativesConfig extends ICapabilityConfig {}
-export interface IDiscussionsConfig extends ICapabilityConfig {}
-export interface IPagesConfig extends ICapabilityConfig {}
+export type IEventsConfig = ICapabilityConfig;
+export type IProjectsConfig = ICapabilityConfig;
+export type IInitiativesConfig = ICapabilityConfig;
+export type IDiscussionsConfig = ICapabilityConfig;
+export type IPagesConfig = ICapabilityConfig;
 /* tslint:enable: no-empty-interface */
 export interface IContentConfig extends ICapabilityConfig {
   feeds?: any; // TODO: lookup the type as this is defined somewhere

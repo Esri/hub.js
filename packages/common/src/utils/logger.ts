@@ -4,14 +4,16 @@ import { logLevel } from "./internal/config";
 /**
  * Enum for Logger Levels
  */
-enum Level {
-  all,
-  debug,
-  info,
-  warn,
-  error,
-  off,
-}
+const LEVEL = {
+  all: 0,
+  debug: 1,
+  info: 2,
+  warn: 3,
+  error: 4,
+  off: 5,
+} as const;
+
+type Level = (typeof LEVEL)[keyof typeof LEVEL];
 
 /**
  * ```js
@@ -41,7 +43,7 @@ export class Logger {
    * @param {...*} objects additional objects to log (optional rest parameter)
    */
   public static log(message: string, ...objects: any[]) {
-    if (this.isLevelPermitted(Level.debug)) {
+    if (this.isLevelPermitted(LEVEL.debug)) {
       console.log(message, ...objects);
     }
   }
@@ -52,7 +54,7 @@ export class Logger {
    * @param {...*} objects additional objects to log (optional rest parameter)
    */
   public static debug(message: string, ...objects: any[]) {
-    if (this.isLevelPermitted(Level.debug)) {
+    if (this.isLevelPermitted(LEVEL.debug)) {
       console.debug(message, ...objects);
     }
   }
@@ -63,7 +65,7 @@ export class Logger {
    * @param {...*} objects additional objects to log (optional rest parameter)
    */
   public static info(message: string, ...objects: any[]) {
-    if (this.isLevelPermitted(Level.info)) {
+    if (this.isLevelPermitted(LEVEL.info)) {
       console.info(message, ...objects);
     }
   }
@@ -74,7 +76,7 @@ export class Logger {
    * @param {...*} objects additional objects to log (optional rest parameter)
    */
   public static warn(message: string, ...objects: any[]) {
-    if (this.isLevelPermitted(Level.warn)) {
+    if (this.isLevelPermitted(LEVEL.warn)) {
       console.warn(message, ...objects);
     }
   }
@@ -85,13 +87,13 @@ export class Logger {
    * @param {...*} objects additional objects to log (optional rest parameter)
    */
   public static error(message: string, ...objects: any[]) {
-    if (this.isLevelPermitted(Level.error)) {
+    if (this.isLevelPermitted(LEVEL.error)) {
       console.error(message, ...objects);
     }
   }
 
   private static isLevelPermitted(level: Level) {
-    const configuredLevel = Level[logLevel];
+    const configuredLevel = LEVEL[logLevel];
     return configuredLevel <= level;
   }
 }

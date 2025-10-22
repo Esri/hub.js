@@ -1,6 +1,7 @@
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
+import { ServiceCapabilities } from "./enums/serviceCapabilities";
 
 /**
  * Determines whether an item represents the main item of a hosted feature service
@@ -76,11 +77,6 @@ export function isAGOFeatureServiceUrl(url: string): boolean {
  */
 export function isSecureProxyServiceUrl(url: string): boolean {
   return /\/(sharing|usrsvcs)\/(appservices|servers)\//i.test(url);
-}
-
-export enum ServiceCapabilities {
-  EXTRACT = "Extract",
-  QUERY = "Query",
 }
 
 /**

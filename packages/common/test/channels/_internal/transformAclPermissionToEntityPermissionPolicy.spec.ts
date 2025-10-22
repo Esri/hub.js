@@ -1,16 +1,14 @@
 import { describe, it, expect } from "vitest";
-import {
-  AclCategory,
-  AclSubCategory,
-  IChannelAclPermission,
-  Role,
-} from "../../../src/discussions/api/types";
+import { IChannelAclPermission } from "../../../src/discussions/api/types";
 import { transformAclPermissionToEntityPermissionPolicy } from "../../../src/channels/_internal/transformAclPermissionToEntityPermissionPolicy";
 import {
   COLLABORATION_TYPES,
   IEntityPermissionPolicy,
 } from "../../../src/permissions/types/IEntityPermissionPolicy";
 import { CHANNEL_PERMISSIONS } from "../../../src/channels/_internal/ChannelBusinessRules";
+import { AclCategory } from "../../../src/discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../../src/discussions/api/enums/aclSubCategory";
+import { Role } from "../../../src/discussions/api/enums/role";
 
 describe("transformAclPermissionToEntityPermissionPolicy", () => {
   it("should transform a group member policy", () => {

@@ -4,7 +4,7 @@ import { vi } from "vitest";
 import { computeProps } from "../../../src/groups/_internal/computeProps";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import * as computeLinksModule from "../../../src/groups/_internal/computeLinks";
-import { EntitySettingType } from "../../../src/discussions/api/types";
+import { EntitySettingType } from "../../../src/discussions/api/enums/entitySettingsType";
 
 describe("groups: computeProps:", () => {
   let group: IGroup;

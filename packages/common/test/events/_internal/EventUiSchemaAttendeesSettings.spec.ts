@@ -3,7 +3,7 @@ import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
 import { describe, it, expect } from "vitest";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaAttendeesSettings";
-import { HubEventAttendanceType } from "../../../src/events/types";
+import { HubEventAttendanceType } from "../../../src/events/enums/hubEventAttendanceType";
 
 describe("EventUiSchemaAttendeesSettings", () => {
   describe("buildUiSchema", () => {

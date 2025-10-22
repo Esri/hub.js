@@ -1,5 +1,5 @@
 import { processRelations } from "../../../../src/search/_internal/hubDiscussionsHelpers/processRelations";
-import { PostRelation } from "../../../../src/discussions/api/types";
+import { PostRelation } from "../../../../src/discussions/api/enums/postRelation";
 
 describe("processRelations", () => {
   it("returns empty array for empty input", () => {

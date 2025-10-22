@@ -3,8 +3,8 @@ import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaCreate";
-import { HubEventAttendanceType } from "../../../src/events/types";
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { HubEventAttendanceType } from "../../../src/events/enums/hubEventAttendanceType";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
 import * as buildCatalogModule from "../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";
 

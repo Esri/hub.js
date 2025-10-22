@@ -1,11 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
-import {
-  AclCategory,
-  AclSubCategory,
-  Role,
-} from "../../../src/discussions/api/types";
 import { buildDefaultChannel } from "../../../src/channels/_internal/buildDefaultChannel";
 import * as transformAclPermissionToEntityPermissionPolicyModule from "../../../src/channels/_internal/transformAclPermissionToEntityPermissionPolicy";
+import { AclCategory } from "../../../src/discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../../src/discussions/api/enums/aclSubCategory";
+import { Role } from "../../../src/discussions/api/enums/role";
 import { IEntityPermissionPolicy } from "../../../src/permissions/types/IEntityPermissionPolicy";
 
 describe("buildDefaultChannel", () => {

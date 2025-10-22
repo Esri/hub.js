@@ -6,8 +6,8 @@ import * as getDownloadFormatsModule from "../../src/downloads/getDownloadFormat
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { fetchDownloadFile } from "../../src/downloads/fetchDownloadFile";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
-import { ServiceDownloadFormat } from "../../src/downloads/types";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { ServiceDownloadFormat } from "../../src/downloads/enums/serviceDownloadFormat";
 
 describe("fetchDownloadFile", () => {
   let canUseHubDownloadApiSpy: any;

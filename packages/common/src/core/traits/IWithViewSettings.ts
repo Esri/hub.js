@@ -1,4 +1,4 @@
-import { HubEntityHero } from "../../hub-types";
+import { HubEntityHero } from "../../enums/hubEntityHero";
 import { HubActionLink } from "../types/ActionLinks";
 import { IHubEmbed } from "../types/Embeds";
 import { IHubMapSettings } from "../types/IHubMapSettings";

@@ -1,13 +1,13 @@
 import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import {
-  AclCategory,
   IChannel,
   IDiscussionsUser,
-  Role,
-} from "../../../../../src/discussions/api/types";
+} from "../../../../../src/discussions/api//types";
 import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
 import { canCreateChannelV2 } from "../../../../../src/discussions/api/utils/channels/can-create-channel-v2";
+import { AclCategory } from "../../../../../src/discussions/api/enums/aclCategory";
+import { Role } from "../../../../../src/discussions/api/enums/role";
 
 const orgId1 = "3ef";
 const groupId1 = "aaa";

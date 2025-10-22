@@ -1,15 +1,13 @@
 import { vi, afterEach } from "vitest";
 import * as discussionsApiRequestModule from "../../../src/discussions/api/discussions-api-request";
+import { PostReaction } from "../../../src/discussions/api/enums/postReaction";
 import {
   createReaction,
   createReactionV2,
   removeReaction,
   removeReactionV2,
 } from "../../../src/discussions/api/reactions/reactions";
-import {
-  IDiscussionsRequestOptions,
-  PostReaction,
-} from "../../../src/discussions/api/types";
+import { IDiscussionsRequestOptions } from "../../../src/discussions/api/types";
 
 describe("reactions", () => {
   let requestSpy: any;

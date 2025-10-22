@@ -4,7 +4,7 @@ import {
 } from "../../../../src/core/types/IHubEditableContent";
 import { EXPORT_IMAGE_FORMATS } from "../../../../src/downloads/_internal/_types";
 import { getExportImageFormats } from "../../../../src/downloads/_internal/format-fetchers/getExportImageFormats";
-import { ServiceDownloadFormat } from "../../../../src/downloads/types";
+import { ServiceDownloadFormat } from "../../../../src/downloads/enums/serviceDownloadFormat";
 
 describe("getExportImageDownloadFormats", () => {
   it("should return an array of all image formats if the server version is 10.2+", () => {

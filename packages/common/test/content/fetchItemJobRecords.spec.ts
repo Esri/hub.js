@@ -1,10 +1,10 @@
+import { JobRecordStatus } from "../../src/content/enums/jobRecordStatus";
+import { JobRecordType } from "../../src/content/enums/jobRecordType";
 import { fetchItemJobRecords } from "../../src/content/fetchItemJobRecords";
 import {
   IHubDownloadJobRecord,
   IHubJobRecord,
   IHubJobRecordRequestOptions,
-  JobRecordStatus,
-  JobRecordType,
 } from "../../src/content/types";
 import type { IArcGISContext } from "../../src/types/IArcGISContext";
 import * as fetchMock from "fetch-mock";

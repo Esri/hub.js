@@ -21,10 +21,8 @@ import {
 } from "../../src/events/edit";
 import { afterEach, vi } from "vitest";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
-import {
-  HubEventAttendanceType,
-  HubEventCapacityType,
-} from "../../src/events/types";
+import { HubEventAttendanceType } from "../../src/events/enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../../src/events/enums/hubEventCapacityType";
 import * as buildEventAssociationsModule from "../../src/events/_internal/buildEventAssociations";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 

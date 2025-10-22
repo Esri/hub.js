@@ -5,8 +5,8 @@ import * as getCreateReplicaFormatsModule from "../../src/downloads/_internal/fo
 import * as getPagingJobFormatsModule from "../../src/downloads/_internal/format-fetchers/getPagingJobFormats";
 import * as getFgdbJobFormatsModule from "../../src/downloads/_internal/format-fetchers/getFgdbJobFormats";
 import { getHubDownloadApiFormats } from "../../src/downloads/getHubDownloadApiFormats";
-import { ServiceDownloadFormat } from "../../src/downloads/types";
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { ServiceDownloadFormat } from "../../src/downloads/enums/serviceDownloadFormat";
 
 describe("getHubDownloadApiFormats", () => {
   afterEach(() => {

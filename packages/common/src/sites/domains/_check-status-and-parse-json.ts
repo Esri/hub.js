@@ -14,15 +14,17 @@ export async function _checkStatusAndParseJson(
     // }
   } else {
     // we're gonna throw, but we need to construct the error
-    return response.json().then((json) => {
-      if (json.error) {
-        const error = new Error(
-          `${json.error.title} :: ${json.error.detail} :: ${response.status}`
-        );
-        throw error;
-      } else {
-        throw new Error(`Got ${response.status} ${response.statusText}`);
-      }
-    });
+    return response
+      .json()
+      .then((json: { error?: { title: string; detail: string } }) => {
+        if (json.error) {
+          const error = new Error(
+            `${json.error.title} :: ${json.error.detail} :: ${response.status}`
+          );
+          throw error;
+        } else {
+          throw new Error(`Got ${response.status} ${response.statusText}`);
+        }
+      });
   }
 }

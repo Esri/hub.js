@@ -1,14 +1,11 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
-import {
-  AclCategory,
-  IChannel,
-  IPost,
-  Role,
-} from "../../../../../src/discussions/api/types";
 import { canDeletePostV2 } from "../../../../../src/discussions/api/utils/posts/can-delete-post-v2";
 import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
 import * as portalPrivModule from "../../../../../src/discussions/api/utils/portal-privilege";
 import { vi, afterEach, describe, it, expect } from "vitest";
+import { IChannel, IPost } from "../../../../../src/discussions/api//types";
+import { AclCategory } from "../../../../../src/discussions/api/enums/aclCategory";
+import { Role } from "../../../../../src/discussions/api/enums/role";
 
 describe("canDeletePostV2", () => {
   afterEach(() => vi.restoreAllMocks());

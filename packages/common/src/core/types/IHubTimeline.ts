@@ -1,3 +1,5 @@
+import { TIMELINE_STAGE_STATUSES } from "../enums/timelineStageStatuses";
+
 /**
  * Hub Timeline Definition
  */
@@ -52,10 +54,3 @@ export interface IHubStageLink {
 }
 
 type TimelineStageStatus = keyof typeof TIMELINE_STAGE_STATUSES;
-export enum TIMELINE_STAGE_STATUSES {
-  notStarted = "notStarted",
-  inProgress = "inProgress",
-  skipped = "skipped",
-  onHold = "onHold",
-  complete = "complete",
-}

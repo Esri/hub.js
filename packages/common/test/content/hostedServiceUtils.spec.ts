@@ -6,9 +6,9 @@ import {
   isAGOFeatureServiceUrl,
   isHostedFeatureServiceMainEntity,
   isHostedFeatureServiceMainItem,
-  ServiceCapabilities,
   toggleServiceCapability,
 } from "../../src/content/hostedServiceUtils";
+import { ServiceCapabilities } from "../../src/content/enums/serviceCapabilities";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 
 describe("isHostedFeatureServiceMainItem", () => {

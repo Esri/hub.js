@@ -1,10 +1,8 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import {
-  SharingAccess,
-  IChannel,
-} from "../../../../../src/discussions/api/types";
+import { IChannel } from "../../../../../src/discussions/api/types";
 import { canReadFromChannel } from "../../../../../src/discussions/api/utils/channels/can-read-channel";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 const orgId1 = "3ef";
 const orgId2 = "4dc";

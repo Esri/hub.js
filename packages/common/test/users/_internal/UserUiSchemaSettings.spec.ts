@@ -1,4 +1,4 @@
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import * as UserUiSchemaSettings from "../../../src/users/_internal/UserUiSchemaSettings";
 import * as FetchOrgModule from "../../../src/org/fetch-org";

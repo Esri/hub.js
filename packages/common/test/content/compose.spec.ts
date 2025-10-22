@@ -9,8 +9,8 @@ import {
   getProxyUrl,
 } from "../../src/content/compose";
 import { IHubGeography, IHubRequestOptions } from "../../src/hub-types";
-import { PublisherSource } from "../../src/core/types/IHubContent";
 import { describe, it, expect, beforeAll, beforeEach, vi } from "vitest";
+import { PublisherSource } from "../../src/core/enums/publisherSource";
 
 const featureServiceItem = {
   id: "3ae",

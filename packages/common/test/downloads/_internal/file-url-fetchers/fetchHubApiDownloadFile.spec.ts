@@ -4,10 +4,10 @@ import * as fetchMock from "fetch-mock";
 import {
   ArcgisHubDownloadError,
   ArcgisHubDownloadFileTooLargeError,
-  DownloadOperationStatus,
-  ServiceDownloadFormat,
 } from "../../../../src/downloads/types";
 import { IArcGISContext } from "../../../../src/types/IArcGISContext";
+import { ServiceDownloadFormat } from "../../../../src/downloads/enums/serviceDownloadFormat";
+import { DownloadOperationStatus } from "../../../../src/downloads/enums/downloadOperationStatus";
 
 describe("fetchHubApiDownloadFile", () => {
   afterEach(() => fetchMock.restore());

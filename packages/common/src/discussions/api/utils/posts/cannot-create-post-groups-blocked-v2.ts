@@ -1,5 +1,7 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-portal";
-import { AclCategory, IChannel, IDiscussionsUser, Role } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
+import { AclCategory } from "../../enums/aclCategory";
+import { Role } from "../../enums/role";
 import { canCreatePostV2 } from "./can-create-post-v2";
 import { isDiscussable } from "../../../utils";
 

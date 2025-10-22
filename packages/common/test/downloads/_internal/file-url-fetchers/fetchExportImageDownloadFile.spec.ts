@@ -7,17 +7,15 @@ vi.mock("@esri/arcgis-rest-request", async (importOriginal) => {
   } as Partial<typeof import("@esri/arcgis-rest-request")>;
 });
 import * as requestModule from "@esri/arcgis-rest-request";
-import {
-  DownloadOperationStatus,
-  IFetchDownloadFileOptions,
-  ServiceDownloadFormat,
-} from "../../../../src/downloads/types";
+import { IFetchDownloadFileOptions } from "../../../../src/downloads/types";
 import { fetchExportImageDownloadFile } from "../../../../src/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFile";
 import {
   IHubEditableContent,
   IServiceExtendedProps,
 } from "../../../../src/core/types/IHubEditableContent";
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { DownloadOperationStatus } from "../../../../src/downloads/enums/downloadOperationStatus";
+import { ServiceDownloadFormat } from "../../../../src/downloads/enums/serviceDownloadFormat";
 
 describe("fetchExportImageDownloadFile", () => {
   afterEach(() => {

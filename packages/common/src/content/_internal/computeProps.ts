@@ -15,10 +15,8 @@ import {
   IServiceExtendedProps,
 } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
-import {
-  hasServiceCapability,
-  ServiceCapabilities,
-} from "../hostedServiceUtils";
+import { hasServiceCapability } from "../hostedServiceUtils";
+import { ServiceCapabilities } from "../enums/serviceCapabilities";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { getProp } from "../../objects/get-prop";
 import { IHubEditableContentEnrichments } from "../../items/_enrichments";

@@ -17,11 +17,8 @@ import * as getModelUtils from "../../src/models/getModel";
 import * as updateModelUtils from "../../src/models/updateModel";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import {
-  HubEntityStatus,
-  IHubRequestOptions,
-  IModel,
-} from "../../src/hub-types";
+import { IHubRequestOptions, IModel } from "../../src/hub-types";
+import { HubEntityStatus } from "../../src/enums/hubEntityStatus";
 import {
   createInitiative,
   enrichInitiativeSearchResult,
@@ -87,10 +84,10 @@ describe("HubInitiatives:", () => {
     it("gets by id, if passed a guid", async () => {
       const getItemSpy = vi
         .spyOn(portalModule, "getItem")
-        .mockResolvedValue(INITIATIVE_ITEM );
+        .mockResolvedValue(INITIATIVE_ITEM);
       const getItemDataSpy = vi
         .spyOn(portalModule, "getItemData")
-        .mockResolvedValue(INITIATIVE_DATA );
+        .mockResolvedValue(INITIATIVE_DATA);
 
       const chk = await fetchInitiative(GUID, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
@@ -102,12 +99,8 @@ describe("HubInitiatives:", () => {
     });
 
     it("gets without auth", async () => {
-      vi.spyOn(portalModule, "getItem").mockResolvedValue(
-        INITIATIVE_ITEM 
-      );
-      vi.spyOn(portalModule, "getItemData").mockResolvedValue(
-        INITIATIVE_DATA 
-      );
+      vi.spyOn(portalModule, "getItem").mockResolvedValue(INITIATIVE_ITEM);
+      vi.spyOn(portalModule, "getItemData").mockResolvedValue(INITIATIVE_DATA);
       const ro: IRequestOptions = {
         portal: "https://gis.myserver.com/portal/sharing/rest",
       };
@@ -120,12 +113,8 @@ describe("HubInitiatives:", () => {
     });
 
     it("gets by slug if not passed guid", async () => {
-      vi.spyOn(slugUtils, "getItemBySlug").mockResolvedValue(
-        INITIATIVE_ITEM 
-      );
-      vi.spyOn(portalModule, "getItemData").mockResolvedValue(
-        INITIATIVE_DATA 
-      );
+      vi.spyOn(slugUtils, "getItemBySlug").mockResolvedValue(INITIATIVE_ITEM);
+      vi.spyOn(portalModule, "getItemData").mockResolvedValue(INITIATIVE_DATA);
 
       const chk = await fetchInitiative("dcdev-34th-street", {
         authentication: MOCK_AUTH,
@@ -176,7 +165,7 @@ describe("HubInitiatives:", () => {
         .mockImplementation((m: IModel) => {
           const newModel = utilModule.cloneObject(m as any);
           newModel.item.id = GUID;
-          return Promise.resolve(newModel );
+          return Promise.resolve(newModel);
         });
       const chk = await createInitiative(
         { name: "Hello World", orgUrlKey: "dcdev" } as any,
@@ -198,7 +187,7 @@ describe("HubInitiatives:", () => {
         .mockImplementation((m: IModel) => {
           const newModel = utilModule.cloneObject(m as any);
           newModel.item.id = GUID;
-          return Promise.resolve(newModel );
+          return Promise.resolve(newModel);
         });
       const chk = await createInitiative(
         {
@@ -271,7 +260,7 @@ describe("HubInitiatives:", () => {
         portal: "https://some-server.com/gis/sharing/rest",
       } as any;
       const chk = await enrichInitiativeSearchResult(
-        utilModule.cloneObject(INITIATIVE_ITEM_ENRICH ),
+        utilModule.cloneObject(INITIATIVE_ITEM_ENRICH),
         [],
         hubRo as any
       );
@@ -297,7 +286,7 @@ describe("HubInitiatives:", () => {
 
       // include requests the `data.foo` enrichment and maps it to `fooProp`
       const chk = await enrichInitiativeSearchResult(
-        utilModule.cloneObject(INITIATIVE_ITEM_ENRICH ),
+        utilModule.cloneObject(INITIATIVE_ITEM_ENRICH),
         ["data.foo AS fooProp"],
         hubRo as any
       );

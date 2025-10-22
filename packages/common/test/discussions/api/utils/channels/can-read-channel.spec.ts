@@ -3,10 +3,10 @@ import type { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import {
   IChannel,
   IDiscussionsUser,
-  SharingAccess,
 } from "../../../../../src/discussions/api/types";
 import { canReadChannel } from "../../../../../src/discussions/api/utils/channels/can-read-channel";
 import * as portalPrivModule from "../../../../../src/discussions/api/utils/portal-privilege";
+import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
 const groupId1 = "aaa";
 const groupId2 = "bbb";

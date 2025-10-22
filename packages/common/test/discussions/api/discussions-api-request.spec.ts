@@ -6,10 +6,8 @@ import {
 import * as utils from "../../../src/discussions/api/utils/request";
 import * as fetchMock from "fetch-mock";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import {
-  IDiscussionsRequestOptions,
-  SearchPostsFormat,
-} from "../../../src/discussions/api/types";
+import { IDiscussionsRequestOptions } from "../../../src/discussions/api/types";
+import { SearchPostsFormat } from "../../../src/discussions/api/enums/searchPostsFormat";
 
 afterEach(() => vi.restoreAllMocks());
 
