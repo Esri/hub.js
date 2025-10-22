@@ -18,8 +18,8 @@ export function serializeItemParams<T>(
   return requestOptions as unknown as T;
 }
 
-// istanbul ignore next - copied from
-// https://github.com/Esri/arcgis-rest-js/blob/8eccee45394850467194e53390df7df3e661f104/packages/arcgis-rest-portal/src/items/helpers.ts#L255
+// copied from https://github.com/Esri/arcgis-rest-js/blob/8eccee45394850467194e53390df7df3e661f104/packages/arcgis-rest-portal/src/items/helpers.ts#L255
+/* istanbul ignore next -- @preserve */
 function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));

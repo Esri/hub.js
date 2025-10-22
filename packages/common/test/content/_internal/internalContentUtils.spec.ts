@@ -599,3 +599,47 @@ describe("getHubRelativeUrl", () => {
     });
   });
 });
+
+describe("forceUpdateContent", () => {
+  let requestOptions: IHubRequestOptions;
+  beforeEach(() => {
+    requestOptions = cloneObject(MOCK_HUB_REQOPTS);
+  });
+
+  it("posts to hub api forceUpdate and returns true when response.ok", async () => {
+    const fetchSpy = vi
+      .spyOn(global as any, "fetch")
+      .mockResolvedValue({ ok: true } as any);
+
+    const res = await internalContentUtils.forceUpdateContent(
+      "9001",
+      requestOptions as any
+    );
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const expectedUrl = `${requestOptions.hubApiUrl}/api/v3/jobs/item/9001/forceUpdate`;
+    // access mock.calls with any casts to satisfy TS
+    const call = (fetchSpy as any).mock.calls[0] as any[];
+    expect(call[0]).toBe(expectedUrl);
+    const options: any = call[1];
+    expect(options.method).toBe("POST");
+    expect(options.headers["content-type"]).toBe("application/json");
+    expect(options.headers.authorization).toBe(
+      (requestOptions as any).authentication.token
+    );
+    expect(res).toBe(true);
+  });
+
+  it("returns false when response.ok is false", async () => {
+    vi.spyOn(global as any, "fetch").mockResolvedValue({ ok: false } as any);
+    const res = await internalContentUtils.forceUpdateContent(
+      "9001",
+      requestOptions as any
+    );
+    expect(res).toBe(false);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+});

@@ -48,6 +48,8 @@ import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settin
 import * as createOrUpdateEntitySettingsUtils from "../../src/core/_internal/createOrUpdateEntitySettings";
 import { IGeometryInstance } from "../../src/core/types/IGeometryInstance";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
+import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
+import * as manageSchedule from "../../src/content/manageSchedule";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const myMockAuth = {
@@ -245,6 +247,9 @@ describe("content editing:", () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
         { capabilities: "Extract" };
       getServiceSpy.mockResolvedValue(currentDefinition);
+      const maybeUpdateScheduleSpy = vi
+        .spyOn(manageSchedule, "maybeUpdateSchedule")
+        .mockResolvedValue({ message: "schedule updated" });
 
       const content: IHubEditableContent = {
         itemControl: "edit",
@@ -287,11 +292,18 @@ describe("content editing:", () => {
       expect(updateModelSpy).toHaveBeenCalledTimes(1);
       expect(getServiceSpy).toHaveBeenCalledTimes(1);
       expect(updateServiceSpy).not.toHaveBeenCalled();
+      expect(maybeUpdateScheduleSpy).toHaveBeenCalledTimes(1);
     });
     it("updates the hosted service if configurations have changed", async () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
         { currentVersion: 11.2, capabilities: "Query" };
       getServiceSpy.mockResolvedValue(currentDefinition);
+      const maybeUpdateScheduleSpy = vi
+        .spyOn(manageSchedule, "maybeUpdateSchedule")
+        .mockResolvedValue({ message: "schedule updated" });
+      const forceUpdateContentSpy = vi
+        .spyOn(internalContentUtils, "forceUpdateContent")
+        .mockResolvedValue(true);
 
       const content: IHubEditableContent = {
         itemControl: "edit",
@@ -334,6 +346,8 @@ describe("content editing:", () => {
       expect(updateModelSpy).toHaveBeenCalledTimes(1);
       expect(getServiceSpy).toHaveBeenCalledTimes(1);
       expect(updateServiceSpy).toHaveBeenCalledTimes(1);
+      expect(forceUpdateContentSpy).toHaveBeenCalledTimes(1);
+      expect(maybeUpdateScheduleSpy).toHaveBeenCalledTimes(1);
       const [url, { updateDefinition }] = updateServiceSpy.mock.calls[0];
       expect(url).toEqual(
         "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer"
@@ -344,6 +358,9 @@ describe("content editing:", () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
         { capabilities: "Extract" };
       getServiceSpy.mockResolvedValue(currentDefinition);
+      const maybeUpdateScheduleSpy = vi
+        .spyOn(manageSchedule, "maybeUpdateSchedule")
+        .mockResolvedValue({ message: "schedule updated" });
       const content: IHubEditableContent = {
         itemControl: "edit",
         id: GUID,
@@ -393,6 +410,7 @@ describe("content editing:", () => {
       expect(chk.extendedProps?.downloads).toEqual(
         content.extendedProps?.downloads
       );
+      expect(maybeUpdateScheduleSpy).toHaveBeenCalledTimes(1);
     });
     it("creates settings if none exists", async () => {
       const content: IHubEditableContent = {
