@@ -1,3 +1,9 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+// Async mock merging the original module so ESM namespace exports are mockable
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
+  ...(await importOriginal()),
+  searchItems: vi.fn(),
+}));
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { buildEventAssociations } from "../../../src/events/_internal/buildEventAssociations";
 import { IHubRequestOptions } from "../../../src/hub-types";
@@ -5,11 +11,12 @@ import { ICreateEventAssociation } from "../../../src/events/api/orval/api/orval
 
 describe("buildEventAssociations", () => {
   const hubRequestOptions = { authentication: {} } as IHubRequestOptions;
-  let searchItemsSpy: jasmine.Spy;
+  let searchItemsSpy: any;
 
   beforeEach(() => {
-    searchItemsSpy = spyOn(restPortalModule, "searchItems").and.returnValue(
-      Promise.resolve({
+    searchItemsSpy = vi
+      .spyOn(restPortalModule, "searchItems")
+      .mockResolvedValue({
         results: [
           {
             id: "31c",
@@ -20,8 +27,11 @@ describe("buildEventAssociations", () => {
             type: "Hub Initiative",
           },
         ],
-      })
-    );
+      } as any);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should purge associations not included in featuredContentIds", async () => {

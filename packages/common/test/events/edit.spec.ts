@@ -19,6 +19,7 @@ import {
   IHubCreateEventRegistration,
   updateHubEvent,
 } from "../../src/events/edit";
+import { afterEach, vi } from "vitest";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
 import {
   HubEventAttendanceType,
@@ -125,35 +126,34 @@ describe("HubEvents edit module", () => {
     ...datesAndTimes,
   };
 
-  let buildDefaultEventEntitySpy: jasmine.Spy;
-  let buildDefaultEventRecordSpy: jasmine.Spy;
-  let buildEventAssociationsSpy: jasmine.Spy;
+  let buildDefaultEventEntitySpy: any;
+  let buildDefaultEventRecordSpy: any;
+  let buildEventAssociationsSpy: any;
 
   beforeEach(() => {
-    buildDefaultEventEntitySpy = spyOn(
-      defaultsModule,
-      "buildDefaultEventEntity"
-    ).and.returnValue(defaultEntity);
-    buildDefaultEventRecordSpy = spyOn(
-      defaultsModule,
-      "buildDefaultEventRecord"
-    ).and.returnValue(defaultRecord);
-    buildEventAssociationsSpy = spyOn(
-      buildEventAssociationsModule,
-      "buildEventAssociations"
-    ).and.returnValue(
-      Promise.resolve([
-        {
-          entityId: "t36",
-          entityType: "Hub Site Application",
-        },
-        {
-          entityId: "8nd",
-          entityType: "Hub Project",
-        },
-      ])
-    );
+    buildDefaultEventEntitySpy = vi
+      .spyOn(defaultsModule as any, "buildDefaultEventEntity")
+      .mockReturnValue(defaultEntity as any);
+    buildDefaultEventRecordSpy = vi
+      .spyOn(defaultsModule as any, "buildDefaultEventRecord")
+      .mockReturnValue(defaultRecord as any);
+    buildEventAssociationsSpy = vi
+      .spyOn(buildEventAssociationsModule as any, "buildEventAssociations")
+      .mockReturnValue(
+        Promise.resolve([
+          {
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+          {
+            entityId: "8nd",
+            entityType: "Hub Project",
+          },
+        ])
+      );
   });
+
+  afterEach(() => vi.restoreAllMocks());
 
   describe("createHubEvent", () => {
     it("should create an event", async () => {
@@ -178,10 +178,9 @@ describe("HubEvents edit module", () => {
         ],
       };
 
-      const createEventApiSpy = spyOn(
-        eventsModule,
-        "createEvent"
-      ).and.returnValue(new Promise((resolve) => resolve(createdRecord)));
+      const createEventApiSpy = vi
+        .spyOn(eventsModule as any, "createEvent")
+        .mockReturnValue(Promise.resolve(createdRecord) as any);
       const res = await createHubEvent(
         {
           name: "my event",
@@ -289,10 +288,9 @@ describe("HubEvents edit module", () => {
           },
         ] as IEventAssociation[],
       };
-      const updateEventApiSpy = spyOn(
-        eventsModule,
-        "updateEvent"
-      ).and.returnValue(new Promise((resolve) => resolve(updatedRecord)));
+      const updateEventApiSpy = vi
+        .spyOn(eventsModule as any, "updateEvent")
+        .mockReturnValue(Promise.resolve(updatedRecord) as any);
       const res = await updateHubEvent(
         {
           name: "my event",
@@ -403,10 +401,9 @@ describe("HubEvents edit module", () => {
           },
         ] as IEventAssociation[],
       };
-      const updateEventApiSpy = spyOn(
-        eventsModule,
-        "updateEvent"
-      ).and.returnValue(new Promise((resolve) => resolve(updatedRecord)));
+      const updateEventApiSpy = vi
+        .spyOn(eventsModule as any, "updateEvent")
+        .mockReturnValue(Promise.resolve(updatedRecord) as any);
       const res = await updateHubEvent(
         {
           name: "my event",
@@ -501,11 +498,9 @@ describe("HubEvents edit module", () => {
 
   describe("deleteHubEvent", () => {
     it("calls deleteEvent", async () => {
-      const deleteEventSpy = spyOn(eventsModule, "deleteEvent").and.callFake(
-        () => {
-          return Promise.resolve();
-        }
-      );
+      const deleteEventSpy = vi
+        .spyOn(eventsModule as any, "deleteEvent")
+        .mockImplementation(() => Promise.resolve());
       await deleteHubEvent("0o1", context.hubRequestOptions);
       expect(deleteEventSpy).toHaveBeenCalledWith({
         eventId: "0o1",
@@ -516,12 +511,9 @@ describe("HubEvents edit module", () => {
 
   describe("createHubEventRegistration", () => {
     it("calls createRegistration", async () => {
-      const createRegistrationSpy = spyOn(
-        registrationModule,
-        "createRegistration"
-      ).and.callFake(() => {
-        return Promise.resolve();
-      });
+      const createRegistrationSpy = vi
+        .spyOn(registrationModule as any, "createRegistration")
+        .mockImplementation(() => Promise.resolve());
       const data: IHubCreateEventRegistration = {
         eventId: "0o1",
         role: RegistrationRole.ATTENDEE,
@@ -537,12 +529,9 @@ describe("HubEvents edit module", () => {
 
   describe("deleteHubEventRegistration", () => {
     it("calls deleteRegistration", async () => {
-      const deleteRegistrationSpy = spyOn(
-        registrationModule,
-        "deleteRegistration"
-      ).and.callFake(() => {
-        return Promise.resolve();
-      });
+      const deleteRegistrationSpy = vi
+        .spyOn(registrationModule as any, "deleteRegistration")
+        .mockImplementation(() => Promise.resolve());
       await deleteHubEventRegistration("0o1", context.hubRequestOptions);
       expect(deleteRegistrationSpy).toHaveBeenCalledWith({
         registrationId: "0o1",

@@ -1,18 +1,19 @@
+import { vi } from "vitest";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
 import { computeProps } from "../../../src/initiative-templates/_internal/computeProps";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { InitiativeTemplateDefaultFeatures } from "../../../src/initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import * as computeLinksModule from "../../../src/initiative-templates/_internal/computeLinks";
 import { IModel } from "../../../src/hub-types";
 import { IHubInitiativeTemplate } from "../../../src/core/types/IHubInitiativeTemplate";
+
 describe("initiative templates: computeProps:", () => {
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: any;
   let model: IModel;
   let initiativeTemplate: Partial<IHubInitiativeTemplate>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     model = {
       item: {
         type: "Hub Initiative Template",
@@ -27,41 +28,34 @@ describe("initiative templates: computeProps:", () => {
       id: "00c",
       slug: "mock-slug",
     };
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        privileges: ["portal:user:createItem"],
-      } as unknown as IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-        properties: {
-          hub: {
-            enabled: true,
-          },
-        },
-      } as unknown as IPortal,
-      portalUrl: "https://org.maps.arcgis.com",
-    });
+    authdCtxMgr = {
+      context: createMockContext({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+          privileges: ["portal:user:createItem"],
+        } as unknown as IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+          properties: { hub: { enabled: true } },
+        } as unknown as IPortal,
+        portalUrl: "https://org.maps.arcgis.com",
+      }),
+    };
   });
   describe("features:", () => {
-    let spy: jasmine.Spy;
+    let spy: any;
     beforeEach(() => {
-      spy = spyOn(
-        processEntitiesModule,
-        "processEntityFeatures"
-      ).and.returnValue({ details: true, settings: false });
+      spy = vi
+        .spyOn(processEntitiesModule as any, "processEntityFeatures")
+        .mockReturnValue({ details: true, settings: false });
     });
     afterEach(() => {
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy.calls.argsFor(0)[1]).toEqual(
-        InitiativeTemplateDefaultFeatures
-      );
+      expect(spy.mock.calls[0][1]).toEqual(InitiativeTemplateDefaultFeatures);
+      vi.restoreAllMocks();
     });
     it("handles missing settings hash", () => {
       const chk = computeProps(
@@ -71,7 +65,7 @@ describe("initiative templates: computeProps:", () => {
       );
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
-      expect(spy.calls.argsFor(0)[0]).toEqual({});
+      expect(spy.mock.calls[0][0]).toEqual({});
     });
     it("handles missing capabilities hash", () => {
       const chk = computeProps(
@@ -82,16 +76,10 @@ describe("initiative templates: computeProps:", () => {
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
-      expect(spy.calls.argsFor(0)[0]).toEqual({});
+      expect(spy.mock.calls[0][0]).toEqual({});
     });
     it("passes features hash", () => {
-      model.data = {
-        settings: {
-          features: {
-            details: true,
-          },
-        },
-      };
+      model.data = { settings: { features: { details: true } } } as any;
       const chk = computeProps(
         model,
         initiativeTemplate,
@@ -100,14 +88,13 @@ describe("initiative templates: computeProps:", () => {
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
-      expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
+      expect(spy.mock.calls[0][0]).toEqual({ details: true });
     });
 
     it("generates a links hash", () => {
-      const computeLinksSpy = spyOn(
-        computeLinksModule,
-        "computeLinks"
-      ).and.returnValue({ self: "some-link" });
+      const computeLinksSpy = vi
+        .spyOn(computeLinksModule as any, "computeLinks")
+        .mockReturnValue({ self: "some-link" } as any);
       const chk = computeProps(
         model,
         initiativeTemplate,

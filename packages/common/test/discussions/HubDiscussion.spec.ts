@@ -1,6 +1,6 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { vi, afterEach } from "vitest";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { createMockContext } from "../mocks/mock-auth";
 import { HubDiscussion } from "../../src/discussions/HubDiscussion";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as discussionsFetchModule from "../../src/discussions/fetch";
@@ -15,23 +15,23 @@ import {
 
 describe("HubDiscussion Class:", () => {
   afterEach(() => vi.restoreAllMocks());
-  let authdCtxMgr: ArcGISContextManager;
+  let authdCtxMgr: any;
   beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
+    // Use a mocked ArcGISContext for tests instead of calling the async
+    // ArcGISContextManager.create which may perform network operations.
+    const ctx = createMockContext({
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
       } as unknown as PortalModule.IUser,
-      portal: {
+      portalSelf: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://myserver.com",
     });
+    authdCtxMgr = { context: ctx } as any;
   });
 
   describe("ctor:", () => {
@@ -331,7 +331,7 @@ describe("HubDiscussion Class:", () => {
             name: "Test Entity",
             orgUrlKey: undefined,
           },
-          contextWithoutUrlKey as any
+          contextWithoutUrlKey
         );
         vi.spyOn(chk, "save").mockResolvedValue(undefined);
         const editor = await chk.toEditor();

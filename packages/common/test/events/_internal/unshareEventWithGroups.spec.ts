@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { unshareEventWithGroups } from "../../../src/events/_internal/unshareEventWithGroups";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
@@ -5,7 +6,7 @@ import * as eventsModule from "../../../src/events/api/events";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("unshareEventWithGroups", () => {
-  let updateEventSpy: jasmine.Spy;
+  let updateEventSpy: any;
   let groups: portalModule.IGroup[];
   let context: IArcGISContext;
   let entity: IHubEvent;
@@ -38,12 +39,14 @@ describe("unshareEventWithGroups", () => {
       readGroupIds: [groups[0].id, groups[1].id],
       editGroupIds: [groups[2].id],
     } as IHubEvent;
-    updateEventSpy = spyOn(eventsModule, "updateEvent").and.returnValue(
-      Promise.resolve({
-        readGroups: [groups[1].id],
-        editGroups: [],
-      })
-    );
+    updateEventSpy = vi.spyOn(eventsModule, "updateEvent").mockResolvedValue({
+      readGroups: [groups[1].id],
+      editGroups: [],
+    } as any) as ReturnType<typeof vi.spyOn>;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("should unshare the event from groups", async () => {
@@ -65,15 +68,12 @@ describe("unshareEventWithGroups", () => {
   });
 
   it("should reject when an error occurs", async () => {
-    updateEventSpy.and.returnValue(Promise.reject(new Error("fail")));
-    try {
-      await unshareEventWithGroups(["31c", "52n"], entity, context);
-      fail("did not reject");
-    } catch (e) {
-      expect((e as Error).message).toEqual(
-        "Entity: 62p could not be unshared with groups: 31c, 52n"
-      );
-    }
+    updateEventSpy.mockRejectedValue(new Error("fail"));
+    await expect(
+      unshareEventWithGroups(["31c", "52n"], entity, context)
+    ).rejects.toThrow(
+      "Entity: 62p could not be unshared with groups: 31c, 52n"
+    );
     expect(updateEventSpy).toHaveBeenCalledTimes(1);
     expect(updateEventSpy).toHaveBeenCalledWith({
       eventId: entity.id,
