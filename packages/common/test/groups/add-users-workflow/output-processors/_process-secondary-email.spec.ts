@@ -6,6 +6,8 @@ import * as isAdminModule from "../../../../src/groups/add-users-workflow/utils/
 import { IHubRequestOptions } from "../../../../src/hub-types";
 import { cloneObject } from "../../../../src/util";
 import { IEmail } from "../../../../src/groups/types/types";
+import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
+
 describe("_processSecondaryEmail", () => {
   const orgId = "Shermer High";
   const groupId = "Bueller Gang";
@@ -25,20 +27,17 @@ describe("_processSecondaryEmail", () => {
     primaryRO: null,
   };
 
-  let emailSpy: jasmine.Spy;
-  let isOrgAdminSpy: jasmine.Spy;
+  let emailSpy: any;
 
   beforeEach(() => {
-    emailSpy = spyOn(emailModule, "emailOrgUsers");
-    emailSpy.and.callFake(() => Promise.resolve({ success: true }));
-
-    isOrgAdminSpy = spyOn(isAdminModule, "_isOrgAdmin");
-    isOrgAdminSpy.and.callFake(() => true);
+    emailSpy = vi
+      .spyOn(emailModule, "emailOrgUsers")
+      .mockResolvedValue({ success: true });
+    vi.spyOn(isAdminModule, "_isOrgAdmin").mockImplementation(() => true);
   });
 
   afterEach(() => {
-    emailSpy.calls.reset();
-    isOrgAdminSpy.calls.reset();
+    vi.restoreAllMocks();
   });
 
   it("Doesn't modify context if no email object provided", async () => {
