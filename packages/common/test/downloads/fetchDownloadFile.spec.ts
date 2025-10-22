@@ -7,40 +7,45 @@ import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { fetchDownloadFile } from "../../src/downloads/fetchDownloadFile";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import { ServiceDownloadFormat } from "../../src/downloads/types";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("fetchDownloadFile", () => {
-  let canUseHubDownloadApiSpy: jasmine.Spy;
-  let fetchHubApiDownloadFileSpy: jasmine.Spy;
-  let canUseExportImageFlowSpy: jasmine.Spy;
-  let fetchExportImageDownloadFileSpy: jasmine.Spy;
-  let getDownloadFormatsSpy: jasmine.Spy;
+  let canUseHubDownloadApiSpy: any;
+  let fetchHubApiDownloadFileSpy: any;
+  let canUseExportImageFlowSpy: any;
+  let fetchExportImageDownloadFileSpy: any;
+  let getDownloadFormatsSpy: any;
 
   beforeEach(() => {
-    canUseHubDownloadApiSpy = spyOn(
+    canUseHubDownloadApiSpy = vi.spyOn(
       canUseHubDownloadApiModule,
       "canUseHubDownloadApi"
     );
-    fetchHubApiDownloadFileSpy = spyOn(
+    fetchHubApiDownloadFileSpy = vi.spyOn(
       fetchHubApiDownloadFileModule,
       "fetchHubApiDownloadFile"
     );
-    canUseExportImageFlowSpy = spyOn(
+    canUseExportImageFlowSpy = vi.spyOn(
       canUseExportImageFlowModule,
       "canUseExportImageFlow"
     );
-    fetchExportImageDownloadFileSpy = spyOn(
+    fetchExportImageDownloadFileSpy = vi.spyOn(
       fetchExportImageDownloadFileModule,
       "fetchExportImageDownloadFile"
     );
-    getDownloadFormatsSpy = spyOn(
+    getDownloadFormatsSpy = vi.spyOn(
       getDownloadFormatsModule,
       "getDownloadFormats"
     );
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("should throw an error if the requested format isn't enabled", async () => {
     // Additional resources (aka static formats) are not included in the list of valid formats
-    getDownloadFormatsSpy.and.returnValue([
+    getDownloadFormatsSpy.mockReturnValue([
       { type: "static", url: "my-additional-resource" },
     ]);
     try {
@@ -63,9 +68,9 @@ describe("fetchDownloadFile", () => {
   });
 
   it("should throw an error if no download flow can be used", async () => {
-    canUseHubDownloadApiSpy.and.returnValue(false);
-    canUseExportImageFlowSpy.and.returnValue(false);
-    getDownloadFormatsSpy.and.returnValue([
+    canUseHubDownloadApiSpy.mockReturnValue(false);
+    canUseExportImageFlowSpy.mockReturnValue(false);
+    getDownloadFormatsSpy.mockReturnValue([
       { type: "dynamic", format: ServiceDownloadFormat.CSV },
     ]);
     try {
@@ -88,12 +93,12 @@ describe("fetchDownloadFile", () => {
   });
 
   it("should delegate to fetchHubApiDownloadFile when the Hub Download API can be used", async () => {
-    canUseHubDownloadApiSpy.and.returnValue(true);
-    canUseExportImageFlowSpy.and.returnValue(false);
-    getDownloadFormatsSpy.and.returnValue([
+    canUseHubDownloadApiSpy.mockReturnValue(true);
+    canUseExportImageFlowSpy.mockReturnValue(false);
+    getDownloadFormatsSpy.mockReturnValue([
       { type: "dynamic", format: ServiceDownloadFormat.CSV },
     ]);
-    fetchHubApiDownloadFileSpy.and.returnValue(
+    fetchHubApiDownloadFileSpy.mockResolvedValue(
       Promise.resolve({ type: "url", href: "hub-api-download-url" })
     );
 
@@ -124,12 +129,12 @@ describe("fetchDownloadFile", () => {
   });
 
   it("should delegate to fetchExportImageDownloadFile when the Export Image flow can be used", async () => {
-    canUseHubDownloadApiSpy.and.returnValue(false);
-    canUseExportImageFlowSpy.and.returnValue(true);
-    getDownloadFormatsSpy.and.returnValue([
+    canUseHubDownloadApiSpy.mockReturnValue(false);
+    canUseExportImageFlowSpy.mockReturnValue(true);
+    getDownloadFormatsSpy.mockReturnValue([
       { type: "dynamic", format: ServiceDownloadFormat.PNG },
     ]);
-    fetchExportImageDownloadFileSpy.and.returnValue(
+    fetchExportImageDownloadFileSpy.mockResolvedValue(
       Promise.resolve({ type: "blob", filename: "image.png", blob: {} as Blob })
     );
 
@@ -162,11 +167,11 @@ describe("fetchDownloadFile", () => {
   });
 
   it("should set the pollInterval to 3000 if not provided", async () => {
-    canUseHubDownloadApiSpy.and.returnValue(true);
-    getDownloadFormatsSpy.and.returnValue([
+    canUseHubDownloadApiSpy.mockReturnValue(true);
+    getDownloadFormatsSpy.mockReturnValue([
       { type: "dynamic", format: ServiceDownloadFormat.CSV },
     ]);
-    fetchHubApiDownloadFileSpy.and.returnValue(
+    fetchHubApiDownloadFileSpy.mockResolvedValue(
       Promise.resolve({ type: "url", href: "hub-api-download-url" })
     );
 
