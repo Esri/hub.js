@@ -1,3 +1,11 @@
+// Mock the ESM namespace for arcgis-rest-request and override only `request`.
+vi.mock("@esri/arcgis-rest-request", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...(actual as any),
+    request: vi.fn(),
+  } as Partial<typeof import("@esri/arcgis-rest-request")>;
+});
 import * as requestModule from "@esri/arcgis-rest-request";
 import {
   DownloadOperationStatus,
@@ -9,15 +17,20 @@ import {
   IHubEditableContent,
   IServiceExtendedProps,
 } from "../../../../src/core/types/IHubEditableContent";
+import { describe, it, expect, vi, afterEach } from "vitest";
 
 describe("fetchExportImageDownloadFile", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("should call progressCallback with PENDING statuses", async () => {
-    const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ size: 1000 } as Blob)
+    const requestSpy = vi
+      .spyOn(requestModule, "request")
+      .mockResolvedValue({ size: 1000 } as Blob);
+    const progressCallback = vi.fn(
+      (_status: DownloadOperationStatus): any => null
     );
-    const progressCallback = jasmine
-      .createSpy("progressCallback")
-      .and.callFake((_status: DownloadOperationStatus): any => null);
 
     const options = {
       entity: {
@@ -72,9 +85,9 @@ describe("fetchExportImageDownloadFile", () => {
   });
 
   it("runs when no progressCallback is passed", async () => {
-    const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ size: 1000 } as Blob)
-    );
+    const requestSpy = vi
+      .spyOn(requestModule, "request")
+      .mockResolvedValue({ size: 1000 } as Blob);
 
     const options = {
       entity: {
@@ -123,9 +136,9 @@ describe("fetchExportImageDownloadFile", () => {
   });
 
   it("throws an error when the server definition has no extent", async () => {
-    spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ size: 1000 } as Blob)
-    );
+    vi.spyOn(requestModule, "request").mockResolvedValue({
+      size: 1000,
+    } as Blob);
 
     const options = {
       entity: {
@@ -152,9 +165,9 @@ describe("fetchExportImageDownloadFile", () => {
   });
 
   it("throws an error when a non-extent geometry is passed", async () => {
-    spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ size: 1000 } as Blob)
-    );
+    vi.spyOn(requestModule, "request").mockResolvedValue({
+      size: 1000,
+    } as Blob);
 
     const options = {
       entity: {
@@ -189,9 +202,9 @@ describe("fetchExportImageDownloadFile", () => {
   });
 
   it("filters the download when an extent geometry is passed in", async () => {
-    const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ size: 1000 } as Blob)
-    );
+    const requestSpy = vi
+      .spyOn(requestModule, "request")
+      .mockResolvedValue({ size: 1000 } as Blob);
 
     const options = {
       entity: {
@@ -248,9 +261,9 @@ describe("fetchExportImageDownloadFile", () => {
   });
 
   it("uses the server name for the file if the entity name is unavailable", async () => {
-    const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ size: 1000 } as Blob)
-    );
+    const requestSpy = vi
+      .spyOn(requestModule, "request")
+      .mockResolvedValue({ size: 1000 } as Blob);
 
     const options = {
       entity: {
@@ -299,9 +312,9 @@ describe("fetchExportImageDownloadFile", () => {
   });
 
   it("sets the end file extension as .png for other formats in the png family", async () => {
-    const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ size: 1000 } as Blob)
-    );
+    const requestSpy = vi
+      .spyOn(requestModule, "request")
+      .mockResolvedValue({ size: 1000 } as Blob);
 
     const options = {
       entity: {
