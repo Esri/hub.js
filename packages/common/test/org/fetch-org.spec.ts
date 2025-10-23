@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
   return { ...(await importOriginal()), getPortal: vi.fn() };
 });
