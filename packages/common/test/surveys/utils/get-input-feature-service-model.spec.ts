@@ -4,7 +4,7 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   getItem: vi.fn(),
 }));
 
-import { vi } from "vitest";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../../test-helpers/fake-user-session";
 import * as FieldworkerItem from "../../mocks/items/fieldworker-item.json";

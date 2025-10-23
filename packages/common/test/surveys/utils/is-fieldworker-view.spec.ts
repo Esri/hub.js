@@ -3,6 +3,7 @@ import * as FeatureServiceItem from "../../mocks/items/feature-service-item.json
 import * as StakeholderItem from "../../mocks/items/stakeholder-item.json";
 import { isFieldworkerView } from "../../../src/surveys/utils/is-fieldworker-view";
 import { cloneObject } from "../../../src/util";
+import { describe, it, expect } from "vitest";
 
 describe("isFieldworkerView", () => {
   it("should return true for a Fieldworker", function () {

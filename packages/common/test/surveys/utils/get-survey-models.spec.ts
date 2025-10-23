@@ -4,7 +4,7 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   getItem: vi.fn(),
 }));
 
-import { vi } from "vitest";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import * as FieldworkerItem from "../../mocks/items/fieldworker-item.json";
 import * as FeatureServiceItem from "../../mocks/items/feature-service-item.json";
@@ -138,7 +138,7 @@ describe("getSurveyModels", () => {
       .mockReturnValue(false);
     const getInputFeatureServiceModelSpy = vi
       .spyOn(getInputFeatureServiceModelUtil, "getInputFeatureServiceModel")
-      .mockReturnValue(Promise.resolve());
+      .mockReturnValue(Promise.resolve(undefined as unknown as IModel));
     const getSourceFeatureServiceModelFromFieldworkerSpy = vi.spyOn(
       getSourceFeatureServiceModelFromFieldworkerUtil,
       "getSourceFeatureServiceModelFromFieldworker"
