@@ -1,4 +1,4 @@
-import { vi, afterEach } from "vitest";
+import { vi, afterEach, describe, it, expect } from "vitest";
 
 // Mock the arcgis-rest-portal namespace so its exports are configurable in ESM.
 vi.mock("@esri/arcgis-rest-portal", async () => {

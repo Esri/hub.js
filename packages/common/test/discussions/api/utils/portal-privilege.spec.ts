@@ -5,6 +5,7 @@ import {
   hasOrgAdminViewRights,
 } from "../../../../src/discussions/api/utils/portal-privilege";
 import type { IUser } from "@esri/arcgis-rest-portal";
+import { describe, it, expect } from "vitest";
 
 describe("hasOrgAdminViewRights", () => {
   it("should return false if user is undefined", () => {

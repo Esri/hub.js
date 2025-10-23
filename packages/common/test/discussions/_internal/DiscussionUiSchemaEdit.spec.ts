@@ -1,6 +1,6 @@
 import { buildUiSchema } from "../../../src/discussions/_internal/DiscussionUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import { vi } from "vitest";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import * as fetchCategoriesUiSchemaElementModule from "../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";

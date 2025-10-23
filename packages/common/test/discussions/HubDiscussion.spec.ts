@@ -1,5 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { vi, afterEach } from "vitest";
+import { vi, afterEach, beforeEach, describe, it, expect } from "vitest";
 import { createMockContext } from "../mocks/mock-auth";
 import { HubDiscussion } from "../../src/discussions/HubDiscussion";
 import { MOCK_AUTH } from "../mocks/mock-auth";

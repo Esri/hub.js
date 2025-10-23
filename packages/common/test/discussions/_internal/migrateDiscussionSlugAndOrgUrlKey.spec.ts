@@ -1,7 +1,7 @@
 import * as sharedMigrations from "../../../src/core/_internal/sharedMigrations";
 import { IHubDiscussion } from "../../../src/core/types/IHubDiscussion";
 import { migrateDiscussionSlugAndOrgUrlKey } from "../../../src/discussions/_internal/migrateDiscussionSlugAndOrgUrlKey";
-import { vi } from "vitest";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("migrateDiscussionSlugAndOrgUrlKey", () => {
   let discussion: IHubDiscussion;

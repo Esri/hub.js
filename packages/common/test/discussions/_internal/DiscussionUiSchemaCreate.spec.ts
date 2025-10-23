@@ -1,5 +1,6 @@
 import { buildUiSchema } from "../../../src/discussions/_internal/DiscussionUiSchemaCreate";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import { describe, it, expect } from "vitest";
 
 describe("buildUiSchema: discussion create", () => {
   it("returns the full discussion create uiSchema", async () => {

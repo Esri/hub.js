@@ -4,6 +4,7 @@ import {
   IDiscussionsUser,
 } from "../../../../../src/discussions/api/types";
 import { ChannelPermission } from "../../../../../src/discussions/api/utils/channel-permission";
+import { describe, it, expect, vi } from "vitest";
 import { deriveUserRoleV2 } from "../../../../../src/discussions/api/utils/channels/derive-user-role-v2";
 
 describe("deriveUserRoleV2", () => {

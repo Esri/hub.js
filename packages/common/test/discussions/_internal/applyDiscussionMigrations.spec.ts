@@ -2,6 +2,7 @@ import { HUB_DISCUSSION_CURRENT_SCHEMA_VERSION } from "../../../src/discussions/
 import * as migrateDiscussionSlugAndOrgUrlKeyModule from "../../../src/discussions/_internal/migrateDiscussionSlugAndOrgUrlKey";
 import { IHubDiscussion } from "../../../src/core/types/IHubDiscussion";
 import { applyDiscussionMigrations } from "../../../src/discussions/_internal/applyDiscussionMigrations";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 
 describe("applyDiscussionMigrations", () => {
   let discussion: IHubDiscussion;
