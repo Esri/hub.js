@@ -474,6 +474,7 @@ export const layoutNodeTags = [
   "arcgis-hub-map-view",
   "arcgis-hub-entity-metrics-card",
   "arcgis-hub-entity-associations-card",
+  "arcgis-hub-entity-status-card",
   "arcgis-hub-entity-metrics-view",
   "arcgis-hub-project-initiatives-view",
   "arcgis-hub-entity-hero",
