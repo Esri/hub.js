@@ -1,4 +1,11 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 // Make ESM namespace export spyable by merging original exports and overriding
 // the specific function we need to spy on. This must be registered before the

@@ -1,4 +1,9 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 
 // Ensure the ESM namespace is mockable: merge original exports and override `request`
 vi.mock("@esri/arcgis-rest-request", async (importOriginal) => ({

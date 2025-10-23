@@ -1,7 +1,13 @@
 import * as fetchMock from "fetch-mock";
 import { getDomainsForSite } from "../../../src/sites/domains/get-domains-for-site";
 import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("getDomainsForSite", function () {
   afterEach(() => {

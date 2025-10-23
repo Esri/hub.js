@@ -1,6 +1,12 @@
 import { IHubRequestOptions } from "../../../src/hub-types";
 import * as domainExistsModule from "../../../src/sites/domains/domain-exists";
 import { getUniqueDomainName } from "../../../src/sites/domains/get-unique-domain-name";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 
 describe("getUniqueDomainName", function () {
   it("generates a unique name", async function () {

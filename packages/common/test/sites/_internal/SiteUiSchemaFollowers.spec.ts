@@ -2,7 +2,13 @@ import { buildUiSchema as buildUiSchemaFollowers } from "../../../src/sites/_int
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as checkPermissionModule from "../../../src/permissions/checkPermission";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 
 describe("SiteUiSchemaFollowers", () => {
   beforeEach(() => {

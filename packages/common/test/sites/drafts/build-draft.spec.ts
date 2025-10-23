@@ -1,5 +1,10 @@
 import { IModel } from "../../../src/hub-types";
 import { buildDraft } from "../../../src/sites/drafts/build-draft";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("buildDraft", () => {
   it("builds a draft", async () => {

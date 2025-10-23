@@ -3,7 +3,13 @@ import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_che
 import * as _lookupPortalModule from "../../../src/sites/domains/_lookup-portal";
 import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
 import { lookupDomain } from "../../../src/sites/domains/lookup-domain";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("lookupDomain", function () {
   const domainId = "146663";

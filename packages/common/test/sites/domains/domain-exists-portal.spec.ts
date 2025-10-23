@@ -1,7 +1,13 @@
 import { IHubRequestOptions } from "../../../src/hub-types";
 import * as _lookupPortalModule from "../../../src/sites/domains/_lookup-portal";
 import { domainExistsPortal } from "../../../src/sites/domains/domain-exists-portal";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("domainExistsPortal", function () {
   afterEach(() => vi.restoreAllMocks());

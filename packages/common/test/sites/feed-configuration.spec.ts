@@ -1,5 +1,10 @@
 import { IModel } from "../../src/hub-types";
 import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+import {
   getFeedConfiguration,
   setFeedConfiguration,
 } from "../../src/sites/feed-configuration";

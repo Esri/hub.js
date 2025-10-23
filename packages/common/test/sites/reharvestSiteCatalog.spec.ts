@@ -1,6 +1,12 @@
 import * as fetchMock from "fetch-mock";
 import { MOCK_CONTEXT } from "../mocks/mock-auth";
 import { reharvestSiteCatalog } from "../../src/sites/reharvestSiteCatalog";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+} from "vitest";
 
 describe("reharvestSiteCatalog", () => {
   afterEach(() => {

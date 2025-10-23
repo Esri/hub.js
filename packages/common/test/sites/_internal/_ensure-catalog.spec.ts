@@ -1,5 +1,10 @@
 import { IModel } from "../../../src/hub-types";
 import { _ensureCatalog } from "../../../src/sites/_internal/_ensure-catalog";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("_ensureCatalog", () => {
   it("ensureCatalog adds data.catalog", function () {

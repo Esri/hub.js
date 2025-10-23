@@ -1,4 +1,9 @@
 import { _getDomainServiceUrl } from "../../../src/sites/domains/_get-domain-service-url";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("_getDomainServiceUrl", function () {
   it("gets the url", function () {

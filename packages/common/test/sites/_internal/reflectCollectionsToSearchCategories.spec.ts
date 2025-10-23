@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { IHubCollection } from "../../../src/search/types/IHubCatalog";
 import { WellKnownCollection } from "../../../src/search/wellKnownCatalog";
 import { reflectCollectionsToSearchCategories } from "../../../src/sites/_internal/reflectCollectionsToSearchCategories";

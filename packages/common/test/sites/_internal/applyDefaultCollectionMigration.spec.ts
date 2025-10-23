@@ -1,4 +1,10 @@
 import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
+import {
   IHubCatalog,
   IHubCollection,
 } from "../../../src/search/types/IHubCatalog";

@@ -1,4 +1,9 @@
 import { _migrateFeedConfig } from "../../../src/sites/_internal/_migrate-feed-config";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("_migrateFeedConfig", () => {
   it("runs migration safely", () => {

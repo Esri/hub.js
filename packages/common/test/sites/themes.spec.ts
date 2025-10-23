@@ -1,6 +1,11 @@
 // import { DEFAULT_THEME, getOrgDefaultTheme } from "../../src";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { DEFAULT_THEME, getOrgDefaultTheme } from "../../src/sites/themes";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("getOrgDefaultTheme", () => {
   it("returns default theme if no shared theme", async () => {

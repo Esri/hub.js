@@ -1,4 +1,9 @@
 import { _enforceLowercaseDomains } from "../../../src/sites/_internal/_enforce-lowercase-domains";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("_enforceLowercaseDomains", () => {
   it("runs without error", () => {

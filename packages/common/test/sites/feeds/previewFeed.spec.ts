@@ -4,6 +4,12 @@ import {
 } from "../../../src/sites/feeds/previewFeed";
 import * as fetchMock from "fetch-mock";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+} from "vitest";
 
 describe("previewFeed", () => {
   const context = {

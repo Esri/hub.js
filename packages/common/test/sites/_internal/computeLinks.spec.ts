@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import type { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { computeLinks } from "../../../src/sites/_internal/computeLinks";
 import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";

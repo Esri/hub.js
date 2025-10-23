@@ -1,5 +1,11 @@
 import { _checkStatusAndParseJson } from "../../../src/sites/domains/_check-status-and-parse-json";
-import { vi, expect } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("_checkStatusAndParseJson", function () {
   afterEach(() => vi.restoreAllMocks());

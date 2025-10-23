@@ -1,7 +1,12 @@
 import { registerSiteAsApplication } from "../../src/sites/registerSiteAsApplication";
 import * as regiserBrowserAppModule from "../../src/items/registerBrowserApp";
 import { IHubRequestOptions, IModel } from "../../src/hub-types";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 
 describe("registerSiteAsApplication", () => {
   it("registers the site", async () => {

@@ -1,5 +1,10 @@
 import { IDomainEntry } from "../../../src/hub-types";
 import { isDomainForLegacySite } from "../../../src/sites/domains/is-domain-for-legacy-site";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("isDomainForLegacySite", function () {
   it("identifies legacy domain entries", function () {

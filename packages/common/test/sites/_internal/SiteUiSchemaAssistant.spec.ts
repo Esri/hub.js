@@ -1,5 +1,10 @@
 import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaAssistant";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("buildUiSchema: site assistant", () => {
   it("returns the full site assistant uiSchema", async () => {

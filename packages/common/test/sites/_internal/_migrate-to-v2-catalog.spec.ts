@@ -1,7 +1,14 @@
 import * as getCatalogFromSiteModelModule from "../../../src/sites/get-catalog-from-site-model";
 import { _migrateToV2Catalog } from "../../../src/sites/_internal/_migrate-to-v2-catalog";
 import { IModel } from "../../../src/hub-types";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("_migrateToV2Catalog", () => {
   let getCatalogFromSiteModelSpy: any;

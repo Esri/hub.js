@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { _purgeNonGuidsFromCatalog } from "../../../src/sites/_internal/_purge-non-guids-from-catalog";
 
 describe("_purgeNonGuidsFromCatalog", () => {

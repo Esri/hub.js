@@ -3,6 +3,11 @@ import {
   IFeedsConfiguration,
   FeedFormat,
 } from "../../../src/sites/feeds/types";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("setFeedTemplate", () => {
   it("sets DCAT US V1 configuration", async () => {

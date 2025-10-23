@@ -1,6 +1,12 @@
 import { _ensureSafeDomainLength } from "../../../src/sites/domains/_ensure-safe-domain-length";
 import * as generateRandomStringModule from "../../../src/utils/generate-random-string";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("_ensureSafeDomainLength", () => {
   afterEach(() => vi.restoreAllMocks());

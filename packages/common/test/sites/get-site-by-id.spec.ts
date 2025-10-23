@@ -2,6 +2,12 @@ import * as upgradeSchemaModule from "../../src/sites/upgrade-site-schema";
 import * as getModelModule from "../../src/models/getModel";
 import { IHubRequestOptions, IModel } from "../../src/hub-types";
 import { getSiteById } from "../../src/sites/get-site-by-id";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 
 describe("getDataForSiteItem", () => {
   it("gets the model and applies schema upgrades", async () => {

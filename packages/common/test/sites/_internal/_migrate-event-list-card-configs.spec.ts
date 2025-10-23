@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { IDraft, IModel } from "../../../src/hub-types";
 import { setProp } from "../../../src/objects/set-prop";
 import { _migrateEventListCardConfigs } from "../../../src/sites/_internal/_migrate-event-list-card-configs";

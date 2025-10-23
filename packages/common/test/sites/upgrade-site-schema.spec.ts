@@ -16,7 +16,14 @@ import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers";
 import { IModel } from "../../src/hub-types";
 import { upgradeSiteSchema } from "../../src/sites/upgrade-site-schema";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("upgradeSiteSchema", () => {
   let applySpy: any;

@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { migrateLegacyCapabilitiesToFeatures } from "../../../../src/sites/_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
 import { IModel } from "../../../../src/hub-types";
