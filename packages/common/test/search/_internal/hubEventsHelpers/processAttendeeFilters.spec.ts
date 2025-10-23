@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { processAttendeeFilters } from "../../../../src/search/_internal/hubEventsHelpers/processAttendeeFilters";
 import { IFilter } from "../../../../src/search/types/IHubCatalog";
 

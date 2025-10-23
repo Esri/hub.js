@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { createMockContext, MOCK_AUTH } from "../mocks/mock-auth";
 import { Collection } from "../../src/search/Collection";
 import * as HubSearchModule from "../../src/search/hubSearch";

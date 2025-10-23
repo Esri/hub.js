@@ -7,6 +7,7 @@ import { portalSearchItems } from "../../../src/search/_internal/portalSearchIte
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as portalItemsModule from "../../../src/search/_internal/portalSearchItems";
 import { IQuery } from "../../../src/search/types/IHubCatalog";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 
 describe("portalSearchItems", () => {
@@ -260,7 +261,7 @@ describe("itemToSearchResult mapping", () => {
       typeKeywords: ["hubSite"],
       title: "wmap",
     } as any;
-    const wmaRes = await (itemToSearchResult )(wma, [], {} as any);
+    const wmaRes = await itemToSearchResult(wma, [], {} as any);
     expect(wmaRes.id).toBe("w");
     expect(wmaRes.enriched).toBe("site");
   });

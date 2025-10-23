@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 // make arcgis-rest-portal named exports spyable in ESM
 vi.mock("@esri/arcgis-rest-portal", async () => ({
   ...((await vi.importActual("@esri/arcgis-rest-portal")) as any),

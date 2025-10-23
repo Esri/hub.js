@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getEntityTypeFromType } from "../../../src/search/_internal/getEntityTypeFromType";
 
 describe("getEntityTypeFromType:", () => {

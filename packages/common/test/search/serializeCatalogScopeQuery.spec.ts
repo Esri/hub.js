@@ -2,6 +2,7 @@ import { serializeCatalogScope } from "../../src/search/serializeCatalogScopeQue
 import { IHubCatalog, EntityType } from "../../src/search/types/IHubCatalog";
 import * as upgradeCatalogSchemaModule from "../../src/search/upgradeCatalogSchema";
 import * as expandPortalQueryModule from "../../src/search/utils";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import * as serializeQueryForPortalModule from "../../src/search/serializeQueryForPortal";
 
 describe("serializeCatalogScope", () => {

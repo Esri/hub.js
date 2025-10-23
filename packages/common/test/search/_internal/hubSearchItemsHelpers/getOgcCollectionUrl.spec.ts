@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getOgcCollectionUrl } from "../../../../src/search/_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
 
 describe("getOgcCollectionUrl", () => {

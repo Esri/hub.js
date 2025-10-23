@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 import { shouldUseOgcApi } from "../../../src/search/_internal/commonHelpers/shouldUseOgcApi";
 

@@ -1,8 +1,8 @@
+import { describe, it, expect, vi } from "vitest";
 import { processPostFilters } from "../../../../src/search/_internal/hubDiscussionsHelpers/processPostFilters";
 import { IFilter } from "../../../../src/search/types/IHubCatalog";
 import * as bboxStringToGeoJSONPolygonModule from "../../../../src/search/_internal/bboxStringToGeoJSONPolygon";
 import { BBOX, GEOMETRY_FIXTURE } from "../fixtures";
-import { vi } from "vitest";
 import { SharingAccess } from "../../../../src/discussions/api/enums/sharingAccess";
 import { PostStatus } from "../../../../src/discussions/api/enums/postStatus";
 import { PostType } from "../../../../src/discussions/api/enums/postType";

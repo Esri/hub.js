@@ -1,6 +1,7 @@
 import { getUserGroupsFromQuery } from "../../src/search/getUserGroupsFromQuery";
 import * as GetUserGroupsByMembershipModule from "../../src/search/getUserGroupsByMembership";
 import { IUser } from "../../src/events/api/types";
+import { describe, it, expect, vi } from "vitest";
 import { IQuery } from "../../src/search/types/IHubCatalog";
 
 describe("getUserGroupsFromQuery:", () => {

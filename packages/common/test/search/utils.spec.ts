@@ -15,6 +15,7 @@ import { IHubSearchResult } from "../../src/search/types/IHubSearchResult";
 import { IHubSite } from "../../src/core/types/IHubSite";
 import { IQuery } from "../../src/search/types/IHubCatalog";
 import { valueToMatchOptions } from "../../src/search/valueToMatchOptions";
+import { describe, it, expect } from "vitest";
 import { relativeDateToDateRange } from "../../src/search/relativeDateToDateRange";
 
 describe("Search Utils:", () => {

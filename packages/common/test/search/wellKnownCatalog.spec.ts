@@ -10,6 +10,7 @@ import {
 } from "../../src/search/wellKnownCatalog";
 import { mockUser } from "../test-helpers/fake-user";
 import { ArcGISContext } from "../../src/ArcGISContext";
+import { describe, it, expect, beforeEach } from "vitest";
 import { EntityType } from "../../src/search/types/IHubCatalog";
 
 describe("WellKnownCatalog", () => {

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { ChannelFilter } from "../../../../src/discussions/api/enums/channelFilter";
 import { Role } from "../../../../src/discussions/api/enums/role";
 import { SharingAccess } from "../../../../src/discussions/api/enums/sharingAccess";

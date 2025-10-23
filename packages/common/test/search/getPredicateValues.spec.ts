@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getPredicateValues } from "../../src/search/getPredicateValues";
 import { IQuery } from "../../src/search/types/IHubCatalog";
 

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { combineQueries } from "../../src/search/combineQueries";
 import { IQuery } from "../../src/search/types/IHubCatalog";
 import { cloneObject } from "../../src/util";

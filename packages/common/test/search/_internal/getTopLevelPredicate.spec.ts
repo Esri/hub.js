@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getTopLevelPredicate } from "../../../src/search/_internal/commonHelpers/getTopLevelPredicate";
 
 describe("getTopLevelPredicate", () => {

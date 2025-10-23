@@ -41,6 +41,7 @@ vi.mock(
   }
 );
 
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { searchOgcAggregations } from "../../../../src/search/_internal/hubSearchItemsHelpers/searchOgcAggregations";
 import * as api from "../../../../src/search/_internal/hubSearchItemsHelpers/ogcApiRequest";
 import * as fmt from "../../../../src/search/_internal/hubSearchItemsHelpers/formatOgcAggregationsResponse";

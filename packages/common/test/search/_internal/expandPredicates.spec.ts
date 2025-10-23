@@ -1,5 +1,6 @@
 import { expandPredicate } from "../../../src/search/_internal/expandPredicate";
 import { IPredicate } from "../../../src/search/types/IHubCatalog";
+import { describe, it, expect } from "vitest";
 import { IDateRange, IMatchOptions } from "../../../src/search/types/types";
 
 describe("ipredicate-utils", () => {

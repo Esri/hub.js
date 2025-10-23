@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { portalFetchOrgs } from "../../../src/search/_internal/portalFetchOrgs";
 import * as fetchOrgModule from "../../../src/org/fetch-org";
 import { IPortal } from "@esri/arcgis-rest-portal";

@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { vi, afterEach } from "vitest";
 
 // Make @esri/arcgis-rest-portal spyable by merging the original exports and

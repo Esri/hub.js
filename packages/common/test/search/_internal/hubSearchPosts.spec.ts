@@ -8,7 +8,7 @@ import * as processPostFiltersModule from "../../../src/search/_internal/hubDisc
 import * as processPostOptionsModule from "../../../src/search/_internal/hubDiscussionsHelpers/processPostOptions";
 import * as postsModule from "../../../src/discussions/api/posts/posts";
 import * as postResultsToSearchResultsModule from "../../../src/search/_internal/hubDiscussionsHelpers/postToSearchResult";
-import { vi, expect } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 
 describe("hubSearchPosts", () => {
   afterEach(() => vi.restoreAllMocks());

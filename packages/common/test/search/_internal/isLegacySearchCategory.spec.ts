@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { isLegacySearchCategory } from "../../../src/search/_internal/commonHelpers/isLegacySearchCategory";
 
 describe("isLegacySearchCategory", () => {

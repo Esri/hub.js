@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { buildCatalog } from "../../../src/search/_internal/buildCatalog";
 import { IHubCollection } from "../../../src/search/types/IHubCatalog";
 describe("buildCatalog:", () => {

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getFieldsQueryParam } from "../../../../src/search/_internal/hubSearchItemsHelpers/getFieldsQueryParam";
 
 describe("getFieldsQueryParam", () => {

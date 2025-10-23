@@ -1,6 +1,7 @@
 import { HubEntity } from "../../src/core/types/HubEntity";
 import { searchEntityCatalogs } from "../../src/search/searchEntityCatalogs";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import * as searchCatalogsModule from "../../src/search/searchCatalogs";
 
 describe("searchEntityCatalogs:", () => {

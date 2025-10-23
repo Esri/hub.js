@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { vi } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { explainPredicate } from "../../../src/search/_internal/explainPredicate";
 import { IPredicate } from "../../../src/search/types/IHubCatalog";
 import { GenericResult } from "../../../src/search/types/types";
