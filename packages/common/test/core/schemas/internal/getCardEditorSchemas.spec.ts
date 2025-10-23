@@ -96,7 +96,7 @@ describe("getCardEditorSchemas", () => {
       it("returns a schema & uiSchema for a given card and card type", async () => {
         uiSchemaBuildFnSpy = vi
           .spyOn(buildFn, "buildUiSchema")
-          .mockReturnValue({
+          .mockResolvedValue({
             type: "Layout",
           } as IUiSchema);
         const { schema, uiSchema } = await getCardEditorSchemas(
@@ -118,7 +118,7 @@ describe("getCardEditorSchemas", () => {
       .mockImplementation((s: IConfigurationSchema) => s);
     uiSchemaBuildFnSpy = vi
       .spyOn(followUiSchemaModule, "buildUiSchema")
-      .mockReturnValue({} as IUiSchema);
+      .mockResolvedValue({} as IUiSchema);
 
     await getCardEditorSchemas("some.scope", "hub:card:follow", {}, context);
 

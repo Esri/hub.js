@@ -59,6 +59,13 @@ export async function getCardEditorSchemas(
         options as StatCardEditorOptions,
         context
       );
+      // if we have buildDefaults, build the defaults
+      // TODO: when first implementing buildDefaults for initiative templates, remove the ignore line
+
+      /* istanbul ignore next */
+      if (module.buildDefaults) {
+        defaults = module.buildDefaults(i18nScope, options, context);
+      }
 
       break;
     }
