@@ -6,7 +6,14 @@ import * as computeLinksModule from "../../../src/projects/_internal/computeLink
 import { IModel } from "../../../src/hub-types";
 import { IHubProject } from "../../../src/core/types/IHubProject";
 import { cloneObject } from "../../../src/util";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("projects: computeProps:", () => {
   let context: any;

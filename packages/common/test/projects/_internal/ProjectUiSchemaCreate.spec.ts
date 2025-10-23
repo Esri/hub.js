@@ -4,6 +4,12 @@ import * as getLocationExtentModule from "../../../src/core/schemas/internal/get
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getSharableGroupsComboBoxItemsModule from "../../../src/core/schemas/internal/getSharableGroupsComboBoxItems";
 import * as checkPermissionModule from "../../../src/permissions/checkPermission";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 
 describe("buildUiSchema: project create", () => {

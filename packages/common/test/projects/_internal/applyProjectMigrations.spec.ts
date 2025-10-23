@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import { applyProjectMigrations } from "../../../src/projects/_internal/applyProjectMigrations";
 import { IHubProject } from "../../../src/core/types/IHubProject";
 import { HUB_PROJECT_CURRENT_SCHEMA_VERSION } from "../../../src/projects/defaults";

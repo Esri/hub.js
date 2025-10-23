@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { migrateInvalidTimelineStages } from "../../../src/projects/_internal/migrateInvalidTimelineStages";
 import { IHubProject } from "../../../src/core/types/IHubProject";
 import { IHubStage } from "../../../src/core/types/IHubTimeline";
