@@ -1,4 +1,5 @@
 import { isEnterprisePortalUrl } from "../../src/urls/isEnterprisePortalUrl";
+import { describe, it, expect } from "vitest";
 
 describe("isEnterprisePortalUrl", () => {
   it("returns true for a typical enterprise portal URL", () => {

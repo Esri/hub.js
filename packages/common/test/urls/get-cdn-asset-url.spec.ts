@@ -1,5 +1,6 @@
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getCdnAssetUrl } from "../../src/urls/get-cdn-asset-url";
+import { describe, it, expect } from "vitest";
 
 describe("getCdnAssetUrl", () => {
   const assetPath =

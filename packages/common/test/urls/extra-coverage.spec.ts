@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { vi, describe, it, expect } from "vitest";
 
 vi.mock("@esri/arcgis-rest-portal", () => ({
   // provide a mock getPortalUrl that returns the standard arcgis online sharing URL

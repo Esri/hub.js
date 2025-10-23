@@ -2,6 +2,7 @@ import type { IPortal } from "@esri/arcgis-rest-portal";
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { IHubRequestOptions } from "../../src/hub-types";
 import { getPortalUrl } from "../../src/urls/get-portal-url";
+import { describe, it, expect, beforeEach } from "vitest";
 
 describe("getPortalUrl", function () {
   const portalApiUrl = "https://www.arcgis.com/sharing/rest";

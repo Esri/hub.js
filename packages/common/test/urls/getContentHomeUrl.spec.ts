@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import { getContentHomeUrl } from "../../src/urls/getContentHomeUrl";
 import * as getPortalUrlModule from "../../src/urls/get-portal-url";
 import type { IPortal } from "@esri/arcgis-rest-portal";

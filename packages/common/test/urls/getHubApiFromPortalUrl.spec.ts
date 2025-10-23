@@ -1,4 +1,5 @@
 import { getHubApiFromPortalUrl } from "../../src/urls/getHubApiFromPortalUrl";
+import { describe, it, expect } from "vitest";
 
 describe("getHubApiFromPortalUrl:", () => {
   it("returns undefined if url is not recognized:", () => {

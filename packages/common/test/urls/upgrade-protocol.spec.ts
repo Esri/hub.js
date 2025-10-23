@@ -1,4 +1,5 @@
 import { upgradeProtocol } from "../../src/urls/upgrade-protocol";
+import { describe, it, expect } from "vitest";
 
 describe("upgradeProtocol", function () {
   it("adds the protocol when not present", function () {

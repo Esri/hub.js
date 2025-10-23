@@ -1,4 +1,5 @@
 import { convertUrlsToAnchorTags } from "../../src/urls/convert-urls-to-anchor-tags";
+import { describe, it, expect } from "vitest";
 
 describe("convertUrlsToAnchorTags", function () {
   it("converts the url in a string to hyperlink", function () {

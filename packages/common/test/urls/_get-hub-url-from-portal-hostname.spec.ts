@@ -1,4 +1,5 @@
 import { _getHubUrlFromPortalHostname } from "../../src/urls/_get-hub-url-from-portal-hostname";
+import { describe, it, expect } from "vitest";
 
 describe("_getHubUrlFromPortalHostname", () => {
   it("returns undefined for non-AGO URLs", () => {
