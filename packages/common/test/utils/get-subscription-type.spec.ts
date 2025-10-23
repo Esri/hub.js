@@ -1,5 +1,6 @@
 import { getSubscriptionType } from "../../src/utils/get-subscription-type";
 import type { IPortal } from "@esri/arcgis-rest-portal";
+import { describe, it, expect } from "vitest";
 
 describe("getSubscriptionType", () => {
   it("returns the subscription type when present", () => {

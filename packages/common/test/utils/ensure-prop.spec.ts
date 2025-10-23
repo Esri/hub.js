@@ -1,4 +1,5 @@
 import { ensureProp } from "../../src/objects/ensure-prop";
+import { describe, it, expect } from "vitest";
 
 describe("ensureProp", function () {
   it("sets deep properties", function () {

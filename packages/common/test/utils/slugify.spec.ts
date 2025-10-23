@@ -1,4 +1,5 @@
 import { slugify } from "../../src/utils/slugify";
+import { describe, it, expect } from "vitest";
 
 describe("slugify", function () {
   it("makes characters lowercase", function () {

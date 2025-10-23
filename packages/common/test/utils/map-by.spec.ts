@@ -1,4 +1,5 @@
 import { mapBy } from "../../src/utils/map-by";
+import { describe, it, expect } from "vitest";
 
 describe("mapBy", function () {
   it("maps by prop", function () {

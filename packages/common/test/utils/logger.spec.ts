@@ -8,7 +8,7 @@ import * as configModule from "../../src/utils/internal/config";
 // this array must match the names & order of the Level enum
 const levels: LogLevel[] = ["all", "debug", "info", "warn", "error", "off"];
 
-import { beforeEach, describe, it, expect, vi } from "vitest";
+import { beforeEach, afterEach, describe, it, expect, vi } from "vitest";
 
 describe("Logger |", function () {
   beforeEach(() => {

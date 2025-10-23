@@ -1,4 +1,5 @@
 import { isCuid } from "../../src/utils/is-cuid";
+import { describe, it, expect } from "vitest";
 
 describe("isCuid", () => {
   it("identifies cuid", () => {

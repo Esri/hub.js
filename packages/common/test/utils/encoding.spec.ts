@@ -1,4 +1,5 @@
 import { unicodeToBase64, base64ToUnicode } from "../../src/utils/encoding";
+import { describe, it, expect } from "vitest";
 
 describe("encoding", () => {
   // expected values taken from:

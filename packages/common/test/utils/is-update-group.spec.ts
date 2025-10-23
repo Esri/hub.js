@@ -1,5 +1,6 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
 import { isUpdateGroup } from "../../src/utils/is-update-group";
+import { describe, it, expect } from "vitest";
 
 describe("isUpdateGroup", function () {
   it("should return true when group.capabilities includes updateitemcontrol", function () {

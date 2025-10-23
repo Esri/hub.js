@@ -1,4 +1,5 @@
 import { dasherize } from "../../src/utils/dasherize";
+import { describe, it, expect } from "vitest";
 
 describe("dasherize", () => {
   it("works", () => {

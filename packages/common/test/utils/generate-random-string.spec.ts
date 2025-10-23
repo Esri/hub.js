@@ -1,4 +1,5 @@
 import { generateRandomString } from "../../src/utils/generate-random-string";
+import { describe, it, expect } from "vitest";
 
 describe("generateRandomString", function () {
   it("generates a random string", function () {

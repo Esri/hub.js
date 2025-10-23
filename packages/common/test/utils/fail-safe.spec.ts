@@ -1,4 +1,5 @@
 import { failSafe } from "../../src/utils/fail-safe";
+import { describe, it, expect } from "vitest";
 
 describe("failSafe", function () {
   it("doesnt fail", async function () {
