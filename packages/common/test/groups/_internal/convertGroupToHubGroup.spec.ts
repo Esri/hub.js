@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";

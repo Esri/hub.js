@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import { getEntityGroups } from "../../src/core/getEntityGroups";
 import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import * as sharedWithModule from "../../src/core/_internal/sharedWith";

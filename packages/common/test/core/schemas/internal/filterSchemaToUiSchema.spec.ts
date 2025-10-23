@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { filterSchemaToUiSchema } from "../../../../src/core/schemas/internal/filterSchemaToUiSchema";
 import {
   IConfigurationSchema,

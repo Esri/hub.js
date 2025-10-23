@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { migrateSlugAndOrgUrlKey } from "../../../src/core/_internal/sharedMigrations";
 describe("migrateSlugAndOrgUrlKey:", () => {
   it("should lowercase orgUrlKey and slug, and add correct slug keyword", () => {

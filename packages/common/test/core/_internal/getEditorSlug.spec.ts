@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getEditorSlug } from "../../../src/core/_internal/getEditorSlug";
 import { IWithSlug } from "../../../src/core/traits/IWithSlug";
 

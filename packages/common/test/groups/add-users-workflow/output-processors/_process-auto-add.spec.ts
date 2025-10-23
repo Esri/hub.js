@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { IAddGroupUsersResult } from "@esri/arcgis-rest-portal";
 import * as formatResponseModule from "../../../../src/groups/add-users-workflow/output-processors/_format-auto-add-response";
 import * as autoAddModule from "../../../../src/groups/autoAddUsers";

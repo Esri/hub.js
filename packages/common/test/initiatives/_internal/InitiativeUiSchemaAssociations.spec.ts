@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { buildUiSchema } from "../../../src/initiatives/_internal/InitiativeUiSchemaAssociations";
 import {
   MOCK_CONTEXT,

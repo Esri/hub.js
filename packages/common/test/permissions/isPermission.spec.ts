@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { ValidPermissions } from "../../src/permissions/_internal/constants";
 import { isPermission } from "../../src/permissions/isPermission";
 

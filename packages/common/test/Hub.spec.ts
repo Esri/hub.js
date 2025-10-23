@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { IPortal } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import type { ArcGISContextManager } from "../src/ArcGISContextManager";

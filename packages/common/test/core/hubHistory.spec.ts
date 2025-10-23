@@ -1,4 +1,10 @@
 import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+} from "vitest";
+import {
   IHubHistory,
   IHubHistoryEntry,
   addHistoryEntry,

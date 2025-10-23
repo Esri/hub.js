@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getEntityThumbnailUrl } from "../../src/core/getEntityThumbnailUrl";
 import { HubEntity } from "../../src/core/types/HubEntity";
 

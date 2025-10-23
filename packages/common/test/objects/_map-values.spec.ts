@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { _mapValues } from "../../src/objects/_map-values";
 
 describe("_mapValues", () => {

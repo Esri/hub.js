@@ -1,4 +1,9 @@
 import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+import {
   buildUiSchema,
   buildDefaults,
 } from "../../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";

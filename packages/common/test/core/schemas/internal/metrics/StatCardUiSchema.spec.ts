@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { ICONS } from "../../../../../src/core/schemas/internal/metrics/enums/icons";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 import { UiSchemaRuleEffects } from "../../../../../src/core/enums/uiSchemaRuleEffects";

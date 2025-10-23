@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { mergeObjects } from "../../src/objects/merge-objects";
 
 describe("mergeObjects", () => {

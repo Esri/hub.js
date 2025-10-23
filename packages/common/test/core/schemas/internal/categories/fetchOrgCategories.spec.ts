@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+} from "vitest";
 import { IHubRequestOptions } from "../../../../../src/hub-types";
 import { fetchOrgCategories } from "../../../../../src/core/schemas/internal/categories/fetchOrgCategories";
 import * as fetchMock from "fetch-mock";

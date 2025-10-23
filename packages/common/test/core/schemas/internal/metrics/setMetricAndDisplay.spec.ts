@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IHubProject } from "../../../../../src/core/types/IHubProject";
 import { setMetricAndDisplay } from "../../../../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 import {

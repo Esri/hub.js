@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { computeItemProps } from "../../../src/core/_internal/computeItemProps";
 import type { IItem } from "@esri/arcgis-rest-portal";
 import * as internalContentUtils from "../../../src/content/_internal/internalContentUtils";

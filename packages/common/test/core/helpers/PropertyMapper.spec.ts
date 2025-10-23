@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { IGroup } from "@esri/arcgis-rest-portal";
 import {
   IPropertyMap,

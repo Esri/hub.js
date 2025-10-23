@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import OperationStack from "../src/OperationStack";
 
 describe("OperationStack", () => {

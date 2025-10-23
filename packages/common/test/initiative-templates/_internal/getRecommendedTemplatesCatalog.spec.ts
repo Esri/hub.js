@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getRecommendedTemplatesCatalog } from "../../../src/initiative-templates/_internal/getRecommendedTemplatesCatalog";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 

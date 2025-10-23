@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { authenticateRequest } from "../../../../src/newsletters/api/utils/authenticate-request";
 import { INewslettersRequestOptions } from "../../../../src/newsletters/api/types";

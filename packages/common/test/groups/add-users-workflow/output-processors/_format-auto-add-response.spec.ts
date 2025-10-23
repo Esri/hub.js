@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IAddGroupUsersResult, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { _formatAutoAddResponse } from "../../../../src/groups/add-users-workflow/output-processors/_format-auto-add-response";

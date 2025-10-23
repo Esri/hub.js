@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { checkEntityFeature } from "../../../src/permissions/_internal/checkEntityFeature";
 import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";

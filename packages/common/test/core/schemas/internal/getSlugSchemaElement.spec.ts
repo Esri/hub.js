@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getSlugSchemaElement } from "../../../../src/core/schemas/internal/getSlugSchemaElement";
 
 describe("getSlugSchemaElement", () => {

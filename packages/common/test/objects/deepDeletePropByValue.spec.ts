@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { deepDeletePropByValue } from "../../src/objects/deepDeletePropByValue";
 describe("deepDeletePropByValue: ", () => {
   it("removes string from array", () => {

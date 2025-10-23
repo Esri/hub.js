@@ -1,4 +1,9 @@
 import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+import {
   getStructuredLicense,
   STANDARD_LICENSES,
 } from "../../src/items/get-structured-license";

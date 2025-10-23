@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getCollection, getCollectionTypes } from "../src/collections";
 
 describe("collections", () => {

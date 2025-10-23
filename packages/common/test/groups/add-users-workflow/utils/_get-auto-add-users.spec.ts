@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IUser } from "@esri/arcgis-rest-portal";
 import { _getAutoAddUsers } from "../../../../src/groups/add-users-workflow/utils/_get-auto-add-users";
 import { cloneObject } from "../../../../src/util";

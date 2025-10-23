@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IGroup } from "@esri/arcgis-rest-portal";
 import { getSharableGroupsComboBoxItems } from "../../../../src/core/schemas/internal/getSharableGroupsComboBoxItems";
 

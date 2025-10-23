@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IHubLocation } from "../../../src/core/types/IHubLocation";
 import { getLocationFromEvent } from "../../../src/events/_internal/getLocationFromEvent";
 import {

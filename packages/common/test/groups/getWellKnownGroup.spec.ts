@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getWellKnownGroup } from "../../src/groups/getWellKnownGroup";
 import {
   MOCK_CONTEXT,

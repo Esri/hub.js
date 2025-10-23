@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { subsetSchema } from "../../../../src/core/schemas/internal/subsetSchema";
 import { IConfigurationSchema } from "../../../../src/core/schemas/types";
 

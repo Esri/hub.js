@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getPolicyResponseCode } from "../../../src/permissions/_internal/getPolicyResponseCode";
 import { PolicyResponse } from "../../../src/permissions/types/PolicyResponse";
 

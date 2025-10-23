@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/events/EventGalleryCardUiSchema";
 import * as getTagItemsModule from "../../../../../src/core/schemas/internal/getTagItems";
 import * as fetchCategoriesUiSchemaElementModule from "../../../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";

@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { removeEmptyProps } from "../../src/objects/remove-empty-props";
 
 describe("removeEmptyProps", function () {

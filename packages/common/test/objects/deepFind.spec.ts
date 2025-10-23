@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { deepFindById, deepFind } from "../../src/objects/deepFind";
 
 describe("deepFind:", () => {

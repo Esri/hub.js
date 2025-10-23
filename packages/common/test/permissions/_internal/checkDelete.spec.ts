@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { HubEntity } from "../../../src/core/types/HubEntity";
 import { checkDelete } from "../../../src/permissions/_internal/checkDelete";
 import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";

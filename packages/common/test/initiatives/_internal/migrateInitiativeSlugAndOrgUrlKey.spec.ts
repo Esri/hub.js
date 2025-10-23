@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { migrateInitiativeSlugAndOrgUrlKey } from "../../../src/initiatives/_internal/migrateInitiativeSlugAndOrgUrlKey";
 import { IHubInitiative } from "../../../src/core/types/IHubInitiative";
 

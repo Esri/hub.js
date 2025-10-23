@@ -1,3 +1,11 @@
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
+
 afterEach(() => vi.restoreAllMocks());
 
 describe("deleteItemThumbnail:", () => {

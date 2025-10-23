@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { IInviteGroupUsersResult } from "@esri/arcgis-rest-portal";
 import * as inviteModule from "../../../../src/groups/inviteUsers";
 import { IAddMemberContext } from "../../../../src/groups/add-users-workflow/interfaces";

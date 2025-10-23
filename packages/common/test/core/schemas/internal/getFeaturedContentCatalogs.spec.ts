@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IUser } from "@esri/arcgis-rest-portal";
 import { getFeaturedContentCatalogs } from "../../../../src/core/schemas/internal/getFeaturedContentCatalogs";
 

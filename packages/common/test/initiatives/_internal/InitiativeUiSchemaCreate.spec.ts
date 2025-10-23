@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { buildUiSchema } from "../../../src/initiatives/_internal/InitiativeUiSchemaCreate";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";

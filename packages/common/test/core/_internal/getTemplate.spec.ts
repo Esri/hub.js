@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { getTemplate } from "../../../src/core/_internal/getTemplate";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 

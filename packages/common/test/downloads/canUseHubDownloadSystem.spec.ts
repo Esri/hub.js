@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
+
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { canUseHubDownloadSystem } from "../../src/downloads/canUseHubDownloadSystem";
 import * as urlsModule from "../../src/urls/feature-service-urls";

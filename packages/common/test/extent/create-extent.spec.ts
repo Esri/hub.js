@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import type { IExtent } from "@esri/arcgis-rest-feature-service";
 import { createExtent } from "../../src/extent";
 

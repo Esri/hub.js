@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { addDynamicSlugValidation } from "../../../../src/core/schemas/internal/addDynamicSlugValidation";
 
 describe("addDynamicSlugValidation", () => {

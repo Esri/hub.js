@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IUser } from "@esri/arcgis-rest-portal";
 import { _isOrgAdmin } from "../../../../src/groups/add-users-workflow/utils/_is-org-admin";
 

@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { checkPlatformVersion } from "../../../src/permissions/_internal/checkPlatformVersion";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";

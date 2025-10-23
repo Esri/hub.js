@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import { getLocationExtent } from "../../../../src/core/schemas/internal/getLocationExtent";
 import { IHubProject } from "../../../../src/core/types/IHubProject";
 import * as ExtentModule from "../../../../src/extent";

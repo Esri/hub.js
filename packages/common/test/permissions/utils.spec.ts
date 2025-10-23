@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IWithPermissions } from "../../src/core/traits/IWithPermissions";
 import { IEntityPermissionPolicy } from "../../src/permissions/types/IEntityPermissionPolicy";
 import {

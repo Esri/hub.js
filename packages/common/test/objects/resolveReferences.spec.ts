@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { resolveReferences } from "../../src/objects/resolveReferences";
 
 describe("resolveReferences:", () => {

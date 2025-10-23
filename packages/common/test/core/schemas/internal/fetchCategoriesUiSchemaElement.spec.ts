@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { fetchCategoriesUiSchemaElement } from "../../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
 import * as fetchOrgCategoriesModule from "../../../../src/core/schemas/internal/categories/fetchOrgCategories";
 import * as fetchQueryCategoriesModule from "../../../../src/core/schemas/internal/categories/fetchQueryCategories";

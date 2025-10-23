@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getHubTypeFromItemType } from "../../src/core/getHubTypeFromItemType";
 import { getTypeFromEntity } from "../../src/core/getTypeFromEntity";
 import { HubEntity } from "../../src/core/types/HubEntity";

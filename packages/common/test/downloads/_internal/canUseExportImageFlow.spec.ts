@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { IHubEditableContent } from "../../../src/core/types/IHubEditableContent";
 import { canUseExportImageFlow } from "../../../src/downloads/_internal/canUseExportImageFlow";
 

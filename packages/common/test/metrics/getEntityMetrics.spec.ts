@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IHubProject } from "../../src/core/types/IHubProject";
 import { IItemQueryMetricSource } from "../../src/core/types/Metrics";
 import { getEntityMetrics } from "../../src/metrics/getEntityMetrics";

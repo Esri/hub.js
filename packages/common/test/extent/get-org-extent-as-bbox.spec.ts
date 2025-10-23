@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import * as getOrgExtent from "../../src/extent";
 import { getOrgExtentAsBBox } from "../../src/extent";
 import { IHubRequestOptions } from "../../src/hub-types";

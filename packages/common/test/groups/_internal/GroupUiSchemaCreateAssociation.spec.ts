@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import {

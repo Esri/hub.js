@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import * as Slugs from "../../../src/items/slugs";
 import * as InternalSlugs from "../../../src/items/_internal/slugs";
 import { ensureUniqueEntitySlug } from "../../../src/items/_internal/ensureUniqueEntitySlug";

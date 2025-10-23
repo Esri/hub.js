@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { createItemFromUrl } from "../../src/items/create-item-from-url";
 import * as portal from "../../src/rest/portal/wrappers";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
