@@ -15,6 +15,8 @@ import * as fetchMock from "fetch-mock";
 import { getSchedulerApiUrl } from "../../src/content/_internal/internalContentUtils";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
+import { describe, it, expect, afterEach } from "vitest";
+
 describe("manageSchedule", () => {
   afterEach(() => {
     fetchMock.restore();

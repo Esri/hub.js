@@ -1,4 +1,4 @@
-import { expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { ContentSchema } from "../../../src/content/_internal/ContentSchema";
 
 describe("ContentSchema", () => {

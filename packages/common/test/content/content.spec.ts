@@ -1,4 +1,12 @@
-import { describe, it, expect, vi, beforeAll, afterEach } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeAll,
+  beforeEach,
+  afterEach,
+} from "vitest";
 import type { IItem } from "@esri/arcgis-rest-portal";
 // create a module mock that delegates to the real module so named exports
 // like `parseServiceUrl` remain available, but the module object is mockable
