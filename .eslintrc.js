@@ -58,7 +58,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["**/*.test.ts"], // Files for tests
+      files: ["**/*.{test,spec}.ts"], // Files for tests
       rules: {
         // Rules specific for test files
         "@typescript-eslint/no-explicit-any": "off",

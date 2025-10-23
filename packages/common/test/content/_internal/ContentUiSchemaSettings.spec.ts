@@ -1,0 +1,414 @@
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { buildUiSchema } from "../../../src/content/_internal/ContentUiSchemaSettings";
+import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import * as hostedServiceUtilsModule from "../../../src/content/hostedServiceUtils";
+import * as checkPermissionModule from "../../../src/permissions/checkPermission";
+import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOptions";
+import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
+
+describe("buildUiSchema: content settings", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+  it("includes download fields for hosted feature service entities", async () => {
+    vi.spyOn(
+      hostedServiceUtilsModule,
+      "isHostedFeatureServiceMainEntity"
+    ).mockReturnValue(true as any);
+    vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
+      access: false,
+    } as any);
+    const uiSchema = await buildUiSchema(
+      "some.scope",
+      {
+        access: "public",
+        type: "Feature Service",
+        url: "https://services.arcgis.com/abc/arcgis/rest/services/MyService/FeatureServer/0",
+      } as any as EntityEditorOptions,
+      MOCK_CONTEXT
+    );
+    expect(uiSchema).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.mapSettings.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["displaySettings"],
+                showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
+              },
+            },
+          ],
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [true],
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.downloads.label",
+          options: {},
+          elements: [
+            {
+              labelKey: "some.scope.fields.serverExtractCapability.label",
+              scope: "/properties/serverExtractCapability",
+              type: "Control",
+              options: {
+                control: "hub-field-input-tile-select",
+                labels: [
+                  `{{some.scope.fields.serverExtractCapability.exportDataSetting.label:translate}}`,
+                  `{{some.scope.fields.serverExtractCapability.defaultDownloadsSystem.label:translate}}`,
+                ],
+                descriptions: [
+                  `{{some.scope.fields.serverExtractCapability.exportDataSetting.description:translate}}`,
+                  `{{some.scope.fields.serverExtractCapability.defaultDownloadsSystem.description:translate}}`,
+                ],
+                layout: "vertical",
+                messages: [
+                  {
+                    type: "CUSTOM",
+                    display: "notice",
+                    kind: "warning",
+                    icon: "exclamation-mark-triangle",
+                    titleKey:
+                      "some.scope.fields.serverExtractCapability.noFormatConfigurationNotice.title",
+                    labelKey:
+                      "some.scope.fields.serverExtractCapability.noFormatConfigurationNotice.body",
+                    allowShowBeforeInteract: true,
+                    conditions: [
+                      {
+                        scope: "/properties/serverExtractCapability",
+                        schema: {
+                          const: false,
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              labelKey: "some.scope.fields.downloadFormats.label",
+              scope: "/properties/downloadFormats",
+              type: "Control",
+              options: {
+                control: "hub-field-input-list",
+                helperText: {
+                  labelKey: "some.scope.fields.downloadFormats.helperText",
+                },
+                allowReorder: true,
+                allowHide: true,
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [
+                    {
+                      scope: "/properties/serverExtractCapability",
+                      schema: {
+                        const: false,
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("excludes download fields for other entities", async () => {
+    vi.spyOn(
+      hostedServiceUtilsModule,
+      "isHostedFeatureServiceMainEntity"
+    ).mockReturnValue(false as any);
+    vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
+      access: false,
+    } as any);
+    const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
+    expect(uiSchema).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.mapSettings.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["displaySettings"],
+                showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
+              },
+            },
+          ],
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [false],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("includes enabled schedule fields for public entities", async () => {
+    vi.spyOn(
+      hostedServiceUtilsModule,
+      "isHostedFeatureServiceMainEntity"
+    ).mockReturnValue(false as any);
+    vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
+      access: true,
+    } as any);
+    const uiSchema = await buildUiSchema(
+      "some.scope",
+      { access: "public" } as any,
+      MOCK_CONTEXT
+    );
+    expect(uiSchema).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.mapSettings.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["displaySettings"],
+                showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
+              },
+            },
+          ],
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [false],
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.schedule.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/schedule",
+              labelKey: `some.scope.sections.schedule.helperText`,
+              options: {
+                type: "Control",
+                control: "hub-field-input-scheduler",
+                labelKey: "fieldHeader",
+                format: "select",
+                inputs: [
+                  { type: "automatic" },
+                  { type: "daily" },
+                  { type: "weekly" },
+                  { type: "monthly" },
+                  { type: "yearly" },
+                  {
+                    type: "manual",
+                    helperActionIcon: "information-f",
+                    helperActionText: `{{some.scope.fields.schedule.manual.helperActionText:translate}}`,
+                  },
+                ],
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [false],
+                },
+              ],
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "schedule-unavailable-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "warning",
+                    icon: "exclamation-mark-triangle",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.fields.schedule.unavailableNotice.title:translate}}`,
+                  message: `{{some.scope.fields.schedule.unavailableNotice.body:translate}}`,
+                  autoShow: true,
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
+            },
+            {
+              type: "Control",
+              scope: "/properties/_forceUpdate",
+              options: {
+                control: "hub-field-input-tile-select",
+                type: "checkbox",
+                labels: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.label:translate}}`,
+                ],
+                descriptions: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.description:translate}}`,
+                ],
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [true],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("includes disabled schedule fields for private entities", async () => {
+    vi.spyOn(
+      hostedServiceUtilsModule,
+      "isHostedFeatureServiceMainEntity"
+    ).mockReturnValue(false as any);
+    vi.spyOn(checkPermissionModule, "checkPermission").mockReturnValue({
+      access: true,
+    } as any);
+    const uiSchema = await buildUiSchema(
+      "some.scope",
+      { access: "private" } as any,
+      MOCK_CONTEXT
+    );
+    expect(uiSchema).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.mapSettings.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["displaySettings"],
+                showPreview: false,
+                itemHomeUrl:
+                  "https://www.customUrl/home/item.html?id=undefined",
+              },
+            },
+          ],
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [false],
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.schedule.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/schedule",
+              labelKey: `some.scope.sections.schedule.helperText`,
+              options: {
+                type: "Control",
+                control: "hub-field-input-scheduler",
+                labelKey: "fieldHeader",
+                format: "select",
+                inputs: [
+                  { type: "automatic" },
+                  { type: "daily" },
+                  { type: "weekly" },
+                  { type: "monthly" },
+                  { type: "yearly" },
+                  {
+                    type: "manual",
+                    helperActionIcon: "information-f",
+                    helperActionText: `{{some.scope.fields.schedule.manual.helperActionText:translate}}`,
+                  },
+                ],
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [true],
+                },
+              ],
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "schedule-unavailable-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "warning",
+                    icon: "exclamation-mark-triangle",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.fields.schedule.unavailableNotice.title:translate}}`,
+                  message: `{{some.scope.fields.schedule.unavailableNotice.body:translate}}`,
+                  autoShow: true,
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [true],
+                },
+              ],
+            },
+            {
+              type: "Control",
+              scope: "/properties/_forceUpdate",
+              options: {
+                control: "hub-field-input-tile-select",
+                type: "checkbox",
+                labels: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.label:translate}}`,
+                ],
+                descriptions: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.description:translate}}`,
+                ],
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+});

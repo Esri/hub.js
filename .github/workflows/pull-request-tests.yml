@@ -4,11 +4,6 @@ name: PR Tests
 on:
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
-    branches:
-      - master
-      - next
-      - alpha
-      - beta
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:
@@ -42,29 +37,17 @@ jobs:
         # https://github.com/Esri/hub.js/actions/runs/18601122095/job/53039558079
         run: npm i
 
-      - name: Lint
-        run: npm run lint
+      - name: Lint & Check for Circular Dependencies
+        run: npm run ci:lint
       
-      - name: Check for circular dependencies
-        run: npm run madge:circular
-
       - name: Build
-        run: npm run build
+        run: npm run ci:build
 
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
+      # Run Tests
+      - name: Run Tests
+        run: npm run ci:test
 
-      # Only run FF on Linux b/c Windows is already really slow
-      - name: Test in Firefox
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            npm run test:firefox:ci
-          fi
-        shell: bash
-
-      - name: Test in Node
-        run: npm run test:node
-
+      # Upload coverage to Codecov
       - uses: codecov/codecov-action@v3
         with:
-          directory: ./coverage
+          directory: ./packages/common/coverage

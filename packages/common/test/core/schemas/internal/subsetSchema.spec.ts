@@ -1,0 +1,31 @@
+import { subsetSchema } from "../../../../src/core/schemas/internal/subsetSchema";
+import { IConfigurationSchema } from "../../../../src/core/schemas/types";
+
+describe("subsetSchema util:", () => {
+  it("returns schema limited to props passed in", () => {
+    const chk = subsetSchema(schema, ["name", "summary"]);
+    expect(chk.properties?.description).not.toBeDefined();
+  });
+  it('returns schema with filtered "required" array', () => {
+    const chk = subsetSchema(schema, ["summary"]);
+    expect(chk.required?.length).toBe(0);
+  });
+});
+
+const schema: IConfigurationSchema = {
+  required: ["name"],
+  type: "object",
+  properties: {
+    name: {
+      type: "string",
+      minLength: 1,
+      maxLength: 250,
+    },
+    summary: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+  },
+};

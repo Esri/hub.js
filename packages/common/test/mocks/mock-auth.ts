@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
+import type { IArcGISContextOptions } from "../../src/types/IArcGISContextOptions";
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { IHubRequestOptions } from "../../src/hub-types";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
@@ -231,7 +232,9 @@ export const MOCK_ANON_CONTEXT = new ArcGISContext({
   },
 }) as IArcGISContext;
 
-export function createMockContext(): ArcGISContext {
+export function createMockContext(
+  opts?: Partial<IArcGISContextOptions>
+): ArcGISContext {
   return new ArcGISContext({
     id: 123,
     currentUser: {
@@ -262,6 +265,7 @@ export function createMockContext(): ArcGISContext {
     userHubSettings: {
       schemaVersion: 1,
     },
+    ...opts,
   });
 }
 

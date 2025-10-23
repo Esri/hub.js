@@ -40,17 +40,11 @@ jobs:
         run: npm i
 
       - name: Build
-        run: npm run build
+        run: npm run ci:build
 
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
-
-      - name: Test in Node
-        run: npm run test:node
-
-      - uses: codecov/codecov-action@v3
-        with:
-          directory: ./coverage
+      # Run Vitest tests then legacy Jasmine/Karma tests
+      - name: Run Tests
+        run: npm run ci:test
 
   # If the build and test works, run a release
   release:

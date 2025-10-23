@@ -1,0 +1,49 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import * as portalModule from "@esri/arcgis-rest-portal";
+import { getVersion } from "../../src/versioning/getVersion";
+import { IHubUserRequestOptions } from "../../src/hub-types";
+import { MOCK_AUTH } from "../mocks/mock-auth";
+import * as ResourceResponse from "../mocks/versioning/resource.json";
+
+vi.mock("@esri/arcgis-rest-portal");
+
+describe("getVersion", () => {
+  let portal: string;
+  let hubApiUrl: string;
+  let requestOpts: IHubUserRequestOptions;
+  beforeEach(() => {
+    portal = MOCK_AUTH.portal;
+    hubApiUrl = "https://hubfake.arcgis.com";
+    requestOpts = {
+      portal,
+      isPortal: false,
+      hubApiUrl,
+      authentication: MOCK_AUTH,
+    };
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("should get the version", async () => {
+    const id = "abc123";
+    const versionId = "def456";
+
+    const getItemResourceSpy = vi
+      .spyOn(portalModule, "getItemResource")
+      .mockReturnValue(Promise.resolve(ResourceResponse));
+
+    const result = await getVersion(id, versionId, requestOpts);
+
+    const options = {
+      ...requestOpts,
+      fileName: "hubVersion_def456/version.json",
+      readAs: "json",
+    };
+
+    expect(getItemResourceSpy).toHaveBeenCalledTimes(1);
+    expect(getItemResourceSpy).toHaveBeenCalledWith(id, options);
+    expect(result).toEqual(ResourceResponse);
+  });
+});
