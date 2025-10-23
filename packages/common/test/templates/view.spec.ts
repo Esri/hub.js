@@ -1,4 +1,3 @@
-import { vi } from "vitest";
 import { cloneObject } from "../../src/util";
 import {
   initContextManager,
@@ -12,6 +11,7 @@ import {
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 import * as titleUrlModule from "../../src/urls/getCardModelUrl";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("template view module:", () => {
   let getShortenedCategoriesSpy: any;

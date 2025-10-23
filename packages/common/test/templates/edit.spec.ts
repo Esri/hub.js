@@ -3,7 +3,7 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   removeItem: vi.fn(),
 }));
 
-import { vi } from "vitest";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import {
   createTemplate,
   updateTemplate,

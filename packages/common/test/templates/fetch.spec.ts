@@ -4,7 +4,7 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   getItemData: vi.fn(),
 }));
 
-import { vi } from "vitest";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   GUID,
