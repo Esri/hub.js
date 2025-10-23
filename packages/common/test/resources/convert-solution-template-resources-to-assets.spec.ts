@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { IHubRequestOptions, IModelTemplate } from "../../src/hub-types";
 import { convertSolutionTemplateResourcesToAssets } from "../../src/resources/convert-solution-template-resources-to-assets";
 import { mockUserSession } from "../test-helpers/fake-user-session";

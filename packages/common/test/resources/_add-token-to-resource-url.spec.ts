@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { IHubRequestOptions } from "../../src/hub-types";
 import { _addTokenToResourceUrl } from "../../src/resources/_add-token-to-resource-url";
 

@@ -1,3 +1,4 @@
+import { vi, describe, it, expect } from "vitest";
 import { fetchAndUploadThumbnail } from "../../src/resources/fetch-and-upload-thumbnail";
 import * as fetchImageAsBlobModule from "../../src/resources/fetch-image-as-blob";
 import * as portalModule from "../../src/rest/portal/wrappers";
@@ -47,11 +48,7 @@ describe("fetchAndUploadThumbnail", function () {
       );
       vi.spyOn(portalModule, "updateItem").mockReturnValue(Promise.reject({}));
 
-      try {
-        await fetchAndUploadThumbnail(opts);
-      } catch (err) {
-        fail(Error("shouldnt reject"));
-      }
+      await fetchAndUploadThumbnail(opts);
 
       expect(fetchImageAsBlobModule.fetchImageAsBlob).toHaveBeenCalledWith(
         opts.url
@@ -77,11 +74,7 @@ describe("fetchAndUploadThumbnail", function () {
       Promise.resolve({ success: true, id: opts.id })
     );
 
-    try {
-      await fetchAndUploadThumbnail(opts);
-    } catch (err) {
-      fail(Error("shouldnt reject"));
-    }
+    await fetchAndUploadThumbnail(opts);
 
     expect(fetchImageAsBlobModule.fetchImageAsBlob).toHaveBeenCalledWith(
       opts.url

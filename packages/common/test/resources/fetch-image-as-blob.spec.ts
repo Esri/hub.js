@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { fetchImageAsBlob } from "../../src/resources/fetch-image-as-blob";
 

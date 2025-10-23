@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { getOrgThumbnailUrl } from "../../src/resources/get-org-thumbnail-url";
 
