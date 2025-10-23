@@ -608,7 +608,6 @@ describe("discussions utils", () => {
       expect(getGroupUsersSpy).not.toHaveBeenCalled();
     });
     it("should not add group admin predicates for inaccessible groups", async () => {
-      // convert jasmine spy to vitest mock rejection
       getGroupUsersSpy.mockRejectedValue(new Error("404"));
       const res = await getChannelUsersQuery(
         ["user1", "user2"],

@@ -257,7 +257,7 @@ describe("HubDiscussion Class:", () => {
 
     describe("fromEditor:", () => {
       let chk: HubDiscussion;
-      let saveSpy: jasmine.Spy;
+      let saveSpy: any;
       let editor: IHubDiscussionEditor;
       beforeEach(async () => {
         chk = HubDiscussion.fromJson(

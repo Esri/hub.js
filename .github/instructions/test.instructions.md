@@ -7,98 +7,35 @@ applyTo: "packages/common/test/**/*.ts"
 ## Purpose
 - This instruction file applies to all work in `packages/common/test`.
 - This is the folder containing tests for `packages/common/src`.
-- We are in the process of migrating these tests from Jasmine to Vitest.
-- Jasmine tests use the `.test.ts` suffix and Vitest tests use the `.spec.ts` suffix.
-- The Jasmine tests are run both in Node.js via ts-jasmine in browsers via Karma
-- All new tests should be written using Vitest. We should **not** add any new Jasmine tests.
-- **Requirement:** Maintain 100% code coverage of the `packages/common/src` folder once the Jasmine tests have been replaced.
-  - Jasmine coverage is configured via `karma.config.js`.
-  - Vitest coverage is configured via `vitest.config.mjs`.
+- These tests are currently executed using Vitest, but most were migrated from Jasmine.
+- **Requirement:** Maintain 100% code coverage of the `packages/common/src` folder at all times.
 
-## Vitest Coverage & Configuration
-- Coverage is configured via `vitest.config.mjs` (see `coverage.include` and `thresholds`).
-- Run `npm run test -w @esri/hub-common` from the root of the repository or `npm test` from `packages/common` to check coverage.
-- There is no need to attempt to cover existing Istanbul ignore comments (e.g., `/* istanbul ignore else */`), but we should avoid adding new ones.
+## Running Tests
+- Run `npm test` to run all tests and verify that they pass
+- Run `npm run test:coverage` to run all tests and verify that they pass and that code coverage is 100%.
+- Run `npm run test:watch` to start Vitest in watch mode for iterative development.
+- Append `-- path/to/folder` to any of the above commands to limit the run to a specific folder.
 
-### Fast iterative testing (recommended)
-
-When migrating or fixing tests it's much faster to run only the folder you're actively working on and to disable coverage during iteration. This avoids the global 100% coverage enforcement while you're still converting specs.
-
-- Run a focused folder without coverage (from `packages/common`):
-
-  ```sh
-  npx vitest --config=vitest.config.mjs run --coverage=false test/<folder>
-  # example: npx vitest --config=vitest.config.mjs run --coverage=false test/surveys
-  ```
-
-- Use `--run` for a single run and `--watch` for code-edit cycles:
-
-  ```sh
-  # run once
-  npx vitest --config=vitest.config.mjs run test/surveys
-
-  # watch files and re-run tests on change
-  npx vitest --config=vitest.config.mjs --watch test/surveys
-  ```
-
-- When the folder's tests are green and lint/type issues are resolved, run the full package tests with coverage to verify the repo thresholds pass:
-
-  ```sh
-  # from packages/common
-  npm test
-
-  # or from repo root
-  npm run test -w @esri/hub-common
-  ```
-
-This pattern lets you iterate quickly on a subset of tests and only pay the cost of a full coverage run once the folder is stable.
-
-## Jasmine Coverage & Configuration
-- Coverage is enforced via `karma.config.js` (see `coverageOptions`)
-- To run tests with coverage, from the root of the repository run `npm run test:chrome`.
-- After upgrading the `@esri/arcgis-rest-*` packages, we had to exclude any test that called `spyOn` those packages
-  - see `jasmine.json` for the list of excluded tests
+## Configuration & Coverage
+- Vitest is configured via `vitest.config.mjs`.
+- Use Istanbul ignore comments (e.g., `/* istanbul ignore else */`), but only for scenarios that are truly untestable.
 
 ## Test File Conventions
+When creating new test files, or updating existing tests, please follow these conventions:
 - Name new test files as `<module>.spec.ts` (e.g., `util.spec.ts`).
-
 - Use Vitest's `describe`, `it`, and `expect` for all assertions.
-- Use `beforeEach` and `afterEach` for setup/teardown as needed.
+- Use Vitest's `beforeEach` and `afterEach` for setup/teardown as needed.
 - Use Vitest's built-in mocking and spying utilities only as needed.
-- To make it easy to convert from Jasmine/Karma, we have enabled Vitest's `globals` option so that you can use `describe`, `it`, and `expect` without importing them. However new tests should import them explicitly if possible.
+- NOTE: you should `import` all of the above from `vitest` even though we enabled Vitest's `globals` option to make the migration from Jasmine easier. We will eventually want to phase out the `globals` option.
 - Mocking and Spying:
   - For modules that interact with browser APIs or external dependencies:
     - Mock browser globals (e.g., `Blob`) as needed for Node.js coverage.
     - Mock external dependencies using Vitest's `vi.mock()`
-
     - Special note for `@esri/arcgis-rest-*` packages:
       - These packages export ESM namespace objects which are not safely spyable after import. Register an async `vi.mock()` at the top of your spec (before importing the module-under-test) to merge the original module via `importOriginal()` and override only the functions you need to spy on. For the canonical example and extra tips, see the repository agent chatmode: `.github/chatmodes/test-migration.chatmode.md`.
       - After tests, restore mocks to avoid cross-test leakage: `afterEach(() => vi.restoreAllMocks())`.
-
-## Type Safety
-- Avoid `any` in test code; use explicit types and type assertions.
-- Resolve all TypeScript lint errors before considering migration complete.
-
-## Migration Workflow
-We will do the migration incrementally, folder by folder, for all the tests under `packages/common/test/`.
-
-First, add the corresponding folder under `packages/common/src/` to Vitest's coverage in `vitest.config.mjs`. 
-
-Then For each test file in the current folder:
-1. Rename the file from `.test.ts` to `.spec.ts`.
-2. Convert the test code from Jasmine to Vitest syntax, ensuring equivalent functionality.Take special care with files that:
-  - spy on functions from `@esri/arcgis-rest-*` packages. These will require you to add `vi.mock()` calls to mock the relevant modules at the top of the file.
-3. Resolve TypeScript lint errors - it's ok to use `any` when converting files, but we prefer to use explicit types when practical.
-4. Run the Vitest tests and ensure they pass and that coverage remains at 100%.
-  - if tests are passing but coverage is not yet at 100%, pause to allow for checking in the converted tests before attempting to increase coverage.
-
-Once all tests in the folder have been converted and Vitest coverage is at 100% for the current folder, we should commit and push the changes to ensure they work in CI.
-
-Then we can move on to the next folder.
+- Resolve all TypeScript lint errors before committing changes.
+  - prefer using explicit types over `any` in test code
 
 ## Additional Notes
-- If you encounter unclear patterns, refer to the main repo Copilot instructions or ask for clarification.
-- Update this file as new migration patterns or requirements emerge.
-
----
-For questions or migration blockers, contact maintainers or refer to the main repo instructions in `.github/copilot-instructions.md`.
+- Update this file as new test file patterns or requirements emerge.
