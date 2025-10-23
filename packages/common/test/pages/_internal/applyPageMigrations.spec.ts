@@ -1,6 +1,6 @@
 import { applyPageMigrations } from "../../../src/pages/_internal/applyPageMigrations";
 import * as migrateModule from "../../../src/pages/_internal/migratePageSlugAndOrgUrlKey";
-import { vi } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { IHubPage } from "../../../src/core/types/IHubPage";
 describe("applyPageMigrations", () => {
   afterEach(() => vi.restoreAllMocks());

@@ -6,7 +6,7 @@ import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import { IHubPage } from "../../src/core/types/IHubPage";
 import { getProp } from "../../src/objects/get-prop";
-import { vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("HubPage Class:", () => {
   let authdCtxMgr: any;

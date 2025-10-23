@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { serializeItemParams } from "../../../../src/rest/portal/_internal/helpers";
 
 describe("serializeItemParams", () => {

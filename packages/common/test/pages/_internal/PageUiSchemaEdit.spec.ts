@@ -5,7 +5,7 @@ import * as getLocationOptionsModule from "../../../src/core/schemas/internal/ge
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import * as fetchCategoriesUiSchemaElementModule from "../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { vi } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 const CATEGORIES_ELEMENTS = [
   {
     labelKey: "shared.fields.categories.label",
