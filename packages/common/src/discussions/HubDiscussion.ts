@@ -18,6 +18,7 @@ import {
   IHubDiscussionEditor,
 } from "../core/types/IHubDiscussion";
 import { IHubLocation } from "../core/types/IHubLocation";
+import { createDiscussion, deleteDiscussion, updateDiscussion } from "./edit";
 
 /**
  * Hub Discussion Class
@@ -125,14 +126,12 @@ export class HubDiscussion
     }
 
     if (this.entity.id) {
-      const { updateDiscussion } = await import("./edit");
       // update it
       this.entity = await updateDiscussion(
         this.entity,
         this.context.hubRequestOptions
       );
     } else {
-      const { createDiscussion } = await import("./edit");
       // create it
       this.entity = await createDiscussion(
         this.entity,
@@ -155,7 +154,6 @@ export class HubDiscussion
     if (this.isDestroyed) {
       throw new Error("HubDiscussion is already destroyed.");
     }
-    const { deleteDiscussion } = await import("./edit");
     this.isDestroyed = true;
     // Delegate to module fn
     await deleteDiscussion(this.entity.id, this.context.hubRequestOptions);

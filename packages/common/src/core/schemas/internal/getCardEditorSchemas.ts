@@ -16,6 +16,14 @@ import {
 import { cloneObject } from "../../../util";
 import type { IArcGISContext } from "../../../types/IArcGISContext";
 import { ICardEditorModuleType } from "../types";
+import { MetricSchema } from "./metrics/MetricSchema";
+import { FollowSchema } from "./follow/FollowSchema";
+import { EmbedCardSchema } from "./embed/EmbedSchema";
+import { EventGalleryCardSchema } from "./events/EventGalleryCardSchema";
+import * as buildStatUiSchema from "./metrics/StatCardUiSchema";
+import * as buildFollowUiSchema from "./follow/FollowCardUiSchema";
+import * as buildEmbedSchema from "./embed/EmbedUiSchema";
+import * as buildEventGalleryCardSchema from "./events/EventGalleryCardUiSchema";
 
 /**
  * get the editor schema and uiSchema defined for a layout card.
@@ -35,85 +43,48 @@ export async function getCardEditorSchemas(
   context: IArcGISContext
 ): Promise<IEditorConfig> {
   const cardType = getCardType(type);
-
-  // schema and uiSchema are dynamically imported based
-  // on the previous editor types
-
   let schema;
   let uiSchema;
-  let schemaPromise;
-  let uiSchemaPromise;
-  // defaults is used below... but maybe in a closure?
-  // tslint:disable-next-line:no-unused-variable
   let defaults;
 
   switch (cardType) {
     case "stat": {
-      // get correct module
-      schemaPromise = import("./metrics/MetricSchema");
-      uiSchemaPromise = {
-        "hub:card:stat": (): Promise<
-          typeof import("./metrics/StatCardUiSchema")
-        > => import("./metrics/StatCardUiSchema"),
-      }[type as StatCardEditorType];
-
-      // Allow imports to run in parallel
-      await Promise.all([schemaPromise, uiSchemaPromise()]).then(
-        async ([schemaModuleResolved, uiSchemaModuleResolved]) => {
-          const { MetricSchema } = schemaModuleResolved;
-          schema = cloneObject(MetricSchema);
-          uiSchema = await uiSchemaModuleResolved.buildUiSchema(
-            i18nScope,
-            options as StatCardEditorOptions,
-            context
-          );
-
-          // if we have buildDefaults, build the defaults
-          // TODO: when first implementing buildDefaults for initiative templates, remove the ignore line
-
-          /* istanbul ignore next */
-          if ((uiSchemaModuleResolved as ICardEditorModuleType).buildDefaults) {
-            defaults = (
-              uiSchemaModuleResolved as ICardEditorModuleType
-            ).buildDefaults(i18nScope, options, context);
-          }
-        }
+      const MODULES: Record<StatCardEditorType, ICardEditorModuleType> = {
+        "hub:card:stat": buildStatUiSchema,
+      } as Record<StatCardEditorType, ICardEditorModuleType>;
+      const module = MODULES[type as StatCardEditorType];
+      schema = cloneObject(MetricSchema);
+      uiSchema = await module.buildUiSchema(
+        i18nScope,
+        options as StatCardEditorOptions,
+        context
       );
+      // if we have buildDefaults, build the defaults
+      // TODO: when first implementing buildDefaults for initiative templates, remove the ignore line
+
+      /* istanbul ignore next */
+      if (module.buildDefaults) {
+        defaults = module.buildDefaults(i18nScope, options, context);
+      }
 
       break;
     }
     case "follow": {
-      // get correct module
-      schemaPromise = import("./follow/FollowSchema");
-      uiSchemaPromise = {
-        "hub:card:follow": (): Promise<
-          typeof import("./follow/FollowCardUiSchema")
-        > => import("./follow/FollowCardUiSchema"),
-      }[type as FollowCardEditorType];
-
-      // Allow imports to run in parallel
-      await Promise.all([schemaPromise, uiSchemaPromise()]).then(
-        ([schemaModuleResolved, uiSchemaModuleResolved]) => {
-          const { FollowSchema: FollowSchema } = schemaModuleResolved;
-          schema = cloneObject(FollowSchema);
-          uiSchema = uiSchemaModuleResolved.buildUiSchema(
-            i18nScope,
-            options as FollowCardEditorOptions,
-            context
-          );
-        }
+      const MODULES: Record<FollowCardEditorType, ICardEditorModuleType> = {
+        "hub:card:follow": buildFollowUiSchema,
+      } as Record<FollowCardEditorType, ICardEditorModuleType>;
+      const module = MODULES[type as FollowCardEditorType];
+      schema = cloneObject(FollowSchema);
+      uiSchema = await module.buildUiSchema(
+        i18nScope,
+        options as FollowCardEditorOptions,
+        context
       );
       break;
     }
     case "embed": {
-      schemaPromise = import("./embed/EmbedSchema");
-      uiSchemaPromise = import("./embed/EmbedUiSchema");
-      const [{ EmbedCardSchema }, { buildUiSchema }] = await Promise.all([
-        schemaPromise,
-        uiSchemaPromise,
-      ]);
       schema = cloneObject(EmbedCardSchema);
-      uiSchema = buildUiSchema(
+      uiSchema = buildEmbedSchema.buildUiSchema(
         i18nScope,
         options as EmbedCardEditorOptions,
         context
@@ -122,13 +93,8 @@ export async function getCardEditorSchemas(
       break;
     }
     case "eventGallery": {
-      schemaPromise = import("./events/EventGalleryCardSchema");
-      uiSchemaPromise = import("./events/EventGalleryCardUiSchema");
-      const [{ EventGalleryCardSchema }, { buildUiSchema }] = await Promise.all(
-        [schemaPromise, uiSchemaPromise]
-      );
       schema = cloneObject(EventGalleryCardSchema);
-      uiSchema = await buildUiSchema(
+      uiSchema = await buildEventGalleryCardSchema.buildUiSchema(
         i18nScope,
         options as EventGalleryCardEditorOptions,
         context

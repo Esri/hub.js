@@ -172,7 +172,7 @@ describe("getEditorSchemas: ", () => {
   ];
 
   modules.forEach(({ type, module }) => {
-    it("returns a schema & uiSchema for a given entity and editor type", async () => {
+    it(`returns a schema & uiSchema for a given entity and editor type ${type}`, async () => {
       uiSchemaBuildFnSpy = vi
         .spyOn(module, "buildUiSchema")
         .mockResolvedValue({} as any);
