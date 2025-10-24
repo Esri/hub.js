@@ -8,7 +8,13 @@ import * as pagesModule from "../../src/pages/HubPages";
 import * as editInitiativeTemplateModule from "../../src/initiative-templates/edit";
 import * as groupsModule from "../../src/groups/HubGroups";
 import * as editEventsModule from "../../src/events/edit";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 import { HubEntityType } from "../../src/core/types/HubEntityType";
 import { HubEntity } from "../../src/core/types/HubEntity";
 import { IArcGISContext } from "../../src/types/IArcGISContext";

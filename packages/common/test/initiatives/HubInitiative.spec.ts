@@ -1,4 +1,10 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 // Make portal exports spyable by returning the original module with overridden functions
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
   const original = await importOriginal();

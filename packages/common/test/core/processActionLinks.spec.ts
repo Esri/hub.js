@@ -1,6 +1,12 @@
 import { getProp } from "../../src/objects/get-prop";
 import { processActionLink } from "../../src/core/processActionLinks";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 import {
   HubActionLink,
   IHubActionLinkSection,

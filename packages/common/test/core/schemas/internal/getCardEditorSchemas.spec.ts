@@ -15,7 +15,13 @@ import { IArcGISContext } from "../../../../src/types/IArcGISContext";
 import { EventGalleryCardSchema } from "../../../../src/core/schemas/internal/events/EventGalleryCardSchema";
 import { EmbedCardSchema } from "../../../../src/core/schemas/internal/embed/EmbedSchema";
 
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("getCardEditorSchemas", () => {
   let uiSchemaBuildFnSpy: any;

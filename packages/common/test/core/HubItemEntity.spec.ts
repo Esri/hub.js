@@ -1,5 +1,11 @@
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 // make ESM namespace functions spyable by mocking the module and merging the original
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   ...(await importOriginal()),

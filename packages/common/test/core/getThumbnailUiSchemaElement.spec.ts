@@ -1,5 +1,10 @@
 import { getThumbnailUiSchemaElement } from "../../src/core/schemas/internal/getThumbnailUiSchemaElement";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("getThumbnailUiSchemaElement", () => {
   const i18nScope = "entity";

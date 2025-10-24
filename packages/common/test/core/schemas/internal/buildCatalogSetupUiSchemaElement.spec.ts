@@ -2,7 +2,13 @@ import { buildCatalogSetupUiSchemaElement } from "../../../../src/core/schemas/i
 import * as wellKnownCatalogModule from "../../../../src/search/wellKnownCatalog";
 import * as checkPermissionModule from "../../../../src/permissions/checkPermission";
 import { IArcGISContext } from "../../../../src/types/IArcGISContext";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 
 describe("buildCatalogSetupUiSchemaElement", () => {
   let context: IArcGISContext;

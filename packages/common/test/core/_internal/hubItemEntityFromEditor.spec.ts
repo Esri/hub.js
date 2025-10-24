@@ -1,4 +1,10 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import { hubItemEntityFromEditor } from "../../../src/core/_internal/hubItemEntityFromEditor";
 import { Catalog } from "../../../src/search/Catalog";
 import * as slugsModule from "../../../src/items/_internal/slugs";

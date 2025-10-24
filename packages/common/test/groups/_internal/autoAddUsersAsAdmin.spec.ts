@@ -1,6 +1,13 @@
 import { autoAddUsersAsAdmins } from "../../../src/groups/_internal/autoAddUsersAsAdmins";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { vi, afterEach, describe, it, expect } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 // Mock the portal module so exports are mock functions
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {

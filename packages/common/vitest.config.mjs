@@ -3,9 +3,6 @@ import { coverageConfigDefaults } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    // we allowed tests to use globals like describe/it/expect without importing them
-    // to make it easier to convert from jasmine/karma tests which also use globals
-    globals: true,
     include: [
       "test/**/*.spec.ts"
     ],

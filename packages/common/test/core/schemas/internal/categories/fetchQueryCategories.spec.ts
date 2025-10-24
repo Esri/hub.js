@@ -2,7 +2,13 @@ import * as hubSearchModule from "../../../../../src/search/hubSearch";
 import { fetchQueryCategories } from "../../../../../src/core/schemas/internal/categories/fetchQueryCategories";
 import { IHubRequestOptions } from "../../../../../src/hub-types";
 import { IQuery } from "../../../../../src/search/types/IHubCatalog";
-import { vi, expect } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 
 describe("fetchQueryCategories:", () => {
   let hubSearchSpy: ReturnType<typeof vi.spyOn>;

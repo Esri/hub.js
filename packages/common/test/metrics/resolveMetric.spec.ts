@@ -1,5 +1,11 @@
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { vi, expect } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 // ESM-safe mock for feature-service so we can spy on queryFeatures
 vi.mock(
   "@esri/arcgis-rest-feature-service",

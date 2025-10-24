@@ -1,4 +1,12 @@
-import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  beforeAll,
+  afterAll,
+  vi,
+} from "vitest";
 import { getDefaultEventDatesAndTimes } from "../../../src/events/_internal/getDefaultEventDatesAndTimes";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
 import * as getTimePickerTimeUtils from "../../../src/utils/date/getTimePickerTime";

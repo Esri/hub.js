@@ -1,5 +1,11 @@
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import { HubChannel } from "../../src/channels/HubChannel";
 import { HubContent } from "../../src/content/HubContent";
 import { EntityEditor } from "../../src/core/EntityEditor";

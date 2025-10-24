@@ -26,7 +26,7 @@ When creating new test files, or updating existing tests, please follow these co
 - Use Vitest's `describe`, `it`, and `expect` for all assertions.
 - Use Vitest's `beforeEach` and `afterEach` for setup/teardown as needed.
 - Use Vitest's built-in mocking and spying utilities only as needed.
-- NOTE: you should `import` all of the above from `vitest` even though we enabled Vitest's `globals` option to make the migration from Jasmine easier. We will eventually want to phase out the `globals` option.
+- NOTE: you should `import` all of the above from `vitest` as Vitest is configured to disable `globals`.
 - Mocking and Spying:
   - For modules that interact with browser APIs or external dependencies:
     - Mock browser globals (e.g., `Blob`) as needed for Node.js coverage.

@@ -1,4 +1,10 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 // ESM-safe mock: merge original module and override only the functions we need to spy on.
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {

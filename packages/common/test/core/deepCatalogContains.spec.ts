@@ -1,5 +1,11 @@
 import * as DeepContainsModule from "../../src/core/_internal/deepContains";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 import { IHubCatalog } from "../../src/search/types/IHubCatalog";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 

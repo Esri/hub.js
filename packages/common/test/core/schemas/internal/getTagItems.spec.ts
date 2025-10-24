@@ -1,4 +1,9 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 
 // Mock the arcgis-rest-portal namespace so its exported functions are spyable/mutable.
 // Must register this mock before importing the module-under-test.
