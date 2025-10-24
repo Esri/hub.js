@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-10-23T20:16:02.325Z">
+    <meta name="date" content="2025-10-24T14:22:16.990Z">
     <title>End-to-End Tests | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -158,10 +158,11 @@
     <div class="column-18">
       <div class="panel">
         <h1>End-to-End Testing for Hub.js</h1>
+<p><strong>NOTE: the e2e tests have to be migrated from Jasmine to Vitest before we can run them. You may want to use the old <a href="https://github.com/Esri/hub.js/blob/ae1568e4ab1d675c201a9fbdc8d9eb11f5033823/.github/instructions/test.instructions.md">migration guide</a> and <a href="https://github.com/Esri/hub.js/blob/ae1568e4ab1d675c201a9fbdc8d9eb11f5033823/.github/chatmodes/test-migration.chatmode.md">chat mode</a> to help you do so. Once we've converted the tests we should update the instructions below.</strong></p>
 <p>Hub.js is intended to encapsulate Hub logic for many workflows or scenarios. Ideally we want the UI layer to collect inputs then delegate to Hub.js functions to do the actual &quot;work&quot;.</p>
 <p>While we require 100% code coverage in this repository, none of those tests actually make real API calls. This is where end-to-end testing comes into play.</p>
 <h2>General Ideas</h2>
-<p>E2e tests are not used to drive code-coverage. Coverage is only driven by the unit tests, and we expect developers to use Jasmine spies (<code>spyOn(...)</code> or Sinon stubs (<code>sinon.stub(...)</code>) or (worst case) <code>fetchMock</code> in those tests so we don't actually make requests to the backin APIs.</p>
+<p>E2e tests are not used to drive code-coverage. Coverage is only driven by the unit tests, and we expect developers to use spies (<code>spyOn(...)</code> or (worst case) <code>fetchMock</code> in those tests so we don't actually make requests to the backing APIs.</p>
 <p>E2e tests are not run in CI. Since they use real credentials, for a wide set of user types, in various org types, we don't want to have all that info in CI environments which are prone to breaches (ie. <a href="http://codecov.io">codecov.io</a> breach in early 2021). They exist to be run by a developer, from a local workstation.</p>
 <p>E2e tests are used to rapidly verify a complex set of permutations, which would be extremely time consuming to manually test or extremely slow for WebDriver based e2e tests - i.e. verifying all the permutations of user privs, org licensing and team configurations.</p>
 <h2>Configuring Identities</h2>
