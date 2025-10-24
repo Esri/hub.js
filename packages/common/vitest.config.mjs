@@ -26,7 +26,7 @@ export default defineConfig({
       }
     },
     // threads seem to be ~33% faster than forks so we use them by default
-    // we override with --pool=forks in CI for better stability
+    // if this causes issues in CI, we can use --pool=forks there
     // https://vitest.dev/guide/improving-performance.html#pool
     pool: "threads"
   }
