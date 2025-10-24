@@ -7,7 +7,13 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { _lookupPortal } from "../../../src/sites/domains/_lookup-portal";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("_lookupPortal", function () {
   afterEach(() => vi.restoreAllMocks());

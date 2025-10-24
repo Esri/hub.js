@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
+
 import { canUseCreateReplica } from "../../src/downloads/canUseCreateReplica";
 import * as hostedServiceUtils from "../../src/content/hostedServiceUtils";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";

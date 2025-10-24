@@ -1,4 +1,9 @@
 import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+import {
   keywordSlugToUriSlug,
   uriSlugToKeywordSlug,
 } from "../../../src/items/_internal/slugConverters";

@@ -1,4 +1,5 @@
 import { ensureUniqueString } from "../../src/utils/ensure-unique-string";
+import { describe, it, expect } from "vitest";
 
 describe("ensureUniqueString", function () {
   it("returns unmodified string when unique", function () {

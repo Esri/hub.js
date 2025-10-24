@@ -2,6 +2,12 @@ import { IHubRequestOptions } from "../../../src/hub-types";
 import { isDomainUsedElsewhere } from "../../../src/sites/domains/is-domain-used-elsewhere";
 import * as lookupDomainModule from "../../../src/sites/domains/lookup-domain";
 import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+} from "vitest";
 
 describe("isDomainUsedElsewhere", function () {
   afterEach(() => vi.restoreAllMocks());

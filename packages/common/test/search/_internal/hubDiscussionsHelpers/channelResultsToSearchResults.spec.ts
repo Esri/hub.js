@@ -11,7 +11,7 @@ import { IHubSearchOptions } from "../../../../src/search/types/IHubSearchOption
 import { channelResultsToSearchResults } from "../../../../src/search/_internal/hubDiscussionsHelpers/channelResultsToSearchResults";
 import { IHubSearchResult } from "../../../../src/search/types/IHubSearchResult";
 import * as discussionUtilsModule from "../../../../src/discussions/utils";
-import { vi } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 
 describe("channelResultsToSearchResults", () => {
   afterEach(() => vi.restoreAllMocks());

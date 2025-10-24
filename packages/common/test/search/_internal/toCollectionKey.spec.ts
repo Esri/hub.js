@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { toCollectionKey } from "../../../src/search/_internal/commonHelpers/toCollectionKey";
 
 describe("toCollectionKey", () => {

@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { getDownloadConfiguration } from "../../src/downloads/getDownloadConfiguration";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 

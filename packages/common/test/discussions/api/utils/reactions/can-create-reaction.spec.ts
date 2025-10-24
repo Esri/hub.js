@@ -1,4 +1,5 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
+import { vi, describe, it, expect } from "vitest";
 import { canCreateReaction } from "../../../../../src/discussions/api//utils/reactions/can-create-reaction";
 import { IChannel } from "../../../../../src/discussions/api//types";
 import * as canReadChannelModule from "../../../../../src/discussions/api//utils/channels/can-read-channel";

@@ -1,5 +1,6 @@
 import { IUiSchemaComboboxItem } from "../../src/core/schemas/types";
 import { isComboboxItemSelected } from "../../src/utils/isComboboxItemSelected";
+import { describe, it, expect } from "vitest";
 
 const nodes = [
   {

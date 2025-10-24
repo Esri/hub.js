@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { processRelations } from "../../../../src/search/_internal/hubDiscussionsHelpers/processRelations";
 import { PostRelation } from "../../../../src/discussions/api/enums/postRelation";
 

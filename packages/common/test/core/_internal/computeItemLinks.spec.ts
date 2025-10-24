@@ -1,5 +1,11 @@
 import { computeItemLinks } from "../../../src/core/_internal/computeItemLinks";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 import * as getRelWorkspace from "../../../src/core/getRelativeWorkspaceUrl";
 import * as getThumb from "../../../src/resources/get-item-thumbnail-url";
 import * as getItemIdentifierMod from "../../../src/items/getItemIdentifier";

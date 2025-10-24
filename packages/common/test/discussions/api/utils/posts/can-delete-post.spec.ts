@@ -8,6 +8,7 @@ import { canDeletePost } from "../../../../../src/discussions/api//utils/posts/c
 import { ChannelPermission } from "../../../../../src/discussions/api//utils/channel-permission";
 import { AclCategory } from "../../../../../src/discussions/api/enums/aclCategory";
 import { Role } from "../../../../../src/discussions/api/enums/role";
+import { describe, it, expect, vi } from "vitest";
 
 describe("canDeletePost", () => {
   it("returns true when the user created the post", () => {

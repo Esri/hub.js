@@ -1,6 +1,7 @@
 import { IDiscussionParams } from "../../../../../src/discussions/api//types";
 import { parseDiscussionURI } from "../../../../../src/discussions/api/utils/posts/parse-discussion-uri";
 import { MENTION_ATTRIBUTE } from "../../../../../src/discussions/constants";
+import { describe, it, expect } from "vitest";
 
 describe("parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {

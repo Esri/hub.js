@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchOrganization, portalToSearchResult } from "../../src/org/fetch";
@@ -5,6 +6,9 @@ import { cloneObject } from "../../src/util";
 import * as fetchOrgModule from "../../src/org/fetch-org";
 
 describe("HubOrganizations", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   describe("convert to searchResult", () => {
     it("converts", () => {
       const result = portalToSearchResult(PORTAL);

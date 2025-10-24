@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { HUB_FGDB_JOB_FORMATS } from "../../../../src/downloads/_internal/_types";
 import { getFgdbJobFormats } from "../../../../src/downloads/_internal/format-fetchers/getFgdbJobFormats";
 

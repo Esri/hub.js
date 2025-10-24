@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { PostSort } from "../../../../src/discussions/api/enums/postSort";
 import { SortOrder } from "../../../../src/discussions/api/enums/sortOrder";
 import { processPostOptions } from "../../../../src/search/_internal/hubDiscussionsHelpers/processPostOptions";

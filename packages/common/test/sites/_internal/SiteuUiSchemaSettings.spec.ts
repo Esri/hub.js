@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaSettings";
 import { MOCK_CONTEXT, MOCK_ENTERPRISE_CONTEXT } from "../../mocks/mock-auth";
 

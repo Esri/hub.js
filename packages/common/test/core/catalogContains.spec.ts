@@ -1,5 +1,11 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 
 import * as HubSearchModule from "../../src/search/hubSearch";
 import { MOCK_AUTH } from "../mocks/mock-auth";

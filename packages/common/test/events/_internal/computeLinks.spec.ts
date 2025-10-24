@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IEvent } from "../../../src/events/api/orval/api/orval-events";
 import { computeLinks } from "../../../src/events/_internal/computeLinks";
 import { getEventThumbnail } from "../../../src/utils/getEventThumbnail";

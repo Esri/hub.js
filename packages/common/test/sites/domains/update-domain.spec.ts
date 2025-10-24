@@ -2,7 +2,13 @@ import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
 import { updateDomain } from "../../../src/sites/domains/update-domain";
 import { IHubRequestOptions } from "../../../src/hub-types";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("updateDomain", function () {
   const domainId = "146663";

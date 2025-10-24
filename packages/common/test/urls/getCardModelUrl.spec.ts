@@ -5,6 +5,7 @@ import {
   getCardModelUrlFromResult,
   getCardModelUrlFromEntity,
 } from "../../src/urls/getCardModelUrl";
+import { describe, it, expect, beforeEach } from "vitest";
 
 const MOCK_SELF_URL = "https://mock-self-url.com";
 const MOCK_SITE_RELATIVE_URL = "/mock-hub-relative-url";

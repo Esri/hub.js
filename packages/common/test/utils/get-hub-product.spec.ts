@@ -1,4 +1,5 @@
 import { getHubProduct } from "../../src/utils/get-hub-product";
+import { describe, it, expect } from "vitest";
 
 describe("getHubProduct", function () {
   it("returns correct product", function () {

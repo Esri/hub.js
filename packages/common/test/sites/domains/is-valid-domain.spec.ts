@@ -1,7 +1,13 @@
 import * as fetchMock from "fetch-mock";
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { isValidDomain } from "../../../src/sites/domains/is-valid-domain";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("isValidDomain", function () {
   afterEach(() => {

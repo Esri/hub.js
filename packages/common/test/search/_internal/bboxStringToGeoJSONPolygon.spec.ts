@@ -1,4 +1,5 @@
 import { bboxStringToGeoJSONPolygon } from "../../../src/search/_internal/bboxStringToGeoJSONPolygon";
+import { describe, it, expect } from "vitest";
 import { BBOX, GEOMETRY_FIXTURE } from "./fixtures";
 
 describe("bboxStringToGeoJSONPolygon", () => {

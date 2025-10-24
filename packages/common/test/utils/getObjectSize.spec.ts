@@ -1,4 +1,5 @@
 import { getObjectSize } from "../../src/utils/getObjectSize";
+import { describe, it, expect } from "vitest";
 
 describe("getObjectSize:", () => {
   it("returns size in b, kb, mb", () => {

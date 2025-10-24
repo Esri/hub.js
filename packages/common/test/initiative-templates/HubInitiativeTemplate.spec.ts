@@ -1,4 +1,10 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, createMockContext } from "../mocks/mock-auth";
 import * as editModule from "../../src/initiative-templates/edit";

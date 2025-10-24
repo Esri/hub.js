@@ -1,4 +1,5 @@
 import { buildUrl } from "../../src/urls/build-url";
+import { describe, it, expect } from "vitest";
 
 describe("urls", () => {
   describe("buildUrl", () => {

@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from "vitest";
 import * as ExplainFilterModule from "../../src/search/_internal/explainFilter";
 import { explainQueryResult } from "../../src/search/explainQueryResult";
 import { GenericResult } from "../../src/search/types/types";

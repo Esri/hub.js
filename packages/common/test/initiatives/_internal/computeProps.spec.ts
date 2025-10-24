@@ -1,4 +1,11 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { createMockContext } from "../../mocks/mock-auth";

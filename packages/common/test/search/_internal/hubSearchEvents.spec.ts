@@ -14,6 +14,7 @@ import {
 } from "../../../src/events/api/orval/api/orval-events";
 import { IQuery } from "../../../src/search/types/IHubCatalog";
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { IHubSearchResult } from "../../../src/search/types/IHubSearchResult";
 
 describe("hubSearchEvents", () => {

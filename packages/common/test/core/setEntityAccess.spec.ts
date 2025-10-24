@@ -1,6 +1,13 @@
 import { setEntityAccess } from "../../src/core/setEntityAccess";
 import { HubEntity } from "../../src/core/types/HubEntity";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 import * as updateEventModule from "../../src/events/api/events";
 // make ESM portal exports spyable by mocking and merging the original
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({

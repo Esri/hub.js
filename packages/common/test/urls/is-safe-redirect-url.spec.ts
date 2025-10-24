@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import type { IHubRequestOptions } from "../../src/hub-types";
 import { isSafeRedirectUrl } from "../../src/urls/is-safe-redirect-url";
 import * as domainExistsUtils from "../../src/sites/domains/domain-exists";

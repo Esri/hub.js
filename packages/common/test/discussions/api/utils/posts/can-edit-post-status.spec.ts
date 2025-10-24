@@ -9,6 +9,8 @@ import {
 } from "../../../../../src/discussions/api/utils/posts/can-edit-post-status";
 import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
 
+import { describe, it, expect } from "vitest";
+
 describe("canModifyPostStatus", () => {
   describe("With Legacy Permissions", () => {
     it("returns false if the user is not authenticated", () => {

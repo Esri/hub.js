@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from "vitest";
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { getItemThumbnailUrl } from "../../src/resources/get-item-thumbnail-url";
 

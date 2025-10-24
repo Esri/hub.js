@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import { IHubSearchResponse } from "../../../src/search/types/IHubSearchResponse";
 import { getNextPortalCallback } from "../../../src/search/_internal/commonHelpers/getNextPortalCallback";

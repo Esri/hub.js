@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { _migrateLinkUnderlinesCapability } from "../../../src/sites/_internal/_migrate-link-underlines-capability";
 
 describe("_migrateLinkUnderlinesCapability", () => {

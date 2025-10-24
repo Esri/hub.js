@@ -1,4 +1,10 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 // make getGroup spyable on the ESM module
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   ...(await importOriginal()),

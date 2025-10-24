@@ -1,4 +1,5 @@
 import { postToSearchResult } from "../../../../src/search/_internal/hubDiscussionsHelpers/postToSearchResult";
+import { describe, it, expect, beforeEach } from "vitest";
 import { IPost } from "../../../../src/discussions/api/types";
 
 describe("postToSearchResult", () => {
@@ -18,7 +19,7 @@ describe("postToSearchResult", () => {
     const result = postToSearchResult(post);
     expect(result).toEqual({
       access: null,
-      createdDate: expect.any(Date) as any,
+      createdDate: expect.any(Date),
       createdDateSource: "post.createdAt",
       family: "post",
       id: post.id,
@@ -29,7 +30,7 @@ describe("postToSearchResult", () => {
       source: "",
       summary: post.body,
       type: "Post",
-      updatedDate: expect.any(Date) as any,
+      updatedDate: expect.any(Date),
       updatedDateSource: "post.updatedAt",
     });
   });

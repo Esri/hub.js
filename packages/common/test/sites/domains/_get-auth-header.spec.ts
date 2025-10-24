@@ -1,5 +1,10 @@
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { _getAuthHeader } from "../../../src/sites/domains/_get-auth-header";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("_getAuthHeader", function () {
   it("gets the auth header", function () {

@@ -1,4 +1,11 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 import { applyInitiativeMigrations } from "../../../src/initiatives/_internal/applyInitiativeMigrations";
 import { HUB_INITIATIVE_CURRENT_SCHEMA_VERSION } from "../../../src/initiatives/defaults";
 import * as migrations from "../../../src/initiatives/_internal/migrateInitiativeSlugAndOrgUrlKey";
@@ -53,10 +60,8 @@ describe("applyInitiativeMigrations function", () => {
 
     applyInitiativeMigrations(initiative);
 
-    const firstCallOrder = (addDefaultCatalogSpy ).mock
-      .invocationCallOrder[0];
-    const secondCallOrder = (slugAndOrgUrlKeySpy ).mock
-      .invocationCallOrder[0];
+    const firstCallOrder = addDefaultCatalogSpy.mock.invocationCallOrder[0];
+    const secondCallOrder = slugAndOrgUrlKeySpy.mock.invocationCallOrder[0];
     expect(firstCallOrder).toBeLessThan(secondCallOrder);
   });
 

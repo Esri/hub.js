@@ -12,7 +12,14 @@ import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import * as eventsModule from "../../src/events/api/events";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
-import { afterEach, vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("HubEvent Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

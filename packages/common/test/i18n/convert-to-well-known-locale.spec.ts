@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { convertToWellKnownLocale } from "../../src/i18n/convert-to-well-known-locale";
 
 describe("convertToWellKnownLocale", function () {

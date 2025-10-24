@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { deleteProp } from "../../src/items/delete-prop";
 
 describe("deleteProp", () => {

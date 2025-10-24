@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { IDraft, IModel } from "../../../src/hub-types";
 import { mergeObjects } from "../../../src/objects/merge-objects";
 import { setProp } from "../../../src/objects/set-prop";

@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import { cloneObject } from "../../src/util";
 import {
   CONTEXT,

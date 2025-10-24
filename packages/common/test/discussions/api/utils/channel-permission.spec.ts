@@ -96,6 +96,8 @@ function buildCompleteAcl() {
   ];
 }
 
+import { describe, it, expect } from "vitest";
+
 describe("ChannelPermission class", () => {
   describe("constructor", () => {
     it("throws error if channel.channelAcl is undefined", () => {

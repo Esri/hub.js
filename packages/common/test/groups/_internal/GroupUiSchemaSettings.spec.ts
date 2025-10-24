@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { UiSchemaRuleEffects } from "../../../src/core/enums/uiSchemaRuleEffects";
 import { buildUiSchema } from "../../../src/groups/_internal/GroupUiSchemaSettings";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";

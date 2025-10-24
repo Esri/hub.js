@@ -1,4 +1,5 @@
 import { deepSet } from "../../src/objects/deep-set";
+import { describe, it, expect } from "vitest";
 
 describe("deepSet", function () {
   it("sets deep properties", function () {

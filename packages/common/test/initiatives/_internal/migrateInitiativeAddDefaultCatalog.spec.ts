@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { migrateInitiativeAddDefaultCatalog } from "../../../src/initiatives/_internal/migrateInitiativeAddDefaultCatalog";
 import { IHubInitiative } from "../../../src/core/types/IHubInitiative";
 

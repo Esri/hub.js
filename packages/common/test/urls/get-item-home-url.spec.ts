@@ -1,5 +1,6 @@
 import type { IPortal } from "@esri/arcgis-rest-portal";
 import { getItemHomeUrl } from "../../src/urls/get-item-home-url";
+import { describe, it, expect } from "vitest";
 
 describe("getItemHomeUrl", () => {
   const portalHostname = "portal-hostname.com";

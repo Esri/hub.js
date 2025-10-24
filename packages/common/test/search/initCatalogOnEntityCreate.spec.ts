@@ -4,6 +4,7 @@ import * as createHubGroupModule from "../../src/groups/HubGroups";
 import { CATALOG_SCHEMA_VERSION } from "../../src/search/upgradeCatalogSchema";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { CatalogSetupType } from "../../src/search/types/types";
 
 describe("initCatalogOnEntityCreate", () => {

@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { _migrateTelemetryConfig } from "../../../src/sites/_internal/_migrate-telemetry-config";
 
 describe("_migrateTelemetryConfig", () => {

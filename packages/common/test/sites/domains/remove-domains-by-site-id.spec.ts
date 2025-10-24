@@ -2,7 +2,13 @@ import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
 import { removeDomainsBySiteId } from "../../../src/sites/domains/remove-domains-by-site-id";
 import { IHubRequestOptions } from "../../../src/hub-types";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("removeDomainsBySiteId", function () {
   const domainSiteId = "foobarbaz1234";

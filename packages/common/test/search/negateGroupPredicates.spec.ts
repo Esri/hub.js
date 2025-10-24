@@ -1,4 +1,5 @@
 import { negateGroupPredicates } from "../../src/search/negateGroupPredicates";
+import { describe, it, expect } from "vitest";
 import { IQuery } from "../../src/search/types/IHubCatalog";
 
 describe("negateGroupPredicates:", () => {

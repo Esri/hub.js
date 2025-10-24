@@ -6,6 +6,7 @@ import {
   userHasPrivilege,
   userHasPrivileges,
 } from "../../../../src/discussions/api/utils/platform";
+import { describe, it, expect } from "vitest";
 
 describe("Util: reduceByGroupMembership", () => {
   it("returns reducer fn", async () => {

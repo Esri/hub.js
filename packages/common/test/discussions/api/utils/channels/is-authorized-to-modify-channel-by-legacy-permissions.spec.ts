@@ -5,6 +5,7 @@ import {
 } from "../../../../../src/discussions/api/types";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "../../../../../src/discussions/api/utils/channels/is-authorized-to-modify-channel-by-legacy-permissions";
 import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
+import { describe, it, expect } from "vitest";
 
 describe("isAuthorizedToModifyChannelByLegacyPermissions", () => {
   it("returns false if the user is not authenticated", () => {

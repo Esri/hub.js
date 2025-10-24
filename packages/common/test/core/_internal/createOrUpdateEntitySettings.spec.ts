@@ -1,5 +1,12 @@
 import type { Polygon } from "geojson";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 import { createOrUpdateEntitySettings } from "../../../src/core/_internal/createOrUpdateEntitySettings";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as settingUtils from "../../../src/discussions/api/settings/settings";

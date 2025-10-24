@@ -1,4 +1,5 @@
 import { stripProtocol } from "../../src/urls/strip-protocol";
+import { describe, it, expect } from "vitest";
 
 describe("stripProtocol", function () {
   it("strips the protocol when present", function () {

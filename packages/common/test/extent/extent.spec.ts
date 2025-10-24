@@ -1,4 +1,9 @@
 import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+import {
   isValidExtent,
   allCoordinatesPossiblyWGS84,
   GeoJSONPolygonToBBox,

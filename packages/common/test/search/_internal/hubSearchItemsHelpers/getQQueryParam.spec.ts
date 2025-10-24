@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getQQueryParam } from "../../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
 
 describe("getQQueryParam", () => {

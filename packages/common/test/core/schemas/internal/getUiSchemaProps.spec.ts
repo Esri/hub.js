@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getUiSchemaProps } from "../../../../src/core/schemas/internal/getUiSchemaProps";
 import { IUiSchema } from "../../../../src/core/schemas/types";
 

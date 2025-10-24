@@ -3,7 +3,14 @@ import { shareEntityWithGroups } from "../../src/core/shareEntityWithGroups";
 import * as shareEventWithGroupsModule from "../../src/events/_internal/shareEventWithGroups";
 import * as shareItemToGroupsModule from "../../src/items/share-item-to-groups";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("shareEntityWithGroups", () => {
   let entity: IHubItemEntity;

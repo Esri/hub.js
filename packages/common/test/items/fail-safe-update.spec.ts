@@ -3,6 +3,13 @@ import { mockUserSession } from "../test-helpers/fake-user-session";
 import * as portal from "../../src/rest/portal/wrappers";
 import { failSafeUpdate } from "../../src/items/fail-safe-update";
 import { IModel } from "../../src/hub-types";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 afterEach(() => vi.restoreAllMocks());
 

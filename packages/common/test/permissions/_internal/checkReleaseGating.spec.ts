@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { checkReleaseGating } from "../../../src/permissions/_internal/checkReleaseGating";
 import { IPermissionPolicy } from "../../../src/permissions/types/IPermissionPolicy";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";

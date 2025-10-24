@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { UiSchemaRuleEffects } from "../../src/core/enums/uiSchemaRuleEffects";
 import { deepGetPropValues } from "../../src/objects/deepGetPropValues";
 import { cloneObject } from "../../src/util";

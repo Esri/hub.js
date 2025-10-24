@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+} from "vitest";
 import * as fetchMock from "fetch-mock";
 import { hubApiRequest } from "../src/request";
 

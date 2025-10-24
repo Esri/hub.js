@@ -1,4 +1,5 @@
 import { propifyString } from "../../src/utils/propify-string";
+import { describe, it, expect } from "vitest";
 
 describe("propifyString", function () {
   it("turns a string into a valid JSON prop", function () {

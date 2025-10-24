@@ -1,8 +1,8 @@
-import { vi } from "vitest";
 vi.mock("@esri/arcgis-rest-request", async (importOriginal) => {
   return { ...(await importOriginal()), request: vi.fn() };
 });
 
+import { describe, it, expect, afterEach, vi } from "vitest";
 import * as LimitsModule from "../../src/org/fetchOrgLimits";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as RequestModule from "@esri/arcgis-rest-request";

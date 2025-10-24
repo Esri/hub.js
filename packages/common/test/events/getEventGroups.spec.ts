@@ -1,4 +1,10 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 // make @esri/arcgis-rest-portal spyable by merging the original module and
 // overriding specific exports in an async mock before importing the module-under-test
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({

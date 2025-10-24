@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { stringToBlob } from "../../src/resources/string-to-blob";
 
 describe("stringToBlob", () => {

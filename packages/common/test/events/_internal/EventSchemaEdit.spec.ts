@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { buildSchema } from "../../../src/events/_internal/EventSchemaEdit";
 import { IConfigurationSchema } from "../../../src/core/schemas/types";
 import {

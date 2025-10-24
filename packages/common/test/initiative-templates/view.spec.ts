@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import * as titleUrlModule from "../../src/urls/getCardModelUrl";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 import {

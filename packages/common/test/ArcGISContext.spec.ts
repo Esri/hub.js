@@ -1,4 +1,9 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import type { IHubHistory, IHubHistoryEntry } from "../src/core/hubHistory";
 import type { HubEntityType } from "../src/core/types/HubEntityType";
 import { createId } from "../src/util";

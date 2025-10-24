@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IModel } from "../../../src/hub-types";
 import { migrateWebMappingApplicationSites } from "../../../src/sites/_internal/migrateWebMappingApplicationSites";
 

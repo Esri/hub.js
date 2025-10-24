@@ -4,7 +4,13 @@ import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOp
 import * as GetEntitySchemasModule from "../../../src/core/schemas/internal/getEditorSchemas";
 import * as SiteSchemaModule from "../../../src/sites/_internal/SiteSchema";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("getEditorConfig:", () => {
   afterEach(() => {

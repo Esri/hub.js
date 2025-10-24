@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaCreate";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as buildCatalogModule from "../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";

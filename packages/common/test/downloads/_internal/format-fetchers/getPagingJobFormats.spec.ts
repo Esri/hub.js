@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { HUB_PAGING_JOB_FORMATS } from "../../../../src/downloads/_internal/_types";
 import { getPagingJobFormats } from "../../../../src/downloads/_internal/format-fetchers/getPagingJobFormats";
 

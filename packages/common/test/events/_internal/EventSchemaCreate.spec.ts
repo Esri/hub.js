@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { buildSchema } from "../../../src/events/_internal/EventSchemaCreate";
 import { IConfigurationSchema } from "../../../src/core/schemas/types";
 import * as getDefaultEventDatesAndTimesModule from "../../../src/events/_internal/getDefaultEventDatesAndTimes";

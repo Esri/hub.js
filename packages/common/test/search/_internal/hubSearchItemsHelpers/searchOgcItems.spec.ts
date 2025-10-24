@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 
 describe("searchOgcItems formatting", () => {
   it("formats discussionPost targetEntity and returns next callback when next link present", async () => {

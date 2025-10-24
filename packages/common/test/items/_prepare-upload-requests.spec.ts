@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { _prepareUploadRequests } from "../../src/items/_internal/_prepare-upload-requests";
 describe("_prepareUploadRequests", () => {

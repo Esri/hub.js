@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getQueryString } from "../../../../src/search/_internal/hubSearchItemsHelpers/getQueryString";
 
 describe("getQueryString", () => {

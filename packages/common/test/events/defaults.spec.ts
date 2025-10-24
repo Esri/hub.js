@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import * as getDefaultEventDatesAndTimesModule from "../../src/events/_internal/getDefaultEventDatesAndTimes";
 import {
   EventAccess,

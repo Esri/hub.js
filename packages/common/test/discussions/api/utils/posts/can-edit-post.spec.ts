@@ -10,6 +10,7 @@ import {
   canModifyPost,
 } from "../../../../../src/discussions/api/utils/posts/can-edit-post";
 import { SharingAccess } from "../../../../../src/discussions/api/enums/sharingAccess";
+import { describe, it, expect } from "vitest";
 
 describe("canModifyPost", () => {
   describe("Legacy Permissions", () => {

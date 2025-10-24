@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IHubEditableContent } from "../../../../src/core/types/IHubEditableContent";
 import { getCreateReplicaFormats } from "../../../../src/downloads/_internal/format-fetchers/getCreateReplicaFormats";
 import { ServiceDownloadFormat } from "../../../../src/downloads/enums/serviceDownloadFormat";

@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import * as adlibModule from "adlib";
 import { interpolate } from "../../src/items/interpolate";
 

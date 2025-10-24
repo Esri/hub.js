@@ -1,4 +1,3 @@
-import { vi } from "vitest";
 import { computeProps } from "../../../src/templates/_internal/computeProps";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { IHubTemplate } from "../../../src/core/types/IHubTemplate";
@@ -8,6 +7,7 @@ import * as computeLinksModule from "../../../src/templates/_internal/computeLin
 import * as computeItemPropsModule from "../../../src/core/_internal/computeItemProps";
 import * as processEntityFeaturesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import * as templateUtilsModule from "../../../src/templates/utils";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 describe("templates: computeProps:", () => {
   let authdCtxMgr: Partial<ArcGISContextManager>;
   let model: IModel;

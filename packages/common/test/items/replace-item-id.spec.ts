@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { replaceItemId } from "../../src/items/replace-item-id";
 
 describe("replaceItemId", function () {

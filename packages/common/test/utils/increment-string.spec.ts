@@ -1,4 +1,5 @@
 import { incrementString } from "../../src/utils/increment-string";
+import { describe, it, expect } from "vitest";
 
 describe("incrementString", () => {
   it("increments a string", async () => {

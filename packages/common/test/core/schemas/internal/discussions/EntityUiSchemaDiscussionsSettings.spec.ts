@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IArcGISContext } from "../../../../../src/types/IArcGISContext";
 import { IHubDiscussion } from "../../../../../src/core/types/IHubDiscussion";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";

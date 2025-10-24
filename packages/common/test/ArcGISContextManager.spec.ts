@@ -1,4 +1,9 @@
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 
 // Make @esri/arcgis-rest-portal and @esri/arcgis-rest-request exports spyable in ESM
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
@@ -1012,7 +1017,7 @@ describe("ArcGISContextManager:", () => {
       // verify that the serialized session is encoded by decoding it
       // and converting back into json
       const decoded = JSON.parse(base64ToUnicode(serialized));
-      expect(decoded.session).toEqual((MOCK_AUTH ).serialize());
+      expect(decoded.session).toEqual(MOCK_AUTH.serialize());
       expect(decoded.portal).toEqual(onlinePortalSelfWithLimitsResponse);
       expect(decoded.currentUser).toEqual(onlineUserResponse);
       expect(decoded.properties.foo).toEqual("bar");

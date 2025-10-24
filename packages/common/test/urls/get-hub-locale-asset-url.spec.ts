@@ -1,6 +1,7 @@
 import type { IPortal } from "@esri/arcgis-rest-portal";
 import { getHubLocaleAssetUrl } from "../../src/urls/get-hub-locale-asset-url";
 import { cloneObject } from "../../src/util";
+import { describe, it, expect } from "vitest";
 
 describe("getHubLocaleAssetUrl", function () {
   const portal: IPortal = {

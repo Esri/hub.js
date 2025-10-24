@@ -4,7 +4,7 @@ import * as fetchAndUploadThumbnailModule from "../../src/resources/fetch-and-up
 import { uploadResourcesFromUrl } from "../../src/resources/upload-resources-from-url";
 import { cloneObject } from "../../src/util";
 import { mockUserSession } from "../test-helpers/fake-user-session";
-import { vi } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 
 describe("uploadResourcesFromUrl", () => {
   afterEach(() => vi.restoreAllMocks());

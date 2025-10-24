@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { applyCatalogStructureMigration } from "../../../src/sites/_internal/applyCatalogStructureMigration";
 
 describe("applyCatalogStructureMigration", () => {

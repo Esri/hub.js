@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { getRelativeWorkspaceUrl } from "../../src/core/getRelativeWorkspaceUrl";
 import * as getTypeFromEntityModule from "../../src/core/getTypeFromEntity";
 import * as isValidEntityTypeModule from "../../src/core/isValidEntityType";

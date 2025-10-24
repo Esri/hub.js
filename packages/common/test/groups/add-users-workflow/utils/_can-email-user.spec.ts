@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IUser } from "@esri/arcgis-rest-portal";
 import { _canEmailUser } from "../../../../src/groups/add-users-workflow/utils/_can-email-user";
 

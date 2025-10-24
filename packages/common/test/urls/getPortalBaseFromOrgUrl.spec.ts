@@ -1,5 +1,7 @@
 import { getPortalBaseFromOrgUrl } from "../../src/urls/getPortalBaseFromOrgUrl";
 
+import { describe, it, expect } from "vitest";
+
 describe("getPortalBaseUrlFromOrgUrl:", () => {
   it("returns original url if not matched", () => {
     const chk = getPortalBaseFromOrgUrl("https://myserver.com");

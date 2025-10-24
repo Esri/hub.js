@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { deepStringReplace } from "../../src/objects/deep-string-replace";
 
 describe("deepStringReplace", () => {

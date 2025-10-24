@@ -2,7 +2,13 @@ import type { IHubRequestOptions, IModel } from "../../../src/hub-types";
 import * as addDomainModule from "../../../src/sites/domains/add-domain";
 
 import { addSiteDomains } from "../../../src/sites/domains/addSiteDomains";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("addSiteDomains", () => {
   afterEach(() => vi.restoreAllMocks());

@@ -2,7 +2,13 @@ import * as lookupDomainModule from "../../src/sites/domains/lookup-domain";
 import * as getSiteModule from "../../src/sites/get-site-by-id";
 import { fetchSiteModel } from "../../src/sites/fetchSiteModel";
 import { IHubRequestOptions, IModel } from "../../src/hub-types";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 
 describe("fetchSiteModel", () => {
   const siteId = "042584cf391c428e995e97eccdebb8f8";

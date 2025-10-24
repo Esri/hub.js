@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { getDownloadConfigurationDisplayFormats } from "../../src/downloads/_internal/getDownloadConfigurationDisplayFormats";
 
 describe("getDownloadConfigurationDisplayFormats", () => {

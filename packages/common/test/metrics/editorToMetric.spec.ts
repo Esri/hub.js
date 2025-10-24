@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { ExpressionRelationships } from "../../src/core/enums/expressionRelationships";
 import { MetricVisibility } from "../../src/core/enums/metricVisibility";
 import {

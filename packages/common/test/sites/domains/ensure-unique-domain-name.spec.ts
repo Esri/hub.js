@@ -1,7 +1,13 @@
 import * as fetchMock from "fetch-mock";
 import { MOCK_HUB_REQOPTS, MOCK_PORTAL_REQOPTS } from "../test-helpers";
 import { ensureUniqueDomainName } from "../../../src/sites/domains/ensure-unique-domain-name";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("ensureUniqueDomainName", () => {
   afterEach(() => {

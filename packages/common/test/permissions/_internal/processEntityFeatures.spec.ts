@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { processEntityFeatures } from "../../../src/permissions/_internal/processEntityFeatures";
 import { IFeatureFlags } from "../../../src/permissions/types/IPermissionPolicy";
 

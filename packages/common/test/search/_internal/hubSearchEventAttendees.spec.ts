@@ -13,6 +13,7 @@ import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 import * as processFiltersModule from "../../../src/search/_internal/hubEventsHelpers/processAttendeeFilters";
 import * as processOptionsModule from "../../../src/search/_internal/hubEventsHelpers/processAttendeeOptions";
 import { IHubSearchResult } from "../../../src/search/types/IHubSearchResult";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { hubSearchEventAttendees } from "../../../src/search/_internal/hubSearchEventAttendees";
 
 describe("hubSearchEventAttendees", () => {

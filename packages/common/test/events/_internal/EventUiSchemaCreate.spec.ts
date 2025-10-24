@@ -1,6 +1,13 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
-import { describe, it, expect, vi, afterEach } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaCreate";
 import { HubEventAttendanceType } from "../../../src/events/enums/hubEventAttendanceType";

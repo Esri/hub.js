@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { getProp } from "../../src/objects/get-prop";
 
 describe("getProp:", () => {

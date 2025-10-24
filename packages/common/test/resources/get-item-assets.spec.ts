@@ -1,16 +1,14 @@
-import { vi } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   ...(await importOriginal()),
   getItemResources: vi.fn(),
 }));
-
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 import { IHubRequestOptions } from "../../src/hub-types";
 import { cloneObject } from "../../src/util";
 import { getItemAssets } from "../../src/resources/get-item-assets";
-import { vi } from "vitest";
 
 describe("getItemAssets", () => {
   afterEach(() => vi.restoreAllMocks());

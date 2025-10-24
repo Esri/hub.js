@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { hubSearch } from "../../src/search/hubSearch";
 import { EntityType, IQuery } from "../../src/search/types/IHubCatalog";
 import { IHubSearchOptions } from "../../src/search/types/IHubSearchOptions";

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { objectToJsonBlob } from "../../src/resources/object-to-json-blob";
 
 describe("objectToJsonBlob", () => {

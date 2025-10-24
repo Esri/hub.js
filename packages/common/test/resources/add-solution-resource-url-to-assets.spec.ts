@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { IHubRequestOptions, IModelTemplate } from "../../src/hub-types";
 import { addSolutionResourceUrlToAssets } from "../../src/resources/add-solution-resource-url-to-assets";
 

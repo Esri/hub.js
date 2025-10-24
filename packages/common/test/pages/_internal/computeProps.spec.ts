@@ -5,7 +5,7 @@ import { PageDefaultFeatures } from "../../../src/pages/_internal/PageBusinessRu
 import { IHubRequestOptions, IModel } from "../../../src/hub-types";
 import { cloneObject } from "../../../src/util";
 import { IHubPage } from "../../../src/core/types/IHubPage";
-import { vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as thumbModule from "../../../src/resources/get-item-thumbnail-url";
 
 describe("Pages: computeProps:", () => {

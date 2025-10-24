@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
+
 import { getDownloadFormats } from "../../src/downloads/getDownloadFormats";
 import { IFetchDownloadFormatsOptions } from "../../src/downloads/types";
 import * as CanUseExportImageFlowModule from "../../src/downloads/_internal/canUseExportImageFlow";

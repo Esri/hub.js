@@ -1,4 +1,3 @@
-import { vi } from "vitest";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubTemplate } from "../../src/templates/HubTemplate";
 import { initContextManager } from "./fixtures";
@@ -9,6 +8,7 @@ import * as fetchModule from "../../src/templates/fetch";
 import * as getEditorConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as enrichEntityModule from "../../src/core/enrichEntity";
 import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("HubTemplate Class", () => {
   let authdCtxMgr: Partial<ArcGISContextManager>;

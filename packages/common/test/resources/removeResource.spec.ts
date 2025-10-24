@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 
 // Make ESM namespace exports spy-able by merging originals and overriding specific exports
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({

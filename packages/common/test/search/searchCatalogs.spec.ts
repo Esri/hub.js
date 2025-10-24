@@ -1,6 +1,7 @@
 import { searchCatalogs } from "../../src/search/searchCatalogs";
 import { IHubCatalog } from "../../src/search/types/IHubCatalog";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { Catalog } from "../../src/search/Catalog";
 
 describe("searchCatalogs:", () => {

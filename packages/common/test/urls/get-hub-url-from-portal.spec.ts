@@ -1,5 +1,6 @@
 import { getHubUrlFromPortal } from "../../src/urls/get-hub-url-from-portal";
 import type { IPortal } from "@esri/arcgis-rest-portal";
+import { describe, it, expect, beforeEach } from "vitest";
 
 describe("getHubUrlFromPortal", () => {
   let portalSelf: IPortal;

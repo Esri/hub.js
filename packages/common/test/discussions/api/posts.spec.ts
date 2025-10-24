@@ -1,5 +1,5 @@
 import type { Geometry } from "geojson";
-import { vi, afterEach, beforeEach } from "vitest";
+import { vi, afterEach, beforeEach, describe, it, expect } from "vitest";
 import * as discussionsApiRequestModule from "../../../src/discussions/api/discussions-api-request";
 import {
   IDiscussionsRequestOptions,

@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getMajorVersion } from "../../../../src/sites/feeds/_internal/getMajorVersion";
 
 describe("getMajorVersion", () => {

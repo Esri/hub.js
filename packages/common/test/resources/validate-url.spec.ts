@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import type { IExtent } from "@esri/arcgis-rest-feature-service";
 import * as fetchMock from "fetch-mock";
 import { validateUrl } from "../../src/resources/validate-url";

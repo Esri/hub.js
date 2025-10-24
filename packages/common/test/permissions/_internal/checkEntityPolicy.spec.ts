@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { checkEntityPolicy } from "../../../src/permissions/_internal/checkEntityPolicy";

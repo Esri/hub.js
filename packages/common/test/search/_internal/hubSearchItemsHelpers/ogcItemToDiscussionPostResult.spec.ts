@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { ogcItemToDiscussionPostResult } from "../../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToDiscussionPostResult";
 
 describe("ogcItemToDiscussionPostResult", () => {

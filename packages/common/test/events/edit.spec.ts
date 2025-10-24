@@ -19,7 +19,14 @@ import {
   IHubCreateEventRegistration,
   updateHubEvent,
 } from "../../src/events/edit";
-import { afterEach, vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
 import { HubEventAttendanceType } from "../../src/events/enums/hubEventAttendanceType";
 import { HubEventCapacityType } from "../../src/events/enums/hubEventCapacityType";

@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { buildUiSchema as buildCompactUiSchema } from "../../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact";
 import * as buildUiSchemaUtils from "../../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
 import { IHubDiscussion } from "../../../../../src/core/types/IHubDiscussion";

@@ -1,4 +1,5 @@
 import { getWithDefault } from "../../src/objects/get-with-default";
+import { describe, it, expect } from "vitest";
 
 describe("getWithDefault", function () {
   it("returns default correctly", function () {

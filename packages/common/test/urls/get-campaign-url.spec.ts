@@ -1,4 +1,5 @@
 import { getCampaignUrl } from "../../src/urls/get-campaign-url";
+import { describe, it, expect } from "vitest";
 
 describe("getCampaignUrl", function () {
   it("should build a campaign url", () => {

@@ -1,7 +1,13 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+} from "vitest";
 import { convertHubGroupToGroup } from "../../../src/groups/_internal/convertHubGroupToGroup";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 
-describe("groups: convertHubGroupToGroup:", () => {
+describe("groups: convertHubGroupToHubGroup:", () => {
   let hubGroup: any;
   beforeEach(() => {
     hubGroup = {

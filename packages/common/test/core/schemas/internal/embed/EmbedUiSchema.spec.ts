@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/embed/EmbedUiSchema";
 import type { IArcGISContext } from "../../../../../src/types/IArcGISContext";
 

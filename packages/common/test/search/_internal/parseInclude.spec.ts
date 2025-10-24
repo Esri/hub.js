@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { parseInclude } from "../../../src/search/_internal/parseInclude";
 
 describe("parseInclude:", () => {

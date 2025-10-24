@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getCategoryTree } from "../../../../../src/core/schemas/internal/categories/getCategoryTree";
 
 describe("getCategoryTree", () => {

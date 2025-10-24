@@ -1,5 +1,5 @@
 import { IQuery } from "../../../src/search/types/IHubCatalog";
-import { vi, expect } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import * as channelsModule from "../../../src/discussions/api/channels/channels";
 import * as processChannelFiltersModule from "../../../src/search/_internal/hubDiscussionsHelpers/processChannelFilters";
 import * as processChannelOptionsModule from "../../../src/search/_internal/hubDiscussionsHelpers/processChannelOptions";

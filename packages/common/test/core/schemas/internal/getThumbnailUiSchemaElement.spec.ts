@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubItemEntity } from "../../../../src/core/types/IHubItemEntity";
 import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";

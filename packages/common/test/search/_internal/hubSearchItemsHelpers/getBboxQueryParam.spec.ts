@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getBboxQueryParam } from "../../../../src/search/_internal/hubSearchItemsHelpers/getBboxQueryParam";
 
 describe("getBboxQueryParam", () => {

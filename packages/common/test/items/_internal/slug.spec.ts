@@ -1,4 +1,9 @@
 import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+import {
   parseIdentifier,
   truncateSlug,
 } from "../../../src/items/_internal/slugs";

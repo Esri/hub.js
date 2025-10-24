@@ -8,7 +8,14 @@ import {
 } from "../../mocks/mock-auth";
 import { removeDomainByHostname } from "../../../src/sites/domains/removeDomainByHostname";
 import { getProp } from "../../../src/objects/get-prop";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("removeDomainByHostname:", () => {
   let lookupSpy: any;
@@ -26,8 +33,8 @@ describe("removeDomainByHostname:", () => {
       .spyOn(lookupDomainModule, "lookupDomain")
       .mockReturnValue(Promise.resolve({ id: 1234 }) as any);
     await removeDomainByHostname("fake.hostname.com", MOCK_HUB_REQOPTS);
-    expect((lookupSpy ).mock.calls.length).toBe(1);
-    expect((removeSpy ).mock.calls.length).toBe(1);
+    expect(lookupSpy.mock.calls.length).toBe(1);
+    expect(removeSpy.mock.calls.length).toBe(1);
   });
   it("throws on portal", async () => {
     lookupSpy = vi
@@ -43,8 +50,8 @@ describe("removeDomainByHostname:", () => {
       expect(getProp(err, "message")).toContain(
         "removeDomainByHostname is not available in ArcGIS Enterprise."
       );
-      expect((lookupSpy ).mock.calls.length).toBe(0);
-      expect((removeSpy ).mock.calls.length).toBe(0);
+      expect(lookupSpy.mock.calls.length).toBe(0);
+      expect(removeSpy.mock.calls.length).toBe(0);
     }
   });
 
@@ -59,8 +66,8 @@ describe("removeDomainByHostname:", () => {
       expect(getProp(err, "message")).toContain(
         "Error removing domain entry for fake.hostname.com"
       );
-      expect((lookupSpy ).mock.calls.length).toBe(1);
-      expect((removeSpy ).mock.calls.length).toBe(0);
+      expect(lookupSpy.mock.calls.length).toBe(1);
+      expect(removeSpy.mock.calls.length).toBe(0);
     }
   });
 
@@ -69,7 +76,7 @@ describe("removeDomainByHostname:", () => {
       .spyOn(lookupDomainModule, "lookupDomain")
       .mockReturnValue(Promise.resolve({}) as any);
     await removeDomainByHostname("fake.hostname.com", MOCK_HUB_REQOPTS);
-    expect((lookupSpy ).mock.calls.length).toBe(1);
-    expect((removeSpy ).mock.calls.length).toBe(0);
+    expect(lookupSpy.mock.calls.length).toBe(1);
+    expect(removeSpy.mock.calls.length).toBe(0);
   });
 });

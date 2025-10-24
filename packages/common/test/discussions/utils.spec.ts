@@ -1,5 +1,13 @@
 // make arcgis-rest-portal exports configurable for spying in ESM
-import { vi } from "vitest";
+import {
+  vi,
+  describe,
+  it,
+  expect,
+  beforeEach,
+  beforeAll,
+  afterAll,
+} from "vitest";
 vi.mock("@esri/arcgis-rest-portal", async () => {
   const original = await vi.importActual("@esri/arcgis-rest-portal");
   return { ...(original as any) };

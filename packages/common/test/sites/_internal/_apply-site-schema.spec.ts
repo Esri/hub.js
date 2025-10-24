@@ -1,5 +1,10 @@
 import { IModel } from "../../../src/hub-types";
 import { _applySiteSchema } from "../../../src/sites/_internal/_apply-site-schema";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 
 describe("_applySiteSchema", () => {
   it("fixes groups array", function () {

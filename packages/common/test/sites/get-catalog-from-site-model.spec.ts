@@ -1,4 +1,9 @@
 import { getCatalogFromSiteModel } from "../../src/sites/get-catalog-from-site-model";
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IModel } from "../../src/hub-types";
 import { IHubCatalog } from "../../src/search/types/IHubCatalog";
 

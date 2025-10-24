@@ -1,11 +1,11 @@
-import { vi } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
   const original = await importOriginal();
   return {
     ...(original as any),
     removeItem: vi.fn(),
     getItemData: vi.fn(),
-  } ;
+  };
 });
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IItem } from "@esri/arcgis-rest-portal";
@@ -120,7 +120,7 @@ describe("HubPages Module", () => {
       );
       // should create the item
       expect(createSpy).toHaveBeenCalledTimes(1);
-      const modelToCreate = createSpy.mock.calls[0][0] ;
+      const modelToCreate = createSpy.mock.calls[0][0];
       expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.type).toBe("Hub Page");
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
@@ -158,7 +158,7 @@ describe("HubPages Module", () => {
       );
       // should create the item
       expect(createSpy).toHaveBeenCalledTimes(1);
-      const modelToCreate = createSpy.mock.calls[0][0] ;
+      const modelToCreate = createSpy.mock.calls[0][0];
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
@@ -208,7 +208,7 @@ describe("HubPages Module", () => {
       );
       expect(getModelSpy).toHaveBeenCalledTimes(1);
       expect(updateModelSpy).toHaveBeenCalledTimes(1);
-      const modelToUpdate = updateModelSpy.mock.calls[0][0] ;
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.item.description).toBe(page.description);
       expect(modelToUpdate.item.properties.slug).toBe(
         "dcdev|dcdev-wat-blarg-1"

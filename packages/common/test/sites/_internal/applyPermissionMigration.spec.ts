@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { applyPermissionMigration } from "../../../src/sites/_internal/applyPermissionMigration";
 
 describe("applyPermissionMigration", () => {

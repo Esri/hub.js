@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { _deepMapValues } from "../../src/objects/_deep-map-values";
 
 describe("_deepMapValues", () => {

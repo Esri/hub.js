@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 // If we need to spy on @esri/arcgis-rest-portal named exports in ESM,
 // register a module mock here that merges the real module and allows spies.
 vi.mock("@esri/arcgis-rest-portal", async () => ({
@@ -11,7 +12,6 @@ import * as hubUsersModule from "../../../src/users/HubUsers";
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 import { IQuery } from "../../../src/search/types/IHubCatalog";
 import { cloneObject } from "../../../src/util";
-import { vi } from "vitest";
 
 describe("portalSearchGroupMembers:", () => {
   afterEach(() => vi.restoreAllMocks());

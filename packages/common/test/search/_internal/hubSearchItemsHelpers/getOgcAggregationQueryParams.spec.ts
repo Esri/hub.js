@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getOgcAggregationQueryParams } from "../../../../src/search/_internal/hubSearchItemsHelpers/getOgcAggregationQueryParams";
 
 describe("getOgcAggregationQueryParams", () => {

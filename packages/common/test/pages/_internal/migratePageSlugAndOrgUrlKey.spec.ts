@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { migratePageSlugAndOrgUrlKey } from "../../../src/pages/_internal/migratePageSlugAndOrgUrlKey";
 import { IHubPage } from "../../../src/core/types/IHubPage";
 

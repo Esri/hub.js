@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 import { IHubEditableContent } from "../../../../src/core/types/IHubEditableContent";
 import { fetchHubApiDownloadFile } from "../../../../src/downloads/_internal/file-url-fetchers/fetchHubApiDownloadFile";
 import * as fetchMock from "fetch-mock";

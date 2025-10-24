@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { formatOgcAggregationsResponse } from "../../../../src/search/_internal/hubSearchItemsHelpers/formatOgcAggregationsResponse";
 
 describe("formatOgcAggregationsResponse", () => {

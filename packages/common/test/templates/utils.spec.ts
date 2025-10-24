@@ -1,5 +1,6 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { getDeployedTemplateType } from "../../src/templates/utils";
+import { describe, it, expect } from "vitest";
 
 describe("template utils", () => {
   describe("getDeployedTemplateType", () => {

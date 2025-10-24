@@ -1,3 +1,9 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+
 import { getExportItemDataUrl } from "../../../src/downloads/_internal/getExportItemDataUrl";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 

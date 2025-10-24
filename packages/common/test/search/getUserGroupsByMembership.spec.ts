@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { getUserGroupsByMembership } from "../../src/search/getUserGroupsByMembership";
 

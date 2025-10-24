@@ -1,5 +1,12 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
-import { vi } from "vitest";
 import { computeProps } from "../../../src/sites/_internal/computeProps";
 import { SiteDefaultFeatures } from "../../../src/sites/_internal/SiteBusinessRules";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";

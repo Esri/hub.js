@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IModel } from "../../src/hub-types";
 import { serializeModel } from "../../src/models/serializeModel";
 

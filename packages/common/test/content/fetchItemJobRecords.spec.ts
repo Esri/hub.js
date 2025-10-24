@@ -8,6 +8,7 @@ import {
 } from "../../src/content/types";
 import type { IArcGISContext } from "../../src/types/IArcGISContext";
 import * as fetchMock from "fetch-mock";
+import { describe, it, expect, afterEach } from "vitest";
 
 describe("fetchItemJobRecords", () => {
   afterEach(() => {

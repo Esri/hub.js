@@ -1,5 +1,10 @@
 import { fetchHubEntity } from "../../src/core/fetchHubEntity";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  vi,
+} from "vitest";
 import { HubEntityType } from "../../src/core/types/HubEntityType";
 import { IArcGISContext } from "../../src/types/IArcGISContext";
 import * as fetchProjectModule from "../../src/projects/fetch";

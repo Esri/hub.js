@@ -1,4 +1,5 @@
 import { isArrayEqual } from "../../src/utils/array";
+import { describe, it, expect } from "vitest";
 
 describe("isArrayEqual", () => {
   it("returns true for the same reference", () => {

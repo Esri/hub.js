@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 import { convertPortalAggregations } from "../../../src/search/_internal/portalSearchUtils";
 describe("portalSearchUtils module", () => {

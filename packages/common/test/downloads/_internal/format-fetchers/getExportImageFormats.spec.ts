@@ -1,4 +1,9 @@
 import {
+  describe,
+  it,
+  expect,
+} from "vitest";
+import {
   IHubEditableContent,
   IServiceExtendedProps,
 } from "../../../../src/core/types/IHubEditableContent";

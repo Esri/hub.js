@@ -1,6 +1,13 @@
 import { IGroup, IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, createMockContext } from "../../mocks/mock-auth";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 import { computeProps } from "../../../src/groups/_internal/computeProps";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import * as computeLinksModule from "../../../src/groups/_internal/computeLinks";

@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { checkAssertion } from "../../../src/permissions/_internal/checkAssertion";
 import { IPolicyAssertion } from "../../../src/permissions/types/IPermissionPolicy";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";

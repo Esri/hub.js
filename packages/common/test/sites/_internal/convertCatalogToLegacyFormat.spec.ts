@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { IItem } from "@esri/arcgis-rest-portal";
 import {
   convertCatalogToLegacyFormat,

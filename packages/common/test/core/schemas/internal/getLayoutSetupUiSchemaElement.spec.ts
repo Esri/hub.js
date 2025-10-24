@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { getLayoutSetupUiSchemaElement } from "../../../../src/core/schemas/internal/getLayoutSetupUiSchemaElement";
 
 describe("getLayoutSetupUiSchemaElement", () => {

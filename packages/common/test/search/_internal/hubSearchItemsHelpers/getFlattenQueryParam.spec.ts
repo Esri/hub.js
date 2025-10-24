@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { getFlattenQueryParam } from "../../../../src/search/_internal/hubSearchItemsHelpers/getFlattenQueryParam";
 
 describe("getFlattenQueryParam", () => {

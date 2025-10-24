@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { getOgcItemQueryParams } from "../../../../src/search/_internal/hubSearchItemsHelpers/getOgcItemQueryParams";
 
 describe("getOgcItemQueryParams", () => {

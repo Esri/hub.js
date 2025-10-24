@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { deepFilter } from "../../src/objects/deepFilter";
 
 describe("deepFilter:", () => {

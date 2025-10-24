@@ -1,3 +1,10 @@
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+} from "vitest";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
 import {

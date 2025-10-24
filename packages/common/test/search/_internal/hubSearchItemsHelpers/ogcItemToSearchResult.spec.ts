@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach, vi } from "vitest";
 vi.mock(
   "../../../../src/search/_internal/hubSearchItemsHelpers/../portalSearchItems",
   async () => {

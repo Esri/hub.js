@@ -1,3 +1,8 @@
+import {
+  describe,
+  it,
+  expect,
+} from "vitest";
 import { configureBaseResources } from "../../../src/core/_internal/configureBaseResources";
 import { EntityResourceMap } from "../../../src/core/types/types";
 

@@ -3,7 +3,13 @@ import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../../src/sites/domains/_check-status-and-parse-json";
 import { IDomainEntry, IHubRequestOptions } from "../../../src/hub-types";
 import { getProp } from "../../../src/objects/get-prop";
-import { vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "vitest";
 
 describe("addDomain", function () {
   const domainEntry = {

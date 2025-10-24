@@ -6,6 +6,7 @@ import {
 } from "../../../../../src/discussions/constants";
 import { isDiscussable } from "../../../../../src/discussions/utils";
 import * as viewGroup from "../../../../mocks/groups/view-group.json";
+import { describe, it, expect } from "vitest";
 
 describe("parseMentionedUsers", () => {
   it("should return an empty array when the text is falsy", () => {

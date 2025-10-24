@@ -1,4 +1,5 @@
 import { _getHttpAndHttpsUris } from "../../src/urls/_get-http-and-https-uris";
+import { describe, it, expect } from "vitest";
 
 describe("_getHttpAndHttpsUris", () => {
   it("returns the correct uris", () => {
