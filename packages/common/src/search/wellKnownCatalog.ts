@@ -471,7 +471,14 @@ function getWellknownGroupCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ predicates: [{ access: "public" }] }, ...additionalFilters],
+        [
+          {
+            predicates: [
+              { orgid: { not: [getProp(context, "currentUser.orgId")] } },
+            ],
+          },
+          ...additionalFilters,
+        ],
         collections,
         "group"
       );
