@@ -3,15 +3,15 @@ import { coverageConfigDefaults } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    // allow tests to use globals like describe/it/expect without importing them
-    // to make it easier to convert jasmine/karma tests which also use globals
+    // we allowed tests to use globals like describe/it/expect without importing them
+    // to make it easier to convert from jasmine/karma tests which also use globals
     globals: true,
     include: [
-      // we use .spec.ts for vitest and .test.ts for karma/jasmine
       "test/**/*.spec.ts"
     ],
     coverage: {
-      enabled: true,
+      // pass the --coverage flag to enable coverage with the settings below
+      enabled: false,
       include: [
         "src/**/*.ts"
       ],

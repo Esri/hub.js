@@ -8,13 +8,15 @@ group: 4-developers
 
 # End-to-End Testing for Hub.js
 
+**NOTE: the e2e tests have to be migrated from Jasmine to Vitest before we can run them. You may want to use the old [migration guide](https://github.com/Esri/hub.js/blob/ae1568e4ab1d675c201a9fbdc8d9eb11f5033823/.github/instructions/test.instructions.md) and [chat mode](https://github.com/Esri/hub.js/blob/ae1568e4ab1d675c201a9fbdc8d9eb11f5033823/.github/chatmodes/test-migration.chatmode.md) to help you do so. Once we've converted the tests we should update the instructions below.**
+
 Hub.js is intended to encapsulate Hub logic for many workflows or scenarios. Ideally we want the UI layer to collect inputs then delegate to Hub.js functions to do the actual "work".
 
 While we require 100% code coverage in this repository, none of those tests actually make real API calls. This is where end-to-end testing comes into play.
 
 ## General Ideas
 
-E2e tests are not used to drive code-coverage. Coverage is only driven by the unit tests, and we expect developers to use Jasmine spies (`spyOn(...)` or Sinon stubs (`sinon.stub(...)`) or (worst case) `fetchMock` in those tests so we don't actually make requests to the backin APIs.
+E2e tests are not used to drive code-coverage. Coverage is only driven by the unit tests, and we expect developers to use spies (`spyOn(...)` or (worst case) `fetchMock` in those tests so we don't actually make requests to the backing APIs.
 
 E2e tests are not run in CI. Since they use real credentials, for a wide set of user types, in various org types, we don't want to have all that info in CI environments which are prone to breaches (ie. codecov.io breach in early 2021). They exist to be run by a developer, from a local workstation.
 

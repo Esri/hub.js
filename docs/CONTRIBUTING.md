@@ -27,12 +27,9 @@ You don't _have to_ but we recommend installing TypeScript, TSLint, Prettier and
 
 ### Running the tests
 
-@esri/hub.js has a comprehensive test suite built with [Karma](http://karma-runner.github.io/0.12/index.html) and [Jasmine](https://jasmine.github.io/) The tests can be found in `/packages/*/test/`.
+@esri/hub.js has a comprehensive test suite built with [Vitest](https://vitest.dev/) The tests can be found in `/packages/*/test/`.
 
-You can run _all_ the tests with `npm test`.
-
-* `npm run test:chrome:debug` runs the Karma tests in Chrome and watches for changes. In the opened Chrome window you can click "Debug" and refresh the page to enter the debugger for tests. Note that you will be debugging the compiled JS files until https://github.com/monounity/karma-typescript/issues/144 is resolved.
-* `npm run test:node:debug` run the node tests, automatically opening the Chrome debugger. This is great for debugging the tests while you are working. **REQUIRES CHROME 60+**. This also means you can do you really stupid things like run this in an infinite loop with `while :; do npm run test:node:debug; sleep 1; done` which will reopen the chrome debugger once the current one closes.
+You can run _all_ the tests with `npm test` and continuously re-run tests as you make changes to source or test files w/ `npm test:watch`.
 
 ### Formatting commit messsages
 
@@ -45,18 +42,6 @@ This isn't mandatory, but it is pretty cool. :sparkles:
 We use TypeDoc and acetate to turn the inline documentation into a snazzy website.
 
 * `npm run docs:serve` > http://localhost:3000
-
-### Watching local source for changes
-
-you can run the command below in the root of the repo to automatically recompile a package when the raw TypeScript source changes
-
-```
-# rebuild CommonJS for Node.js
-npm run dev -- node @esri/@esri/hub-events
-
-# rebuild ES modules
-npm run dev -- esm @esri/hub-events
-```
 
 ### Publishing a release
 
