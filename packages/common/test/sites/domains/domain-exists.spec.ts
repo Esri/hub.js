@@ -1,13 +1,7 @@
 import * as fetchMock from "fetch-mock";
 import { IHubRequestOptions } from "../../../src/hub-types";
 import { domainExists } from "../../../src/sites/domains/domain-exists";
-import { vi } from "vitest";
-import {
-  describe,
-  it,
-  expect,
-  afterEach,
-} from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 
 describe("domainExists", function () {
   const domainId = "146663";
@@ -23,8 +17,8 @@ describe("domainExists", function () {
 
     const res = await domainExists(domainId, ro);
 
-    expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
-    expect(res).toBeTruthy("should return true if not 404");
+    expect(fetchMock.done()).toBeTruthy(); // fetch should have been called once
+    expect(res).toBeTruthy(); // should return true if not 404
 
     fetchMock.resetHistory();
     fetchMock.get(
@@ -35,8 +29,8 @@ describe("domainExists", function () {
 
     const res2 = await domainExists(domainId, ro);
 
-    expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
-    expect(res2).toBeFalsy("should return false for 404");
+    expect(fetchMock.done()).toBeTruthy(); // fetch should have been called once
+    expect(res2).toBeFalsy(); // should return false for 404
   });
 
   it("throws error on portal", async function () {
@@ -46,9 +40,6 @@ describe("domainExists", function () {
 
     expect(() => domainExists(domainId, ro)).toThrowError();
 
-    expect(fetchMock.calls().length).toBe(
-      0,
-      "fetch should NOT have been called"
-    );
+    expect(fetchMock.calls().length).toBe(0); // fetch should NOT have been called
   });
 });

@@ -1,8 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 // make arcgis-rest-portal named exports spyable in ESM
-vi.mock("@esri/arcgis-rest-portal", async () => ({
-  ...((await vi.importActual("@esri/arcgis-rest-portal")) as any),
-}));
+vi.mock("@esri/arcgis-rest-portal", async () => {
+  const actual = await vi.importActual<
+    typeof import("@esri/arcgis-rest-portal")
+  >("@esri/arcgis-rest-portal");
+  return {
+    ...actual,
+  };
+});
 
 import { portalSearchGroups } from "../../../src/search/_internal/portalSearchGroups";
 import * as portalModule from "@esri/arcgis-rest-portal";
@@ -10,7 +15,6 @@ import { IQuery } from "../../../src/search/types/IHubCatalog";
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 import * as expandPredicateModule from "../../../src/search/_internal/expandPredicate";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { vi } from "vitest";
 
 describe("portalSearchGroups", () => {
   afterEach(() => vi.restoreAllMocks());

@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 // Make ESM named-exports spyable by mocking the module and merging the original exports.
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
   ...(await importOriginal()),
@@ -136,14 +134,18 @@ describe("channelResultsToSearchResults", () => {
       .mockResolvedValue({ results: groupResults } as any);
     const channelToSearchResultSpy = vi
       .spyOn(discussionUtilsModule, "channelToSearchResult")
-      .mockImplementation((channel: IChannel) => ({
-        id: channel.id,
-        includes: {
-          groups: channel.groups.map(
-            (groupId) => groupResults.find(({ id }) => id === groupId) || null
-          ),
-        },
-      }));
+      .mockImplementation(
+        (channel: IChannel) =>
+          ({
+            id: channel.id,
+            includes: {
+              groups: channel.groups.map(
+                (groupId) =>
+                  groupResults.find(({ id }) => id === groupId) || null
+              ),
+            },
+          } as any)
+      );
     const results = await channelResultsToSearchResults(
       channels,
       hubSearchOptions

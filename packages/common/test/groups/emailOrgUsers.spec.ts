@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 // make the ESM namespace mockable so we can override createOrgNotification
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
   const actual = await importOriginal();
@@ -13,7 +11,7 @@ import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { emailOrgUsers } from "../../src/groups/emailOrgUsers";
 import { MOCK_AUTH } from "./add-users-workflow/fixtures";
 import { IEmail } from "../../src/groups/types/types";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("email-org-users", function () {
   let notificationSpy: any;
