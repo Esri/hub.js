@@ -124,7 +124,12 @@ export class HubContent
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
-    if (shouldShowDownloadsConfiguration(this.entity)) {
+    if (
+      shouldShowDownloadsConfiguration(
+        this.entity,
+        this.context.hubRequestOptions
+      )
+    ) {
       editor.downloadFormats = getDownloadConfigurationDisplayFormats(
         this.entity
       );

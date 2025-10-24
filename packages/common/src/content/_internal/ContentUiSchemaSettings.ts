@@ -20,6 +20,7 @@ export const buildUiSchema = async (
   i18nScope: string,
   options: EntityEditorOptions,
   _context: IArcGISContext
+  // eslint-disable-next-line @typescript-eslint/require-await
 ): Promise<IUiSchema> => {
   const uiSchema: IUiSchema = {
     type: "Layout",
@@ -115,7 +116,12 @@ export const buildUiSchema = async (
     });
   }
 
-  if (shouldShowDownloadsConfiguration(options as IHubEditableContent)) {
+  if (
+    shouldShowDownloadsConfiguration(
+      options as IHubEditableContent,
+      _context.hubRequestOptions
+    )
+  ) {
     const downloadsSection = getDownloadsSection(
       i18nScope,
       options as IHubEditableContent

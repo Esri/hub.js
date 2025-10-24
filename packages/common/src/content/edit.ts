@@ -161,8 +161,10 @@ export async function updateContent(
   const isMainEntityExtractDisabled =
     isHostedFeatureServiceMainEntity(content) &&
     downloadFlow !== "createReplica";
-  const wasDownloadsConfigurationDisplayed =
-    shouldShowDownloadsConfiguration(content);
+  const wasDownloadsConfigurationDisplayed = shouldShowDownloadsConfiguration(
+    content,
+    requestOptions
+  );
   if (
     wasDownloadsConfigurationDisplayed && // whether the downloads configuration was displayed
     downloadFlow && // whether the entity can be downloaded
