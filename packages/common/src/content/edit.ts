@@ -108,12 +108,14 @@ export async function createContent(
   const newContent = mapper.storeToEntity(model, {}) as IHubEditableContent;
 
   // create the entity settings
-  const entitySetting = await createOrUpdateEntitySettings(
-    newContent,
-    requestOptions
-  );
-  newContent.entitySettingsId = entitySetting.id;
-  newContent.discussionSettings = entitySetting.settings.discussions;
+  if (!requestOptions.isPortal) {
+    const entitySetting = await createOrUpdateEntitySettings(
+      newContent,
+      requestOptions
+    );
+    newContent.entitySettingsId = entitySetting.id;
+    newContent.discussionSettings = entitySetting.settings.discussions;
+  }
 
   // TODO:
   // newContent = computeProps(model, newContent, requestOptions);
@@ -255,12 +257,14 @@ export async function updateContent(
   );
 
   // create or update entity settings
-  const entitySetting = await createOrUpdateEntitySettings(
-    updatedContent,
-    requestOptions
-  );
-  updatedContent.entitySettingsId = entitySetting.id;
-  updatedContent.discussionSettings = entitySetting.settings.discussions;
+  if (!requestOptions.isPortal) {
+    const entitySetting = await createOrUpdateEntitySettings(
+      updatedContent,
+      requestOptions
+    );
+    updatedContent.entitySettingsId = entitySetting.id;
+    updatedContent.discussionSettings = entitySetting.settings.discussions;
+  }
 
   return updatedContent;
 }
