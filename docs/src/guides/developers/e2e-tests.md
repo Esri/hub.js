@@ -8,7 +8,7 @@ group: 4-developers
 
 # End-to-End Testing for Hub.js
 
-**NOTE: the e2e tests have to be migrated from Jasmine to Vitest before we can run them. Once we've converted the tests we should update the instructions below.**
+**NOTE: the e2e tests have to be migrated from Jasmine to Vitest before we can run them. You may want to use the old [migration guide](https://github.com/Esri/hub.js/blob/ae1568e4ab1d675c201a9fbdc8d9eb11f5033823/.github/instructions/test.instructions.md) and [chat mode](https://github.com/Esri/hub.js/blob/ae1568e4ab1d675c201a9fbdc8d9eb11f5033823/.github/chatmodes/test-migration.chatmode.md) to help you do so. Once we've converted the tests we should update the instructions below.**
 
 Hub.js is intended to encapsulate Hub logic for many workflows or scenarios. Ideally we want the UI layer to collect inputs then delegate to Hub.js functions to do the actual "work".
 
