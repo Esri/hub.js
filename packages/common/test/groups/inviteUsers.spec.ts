@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
   const actual = await importOriginal();
   return {
@@ -11,7 +9,7 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { inviteUsers } from "../../src/groups/inviteUsers";
 import { MOCK_AUTH } from "./add-users-workflow/fixtures";
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("invite-users", function () {
   let invitationSpy: any;

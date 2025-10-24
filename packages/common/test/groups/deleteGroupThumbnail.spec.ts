@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 // register the async mock before importing the module so ESM namespace exports
 // can be overridden in tests
 vi.mock("@esri/arcgis-rest-request", async (importOriginal) => {
@@ -12,7 +10,7 @@ vi.mock("@esri/arcgis-rest-request", async (importOriginal) => {
 
 import * as RequestModule from "@esri/arcgis-rest-request";
 import { deleteGroupThumbnail } from "../../src/groups/deleteGroupThumbnail";
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 
 afterEach(() => vi.restoreAllMocks());
 
