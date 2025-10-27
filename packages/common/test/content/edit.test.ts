@@ -78,6 +78,46 @@ describe("content editing:", () => {
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
       expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(1);
     });
+    it("doesn't set entity settings in enterprise", async () => {
+      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+        (m: IModel) => {
+          const newModel = cloneObject(m);
+          newModel.item.id = GUID;
+          return Promise.resolve(newModel);
+        }
+      );
+      createOrUpdateEntitySettingsSpy = spyOn(
+        createOrUpdateEntitySettingsUtils,
+        "createOrUpdateEntitySettings"
+      ).and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
+      );
+      const chk = await createContent(
+        {
+          name: "Hello World",
+          orgUrlKey: "dcdev",
+          type: "Web Map",
+        },
+        {
+          ...MOCK_HUB_REQOPTS,
+          authentication: myMockAuth,
+          isPortal: true,
+        }
+      );
+
+      expect(chk.id).toBe(GUID);
+      expect(chk.name).toBe("Hello World");
+      // should create the item
+      expect(createSpy.calls.count()).toBe(1);
+      const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(modelToCreate.item.title).toBe("Hello World");
+      // expect(modelToCreate.item.type).toBe("Hub Content");
+      expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
+      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(0);
+    });
   });
   describe("update content:", () => {
     let getItemSpy: jasmine.Spy;
@@ -162,6 +202,47 @@ describe("content editing:", () => {
       expect(getServiceSpy).not.toHaveBeenCalled();
       expect(updateServiceSpy).not.toHaveBeenCalled();
       expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(1);
+    });
+    it("doesn't update entity settings in portal", async () => {
+      const content: IHubEditableContent = {
+        itemControl: "edit",
+        id: GUID,
+        name: "Hello World",
+        tags: ["Transportation"],
+        description: "Some longer description",
+        slug: "dcdev-wat-blarg",
+        orgUrlKey: "dcdev",
+        owner: "dcdev_dude",
+        type: "Hub Initiative",
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        thumbnailUrl: "",
+        permissions: [],
+        schemaVersion: 1,
+        canEdit: false,
+        canDelete: false,
+        location: { type: "none" },
+        licenseInfo: "",
+        schedule: { mode: "automatic" },
+      };
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        authentication: myMockAuth,
+        isPortal: true,
+      });
+      expect(chk.id).toBe(GUID);
+      expect(chk.name).toBe("Hello World");
+      expect(chk.description).toBe("Some longer description");
+      expect(getItemSpy.calls.count()).toBe(1);
+      expect(updateModelSpy.calls.count()).toBe(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.item.description).toBe(content.description);
+      // No service is associated with Hub Initiatives
+      expect(getServiceSpy).not.toHaveBeenCalled();
+      expect(updateServiceSpy).not.toHaveBeenCalled();
+      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(0);
     });
     it("handles when a location is explicitly set", async () => {
       const content: IHubEditableContent = {
