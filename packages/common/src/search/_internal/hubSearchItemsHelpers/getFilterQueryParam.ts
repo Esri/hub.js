@@ -64,7 +64,7 @@ function formatDateRangePredicate(field: string, value: IDateRange<number>) {
 function formatSimpleComparison(field: string, value: string | boolean) {
   const formattedValue =
     typeof value === "string" ? maybeAddSingleQuotes(value) : value;
-  return `${field}=${formattedValue}`;
+  return `${field}=${formattedValue.toString()}`;
 }
 
 function formatMultiStringPredicate(field: string, values: string[]) {
@@ -118,7 +118,7 @@ function formatNots(field: string, value?: string | string[]): string {
 }
 
 function maybeAddSingleQuotes(value: string): string {
-  const whitespaceRegex: RegExp = /\s/;
+  const whitespaceRegex = /\s/;
   return whitespaceRegex.test(value) ? `'${value}'` : value;
 }
 

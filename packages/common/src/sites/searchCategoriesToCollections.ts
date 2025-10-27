@@ -1,6 +1,6 @@
 import { IHubCollection } from "../search/types/IHubCatalog";
 import { WellKnownCollection } from "../search/wellKnownCatalog";
-import { SearchCategories } from "./_internal/types";
+import { SearchCategories } from "./_internal/enums/searchCategories";
 import { defaultSiteCollectionKeys } from "./defaultSiteCollectionKeys";
 
 /**

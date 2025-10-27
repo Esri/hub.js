@@ -16,7 +16,7 @@ export async function fetchImageAsBlob(
     options.credentials = "same-origin";
   }
 
-  /* istanbul ignore next */
+  /* istanbul ignore if -- @preserve */
   if (isNoCorsRequestRequired(url)) {
     await sendNoCorsRequest(url);
   }

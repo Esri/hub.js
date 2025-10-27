@@ -1,10 +1,4 @@
-/** enum to discriminate between embed union members */
-export enum EmbedKind {
-  app = "app",
-  map = "map",
-  feedback = "feedback",
-  external = "external",
-}
+import { EmbedKind } from "../enums/embedKind";
 
 /** Interface to represent a Hub embed */
 export interface IHubEmbed {

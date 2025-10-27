@@ -1,6 +1,7 @@
 import { buildUrl } from "../../../urls/build-url";
 import { RemoteServerError as _RemoteServerError } from "../../../request";
-import { IDiscussionsRequestOptions, SearchPostsFormat } from "../types";
+import { IDiscussionsRequestOptions } from "../types";
+import { SearchPostsFormat } from "../enums/searchPostsFormat";
 
 export class RemoteServerError extends _RemoteServerError {
   error: string;

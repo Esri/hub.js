@@ -89,7 +89,7 @@ export async function getEditorSchemas(
       // if we have the buildDefaults fn, then construct the defaults
       // TODO: when implementing buildDefaults for sites, remove the ignore line
 
-      /* istanbul ignore next */
+      /* istanbul ignore next @preserve */
       if (siteModule.buildDefaults) {
         defaults = await siteModule.buildDefaults(
           i18nScope,
@@ -128,7 +128,7 @@ export async function getEditorSchemas(
       // if we have the buildDefaults fn, then construct the defaults
       // TODO: when first implementing buildDefaults for discussions, remove the ignore line
 
-      /* istanbul ignore next */
+      /* istanbul ignore next @preserve */
       if (discussionModule.buildDefaults) {
         defaults = await discussionModule.buildDefaults(
           i18nScope,
@@ -161,7 +161,7 @@ export async function getEditorSchemas(
       // if we have the buildDefaults fn, then construct the defaults
       // TODO: when first implementing buildDefaults for discussions, remove the ignore line
 
-      /* istanbul ignore next */
+      /* istanbul ignore next @preserve */
       if (channelModule.buildDefaults) {
         defaults = await channelModule.buildDefaults(
           i18nScope,
@@ -269,7 +269,7 @@ export async function getEditorSchemas(
       // if we have the buildDefaults fn, then construct the defaults
       // TODO: when first implementing buildDefaults for pages, remove the ignore line
 
-      /* istanbul ignore next */
+      /* istanbul ignore next @preserve */
       if (pageModule.buildDefaults) {
         defaults = await pageModule.buildDefaults(
           i18nScope,
@@ -310,7 +310,7 @@ export async function getEditorSchemas(
       // if we have the buildDefaults fn, then construct the defaults
       // TODO: when first implementing buildDefaults for content, remove the ignore line
 
-      /* istanbul ignore next */
+      /* istanbul ignore next @preserve */
       if (contentModule.buildDefaults) {
         defaults = await contentModule.buildDefaults(
           i18nScope,
@@ -341,7 +341,7 @@ export async function getEditorSchemas(
       // if we have the buildDefaults fn, then construct the defaults
       // TODO: when first implementing buildDefaults for templates, remove the ignore line
 
-      /* istanbul ignore next */
+      /* istanbul ignore next @preserve */
       if (templateModule.buildDefaults) {
         defaults = await templateModule.buildDefaults(
           i18nScope,
@@ -444,7 +444,7 @@ export async function getEditorSchemas(
       // if we have the buildDefaults fn, then construct the defaults
       // TODO: when first implementing buildDefaults for initiative templates, remove the ignore line
 
-      /* istanbul ignore next */
+      /* istanbul ignore next @preserve */
       if (initiativeTemplateModule.buildDefaults) {
         defaults = await initiativeTemplateModule.buildDefaults(
           i18nScope,
@@ -476,7 +476,7 @@ export async function getEditorSchemas(
       // if we have the buildDefaults fn, then construct the defaults
       // TODO: when first implementing buildDefaults for users, remove the ignore line
 
-      /* istanbul ignore next */
+      /* istanbul ignore next @preserve */
       if (userModule.buildDefaults) {
         defaults = await userModule.buildDefaults(
           i18nScope,

@@ -15,8 +15,8 @@ import {
   IUpdatePostParams,
   IUpdatePostStatusParams,
   IPagedResponse,
-  SearchPostsFormat,
 } from "../types";
+import { SearchPostsFormat } from "../enums/searchPostsFormat";
 
 // When the `PostRelation.CHANNEL` relation is provided, the API will include
 // a `channel: IChannel` property on the post, but it removes the `channelId: string`

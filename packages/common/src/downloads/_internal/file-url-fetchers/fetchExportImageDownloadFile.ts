@@ -1,16 +1,16 @@
 import type { IExtent } from "@esri/arcgis-rest-feature-service";
 import { request } from "@esri/arcgis-rest-request";
 import {
-  DownloadOperationStatus,
   IFetchDownloadFileOptions,
   IFetchDownloadFileResponse,
-  ServiceDownloadFormat,
 } from "../../types";
 import HubError from "../../../HubError";
 import { getProp } from "../../../objects/get-prop";
 import { ExportImageFormat } from "../_types";
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { ISpatialReferenceInstance } from "../../../core/types/ISpatialReferenceInstance";
+import { DownloadOperationStatus } from "../../enums/downloadOperationStatus";
+import { ServiceDownloadFormat } from "../../enums/serviceDownloadFormat";
 
 /**
  * Extent object with a spatial reference instance defined

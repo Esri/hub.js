@@ -28,7 +28,6 @@
 - **Permissions:** Use policy assertions and context lookups for permission checks.
 - **Testing:** Mocks for authentication and context are in `packages/common/test/mocks/`.
 - **Package boundaries:** Each package has its own README and is responsible for its own API surface.
-- **Spies and Mocks:** Use spies and mocks to isolate tests and verify interactions. Unless otherwise specified, prefer using jasmine's built in `spyOn` .
 
 ## Integration Points
 

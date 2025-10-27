@@ -14,8 +14,12 @@ export function addSolutionResourceUrlToAssets(
   template: IModelTemplate,
   hubRequestOptions: IHubRequestOptions
 ) {
-  /* istanbul ignore next */
-  let assets = template.assets || template.resources || [];
+  let assets =
+    template.assets ||
+    /* istanbul ignore next -- @preserve */
+    template.resources ||
+    /* istanbul ignore next -- @preserve */
+    [];
 
   if (template.bundleItemId) {
     const portalRestUrl = getPortalApiUrl(hubRequestOptions.portalSelf);

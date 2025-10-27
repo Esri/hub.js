@@ -534,7 +534,7 @@ export class Catalog implements IHubCatalog {
     // check for the scope before calling this method
     // we can assume that the scope exists, but this is extra
     // defensive just to ensure we don't blow up
-    /* istanbul ignore else */
+    /* istanbul ignore else -- @preserve */
     if (scope) {
       qry.filters = [...qry.filters, ...scope.filters];
     }

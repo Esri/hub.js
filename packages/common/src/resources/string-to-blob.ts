@@ -5,7 +5,7 @@
  * @param {string} the string
  */
 export function stringToBlob(s: string, type = "application/octet-stream") {
-  /* istanbul ignore next */
+  /* istanbul ignore else -- @preserve */
   if (typeof Blob !== "undefined") {
     const bytes = [];
     for (let i = 0; i < s.length; i++) {

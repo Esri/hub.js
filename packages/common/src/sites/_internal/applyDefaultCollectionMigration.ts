@@ -4,7 +4,7 @@ import { getWithDefault } from "../../objects/get-with-default";
 import { setProp } from "../../objects/set-prop";
 import { IHubCollection } from "../../search/types/IHubCatalog";
 import { searchCategoriesToCollections } from "../searchCategoriesToCollections";
-import { SearchCategories } from "./types";
+import { SearchCategories } from "./enums/searchCategories";
 
 /**
  * In-Memory migration that adds default collections to site models that have the

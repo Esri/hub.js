@@ -51,7 +51,7 @@ function parseSpatialRefId(spatialRefId: string): string | ISpatialReference {
   try {
     _spatialRefId = JSON.parse(spatialRefId) as ISpatialReference;
   } catch {
-    // istanbul ignore next - we shouldn't be doing this anyway
+    // istanbul ignore next @preserve - we shouldn't be doing this anyway
     _spatialRefId = spatialRefId;
   }
 

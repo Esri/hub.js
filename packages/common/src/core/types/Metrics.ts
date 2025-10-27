@@ -4,6 +4,8 @@ import type { FieldType } from "@esri/arcgis-rest-request";
 import { IReference } from "./IReference";
 import { ServiceAggregation } from "./ServiceAggregation";
 import { IGeometryInstance } from "./IGeometryInstance";
+import { ExpressionRelationships } from "../enums/expressionRelationships";
+import { MetricVisibility } from "../enums/metricVisibility";
 
 /**
  * Defines the information required from a Metric
@@ -210,19 +212,6 @@ export interface IExpression {
 }
 
 /**
- * Possible relationships for an expression
- * BETWEEN -- used to show between two values, i.e. 7 < x < 10
- * IS_EXACTLY -- for exact matching, i.e. two same strings
- */
-export enum ExpressionRelationships {
-  BETWEEN = "between",
-  IS_EXACTLY = "isExactly",
-
-  // deprecated and not currently allowed for new use, only used for migrating older stat cards
-  LIKE = "like",
-}
-
-/**
  * Configuration for how to show a metric in the ui. These are just values that are important to how to
  * display the metric; values that are configured in the editor should be added to IMetricEditorValues instead.
  */
@@ -230,16 +219,6 @@ export interface IMetricDisplayConfig extends IMetricEditorValues {
   metricId: string;
   displayType: string;
   visibility?: MetricVisibility;
-}
-
-/**
- * Types of states of visibility a metric can be in
- * featured, visible, or hidden
- */
-export enum MetricVisibility {
-  visible = "visible",
-  hidden = "hidden",
-  featured = "featured",
 }
 
 /**

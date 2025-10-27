@@ -1,5 +1,7 @@
 import { IHubInitiative } from "../core/types/IHubInitiative";
-import { HubEntityHero, HubEntityStatus, IModel } from "../hub-types";
+import { IModel } from "../hub-types";
+import { HubEntityHero } from "../enums/hubEntityHero";
+import { HubEntityStatus } from "../enums/hubEntityStatus";
 import { InitiativeDefaultFeatures } from "./_internal/InitiativeBusinessRules";
 
 export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";

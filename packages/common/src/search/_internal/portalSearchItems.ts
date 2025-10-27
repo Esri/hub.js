@@ -12,7 +12,10 @@ import {
 import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import HubError from "../../HubError";
-import { enrichContentSearchResult, enrichImageSearchResult } from "../../content/search";
+import {
+  enrichContentSearchResult,
+  enrichImageSearchResult,
+} from "../../content/search";
 import { enrichProjectSearchResult } from "../../projects/fetch";
 import { enrichSiteSearchResult } from "../../sites/HubSites";
 import { IQuery } from "../types/IHubCatalog";
@@ -95,7 +98,10 @@ function processSearchParams(options: IHubSearchOptions, query: IQuery) {
   // Aggregations
   if (options.aggFields?.length) {
     so.countFields = options.aggFields.join(",");
-    so.countSize = options.aggLimit || 10;
+    so.countSize =
+      options.aggLimit ||
+      /* istanbul ignore next @preserve */
+      10;
   }
   return so;
 }

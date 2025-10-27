@@ -1,10 +1,7 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import {
-  IUiSchema,
-  IUiSchemaElement,
-  UiSchemaRuleEffects,
-} from "../../core/schemas/types";
+import { IUiSchema, IUiSchemaElement } from "../../core/schemas/types";
+import { UiSchemaRuleEffects } from "../../core/enums/uiSchemaRuleEffects";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { checkPermission } from "../../permissions/checkPermission";
 import { getDownloadsSection } from "./getDownloadsSection";

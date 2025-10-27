@@ -1,5 +1,5 @@
 // module for shared metric schema definitions
-import { SOURCE } from "./interfaces";
+import { SOURCE } from "./enums/source";
 
 // if metric type = static, require value
 export const IF_STATIC_THEN_REQUIRE_VALUE = {

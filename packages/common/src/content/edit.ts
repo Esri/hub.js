@@ -19,7 +19,6 @@ import { updateServiceDefinition } from "@esri/arcgis-rest-feature-service";
 import {
   hasServiceCapability,
   isHostedFeatureServiceMainEntity,
-  ServiceCapabilities,
   toggleServiceCapability,
 } from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
@@ -44,6 +43,7 @@ import { updateModel } from "../models/updateModel";
 import { getProp } from "../objects/get-prop";
 import { setProp } from "../objects/set-prop";
 import { deepEqual } from "../objects/deepEqual";
+import { ServiceCapabilities } from "./enums/serviceCapabilities";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {

@@ -1,4 +1,4 @@
-import { HubEntityHero } from "../../../hub-types";
+import { HubEntityHero } from "../../../enums/hubEntityHero";
 import { IAsyncConfigurationSchema } from "../types";
 import {
   DISCUSSION_SETTINGS_SCHEMA,

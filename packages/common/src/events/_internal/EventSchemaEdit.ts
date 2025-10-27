@@ -7,7 +7,8 @@ import {
   ENTITY_TAGS_SCHEMA,
 } from "../../core/schemas/shared/subschemas";
 import { IConfigurationSchema } from "../../core/schemas/types";
-import { HubEventAttendanceType, HubEventCapacityType } from "../types";
+import { HubEventAttendanceType } from "../enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../enums/hubEventCapacityType";
 import {
   URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
   TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,

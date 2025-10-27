@@ -7,7 +7,7 @@ import {
 } from "../../core/schemas/internal/metrics/definitions";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import { IConfigurationSchema } from "../../core/schemas/types";
-import { HubEntityStatus } from "../../hub-types";
+import { HubEntityStatus } from "../../enums/hubEntityStatus";
 
 /**
  * Defines the JSON schema for a Hub Project's editable fields

@@ -1,4 +1,5 @@
-import { IUiSchemaRule, UiSchemaRuleEffects } from "../../types";
+import { UiSchemaRuleEffects } from "../../../enums/uiSchemaRuleEffects";
+import { IUiSchemaRule } from "../../types";
 
 /**
  * Shared metric rules for uiSchema

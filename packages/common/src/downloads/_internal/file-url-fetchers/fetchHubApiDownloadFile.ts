@@ -1,13 +1,13 @@
 import HubError from "../../../HubError";
 import { getProp } from "../../../objects/get-prop";
 import { wait } from "../../../utils/wait";
+import { DownloadOperationStatus } from "../../enums/downloadOperationStatus";
+import { ServiceDownloadFormat } from "../../enums/serviceDownloadFormat";
 import {
   ArcgisHubDownloadError,
   DownloadCacheStatus,
-  DownloadOperationStatus,
   IFetchDownloadFileOptions,
   IFetchDownloadFileResponse,
-  ServiceDownloadFormat,
   downloadProgressCallback,
   ArcgisHubDownloadFileTooLargeError,
 } from "../../types";

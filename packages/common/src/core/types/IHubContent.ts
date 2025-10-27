@@ -11,14 +11,7 @@ import { IStructuredLicense } from "../../items/get-structured-license";
 import { IHubContentEnrichments } from "./IHubContentEnrichments";
 import { IHubAdditionalResource } from "./IHubAdditionalResource";
 import { IHubItemEntity } from "./IHubItemEntity";
-
-export enum PublisherSource {
-  CitationContact = "metadata.resource.citation.contact",
-  ResourceContact = "metadata.resource.contact",
-  MetadataContact = "metadata.contact",
-  ItemOwner = "item.owner",
-  None = "none",
-}
+import { PublisherSource } from "../enums/publisherSource";
 
 // TODO: at next breaking change, IHubContent should no longer extend IItem
 /**
@@ -134,7 +127,7 @@ export interface IHubContent
   actionLinks?: IActionLink[];
 
   /** Configure which Hub application actions (i.e. create web map) are available for this content */
-  hubActions?: object;
+  hubActions?: Record<string, unknown>;
 
   /** Information about the layer referenced by this content (geometryType, fields, etc) */
   layer?: Partial<ILayerDefinition>;

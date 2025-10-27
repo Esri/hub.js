@@ -5,63 +5,22 @@ import {
 } from "@esri/arcgis-rest-portal";
 import type { Geometry, Polygon } from "geojson";
 import { IHubRequestOptions } from "../../hub-types";
+import { SharingAccess } from "./enums/sharingAccess";
+import { PostStatus } from "./enums/postStatus";
+import { PostType } from "./enums/postType";
+import { PostReaction } from "./enums/postReaction";
+import { SortOrder } from "./enums/sortOrder";
+import { PostRelation } from "./enums/postRelation";
+import { PostSort } from "./enums/postSort";
+import { SearchPostsFormat } from "./enums/searchPostsFormat";
+import { Role } from "./enums/role";
+import { ChannelFilter } from "./enums/channelFilter";
+import { AclCategory } from "./enums/aclCategory";
+import { AclSubCategory } from "./enums/aclSubCategory";
+import { ChannelRelation } from "./enums/channelRelation";
+import { ChannelSort } from "./enums/channelSort";
+import { EntitySettingType } from "./enums/entitySettingsType";
 
-/**
- * sort orders
- *
- * @export
- * @enum {string}
- */
-export enum SortOrder {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-/**
- * reactions to posts
- *
- * @export
- * @enum {string}
- */
-export enum PostReaction {
-  CLAPPING_HANDS = "clapping_hands",
-  CONFUSED = "confused",
-  DOWN_ARROW = "down_arrow",
-  EYES = "eyes",
-  FACE_WITH_TEARS_OF_JOY = "face_with_tears_of_joy",
-  FIRE = "fire",
-  GRINNING = "grinning",
-  HEART = "heart",
-  LAUGH = "laugh",
-  ONE_HUNDRED = "one_hundred",
-  PARTYING = "partying",
-  PARTY_POPPER = "party_popper",
-  RAISING_HANDS = "raising_hands",
-  ROCKET = "rocket",
-  SAD = "sad",
-  SLIGHTLY_SMILING = "slightly_smiling",
-  SURPRISED = "surprised",
-  THINKING = "thinking",
-  THUMBS_UP = "thumbs_up",
-  THUMBS_DOWN = "thumbs_down",
-  TROPHY = "trophy",
-  UP_ARROW = "up_arrow",
-  WAVING_HAND = "waving_hand",
-  WINKING = "winking",
-  WORLD_MAP = "world_map",
-}
-
-/**
- * platform sharing access values
- *
- * @export
- * @enum {string}
- */
-export enum SharingAccess {
-  PUBLIC = "public",
-  ORG = "org",
-  PRIVATE = "private",
-}
 /**
  * representation of AGOL platform sharing ACL
  * NOTE: orgs is an array to enable future org-org sharing/discussion
@@ -73,45 +32,6 @@ export interface IPlatformSharing {
   groups: string[];
   orgs: string[];
   access: SharingAccess;
-}
-
-/**
- * possible statuses of a post
- *
- * @export
- * @enum {string}
- */
-export enum PostStatus {
-  PENDING = "pending",
-  APPROVED = "approved",
-  REJECTED = "rejected",
-  DELETED = "deleted",
-  HIDDEN = "hidden",
-  BLOCKED = "blocked",
-}
-
-/**
- * possible discussion content types, i.e. a post can be about an item, dataset, or group
- *
- * @export
- * @enum {string}
- */
-export enum DiscussionType {
-  GROUP = "group",
-  CONTENT = "content",
-  BOARD = "board",
-}
-
-/**
- * source of a post, i.e. app context
- *
- * @export
- * @enum {string}
- */
-export enum DiscussionSource {
-  HUB = "hub",
-  AGO = "ago",
-  URBAN = "urban",
 }
 
 /**
@@ -133,62 +53,6 @@ export interface IDiscussionParams {
   layer: string | null;
   features: string[] | null;
   attribute: string | null;
-}
-
-/**
- * relations of post entity
- *
- * @export
- * @enum {string}
- */
-export enum PostRelation {
-  REPLIES = "replies",
-  REPLY_COUNT = "replyCount",
-  REACTIONS = "reactions",
-  PARENT = "parent",
-  CHANNEL = "channel",
-  CHANNEL_ACL = "channelAcl",
-}
-
-/**
- * relations of reaction entity
- *
- * @export
- * @enum {string}
- */
-export enum ReactionRelation {
-  POST = "post",
-}
-
-/**
- * filters of channel entity
- *
- * @export
- * @enum {string}
- */
-export enum ChannelFilter {
-  HAS_USER_POSTS = "has_user_posts",
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum CommonSort {
-  CREATED_AT = "createdAt",
-  CREATOR = "creator",
-  EDITOR = "editor",
-  ID = "id",
-  UPDATED_AT = "updatedAt",
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum SearchPostsFormat {
-  CSV = "csv",
-  JSON = "json",
 }
 
 /**
@@ -324,21 +188,6 @@ export interface IDiscussionsRequestOptions
 }
 
 /**
- * Role types
- *
- * @export
- * @enum {string}
- */
-export enum Role {
-  READ = "read",
-  WRITE = "write",
-  READWRITE = "readWrite",
-  MODERATE = "moderate",
-  MANAGE = "manage",
-  OWNER = "owner",
-}
-
-/**
  * Interface representing the meta data associated with a discussions
  * mention email
  *
@@ -419,39 +268,6 @@ export interface IRemoveReactionOptions extends IDiscussionsRequestOptions {
 export interface IRemoveReactionResponse {
   success: boolean;
   reactionId: string;
-}
-
-/**
- * Post sorting fields
- *
- * @export
- * @enum {string}
- */
-export enum PostSort {
-  BODY = "body",
-  CHANNEL_ID = "channelId",
-  CREATED_AT = "createdAt",
-  CREATOR = "creator",
-  DISCUSSION = "discussion",
-  EDITOR = "editor",
-  ID = "id",
-  PARENT_ID = "parentId",
-  STATUS = "status",
-  TITLE = "title",
-  UPDATED_AT = "updatedAt",
-}
-
-/**
- * Post types
- *
- * @export
- * @enum{string}
- */
-export enum PostType {
-  Text = "text",
-  Announcement = "announcement",
-  Poll = "poll",
-  Question = "question",
 }
 
 /**
@@ -706,56 +522,6 @@ export interface IRemovePostParams extends IDiscussionsRequestOptions {
 export interface IRemovePostResponse {
   success: boolean;
   postId: string;
-}
-
-/**
- * Channel sorting fields
- *
- * @export
- * @enum {string}
- */
-export enum ChannelSort {
-  ACCESS = "access",
-  CREATED_AT = "createdAt",
-  CREATOR = "creator",
-  EDITOR = "editor",
-  ID = "id",
-  LAST_ACTIVITY = "last_activity",
-  UPDATED_AT = "updatedAt",
-}
-
-/**
- * relations of channel entity
- *
- * @export
- * @enum {string}
- */
-export enum ChannelRelation {
-  CHANNEL_ACL = "channelAcl",
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum AclCategory {
-  ANONYMOUS_USER = "anonymousUser",
-  AUTHENTICATED_USER = "authenticatedUser",
-  GROUP = "group",
-  ORG = "org",
-  /** Not API supported */
-  USER = "user",
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum AclSubCategory {
-  /** Only valid for category: `group` or `org` */
-  ADMIN = "admin",
-  /** Only valid for category: `group` or `org` */
-  MEMBER = "member",
 }
 
 /**
@@ -1213,15 +979,6 @@ export interface IEntitySetting
   id: string;
   type: EntitySettingType;
   settings: IEntitySettings;
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum EntitySettingType {
-  CONTENT = "content",
-  GROUP = "group",
 }
 
 /**

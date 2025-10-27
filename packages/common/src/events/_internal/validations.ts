@@ -1,4 +1,5 @@
-import { HubEventAttendanceType, HubEventCapacityType } from "../types";
+import { HubEventAttendanceType } from "../enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../enums/hubEventCapacityType";
 
 export const TIME_VALIDATIONS_WHEN_NOT_ALL_DAY = {
   if: {

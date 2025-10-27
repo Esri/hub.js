@@ -47,10 +47,9 @@ export const convertFeaturesToLegacyCapabilities = (
     ) => {
       // TODO: remove istanbul exception once we include a
       // legacy capability that satisfies the second condition
-      /* istanbul ignore next */
       const featureFlag = map.negate
         ? !features[map.feature]
-        : features[map.feature];
+        : /* istanbul ignore next */ features[map.feature];
 
       return {
         ...capabilities,

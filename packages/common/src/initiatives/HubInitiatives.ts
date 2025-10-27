@@ -273,7 +273,7 @@ export async function enrichInitiativeSearchResult(
  * @param initiative
  * @returns
  */
-/* istanbul ignore next */
+/* istanbul ignore next -- @preserve */
 export function getPendingProjectsQuery(initiative: IHubInitiative): IQuery {
   // get query that returns Hub Projects with the initiative keyword
   let query = getTypeWithKeywordQuery(

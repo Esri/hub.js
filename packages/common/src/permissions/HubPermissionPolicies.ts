@@ -294,7 +294,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:discussions:subscription",
     environments: ["devext", "qaext"],
     availability: ["alpha"],
-    licenses: ["hub-premium"], // TODO: waiting for product's confirmation on hub-basic
+    licenses: ["hub-basic", "hub-premium"],
   },
   // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using hub-premium
