@@ -448,6 +448,7 @@ export interface IProcessLayoutOptions {
   entity?: HubEntity;
   site?: IHubSite;
   variables?: Record<string, unknown>;
+  translations?: Record<string, string>;
 }
 
 /**
@@ -470,6 +471,13 @@ export const layoutNodeTags = [
   "arcgis-hub-timeline",
   "arcgis-hub-entity-metadata",
   "arcgis-hub-catalog",
+  "arcgis-hub-map-view",
+  "arcgis-hub-entity-metrics-card",
+  "arcgis-hub-entity-associations-card",
+  "arcgis-hub-entity-status-card",
+  "arcgis-hub-entity-metrics-view",
+  "arcgis-hub-project-initiatives-view",
+  "arcgis-hub-entity-hero",
   "div",
 ] as const;
 /** Union type of all supported layout node tags.  */
