@@ -240,7 +240,9 @@ export async function getChannelUsersQuery(
           adminOnlyGroupIds.map((groupId) =>
             // catch & resolve null when an error occurs. depending on the group's visibility settings, the
             // user may, or may not be able to access the group's user list.
-            getGroupUsers(groupId, requestOptions).catch((_e: unknown) => null)
+            getGroupUsers(groupId, requestOptions).catch(
+              (_e: unknown): null => null
+            )
           )
         );
         // build the appropriate predicate for each group
