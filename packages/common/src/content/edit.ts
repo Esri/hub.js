@@ -104,12 +104,14 @@ export async function createContent(
   const newContent = mapper.storeToEntity(model, {}) as IHubEditableContent;
 
   // create the entity settings
-  const entitySetting = await createOrUpdateEntitySettings(
-    newContent,
-    requestOptions
-  );
-  newContent.entitySettingsId = entitySetting.id;
-  newContent.discussionSettings = entitySetting.settings.discussions;
+  if (!requestOptions.isPortal) {
+    const entitySetting = await createOrUpdateEntitySettings(
+      newContent,
+      requestOptions
+    );
+    newContent.entitySettingsId = entitySetting.id;
+    newContent.discussionSettings = entitySetting.settings.discussions;
+  }
 
   // TODO:
   // newContent = computeProps(model, newContent, requestOptions);
@@ -157,8 +159,10 @@ export async function updateContent(
   const isMainEntityExtractDisabled =
     isHostedFeatureServiceMainEntity(content) &&
     downloadFlow !== "createReplica";
-  const wasDownloadsConfigurationDisplayed =
-    shouldShowDownloadsConfiguration(content);
+  const wasDownloadsConfigurationDisplayed = shouldShowDownloadsConfiguration(
+    content,
+    requestOptions
+  );
   if (
     wasDownloadsConfigurationDisplayed && // whether the downloads configuration was displayed
     downloadFlow && // whether the entity can be downloaded
@@ -249,12 +253,14 @@ export async function updateContent(
   );
 
   // create or update entity settings
-  const entitySetting = await createOrUpdateEntitySettings(
-    updatedContent,
-    requestOptions
-  );
-  updatedContent.entitySettingsId = entitySetting.id;
-  updatedContent.discussionSettings = entitySetting.settings.discussions;
+  if (!requestOptions.isPortal) {
+    const entitySetting = await createOrUpdateEntitySettings(
+      updatedContent,
+      requestOptions
+    );
+    updatedContent.entitySettingsId = entitySetting.id;
+    updatedContent.discussionSettings = entitySetting.settings.discussions;
+  }
 
   return updatedContent;
 }
