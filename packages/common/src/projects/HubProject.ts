@@ -19,7 +19,7 @@ import {
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
 import { cloneObject } from "../util";
-import { createProject, updateProject } from "./edit";
+import { createProject, deleteProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/projectEditorTypes";
 import { enrichEntity } from "../core/enrichEntity";
 import { setProp } from "../objects/set-prop";
@@ -299,7 +299,6 @@ export class HubProject
       throw new Error("HubProject is already destroyed.");
     }
     this.isDestroyed = true;
-    const { deleteProject } = await import("./edit");
     // Delegate to module fn
     await deleteProject(this.entity.id, this.context.userRequestOptions);
   }
