@@ -44,9 +44,7 @@ export const processRevertableTasks = (
   return Promise.all(revertableTasks).then((results) => {
     const isFullfilled = (result: IRevertableTaskResult) =>
       result.status === "fullfilled";
-    const successfulTasks = results.filter(
-      isFullfilled
-    ) as IRevertableTaskSuccess[];
+    const successfulTasks = results.filter(isFullfilled);
     const failedTasks = results.filter(
       (result: IRevertableTaskResult) => !isFullfilled(result)
     ) as IRevertableTaskFailed[];
