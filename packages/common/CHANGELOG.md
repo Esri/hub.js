@@ -1,3 +1,10 @@
+## @esri/hub-common [20.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.1...@esri/hub-common@20.5.2) (2025-10-27)
+
+
+### Bug Fixes
+
+* **hub-common:** hide incomplete download format configuration ui and prevent saving discussion settings on enterprise ([#2097](https://github.com/Esri/hub.js/issues/2097)) ([8144c1f](https://github.com/Esri/hub.js/commit/8144c1f5e9375bcc95614005b994907a6fbb786e))
+
 ## @esri/hub-common [20.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.5.0...@esri/hub-common@20.5.1) (2025-09-18)
 
 
