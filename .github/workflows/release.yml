@@ -59,9 +59,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: volta-cli/action@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
           cache: npm
           registry-url: 'https://registry.npmjs.org'
 
