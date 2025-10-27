@@ -107,6 +107,7 @@ export enum ItemType {
   "ArcMap Document" = "ArcMap Document",
   "Layer File" = "Layer File",
   "ogcFeature" = "ogcFeature",
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   FeatureServer = "Feature Service",
   GeocodeServer = "GeocodeServer",
   GeoDataServer = "GeoDataServer",

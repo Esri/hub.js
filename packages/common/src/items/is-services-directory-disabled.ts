@@ -43,7 +43,7 @@ export const isServicesDirectoryDisabled = async (
     } else {
       disabled = true;
     }
-  } catch (e) {
+  } catch (_e) {
     disabled = true;
   }
   return disabled;

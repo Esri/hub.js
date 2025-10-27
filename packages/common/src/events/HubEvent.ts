@@ -55,7 +55,7 @@ export class HubEvent
       const entity = await fetchEvent(identifier, context.hubRequestOptions);
       // create an instance of HubEvent from the entity
       return HubEvent.fromJson(entity, context);
-    } catch (ex) {
+    } catch (_ex) {
       throw new Error("Event not found.");
     }
   }
