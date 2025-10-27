@@ -33,7 +33,7 @@
     "@types/terraformer__arcgis": "^2.0.5",
     "@vitest/coverage-istanbul": "^3.2.4",
     "jsdom": "^27.0.0",
-    "typescript": "^4.9.5",
+    "typescript": "~5.8.3",
     "vitest": "^3.2.4"
   },
   "scripts": {
