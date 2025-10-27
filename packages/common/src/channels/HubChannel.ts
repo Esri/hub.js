@@ -76,7 +76,7 @@ export class HubChannel
     try {
       const entity = await fetchHubChannel(identifier, context);
       return HubChannel.fromJson(entity, context);
-    } catch (e) {
+    } catch (_e) {
       // TODO: any specific error handling? see HubProject fetch...
       throw new Error("Channel not found.");
     }

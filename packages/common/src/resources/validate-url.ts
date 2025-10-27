@@ -58,7 +58,7 @@ export async function validateUrl(url: string): Promise<any> {
         error: "invalidUrl",
       };
     }
-  } catch (e) {
+  } catch (_e) {
     // TODO: This is tricky. The fetch() API rejects when a network error
     // happens. This error can be a CORS error, or a 404 error, or a timeout
     // error. While an error like 404 does suggest a bad URL, the CORS occurs

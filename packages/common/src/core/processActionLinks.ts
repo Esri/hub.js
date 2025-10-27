@@ -74,7 +74,7 @@ export async function processActionLink(
       };
 
       return processedLink;
-    } catch (error) {
+    } catch (_error) {
       throw new Error(`Unable to fetch entity: ${link.contentId}`);
     }
   } else {

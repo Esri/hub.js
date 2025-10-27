@@ -73,7 +73,7 @@ export const getAssociationStats = async (
             return await hubSearch(query, {
               requestOptions: context.hubRequestOptions,
             });
-          } catch (error) {
+          } catch (_error) {
             return { total: 0 };
           }
         })
@@ -87,7 +87,7 @@ export const getAssociationStats = async (
         ? { included: associated + pending }
         : { referenced: associated + pending }),
     };
-  } catch (error) {
+  } catch (_error) {
     return stats;
   }
 

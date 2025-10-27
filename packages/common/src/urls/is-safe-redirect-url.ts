@@ -33,7 +33,7 @@ export async function isSafeRedirectUrl(
       }
       isSafe = await domainExists(hostname, hubRequestOptions);
     }
-  } catch (e) {
+  } catch (_e) {
     isSafe = false;
   }
   return isSafe;
