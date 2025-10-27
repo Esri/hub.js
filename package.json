@@ -10,7 +10,7 @@
 		"@changesets/cli": "^2.29.7",
 		"@commitlint/cli": "^11.0.0",
 		"@commitlint/config-conventional": "^11.0.0",
-		"@commitlint/config-lerna-scopes": "^11.0.0",
+		"@commitlint/config-workspace-scopes": "^20.0.0",
 		"@commitlint/prompt": "^11.0.0",
 		"@esri/arcgis-rest-feature-service": "^4.1.0",
 		"@esri/arcgis-rest-portal": "^4.6.1",
@@ -32,7 +32,6 @@
 		"cpx": "^1.5.0",
 		"cross-spawn": "^5.1.0",
 		"cz-conventional-changelog": "^3.3.0",
-		"cz-lerna-changelog": "^2.0.3",
 		"dasherize": "^2.0.0",
 		"date-fns": "^1.29.0",
 		"dotenv": "^8.2.0",
@@ -42,7 +41,7 @@
 		"gh-pages": "^1.2.0",
 		"gh-release": "^3.4.0",
 		"husky": "^4.3.0",
-		"lerna": "^3.22.1",
+		"lerna": "^9.0.0",
 		"lint-staged": "^4.3.0",
 		"madge": "^6.0.0",
 		"minimatch": "^3.0.4",
@@ -153,7 +152,7 @@
 	"homepage": "https://github.com/Esri/hub.js#readme",
 	"config": {
 		"commitizen": {
-			"path": "cz-lerna-changelog"
+			"path": "cz-conventional-changelog"
 		}
 	},
 	"volta": {
