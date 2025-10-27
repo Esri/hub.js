@@ -460,7 +460,9 @@ describe("WellKnownCatalog", () => {
       );
       expect(chk.scopes).toBeDefined();
       expect(chk.scopes?.group?.filters).toEqual([
-        { predicates: [{ access: "public" }] },
+        {
+          predicates: [{ orgid: { not: ["abc123"] } }],
+        },
       ]);
     });
     it("returns the expected catalog for events", () => {
