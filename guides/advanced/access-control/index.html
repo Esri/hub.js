@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-10-27T18:05:12.025Z">
+    <meta name="date" content="2025-10-27T18:52:19.678Z">
     <title>Access Control | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -158,103 +158,333 @@
     <div class="column-18">
       <div class="panel">
         <h2>Access Control in ArcGIS Hub</h2>
-<p>ArcGIS Hub is a collaboration system, and thus determining what actions a user can take, within a specific context is a common task, commonly referred to as &quot;access control&quot;</p>
-<p>In Hub, all this is handled via &quot;Permissions&quot;</p>
-<p>There are 5 elements to the Permission system:</p>
+<p>ArcGIS Hub is a collaboration system, so determining what actions a user can take within a specific context is a common task, known as &quot;access control.&quot;</p>
+<p>In Hub, access control is managed via <strong>Permissions</strong>.</p>
+<p>There are five elements in the Permission system:</p>
 <ul>
-<li>Permission Policies - the business rules embedded in the system</li>
-<li>Entity Permission Policies - additional entity specific rules that further limit access</li>
-<li>Entity Feature Flags - entity specific means to disable a feature,</li>
-<li>System Feature Flags - globally override specific permissions</li>
-<li>System Service Flags - globally disable a service to test graceful degradation UX</li>
+<li><strong>Permission Policies</strong> — business rules embedded in the system</li>
+<li><strong>Entity Permission Policies</strong> — additional entity-specific rules that further limit access</li>
+<li><strong>Entity Feature Flags</strong> — entity-specific means to disable a feature</li>
+<li><strong>System Feature Flags</strong> — global overrides for specific permissions</li>
+<li><strong>System Service Flags</strong> — globally disable a service to test graceful degradation UX</li>
 </ul>
-<p>For details, please read the <a href="../permissions">Permissions Guide</a></p>
-<h2>High Level Model</h2>
-<p>To determine if a user can take a specific action, in some context, the application calls <code>checkPermission(...): IPermissionAccessResponse</code>. The critical property on the response is <code>.access:boolean</code>, but the response also includes information on all the checks what we applied, as well as the reason access was denied, allowing a variety of different messages or behaviors to be implemented.</p>
-<p>The <code>checkPermission(...)</code> call takes the following into account:</p>
+<p>For details, see the <a href="../permissions">Permissions Guide</a>.</p>
+<h2>Desiging Permission Policies</h2>
+<p>A permission policy is defined as an object, stored in the <code>{Entity}BusinessRules.ts</code> module, and adheres to the following interface:</p>
+<pre><code class="ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> IPermissionPolicy {
+  <span class="hljs-comment">// unique permission identifier hub:project:edit etc</span>
+  permission: Permission;
+
+  <span class="hljs-comment">// used to group permissions and remove redundancy</span>
+  dependencies?: Permission[];
+
+  <span class="hljs-comment">// platform requirements - must be met</span>
+  services?: HubService[];
+  licenses?: HubLicense[];
+  platformVersion?: <span class="hljs-built_in">number</span>;
+  authenticated?: <span class="hljs-built_in">boolean</span>;
+  privileges?: PlatformPrivilege[];
+
+  <span class="hljs-comment">// Entity requirements</span>
+  entityEdit?: <span class="hljs-built_in">boolean</span>;
+  entityDelete?: <span class="hljs-built_in">boolean</span>;
+  entityOwner?: <span class="hljs-built_in">boolean</span>;
+
+  <span class="hljs-comment">// allow for more complex checks</span>
+  assertions?: IPolicyAssertion[];
+
+  <span class="hljs-comment">// Overridable requirements</span>
+  availability?: HubAvailability[];
+  environments?: HubEnvironment[];
+  releaseAfter?: <span class="hljs-built_in">string</span>;
+  retireAfter?: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+<p>The only required property is the <code>Permission</code>. If no other properties are set, the permission will resolve to <code>true</code> under all conditions.</p>
+<h2>Checking Permissions</h2>
+<p>To determine if a user can take a specific action in a given context, the application calls <code>checkPermission(...): IPermissionAccessResponse</code>. The key property on the response is <code>.access: boolean</code>, but the response also includes information about all checks that were applied and the reason access was denied, enabling a variety of messages or behaviors.</p>
+<p>The <code>checkPermission(...)</code> call considers:</p>
 <ul>
-<li>status of any services the permission depends on</li>
-<li>availability checks (<code>alpha</code>, <code>beta</code>, <code>general</code>)</li>
-<li>environment checks (<code>devext</code>, <code>qaext</code>, <code>production</code>, <code>enterprise-sites</code>)</li>
-<li>authentication status</li>
-<li>platform privileges</li>
-<li>if user is owner of the entity</li>
-<li>if user has edit access to the entity</li>
-<li>entity specific feature flags</li>
-<li>system feature flags</li>
-<li>overrides passed into the app via query params (<code>pe=permission:to:enable</code> or <code>pd=permission:to:disable</code>)</li>
+<li>Status of any services the permission depends on</li>
+<li>Availability checks (<code>alpha</code>, <code>beta</code>, <code>general</code>)</li>
+<li>Environment checks (<code>devext</code>, <code>qaext</code>, <code>production</code>, <code>enterprise-sites</code>)</li>
+<li>Release gating (to coordinate with a Platform release or a specific date)</li>
+<li>Authentication status</li>
+<li>Platform privileges</li>
+<li>Whether the user is the owner of the entity</li>
+<li>Whether the user has edit access to the entity</li>
+<li>Entity-specific feature flags</li>
+<li>System feature flags</li>
+<li>Overrides passed into the app via query params (<code>pe=permission:to:enable</code> or <code>pd=permission:to:disable</code>)</li>
 </ul>
-<h2>General Logic when not passed an entity</h2>
+<h2>General Logic (No Entity Provided)</h2>
 <p><code>checkPermission(permission, context): IPermissionAccessResponse</code></p>
+<ol>
+<li>Is this a valid permission?</li>
+<li>Is there a system policy defined for this permission?</li>
+<li>Is there a system feature flag set for this permission?
 <ul>
-<li>is this a valid permission?</li>
-<li>is there a system policy defined for this permission?</li>
-<li>is there a system feature flag set for this permission?
-<ul>
-<li>hold that flag value, overriding any set by the entity</li>
+<li>Hold that flag value, overriding any set by the entity</li>
 </ul>
 </li>
-<li>if there is a flag value, and it's <code>false</code>
+<li>If a flag value is set and it's <code>false</code>:
 <ul>
-<li>return <code>access:false, reason: &quot;disabled-by-&lt;entity|feature&gt;-flag&quot;</code></li>
+<li>Return <code>access: false, reason: &quot;disabled-by-&lt;entity|feature&gt;-flag&quot;</code></li>
 </ul>
 </li>
-<li>if there is a flag value, and it's <code>true</code>
+<li>If a flag value is set and it's <code>true</code>:
 <ul>
-<li>run all checks other than <code>availability</code> and <code>environment</code></li>
+<li>Run all checks except <code>availability</code>, <code>environment</code>, and <code>release gating</code></li>
 </ul>
 </li>
-<li>if there is no flag set, run all checks</li>
-<li>aggregate all policy checks, determine if access is granted</li>
-<li>return IPermissionAccessResponse</li>
-</ul>
-<h2>General Logic when passed an entity</h2>
+<li>If no flag is set, run all checks</li>
+<li>Aggregate all policy checks to determine if access is granted</li>
+<li>Return <code>IPermissionAccessResponse</code></li>
+</ol>
+<h2>General Logic (Entity Provided)</h2>
 <p><code>checkPermission(permission, context, entity): IPermissionAccessResponse</code></p>
+<ol>
+<li>Is this a valid permission?</li>
+<li>Is there a system policy defined for this permission?</li>
+<li>If <code>.entityConfigurable: true</code> on the policy:
 <ul>
-<li>is this a valid permission?</li>
-<li>is there a system policy defined for this permission?</li>
-<li>is <code>.entityConfigurable:true</code> on the policy?
+<li>Does <code>entity.features</code> have a flag for this permission?
 <ul>
-<li>does the <code>entity.features</code> have a flag for this permission?
-<ul>
-<li>hold that flag value</li>
+<li>Hold that flag value</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>is there a system feature flag set for this permission?
+<li>Is there a system feature flag set for this permission?
 <ul>
-<li>hold that flag value, overriding any set by the entity</li>
+<li>Hold that flag value, overriding any set by the entity</li>
 </ul>
 </li>
-<li>if there is a flag value, and it's <code>false</code>
+<li>If a flag value is set and it's <code>false</code>:
 <ul>
-<li>return <code>access:false, reason: &quot;disabled-by-&lt;entity|feature&gt;-flag&quot;</code></li>
+<li>Return <code>access: false, reason: &quot;disabled-by-&lt;entity|feature&gt;-flag&quot;</code></li>
 </ul>
 </li>
-<li>if there is a flag value, and it's <code>true</code>
+<li>If a flag value is set and it's <code>true</code>:
 <ul>
-<li>run all checks other than <code>availability</code> and <code>environment</code></li>
+<li>Run all checks except <code>availability</code> and <code>environment</code></li>
 </ul>
 </li>
-<li>if there is no flag set, run all checks</li>
-<li>aggregate all policy checks, determine if access is granted</li>
-<li>is there an Entity Policy for this permission?
+<li>If no flag is set, run all checks</li>
+<li>Aggregate all policy checks to determine if access is granted</li>
+<li>Is there an Entity Policy for this permission?
 <ul>
-<li>run all Entity Policy checks</li>
-<li>if no policy checks pass, access is denied</li>
+<li>Run all Entity Policy checks</li>
+<li>If no policy checks pass, access is denied</li>
 </ul>
 </li>
-<li>return IPermissionAccessResponse</li>
+<li>Return <code>IPermissionAccessResponse</code></li>
+</ol>
+<h2>Gated Release Model</h2>
+<p>Permissions are used to restrict access to application functionality, based on various conditions. They are also used to restrict access to functionality until it is formally released. This is known as Release Gating.</p>
+<p>This release model separates delivery from release. Developers merge behind permissions while Product chooses cadence of release to customers. A dedicated release permission gates a bundle of changes across environments and availability. Validation in production is possible via URL parameters without bypassing platform checks. When ready, flip to a scheduled date or platform version, then remove the temporary release gate and keep product-facing permissions only.</p>
+<h3>Goals and constraints</h3>
+<ul>
+<li>Product chooses a cadence that supports customer and business needs.</li>
+<li>Delivery is continuous: develop, test, integrate, and merge independent of the release cadence.</li>
+<li>Minimize extra tracking for docs, blogs, translations at release time.</li>
+<li>Provide a single place to see the planned schedule and to validate current state.</li>
+<li>Allow enabling on production for targeted user acceptance testing and feedback, without full GA.</li>
 </ul>
+<h3>Concepts</h3>
+<ul>
+<li>Release permissions
+<ul>
+<li>Temporary, internal gates used to stage and coordinate a release. Never checked directly by features. Used to bundle related capabilities under a single switch.</li>
+</ul>
+</li>
+<li>Feature flags
+<ul>
+<li>End‑user opt‑in or opt‑out controls named <code>hub:feature:*</code>. Persisted in <code>hub‑settings.json</code> and surfaced in UI. Due to the higher level of complexity, use only when a user-facing toggle is required.</li>
+</ul>
+</li>
+<li>Scheduling gates
+<ul>
+<li><code>releaseAfter</code>: ISO UTC datetime when a permission becomes true.</li>
+<li><code>retireAfter</code>: ISO UTC datetime when a permission becomes false.</li>
+<li><code>platformVersion</code>: Logical version fence, for aligning with a platform cut.</li>
+</ul>
+</li>
+<li>Environments and Availability gating
+<ul>
+<li><code>environments</code>: devext, qaext, prod, enterprise</li>
+<li><code>availability</code>: alpha, beta, general</li>
+</ul>
+</li>
+</ul>
+<h3>Single Feature Release</h3>
+<p>For a single feature, that will be released independent of other things, a single permission is sufficient.</p>
+<p>Example:</p>
+<pre><code class="ts">{
+    <span class="hljs-comment">// Group Admin's can message members of a group</span>
+    permission: <span class="hljs-string">"hub:group:messaging"</span>,
+    authenticated: <span class="hljs-literal">true</span>,
+    licenses: [<span class="hljs-string">"hub-premium"</span>],
+    environments: [<span class="hljs-string">"qaext"</span>],
+    availability: [<span class="hljs-string">"alpha"</span>],
+    services: [<span class="hljs-string">"portal"</span>],
+    assertions: [
+      {
+        property: <span class="hljs-string">"context:currentUser"</span>,
+        <span class="hljs-keyword">type</span>: <span class="hljs-string">"is-group-admin"</span>,
+        value: <span class="hljs-string">"entity:id"</span>,
+      },
+    ],
+  },
+</code></pre>
+<p>If a release happens with the permission in this state, the feature can be tested in production by using <code>?pe=hub:group:messaging</code>, which will skip the <code>environments</code> and <code>availibility</code> checks. Once QA is complete, to release this to all users in production, simply remove the <code>environments</code> and <code>availibility</code> properties.</p>
+<pre><code class="ts">{
+    <span class="hljs-comment">// Group Admin's can message members of a group</span>
+    permission: <span class="hljs-string">"hub:group:messaging"</span>,
+    authenticated: <span class="hljs-literal">true</span>,
+    licenses: [<span class="hljs-string">"hub-premium"</span>],
+    services: [<span class="hljs-string">"portal"</span>],
+    assertions: [
+      {
+        property: <span class="hljs-string">"context:currentUser"</span>,
+        <span class="hljs-keyword">type</span>: <span class="hljs-string">"is-group-admin"</span>,
+        value: <span class="hljs-string">"entity:id"</span>,
+      },
+    ],
+  },
+</code></pre>
+<h3>Patterns</h3>
+<h3>Release Permission Pattern</h3>
+<ul>
+<li>Create a root release gate: <code>hub:release:&lt;id&gt;</code>.</li>
+<li>Do not check it directly. Only depend on it from product permissions.</li>
+<li>Useful when there are multiple application features that require separate permissions, but are to be released as a unit.</li>
+<li>Stage by scoping with <code>environments</code> and <code>availability</code>. Later, switch to <code>releaseAfter</code> or <code>platformVersion</code>.</li>
+<li>Remove the gate after general availability; keep product permissions in place.</li>
+</ul>
+<p>Example</p>
+<pre><code class="ts"><span class="hljs-comment">// Epic 13472 — release gate only</span>
+{
+  permission: <span class="hljs-string">"hub:release:13472"</span>,
+  availability: [<span class="hljs-string">"alpha"</span>],
+  environments: [<span class="hljs-string">"qaext"</span>]
+}
+
+<span class="hljs-comment">// Hub Premium capability depends on the release gate</span>
+{
+  permission: <span class="hljs-string">"hub:content:metadata-card:edit"</span>,
+  dependencies: [<span class="hljs-string">"hub:release:13472"</span>],
+  licenses: [<span class="hljs-string">"hub-premium"</span>]
+}
+
+<span class="hljs-comment">// Hub Basic CTA depends on the same gate</span>
+{
+  permission: <span class="hljs-string">"hub:content:metadata-card:cta"</span>,
+  dependencies: [<span class="hljs-string">"hub:release:13472"</span>],
+  licenses: [<span class="hljs-string">"hub-basic"</span>]
+}
+
+<span class="hljs-comment">// View in hub basic and premium, hidden in enterprise, still wired to the gate</span>
+{
+  permission: <span class="hljs-string">"hub:content:metadata-card:view"</span>,
+  dependencies: [<span class="hljs-string">"hub:release:13472"</span>],
+  licenses: [<span class="hljs-string">"hub-basic"</span>, <span class="hljs-string">"hub-premium"</span>]
+}
+</code></pre>
+<p>With this in place, and merged, QA can exercise all the functionality via <code>?pe=&quot;hub:release:13472</code></p>
+<h3>Scheduling the release</h3>
+<pre><code class="ts"><span class="hljs-comment">// Switch from env/availability gating to a date or version fence</span>
+{
+  permission: <span class="hljs-string">"hub:release:13472"</span>,
+  releaseAfter: <span class="hljs-string">"2025-11-05T17:00:00Z"</span> <span class="hljs-comment">// or platformVersion: "2026.1"</span>
+}
+</code></pre>
+<p>Finalization</p>
+<ul>
+<li>After the release date or platform cut, remove <code>hub:release:13472</code>.</li>
+<li>Product-facing permissions remain. License checks continue to apply.</li>
+</ul>
+<h2>Feature Flag Pattern</h2>
+<ul>
+<li>Name permission as <code>hub:feature:*</code>. Backed by <code>hub‑settings.json</code> and surfaced via user settings UI.</li>
+<li>Use only when end users require opt in or out, as the process is more complex and requires opt-in/out UI.</li>
+</ul>
+<p>Example</p>
+<pre><code class="ts"><span class="hljs-comment">// hub-settings.json fetched from portal api during auth</span>
+{
+  <span class="hljs-string">"features"</span>: {
+    <span class="hljs-string">"workspace"</span>: <span class="hljs-literal">true</span> <span class="hljs-comment">// opt-in/out UI sets this value</span>
+  },
+  <span class="hljs-string">"schemaVersion"</span>: <span class="hljs-number">1.1</span>,
+  <span class="hljs-string">"username"</span>: <span class="hljs-string">"paige_p"</span>,
+  <span class="hljs-string">"updated"</span>: <span class="hljs-number">1758319420210</span>
+}
+</code></pre>
+<pre><code class="ts"><span class="hljs-comment">// System feature policy</span>
+{
+	permission: <span class="hljs-string">"hub:feature:workspace"</span>
+}
+
+<span class="hljs-comment">// Entity permissions depends on the feature</span>
+{
+  permission: <span class="hljs-string">"hub:content:workspace"</span>,
+  dependencies: [<span class="hljs-string">"hub:feature:workspace"</span>]
+}
+
+{
+  permission: <span class="hljs-string">"hub:project:workspace"</span>,
+  dependencies: [<span class="hljs-string">"hub:feature:workspace"</span>]
+}
+</code></pre>
+<h3>Resolution flow during opt-in/out Period</h3>
+<p>During <code>checkPermission(&quot;hub:content:workspace&quot;, context)</code> call, the permission system will transparently use the value from <code>context.hubSettings.feature.workspace</code> as the value for <code>hub:feature:workspace</code>.</p>
+<p>If <code>context.hubSettings.feature.workspace</code> is <code>undefined</code>, then the permission evaluates the other gating properties. If it is defined, then the value will used, and no other checks are run.</p>
+<h3>Ending opt-out Period</h3>
+<p>A migration is applied to the <code>hubSettings</code> object, removing <code>feature.workspace</code> , and any other gating properties are removed from <code>hub:feature:workspace</code>. This has the effect of making that permission return <code>.access: true</code> under all cases, thus ending the opt-out period and forcing all users into the new behavior.</p>
+<h3>Release permissions vs Feature flags</h3>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Release permissions</th>
+<th>Feature flags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purpose</td>
+<td>Stage and coordinate internal release bundles</td>
+<td>Allow end users to opt in or out of capabilities</td>
+</tr>
+<tr>
+<td>Naming</td>
+<td><code>hub:release:{id}</code> and not checked directly</td>
+<td><code>hub:feature:*</code></td>
+</tr>
+<tr>
+<td>Scope control</td>
+<td><code>availability</code>, <code>environments</code>, <code>releaseAfter</code>, <code>platformVersion</code></td>
+<td>Persisted per user via <code>hub-settings.json</code> and surfaced in UI</td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>Product permissions depend on the release gate</td>
+<td>Entity permissions depend on the feature flag</td>
+</tr>
+<tr>
+<td>Prod validation</td>
+<td>Use <code>?pe=hub:release:{id}</code> bypass env/availability/schedule gates</td>
+<td>Use UI toggle or settings. Do not use for internal staging</td>
+</tr>
+<tr>
+<td>Removal</td>
+<td>Remove after GA; keep leaf permissions</td>
+<td>Remains as long as the product supports opt in/out</td>
+</tr>
+</tbody>
+</table>
 <h3>Developer Guidance</h3>
-<p>As we build the next generation of the ArcGIS Hub system, want behavior to be “configurable by default” - meaning that we should design and build the UI layer by querying the Permissions subsystem, instead of implementing custom checks in-place. This will enable the system to adapt to different licensing, or packaging strategies, simply by changing the business rules, instead of making sweeping code changes.</p>
-<h2>Overriding Permissions in the Hub Applications</h2>
-<p>In order to flex some conditions in the application, the Hub applications can be passed query params which allow individual permissions to be enabed/disabled. This is supported in the Ember and React applications. In both, the host application is responsible for extracting the params and passing into the <code>ArcGISContextManager</code>, as well as removing the params from the uri once it's processed.</p>
-<h3>Enabling Permissions</h3>
-<p>To enable a permission in the hub applications, pass <code>?pe=permission:to:enable</code>. This will only override the <code>environment</code> and <code>availability</code> checks - meaning this can be used to verify behavior gated to QA, on PROD before full release. However, this can not be used to circumvent license, privilege or group membership checks.</p>
-<h3>Disabling Permissions</h3>
-<p>To enable a permission in the hub applications, pass <code>?pd=permission:to:disable</code>. Unlike enabling a permission, any permission may be disabled regardless of it's definition. As noted above, in this case, the <code>checkPermission</code> call will return <code>{access:false, reason: &quot;disabled-by-&lt;feature&gt;-flag&quot; ...}</code></p>
+<p>As we build the next generation of ArcGIS Hub, we want behavior to be “configurable by default.” Design and build the UI layer by querying the Permissions subsystem, rather than implementing custom checks in-place. This enables the system to adapt to different licensing or packaging strategies simply by changing business rules, instead of making sweeping code changes.</p>
       </div>
     </div>
   </div>
