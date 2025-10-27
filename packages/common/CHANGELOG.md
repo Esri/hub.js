@@ -1,5 +1,15 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.21.0
+
+### Minor Changes
+
+- 8e25a27: additions to layout types
+
+### Patch Changes
+
+- a31dc87: removes dynamic imports from modules
+
 ## 20.20.1
 
 ### Patch Changes
