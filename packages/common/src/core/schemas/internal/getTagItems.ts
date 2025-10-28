@@ -63,7 +63,7 @@ export async function getTagItems(
     return [...new Set([...entityTags, ...tagsAgg.values.map((t) => t.value)])]
       .filter((t) => t)
       .map((t) => ({ value: t }));
-  } catch (e) {
+  } catch (_e) {
     return [];
   }
 }

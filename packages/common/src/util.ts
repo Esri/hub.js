@@ -375,7 +375,7 @@ export function addDays(date: string, numOfDays: number): string {
       given.setDate(given.getDate() + numOfDays)
     ).toISOString();
     return dateString.split("T")[0];
-  } catch (e) {
+  } catch (_e) {
     throw new Error("Invalid Date");
   }
 }

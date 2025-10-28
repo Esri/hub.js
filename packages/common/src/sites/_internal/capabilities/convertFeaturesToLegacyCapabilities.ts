@@ -63,6 +63,8 @@ export const convertFeaturesToLegacyCapabilities = (
   const updatedCapabilities = Object.entries(
     legacyCapabilityFeatureFlags
   ).reduce((acc, [key, value]) => {
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     value && acc.push(key);
     return acc;
   }, []);

@@ -58,6 +58,8 @@ export async function fetchCategoriesUiSchemaElement(
   const unrecognizedFullCategories: string[] = [];
   const unrecognizedPartialCategories: string[] = [];
   unrecognizedValues.forEach((value) => {
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isFullyQualifiedCategory(value)
       ? unrecognizedFullCategories.push(value)
       : unrecognizedPartialCategories.push(value);

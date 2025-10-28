@@ -78,6 +78,8 @@ export class ChannelPermission {
 
     channel.channelAcl.forEach((permission) => {
       const { category } = permission;
+      // if you are updating this file, remove this comment and address the lint error
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       this.permissionsByCategory[category]?.push(permission) ||
         (this.permissionsByCategory[category] = [permission]);
     });
