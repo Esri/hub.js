@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.21.1
+
+### Patch Changes
+
+- 000d418: Changed well known catalog option for public groups to filter for all groups outside the current user's org
+
 ## 20.21.0
 
 ### Minor Changes
