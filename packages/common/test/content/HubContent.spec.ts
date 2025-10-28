@@ -32,6 +32,7 @@ describe("HubContent class", () => {
         } as unknown as PortalModule.IPortal,
         portalSettings: {} as PortalModule.IPortalSettings,
         portalUrl: "https://myserver.com",
+        hubRequestOptions: {},
       },
     };
   });

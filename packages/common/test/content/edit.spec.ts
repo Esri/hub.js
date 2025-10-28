@@ -123,22 +123,18 @@ describe("content editing:", () => {
       expect(createOrUpdateEntitySettingsSpy).toHaveBeenCalledTimes(1);
     });
     it("doesn't set entity settings in enterprise", async () => {
-      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
-        (m: IModel) => {
-          const newModel = cloneObject(m);
-          newModel.item.id = GUID;
-          return Promise.resolve(newModel);
-        }
-      );
-      createOrUpdateEntitySettingsSpy = spyOn(
-        createOrUpdateEntitySettingsUtils,
-        "createOrUpdateEntitySettings"
-      ).and.returnValue(
-        Promise.resolve({
-          id: GUID,
-          ...DEFAULT_SETTINGS,
-        })
-      );
+      const createSpy = vi.fn((m: IModel) => {
+        const newModel = cloneObject(m);
+        newModel.item.id = GUID;
+        return Promise.resolve(newModel);
+      });
+      (createModelUtils as any).createModel = createSpy;
+      createOrUpdateEntitySettingsSpy = vi.fn().mockResolvedValue({
+        id: GUID,
+        ...DEFAULT_SETTINGS,
+      });
+      (createOrUpdateEntitySettingsUtils as any).createOrUpdateEntitySettings =
+        createOrUpdateEntitySettingsSpy;
       const chk = await createContent(
         {
           name: "Hello World",
@@ -155,12 +151,12 @@ describe("content editing:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       // should create the item
-      expect(createSpy.calls.count()).toBe(1);
-      const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(createSpy).toHaveBeenCalledTimes(1);
+      const modelToCreate = createSpy.mock.calls[0][0];
       expect(modelToCreate.item.title).toBe("Hello World");
       // expect(modelToCreate.item.type).toBe("Hub Content");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
-      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(0);
+      expect(createOrUpdateEntitySettingsSpy).not.toHaveBeenCalled();
     });
   });
   describe("update content:", () => {
@@ -275,14 +271,14 @@ describe("content editing:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(getItemSpy).toHaveBeenCalledTimes(1);
+      expect(updateModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.item.description).toBe(content.description);
       // No service is associated with Hub Initiatives
       expect(getServiceSpy).not.toHaveBeenCalled();
       expect(updateServiceSpy).not.toHaveBeenCalled();
-      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(0);
+      expect(createOrUpdateEntitySettingsSpy).not.toHaveBeenCalled();
     });
     it("handles when a location is explicitly set", async () => {
       const content: IHubEditableContent = {
