@@ -1,11 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-  vi,
-} from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 // Make ESM namespace export spyable by merging original exports and overriding
 // the specific function we need to spy on. This must be registered before the
@@ -584,7 +577,7 @@ describe("HubSites:", () => {
 
       expect(chk.id).toBe(GUID);
       expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      const modelToUpdate = updateModelSpy.mock.calls[0][0];
       expect(modelToUpdate.data.catalog).toBeUndefined();
       expect(modelToUpdate.data.values.searchCategories).toBeUndefined();
       expect(modelToUpdate.data.useCatalogV2).toBe(true);
