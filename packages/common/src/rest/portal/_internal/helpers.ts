@@ -27,6 +27,8 @@ function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
   // binary data needs POSTed as a `file`
   // JSON object literals should be passed as `text`.
   if (clone.data) {
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     (typeof Blob !== "undefined" && item.data instanceof Blob) ||
     // Node.js doesn't implement Blob
     item.data.constructor.name === "ReadStream"

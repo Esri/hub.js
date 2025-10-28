@@ -35,6 +35,8 @@ export function getDownloadFormatsByFlow(
       downloadFormats = getExportImageFormats(entity);
     },
   };
+  // if you are updating this file, remove this comment and address the lint error
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   actionsByFlow[downloadFlow] && actionsByFlow[downloadFlow]();
   return downloadFormats;
 }

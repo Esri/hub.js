@@ -153,7 +153,7 @@ export async function deleteDiscussion(
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   try {
     await removeSettingV2({ id, ...requestOptions });
-  } catch (e) {
+  } catch (_e) {
     // suppress error
   }
   await removeItem(ro);

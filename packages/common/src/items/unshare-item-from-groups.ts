@@ -35,7 +35,7 @@ export function unshareItemFromGroups(
       try {
         const results = await unshareItemWithGroup(opt);
         return results;
-      } catch (err) {
+      } catch (_err) {
         throw new Error(
           `Error unsharing item: ${itemId} with group: ${groupId}`
         );

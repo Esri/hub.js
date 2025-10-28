@@ -41,7 +41,7 @@ export async function shareItemToGroups(
     ({ results: groups } = groupIds.length
       ? await poll<ISearchResult<IGroup>>(fn, validate)
       : ({ results: [] } as ISearchResult<IGroup>));
-  } catch (e) {
+  } catch (_e) {
     throw new Error(
       `Error sharing item: ${itemId} with groups: ${groupIds.join(", ")}`
     );
@@ -58,7 +58,7 @@ export async function shareItemToGroups(
       try {
         const res = await shareItemWithGroup(opt);
         return res;
-      } catch (e) {
+      } catch (_e) {
         throw new Error(
           `Error sharing item: ${itemId} with group: ${group.id}`
         );

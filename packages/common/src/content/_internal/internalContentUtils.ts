@@ -738,6 +738,8 @@ export const getShortenedCategories = (categories: string[]) => {
     const segments = category.split("/");
     const shortenedCategory = segments[segments.length - 1];
 
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     shortenedCategory && acc.push(shortenedCategory);
     return acc;
   }, []);

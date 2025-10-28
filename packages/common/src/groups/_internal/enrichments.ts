@@ -199,6 +199,8 @@ export function fetchGroupEnrichments(
   const operations = enrichments.reduce((ops, enrichment) => {
     const operation = groupEnrichmentOperations[enrichment];
     // only include the enrichments that we know how to fetch
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     operation && ops.push(operation);
     return ops;
   }, []);

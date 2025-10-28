@@ -63,7 +63,8 @@ const fetchEntityEnrichments = async (
     const operation = {
       followersGroup: fetchFollowersGroupEnrichment,
     }[enrichment];
-
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     operation && ops.push({ enrichment, operation });
     return ops;
   }, []);
@@ -91,7 +92,7 @@ const fetchFollowersGroupEnrichment = async (
     if (followersGroupId) {
       group = await getGroup(followersGroupId, requestOptions);
     }
-  } catch (error) {
+  } catch (_error) {
     return {} as IGroup;
   }
 
