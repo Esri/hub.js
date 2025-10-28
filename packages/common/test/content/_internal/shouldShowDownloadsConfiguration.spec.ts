@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { shouldShowDownloadsConfiguration } from "../../../src/content/_internal/shouldShowDownloadsConfiguration";
 
 describe("shouldShowDownloadsConfiguration", () => {
