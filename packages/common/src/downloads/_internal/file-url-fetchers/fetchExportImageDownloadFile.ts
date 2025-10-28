@@ -33,6 +33,8 @@ export async function fetchExportImageDownloadFile(
   validateOptions(options);
 
   const { entity, format, context, progressCallback } = options;
+  // if you are updating this file, remove this comment and address the lint error
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   progressCallback && progressCallback(DownloadOperationStatus.PENDING);
 
   const extent = getExportImageExtent(options);

@@ -44,7 +44,7 @@ export function getFileName(url: string): string {
       parsed.pathname !== "/"
         ? parsed.pathname.split("/").pop()
         : parsed.hostname;
-  } catch (e) {
+  } catch (_e) {
     throw new Error(`Error getting file name from data url`);
   }
 
@@ -63,7 +63,7 @@ export function isUrl(url: string): boolean {
     const result = new URL(url);
     // Cast to bool.
     return !!result;
-  } catch (e) {
+  } catch (_e) {
     Logger.error(`Error parsing URL`);
     return false;
   }

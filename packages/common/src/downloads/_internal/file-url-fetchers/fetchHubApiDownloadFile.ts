@@ -100,9 +100,13 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
     searchParams.append("spatialRefId", "4326");
   }
 
+  // if you are updating this file, remove this comment and address the lint error
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   where && searchParams.append("where", where);
 
   const token = getProp(context, "hubRequestOptions.authentication.token");
+  // if you are updating this file, remove this comment and address the lint error
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   token && searchParams.append("token", token);
 
   return `${context.hubUrl}/api/download/v1/items/${
@@ -187,6 +191,8 @@ async function pollDownloadApi(
   }
 
   // Operation still in progress. Report progress if a callback was provided and poll again.
+  // if you are updating this file, remove this comment and address the lint error
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   progressCallback && progressCallback(operationStatus, progressInPercent);
   await wait(pollInterval);
 

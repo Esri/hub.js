@@ -361,6 +361,8 @@ function getWellknownGroupCatalog(
     "currentUser.groups",
     []
   ).reduce((acc: string[], group: IGroup) => {
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     group.userMembership.memberType === "admin" && acc.push(group.id);
     return acc;
   }, [] as string[]);

@@ -252,7 +252,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
           this.context.userRequestOptions
         );
       }
-    } catch (error) {
+    } catch (_error) {
       group = null;
     }
 

@@ -25,7 +25,7 @@ export const isAssociationSupported = (
     } else {
       return false;
     }
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 };

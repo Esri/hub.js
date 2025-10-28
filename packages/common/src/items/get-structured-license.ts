@@ -306,7 +306,7 @@ function isParseableAsURL(value: string) {
     const url = new URL(value);
 
     return !!url.protocol;
-  } catch (err) {
+  } catch (_err) {
     // just return fals if the URL couldn't be parsed
     return false;
   }

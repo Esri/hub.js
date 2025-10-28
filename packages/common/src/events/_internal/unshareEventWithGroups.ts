@@ -36,7 +36,7 @@ export async function unshareEventWithGroups(
         readGroupIds: updatedReadGroupIds,
         editGroupIds: updatedEditGroupIds,
       };
-    } catch (e) {
+    } catch (_e) {
       throw new Error(
         `Entity: ${
           entity.id

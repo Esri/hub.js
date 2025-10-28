@@ -16,7 +16,7 @@ export function versionMetadataFromResource(
   const propertiesJson = resource.properties || "{}";
   try {
     properties = JSON.parse(propertiesJson);
-  } catch (e) {
+  } catch (_e) {
     properties = {};
   }
 

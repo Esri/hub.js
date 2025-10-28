@@ -669,7 +669,7 @@ async function getPortalLimits(
           }
         );
         return resolvedLimit;
-      } catch (error) {
+      } catch (_error) {
         return {
           type: limit.type,
           name: limit.name,
