@@ -14,21 +14,24 @@ import { searchPostsV2 } from "../../discussions/api/posts/posts";
  * Executes a Discussions API (v2) post search and resolves an IHubSearchResponse<IHubSearchResult>.
  * Currently supported filters include (filter predicate key => accepted values):
  *   - access: 'public' | 'private' | 'org' | Array<'public' | 'private' | 'org'>
- *   - body: string
- *   - channel: string | string[] (mapped internally to `channels`)
- *   - owner: string | string[] (first value mapped to `creator`)
- *   - discussion: string | string[]
- *   - editor: string | string[]
+ *   - channel: string | string[]
+ *   - owner: string
+ *   - discussion: string
+ *   - editor: string
  *   - status: 'pending' | 'approved' | 'rejected' | 'deleted' | 'hidden' | 'blocked' | Array<...>
- *   - title: string | string[]
- *   - parentId: string | string[] (mapped internally to `parents`)
+ *   - term: string
+ *   - title: string
+ *   - body: string
+ *   - bbox: string
+ *   - parentId: string | string[]
  *   - groups: string | string[]
  *   - postType: 'text' | 'announcement' | 'poll' | 'question'
  *   - created: IDateRange<string | number> (mapped to createdAfter / createdBefore)
  *   - modified: IDateRange<string | number> (mapped to updatedAfter / updatedBefore)
  *
  * Notes / constraints:
- *   - For single-value filters where an array is provided (e.g., owner, editor, discussion, title, body), only the first value is used.
+ *   - For single-value filters where an array is provided (e.g., owner, editor, discussion, term, title, body, bbox), only the first value is used.
+ *   - title & body are ignored if term is provied, as term searches against both title and body
  *   - Date range predicates use the shape: { from: string|number; to: string|number }.
  *   - Unsupported filters are ignored silently.
  *

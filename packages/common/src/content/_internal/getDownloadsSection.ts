@@ -1,12 +1,9 @@
-import {
-  IUiSchemaElement,
-  IUiSchemaMessage,
-  UiSchemaMessageTypes,
-  UiSchemaRuleEffects,
-} from "../../core/schemas/types";
+import { IUiSchemaElement, IUiSchemaMessage } from "../../core/schemas/types";
+import { UiSchemaRuleEffects } from "../../core/enums/uiSchemaRuleEffects";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getDownloadFlow } from "../../downloads/_internal/getDownloadFlow";
 import { isHostedFeatureServiceMainEntity } from "../hostedServiceUtils";
+import { UiSchemaMessageTypes } from "../../core/enums/uiSchemaMessageTypes";
 
 /**
  * @private

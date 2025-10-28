@@ -1,9 +1,9 @@
 import HubError from "../HubError";
+import { JobRecordType } from "./enums/jobRecordType";
 import {
   IHubDownloadJobRecord,
   IHubJobRecord,
   IHubJobRecordRequestOptions,
-  JobRecordType,
 } from "./types";
 
 /**
@@ -46,9 +46,12 @@ export async function fetchItemJobRecords(
 function getQueryString(options: IHubJobRecordRequestOptions): string {
   const params = new URLSearchParams();
 
+  // if you are updating this file, remove this comment and address the lint error
+  /* eslint-disable @typescript-eslint/no-unused-expressions */
   options.from && params.append("fromDate", options.from);
   options.to && params.append("toDate", options.to);
   options.limit && params.append("limit", options.limit.toString());
+  /* eslint-enable @typescript-eslint/no-unused-expressions */
 
   const result = params.toString();
 

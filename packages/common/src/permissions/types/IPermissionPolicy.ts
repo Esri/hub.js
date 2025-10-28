@@ -127,7 +127,7 @@ export type FeatureFlag = "settings" | "details";
  * access is denied under all conditions. If the value is set to true, licensing,
  * privilege and services checks are run, and if those pass, access is granted.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IFeatureFlags
   extends Partial<Record<Permission | FeatureFlag, boolean>> {}
 
@@ -137,7 +137,7 @@ export interface IFeatureFlags
  * a service being down, or to test the behavior of the system when a service
  * is unavailable.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IServiceFlags extends Record<HubService, HubServiceStatus> {}
 
 /**

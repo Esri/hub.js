@@ -29,6 +29,7 @@ export function getTimePickerTime(
     // chrome computes the hour part as "24" for midnight while other browsers compute it as "00"
     // setting hourCycle to "h23" normalizes this across browser implementations
     // ts flags this property as an error, despite this working in chrome, ff & node envs
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     hourCycle: "h23",
   }).formatToParts(new Date(date));

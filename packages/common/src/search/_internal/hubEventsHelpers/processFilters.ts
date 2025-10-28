@@ -120,6 +120,8 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
   if (flattenedFilters.startDateRange?.length) {
     // We are explicitly checking if the to and from values are present
     // Because w/ Occurrence, we can have just to or from values
+    // if you are updating this file, remove this comment and address the lint error
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
     (flattenedFilters.startDateRange[0] as IDateRange<string | number>).to &&
       (processedFilters.startDateTimeBefore = new Date(
         (flattenedFilters.startDateRange[0] as IDateRange<string | number>).to
@@ -128,6 +130,7 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
       (processedFilters.startDateTimeAfter = new Date(
         (flattenedFilters.startDateRange[0] as IDateRange<string | number>).from
       ).toISOString());
+    /* eslint-enable @typescript-eslint/no-unused-expressions */
   } else {
     // startDateBefore
     if (flattenedFilters.startDateBefore?.length) {
@@ -149,6 +152,8 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
   if (flattenedFilters.endDateRange?.length) {
     // We are explicitly checking if the to and from values are present
     // Because w/ Occurrence, we can have just to or from values
+    // if you are updating this file, remove this comment and address the lint error
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
     (flattenedFilters.endDateRange[0] as IDateRange<string | number>).to &&
       (processedFilters.endDateTimeBefore = new Date(
         (flattenedFilters.endDateRange[0] as IDateRange<string | number>).to
@@ -157,6 +162,7 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
       (processedFilters.endDateTimeAfter = new Date(
         (flattenedFilters.endDateRange[0] as IDateRange<string | number>).from
       ).toISOString());
+    /* eslint-enable @typescript-eslint/no-unused-expressions */
   } else {
     // endDateBefore
     if (flattenedFilters.endDateBefore?.length) {

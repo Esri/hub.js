@@ -1,5 +1,57 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.21.1
+
+### Patch Changes
+
+- 000d418: Changed well known catalog option for public groups to filter for all groups outside the current user's org
+
+## 20.21.0
+
+### Minor Changes
+
+- 8e25a27: additions to layout types
+
+### Patch Changes
+
+- a31dc87: removes dynamic imports from modules
+
+## 20.20.1
+
+### Patch Changes
+
+- 8aa570e: move non-auto-generated enums into their own modules
+
+## 20.20.0
+
+### Minor Changes
+
+- 10ba96f: Add layout related types
+
+## 20.19.3
+
+### Patch Changes
+
+- 02a0612: Assistant access org list
+
+## 20.19.2
+
+### Patch Changes
+
+- 696581e: rework group workspace permission to ensure only owners and admins can access it
+
+## 20.19.1
+
+### Patch Changes
+
+- 03a45ed: Change block list to expanded allow list for determining when data should be downloaded to the browser
+
+## 20.19.0
+
+### Minor Changes
+
+- cf25b6d: remaining updates to enable searching for posts within galleries
+
 ## 20.18.0
 
 ### Minor Changes

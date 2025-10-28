@@ -1,9 +1,10 @@
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { getWellKnownCatalog } from "../../../../search/wellKnownCatalog";
-import { IUiSchema, UiSchemaRuleEffects } from "../../types";
+import { IUiSchema } from "../../types";
 import { EventGalleryCardEditorOptions } from "../EditorOptions";
 import { fetchCategoriesUiSchemaElement } from "../fetchCategoriesUiSchemaElement";
 import { getTagItems } from "../getTagItems";
+import { UiSchemaRuleEffects } from "../../../enums/uiSchemaRuleEffects";
 
 export async function buildUiSchema(
   i18nScope: string,

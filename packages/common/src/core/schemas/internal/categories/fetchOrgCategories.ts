@@ -21,7 +21,7 @@ export async function fetchOrgCategories(
     };
     // All categories need to be prefixed with "/Categories" to be valid
     return parseOrgCategories(categorySchema[0].categories, "/Categories");
-  } catch (e) {
+  } catch (_e) {
     return [];
   }
 }

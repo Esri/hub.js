@@ -4,7 +4,7 @@
  * @returns Blob
  */
 export function objectToJsonBlob(obj: any) {
-  /* istanbul ignore next */
+  /* istanbul ignore else -- @preserve */
   if (typeof Blob !== "undefined") {
     return new Blob([JSON.stringify(obj)], { type: "application/json" });
   } else {

@@ -74,6 +74,7 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
             const types = predicate.type[key];
 
             // try to reduce the array if it is an array
+            /* istanbul ignore else -- @preserve */
             if (Array.isArray(types)) {
               // for each type, try to replace it with the family types if it is an expansion
               predicate.type[key] = types.reduce(

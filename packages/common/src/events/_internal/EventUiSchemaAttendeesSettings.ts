@@ -2,12 +2,12 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { IUiSchema } from "../../core/schemas/types";
 
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
-  options: EntityEditorOptions,
-  context: IArcGISContext
+  _options: EntityEditorOptions,
+  _context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -60,5 +60,5 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };

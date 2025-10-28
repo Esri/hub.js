@@ -46,6 +46,16 @@
       "request": "launch",
       "name": "Debug typedoc build",
       "program": "${workspaceRoot}/docs/build-typedoc.js",
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Vitest, Current File",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "test", "--", "--no-coverage", "--testTimeout=0", "--reporter=verbose", "${file}"],
+      "cwd": "${workspaceRoot}/packages/common",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }

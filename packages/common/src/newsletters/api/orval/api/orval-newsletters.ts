@@ -78,6 +78,12 @@ export interface ICreateUser {
 }
 
 /**
+ * catalog for a subscription
+ * @nullable
+ */
+export type IUpdateSubscriptionCatalog = { [key: string]: unknown } | null;
+
+/**
  * Metadata for the subscription
  */
 export type ISubscribeMetadata =
@@ -89,7 +95,7 @@ export type ISubscribeMetadata =
  * catalog for a subscription
  * @nullable
  */
-export type ISubscribeCatalog = ICreateCatalog | null;
+export type ISubscribeCatalog = { [key: string]: unknown } | null;
 
 export type ISubscriptionMetadata = { [key: string]: unknown };
 
@@ -127,6 +133,12 @@ export type ICreateSubscriptionMetadata =
   | ICreateTelemetryReportMetadata
   | ICreateDiscussionsOnEntityMetadata;
 
+/**
+ * catalog for a subscription
+ * @nullable
+ */
+export type ICreateSubscriptionCatalog = { [key: string]: unknown } | null;
+
 export enum SubscriptionEntityType {
   DISCUSSION = "DISCUSSION",
 }
@@ -139,6 +151,33 @@ export enum Cadence {
   WEEKLY = "WEEKLY",
   MONTHLY = "MONTHLY",
 }
+export enum SubscriptionAction {
+  DISCUSSION_POST_PENDING = "DISCUSSION_POST_PENDING",
+}
+export interface IUpdateSubscription {
+  /** Type of action representing user selections that further customize the subscription behavior */
+  action?: SubscriptionAction;
+  /** Flag to opt user in or out of subscription */
+  active?: boolean;
+  /** Frequency of the subscription */
+  cadence?: Cadence;
+  /**
+   * catalog for a subscription
+   * @nullable
+   */
+  catalog?: IUpdateSubscriptionCatalog;
+  /** Delivery method for subscription, ie email or text */
+  deliveryMethod?: DeliveryMethod;
+  /** The AGO id of the entity associated with the subscription */
+  entityId?: string;
+  /** The type of entity associated with the subscription entityId */
+  entityType?: SubscriptionEntityType;
+  /** Last delivered datetime string of the subscription in ISO 8601 format */
+  lastDelivery?: string;
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  userId?: string;
+}
+
 export interface ISubscribe {
   /** Type of action representing user selections that further customize the subscription behavior */
   action?: SubscriptionAction;
@@ -195,6 +234,11 @@ export interface ISubscription {
   userId: string;
 }
 
+export enum SystemNotificationSpecNames {
+  TELEMETRY_REPORT = "TELEMETRY_REPORT",
+  EVENT = "EVENT",
+  DISCUSSION_ON_ENTITY = "DISCUSSION_ON_ENTITY",
+}
 export interface ICreateSubscription {
   /** Type of action representing user selections that further customize the subscription behavior */
   action?: SubscriptionAction;
@@ -219,158 +263,6 @@ export interface ICreateSubscription {
   userId: string;
 }
 
-export interface ICreateCatalogScope {
-  [key: string]: unknown;
-}
-
-export interface ICreateCatalogIntegrity {
-  /** Hash to verify the integrity of the catalog. Only verified when the catalog is loaded into the editor. If the hashes do not match, the catalog will not be loaded and the user will simply have the option to reset the catalog */
-  collections: string;
-  /** Hash to verify the integrity of the catalog. Only verified when the catalog is loaded into the editor. If the hashes do not match, the catalog will not be loaded and the user will simply have the option to reset the catalog */
-  scopes: string;
-}
-
-export interface ICreateCatalog {
-  /** Collections within the catalog */
-  collections?: ICreateCatalogCollection[];
-  /** Optional emoji to show in the UI */
-  emojii?: string;
-  /** Hashes to verify the integrity of the catalog. Only verified when the catalog is loaded into the editor */
-  integrity?: ICreateCatalogIntegrity;
-  /** The schema version of the catalog */
-  schemaVersion: number;
-  /** Filter defines the "scopes" of the Catalog, on a per entity type basis */
-  scopes?: ICreateCatalogScope;
-  /** Title for the gallery */
-  title?: string;
-}
-
-/**
- * catalog for a subscription
- * @nullable
- */
-export type IUpdateSubscriptionCatalog = ICreateCatalog | null;
-
-export interface IUpdateSubscription {
-  /** Type of action representing user selections that further customize the subscription behavior */
-  action?: SubscriptionAction;
-  /** Flag to opt user in or out of subscription */
-  active?: boolean;
-  /** Frequency of the subscription */
-  cadence?: Cadence;
-  /**
-   * catalog for a subscription
-   * @nullable
-   */
-  catalog?: IUpdateSubscriptionCatalog;
-  /** Delivery method for subscription, ie email or text */
-  deliveryMethod?: DeliveryMethod;
-  /** The AGO id of the entity associated with the subscription */
-  entityId?: string;
-  /** The type of entity associated with the subscription entityId */
-  entityType?: SubscriptionEntityType;
-  /** Last delivered datetime string of the subscription in ISO 8601 format */
-  lastDelivery?: string;
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  userId?: string;
-}
-
-/**
- * catalog for a subscription
- * @nullable
- */
-export type ICreateSubscriptionCatalog = ICreateCatalog | null;
-
-export enum SortOrder {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-/**
- * Additional properties. Useful for groupMember queries where we need to send in the groupId to construct the url
- */
-export type ICreateCatalogCollectionQueryProperties = {
-  [key: string]: unknown;
-};
-
-export interface ICreateCatalogCollectionQueryFilterPredicate {
-  [key: string]: unknown;
-}
-
-export enum FilterOperation {
-  AND = "AND",
-  OR = "OR",
-}
-export interface ICreateCatalogCollectionQueryFilter {
-  /** The operation to apply to query filter */
-  operation?: FilterOperation;
-  /** A predicate is a set of key/value pairs that can be evaluated into a boolean value in a search system. Properties can be `string`, `string[]`, `IMatchOption`, `IDateRange<number>` or  `IRelativeDate`. Some properties are booleans and other properties have a limited set of values that can be passed. The [Hub Search Guide](/hub.js/guides/hub-search) contains a list of properties that can be sent to the ArcGIS Portal API. */
-  predicates: ICreateCatalogCollectionQueryFilterPredicate[];
-}
-
-export enum WellKnownCollection {
-  content = "content",
-  dataset = "dataset",
-  document = "document",
-  event = "event",
-  feedback = "feedback",
-  initiative = "initiative",
-  people = "people",
-  site = "site",
-  team = "team",
-  template = "template",
-  project = "project",
-  channel = "channel",
-  discussion = "discussion",
-  eventAttendee = "eventAttendee",
-}
-export enum EntityType {
-  item = "item",
-  group = "group",
-  user = "user",
-  portalUser = "portalUser",
-  communityUser = "communityUser",
-  groupMember = "groupMember",
-  event = "event",
-  channel = "channel",
-  discussionPost = "discussionPost",
-  eventAttendee = "eventAttendee",
-}
-export interface ICreateCatalogCollectionQuery {
-  /** This is used to determine what IHubCollection definition JSON object can be created. We use HubFamily here to define most of the collections to ensure consistency */
-  collection?: WellKnownCollection;
-  /** Filters for the query */
-  filters: ICreateCatalogCollectionQueryFilter[];
-  /** Additional properties. Useful for groupMember queries where we need to send in the groupId to construct the url */
-  properties?: ICreateCatalogCollectionQueryProperties;
-  /** What entity is this query targeting. This is used internally to ensure we query the correct API */
-  targetEntity: EntityType;
-}
-
-export interface ICreateCatalogCollection {
-  /** Specify the includes to be requested when working with this collection */
-  include?: string[];
-  /** Unique key, used for query params and telemetry */
-  key: string;
-  /** String to show in the UI. translated. */
-  label: string;
-  /** Default query for the Collection */
-  scope: ICreateCatalogCollectionQuery;
-  /** Default sort order for the Collection */
-  sortDirection?: SortOrder;
-  /** Default sort field for the Collection */
-  sortField?: string;
-  /** What entity is this query targeting. This is used internally to ensure we query the correct API */
-  targetEntity: EntityType;
-}
-
-export enum SubscriptionAction {
-  DISCUSSION_POST_PENDING = "DISCUSSION_POST_PENDING",
-}
-export enum SystemNotificationSpecNames {
-  TELEMETRY_REPORT = "TELEMETRY_REPORT",
-  EVENT = "EVENT",
-  DISCUSSION_ON_ENTITY = "DISCUSSION_ON_ENTITY",
-}
 export interface ICreateDiscussionsOnEntityMetadata {
   /** Entity name of the discussion */
   entityName?: string;

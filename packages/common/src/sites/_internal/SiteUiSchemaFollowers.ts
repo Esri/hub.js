@@ -9,12 +9,12 @@ import { IUiSchema } from "../../core/schemas/types";
  * be rendered in the site followers > settings
  * experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
-  options: EntityEditorOptions,
-  context: IArcGISContext
+  _options: EntityEditorOptions,
+  _context: IArcGISContext
 ): Promise<IUiSchema> => {
-  return {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -79,5 +79,5 @@ export const buildUiSchema = async (
         ],
       },
     ],
-  };
+  });
 };

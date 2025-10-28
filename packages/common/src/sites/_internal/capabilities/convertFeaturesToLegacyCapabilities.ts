@@ -47,10 +47,9 @@ export const convertFeaturesToLegacyCapabilities = (
     ) => {
       // TODO: remove istanbul exception once we include a
       // legacy capability that satisfies the second condition
-      /* istanbul ignore next */
       const featureFlag = map.negate
         ? !features[map.feature]
-        : features[map.feature];
+        : /* istanbul ignore next */ features[map.feature];
 
       return {
         ...capabilities,
@@ -64,6 +63,8 @@ export const convertFeaturesToLegacyCapabilities = (
   const updatedCapabilities = Object.entries(
     legacyCapabilityFeatureFlags
   ).reduce((acc, [key, value]) => {
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     value && acc.push(key);
     return acc;
   }, []);

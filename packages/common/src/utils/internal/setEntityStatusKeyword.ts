@@ -1,4 +1,4 @@
-import { HubEntityStatus } from "../../hub-types";
+import { HubEntityStatus } from "../../enums/hubEntityStatus";
 
 /**
  * adds/updates the entity status typekeyword and returns

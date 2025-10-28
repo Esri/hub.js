@@ -3,7 +3,7 @@ import type {
   IFeatureServiceDefinition,
   ILayerDefinition,
 } from "@esri/arcgis-rest-feature-service";
-import { ItemType } from "../../hub-types";
+import { ItemType } from "../../enums/itemType";
 import { Logger } from "../../utils/logger";
 import {
   isNoCorsRequestRequired,
@@ -44,7 +44,7 @@ export function getFileName(url: string): string {
       parsed.pathname !== "/"
         ? parsed.pathname.split("/").pop()
         : parsed.hostname;
-  } catch (e) {
+  } catch (_e) {
     throw new Error(`Error getting file name from data url`);
   }
 
@@ -63,7 +63,7 @@ export function isUrl(url: string): boolean {
     const result = new URL(url);
     // Cast to bool.
     return !!result;
-  } catch (e) {
+  } catch (_e) {
     Logger.error(`Error parsing URL`);
     return false;
   }
@@ -160,7 +160,7 @@ export async function pingUrl(
   url: string
 ): Promise<{ ok: boolean; headers?: Headers }> {
   // ensure that we handle any no-cors requirements
-  /* istanbul ignore next */
+  /* istanbul ignore if -- @preserve */
   if (isNoCorsRequestRequired(url)) {
     await sendNoCorsRequest(url);
   }
@@ -189,7 +189,7 @@ export async function pingFeatureService(
   parsed.searchParams.set("f", "json");
 
   // ensure that we handle any no-cors requirements
-  /* istanbul ignore next */
+  /* istanbul ignore if -- @preserve */
   if (isNoCorsRequestRequired(url)) {
     await sendNoCorsRequest(url);
   }

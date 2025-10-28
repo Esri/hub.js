@@ -17,6 +17,8 @@ import { EventEditorTypes } from "../../events/_internal/eventEditorTypes";
 import { UserEditorTypes } from "../../users/_internal/userEditorTypes";
 import { ChannelEditorTypes } from "../../channels/_internal/channelEditorTypes";
 import { HubActionLink } from "../types/ActionLinks";
+import { UiSchemaRuleEffects } from "../enums/uiSchemaRuleEffects";
+import { UiSchemaMessageTypes } from "../enums/uiSchemaMessageTypes";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
@@ -149,40 +151,6 @@ export interface ICardEditorModuleType {
     options: CardEditorOptions,
     context: IArcGISContext
   ) => Promise<IConfigurationValues>;
-}
-
-export enum UiSchemaRuleEffects {
-  SHOW = "SHOW",
-  HIDE = "HIDE",
-  DISABLE = "DISABLE",
-  ENABLE = "ENABLE",
-  NONE = "",
-  RESET = "RESET",
-}
-
-export enum UiSchemaElementTypes {
-  section = "Section",
-  control = "Control",
-  layout = "Layout",
-  slot = "Slot",
-  notice = "Notice",
-  text = "Text",
-}
-
-export enum UiSchemaSectionTypes {
-  accordion = "accordion",
-  accordionItem = "accordionItem",
-  block = "block",
-  stepper = "stepper",
-  step = "step",
-  subblock = "subblock",
-  card = "card",
-}
-
-export enum UiSchemaMessageTypes {
-  error = "ERROR",
-  success = "SUCCESS",
-  custom = "CUSTOM",
 }
 
 export interface IConfigurationSchema extends JSONSchema {

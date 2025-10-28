@@ -1,0 +1,157 @@
+import { vi, afterEach, describe, it, expect } from "vitest";
+
+// Mock the ESM namespace module so its exports are spyable/mocked functions.
+vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
+  const original = await importOriginal();
+  return {
+    ...(original as any),
+    searchGroupUsers: vi.fn(),
+    searchGroupContent: vi.fn(),
+    getGroup: vi.fn(),
+  };
+});
+
+import { fetchGroupEnrichments } from "../../../src/groups/_internal/enrichments";
+import * as Portal from "@esri/arcgis-rest-portal";
+import * as SimpleGroupContentResponse from "../../mocks/portal-groups-search/simple-response.json";
+import * as SimpleGroupUserResponse from "../../mocks/portal-group-user-search/simple-response.json";
+import * as SimpleGroupResponse from "../../mocks/portal-get-group/simple-response.json";
+import { cloneObject } from "../../../src/util";
+import {
+  IEnrichmentErrorInfo,
+  IHubRequestOptions,
+} from "../../../src/hub-types";
+import { vi, afterEach, describe, it, expect } from "vitest";
+
+describe("group enrichments:", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("memberCount enrichment", async () => {
+    const groupMemberSearchSpy =
+      Portal.searchGroupUsers as unknown as ReturnType<typeof vi.fn>;
+    groupMemberSearchSpy.mockResolvedValue(
+      cloneObject(SimpleGroupUserResponse) as any
+    );
+
+    const grp = { id: "3ef" } as unknown as Portal.IGroup;
+    const ro = {
+      portal: "https://devext.arcgis.com/sharing/rest",
+    } as IHubRequestOptions;
+    const chk = await fetchGroupEnrichments(grp, ["membershipSummary"], ro);
+
+    expect(chk.membershipSummary).toBeDefined();
+    expect(chk.membershipSummary.total).toBe(1);
+    expect(chk.membershipSummary.users.length).toBe(1);
+
+    // spy args
+    expect(groupMemberSearchSpy).toHaveBeenCalledTimes(1);
+    const [groupId, expectedParams] = (groupMemberSearchSpy as any).mock
+      .calls[0];
+    expect(groupId).toBe("3ef");
+    expect(expectedParams.num).toBe(3);
+    expect(expectedParams.portal).toBe(ro.portal);
+  });
+
+  it("contentCount enrichment", async () => {
+    const groupContentSearchSpy =
+      Portal.searchGroupContent as unknown as ReturnType<typeof vi.fn>;
+    groupContentSearchSpy.mockResolvedValue(
+      cloneObject(SimpleGroupContentResponse) as any
+    );
+
+    const grp = { id: "3ef" } as unknown as Portal.IGroup;
+    const ro = {
+      portal: "https://devext.arcgis.com/sharing/rest",
+    } as IHubRequestOptions;
+    const chk = await fetchGroupEnrichments(grp, ["contentCount"], ro);
+
+    expect(chk.contentCount).toBeDefined();
+    expect(groupContentSearchSpy).toHaveBeenCalledTimes(1);
+    const [expectedParams] = (groupContentSearchSpy as any).mock.calls[0];
+    expect(expectedParams.groupId).toBe("3ef");
+    expect(expectedParams.num).toBe(1);
+    expect(expectedParams.portal).toBe(ro.portal);
+  });
+
+  it("userMembership enrichment", async () => {
+    const getGroupSpy = Portal.getGroup as unknown as ReturnType<typeof vi.fn>;
+    getGroupSpy.mockResolvedValue(cloneObject(SimpleGroupResponse) as any);
+
+    const grp = { id: "3ef" } as unknown as Portal.IGroup;
+    const ro = {
+      portal: "https://devext.arcgis.com/sharing/rest",
+    } as IHubRequestOptions;
+    const chk = await fetchGroupEnrichments(grp, ["userMembership"], ro);
+
+    expect(chk.userMembership).toEqual("owner");
+    expect(chk.membershipAccess).toEqual("org");
+
+    // spy args
+    expect(getGroupSpy).toHaveBeenCalledTimes(1);
+    const [groupId, expectedParams] = (getGroupSpy as any).mock.calls[0];
+    expect(groupId).toBe("3ef");
+    expect(expectedParams.portal).toBe(ro.portal);
+  });
+
+  describe("errors:", () => {
+    it("memberCount enrichment", async () => {
+      (
+        Portal.searchGroupUsers as unknown as ReturnType<typeof vi.fn>
+      ).mockRejectedValue(new Error("group member search failed"));
+
+      const grp = { id: "3ef" } as unknown as Portal.IGroup;
+      const ro = {
+        portal: "https://devext.arcgis.com/sharing/rest",
+      } as IHubRequestOptions;
+
+      const chk = await fetchGroupEnrichments(grp, ["membershipSummary"], ro);
+
+      expect(chk.errors).toBeDefined();
+      expect(chk.errors.length).toBe(1);
+      expect(chk.errors[0]).toEqual({
+        type: "Other",
+        message: "group member search failed",
+      } as IEnrichmentErrorInfo);
+    });
+
+    it("contentCount enrichment", async () => {
+      (
+        Portal.searchGroupContent as unknown as ReturnType<typeof vi.fn>
+      ).mockRejectedValue(new Error("group content search failed"));
+
+      const grp = { id: "3ef" } as unknown as Portal.IGroup;
+      const ro = {
+        portal: "https://devext.arcgis.com/sharing/rest",
+      } as IHubRequestOptions;
+      const chk = await fetchGroupEnrichments(grp, ["contentCount"], ro);
+
+      expect(chk.errors).toBeDefined();
+      expect(chk.errors.length).toBe(1);
+      expect(chk.errors[0]).toEqual({
+        type: "Other",
+        message: "group content search failed",
+      } as IEnrichmentErrorInfo);
+    });
+
+    it("userMembership enrichment", async () => {
+      (
+        Portal.getGroup as unknown as ReturnType<typeof vi.fn>
+      ).mockRejectedValue(new Error("get group failed"));
+
+      const grp = { id: "3ef" } as unknown as Portal.IGroup;
+      const ro = {
+        portal: "https://devext.arcgis.com/sharing/rest",
+      } as IHubRequestOptions;
+      const chk = await fetchGroupEnrichments(grp, ["userMembership"], ro);
+
+      expect(chk.errors).toBeDefined();
+      expect(chk.errors.length).toBe(1);
+      expect(chk.errors[0]).toEqual({
+        type: "Other",
+        message: "get group failed",
+      } as IEnrichmentErrorInfo);
+    });
+  });
+});

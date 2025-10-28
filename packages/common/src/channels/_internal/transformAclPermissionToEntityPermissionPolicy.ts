@@ -4,12 +4,10 @@ import {
   IEntityPermissionPolicy,
 } from "../../permissions/types/IEntityPermissionPolicy";
 import { CHANNEL_PERMISSIONS } from "./ChannelBusinessRules";
-import {
-  Role,
-  AclCategory,
-  AclSubCategory,
-  IChannelAclPermissionDefinition,
-} from "../../discussions/api/types";
+import { IChannelAclPermissionDefinition } from "../../discussions/api/types";
+import { Role } from "../../discussions/api/enums/role";
+import { AclCategory } from "../../discussions/api/enums/aclCategory";
+import { AclSubCategory } from "../../discussions/api/enums/aclSubCategory";
 
 const ROLE_TO_PERMISSION_MAP = {
   [Role.READ]: CHANNEL_PERMISSIONS.channelRead,

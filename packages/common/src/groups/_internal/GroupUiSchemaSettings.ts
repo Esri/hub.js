@@ -1,4 +1,5 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IUiSchema } from "../../core/schemas/types";
+import { UiSchemaRuleEffects } from "../../core/enums/uiSchemaRuleEffects";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 

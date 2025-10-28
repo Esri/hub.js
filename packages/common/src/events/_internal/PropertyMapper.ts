@@ -16,7 +16,8 @@ import {
   IEventLocation,
   IOnlineMeeting,
 } from "../api/orval/api/orval-events";
-import { HubEventAttendanceType, HubEventCapacityType } from "../types";
+import { HubEventAttendanceType } from "../enums/hubEventAttendanceType";
+import { HubEventCapacityType } from "../enums/hubEventCapacityType";
 import { computeLinks } from "./computeLinks";
 import { getEventSlug } from "./getEventSlug";
 import { getLocationFromEvent } from "./getLocationFromEvent";

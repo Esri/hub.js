@@ -1,7 +1,8 @@
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { StatCardEditorOptions } from "../EditorOptions";
-import { UiSchemaRuleEffects, IUiSchema } from "../../types";
-import { ICONS } from "./interfaces";
+import { IUiSchema } from "../../types";
+import { ICONS } from "./enums/icons";
+import { UiSchemaRuleEffects } from "../../../enums/uiSchemaRuleEffects";
 
 /**
  * @private

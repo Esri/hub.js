@@ -1,4 +1,4 @@
-/* istanbul ignore file - these are just wrappers around rest-js functions */
+/* istanbul ignore file - these are just wrappers around rest-js functions -- @preserve */
 // import functions that need to be wrapped and/or spied on
 import {
   commitItemUpload as _commitItemUpload,

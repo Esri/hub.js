@@ -1,5 +1,4 @@
 import {
-  _isString,
   _isDate,
   _isFunction,
   _isObject,

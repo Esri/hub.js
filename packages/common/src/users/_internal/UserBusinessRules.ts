@@ -56,6 +56,20 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:user:workspace", "hub:user:owner"],
   },
   {
+    permission: "hub:user:workspace:members",
+    dependencies: ["hub:user:workspace"],
+    licenses: ["hub-premium"],
+    environments: ["qaext"],
+    // Starting with full org admin as there are not specific privileges for messaging users
+    assertions: [
+      {
+        property: "context:currentUser.role",
+        type: "eq",
+        value: "org_admin",
+      },
+    ],
+  },
+  {
     permission: "hub:user:manage",
     dependencies: ["hub:user:edit"],
   },

@@ -17,4 +17,5 @@ export interface IHubInitiative
     IWithPermissions,
     IWithStatus {}
 
-export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> & {};
+export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> &
+  Record<string, unknown>;

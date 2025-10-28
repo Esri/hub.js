@@ -34,23 +34,17 @@ jobs:
 
       - name: Install
         # temporarily using `npm i` b/c `npm ci` was failing
-        # due to a package-lock.json mismatch that 
+        # due to a package-lock.json mismatch that
         # we haven't been able to track down, example:
         # https://github.com/Esri/hub.js/actions/runs/18601122095/job/53039558079
         run: npm i
 
       - name: Build
-        run: npm run build
+        run: npm run ci:build
 
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
-
-      - name: Test in Node
-        run: npm run test:node
-
-      - uses: codecov/codecov-action@v3
-        with:
-          directory: ./coverage
+      # Run Tests
+      - name: Run Tests
+        run: npm run ci:test
 
   # If the build and test works, run a release
   release:
@@ -65,22 +59,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: volta-cli/action@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
           cache: npm
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install
         # temporarily using `npm i` b/c `npm ci` was failing
-        # due to a package-lock.json mismatch that 
+        # due to a package-lock.json mismatch that
         # we haven't been able to track down, example:
         # https://github.com/Esri/hub.js/actions/runs/18601122095/job/53039558079
         run: npm i
-
-      # - name: Setup NPM auth
-      #   run: |
-      #     npm set "//registry.npmjs.org/:_authToken" ${{ secrets.NPM_TOKEN }}
-      #     npm whoami
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
@@ -90,9 +80,7 @@ jobs:
           publish: npm run ci:release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Tom is the owner of the current token
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
 
   deploy-docs:
     name: 'Deploy Documentation'

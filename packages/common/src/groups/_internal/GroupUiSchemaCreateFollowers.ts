@@ -1,8 +1,5 @@
-import {
-  IConfigurationValues,
-  IUiSchema,
-  UiSchemaRuleEffects,
-} from "../../core/schemas/types";
+import { IConfigurationValues, IUiSchema } from "../../core/schemas/types";
+import { UiSchemaRuleEffects } from "../../core/enums/uiSchemaRuleEffects";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getWellKnownGroup } from "../getWellKnownGroup";

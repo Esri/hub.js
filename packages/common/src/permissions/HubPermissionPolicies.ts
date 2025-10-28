@@ -84,6 +84,12 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // the workspace feature will be available to all users
     permission: "hub:gating:workspace:released",
   },
+  // permission to gate the configurable views release
+  {
+    permission: "hub:gating:configurableViews:released",
+    availability: ["alpha"],
+    environments: ["devext", "qaext"],
+  },
   // AGO Release Permissions
   {
     permission: "hub:release:2025R3",
@@ -110,7 +116,8 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   // to allow the AI Assistant to be enabled on an entity
   {
     permission: "hub:platform:ai-assistant",
-    licenses: ["hub-premium"],
+    // turn off license requirement during private beta. Only specified orgs will have access
+    // licenses: ["hub-premium"],
     services: ["hub-ai-assistant"],
     assertions: [
       {
@@ -130,7 +137,6 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   // and are expected to be long-lived
   {
     permission: "hub:feature:ai-assistant",
-    availability: ["alpha"],
     flagValue: false, // default to not enabled; site must opt-in
     entityConfigurable: true,
   },
@@ -149,7 +155,11 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:workspace",
     dependencies: ["hub:gating:workspace:released"],
   },
-
+  // permission to enable the configurable views feature
+  {
+    permission: "hub:feature:configurableViews",
+    dependencies: ["hub:gating:configurableViews:released"],
+  },
   {
     // Enables access to the user preferences section of the user profile
     // This will likely be removed when we swap the user profile to use workspace
@@ -273,7 +283,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:discussions:subscription",
     environments: ["devext", "qaext"],
     availability: ["alpha"],
-    licenses: ["hub-premium"], // TODO: waiting for product's confirmation on hub-basic
+    licenses: ["hub-basic", "hub-premium"],
   },
   // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using hub-premium

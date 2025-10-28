@@ -13,4 +13,5 @@ export interface IHubDiscussion
     IWithCatalog,
     IWithPermissions {}
 
-export type IHubDiscussionEditor = IHubItemEntityEditor<IHubDiscussion> & {};
+export type IHubDiscussionEditor = IHubItemEntityEditor<IHubDiscussion> &
+  Record<string, unknown>;

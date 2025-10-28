@@ -1,9 +1,7 @@
-import {
-  ChannelFilter,
-  ISearchChannels,
-  Role,
-  SharingAccess,
-} from "../../../discussions/api/types";
+import { ISearchChannels } from "../../../discussions/api/types";
+import { ChannelFilter } from "../../../discussions/api/enums/channelFilter";
+import { Role } from "../../../discussions/api/enums/role";
+import { SharingAccess } from "../../../discussions/api/enums/sharingAccess";
 import { unique } from "../../../util";
 import { IFilter, IPredicate } from "../../types/IHubCatalog";
 import { IDateRange } from "../../types/types";

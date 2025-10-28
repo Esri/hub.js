@@ -1,5 +1,6 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-portal";
-import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
+import { SharingAccess } from "../../enums/sharingAccess";
 import { isOrgAdmin } from "../platform";
 import { hasOrgAdminUpdateRights } from "../portal-privilege";
 

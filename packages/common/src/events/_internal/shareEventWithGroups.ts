@@ -65,7 +65,7 @@ export async function shareEventWithGroups(
         readGroupIds: updatedReadGroupIds,
         editGroupIds: updatedEditGroupIds,
       };
-    } catch (e) {
+    } catch (_e) {
       throw new Error(
         `Entity: ${entity.id} could not be shared with groups: ${groupIds.join(
           ", "

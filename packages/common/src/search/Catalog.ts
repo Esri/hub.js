@@ -184,6 +184,8 @@ export class Catalog implements IHubCatalog {
    * @param {IHubCollection} collection
    */
   addCollection(collection: IHubCollection) {
+    // if you are updating this file, remove this comment and address the lint error
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this._catalog.collections?.length
       ? this._catalog.collections.push(collection)
       : (this._catalog.collections = [collection]);
@@ -534,7 +536,7 @@ export class Catalog implements IHubCatalog {
     // check for the scope before calling this method
     // we can assume that the scope exists, but this is extra
     // defensive just to ensure we don't blow up
-    /* istanbul ignore else */
+    /* istanbul ignore else -- @preserve */
     if (scope) {
       qry.filters = [...qry.filters, ...scope.filters];
     }

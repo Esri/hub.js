@@ -1,12 +1,11 @@
 import { IConfigurationSchema } from "../../types";
-import {
-  UNIT_POSITIONS,
-  VISUAL_INTEREST,
-  LAYOUTS,
-  SOURCE,
-  ICONS,
-} from "./interfaces";
-import { ALIGNMENTS, DROP_SHADOWS } from "../../shared/enums";
+import { DROP_SHADOWS } from "../../shared/enums/dropShadows";
+import { ALIGNMENTS } from "../../shared/enums/alignments";
+import { SOURCE } from "./enums/source";
+import { UNIT_POSITIONS } from "./enums/unitPositions";
+import { LAYOUTS } from "./enums/layouts";
+import { ICONS } from "./enums/icons";
+import { VISUAL_INTEREST } from "./enums/visualInterest";
 
 export const MetricSchema: IConfigurationSchema = {
   type: "object",

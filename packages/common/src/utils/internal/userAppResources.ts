@@ -238,7 +238,7 @@ export function listUserResources(
     portal: portalUrl,
   };
   return request(
-    `${portalUrl}/sharing/rest/community/users/${username}/resources?f=json&token=${token}&returnAllApps=${returnAllApps}`,
+    `${portalUrl}/sharing/rest/community/users/${username}/resources?f=json&token=${token}&returnAllApps=${returnAllApps.toString()}`,
     ro
   ) as Promise<IUserResourceListResponse>;
 }

@@ -1,8 +1,6 @@
-import {
-  ISearchPosts,
-  PostSort,
-  SortOrder,
-} from "../../../discussions/api/types";
+import { ISearchPosts } from "../../../discussions/api/types";
+import { PostSort } from "../../../discussions/api/enums/postSort";
+import { SortOrder } from "../../../discussions/api/enums/sortOrder";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 
 /**

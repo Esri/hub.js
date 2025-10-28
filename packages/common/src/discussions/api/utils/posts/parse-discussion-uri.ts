@@ -12,7 +12,7 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
   let url;
   try {
     url = new URL(discussion);
-  } catch (e) {
+  } catch (_e) {
     throw new Error(`Invalid URI: ${discussion}`);
   }
   const source = url.protocol.replace(":", "");

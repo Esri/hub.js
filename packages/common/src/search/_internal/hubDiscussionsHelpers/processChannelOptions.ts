@@ -1,9 +1,7 @@
-import {
-  ChannelRelation,
-  ChannelSort,
-  ISearchChannels,
-  SortOrder,
-} from "../../../discussions/api/types";
+import { ISearchChannels } from "../../../discussions/api/types";
+import { ChannelRelation } from "../../../discussions/api/enums/channelRelation";
+import { ChannelSort } from "../../../discussions/api/enums/channelSort";
+import { SortOrder } from "../../../discussions/api/enums/sortOrder";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 
 const SORT_FIELD_MAP: Record<string, ChannelSort> = {

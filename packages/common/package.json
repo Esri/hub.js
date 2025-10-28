@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "20.18.0",
+  "version": "20.21.1",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -31,16 +31,23 @@
     "@types/adlib": "^3.0.1",
     "@types/geojson": "^7946.0.13",
     "@types/terraformer__arcgis": "^2.0.5",
-    "typescript": "^3.8.1"
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "jsdom": "^27.0.0",
+    "typescript": "~5.8.3",
+    "vitest": "^3.2.4"
   },
   "scripts": {
     "build": "npm run build:node && npm run build:esm",
     "build:esm": "tsc --outDir ./dist/esm  --declaration --declarationDir ./dist/types",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
+    "ci:test": "npm run test:coverage",
     "dev:esm": "npm run build:esm -- -w",
     "dev:node": "npm run build:node -- -w",
     "format": "prettier --write ./{src,test}/**/*.ts",
     "format:check": "prettier --check ./{src,test}/**/*.ts",
+    "test": "vitest --config=vitest.config.mjs --reporter=dot --run",
+    "test:coverage": "vitest --config=vitest.config.mjs --coverage --run",
+    "test:watch": "vitest --config=vitest.config.mjs --reporter=verbose",
     "y:publish": "yalc publish",
     "y:push": "yalc push"
   },
