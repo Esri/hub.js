@@ -31,6 +31,63 @@ import { getCardEditorSchemas } from "./getCardEditorSchemas";
 import { EventEditorType } from "../../../events/_internal/eventEditorTypes";
 import { UserEditorType } from "../../../users/_internal/userEditorTypes";
 import { addDynamicSlugValidation } from "./addDynamicSlugValidation";
+import { getSiteSchema } from "../../../sites/_internal/SiteSchema";
+import { DiscussionSchema } from "../../../discussions/_internal/DiscussionSchema";
+import { ChannelSchema } from "../../../channels/_internal/ChannelSchema";
+import { ProjectSchema } from "../../../projects/_internal/ProjectSchema";
+import { InitiativeSchema } from "../../../initiatives/_internal/InitiativeSchema";
+import { PageSchema } from "../../../pages/_internal/PageSchema";
+import { ContentSchema } from "../../../content/_internal/ContentSchema";
+import { TemplateSchema } from "../../../templates/_internal/TemplateSchema";
+import { GroupSchema } from "../../../groups/_internal/GroupSchema";
+import { InitiativeTemplateSchema } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
+import * as buildSiteUiSchemaEdit from "../../../sites/_internal/SiteUiSchemaEdit";
+import * as buildSiteUiSchemaCreate from "../../../sites/_internal/SiteUiSchemaCreate";
+import * as buildSiteUiSchemaFollowers from "../../../sites/_internal/SiteUiSchemaFollowers";
+import * as buildSiteUiSchemaSettings from "../../../sites/_internal/SiteUiSchemaSettings";
+import * as buildSiteUiSchemaAssistant from "../../../sites/_internal/SiteUiSchemaAssistant";
+import * as buildSiteUiSchemaDiscussionSettings from "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
+import * as buildDiscussionUiSchemaEdit from "../../../discussions/_internal/DiscussionUiSchemaEdit";
+import * as buildDiscussionUiSchemaCreate from "../../../discussions/_internal/DiscussionUiSchemaCreate";
+import * as buildDiscussionUiSchemaSettings from "../../../discussions/_internal/DiscussionUiSchemaSettings";
+import * as buildDiscussionUiSchemaDiscussionSettings from "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
+import * as buildChannelUiSchemaEdit from "../../../channels/_internal/ChannelUiSchemaEdit";
+import * as buildChannelUiSchemaCreate from "../../../channels/_internal/ChannelUiSchemaCreate";
+import * as buildProjectUiSchemaEdit from "../../../projects/_internal/ProjectUiSchemaEdit";
+import * as buildProjectUiSchemaCreate from "../../../projects/_internal/ProjectUiSchemaCreate";
+import * as buildProjectUiSchemaCreate2 from "../../../projects/_internal/ProjectUiSchemaCreate2";
+import * as buildProjectUiSchemaMetrics from "./metrics/ProjectUiSchemaMetrics";
+import * as buildProjectUiSchemaSettings from "../../../projects/_internal/ProjectUiSchemaSettings";
+import * as buildInitiativeUiSchemaEdit from "../../../initiatives/_internal/InitiativeUiSchemaEdit";
+import * as buildInitiativeUiSchemaCreate from "../../../initiatives/_internal/InitiativeUiSchemaCreate";
+import * as buildInitiativeUiSchemaCreate2 from "../../../initiatives/_internal/InitiativeUiSchemaCreate2";
+import * as buildInitiativeUiSchemaMetrics from "./metrics/InitiativeUiSchemaMetrics";
+import * as buildInitiativeUiSchemaAssociations from "../../../initiatives/_internal/InitiativeUiSchemaAssociations";
+import * as buildInitiativeUiSchemaSettings from "../../../initiatives/_internal/InitiativeUiSchemaSettings";
+import * as buildPageUiSchemaEdit from "../../../pages/_internal/PageUiSchemaEdit";
+import * as buildPageUiSchemaCreate from "../../../pages/_internal/PageUiSchemaCreate";
+import * as buildContentUiSchemaEdit from "../../../content/_internal/ContentUiSchemaEdit";
+import * as buildContentUiSchemaSettings from "../../../content/_internal/ContentUiSchemaSettings";
+import * as buildContentUiSchemaDiscussionSettings from "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
+import * as buildContentUiSchemaDiscussionSettingsCompact from "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact";
+import * as buildTemplateUiSchemaEdit from "../../../templates/_internal/TemplateUiSchemaEdit";
+import * as buildGroupUiSchemaCreateFollowers from "../../../groups/_internal/GroupUiSchemaCreateFollowers";
+import * as builddGroupUiSchemaCreateAssociation from "../../../groups/_internal/GroupUiSchemaCreateAssociation";
+import * as builddGroupUiSchemaCreateView from "../../../groups/_internal/GroupUiSchemaCreateView";
+import * as builddGroupUiSchemaCreateEdit from "../../../groups/_internal/GroupUiSchemaCreateEdit";
+import * as builddGroupUiSchemaCreate from "../../../groups/_internal/GroupUiSchemaCreate";
+import * as builddGroupUiSchemaEdit from "../../../groups/_internal/GroupUiSchemaEdit";
+import * as builddGroupUiSchemaSettings from "../../../groups/_internal/GroupUiSchemaSettings";
+import * as builddGroupUiSchemaDiscussionSettings from "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
+import * as buildEventSchemaCreate from "../../../events/_internal/EventSchemaCreate";
+import * as buildEventSchemaEdit from "../../../events/_internal/EventSchemaEdit";
+import * as buildEventSchemaRegistrants from "../../../events/_internal/EventSchemaAttendeesSettings";
+import * as buildEventUiSchemaCreate from "../../../events/_internal/EventUiSchemaCreate";
+import * as buildEventUiSchemaEdit from "../../../events/_internal/EventUiSchemaEdit";
+import * as buildEventUiSchemaRegistrants from "../../../events/_internal/EventUiSchemaAttendeesSettings";
+import * as buildInitiativeTemplateUiSchemaEdit from "../../../initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
+import * as buildUserUiSchemaSettings from "../../../users/_internal/UserUiSchemaSettings";
+import { UserSchema } from "../../../users/_internal/UserSchema";
 
 /**
  * get the editor schema and uiSchema defined for an editor (either an entity or a card).
@@ -58,29 +115,18 @@ export async function getEditorSchemas(
 
   switch (editorType) {
     case "site": {
-      const { getSiteSchema } = await import(
-        "../../../sites/_internal/SiteSchema"
-      );
+      const MODULES: Record<SiteEditorType, IEntityEditorModuleType> = {
+        "hub:site:edit": buildSiteUiSchemaEdit,
+        "hub:site:create": buildSiteUiSchemaCreate,
+        "hub:site:followers": buildSiteUiSchemaFollowers,
+        "hub:site:settings": buildSiteUiSchemaSettings,
+        "hub:site:assistant": buildSiteUiSchemaAssistant,
+        "hub:site:settings:discussions": buildSiteUiSchemaDiscussionSettings,
+      };
+      const module: IEntityEditorModuleType = MODULES[type as SiteEditorType];
       // site id is needed for validation of site url
       schema = getSiteSchema((options as HubEntity).id, context);
-
-      const siteModule: IEntityEditorModuleType = await {
-        "hub:site:edit": () =>
-          import("../../../sites/_internal/SiteUiSchemaEdit"),
-        "hub:site:create": () =>
-          import("../../../sites/_internal/SiteUiSchemaCreate"),
-        "hub:site:followers": () =>
-          import("../../../sites/_internal/SiteUiSchemaFollowers"),
-        "hub:site:settings": () =>
-          import("../../../sites/_internal/SiteUiSchemaSettings"),
-        "hub:site:assistant": () =>
-          import("../../../sites/_internal/SiteUiSchemaAssistant"),
-        "hub:site:settings:discussions": () =>
-          import(
-            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
-          ),
-      }[type as SiteEditorType]();
-      uiSchema = await siteModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -90,8 +136,8 @@ export async function getEditorSchemas(
       // TODO: when implementing buildDefaults for sites, remove the ignore line
 
       /* istanbul ignore next @preserve */
-      if (siteModule.buildDefaults) {
-        defaults = await siteModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -102,24 +148,17 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "discussion": {
-      const { DiscussionSchema } = await import(
-        "../../../discussions/_internal/DiscussionSchema"
-      );
+      const MODULES: Record<DiscussionEditorType, IEntityEditorModuleType> = {
+        "hub:discussion:edit": buildDiscussionUiSchemaEdit,
+        "hub:discussion:create": buildDiscussionUiSchemaCreate,
+        "hub:discussion:settings": buildDiscussionUiSchemaSettings,
+        "hub:discussion:settings:discussions":
+          buildDiscussionUiSchemaDiscussionSettings,
+      };
+      const module: IEntityEditorModuleType =
+        MODULES[type as DiscussionEditorType];
       schema = cloneObject(DiscussionSchema);
-
-      const discussionModule: IEntityEditorModuleType = await {
-        "hub:discussion:edit": () =>
-          import("../../../discussions/_internal/DiscussionUiSchemaEdit"),
-        "hub:discussion:create": () =>
-          import("../../../discussions/_internal/DiscussionUiSchemaCreate"),
-        "hub:discussion:settings": () =>
-          import("../../../discussions/_internal/DiscussionUiSchemaSettings"),
-        "hub:discussion:settings:discussions": () =>
-          import(
-            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
-          ),
-      }[type as DiscussionEditorType]();
-      uiSchema = await discussionModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -129,8 +168,8 @@ export async function getEditorSchemas(
       // TODO: when first implementing buildDefaults for discussions, remove the ignore line
 
       /* istanbul ignore next @preserve */
-      if (discussionModule.buildDefaults) {
-        defaults = await discussionModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -141,18 +180,14 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "channel": {
-      const { ChannelSchema } = await import(
-        "../../../channels/_internal/ChannelSchema"
-      );
+      const MODULES: Record<ChannelEditorType, IEntityEditorModuleType> = {
+        "hub:channel:edit": buildChannelUiSchemaEdit,
+        "hub:channel:create": buildChannelUiSchemaCreate,
+      };
+      const module: IEntityEditorModuleType =
+        MODULES[type as ChannelEditorType];
       schema = cloneObject(ChannelSchema);
-
-      const channelModule: IEntityEditorModuleType = await {
-        "hub:channel:edit": () =>
-          import("../../../channels/_internal/ChannelUiSchemaEdit"),
-        "hub:channel:create": () =>
-          import("../../../channels/_internal/ChannelUiSchemaCreate"),
-      }[type as ChannelEditorType]();
-      uiSchema = await channelModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -162,8 +197,8 @@ export async function getEditorSchemas(
       // TODO: when first implementing buildDefaults for discussions, remove the ignore line
 
       /* istanbul ignore next @preserve */
-      if (channelModule.buildDefaults) {
-        defaults = await channelModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -174,31 +209,25 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "project": {
-      const { ProjectSchema } = await import(
-        "../../../projects/_internal/ProjectSchema"
-      );
+      const MODULES: Record<ProjectEditorType, IEntityEditorModuleType> = {
+        "hub:project:edit": buildProjectUiSchemaEdit,
+        "hub:project:create": buildProjectUiSchemaCreate,
+        "hub:project:create2": buildProjectUiSchemaCreate2,
+        "hub:project:metrics": buildProjectUiSchemaMetrics,
+        "hub:project:settings": buildProjectUiSchemaSettings,
+      };
+      const module: IEntityEditorModuleType =
+        MODULES[type as ProjectEditorType];
       schema = cloneObject(ProjectSchema);
-
-      const projectModule: IEntityEditorModuleType = await {
-        "hub:project:edit": () =>
-          import("../../../projects/_internal/ProjectUiSchemaEdit"),
-        "hub:project:create": () =>
-          import("../../../projects/_internal/ProjectUiSchemaCreate"),
-        "hub:project:create2": () =>
-          import("../../../projects/_internal/ProjectUiSchemaCreate2"),
-        "hub:project:metrics": () => import("./metrics/ProjectUiSchemaMetrics"),
-        "hub:project:settings": () =>
-          import("../../../projects/_internal/ProjectUiSchemaSettings"),
-      }[type as ProjectEditorType]();
-      uiSchema = await projectModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
       );
 
       // if we have the buildDefaults fn, then construct the defaults
-      if (projectModule.buildDefaults) {
-        defaults = await projectModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -209,36 +238,26 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "initiative": {
-      const { InitiativeSchema } = await import(
-        "../../../initiatives/_internal/InitiativeSchema"
-      );
+      const MODULES: Record<InitiativeEditorType, IEntityEditorModuleType> = {
+        "hub:initiative:edit": buildInitiativeUiSchemaEdit,
+        "hub:initiative:create": buildInitiativeUiSchemaCreate,
+        "hub:initiative:create2": buildInitiativeUiSchemaCreate2,
+        "hub:initiative:metrics": buildInitiativeUiSchemaMetrics,
+        "hub:initiative:associations": buildInitiativeUiSchemaAssociations,
+        "hub:initiative:settings": buildInitiativeUiSchemaSettings,
+      };
+      const module: IEntityEditorModuleType =
+        MODULES[type as InitiativeEditorType];
       schema = cloneObject(InitiativeSchema);
-
-      const initiativeModule: IEntityEditorModuleType = await {
-        "hub:initiative:edit": () =>
-          import("../../../initiatives/_internal/InitiativeUiSchemaEdit"),
-        "hub:initiative:create": () =>
-          import("../../../initiatives/_internal/InitiativeUiSchemaCreate"),
-        "hub:initiative:create2": () =>
-          import("../../../initiatives/_internal/InitiativeUiSchemaCreate2"),
-        "hub:initiative:metrics": () =>
-          import("./metrics/InitiativeUiSchemaMetrics"),
-        "hub:initiative:associations": () =>
-          import(
-            "../../../initiatives/_internal/InitiativeUiSchemaAssociations"
-          ),
-        "hub:initiative:settings": () =>
-          import("../../../initiatives/_internal/InitiativeUiSchemaSettings"),
-      }[type as InitiativeEditorType]();
-      uiSchema = await initiativeModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
       );
 
       // if we have the buildDefaults fn, then construct the defaults
-      if (initiativeModule.buildDefaults) {
-        defaults = await initiativeModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -249,18 +268,13 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "page": {
-      const { PageSchema } = await import(
-        "../../../pages/_internal/PageSchema"
-      );
+      const MODULES: Record<PageEditorType, IEntityEditorModuleType> = {
+        "hub:page:edit": buildPageUiSchemaEdit,
+        "hub:page:create": buildPageUiSchemaCreate,
+      };
+      const module: IEntityEditorModuleType = MODULES[type as PageEditorType];
       schema = cloneObject(PageSchema);
-
-      const pageModule: IEntityEditorModuleType = await {
-        "hub:page:edit": () =>
-          import("../../../pages/_internal/PageUiSchemaEdit"),
-        "hub:page:create": () =>
-          import("../../../pages/_internal/PageUiSchemaCreate"),
-      }[type as PageEditorType]();
-      uiSchema = await pageModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -270,8 +284,8 @@ export async function getEditorSchemas(
       // TODO: when first implementing buildDefaults for pages, remove the ignore line
 
       /* istanbul ignore next @preserve */
-      if (pageModule.buildDefaults) {
-        defaults = await pageModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -282,26 +296,18 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "content": {
-      const { ContentSchema } = await import(
-        "../../../content/_internal/ContentSchema"
-      );
+      const MODULES: Record<ContentEditorType, IEntityEditorModuleType> = {
+        "hub:content:edit": buildContentUiSchemaEdit,
+        "hub:content:settings": buildContentUiSchemaSettings,
+        "hub:content:settings:discussions":
+          buildContentUiSchemaDiscussionSettings,
+        "hub:content:settings:discussions:compact":
+          buildContentUiSchemaDiscussionSettingsCompact,
+      };
+      const module: IEntityEditorModuleType =
+        MODULES[type as ContentEditorType];
       schema = cloneObject(ContentSchema);
-
-      const contentModule: IEntityEditorModuleType = await {
-        "hub:content:edit": () =>
-          import("../../../content/_internal/ContentUiSchemaEdit"),
-        "hub:content:settings": () =>
-          import("../../../content/_internal/ContentUiSchemaSettings"),
-        "hub:content:settings:discussions": () =>
-          import(
-            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
-          ),
-        "hub:content:settings:discussions:compact": () =>
-          import(
-            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact"
-          ),
-      }[type as ContentEditorType]();
-      uiSchema = await contentModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -311,8 +317,8 @@ export async function getEditorSchemas(
       // TODO: when first implementing buildDefaults for content, remove the ignore line
 
       /* istanbul ignore next @preserve */
-      if (contentModule.buildDefaults) {
-        defaults = await contentModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -323,16 +329,13 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "template": {
-      const { TemplateSchema } = await import(
-        "../../../templates/_internal/TemplateSchema"
-      );
+      const MODULES: Record<TemplateEditorType, IEntityEditorModuleType> = {
+        "hub:template:edit": buildTemplateUiSchemaEdit,
+      };
+      const module: IEntityEditorModuleType =
+        MODULES[type as TemplateEditorType];
       schema = cloneObject(TemplateSchema);
-
-      const templateModule: IEntityEditorModuleType = await {
-        "hub:template:edit": () =>
-          import("../../../templates/_internal/TemplateUiSchemaEdit"),
-      }[type as TemplateEditorType]();
-      uiSchema = await templateModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -342,8 +345,8 @@ export async function getEditorSchemas(
       // TODO: when first implementing buildDefaults for templates, remove the ignore line
 
       /* istanbul ignore next @preserve */
-      if (templateModule.buildDefaults) {
-        defaults = await templateModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -354,40 +357,27 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "group": {
-      const { GroupSchema } = await import(
-        "../../../groups/_internal/GroupSchema"
-      );
+      const MODULES: Record<GroupEditorType, IEntityEditorModuleType> = {
+        "hub:group:create:followers": buildGroupUiSchemaCreateFollowers,
+        "hub:group:create:association": builddGroupUiSchemaCreateAssociation,
+        "hub:group:create:view": builddGroupUiSchemaCreateView,
+        "hub:group:create:edit": builddGroupUiSchemaCreateEdit,
+        "hub:group:create": builddGroupUiSchemaCreate,
+        "hub:group:edit": builddGroupUiSchemaEdit,
+        "hub:group:settings": builddGroupUiSchemaSettings,
+        "hub:group:settings:discussions": builddGroupUiSchemaDiscussionSettings,
+      };
+      const module: IEntityEditorModuleType = MODULES[type as GroupEditorType];
       schema = cloneObject(GroupSchema);
-
-      const groupModule: IEntityEditorModuleType = await {
-        "hub:group:create:followers": () =>
-          import("../../../groups/_internal/GroupUiSchemaCreateFollowers"),
-        "hub:group:create:association": () =>
-          import("../../../groups/_internal/GroupUiSchemaCreateAssociation"),
-        "hub:group:create:view": () =>
-          import("../../../groups/_internal/GroupUiSchemaCreateView"),
-        "hub:group:create:edit": () =>
-          import("../../../groups/_internal/GroupUiSchemaCreateEdit"),
-        "hub:group:create": () =>
-          import("../../../groups/_internal/GroupUiSchemaCreate"),
-        "hub:group:edit": () =>
-          import("../../../groups/_internal/GroupUiSchemaEdit"),
-        "hub:group:settings": () =>
-          import("../../../groups/_internal/GroupUiSchemaSettings"),
-        "hub:group:settings:discussions": () =>
-          import(
-            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
-          ),
-      }[type as GroupEditorType]();
-      uiSchema = await groupModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
       );
 
       // if we have the buildDefaults fn, then construct the defaults
-      if (groupModule.buildDefaults) {
-        defaults = await groupModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -398,24 +388,26 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "event": {
-      const eventSchemaModule = await {
-        "hub:event:create": () =>
-          import("../../../events/_internal/EventSchemaCreate"),
-        "hub:event:edit": () =>
-          import("../../../events/_internal/EventSchemaEdit"),
-        "hub:event:registrants": () =>
-          import("../../../events/_internal/EventSchemaAttendeesSettings"),
-      }[type as EventEditorType]();
-      const eventUiSchemaModule = await {
-        "hub:event:create": () =>
-          import("../../../events/_internal/EventUiSchemaCreate"),
-        "hub:event:edit": () =>
-          import("../../../events/_internal/EventUiSchemaEdit"),
-        "hub:event:registrants": () =>
-          import("../../../events/_internal/EventUiSchemaAttendeesSettings"),
-      }[type as EventEditorType]();
-      schema = eventSchemaModule.buildSchema();
-      uiSchema = await eventUiSchemaModule.buildUiSchema(
+      const SCHEMA_MODULES: Record<
+        EventEditorType,
+        { buildSchema(): IConfigurationSchema }
+      > = {
+        "hub:event:create": buildEventSchemaCreate,
+        "hub:event:edit": buildEventSchemaEdit,
+        "hub:event:registrants": buildEventSchemaRegistrants,
+      };
+      const UI_SCHEMA_MODULES: Record<
+        EventEditorType,
+        IEntityEditorModuleType
+      > = {
+        "hub:event:create": buildEventUiSchemaCreate,
+        "hub:event:edit": buildEventUiSchemaEdit,
+        "hub:event:registrants": buildEventUiSchemaRegistrants,
+      };
+      schema = SCHEMA_MODULES[type as EventEditorType].buildSchema();
+      const uiSchemaModule: IEntityEditorModuleType =
+        UI_SCHEMA_MODULES[type as EventEditorType];
+      uiSchema = await uiSchemaModule.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -424,18 +416,16 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "initiativeTemplate": {
-      const { InitiativeTemplateSchema } = await import(
-        "../../../initiative-templates/_internal/InitiativeTemplateSchema"
-      );
+      const MODULES: Record<
+        InitiativeTemplateEditorType,
+        IEntityEditorModuleType
+      > = {
+        "hub:initiativeTemplate:edit": buildInitiativeTemplateUiSchemaEdit,
+      };
+      const module: IEntityEditorModuleType =
+        MODULES[type as InitiativeTemplateEditorType];
       schema = cloneObject(InitiativeTemplateSchema);
-      const initiativeTemplateModule: IEntityEditorModuleType = await {
-        "hub:initiativeTemplate:edit": () =>
-          import(
-            "../../../initiative-templates/_internal/InitiativeTemplateUiSchemaEdit"
-          ),
-      }[type as InitiativeTemplateEditorType]();
-
-      uiSchema = await initiativeTemplateModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -445,8 +435,8 @@ export async function getEditorSchemas(
       // TODO: when first implementing buildDefaults for initiative templates, remove the ignore line
 
       /* istanbul ignore next @preserve */
-      if (initiativeTemplateModule.buildDefaults) {
-        defaults = await initiativeTemplateModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
@@ -457,17 +447,12 @@ export async function getEditorSchemas(
     }
     // ----------------------------------------------------
     case "user": {
-      const { UserSchema } = await import(
-        "../../../users/_internal/UserSchema"
-      );
+      const MODULES: Record<UserEditorType, IEntityEditorModuleType> = {
+        "hub:user:settings": buildUserUiSchemaSettings,
+      };
+      const module: IEntityEditorModuleType = MODULES[type as UserEditorType];
       schema = cloneObject(UserSchema);
-
-      const userModule: IEntityEditorModuleType = await {
-        "hub:user:settings": () =>
-          import("../../../users/_internal/UserUiSchemaSettings"),
-      }[type as UserEditorType]();
-
-      uiSchema = await userModule.buildUiSchema(
+      uiSchema = await module.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
@@ -477,8 +462,8 @@ export async function getEditorSchemas(
       // TODO: when first implementing buildDefaults for users, remove the ignore line
 
       /* istanbul ignore next @preserve */
-      if (userModule.buildDefaults) {
-        defaults = await userModule.buildDefaults(
+      if (module.buildDefaults) {
+        defaults = await module.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context

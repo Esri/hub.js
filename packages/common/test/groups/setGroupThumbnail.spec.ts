@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
   const actual = await importOriginal();
   return {
@@ -11,7 +9,7 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => {
 import { setGroupThumbnail } from "../../src/groups/setGroupThumbnail";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 
 afterEach(() => vi.restoreAllMocks());
 

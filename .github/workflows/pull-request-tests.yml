@@ -4,6 +4,8 @@ name: PR Tests
 on:
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
+    branches:
+      - "**"
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:

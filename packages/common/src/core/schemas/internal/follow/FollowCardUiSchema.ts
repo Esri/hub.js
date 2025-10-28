@@ -32,8 +32,8 @@ export const buildUiSchema = (
   i18nScope: string,
   config: FollowCardEditorOptions,
   context: IArcGISContext
-): IUiSchema => {
-  return {
+): Promise<IUiSchema> => {
+  return Promise.resolve({
     type: "Layout",
     elements: [
       {
@@ -133,7 +133,7 @@ export const buildUiSchema = (
         ],
       },
     ],
-  };
+  });
 };
 
 const HIDE_FOR_NO_ENTITY_ID = {
