@@ -73,13 +73,7 @@ import * as UserBuildUiSchemaSettings from "../../../../src/users/_internal/User
 
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
-import {
-  describe,
-  it,
-  expect,
-  afterEach,
-  vi,
-} from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 
 describe("getEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
