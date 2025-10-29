@@ -107,7 +107,7 @@ export type ColumnWidth = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
  * }
  * ```
  */
- 
+
 export interface ITranslationMap {
   /**
    * A key-value pair where the key is a language
@@ -170,7 +170,7 @@ export interface ILayoutVariable {
 }
 
 /** Interface representing overrides for layout nodes. */
- 
+
 export interface INodeOverrides {
   /** Overrides for the node's properties */
   [nodeId: string]: Partial<LayoutNode>;
@@ -224,7 +224,7 @@ export type LayoutNodeVisibility =
 export interface ILayoutNodeVisibilityStatic {
   kind: "static";
   /** whether the node is visible or not */
-  value?: boolean;
+  value: boolean;
 }
 export interface ILayoutNodeVisibilityGroup {
   kind: "group";
