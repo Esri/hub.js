@@ -107,7 +107,7 @@ export type ColumnWidth = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
  * }
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+ 
 export interface ITranslationMap {
   /**
    * A key-value pair where the key is a language
@@ -170,7 +170,7 @@ export interface ILayoutVariable {
 }
 
 /** Interface representing overrides for layout nodes. */
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+ 
 export interface INodeOverrides {
   /** Overrides for the node's properties */
   [nodeId: string]: Partial<LayoutNode>;
@@ -197,8 +197,12 @@ export interface ILayoutNode extends IMigratableSchema {
   styles?: StyleMap;
   /** Optional array of CSS classes for the node. */
   classes?: string[];
-  /** If true, the node is only rendered in the editor */
-  hidden?: boolean;
+  /**
+   * Optional visibility settings for the node. If
+   * the resulting visibility is false, the node
+   * will only be rendered in the editor.
+   */
+  visibility?: LayoutNodeVisibility;
   /** Optional array of permission policies for access control. */
   permissions?: IEntityPermissionPolicy[];
   /** Optional: when true the node can not be editied, regardless of the component rules.
@@ -206,6 +210,26 @@ export interface ILayoutNode extends IMigratableSchema {
   readOnly?: boolean;
   /** Optional translations for the layout. */
   translations?: ITranslationMap;
+}
+
+/**
+ * Type to represent a layout node's visibility. This
+ * is a discriminated union between static visibility
+ * and group-based visibility. We can expand this in
+ * the future to add more visibility types as needed.
+ */
+export type LayoutNodeVisibility =
+  | ILayoutNodeVisibilityStatic
+  | ILayoutNodeVisibilityGroup;
+export interface ILayoutNodeVisibilityStatic {
+  kind: "static";
+  /** whether the node is visible or not */
+  value?: boolean;
+}
+export interface ILayoutNodeVisibilityGroup {
+  kind: "group";
+  /** The groupIds which control the node's visibility */
+  groupIds: string[];
 }
 
 /** Interface representing a layout section node.  */
