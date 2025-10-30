@@ -221,12 +221,19 @@ export interface ILayoutNode extends IMigratableSchema {
 export type LayoutNodeVisibility =
   | ILayoutNodeVisibilityStatic
   | ILayoutNodeVisibilityGroup;
-export interface ILayoutNodeVisibilityStatic {
+interface ILayoutNodeVisibilityBase {
+  /**
+   * "kind" of visibility - used to distinguish
+   * between the discriminated union types
+   */
+  kind: "static" | "group";
+}
+export interface ILayoutNodeVisibilityStatic extends ILayoutNodeVisibilityBase {
   kind: "static";
   /** whether the node is visible or not */
   value: boolean;
 }
-export interface ILayoutNodeVisibilityGroup {
+export interface ILayoutNodeVisibilityGroup extends ILayoutNodeVisibilityBase {
   kind: "group";
   /** The groupIds which control the node's visibility */
   groupIds: string[];
