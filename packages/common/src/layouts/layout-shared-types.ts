@@ -226,7 +226,7 @@ interface ILayoutNodeVisibilityBase {
    * "kind" of visibility - used to distinguish
    * between the discriminated union types
    */
-  kind: "static" | "group";
+  kind: string;
 }
 export interface ILayoutNodeVisibilityStatic extends ILayoutNodeVisibilityBase {
   kind: "static";
