@@ -37,6 +37,7 @@ import { setProp } from "../objects/set-prop";
 import { mapBy } from "../utils/map-by";
 import { handleDomainChanges } from "./_internal/handleDomainChanges";
 import { AccessLevel } from "../core/types/types";
+import { upgradeSiteSchema } from "./upgrade-site-schema";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -277,11 +278,20 @@ export async function createSite(
   );
   let model = mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
 
+  // There's no guarantee that the combination DEFAULT_SITE_MODEL + partialSite
+  // will result in a model with the latest schemaVersion. To prevent issues with
+  // post-processing the catalogV2, we run the upgrade here just in case.
+  model = upgradeSiteSchema(model);
+
+  // TODO: Remove once all sites are fully on catalogV2
+  // Remove the v1 catalog that might be populated during migrations
+  delete model.data.catalog;
   // Remove default collections and set the v2 catalog
   const catalogV2 = cloneObject(site.catalog);
   catalogV2.collections = [];
   model.data.catalogV2 = catalogV2;
-  // TODO: Remove once all sites are fully on catalogV2
+  // TODO: Remove once all sites are fully on catalogV2. We have to use this flag
+  // to get around some oddities with creating/deploying site templates
   model.data.useCatalogV2 = true;
 
   // create the backing item

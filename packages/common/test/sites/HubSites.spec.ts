@@ -730,6 +730,7 @@ describe("HubSites:", () => {
               },
             },
           },
+          schemaVersion: 1, // HubSite class sets default to 1 in .toJson()
         };
 
         const chk = await createSite(site, MOCK_HUB_REQOPTS);
