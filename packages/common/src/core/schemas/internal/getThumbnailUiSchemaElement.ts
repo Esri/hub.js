@@ -19,7 +19,11 @@ const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
  * the thumbnail editing control for an item-based entity.
  *
  * @param i18nScope i18n scope for the entity translations
- * @param entity The entity to build the UI schema for
+ * @param thumbnail current thumbnail filename
+ * @param thumbnailUrl current thumbnail URL
+ * @param entityType the type of entity (content, group, event, etc)
+ * @param requestOptions request options
+ * @param defaultThumbnailUrl optional default thumbnail url to use instead of the standard one
  * @returns the UI schema element for thumbnail editing
  */
 export function getThumbnailUiSchemaElement(
@@ -27,11 +31,14 @@ export function getThumbnailUiSchemaElement(
   thumbnail: string,
   thumbnailUrl: string,
   entityType: HubEntityType,
-  requestOptions: IRequestOptions
+  requestOptions: IRequestOptions,
+  defaultThumbnailUrl?: string
 ): IUiSchemaElement[] {
   const defaultEntityThumbnail =
     DEFAULT_ENTITY_THUMBNAILS[entityType] ?? DEFAULT_ENTITY_THUMBNAILS.content;
-  const defaultImgUrl = getCdnAssetUrl(defaultEntityThumbnail, requestOptions);
+  const defaultImgUrl =
+    defaultThumbnailUrl ||
+    getCdnAssetUrl(defaultEntityThumbnail, requestOptions);
 
   let options;
   if (entityType === "group") {
