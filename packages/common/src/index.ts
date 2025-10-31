@@ -1179,6 +1179,7 @@ export {
   WellKnownItemCatalog,
 } from "./search/wellKnownCatalog";
 export { migrateBadBasemap } from "./sites/_internal/migrateBadBasemap";
+export { migrateEnsureHeaderComponentName } from "./sites/_internal/migrateEnsureHeaderComponentName";
 export { migrateWebMappingApplicationSites } from "./sites/_internal/migrateWebMappingApplicationSites";
 export { defaultSiteCollectionKeys } from "./sites/defaultSiteCollectionKeys";
 export { _checkStatusAndParseJson } from "./sites/domains/_check-status-and-parse-json";
