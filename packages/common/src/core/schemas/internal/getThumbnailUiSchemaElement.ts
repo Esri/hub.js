@@ -2,6 +2,10 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getCdnAssetUrl } from "../../../urls/get-cdn-asset-url";
 import { HubEntityType } from "../../types/HubEntityType";
 import { IUiSchemaElement } from "../types";
+import { getItemDataUrl } from "../../../urls/get-item-data-url";
+import { IItem } from "@esri/arcgis-rest-portal";
+import { IHubEditableContent } from "../../types/IHubEditableContent";
+import { IArcGISContext } from "../../../types/IArcGISContext";
 
 const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
   discussion:
@@ -12,6 +16,30 @@ const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
     "/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
   content:
     "/ember-arcgis-opendata-components/assets/images/placeholders/content.png",
+};
+
+/**
+ * To only be used by IHubEditableContent entities when attempting to determine
+ * the default thumbnail for a content entity with a type of "Image"
+ *
+ * For test coverage purposes, I've move this logic out of the buildUiSchema function.
+ *
+ * @param options
+ * @param context
+ * @returns string | undefined
+ */
+export const getDefaultImageEntityThumbnail = (
+  options: Partial<IHubEditableContent>,
+  context: IArcGISContext
+): string | undefined => {
+  return options.type === "Image"
+    ? // if the content is an Image, use its own data url as the default thumbnail
+      getItemDataUrl(
+        { id: options.id, access: options.access } as IItem,
+        context.hubRequestOptions,
+        context.hubRequestOptions.authentication?.token
+      )
+    : undefined;
 };
 
 /**

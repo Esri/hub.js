@@ -3,11 +3,12 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { IUiSchema } from "../../core/schemas/types";
-import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
+import {
+  getDefaultImageEntityThumbnail,
+  getThumbnailUiSchemaElement,
+} from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { getItemDataUrl } from "../../urls/get-item-data-url";
-import { IItem } from "@esri/arcgis-rest-portal";
 
 /**
  * @private
@@ -83,14 +84,7 @@ export const buildUiSchema = async (
             options.thumbnailUrl,
             "content",
             context.requestOptions,
-            options.type === "Image"
-              ? // if the content is an Image, use its own data url as the default thumbnail
-                getItemDataUrl(
-                  { id: options.id, access: options.access } as IItem,
-                  context.hubRequestOptions,
-                  context.hubRequestOptions.authentication?.token
-                )
-              : undefined
+            getDefaultImageEntityThumbnail(options, context)
           ),
           {
             type: "Section",
