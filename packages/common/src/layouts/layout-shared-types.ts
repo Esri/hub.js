@@ -385,8 +385,8 @@ export interface ILayoutNodeConfig {
   canEdit?: boolean;
   /** Whether the node is repositionable. */
   canMove?: boolean;
-  /** Whether the node's visibility is toggleable. */
-  canToggleVisibility?: boolean;
+  /** Whether the node's visibility is adjustable. */
+  canAdjustVisibility?: boolean;
   /**
    * Property name for the node's values - e.g. when the
    * node is edited, the updated values from the editor
