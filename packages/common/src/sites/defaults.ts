@@ -6,6 +6,8 @@ export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 
 /**
  * Default values of a IHubSite
+ * This is used by HubSite.create and HubSite.fromJson
+ * which are used by the Configuration Editor.
  */
 export const DEFAULT_SITE: Partial<IHubSite> = {
   name: "",

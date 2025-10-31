@@ -1,9 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-} from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { getTemplate } from "../../../src/core/_internal/getTemplate";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
@@ -29,7 +24,7 @@ describe("getTemplate util:", () => {
     const template = await getTemplate("blankSiteOrPageLayout", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
-    expect(template.header).toEqual({ component: {} });
+    expect(template.header.component.name).toEqual("site-header");
     expect(template.footer).toBeUndefined();
   });
 
@@ -37,7 +32,7 @@ describe("getTemplate util:", () => {
     const template = await getTemplate("someUnknownTemplateName", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
-    expect(template.header).toEqual({ component: {} });
+    expect(template.header.component.name).toEqual("site-header");
     expect(template.footer).toBeUndefined();
   });
 
@@ -71,7 +66,7 @@ describe("getTemplate util:", () => {
     const template = await getTemplate("blankSiteOrPageLayout", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
-    expect(template.header).toEqual({ component: {} });
+    expect(template.header.component.name).toEqual("site-header");
     expect(template.footer).toBeUndefined();
   });
 
@@ -79,7 +74,7 @@ describe("getTemplate util:", () => {
     const template = await getTemplate("anotherUnknownTemplateName", context);
     expect(template).toBeDefined();
     expect(template.sections.length).toBe(0);
-    expect(template.header).toEqual({ component: {} });
+    expect(template.header.component.name).toEqual("site-header");
     expect(template.footer).toBeUndefined();
   });
 });

@@ -1,8 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-} from "vitest";
+import { describe, it, expect } from "vitest";
 import * as hubCommon from "../src";
 
 /**
@@ -1033,6 +1029,7 @@ describe("index", () => {
     "getGroupThumbnailUrl",
     "getUserThumbnailUrl",
     "migrateToCollectionKey",
+    "migrateEnsureHeaderComponentName",
     "getScopeGroupPredicate",
     "getGroupPredicate",
     "getResultSiteRelativeLink",
