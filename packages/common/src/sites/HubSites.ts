@@ -45,6 +45,8 @@ export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
 /**
  * Default values of a IHubSite
+ * NOTE: This is different from the objects in ./defaults.ts
+ * These are ONLY used when creating a new site via createSite function
  */
 const DEFAULT_SITE: Partial<IHubSite> = {
   name: "",
@@ -104,6 +106,8 @@ const DEFAULT_SITE: Partial<IHubSite> = {
 
 /**
  * Default values for a new HubSite Model
+ * NOTE: This is different from the objects in ./defaults.ts
+ * These are ONLY used when creating a new site via createSite function
  */
 const DEFAULT_SITE_MODEL: IModel = {
   item: {
