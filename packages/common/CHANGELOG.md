@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.21.2
+
+### Patch Changes
+
+- d5796fc: migration to ensure site header component has name prop
+
 ## 20.21.1
 
 ### Patch Changes
