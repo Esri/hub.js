@@ -1,10 +1,6 @@
 import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaAssistant";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import {
-  describe,
-  it,
-  expect,
-} from "vitest";
+import { describe, it, expect } from "vitest";
 
 describe("buildUiSchema: site assistant", () => {
   it("returns the full site assistant uiSchema", async () => {
@@ -143,6 +139,20 @@ describe("buildUiSchema: site assistant", () => {
                 helperText: {
                   label: `{{some.scope.assistant.fields.description.helperText:translate}}`,
                 },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.description.requiredError:translate}}`,
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.description.maxLengthError:translate}}`,
+                  },
+                ],
               },
             },
             {
@@ -155,6 +165,20 @@ describe("buildUiSchema: site assistant", () => {
                 helperText: {
                   label: `{{some.scope.assistant.fields.location.helperText:translate}}`,
                 },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.location.requiredError:translate}}`,
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.location.maxLengthError:translate}}`,
+                  },
+                ],
               },
             },
           ],
@@ -179,6 +203,20 @@ describe("buildUiSchema: site assistant", () => {
                 helperText: {
                   label: `{{some.scope.assistant.fields.personality.helperText:translate}}`,
                 },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.personality.requiredError:translate}}`,
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.personality.maxLengthError:translate}}`,
+                  },
+                ],
               },
             },
           ],
@@ -203,6 +241,26 @@ describe("buildUiSchema: site assistant", () => {
                 helperText: {
                   label: `{{some.scope.assistant.fields.examplePrompts.helperText:translate}}`,
                 },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.examplePrompts.requiredError:translate}}`,
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.examplePrompts.maxLengthError:translate}}`,
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "maxItems",
+                    icon: true,
+                    label: `{{some.scope.assistant.fields.examplePrompts.maxItemsError:translate}}`,
+                  },
+                ],
               },
             },
           ],
@@ -231,16 +289,31 @@ describe("buildUiSchema: site assistant", () => {
                 // use "action" as the description for the workflow
                 descriptionProp: "action",
                 descriptionPropPostfix: `{{some.scope.assistant.sections.workflows.descriptionPropPostfix:translate}}`,
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    icon: true,
+                    label: `{{some.scope.assistant.sections.workflows.requiredError:translate}}`,
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "maxItems",
+                    icon: true,
+                    label: `{{some.scope.assistant.sections.workflows.maxItemsError:translate}}`,
+                  },
+                ],
                 editSchema: {
                   type: "object",
                   required: ["label", "description", "action"],
                   properties: {
                     label: {
                       type: "string",
-                      maxLength: 120,
+                      maxLength: 200,
                     },
                     description: {
                       type: "string",
+                      maxLength: 1000,
                     },
                     action: {
                       type: "string",
@@ -249,6 +322,7 @@ describe("buildUiSchema: site assistant", () => {
                     },
                     response: {
                       type: "string",
+                      maxLength: 1000,
                     },
                   },
                   allOf: [
@@ -271,6 +345,20 @@ describe("buildUiSchema: site assistant", () => {
                       type: "Control",
                       options: {
                         control: "hub-field-input-input",
+                        messages: [
+                          {
+                            type: "ERROR",
+                            keyword: "required",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.titleRequiredError:translate}}`,
+                          },
+                          {
+                            type: "ERROR",
+                            keyword: "maxLength",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.titleMaxLengthError:translate}}`,
+                          },
+                        ],
                       },
                     },
                     {
@@ -279,6 +367,20 @@ describe("buildUiSchema: site assistant", () => {
                       type: "Control",
                       options: {
                         control: "hub-field-input-input",
+                        messages: [
+                          {
+                            type: "ERROR",
+                            keyword: "required",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.descriptionRequiredError:translate}}`,
+                          },
+                          {
+                            type: "ERROR",
+                            keyword: "maxLength",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.descriptionMaxLengthError:translate}}`,
+                          },
+                        ],
                       },
                     },
                     {
@@ -305,6 +407,20 @@ describe("buildUiSchema: site assistant", () => {
                       type: "Control",
                       options: {
                         control: "hub-field-input-input",
+                        messages: [
+                          {
+                            type: "ERROR",
+                            keyword: "required",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.action.responseRequiredError:translate}}`,
+                          },
+                          {
+                            type: "ERROR",
+                            keyword: "maxLength",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.action.responseMaxLengthError:translate}}`,
+                          },
+                        ],
                       },
                       rule: {
                         effect: "HIDE",
