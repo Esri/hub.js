@@ -2,4 +2,4 @@
 "@esri/hub-common": minor
 ---
 
-add optional canToggleVisibility property to ILayoutNodeConfig
+update layout visibility properties & types
