@@ -1,5 +1,12 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.22.0
+
+### Minor Changes
+
+- 0490306: Added limits and error messages to Hub assistant configuration form. Updated Hub Assistant permissions.
+- 470fca2: update layout visibility properties & types
+
 ## 20.21.2
 
 ### Patch Changes
