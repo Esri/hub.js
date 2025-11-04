@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.23.0
+
+### Minor Changes
+
+- 8d70caf: updates & extentions to layout node types
+
 ## 20.22.0
 
 ### Minor Changes
