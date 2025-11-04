@@ -230,8 +230,8 @@ interface ILayoutNodeVisibilityBase {
 }
 export interface ILayoutNodeVisibilityStatic extends ILayoutNodeVisibilityBase {
   kind: "static";
-  /** whether the node is visible or not */
-  value: boolean;
+  /** whether the node is hidden or not */
+  isHidden: boolean;
 }
 export interface ILayoutNodeVisibilityGroup extends ILayoutNodeVisibilityBase {
   kind: "group";
@@ -379,6 +379,12 @@ export type HTMLConfigurableLayoutNodeElement = HTMLElement &
  * layout node.
  */
 export interface ILayoutNodeConfig {
+  /**
+   * Human-readable name of the layout node.
+   * Used internally for logging purposes
+   * (e.g. telemetry, etc.)
+   */
+  name: string;
   /** Tag of the layout node. */
   tag: LayoutNodeTag;
   /** Whether the node is editable. */
