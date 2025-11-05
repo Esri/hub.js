@@ -12,7 +12,7 @@ export const buildUiSchema = async (
   i18nScope: string,
   options: Partial<IHubSite>,
   context: IArcGISContext
-  // eslint-disable-next-line @typescript-eslint/require-await
+   
 ): Promise<IUiSchema> => {
   // NOTE: if this is not defined on the site then
   // the component will use the authenticated user's org
@@ -148,6 +148,20 @@ export const buildUiSchema = async (
               helperText: {
                 label: `{{${i18nScope}.assistant.fields.description.helperText:translate}}`,
               },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.description.requiredError:translate}}`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.description.maxLengthError:translate}}`,
+                },
+              ],
             },
           },
           {
@@ -160,6 +174,20 @@ export const buildUiSchema = async (
               helperText: {
                 label: `{{${i18nScope}.assistant.fields.location.helperText:translate}}`,
               },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.location.requiredError:translate}}`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.location.maxLengthError:translate}}`,
+                },
+              ],
             },
           },
         ],
@@ -184,6 +212,20 @@ export const buildUiSchema = async (
               helperText: {
                 label: `{{${i18nScope}.assistant.fields.personality.helperText:translate}}`,
               },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.personality.requiredError:translate}}`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.personality.maxLengthError:translate}}`,
+                },
+              ],
             },
           },
         ],
@@ -208,6 +250,26 @@ export const buildUiSchema = async (
               helperText: {
                 label: `{{${i18nScope}.assistant.fields.examplePrompts.helperText:translate}}`,
               },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.examplePrompts.requiredError:translate}}`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.examplePrompts.maxLengthError:translate}}`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "maxItems",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.fields.examplePrompts.maxItemsError:translate}}`,
+                },
+              ],
             },
           },
         ],
@@ -236,16 +298,31 @@ export const buildUiSchema = async (
               // use "action" as the description for the workflow
               descriptionProp: "action",
               descriptionPropPostfix: `{{${i18nScope}.assistant.sections.workflows.descriptionPropPostfix:translate}}`,
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.sections.workflows.requiredError:translate}}`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "maxItems",
+                  icon: true,
+                  label: `{{${i18nScope}.assistant.sections.workflows.maxItemsError:translate}}`,
+                },
+              ],
               editSchema: {
                 type: "object",
                 required: ["label", "description", "action"],
                 properties: {
                   label: {
                     type: "string",
-                    maxLength: 120,
+                    maxLength: 200,
                   },
                   description: {
                     type: "string",
+                    maxLength: 1000,
                   },
                   action: {
                     type: "string",
@@ -254,6 +331,7 @@ export const buildUiSchema = async (
                   },
                   response: {
                     type: "string",
+                    maxLength: 1000,
                   },
                 },
                 allOf: [
@@ -276,6 +354,20 @@ export const buildUiSchema = async (
                     type: "Control",
                     options: {
                       control: "hub-field-input-input",
+                      messages: [
+                        {
+                          type: "ERROR",
+                          keyword: "required",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.titleRequiredError:translate}}`,
+                        },
+                        {
+                          type: "ERROR",
+                          keyword: "maxLength",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.titleMaxLengthError:translate}}`,
+                        },
+                      ],
                     },
                   },
                   {
@@ -284,6 +376,20 @@ export const buildUiSchema = async (
                     type: "Control",
                     options: {
                       control: "hub-field-input-input",
+                      messages: [
+                        {
+                          type: "ERROR",
+                          keyword: "required",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.descriptionRequiredError:translate}}`,
+                        },
+                        {
+                          type: "ERROR",
+                          keyword: "maxLength",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.descriptionMaxLengthError:translate}}`,
+                        },
+                      ],
                     },
                   },
                   {
@@ -310,6 +416,20 @@ export const buildUiSchema = async (
                     type: "Control",
                     options: {
                       control: "hub-field-input-input",
+                      messages: [
+                        {
+                          type: "ERROR",
+                          keyword: "required",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.action.responseRequiredError:translate}}`,
+                        },
+                        {
+                          type: "ERROR",
+                          keyword: "maxLength",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.action.responseMaxLengthError:translate}}`,
+                        },
+                      ],
                     },
                     rule: {
                       effect: "HIDE",

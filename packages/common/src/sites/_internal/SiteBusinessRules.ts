@@ -3,19 +3,6 @@ import {
   IPermissionPolicy,
 } from "../../permissions/types/IPermissionPolicy";
 
-// This array is used to enable the AI Assistant feature for specific production orgs during the private beta phase
-const PROD_ASSISTANT_ALPHA_ORGS = [
-  "1JONy5Qa4xQNSWRJ", // Prod Premium Hub
-  "TWfU0bgvgUkCgHLa", // Hub Prod
-  "bkrWlSKcjUDFDtgw", // DCDEV
-  "neT9SoYxizqTHZPH", // DCGIS
-  "ypkPEy1AmwPKGNNv", // Australia
-  "rwnOSbfKSwyTBcwN", // Dallas
-  "jsIt88o09Q0r1j8h", // Washington State
-  "32TQOipPYLOeSkYk", // Forest Stewardship (FSC)
-  "8Pc9XBTAsYuxx9Ny", // Miami-Dade
-];
-
 /**
  * Default features for a Site. These are the features that can be enabled / disabled by the entity owner
  */
@@ -227,55 +214,20 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:site:workspace", "hub:site:edit"],
     environments: ["devext", "qaext", "production"],
   },
+  // access to configure a Hub assistant for a site
   {
     permission: "hub:site:workspace:assistant",
-    assertions: [
-      {
-        property: "context:portal.id",
-        type: "included-in",
-        // PROD orgs that have access to AI Assistant during alpha
-        value: PROD_ASSISTANT_ALPHA_ORGS,
-        // Only evaluate this assertion if the user is in the production environment
-        // This allows all other environments to use the feature as well as
-        // PROD orgs that are in the list above
-        conditions: [
-          {
-            property: "context:environment",
-            type: "eq",
-            value: "production",
-          },
-        ],
-      },
-    ],
-    // turn off license requirement during private beta. Only orgs above will have access
-    // licenses: ["hub-premium"],
+    licenses: ["hub-premium"],
     dependencies: ["hub:site:workspace"],
     services: ["hub-ai-assistant"],
-    // to ensure that only site owner and org admins can enable assistants
+    // to ensure that only site owner and org admins can configure/enable assistants
     entityDelete: true,
   },
+  // Access to view and use the Hub assistant on a site
   {
     permission: "hub:site:assistant:access",
-    assertions: [
-      {
-        property: "context:portal.id",
-        type: "included-in",
-        // PROD orgs that have access to AI Assistant during alpha
-        value: PROD_ASSISTANT_ALPHA_ORGS,
-        // Only evaluate this assertion if the user is in the production environment
-        // This allows all other environments to use the feature as well as
-        // PROD orgs that are in the list above
-        conditions: [
-          {
-            property: "context:environment",
-            type: "eq",
-            value: "production",
-          },
-        ],
-      },
-    ],
-    // turn off license requirement during private beta. Only orgs above will have access
-    // licenses: ["hub-premium"],
+    services: ["hub-ai-assistant"],
+    licenses: ["hub-premium"],
   },
 ];
 
