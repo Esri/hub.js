@@ -1,9 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-} from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { getProp } from "../../src/objects/get-prop";
 
 describe("getProp:", () => {
@@ -21,6 +16,7 @@ describe("getProp:", () => {
         someBoolProp: true,
         someOtherBoolProp: false,
         nullVal: null,
+        someArray: [null, false, 0, ""],
       },
       properties: {
         metrics: {
@@ -85,12 +81,26 @@ describe("getProp:", () => {
     const c = getProp(testObj, "colorVals[findBy(cost,102)].color");
     expect(c).toEqual("orange");
   });
+  it("returns falsy array element values", () => {
+    const a = getProp(testObj, "nest.someArray[0]");
+    expect(a).toBeNull();
+    const b = getProp(testObj, "nest.someArray[1]");
+    expect(b).toBe(false);
+    const c = getProp(testObj, "nest.someArray[2]");
+    expect(c).toBe(0);
+    const d = getProp(testObj, "nest.someArray[3]");
+    expect(d).toBe("");
+  });
   it("returns undefined for entry array by property invalid value", () => {
     const c = getProp(testObj, "colorVals[findBy(cost,199)].color");
     expect(c).not.toBeDefined();
   });
   it("returns undefined if invalid function", () => {
     const c = getProp(testObj, "colorVals[filterBy(cost,199)].color");
+    expect(c).not.toBeDefined();
+  });
+  it("returns undefined for entry in array by property with no matching value", () => {
+    const c = getProp(testObj, "invalidProperty.invalidArray[0]");
     expect(c).not.toBeDefined();
   });
 });
