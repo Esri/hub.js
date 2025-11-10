@@ -2,13 +2,12 @@ import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   addItemPart,
   cancelItemUpload,
-  commitItemUpload,
   ICreateItemResponse,
 } from "@esri/arcgis-rest-portal";
 import type { IItemAdd } from "@esri/arcgis-rest-portal";
 import { isBBox, bboxToString } from "../extent";
 import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
-import { createItem } from "../rest/portal/wrappers";
+import { createItem, commitItemUpload } from "../rest/portal/wrappers";
 import { batch } from "../utils/batch";
 
 /**
