@@ -208,7 +208,19 @@ export function getTemplate(
 
   const blankSiteOrPageLayout: IHubLayout = {
     sections: [],
-    header: { component: {} },
+    header: {
+      component: {
+        name: "site-header",
+        settings: {
+          fullWidth: false,
+          title: "",
+          headerType: "default",
+          menuLinks: [],
+          schemaVersion: 3,
+          showTitle: true,
+        },
+      },
+    },
     footer: undefined,
   };
 

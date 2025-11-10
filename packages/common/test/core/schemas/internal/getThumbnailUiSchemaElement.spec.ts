@@ -1,14 +1,14 @@
-import {
-  describe,
-  it,
-  expect,
-  vi,
-} from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubItemEntity } from "../../../../src/core/types/IHubItemEntity";
-import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
+import {
+  getDefaultImageEntityThumbnail,
+  getThumbnailUiSchemaElement,
+} from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
 import { HubEntityType } from "../../../../src/core/types/HubEntityType";
 import * as getCdnAssetUrlModule from "../../../../src/urls/get-cdn-asset-url";
+import { IItem } from "@esri/arcgis-rest-portal";
+import * as getItemDataUrlModule from "../../../../src/urls/get-item-data-url";
 
 describe("getThumbnailUiSchemaElement:", () => {
   it("returns schema when the entity has a thumbnail", () => {
@@ -125,5 +125,31 @@ describe("getThumbnailUiSchemaElement:", () => {
     );
     expect(getCdnAssetUrlSpy).toHaveBeenCalled();
     expect(uiSchema[0].options?.defaultImgUrl).toBe(defaultImageUrl);
+  });
+});
+
+describe("getDefaultImageEntityThumbnail:", () => {
+  it("returns undefined for non-Image content", () => {
+    const result = getDefaultImageEntityThumbnail(
+      { type: "Web Map" } as any,
+      {} as any
+    );
+    expect(result).toBeUndefined();
+  });
+
+  it("returns data url for Image content", async () => {
+    const getItemDataUrlSpy = vi
+      .spyOn(getItemDataUrlModule, "getItemDataUrl")
+      .mockResolvedValue("the data url");
+    const result = await getDefaultImageEntityThumbnail(
+      { id: "abc", access: "private", type: "Image" },
+      { hubRequestOptions: {} } as any
+    );
+    expect(getItemDataUrlSpy).toHaveBeenCalledWith(
+      { id: "abc", access: "private" } as IItem,
+      {},
+      undefined
+    );
+    expect(result).toBe("the data url");
   });
 });

@@ -3,10 +3,12 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { IUiSchema } from "../../core/schemas/types";
-import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
+import {
+  getDefaultImageEntityThumbnail,
+  getThumbnailUiSchemaElement,
+} from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-// import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -81,7 +83,8 @@ export const buildUiSchema = async (
             options.thumbnail,
             options.thumbnailUrl,
             "content",
-            context.requestOptions
+            context.requestOptions,
+            getDefaultImageEntityThumbnail(options, context)
           ),
           {
             type: "Section",

@@ -19,6 +19,14 @@ export interface IHubAssistant {
    */
   accessGroups?: string[];
   /**
+   * Description/welcome message for the assistant.
+   */
+  description?: string;
+  /**
+   * Location of the assistant.
+   */
+  location?: string;
+  /**
    * Personality for the assistant.
    */
   personality?: string;

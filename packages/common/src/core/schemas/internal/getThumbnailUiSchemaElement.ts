@@ -2,6 +2,10 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getCdnAssetUrl } from "../../../urls/get-cdn-asset-url";
 import { HubEntityType } from "../../types/HubEntityType";
 import { IUiSchemaElement } from "../types";
+import { getItemDataUrl } from "../../../urls/get-item-data-url";
+import { IItem } from "@esri/arcgis-rest-portal";
+import { IHubEditableContent } from "../../types/IHubEditableContent";
+import { IArcGISContext } from "../../../types/IArcGISContext";
 
 const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
   discussion:
@@ -15,11 +19,39 @@ const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
 };
 
 /**
+ * To only be used by IHubEditableContent entities when attempting to determine
+ * the default thumbnail for a content entity with a type of "Image"
+ *
+ * For test coverage purposes, I've move this logic out of the buildUiSchema function.
+ *
+ * @param options
+ * @param context
+ * @returns string | undefined
+ */
+export const getDefaultImageEntityThumbnail = (
+  options: Partial<IHubEditableContent>,
+  context: IArcGISContext
+): string | undefined => {
+  return options.type === "Image"
+    ? // if the content is an Image, use its own data url as the default thumbnail
+      getItemDataUrl(
+        { id: options.id, access: options.access } as IItem,
+        context.hubRequestOptions,
+        context.hubRequestOptions.authentication?.token
+      )
+    : undefined;
+};
+
+/**
  * Returns the UI schema element needed to render
  * the thumbnail editing control for an item-based entity.
  *
  * @param i18nScope i18n scope for the entity translations
- * @param entity The entity to build the UI schema for
+ * @param thumbnail current thumbnail filename
+ * @param thumbnailUrl current thumbnail URL
+ * @param entityType the type of entity (content, group, event, etc)
+ * @param requestOptions request options
+ * @param defaultThumbnailUrl optional default thumbnail url to use instead of the standard one
  * @returns the UI schema element for thumbnail editing
  */
 export function getThumbnailUiSchemaElement(
@@ -27,11 +59,14 @@ export function getThumbnailUiSchemaElement(
   thumbnail: string,
   thumbnailUrl: string,
   entityType: HubEntityType,
-  requestOptions: IRequestOptions
+  requestOptions: IRequestOptions,
+  defaultThumbnailUrl?: string
 ): IUiSchemaElement[] {
   const defaultEntityThumbnail =
     DEFAULT_ENTITY_THUMBNAILS[entityType] ?? DEFAULT_ENTITY_THUMBNAILS.content;
-  const defaultImgUrl = getCdnAssetUrl(defaultEntityThumbnail, requestOptions);
+  const defaultImgUrl =
+    defaultThumbnailUrl ||
+    getCdnAssetUrl(defaultEntityThumbnail, requestOptions);
 
   let options;
   if (entityType === "group") {
