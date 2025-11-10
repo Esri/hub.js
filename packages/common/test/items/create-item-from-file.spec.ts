@@ -5,7 +5,6 @@ vi.mock("@esri/arcgis-rest-portal", async (importOriginal: any) => {
   return Object.assign({}, mod, {
     cancelItemUpload: vi.fn(),
     addItemPart: vi.fn(),
-    commitItemUpload: vi.fn(),
   });
 });
 
@@ -14,8 +13,8 @@ import * as portal from "@esri/arcgis-rest-portal";
 import * as _prepareUploadRequestsModule from "../../src/items/_internal/_prepare-upload-requests";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import type { IItemAdd } from "@esri/arcgis-rest-portal";
-import * as restPortal from "../../src/rest/portal/wrappers";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import * as wrappersModule from "../../src/rest/portal/wrappers";
 
 describe("createItemFromFile", () => {
   afterEach(() => {
@@ -45,7 +44,7 @@ describe("createItemFromFile", () => {
       } as IItemAdd;
 
       const createItemSpy = vi
-        .spyOn(restPortal as any, "createItem")
+        .spyOn(wrappersModule, "createItem")
         .mockReturnValue(
           Promise.resolve({ id: "123abc", success: true, folder: "test" })
         );
@@ -56,7 +55,7 @@ describe("createItemFromFile", () => {
         .spyOn(portal as any, "addItemPart")
         .mockImplementation(() => Promise.resolve({ success: true }));
       const commitItemUploadSpy = vi
-        .spyOn(portal as any, "commitItemUpload")
+        .spyOn(wrappersModule, "commitItemUpload")
         .mockReturnValue(Promise.resolve({ success: true, id: "123abc" }));
       const _prepareUploadRequestsSpy = vi
         .spyOn(_prepareUploadRequestsModule as any, "_prepareUploadRequests")
@@ -93,7 +92,7 @@ describe("createItemFromFile", () => {
       } as unknown as IItemAdd;
 
       const createItemSpy = vi
-        .spyOn(restPortal as any, "createItem")
+        .spyOn(wrappersModule, "createItem")
         .mockReturnValue(
           Promise.resolve({ id: "123abc", success: true, folder: "test" })
         );
@@ -104,7 +103,7 @@ describe("createItemFromFile", () => {
         .spyOn(portal as any, "addItemPart")
         .mockImplementation(() => Promise.resolve({ success: true }));
       const commitItemUploadSpy = vi
-        .spyOn(portal as any, "commitItemUpload")
+        .spyOn(wrappersModule, "commitItemUpload")
         .mockReturnValue(Promise.resolve({ success: true, id: "123abc" }));
       const _prepareUploadRequestsSpy = vi
         .spyOn(_prepareUploadRequestsModule as any, "_prepareUploadRequests")
@@ -141,8 +140,13 @@ describe("createItemFromFile", () => {
       } as IItemAdd;
 
       const createItemSpy = vi
-        .spyOn(restPortal as any, "createItem")
-        .mockReturnValue(Promise.resolve({ success: true, id: "123abc" }));
+        .spyOn(wrappersModule, "createItem")
+        .mockReturnValue(
+          Promise.resolve({
+            success: true,
+            id: "123abc",
+          } as portal.ICreateItemResponse)
+        );
       const cancelItemSpy = vi
         .spyOn(portal as any, "cancelItemUpload")
         .mockReturnValue(Promise.resolve({ success: true, id: "123abc" }));
@@ -150,7 +154,7 @@ describe("createItemFromFile", () => {
         .spyOn(portal as any, "addItemPart")
         .mockImplementation(() => Promise.reject(Error("xhr failed")));
       const commitItemUploadSpy = vi
-        .spyOn(portal as any, "commitItemUpload")
+        .spyOn(wrappersModule, "commitItemUpload")
         .mockReturnValue(Promise.resolve({ success: true, id: "123abc" }));
       const _prepareUploadRequestsSpy = vi
         .spyOn(_prepareUploadRequestsModule as any, "_prepareUploadRequests")
@@ -162,7 +166,7 @@ describe("createItemFromFile", () => {
         expect(createItemSpy).toHaveBeenCalledTimes(1);
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
         expect(_prepareUploadRequestsSpy).toHaveBeenCalledTimes(1);
-      } catch (err) {
+      } catch (_) {
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });
@@ -186,8 +190,13 @@ describe("createItemFromFile", () => {
       } as IItemAdd;
 
       const createItemSpy = vi
-        .spyOn(restPortal as any, "createItem")
-        .mockReturnValue(Promise.resolve({ success: true, id: "123abc" }));
+        .spyOn(wrappersModule, "createItem")
+        .mockReturnValue(
+          Promise.resolve({
+            success: true,
+            id: "123abc",
+          } as portal.ICreateItemResponse)
+        );
       const cancelItemSpy = vi
         .spyOn(portal as any, "cancelItemUpload")
         .mockReturnValue(Promise.resolve({ success: true, id: "123abc" }));
@@ -195,7 +204,7 @@ describe("createItemFromFile", () => {
         .spyOn(portal as any, "addItemPart")
         .mockImplementation(() => Promise.resolve({ success: false }));
       const commitItemUploadSpy = vi
-        .spyOn(portal as any, "commitItemUpload")
+        .spyOn(wrappersModule, "commitItemUpload")
         .mockReturnValue(Promise.resolve({ success: true, id: "123abc" }));
       const _prepareUploadRequestsSpy = vi
         .spyOn(_prepareUploadRequestsModule as any, "_prepareUploadRequests")
@@ -207,7 +216,7 @@ describe("createItemFromFile", () => {
         expect(createItemSpy).toHaveBeenCalledTimes(1);
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
         expect(_prepareUploadRequestsSpy).toHaveBeenCalledTimes(1);
-      } catch (err) {
+      } catch (_) {
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });
