@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.23.2
+
+### Patch Changes
+
+- 4fa20e5: update createItemFromFile to use Hub.js commitItemUpload wrapper fn.
+
 ## 20.23.1
 
 ### Patch Changes
