@@ -12,7 +12,6 @@ export const buildUiSchema = async (
   i18nScope: string,
   options: Partial<IHubSite>,
   context: IArcGISContext
-   
 ): Promise<IUiSchema> => {
   // NOTE: if this is not defined on the site then
   // the component will use the authenticated user's org
@@ -244,12 +243,18 @@ export const buildUiSchema = async (
             scope: "/properties/assistant/properties/examplePrompts",
             type: "Control",
             options: {
-              control: "hub-field-input-multiselect",
-              placeholder: `{{${i18nScope}.assistant.fields.examplePrompts.placeholder:translate}}`,
-              allowCustomValues: true,
+              control: "hub-field-input-list",
+              allowEdit: true,
+              allowAdd: true,
+              allowDelete: true,
+              allowReorder: true,
+              addItemButtonWidth: "fit",
               helperText: {
                 label: `{{${i18nScope}.assistant.fields.examplePrompts.helperText:translate}}`,
               },
+              addItemLabel: `{{${i18nScope}.assistant.sections.prompts.addPromptLabel:translate}}`,
+              newItemModalTitle: `{{${i18nScope}.assistant.sections.prompts.modal.newPromptModalHeader:translate}}`,
+              editItemModalTitle: `{{${i18nScope}.assistant.sections.prompts.modal.editPromptModalHeader:translate}}`,
               messages: [
                 {
                   type: "ERROR",
@@ -259,17 +264,45 @@ export const buildUiSchema = async (
                 },
                 {
                   type: "ERROR",
-                  keyword: "maxLength",
-                  icon: true,
-                  label: `{{${i18nScope}.assistant.fields.examplePrompts.maxLengthError:translate}}`,
-                },
-                {
-                  type: "ERROR",
                   keyword: "maxItems",
                   icon: true,
                   label: `{{${i18nScope}.assistant.fields.examplePrompts.maxItemsError:translate}}`,
                 },
               ],
+              editSchema: {
+                type: "object",
+                required: ["label"],
+                properties: {
+                  label: {
+                    type: "string",
+                    maxLength: 100,
+                  },
+                },
+              },
+              editUiSchema: {
+                type: "Layout",
+                elements: [
+                  {
+                    scope: "/properties/label",
+                    type: "Control",
+                    options: {
+                      control: "hub-field-input-input",
+                      placeholder: `{{${i18nScope}.assistant.fields.examplePrompts.placeholder:translate}}`,
+                      helperText: {
+                        label: `{{${i18nScope}.assistant.fields.examplePrompts.helperText:translate}}`,
+                      },
+                      messages: [
+                        {
+                          type: "ERROR",
+                          keyword: "required",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.fields.examplePrompts.requiredError:translate}}`,
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
             },
           },
         ],
