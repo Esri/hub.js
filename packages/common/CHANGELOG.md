@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.23.3
+
+### Patch Changes
+
+- 7a41594: Hub Assistant config now uses a List for example propmts.
+
 ## 20.23.2
 
 ### Patch Changes
