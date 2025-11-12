@@ -454,6 +454,18 @@ export class HubSite
       };
     }
 
+    // ensure we only attempt to transform examplePrompts if the array exists and has entries
+    if (this.entity.assistant?.examplePrompts?.length > 0) {
+      setProp(
+        "assistant.examplePrompts",
+        this.entity.assistant.examplePrompts.map((ep: string, i) => ({
+          key: i.toString(),
+          label: ep,
+        })),
+        editor
+      );
+    }
+
     return editor;
   }
 
@@ -501,12 +513,12 @@ export class HubSite
     entity.subdomain = subdomain;
     entity.defaultHostname = defaultHostname;
 
-    // assistant group permissions
-    // 1. Remove any existing 'hub:site:assistant:access' group permissions
+    // e. assistant group permissions
+    // e. 1. Remove any existing 'hub:site:assistant:access' group permissions
     entity.permissions = entity.permissions.filter(
       (p) => p.permission !== "hub:site:assistant:access"
     );
-    // 2. Add new group permissions from assistant.accessGroups if any exist
+    // e. 2. Add new group permissions from assistant.accessGroups if any exist
     if (entity.assistant.accessGroups?.length > 0) {
       const assistantPermissions: IEntityPermissionPolicy[] =
         entity.assistant.accessGroups.map((groupId: string) => ({
@@ -515,6 +527,12 @@ export class HubSite
           collaborationId: groupId,
         }));
       entity.permissions = [...entity.permissions, ...assistantPermissions];
+    }
+    // f. transform example prompts back to strings
+    if (editor.assistant?.examplePrompts?.length > 0) {
+      entity.assistant.examplePrompts = editor.assistant.examplePrompts.map(
+        (ep: { label: string }) => ep.label
+      );
     }
 
     // 3. create or update the in-memory entity and save

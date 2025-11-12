@@ -227,7 +227,6 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:assistant:access",
     services: ["hub-ai-assistant"],
-    licenses: ["hub-premium"],
   },
 ];
 

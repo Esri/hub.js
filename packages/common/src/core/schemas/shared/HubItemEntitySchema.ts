@@ -79,8 +79,13 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
         examplePrompts: {
           type: "array",
           maxItems: 10,
-          maxLength: 200,
-          items: { type: "string", maxLength: 200 },
+          items: {
+            type: "object",
+            properties: {
+              key: { type: "string" },
+              label: { type: "string", maxLength: 100 },
+            },
+          },
         },
         workflows: {
           type: "array",

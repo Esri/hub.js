@@ -1,11 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-  vi,
-} from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 // Make ESM namespace export spyable if needed.
 vi.mock("@esri/arcgis-rest-portal", async (importOriginal) => ({
@@ -558,6 +551,83 @@ describe("HubSite Class:", () => {
         "casey",
         authdCtxMgr.context.userRequestOptions
       );
+    });
+  });
+
+  describe("assistant examplePrompts transforms", () => {
+    it("toEditor maps examplePrompts strings to keyed objects", async () => {
+      const site = HubSite.fromJson(
+        {
+          id: "ex1",
+          name: "Prompt Site",
+          catalog: { schemaVersion: 0 },
+          assistant: { examplePrompts: ["First prompt", "Second prompt"] },
+          features: {
+            "hub:site:feature:follow": true,
+            "hub:site:feature:discussions": true,
+          },
+        } as unknown as IHubSite,
+        authdCtxMgr.context
+      );
+      const editor = await site.toEditor();
+      expect(editor.assistant?.examplePrompts).toBeDefined();
+      expect(editor.assistant?.examplePrompts?.length).toBe(2);
+      // Each prompt should be an object with key + label
+      expect(editor.assistant?.examplePrompts?.[0]).toEqual({
+        key: "0",
+        label: "First prompt",
+      });
+      expect(editor.assistant?.examplePrompts?.[1]).toEqual({
+        key: "1",
+        label: "Second prompt",
+      });
+    });
+
+    it("fromEditor maps examplePrompts objects back to strings", async () => {
+      // Start with site having examplePrompts so toEditor transforms them
+      const site = HubSite.fromJson(
+        {
+          id: "ex2",
+          name: "Prompt Site 2",
+          catalog: { schemaVersion: 0 },
+          assistant: { examplePrompts: ["Alpha", "Beta"] },
+          permissions: [],
+          features: {
+            "hub:site:feature:follow": true,
+            "hub:site:feature:discussions": true,
+          },
+        } as unknown as IHubSite,
+        authdCtxMgr.context
+      );
+      // Stub domain lookup invoked during save() inside fromEditor
+      fetchMock.get("end:api/v3/domains/ex2", {});
+      // Stub fetchSiteModel call made during updateSite() inside save()
+      fetchMock.get(/sharing\/rest\/content\/items\/ex2\?f=json.*/, {
+        status: 200,
+        body: { id: "ex2", type: "Hub Site Application", typeKeywords: [] },
+      });
+      fetchMock.get(/sharing\/rest\/content\/items\/ex2\/data\?f=json.*/, {
+        status: 200,
+        body: { values: {} },
+      });
+      // Bypass persistence in fromEditor->save to avoid unrelated network calls
+      vi.spyOn(site, "save").mockResolvedValue();
+      const editor = await site.toEditor();
+      // Simulate user editing prompt labels
+      if (editor.assistant?.examplePrompts) {
+        const prompts = editor.assistant.examplePrompts as Array<{
+          key: string;
+          label: string;
+        }>;
+        prompts[0].label = "Alpha Edited";
+        prompts.push({ key: "2", label: "Gamma" });
+      }
+      const entity = await site.fromEditor(editor);
+      expect(entity.assistant?.examplePrompts).toEqual([
+        "Alpha Edited",
+        "Beta",
+        "Gamma",
+      ]);
     });
   });
 
