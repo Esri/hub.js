@@ -99,7 +99,7 @@ describe("getProp:", () => {
     const c = getProp(testObj, "colorVals[filterBy(cost,199)].color");
     expect(c).not.toBeDefined();
   });
-  it("returns undefined for entry in array by property with no matching value", () => {
+  it("returns undefined when accessing array index on missing nested properties", () => {
     const c = getProp(testObj, "invalidProperty.invalidArray[0]");
     expect(c).not.toBeDefined();
   });
