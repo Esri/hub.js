@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.24.0
+
+### Minor Changes
+
+- 199910b: Sites can now be fully upgraded to use the new catalog. New sites created via workspaces will automatically be fully upgraded and won't have any default collections.
+
 ## 20.23.3
 
 ### Patch Changes
