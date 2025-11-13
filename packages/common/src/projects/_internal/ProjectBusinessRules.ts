@@ -136,11 +136,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:workspace:catalog:events",
-    dependencies: [
-      "hub:project:workspace:catalog",
-      "hub:event",
-      "hub:feature:catalogs:edit:advanced",
-    ],
+    dependencies: ["hub:project:workspace:catalog", "hub:event"],
   },
   {
     permission: "hub:project:manage",
