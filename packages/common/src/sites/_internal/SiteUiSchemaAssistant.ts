@@ -275,6 +275,7 @@ export const buildUiSchema = async (
                 properties: {
                   label: {
                     type: "string",
+                    format: "isNotWhitespace",
                     maxLength: 100,
                   },
                 },
@@ -295,6 +296,12 @@ export const buildUiSchema = async (
                         {
                           type: "ERROR",
                           keyword: "required",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.fields.examplePrompts.requiredError:translate}}`,
+                        },
+                        {
+                          type: "ERROR",
+                          keyword: "format",
                           icon: true,
                           label: `{{${i18nScope}.assistant.fields.examplePrompts.requiredError:translate}}`,
                         },
@@ -351,10 +358,12 @@ export const buildUiSchema = async (
                 properties: {
                   label: {
                     type: "string",
+                    format: "isNotWhitespace",
                     maxLength: 200,
                   },
                   description: {
                     type: "string",
+                    format: "isNotWhitespace",
                     maxLength: 1000,
                   },
                   action: {
@@ -364,6 +373,7 @@ export const buildUiSchema = async (
                   },
                   response: {
                     type: "string",
+                    format: "isNotWhitespace",
                     maxLength: 1000,
                   },
                 },
@@ -400,6 +410,12 @@ export const buildUiSchema = async (
                           icon: true,
                           label: `{{${i18nScope}.assistant.sections.workflows.modal.titleMaxLengthError:translate}}`,
                         },
+                        {
+                          type: "ERROR",
+                          keyword: "format",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.titleRequiredError:translate}}`,
+                        },
                       ],
                     },
                   },
@@ -421,6 +437,12 @@ export const buildUiSchema = async (
                           keyword: "maxLength",
                           icon: true,
                           label: `{{${i18nScope}.assistant.sections.workflows.modal.descriptionMaxLengthError:translate}}`,
+                        },
+                        {
+                          type: "ERROR",
+                          keyword: "format",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.descriptionRequiredError:translate}}`,
                         },
                       ],
                     },
@@ -461,6 +483,12 @@ export const buildUiSchema = async (
                           keyword: "maxLength",
                           icon: true,
                           label: `{{${i18nScope}.assistant.sections.workflows.modal.action.responseMaxLengthError:translate}}`,
+                        },
+                        {
+                          type: "ERROR",
+                          keyword: "format",
+                          icon: true,
+                          label: `{{${i18nScope}.assistant.sections.workflows.modal.action.responseRequiredError:translate}}`,
                         },
                       ],
                     },
