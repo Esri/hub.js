@@ -12,8 +12,6 @@
 		"@commitlint/config-conventional": "^11.0.0",
 		"@commitlint/config-workspace-scopes": "^20.0.0",
 		"@commitlint/prompt": "^11.0.0",
-		"@eslint/js": "^9.29.0",
-    "@eslint/eslintrc": "^3.3.1",
 		"@esri/arcgis-rest-feature-service": "^4.1.0",
 		"@esri/arcgis-rest-portal": "^4.6.1",
 		"@esri/arcgis-rest-request": "^4.7.1",
@@ -34,8 +32,6 @@
 		"dasherize": "^2.0.0",
 		"date-fns": "^1.29.0",
 		"dotenv": "^8.2.0",
-		"eslint": "^9.23.0",
-		"eslint-plugin-disable": "^2.0.3",
 		"gh-pages": "^1.2.0",
 		"gh-release": "^3.4.0",
 		"husky": "^4.3.0",
@@ -51,7 +47,6 @@
 		"ts-node": "^10.2.1",
 		"typedoc": "^0.14.2",
 		"typescript": "~5.8.3",
-		"typescript-eslint": "^8.46.2",
 		"yo": "^3.1.1"
 	},
 	"dependencies": {
@@ -70,7 +65,7 @@
 		"build": "npm run build:esm && npm run build:node",
 		"changeset": "npx @changesets/cli",
 		"ci:build": "npm run build",
-		"ci:lint": "npm run lint && npm run madge:circular",
+		"ci:lint": "npm --prefix ./packages/common run ci:lint",
 		"ci:release": "npm run ci:build && npx @changesets/cli publish",
 		"ci:test": "npm --prefix ./packages/common run ci:test",
 		"c": "npm run precommit && git-cz",
@@ -98,10 +93,6 @@
 		"format:check": "lerna run format:check",
 		"format": "lerna run format",
 		"gen-util": "yo ./scaffolder/index.js",
-		"lint": "eslint --quiet './packages/*/src/**/*.ts'",
-		"lint:warnings": "eslint './packages/*/src/**/*.ts'",
-		"lint:fix": "eslint --quiet --fix './packages/*/src/**/*.ts'",
-		"lint:generate-baseline": "node ./support/generate-eslint-baseline.js",
 		"precommit": "node exit-if-no-staged.js && lint-staged",
 		"predocs:serve": "npm run docs:typedoc",
 		"test": "npm --prefix ./packages/common test",
@@ -120,9 +111,7 @@
 	},
 	"lint-staged": {
 		"*.ts": [
-			"prettier --write --parser typescript --tab-width 2 --use-tabs false",
-			"eslint --ext .ts --fix",
-			"git add"
+			"prettier --write --parser typescript --tab-width 2 --use-tabs false"
 		]
 	},
 	"repository": {
