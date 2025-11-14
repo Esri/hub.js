@@ -82,8 +82,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
-  deploy-docs:
-    name: 'Deploy Documentation'
-    uses: ./.github/workflows/deploy-docs.yml
-    needs:
-      - release
+  # the Acetate based docs:build finally broke w/
+  # the changes in https://github.com/Esri/hub.js/pull/2125
+  # so for now, disabling the docs deploy step since we're moving to hub-ui
+  # deploy-docs:
+  #   name: 'Deploy Documentation'
+  #   uses: ./.github/workflows/deploy-docs.yml
+  #   needs:
+  #     - release
