@@ -4,6 +4,7 @@
  *
  * Examples:
  * ```js
+ * getProp({a: [0, false, ""]}, "a[0]") => 0
  * getProp({a: {b: {c: 1}}}, "a.b.c") => 1
  * getProp({a: {b: {c: 1}}}, "a.b.d") => undefined
  * getProp({a: {b: {c: 1}}}, "a.b") => {c: 1}
@@ -17,6 +18,7 @@
  */
 export const getProp = (obj: { [index: string]: any }, path: string): any => {
   return path.split(".").reduce(function (prev: any, curr: string) {
+    if (!prev) return undefined; // bail
     const match = /\[(.*?)\]$/.exec(curr);
     if (match) {
       const indexOrFnName = match[1];
@@ -25,7 +27,7 @@ export const getProp = (obj: { [index: string]: any }, path: string): any => {
       if (parseInt(indexOrFnName, 10) > -1) {
         const idx = parseInt(indexOrFnName, 10);
         // check that the array exists and that the index is valid
-        if (Array.isArray(prev[propName]) && prev[propName][idx]) {
+        if (Array.isArray(prev[propName]) && idx in prev[propName]) {
           return prev[propName][idx];
         } else {
           return undefined;
@@ -35,7 +37,7 @@ export const getProp = (obj: { [index: string]: any }, path: string): any => {
         return applyOperation(prev[propName], indexOrFnName);
       }
     } else {
-      if (prev && prev[curr] !== undefined) {
+      if (prev[curr] !== undefined) {
         if (prev[curr] !== null && prev[curr].$use) {
           return getProp(obj, prev[curr].$use);
         } else {
