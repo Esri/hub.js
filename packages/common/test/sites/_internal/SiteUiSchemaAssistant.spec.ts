@@ -266,6 +266,7 @@ describe("buildUiSchema: site assistant", () => {
                   required: ["label"],
                   properties: {
                     label: {
+                      format: "isNotWhitespace",
                       type: "string",
                       maxLength: 100,
                     },
@@ -287,6 +288,12 @@ describe("buildUiSchema: site assistant", () => {
                           {
                             type: "ERROR",
                             keyword: "required",
+                            icon: true,
+                            label: `{{some.scope.assistant.fields.examplePrompts.requiredError:translate}}`,
+                          },
+                          {
+                            type: "ERROR",
+                            keyword: "format",
                             icon: true,
                             label: `{{some.scope.assistant.fields.examplePrompts.requiredError:translate}}`,
                           },
@@ -342,10 +349,12 @@ describe("buildUiSchema: site assistant", () => {
                   required: ["label", "description", "action"],
                   properties: {
                     label: {
+                      format: "isNotWhitespace",
                       type: "string",
                       maxLength: 200,
                     },
                     description: {
+                      format: "isNotWhitespace",
                       type: "string",
                       maxLength: 1000,
                     },
@@ -355,6 +364,7 @@ describe("buildUiSchema: site assistant", () => {
                       default: "search",
                     },
                     response: {
+                      format: "isNotWhitespace",
                       type: "string",
                       maxLength: 1000,
                     },
@@ -392,6 +402,12 @@ describe("buildUiSchema: site assistant", () => {
                             icon: true,
                             label: `{{some.scope.assistant.sections.workflows.modal.titleMaxLengthError:translate}}`,
                           },
+                          {
+                            type: "ERROR",
+                            keyword: "format",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.titleRequiredError:translate}}`,
+                          },
                         ],
                       },
                     },
@@ -413,6 +429,12 @@ describe("buildUiSchema: site assistant", () => {
                             keyword: "maxLength",
                             icon: true,
                             label: `{{some.scope.assistant.sections.workflows.modal.descriptionMaxLengthError:translate}}`,
+                          },
+                          {
+                            type: "ERROR",
+                            keyword: "format",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.descriptionRequiredError:translate}}`,
                           },
                         ],
                       },
@@ -453,6 +475,12 @@ describe("buildUiSchema: site assistant", () => {
                             keyword: "maxLength",
                             icon: true,
                             label: `{{some.scope.assistant.sections.workflows.modal.action.responseMaxLengthError:translate}}`,
+                          },
+                          {
+                            type: "ERROR",
+                            keyword: "format",
+                            icon: true,
+                            label: `{{some.scope.assistant.sections.workflows.modal.action.responseRequiredError:translate}}`,
                           },
                         ],
                       },
