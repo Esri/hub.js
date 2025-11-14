@@ -5,6 +5,7 @@ import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { applyDiscussionMigrations } from "./applyDiscussionMigrations";
 import { IHubDiscussion } from "../../core/types/IHubDiscussion";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
+import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 
 /**
  * Given a model and a Discussion, set various computed properties that can't be directly mapped
@@ -34,6 +35,8 @@ export function computeProps(
     requestOptions,
     token
   );
+
+  discussion.catalog = upgradeCatalogSchema(discussion.catalog || {});
 
   // Apply migrations
   discussion = applyDiscussionMigrations(discussion as IHubDiscussion);
