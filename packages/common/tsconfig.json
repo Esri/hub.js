@@ -1,7 +1,7 @@
 {
   "ts-node": {
     "transpileOnly": true,
-    "files":true,
+    "files": true,
     "compilerOptions": {
       // overrides for ts-node ONLY
       "noImplicitAny": false

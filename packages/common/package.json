@@ -28,35 +28,35 @@
     "@esri/arcgis-rest-request": "^4.7.1"
   },
   "devDependencies": {
-		"@eslint/js": "^9.29.0",
+    "@eslint/js": "^9.29.0",
     "@eslint/eslintrc": "^3.3.1",
     "@types/adlib": "^3.0.1",
     "@types/geojson": "^7946.0.13",
     "@types/terraformer__arcgis": "^2.0.5",
     "@vitest/coverage-istanbul": "^3.2.4",
-		"eslint": "^9.23.0",
-		"eslint-plugin-disable": "^2.0.3",
+    "eslint": "^9.23.0",
+    "eslint-plugin-disable": "^2.0.3",
     "fetch-mock": "^7.0.0",
     "jsdom": "^27.0.0",
-		"madge": "^8.0.0",
-		"prettier": "^2.2.1",
+    "madge": "^8.0.0",
+    "prettier": "^2.2.1",
     "typescript": "~5.8.3",
-		"typescript-eslint": "^8.46.2",
+    "typescript-eslint": "^8.46.2",
     "vitest": "^3.2.4"
   },
   "scripts": {
     "build": "npm run build:node && npm run build:esm",
     "build:esm": "tsc --outDir ./dist/esm  --declaration --declarationDir ./dist/types",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
-		"ci:lint": "npm run lint && npm run madge:circular",
+    "ci:lint": "npm run lint && npm run madge:circular",
     "ci:test": "npm run test:coverage",
     "dev:esm": "npm run build:esm -- -w",
     "dev:node": "npm run build:node -- -w",
     "format": "prettier --write ./{src,test}/**/*.ts",
     "format:check": "prettier --check ./{src,test}/**/*.ts",
-		"lint": "eslint --quiet './src/**/*.ts'",
-		"lint:warnings": "eslint './src/**/*.ts'",
-		"lint:fix": "eslint --quiet --fix './src/**/*.ts'",
+    "lint": "eslint --quiet './src/**/*.ts'",
+    "lint:warnings": "eslint './src/**/*.ts'",
+    "lint:fix": "eslint --quiet --fix './src/**/*.ts'",
     "madge:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./src",
     "test": "vitest --config=vitest.config.mjs --reporter=dot --run",
     "test:coverage": "vitest --config=vitest.config.mjs --coverage --run",
@@ -91,13 +91,13 @@
     "node": "20.19.5",
     "npm": "11.6.2"
   },
-	"madge": {
-		"fontSize": "10px",
-		"tsConfig": "tsconfig.json",
-		"graphVizOptions": {
-			"G": {
-				"rankdir": "LR"
-			}
-		}
-	}
+  "madge": {
+    "fontSize": "10px",
+    "tsConfig": "tsconfig.json",
+    "graphVizOptions": {
+      "G": {
+        "rankdir": "LR"
+      }
+    }
+  }
 }
