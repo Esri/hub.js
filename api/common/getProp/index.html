@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-11-14T04:25:17.452Z">
+    <meta name="date" content="2025-11-14T14:40:18.773Z">
     <title>getProp | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -6943,7 +6943,8 @@ and property matching.</p>
 
 
   <p>Examples:</p>
-<pre><code class="js">getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.c"</span>) =&gt; <span class="hljs-number">1</span>
+<pre><code class="js">getProp({<span class="hljs-attr">a</span>: [<span class="hljs-number">0</span>, <span class="hljs-literal">false</span>, <span class="hljs-string">""</span>]}, <span class="hljs-string">"a[0]"</span>) =&gt; <span class="hljs-number">0</span>
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.c"</span>) =&gt; <span class="hljs-number">1</span>
 getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.d"</span>) =&gt; <span class="hljs-literal">undefined</span>
 getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b"</span>) =&gt; {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}
 getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]}}, <span class="hljs-string">"a.b[0]"</span>) =&gt; <span class="hljs-number">1</span>
@@ -6973,7 +6974,8 @@ and property matching.</p>
 
   
     <p>Examples:</p>
-<pre><code class="js">getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.c"</span>) =&gt; <span class="hljs-number">1</span>
+<pre><code class="js">getProp({<span class="hljs-attr">a</span>: [<span class="hljs-number">0</span>, <span class="hljs-literal">false</span>, <span class="hljs-string">""</span>]}, <span class="hljs-string">"a[0]"</span>) =&gt; <span class="hljs-number">0</span>
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.c"</span>) =&gt; <span class="hljs-number">1</span>
 getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.d"</span>) =&gt; <span class="hljs-literal">undefined</span>
 getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b"</span>) =&gt; {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}
 getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]}}, <span class="hljs-string">"a.b[0]"</span>) =&gt; <span class="hljs-number">1</span>
@@ -7099,7 +7101,7 @@ getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>:
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/packages/common/src/objects/get-prop.ts#L18">packages/common/src/objects/get-prop.ts:18</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/packages/common/src/objects/get-prop.ts#L19">packages/common/src/objects/get-prop.ts:19</a></small>
 
 
     </div>
