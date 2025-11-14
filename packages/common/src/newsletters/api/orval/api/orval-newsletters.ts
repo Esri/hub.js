@@ -154,30 +154,6 @@ export enum Cadence {
 export enum SubscriptionAction {
   DISCUSSION_POST_PENDING = "DISCUSSION_POST_PENDING",
 }
-export interface IUpdateSubscription {
-  /** Type of action representing user selections that further customize the subscription behavior */
-  action?: SubscriptionAction;
-  /** Flag to opt user in or out of subscription */
-  active?: boolean;
-  /** Frequency of the subscription */
-  cadence?: Cadence;
-  /**
-   * catalog for a subscription
-   * @nullable
-   */
-  catalog?: IUpdateSubscriptionCatalog;
-  /** Delivery method for subscription, ie email or text */
-  deliveryMethod?: DeliveryMethod;
-  /** The AGO id of the entity associated with the subscription */
-  entityId?: string;
-  /** The type of entity associated with the subscription entityId */
-  entityType?: SubscriptionEntityType;
-  /** Last delivered datetime string of the subscription in ISO 8601 format */
-  lastDelivery?: string;
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  userId?: string;
-}
-
 export interface ISubscribe {
   /** Type of action representing user selections that further customize the subscription behavior */
   action?: SubscriptionAction;
@@ -239,6 +215,32 @@ export enum SystemNotificationSpecNames {
   EVENT = "EVENT",
   DISCUSSION_ON_ENTITY = "DISCUSSION_ON_ENTITY",
 }
+export interface IUpdateSubscription {
+  /** Type of action representing user selections that further customize the subscription behavior */
+  action?: SubscriptionAction;
+  /** Flag to opt user in or out of subscription */
+  active?: boolean;
+  /** Frequency of the subscription */
+  cadence?: Cadence;
+  /**
+   * catalog for a subscription
+   * @nullable
+   */
+  catalog?: IUpdateSubscriptionCatalog;
+  /** Delivery method for subscription, ie email or text */
+  deliveryMethod?: DeliveryMethod;
+  /** The AGO id of the entity associated with the subscription */
+  entityId?: string;
+  /** The type of entity associated with the subscription entityId */
+  entityType?: SubscriptionEntityType;
+  /** Last delivered datetime string of the subscription in ISO 8601 format */
+  lastDelivery?: string;
+  /** Notification spec name for the subscription */
+  notificationSpecName?: SystemNotificationSpecNames;
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  userId?: string;
+}
+
 export interface ICreateSubscription {
   /** Type of action representing user selections that further customize the subscription behavior */
   action?: SubscriptionAction;
