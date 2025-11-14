@@ -92,6 +92,7 @@
 		"e2e:node": "echo 'e2e tests have not yet been migrated to vitest'",
 		"format:check": "lerna run format:check",
 		"format": "lerna run format",
+		"lint": "npm --prefix ./packages/common run lint",
 		"gen-util": "yo ./scaffolder/index.js",
 		"precommit": "node exit-if-no-staged.js && lint-staged",
 		"predocs:serve": "npm run docs:typedoc",
