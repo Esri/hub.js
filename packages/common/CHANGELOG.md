@@ -1,5 +1,12 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.24.1
+
+### Patch Changes
+
+- 70d866f: Fixed bugs withing getProp() logic which is used throughout our codebase
+- 604b3d9: Hub assistant config validation updated.
+
 ## 20.24.0
 
 ### Minor Changes
