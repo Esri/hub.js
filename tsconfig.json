@@ -73,7 +73,6 @@
   ],
   "include": [
     "./node_modules/@types",
-    "packages/**/*.ts",
     "support"
   ]
 }
