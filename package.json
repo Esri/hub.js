@@ -41,7 +41,6 @@
 		"husky": "^4.3.0",
 		"lerna": "^9.0.0",
 		"lint-staged": "^4.3.0",
-		"madge": "^8.0.0",
 		"minimatch": "^3.0.4",
 		"onchange": "^3.3.0",
 		"prettier": "^2.2.1",
@@ -111,7 +110,7 @@
 		"tsc:v": "lerna run tsc:v",
 		"y:publish": "lerna run y:publish",
 		"y:push": "lerna run y:push",
-		"madge:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./packages/*/src"
+		"madge:circular": "npm --prefix ./packages/common run madge:circular"
 	},
 	"husky": {
 		"hooks": {
@@ -157,14 +156,5 @@
 	"volta": {
 		"node": "20.19.5",
 		"npm": "11.6.2"
-	},
-	"madge": {
-		"fontSize": "10px",
-		"tsConfig": "tsconfig.json",
-		"graphVizOptions": {
-			"G": {
-				"rankdir": "LR"
-			}
-		}
 	}
 }

@@ -34,6 +34,7 @@
     "@vitest/coverage-istanbul": "^3.2.4",
     "fetch-mock": "^7.0.0",
     "jsdom": "^27.0.0",
+		"madge": "^8.0.0",
     "typescript": "~5.8.3",
     "vitest": "^3.2.4"
   },
@@ -46,6 +47,7 @@
     "dev:node": "npm run build:node -- -w",
     "format": "prettier --write ./{src,test}/**/*.ts",
     "format:check": "prettier --check ./{src,test}/**/*.ts",
+		"madge:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./src",
     "test": "vitest --config=vitest.config.mjs --reporter=dot --run",
     "test:coverage": "vitest --config=vitest.config.mjs --coverage --run",
     "test:watch": "vitest --config=vitest.config.mjs --reporter=verbose",
@@ -78,5 +80,14 @@
   "volta": {
     "node": "20.19.5",
     "npm": "11.6.2"
-  }
+  },
+	"madge": {
+		"fontSize": "10px",
+		"tsConfig": "tsconfig.json",
+		"graphVizOptions": {
+			"G": {
+				"rankdir": "LR"
+			}
+		}
+	}
 }
