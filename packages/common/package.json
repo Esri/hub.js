@@ -32,6 +32,7 @@
     "@types/geojson": "^7946.0.13",
     "@types/terraformer__arcgis": "^2.0.5",
     "@vitest/coverage-istanbul": "^3.2.4",
+    "fetch-mock": "^7.0.0",
     "jsdom": "^27.0.0",
     "typescript": "~5.8.3",
     "vitest": "^3.2.4"
@@ -75,6 +76,7 @@
   "homepage": "https://github.com/Esri/hub.js#readme",
   "gitHead": "5c3d6a4ddc88ce418b25bd1c8759ecc7aa561fd5",
   "volta": {
-    "extends": "../../package.json"
+    "node": "20.19.5",
+    "npm": "11.6.2"
   }
 }
