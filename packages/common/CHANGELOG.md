@@ -1,5 +1,11 @@
 ## @esri/hub-common [20.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.16.2...@esri/hub-common@20.16.3) (2025-10-13)
 
+## 20.24.2
+
+### Patch Changes
+
+- ff9c469: catalog migrations are applied to discussion board catalogs
+
 ## 20.24.1
 
 ### Patch Changes
