@@ -16,6 +16,8 @@
 
 > compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.
 
+**NOTE: This repository has been archived because the only hub.js that is currently in use, `@esri/hub-common` is no longer being developed here. That package is still under active development and being published to NPM, but it is not currently open source. If there is interest we can set up an open source mirror for that package.**
+
 ## Table of Contents
 
 - [API Reference](#api-reference)
